@@ -8,7 +8,7 @@ public protocol ApplicationInsightsClientProtocol {
     ///
     /// - Parameter AddWorkloadInput : [no documentation found]
     ///
-    /// - Returns: `AddWorkloadOutputResponse` : [no documentation found]
+    /// - Returns: `AddWorkloadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceInUseException` : The resource is already created or in use.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func addWorkload(input: AddWorkloadInput) async throws -> AddWorkloadOutputResponse
+    func addWorkload(input: AddWorkloadInput) async throws -> AddWorkloadOutput
     /// Adds an application that is created from a resource group.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `TagsAlreadyExistException` : Tags are already registered for the specified application ARN.
     /// - `ValidationException` : The parameter is not valid.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Creates a custom component by grouping similar standalone instances to monitor.
     ///
     /// - Parameter CreateComponentInput : [no documentation found]
     ///
-    /// - Returns: `CreateComponentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,12 +47,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceInUseException` : The resource is already created or in use.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutputResponse
+    func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
     /// Adds an log pattern to a LogPatternSet.
     ///
     /// - Parameter CreateLogPatternInput : [no documentation found]
     ///
-    /// - Returns: `CreateLogPatternOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLogPatternOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceInUseException` : The resource is already created or in use.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func createLogPattern(input: CreateLogPatternInput) async throws -> CreateLogPatternOutputResponse
+    func createLogPattern(input: CreateLogPatternInput) async throws -> CreateLogPatternOutput
     /// Removes the specified application from monitoring. Does not delete the application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
     ///
     /// - Parameter DeleteComponentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
+    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
     /// Removes the specified log pattern from a LogPatternSet.
     ///
     /// - Parameter DeleteLogPatternInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLogPatternOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLogPatternOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func deleteLogPattern(input: DeleteLogPatternInput) async throws -> DeleteLogPatternOutputResponse
+    func deleteLogPattern(input: DeleteLogPatternInput) async throws -> DeleteLogPatternOutput
     /// Describes the application.
     ///
     /// - Parameter DescribeApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutputResponse
+    func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutput
     /// Describes a component and lists the resources that are grouped together in a component.
     ///
     /// - Parameter DescribeComponentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,12 +128,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutputResponse
+    func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutput
     /// Describes the monitoring configuration of the component.
     ///
     /// - Parameter DescribeComponentConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeComponentConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeComponentConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeComponentConfiguration(input: DescribeComponentConfigurationInput) async throws -> DescribeComponentConfigurationOutputResponse
+    func describeComponentConfiguration(input: DescribeComponentConfigurationInput) async throws -> DescribeComponentConfigurationOutput
     /// Describes the recommended monitoring configuration of the component.
     ///
     /// - Parameter DescribeComponentConfigurationRecommendationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeComponentConfigurationRecommendationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeComponentConfigurationRecommendationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -154,12 +154,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeComponentConfigurationRecommendation(input: DescribeComponentConfigurationRecommendationInput) async throws -> DescribeComponentConfigurationRecommendationOutputResponse
+    func describeComponentConfigurationRecommendation(input: DescribeComponentConfigurationRecommendationInput) async throws -> DescribeComponentConfigurationRecommendationOutput
     /// Describe a specific log pattern from a LogPatternSet.
     ///
     /// - Parameter DescribeLogPatternInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLogPatternOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLogPatternOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -167,12 +167,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeLogPattern(input: DescribeLogPatternInput) async throws -> DescribeLogPatternOutputResponse
+    func describeLogPattern(input: DescribeLogPatternInput) async throws -> DescribeLogPatternOutput
     /// Describes an anomaly or error with the application.
     ///
     /// - Parameter DescribeObservationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeObservationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeObservationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,12 +180,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeObservation(input: DescribeObservationInput) async throws -> DescribeObservationOutputResponse
+    func describeObservation(input: DescribeObservationInput) async throws -> DescribeObservationOutput
     /// Describes an application problem.
     ///
     /// - Parameter DescribeProblemInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProblemOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProblemOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeProblem(input: DescribeProblemInput) async throws -> DescribeProblemOutputResponse
+    func describeProblem(input: DescribeProblemInput) async throws -> DescribeProblemOutput
     /// Describes the anomalies or errors associated with the problem.
     ///
     /// - Parameter DescribeProblemObservationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProblemObservationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProblemObservationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,12 +206,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeProblemObservations(input: DescribeProblemObservationsInput) async throws -> DescribeProblemObservationsOutputResponse
+    func describeProblemObservations(input: DescribeProblemObservationsInput) async throws -> DescribeProblemObservationsOutput
     /// Describes a workload and its configuration.
     ///
     /// - Parameter DescribeWorkloadInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorkloadOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWorkloadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -219,24 +219,24 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func describeWorkload(input: DescribeWorkloadInput) async throws -> DescribeWorkloadOutputResponse
+    func describeWorkload(input: DescribeWorkloadInput) async throws -> DescribeWorkloadOutput
     /// Lists the IDs of the applications that you are monitoring.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ValidationException` : The parameter is not valid.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
     /// Lists the auto-grouped, standalone, and custom components of the application.
     ///
     /// - Parameter ListComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,7 +244,7 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
+    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
     /// Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:
     ///
     /// * INFO: creating a new alarm or updating an alarm threshold.
@@ -255,7 +255,7 @@ public protocol ApplicationInsightsClientProtocol {
     ///
     /// - Parameter ListConfigurationHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListConfigurationHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListConfigurationHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,12 +263,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listConfigurationHistory(input: ListConfigurationHistoryInput) async throws -> ListConfigurationHistoryOutputResponse
+    func listConfigurationHistory(input: ListConfigurationHistoryInput) async throws -> ListConfigurationHistoryOutput
     /// Lists the log patterns in the specific log LogPatternSet.
     ///
     /// - Parameter ListLogPatternsInput : [no documentation found]
     ///
-    /// - Returns: `ListLogPatternsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLogPatternsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -276,12 +276,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listLogPatterns(input: ListLogPatternsInput) async throws -> ListLogPatternsOutputResponse
+    func listLogPatterns(input: ListLogPatternsInput) async throws -> ListLogPatternsOutput
     /// Lists the log pattern sets in the specific application.
     ///
     /// - Parameter ListLogPatternSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListLogPatternSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLogPatternSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,12 +289,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listLogPatternSets(input: ListLogPatternSetsInput) async throws -> ListLogPatternSetsOutputResponse
+    func listLogPatternSets(input: ListLogPatternSetsInput) async throws -> ListLogPatternSetsOutput
     /// Lists the problems with your application.
     ///
     /// - Parameter ListProblemsInput : [no documentation found]
     ///
-    /// - Returns: `ListProblemsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProblemsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -302,24 +302,24 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listProblems(input: ListProblemsInput) async throws -> ListProblemsOutputResponse
+    func listProblems(input: ListProblemsInput) async throws -> ListProblemsOutput
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists the workloads that are configured on a given component.
     ///
     /// - Parameter ListWorkloadsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkloadsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkloadsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,12 +327,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutputResponse
+    func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput
     /// Remove workload from a component.
     ///
     /// - Parameter RemoveWorkloadInput : [no documentation found]
     ///
-    /// - Returns: `RemoveWorkloadOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveWorkloadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -340,12 +340,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func removeWorkload(input: RemoveWorkloadInput) async throws -> RemoveWorkloadOutputResponse
+    func removeWorkload(input: RemoveWorkloadInput) async throws -> RemoveWorkloadOutput
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -353,24 +353,24 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `TooManyTagsException` : The number of the provided tags is beyond the limit, or the number of total tags you are trying to attach to the specified resource exceeds the limit.
     /// - `ValidationException` : The parameter is not valid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove one or more tags (keys and values) from a specified application.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -378,12 +378,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Updates the custom component name and/or the list of resources that make up the component.
     ///
     /// - Parameter UpdateComponentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateComponentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -392,12 +392,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceInUseException` : The resource is already created or in use.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutputResponse
+    func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
     /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
     ///
     /// - Parameter UpdateComponentConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateComponentConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateComponentConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,12 +405,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func updateComponentConfiguration(input: UpdateComponentConfigurationInput) async throws -> UpdateComponentConfigurationOutputResponse
+    func updateComponentConfiguration(input: UpdateComponentConfigurationInput) async throws -> UpdateComponentConfigurationOutput
     /// Adds a log pattern to a LogPatternSet.
     ///
     /// - Parameter UpdateLogPatternInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLogPatternOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLogPatternOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `ResourceInUseException` : The resource is already created or in use.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func updateLogPattern(input: UpdateLogPatternInput) async throws -> UpdateLogPatternOutputResponse
+    func updateLogPattern(input: UpdateLogPatternInput) async throws -> UpdateLogPatternOutput
     /// Updates the visibility of the problem or specifies the problem as RESOLVED.
     ///
     /// - Parameter UpdateProblemInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProblemOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProblemOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -432,12 +432,12 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func updateProblem(input: UpdateProblemInput) async throws -> UpdateProblemOutputResponse
+    func updateProblem(input: UpdateProblemInput) async throws -> UpdateProblemOutput
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///
     /// - Parameter UpdateWorkloadInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkloadOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkloadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,7 +445,7 @@ public protocol ApplicationInsightsClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
-    func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutputResponse
+    func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutput
 }
 
 public enum ApplicationInsightsClientTypes {}

@@ -455,26 +455,11 @@ extension ListRealtimeContactAnalysisSegmentsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRealtimeContactAnalysisSegmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRealtimeContactAnalysisSegmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRealtimeContactAnalysisSegmentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRealtimeContactAnalysisSegmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRealtimeContactAnalysisSegmentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.segments = output.segments
         } else {
@@ -484,7 +469,7 @@ extension ListRealtimeContactAnalysisSegmentsOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsOutputResponse: Swift.Equatable {
+public struct ListRealtimeContactAnalysisSegmentsOutput: Swift.Equatable {
     /// If there are additional results, this is the token for the next set of results. If response includes nextToken there are two possible scenarios:
     ///
     /// * There are more segments so another call is required to get them.
@@ -508,12 +493,12 @@ public struct ListRealtimeContactAnalysisSegmentsOutputResponse: Swift.Equatable
     }
 }
 
-struct ListRealtimeContactAnalysisSegmentsOutputResponseBody: Swift.Equatable {
+struct ListRealtimeContactAnalysisSegmentsOutputBody: Swift.Equatable {
     let segments: [ConnectContactLensClientTypes.RealtimeContactAnalysisSegment]?
     let nextToken: Swift.String?
 }
 
-extension ListRealtimeContactAnalysisSegmentsOutputResponseBody: Swift.Decodable {
+extension ListRealtimeContactAnalysisSegmentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case segments = "Segments"
@@ -534,6 +519,21 @@ extension ListRealtimeContactAnalysisSegmentsOutputResponseBody: Swift.Decodable
         segments = segmentsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRealtimeContactAnalysisSegmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

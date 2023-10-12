@@ -260,6 +260,17 @@ extension CreateConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
+extension CreateConfigurationSetEventDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty object that indicates that the event destination was created successfully.
+public struct CreateConfigurationSetEventDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CreateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -274,17 +285,6 @@ enum CreateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty object that indicates that the event destination was created successfully.
-public struct CreateConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateConfigurationSetInput: Swift.Encodable {
@@ -335,6 +335,17 @@ extension CreateConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
+extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty object that indicates that the configuration set was successfully created.
+public struct CreateConfigurationSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -348,17 +359,6 @@ enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty object that indicates that the configuration set was successfully created.
-public struct CreateConfigurationSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
@@ -400,6 +400,17 @@ extension DeleteConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteConfigurationSetEventDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty object that indicates that the event destination was deleted successfully.
+public struct DeleteConfigurationSetEventDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -412,17 +423,6 @@ enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty object that indicates that the event destination was deleted successfully.
-public struct DeleteConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConfigurationSetInput: ClientRuntime.URLPathProvider {
@@ -456,6 +456,17 @@ extension DeleteConfigurationSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty object that indicates that the configuration set was deleted successfully.
+public struct DeleteConfigurationSetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -468,17 +479,6 @@ enum DeleteConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty object that indicates that the configuration set was deleted successfully.
-public struct DeleteConfigurationSetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PinpointSMSVoiceClientTypes.EventDestination: Swift.Codable {
@@ -744,25 +744,11 @@ extension GetConfigurationSetEventDestinationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetConfigurationSetEventDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConfigurationSetEventDestinationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConfigurationSetEventDestinationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConfigurationSetEventDestinationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConfigurationSetEventDestinationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventDestinations = output.eventDestinations
         } else {
             self.eventDestinations = nil
@@ -771,7 +757,7 @@ extension GetConfigurationSetEventDestinationsOutputResponse: ClientRuntime.Http
 }
 
 /// An object that contains information about an event destination.
-public struct GetConfigurationSetEventDestinationsOutputResponse: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
     /// An array of EventDestination objects. Each EventDestination object includes ARNs and other information that define an event destination.
     public var eventDestinations: [PinpointSMSVoiceClientTypes.EventDestination]?
 
@@ -783,11 +769,11 @@ public struct GetConfigurationSetEventDestinationsOutputResponse: Swift.Equatabl
     }
 }
 
-struct GetConfigurationSetEventDestinationsOutputResponseBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsOutputBody: Swift.Equatable {
     let eventDestinations: [PinpointSMSVoiceClientTypes.EventDestination]?
 }
 
-extension GetConfigurationSetEventDestinationsOutputResponseBody: Swift.Decodable {
+extension GetConfigurationSetEventDestinationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventDestinations = "EventDestinations"
     }
@@ -805,6 +791,20 @@ extension GetConfigurationSetEventDestinationsOutputResponseBody: Swift.Decodabl
             }
         }
         eventDestinations = eventDestinationsDecoded0
+    }
+}
+
+enum GetConfigurationSetEventDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1011,24 +1011,11 @@ extension ListConfigurationSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListConfigurationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListConfigurationSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationSets = output.configurationSets
             self.nextToken = output.nextToken
         } else {
@@ -1039,7 +1026,7 @@ extension ListConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// An object that contains information about the configuration sets for your account in the current region.
-public struct ListConfigurationSetsOutputResponse: Swift.Equatable {
+public struct ListConfigurationSetsOutput: Swift.Equatable {
     /// An object that contains a list of configuration sets for your account in the current region.
     public var configurationSets: [Swift.String]?
     /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
@@ -1055,12 +1042,12 @@ public struct ListConfigurationSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsOutputResponseBody: Swift.Equatable {
+struct ListConfigurationSetsOutputBody: Swift.Equatable {
     let configurationSets: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListConfigurationSetsOutputResponseBody: Swift.Decodable {
+extension ListConfigurationSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSets = "ConfigurationSets"
         case nextToken = "NextToken"
@@ -1081,6 +1068,19 @@ extension ListConfigurationSetsOutputResponseBody: Swift.Decodable {
         configurationSets = configurationSetsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConfigurationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1345,24 +1345,11 @@ extension SendVoiceMessageInputBody: Swift.Decodable {
     }
 }
 
-enum SendVoiceMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SendVoiceMessageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendVoiceMessageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendVoiceMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendVoiceMessageOutputBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
             self.messageId = nil
@@ -1371,7 +1358,7 @@ extension SendVoiceMessageOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that that contains the Message ID of a Voice message that was sent successfully.
-public struct SendVoiceMessageOutputResponse: Swift.Equatable {
+public struct SendVoiceMessageOutput: Swift.Equatable {
     /// A unique identifier for the voice message.
     public var messageId: Swift.String?
 
@@ -1383,11 +1370,11 @@ public struct SendVoiceMessageOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendVoiceMessageOutputResponseBody: Swift.Equatable {
+struct SendVoiceMessageOutputBody: Swift.Equatable {
     let messageId: Swift.String?
 }
 
-extension SendVoiceMessageOutputResponseBody: Swift.Decodable {
+extension SendVoiceMessageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageId = "MessageId"
     }
@@ -1396,6 +1383,19 @@ extension SendVoiceMessageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
         messageId = messageIdDecoded
+    }
+}
+
+enum SendVoiceMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1553,6 +1553,17 @@ extension UpdateConfigurationSetEventDestinationInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateConfigurationSetEventDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An empty object that indicates that the event destination was updated successfully.
+public struct UpdateConfigurationSetEventDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1565,17 +1576,6 @@ enum UpdateConfigurationSetEventDestinationOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateConfigurationSetEventDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty object that indicates that the event destination was updated successfully.
-public struct UpdateConfigurationSetEventDestinationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PinpointSMSVoiceClientTypes.VoiceMessageContent: Swift.Codable {

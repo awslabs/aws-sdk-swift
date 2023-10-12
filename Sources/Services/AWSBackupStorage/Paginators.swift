@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension BackupStorageClient {
-    /// Paginate over `[ListChunksOutputResponse]` results.
+    /// Paginate over `[ListChunksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListChunksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListChunksOutputResponse`
-    public func listChunksPaginated(input: ListChunksInput) -> ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutputResponse>(input: input, inputKey: \ListChunksInput.nextToken, outputKey: \ListChunksOutputResponse.nextToken, paginationFunction: self.listChunks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChunksOutput`
+    public func listChunksPaginated(input: ListChunksInput) -> ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutput> {
+        return ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutput>(input: input, inputKey: \ListChunksInput.nextToken, outputKey: \ListChunksOutput.nextToken, paginationFunction: self.listChunks(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListChunksInput: ClientRuntime.PaginateToken {
         )}
 }
 extension BackupStorageClient {
-    /// Paginate over `[ListObjectsOutputResponse]` results.
+    /// Paginate over `[ListObjectsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListObjectsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectsOutputResponse`
-    public func listObjectsPaginated(input: ListObjectsInput) -> ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutputResponse>(input: input, inputKey: \ListObjectsInput.nextToken, outputKey: \ListObjectsOutputResponse.nextToken, paginationFunction: self.listObjects(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObjectsOutput`
+    public func listObjectsPaginated(input: ListObjectsInput) -> ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutput> {
+        return ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutput>(input: input, inputKey: \ListObjectsInput.nextToken, outputKey: \ListObjectsOutput.nextToken, paginationFunction: self.listObjects(input:))
     }
 }
 

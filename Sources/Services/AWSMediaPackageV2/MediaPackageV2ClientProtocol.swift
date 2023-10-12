@@ -8,7 +8,7 @@ public protocol MediaPackageV2ClientProtocol {
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
     ///
-    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
+    func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
     /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
     ///
     /// - Parameter CreateChannelGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateChannelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateChannelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func createChannelGroup(input: CreateChannelGroupInput) async throws -> CreateChannelGroupOutputResponse
+    func createChannelGroup(input: CreateChannelGroupInput) async throws -> CreateChannelGroupOutput
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
     ///
     /// - Parameter CreateOriginEndpointInput : [no documentation found]
     ///
-    /// - Returns: `CreateOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,12 +54,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutputResponse
+    func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutput
     /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
+    func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
     /// Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
     ///
     /// - Parameter DeleteChannelGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteChannelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteChannelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,12 +84,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func deleteChannelGroup(input: DeleteChannelGroupInput) async throws -> DeleteChannelGroupOutputResponse
+    func deleteChannelGroup(input: DeleteChannelGroupInput) async throws -> DeleteChannelGroupOutput
     /// Delete a channel policy.
     ///
     /// - Parameter DeleteChannelPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteChannelPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteChannelPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutputResponse
+    func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput
     /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
     ///
     /// - Parameter DeleteOriginEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutputResponse
+    func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutput
     /// Delete an origin endpoint policy.
     ///
     /// - Parameter DeleteOriginEndpointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOriginEndpointPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOriginEndpointPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,12 +128,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func deleteOriginEndpointPolicy(input: DeleteOriginEndpointPolicyInput) async throws -> DeleteOriginEndpointPolicyOutputResponse
+    func deleteOriginEndpointPolicy(input: DeleteOriginEndpointPolicyInput) async throws -> DeleteOriginEndpointPolicyOutput
     /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     ///
     /// - Parameter GetChannelInput : [no documentation found]
     ///
-    /// - Returns: `GetChannelOutputResponse` : [no documentation found]
+    /// - Returns: `GetChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -143,12 +143,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func getChannel(input: GetChannelInput) async throws -> GetChannelOutputResponse
+    func getChannel(input: GetChannelInput) async throws -> GetChannelOutput
     /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     ///
     /// - Parameter GetChannelGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetChannelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetChannelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -158,12 +158,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func getChannelGroup(input: GetChannelGroupInput) async throws -> GetChannelGroupOutputResponse
+    func getChannelGroup(input: GetChannelGroupInput) async throws -> GetChannelGroupOutput
     /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
     ///
     /// - Parameter GetChannelPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetChannelPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetChannelPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutputResponse
+    func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
     ///
     /// - Parameter GetOriginEndpointInput : [no documentation found]
     ///
-    /// - Returns: `GetOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `GetOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func getOriginEndpoint(input: GetOriginEndpointInput) async throws -> GetOriginEndpointOutputResponse
+    func getOriginEndpoint(input: GetOriginEndpointInput) async throws -> GetOriginEndpointOutput
     /// Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter GetOriginEndpointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetOriginEndpointPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetOriginEndpointPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,12 +203,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func getOriginEndpointPolicy(input: GetOriginEndpointPolicyInput) async throws -> GetOriginEndpointPolicyOutputResponse
+    func getOriginEndpointPolicy(input: GetOriginEndpointPolicyInput) async throws -> GetOriginEndpointPolicyOutput
     /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     ///
     /// - Parameter ListChannelGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListChannelGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListChannelGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func listChannelGroups(input: ListChannelGroupsInput) async throws -> ListChannelGroupsOutputResponse
+    func listChannelGroups(input: ListChannelGroupsInput) async throws -> ListChannelGroupsOutput
     /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
     ///
-    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListChannelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,12 +231,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
+    func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter ListOriginEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListOriginEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOriginEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -246,23 +246,23 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutputResponse
+    func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutput
     /// Lists the tags assigned to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
     ///
     /// - Parameter PutChannelPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutChannelPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutChannelPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutputResponse
+    func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     ///
     /// - Parameter PutOriginEndpointPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutOriginEndpointPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutOriginEndpointPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,34 +289,34 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func putOriginEndpointPolicy(input: PutOriginEndpointPolicyInput) async throws -> PutOriginEndpointPolicyOutputResponse
+    func putOriginEndpointPolicy(input: PutOriginEndpointPolicyInput) async throws -> PutOriginEndpointPolicyOutput
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]
     ///
-    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,12 +327,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
+    func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
     /// Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
     /// - Parameter UpdateChannelGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateChannelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateChannelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -343,12 +343,12 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func updateChannelGroup(input: UpdateChannelGroupInput) async throws -> UpdateChannelGroupOutputResponse
+    func updateChannelGroup(input: UpdateChannelGroupInput) async throws -> UpdateChannelGroupOutput
     /// Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
     /// - Parameter UpdateOriginEndpointInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -360,7 +360,7 @@ public protocol MediaPackageV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
-    func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutputResponse
+    func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutput
 }
 
 public enum MediaPackageV2ClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ComputeOptimizerClient {
-    /// Paginate over `[DescribeRecommendationExportJobsOutputResponse]` results.
+    /// Paginate over `[DescribeRecommendationExportJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeRecommendationExportJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRecommendationExportJobsOutputResponse`
-    public func describeRecommendationExportJobsPaginated(input: DescribeRecommendationExportJobsInput) -> ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutputResponse>(input: input, inputKey: \DescribeRecommendationExportJobsInput.nextToken, outputKey: \DescribeRecommendationExportJobsOutputResponse.nextToken, paginationFunction: self.describeRecommendationExportJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRecommendationExportJobsOutput`
+    public func describeRecommendationExportJobsPaginated(input: DescribeRecommendationExportJobsInput) -> ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(input: input, inputKey: \DescribeRecommendationExportJobsInput.nextToken, outputKey: \DescribeRecommendationExportJobsOutput.nextToken, paginationFunction: self.describeRecommendationExportJobs(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeRecommendationExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeRecommendationExportJobsInput, Output == DescribeRecommendationExportJobsOutputResponse {
+extension PaginatorSequence where Input == DescribeRecommendationExportJobsInput, Output == DescribeRecommendationExportJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeRecommendationExportJobsPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.RecommendationExportJob]`
     /// - Returns: `[ComputeOptimizerClientTypes.RecommendationExportJob]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeRecommendationExportJobsInput
     }
 }
 extension ComputeOptimizerClient {
-    /// Paginate over `[GetEnrollmentStatusesForOrganizationOutputResponse]` results.
+    /// Paginate over `[GetEnrollmentStatusesForOrganizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetEnrollmentStatusesForOrganizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetEnrollmentStatusesForOrganizationOutputResponse`
-    public func getEnrollmentStatusesForOrganizationPaginated(input: GetEnrollmentStatusesForOrganizationInput) -> ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutputResponse>(input: input, inputKey: \GetEnrollmentStatusesForOrganizationInput.nextToken, outputKey: \GetEnrollmentStatusesForOrganizationOutputResponse.nextToken, paginationFunction: self.getEnrollmentStatusesForOrganization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetEnrollmentStatusesForOrganizationOutput`
+    public func getEnrollmentStatusesForOrganizationPaginated(input: GetEnrollmentStatusesForOrganizationInput) -> ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(input: input, inputKey: \GetEnrollmentStatusesForOrganizationInput.nextToken, outputKey: \GetEnrollmentStatusesForOrganizationOutput.nextToken, paginationFunction: self.getEnrollmentStatusesForOrganization(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension GetEnrollmentStatusesForOrganizationInput: ClientRuntime.PaginateToken
         )}
 }
 
-extension PaginatorSequence where Input == GetEnrollmentStatusesForOrganizationInput, Output == GetEnrollmentStatusesForOrganizationOutputResponse {
+extension PaginatorSequence where Input == GetEnrollmentStatusesForOrganizationInput, Output == GetEnrollmentStatusesForOrganizationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getEnrollmentStatusesForOrganizationPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.AccountEnrollmentStatus]`
     /// - Returns: `[ComputeOptimizerClientTypes.AccountEnrollmentStatus]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == GetEnrollmentStatusesForOrganizationI
     }
 }
 extension ComputeOptimizerClient {
-    /// Paginate over `[GetLambdaFunctionRecommendationsOutputResponse]` results.
+    /// Paginate over `[GetLambdaFunctionRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetLambdaFunctionRecommendationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetLambdaFunctionRecommendationsOutputResponse`
-    public func getLambdaFunctionRecommendationsPaginated(input: GetLambdaFunctionRecommendationsInput) -> ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutputResponse>(input: input, inputKey: \GetLambdaFunctionRecommendationsInput.nextToken, outputKey: \GetLambdaFunctionRecommendationsOutputResponse.nextToken, paginationFunction: self.getLambdaFunctionRecommendations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetLambdaFunctionRecommendationsOutput`
+    public func getLambdaFunctionRecommendationsPaginated(input: GetLambdaFunctionRecommendationsInput) -> ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(input: input, inputKey: \GetLambdaFunctionRecommendationsInput.nextToken, outputKey: \GetLambdaFunctionRecommendationsOutput.nextToken, paginationFunction: self.getLambdaFunctionRecommendations(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension GetLambdaFunctionRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetLambdaFunctionRecommendationsInput, Output == GetLambdaFunctionRecommendationsOutputResponse {
+extension PaginatorSequence where Input == GetLambdaFunctionRecommendationsInput, Output == GetLambdaFunctionRecommendationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getLambdaFunctionRecommendationsPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.LambdaFunctionRecommendation]`
     /// - Returns: `[ComputeOptimizerClientTypes.LambdaFunctionRecommendation]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == GetLambdaFunctionRecommendationsInput
     }
 }
 extension ComputeOptimizerClient {
-    /// Paginate over `[GetRecommendationPreferencesOutputResponse]` results.
+    /// Paginate over `[GetRecommendationPreferencesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetRecommendationPreferencesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendationPreferencesOutputResponse`
-    public func getRecommendationPreferencesPaginated(input: GetRecommendationPreferencesInput) -> ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutputResponse>(input: input, inputKey: \GetRecommendationPreferencesInput.nextToken, outputKey: \GetRecommendationPreferencesOutputResponse.nextToken, paginationFunction: self.getRecommendationPreferences(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendationPreferencesOutput`
+    public func getRecommendationPreferencesPaginated(input: GetRecommendationPreferencesInput) -> ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput> {
+        return ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(input: input, inputKey: \GetRecommendationPreferencesInput.nextToken, outputKey: \GetRecommendationPreferencesOutput.nextToken, paginationFunction: self.getRecommendationPreferences(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension GetRecommendationPreferencesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetRecommendationPreferencesInput, Output == GetRecommendationPreferencesOutputResponse {
+extension PaginatorSequence where Input == GetRecommendationPreferencesInput, Output == GetRecommendationPreferencesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getRecommendationPreferencesPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.RecommendationPreferencesDetail]`
     /// - Returns: `[ComputeOptimizerClientTypes.RecommendationPreferencesDetail]`
@@ -131,16 +131,16 @@ extension PaginatorSequence where Input == GetRecommendationPreferencesInput, Ou
     }
 }
 extension ComputeOptimizerClient {
-    /// Paginate over `[GetRecommendationSummariesOutputResponse]` results.
+    /// Paginate over `[GetRecommendationSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetRecommendationSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendationSummariesOutputResponse`
-    public func getRecommendationSummariesPaginated(input: GetRecommendationSummariesInput) -> ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutputResponse>(input: input, inputKey: \GetRecommendationSummariesInput.nextToken, outputKey: \GetRecommendationSummariesOutputResponse.nextToken, paginationFunction: self.getRecommendationSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendationSummariesOutput`
+    public func getRecommendationSummariesPaginated(input: GetRecommendationSummariesInput) -> ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(input: input, inputKey: \GetRecommendationSummariesInput.nextToken, outputKey: \GetRecommendationSummariesOutput.nextToken, paginationFunction: self.getRecommendationSummaries(input:))
     }
 }
 
@@ -153,7 +153,7 @@ extension GetRecommendationSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetRecommendationSummariesInput, Output == GetRecommendationSummariesOutputResponse {
+extension PaginatorSequence where Input == GetRecommendationSummariesInput, Output == GetRecommendationSummariesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getRecommendationSummariesPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.RecommendationSummary]`
     /// - Returns: `[ComputeOptimizerClientTypes.RecommendationSummary]`

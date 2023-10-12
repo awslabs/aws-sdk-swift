@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension HealthClient {
-    /// Paginate over `[DescribeAffectedAccountsForOrganizationOutputResponse]` results.
+    /// Paginate over `[DescribeAffectedAccountsForOrganizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAffectedAccountsForOrganizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedAccountsForOrganizationOutputResponse`
-    public func describeAffectedAccountsForOrganizationPaginated(input: DescribeAffectedAccountsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse>(input: input, inputKey: \DescribeAffectedAccountsForOrganizationInput.nextToken, outputKey: \DescribeAffectedAccountsForOrganizationOutputResponse.nextToken, paginationFunction: self.describeAffectedAccountsForOrganization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedAccountsForOrganizationOutput`
+    public func describeAffectedAccountsForOrganizationPaginated(input: DescribeAffectedAccountsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(input: input, inputKey: \DescribeAffectedAccountsForOrganizationInput.nextToken, outputKey: \DescribeAffectedAccountsForOrganizationOutput.nextToken, paginationFunction: self.describeAffectedAccountsForOrganization(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeAffectedAccountsForOrganizationInput: ClientRuntime.PaginateTo
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAffectedAccountsForOrganizationInput, Output == DescribeAffectedAccountsForOrganizationOutputResponse {
+extension PaginatorSequence where Input == DescribeAffectedAccountsForOrganizationInput, Output == DescribeAffectedAccountsForOrganizationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAffectedAccountsForOrganizationPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeAffectedAccountsForOrganizati
     }
 }
 extension HealthClient {
-    /// Paginate over `[DescribeAffectedEntitiesOutputResponse]` results.
+    /// Paginate over `[DescribeAffectedEntitiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAffectedEntitiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedEntitiesOutputResponse`
-    public func describeAffectedEntitiesPaginated(input: DescribeAffectedEntitiesInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse>(input: input, inputKey: \DescribeAffectedEntitiesInput.nextToken, outputKey: \DescribeAffectedEntitiesOutputResponse.nextToken, paginationFunction: self.describeAffectedEntities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedEntitiesOutput`
+    public func describeAffectedEntitiesPaginated(input: DescribeAffectedEntitiesInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(input: input, inputKey: \DescribeAffectedEntitiesInput.nextToken, outputKey: \DescribeAffectedEntitiesOutput.nextToken, paginationFunction: self.describeAffectedEntities(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension DescribeAffectedEntitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAffectedEntitiesInput, Output == DescribeAffectedEntitiesOutputResponse {
+extension PaginatorSequence where Input == DescribeAffectedEntitiesInput, Output == DescribeAffectedEntitiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAffectedEntitiesPaginated`
     /// to access the nested member `[HealthClientTypes.AffectedEntity]`
     /// - Returns: `[HealthClientTypes.AffectedEntity]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == DescribeAffectedEntitiesInput, Output
     }
 }
 extension HealthClient {
-    /// Paginate over `[DescribeAffectedEntitiesForOrganizationOutputResponse]` results.
+    /// Paginate over `[DescribeAffectedEntitiesForOrganizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAffectedEntitiesForOrganizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedEntitiesForOrganizationOutputResponse`
-    public func describeAffectedEntitiesForOrganizationPaginated(input: DescribeAffectedEntitiesForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse>(input: input, inputKey: \DescribeAffectedEntitiesForOrganizationInput.nextToken, outputKey: \DescribeAffectedEntitiesForOrganizationOutputResponse.nextToken, paginationFunction: self.describeAffectedEntitiesForOrganization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedEntitiesForOrganizationOutput`
+    public func describeAffectedEntitiesForOrganizationPaginated(input: DescribeAffectedEntitiesForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(input: input, inputKey: \DescribeAffectedEntitiesForOrganizationInput.nextToken, outputKey: \DescribeAffectedEntitiesForOrganizationOutput.nextToken, paginationFunction: self.describeAffectedEntitiesForOrganization(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension DescribeAffectedEntitiesForOrganizationInput: ClientRuntime.PaginateTo
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAffectedEntitiesForOrganizationInput, Output == DescribeAffectedEntitiesForOrganizationOutputResponse {
+extension PaginatorSequence where Input == DescribeAffectedEntitiesForOrganizationInput, Output == DescribeAffectedEntitiesForOrganizationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAffectedEntitiesForOrganizationPaginated`
     /// to access the nested member `[HealthClientTypes.AffectedEntity]`
     /// - Returns: `[HealthClientTypes.AffectedEntity]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == DescribeAffectedEntitiesForOrganizati
     }
 }
 extension HealthClient {
-    /// Paginate over `[DescribeEventAggregatesOutputResponse]` results.
+    /// Paginate over `[DescribeEventAggregatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventAggregatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventAggregatesOutputResponse`
-    public func describeEventAggregatesPaginated(input: DescribeEventAggregatesInput) -> ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse>(input: input, inputKey: \DescribeEventAggregatesInput.nextToken, outputKey: \DescribeEventAggregatesOutputResponse.nextToken, paginationFunction: self.describeEventAggregates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventAggregatesOutput`
+    public func describeEventAggregatesPaginated(input: DescribeEventAggregatesInput) -> ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(input: input, inputKey: \DescribeEventAggregatesInput.nextToken, outputKey: \DescribeEventAggregatesOutput.nextToken, paginationFunction: self.describeEventAggregates(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension DescribeEventAggregatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventAggregatesInput, Output == DescribeEventAggregatesOutputResponse {
+extension PaginatorSequence where Input == DescribeEventAggregatesInput, Output == DescribeEventAggregatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventAggregatesPaginated`
     /// to access the nested member `[HealthClientTypes.EventAggregate]`
     /// - Returns: `[HealthClientTypes.EventAggregate]`
@@ -131,16 +131,16 @@ extension PaginatorSequence where Input == DescribeEventAggregatesInput, Output 
     }
 }
 extension HealthClient {
-    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    /// Paginate over `[DescribeEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
-    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutputResponse.nextToken, paginationFunction: self.describeEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
+    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -154,7 +154,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[HealthClientTypes.Event]`
     /// - Returns: `[HealthClientTypes.Event]`
@@ -163,16 +163,16 @@ extension PaginatorSequence where Input == DescribeEventsInput, Output == Descri
     }
 }
 extension HealthClient {
-    /// Paginate over `[DescribeEventsForOrganizationOutputResponse]` results.
+    /// Paginate over `[DescribeEventsForOrganizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsForOrganizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsForOrganizationOutputResponse`
-    public func describeEventsForOrganizationPaginated(input: DescribeEventsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse>(input: input, inputKey: \DescribeEventsForOrganizationInput.nextToken, outputKey: \DescribeEventsForOrganizationOutputResponse.nextToken, paginationFunction: self.describeEventsForOrganization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsForOrganizationOutput`
+    public func describeEventsForOrganizationPaginated(input: DescribeEventsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(input: input, inputKey: \DescribeEventsForOrganizationInput.nextToken, outputKey: \DescribeEventsForOrganizationOutput.nextToken, paginationFunction: self.describeEventsForOrganization(input:))
     }
 }
 
@@ -186,7 +186,7 @@ extension DescribeEventsForOrganizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsForOrganizationInput, Output == DescribeEventsForOrganizationOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsForOrganizationInput, Output == DescribeEventsForOrganizationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsForOrganizationPaginated`
     /// to access the nested member `[HealthClientTypes.OrganizationEvent]`
     /// - Returns: `[HealthClientTypes.OrganizationEvent]`
@@ -195,16 +195,16 @@ extension PaginatorSequence where Input == DescribeEventsForOrganizationInput, O
     }
 }
 extension HealthClient {
-    /// Paginate over `[DescribeEventTypesOutputResponse]` results.
+    /// Paginate over `[DescribeEventTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventTypesOutputResponse`
-    public func describeEventTypesPaginated(input: DescribeEventTypesInput) -> ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutputResponse>(input: input, inputKey: \DescribeEventTypesInput.nextToken, outputKey: \DescribeEventTypesOutputResponse.nextToken, paginationFunction: self.describeEventTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventTypesOutput`
+    public func describeEventTypesPaginated(input: DescribeEventTypesInput) -> ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutput>(input: input, inputKey: \DescribeEventTypesInput.nextToken, outputKey: \DescribeEventTypesOutput.nextToken, paginationFunction: self.describeEventTypes(input:))
     }
 }
 
@@ -218,7 +218,7 @@ extension DescribeEventTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventTypesInput, Output == DescribeEventTypesOutputResponse {
+extension PaginatorSequence where Input == DescribeEventTypesInput, Output == DescribeEventTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventTypesPaginated`
     /// to access the nested member `[HealthClientTypes.EventType]`
     /// - Returns: `[HealthClientTypes.EventType]`

@@ -8,7 +8,7 @@ public protocol BedrockRuntimeClientProtocol {
     ///
     /// - Parameter InvokeModelInput : [no documentation found]
     ///
-    /// - Returns: `InvokeModelOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22,12 +22,12 @@ public protocol BedrockRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutputResponse
+    func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput
     /// Invoke the specified Bedrock model to run inference using the input provided. Return the response in a stream. For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide. For an example request and response, see Examples (after the Errors section).
     ///
     /// - Parameter InvokeModelWithResponseStreamInput : [no documentation found]
     ///
-    /// - Returns: `InvokeModelWithResponseStreamOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeModelWithResponseStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -42,7 +42,7 @@ public protocol BedrockRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutputResponse
+    func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutput
 }
 
 public enum BedrockRuntimeClientTypes {}

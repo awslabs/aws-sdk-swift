@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension LexModelBuildingClient {
-    /// Paginate over `[GetBotAliasesOutputResponse]` results.
+    /// Paginate over `[GetBotAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBotAliasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBotAliasesOutputResponse`
-    public func getBotAliasesPaginated(input: GetBotAliasesInput) -> ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutputResponse>(input: input, inputKey: \GetBotAliasesInput.nextToken, outputKey: \GetBotAliasesOutputResponse.nextToken, paginationFunction: self.getBotAliases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBotAliasesOutput`
+    public func getBotAliasesPaginated(input: GetBotAliasesInput) -> ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutput>(input: input, inputKey: \GetBotAliasesInput.nextToken, outputKey: \GetBotAliasesOutput.nextToken, paginationFunction: self.getBotAliases(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension GetBotAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetBotChannelAssociationsOutputResponse]` results.
+    /// Paginate over `[GetBotChannelAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBotChannelAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBotChannelAssociationsOutputResponse`
-    public func getBotChannelAssociationsPaginated(input: GetBotChannelAssociationsInput) -> ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutputResponse>(input: input, inputKey: \GetBotChannelAssociationsInput.nextToken, outputKey: \GetBotChannelAssociationsOutputResponse.nextToken, paginationFunction: self.getBotChannelAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBotChannelAssociationsOutput`
+    public func getBotChannelAssociationsPaginated(input: GetBotChannelAssociationsInput) -> ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput>(input: input, inputKey: \GetBotChannelAssociationsInput.nextToken, outputKey: \GetBotChannelAssociationsOutput.nextToken, paginationFunction: self.getBotChannelAssociations(input:))
     }
 }
 
@@ -50,16 +50,16 @@ extension GetBotChannelAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetBotsOutputResponse]` results.
+    /// Paginate over `[GetBotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBotsOutputResponse`
-    public func getBotsPaginated(input: GetBotsInput) -> ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutputResponse>(input: input, inputKey: \GetBotsInput.nextToken, outputKey: \GetBotsOutputResponse.nextToken, paginationFunction: self.getBots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBotsOutput`
+    public func getBotsPaginated(input: GetBotsInput) -> ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutput> {
+        return ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutput>(input: input, inputKey: \GetBotsInput.nextToken, outputKey: \GetBotsOutput.nextToken, paginationFunction: self.getBots(input:))
     }
 }
 
@@ -72,16 +72,16 @@ extension GetBotsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetBotVersionsOutputResponse]` results.
+    /// Paginate over `[GetBotVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBotVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBotVersionsOutputResponse`
-    public func getBotVersionsPaginated(input: GetBotVersionsInput) -> ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutputResponse>(input: input, inputKey: \GetBotVersionsInput.nextToken, outputKey: \GetBotVersionsOutputResponse.nextToken, paginationFunction: self.getBotVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBotVersionsOutput`
+    public func getBotVersionsPaginated(input: GetBotVersionsInput) -> ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutput>(input: input, inputKey: \GetBotVersionsInput.nextToken, outputKey: \GetBotVersionsOutput.nextToken, paginationFunction: self.getBotVersions(input:))
     }
 }
 
@@ -94,16 +94,16 @@ extension GetBotVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetBuiltinIntentsOutputResponse]` results.
+    /// Paginate over `[GetBuiltinIntentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBuiltinIntentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBuiltinIntentsOutputResponse`
-    public func getBuiltinIntentsPaginated(input: GetBuiltinIntentsInput) -> ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutputResponse>(input: input, inputKey: \GetBuiltinIntentsInput.nextToken, outputKey: \GetBuiltinIntentsOutputResponse.nextToken, paginationFunction: self.getBuiltinIntents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBuiltinIntentsOutput`
+    public func getBuiltinIntentsPaginated(input: GetBuiltinIntentsInput) -> ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutput> {
+        return ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutput>(input: input, inputKey: \GetBuiltinIntentsInput.nextToken, outputKey: \GetBuiltinIntentsOutput.nextToken, paginationFunction: self.getBuiltinIntents(input:))
     }
 }
 
@@ -117,16 +117,16 @@ extension GetBuiltinIntentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetBuiltinSlotTypesOutputResponse]` results.
+    /// Paginate over `[GetBuiltinSlotTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBuiltinSlotTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBuiltinSlotTypesOutputResponse`
-    public func getBuiltinSlotTypesPaginated(input: GetBuiltinSlotTypesInput) -> ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutputResponse>(input: input, inputKey: \GetBuiltinSlotTypesInput.nextToken, outputKey: \GetBuiltinSlotTypesOutputResponse.nextToken, paginationFunction: self.getBuiltinSlotTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBuiltinSlotTypesOutput`
+    public func getBuiltinSlotTypesPaginated(input: GetBuiltinSlotTypesInput) -> ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput> {
+        return ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput>(input: input, inputKey: \GetBuiltinSlotTypesInput.nextToken, outputKey: \GetBuiltinSlotTypesOutput.nextToken, paginationFunction: self.getBuiltinSlotTypes(input:))
     }
 }
 
@@ -140,16 +140,16 @@ extension GetBuiltinSlotTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetIntentsOutputResponse]` results.
+    /// Paginate over `[GetIntentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetIntentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetIntentsOutputResponse`
-    public func getIntentsPaginated(input: GetIntentsInput) -> ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutputResponse>(input: input, inputKey: \GetIntentsInput.nextToken, outputKey: \GetIntentsOutputResponse.nextToken, paginationFunction: self.getIntents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIntentsOutput`
+    public func getIntentsPaginated(input: GetIntentsInput) -> ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutput> {
+        return ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutput>(input: input, inputKey: \GetIntentsInput.nextToken, outputKey: \GetIntentsOutput.nextToken, paginationFunction: self.getIntents(input:))
     }
 }
 
@@ -162,16 +162,16 @@ extension GetIntentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetIntentVersionsOutputResponse]` results.
+    /// Paginate over `[GetIntentVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetIntentVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetIntentVersionsOutputResponse`
-    public func getIntentVersionsPaginated(input: GetIntentVersionsInput) -> ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutputResponse>(input: input, inputKey: \GetIntentVersionsInput.nextToken, outputKey: \GetIntentVersionsOutputResponse.nextToken, paginationFunction: self.getIntentVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIntentVersionsOutput`
+    public func getIntentVersionsPaginated(input: GetIntentVersionsInput) -> ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutput>(input: input, inputKey: \GetIntentVersionsInput.nextToken, outputKey: \GetIntentVersionsOutput.nextToken, paginationFunction: self.getIntentVersions(input:))
     }
 }
 
@@ -184,16 +184,16 @@ extension GetIntentVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetMigrationsOutputResponse]` results.
+    /// Paginate over `[GetMigrationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetMigrationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetMigrationsOutputResponse`
-    public func getMigrationsPaginated(input: GetMigrationsInput) -> ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutputResponse>(input: input, inputKey: \GetMigrationsInput.nextToken, outputKey: \GetMigrationsOutputResponse.nextToken, paginationFunction: self.getMigrations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetMigrationsOutput`
+    public func getMigrationsPaginated(input: GetMigrationsInput) -> ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutput> {
+        return ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutput>(input: input, inputKey: \GetMigrationsInput.nextToken, outputKey: \GetMigrationsOutput.nextToken, paginationFunction: self.getMigrations(input:))
     }
 }
 
@@ -209,16 +209,16 @@ extension GetMigrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetSlotTypesOutputResponse]` results.
+    /// Paginate over `[GetSlotTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetSlotTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetSlotTypesOutputResponse`
-    public func getSlotTypesPaginated(input: GetSlotTypesInput) -> ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutputResponse>(input: input, inputKey: \GetSlotTypesInput.nextToken, outputKey: \GetSlotTypesOutputResponse.nextToken, paginationFunction: self.getSlotTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSlotTypesOutput`
+    public func getSlotTypesPaginated(input: GetSlotTypesInput) -> ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutput> {
+        return ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutput>(input: input, inputKey: \GetSlotTypesInput.nextToken, outputKey: \GetSlotTypesOutput.nextToken, paginationFunction: self.getSlotTypes(input:))
     }
 }
 
@@ -231,16 +231,16 @@ extension GetSlotTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelBuildingClient {
-    /// Paginate over `[GetSlotTypeVersionsOutputResponse]` results.
+    /// Paginate over `[GetSlotTypeVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetSlotTypeVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetSlotTypeVersionsOutputResponse`
-    public func getSlotTypeVersionsPaginated(input: GetSlotTypeVersionsInput) -> ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutputResponse>(input: input, inputKey: \GetSlotTypeVersionsInput.nextToken, outputKey: \GetSlotTypeVersionsOutputResponse.nextToken, paginationFunction: self.getSlotTypeVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSlotTypeVersionsOutput`
+    public func getSlotTypeVersionsPaginated(input: GetSlotTypeVersionsInput) -> ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput>(input: input, inputKey: \GetSlotTypeVersionsInput.nextToken, outputKey: \GetSlotTypeVersionsOutput.nextToken, paginationFunction: self.getSlotTypeVersions(input:))
     }
 }
 

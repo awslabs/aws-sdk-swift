@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListAcceleratorsOutputResponse]` results.
+    /// Paginate over `[ListAcceleratorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAcceleratorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAcceleratorsOutputResponse`
-    public func listAcceleratorsPaginated(input: ListAcceleratorsInput) -> ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutputResponse>(input: input, inputKey: \ListAcceleratorsInput.nextToken, outputKey: \ListAcceleratorsOutputResponse.nextToken, paginationFunction: self.listAccelerators(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAcceleratorsOutput`
+    public func listAcceleratorsPaginated(input: ListAcceleratorsInput) -> ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAcceleratorsInput, ListAcceleratorsOutput>(input: input, inputKey: \ListAcceleratorsInput.nextToken, outputKey: \ListAcceleratorsOutput.nextToken, paginationFunction: self.listAccelerators(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListAcceleratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAcceleratorsInput, Output == ListAcceleratorsOutputResponse {
+extension PaginatorSequence where Input == ListAcceleratorsInput, Output == ListAcceleratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAcceleratorsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.Accelerator]`
     /// - Returns: `[GlobalAcceleratorClientTypes.Accelerator]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListAcceleratorsInput, Output == List
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListByoipCidrsOutputResponse]` results.
+    /// Paginate over `[ListByoipCidrsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListByoipCidrsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListByoipCidrsOutputResponse`
-    public func listByoipCidrsPaginated(input: ListByoipCidrsInput) -> ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutputResponse>(input: input, inputKey: \ListByoipCidrsInput.nextToken, outputKey: \ListByoipCidrsOutputResponse.nextToken, paginationFunction: self.listByoipCidrs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListByoipCidrsOutput`
+    public func listByoipCidrsPaginated(input: ListByoipCidrsInput) -> ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutput> {
+        return ClientRuntime.PaginatorSequence<ListByoipCidrsInput, ListByoipCidrsOutput>(input: input, inputKey: \ListByoipCidrsInput.nextToken, outputKey: \ListByoipCidrsOutput.nextToken, paginationFunction: self.listByoipCidrs(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension ListByoipCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListByoipCidrsInput, Output == ListByoipCidrsOutputResponse {
+extension PaginatorSequence where Input == ListByoipCidrsInput, Output == ListByoipCidrsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listByoipCidrsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.ByoipCidr]`
     /// - Returns: `[GlobalAcceleratorClientTypes.ByoipCidr]`
@@ -63,16 +63,16 @@ extension PaginatorSequence where Input == ListByoipCidrsInput, Output == ListBy
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListCustomRoutingAcceleratorsOutputResponse]` results.
+    /// Paginate over `[ListCustomRoutingAcceleratorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomRoutingAcceleratorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingAcceleratorsOutputResponse`
-    public func listCustomRoutingAcceleratorsPaginated(input: ListCustomRoutingAcceleratorsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutputResponse>(input: input, inputKey: \ListCustomRoutingAcceleratorsInput.nextToken, outputKey: \ListCustomRoutingAcceleratorsOutputResponse.nextToken, paginationFunction: self.listCustomRoutingAccelerators(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingAcceleratorsOutput`
+    public func listCustomRoutingAcceleratorsPaginated(input: ListCustomRoutingAcceleratorsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(input: input, inputKey: \ListCustomRoutingAcceleratorsInput.nextToken, outputKey: \ListCustomRoutingAcceleratorsOutput.nextToken, paginationFunction: self.listCustomRoutingAccelerators(input:))
     }
 }
 
@@ -84,7 +84,7 @@ extension ListCustomRoutingAcceleratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCustomRoutingAcceleratorsInput, Output == ListCustomRoutingAcceleratorsOutputResponse {
+extension PaginatorSequence where Input == ListCustomRoutingAcceleratorsInput, Output == ListCustomRoutingAcceleratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingAcceleratorsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.CustomRoutingAccelerator]`
     /// - Returns: `[GlobalAcceleratorClientTypes.CustomRoutingAccelerator]`
@@ -93,16 +93,16 @@ extension PaginatorSequence where Input == ListCustomRoutingAcceleratorsInput, O
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListCustomRoutingEndpointGroupsOutputResponse]` results.
+    /// Paginate over `[ListCustomRoutingEndpointGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomRoutingEndpointGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingEndpointGroupsOutputResponse`
-    public func listCustomRoutingEndpointGroupsPaginated(input: ListCustomRoutingEndpointGroupsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutputResponse>(input: input, inputKey: \ListCustomRoutingEndpointGroupsInput.nextToken, outputKey: \ListCustomRoutingEndpointGroupsOutputResponse.nextToken, paginationFunction: self.listCustomRoutingEndpointGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingEndpointGroupsOutput`
+    public func listCustomRoutingEndpointGroupsPaginated(input: ListCustomRoutingEndpointGroupsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(input: input, inputKey: \ListCustomRoutingEndpointGroupsInput.nextToken, outputKey: \ListCustomRoutingEndpointGroupsOutput.nextToken, paginationFunction: self.listCustomRoutingEndpointGroups(input:))
     }
 }
 
@@ -115,16 +115,16 @@ extension ListCustomRoutingEndpointGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListCustomRoutingListenersOutputResponse]` results.
+    /// Paginate over `[ListCustomRoutingListenersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomRoutingListenersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingListenersOutputResponse`
-    public func listCustomRoutingListenersPaginated(input: ListCustomRoutingListenersInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutputResponse>(input: input, inputKey: \ListCustomRoutingListenersInput.nextToken, outputKey: \ListCustomRoutingListenersOutputResponse.nextToken, paginationFunction: self.listCustomRoutingListeners(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingListenersOutput`
+    public func listCustomRoutingListenersPaginated(input: ListCustomRoutingListenersInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(input: input, inputKey: \ListCustomRoutingListenersInput.nextToken, outputKey: \ListCustomRoutingListenersOutput.nextToken, paginationFunction: self.listCustomRoutingListeners(input:))
     }
 }
 
@@ -137,7 +137,7 @@ extension ListCustomRoutingListenersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCustomRoutingListenersInput, Output == ListCustomRoutingListenersOutputResponse {
+extension PaginatorSequence where Input == ListCustomRoutingListenersInput, Output == ListCustomRoutingListenersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingListenersPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.CustomRoutingListener]`
     /// - Returns: `[GlobalAcceleratorClientTypes.CustomRoutingListener]`
@@ -146,16 +146,16 @@ extension PaginatorSequence where Input == ListCustomRoutingListenersInput, Outp
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListCustomRoutingPortMappingsOutputResponse]` results.
+    /// Paginate over `[ListCustomRoutingPortMappingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomRoutingPortMappingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingPortMappingsOutputResponse`
-    public func listCustomRoutingPortMappingsPaginated(input: ListCustomRoutingPortMappingsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutputResponse>(input: input, inputKey: \ListCustomRoutingPortMappingsInput.nextToken, outputKey: \ListCustomRoutingPortMappingsOutputResponse.nextToken, paginationFunction: self.listCustomRoutingPortMappings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingPortMappingsOutput`
+    public func listCustomRoutingPortMappingsPaginated(input: ListCustomRoutingPortMappingsInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(input: input, inputKey: \ListCustomRoutingPortMappingsInput.nextToken, outputKey: \ListCustomRoutingPortMappingsOutput.nextToken, paginationFunction: self.listCustomRoutingPortMappings(input:))
     }
 }
 
@@ -169,7 +169,7 @@ extension ListCustomRoutingPortMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCustomRoutingPortMappingsInput, Output == ListCustomRoutingPortMappingsOutputResponse {
+extension PaginatorSequence where Input == ListCustomRoutingPortMappingsInput, Output == ListCustomRoutingPortMappingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingPortMappingsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.PortMapping]`
     /// - Returns: `[GlobalAcceleratorClientTypes.PortMapping]`
@@ -178,16 +178,16 @@ extension PaginatorSequence where Input == ListCustomRoutingPortMappingsInput, O
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListCustomRoutingPortMappingsByDestinationOutputResponse]` results.
+    /// Paginate over `[ListCustomRoutingPortMappingsByDestinationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomRoutingPortMappingsByDestinationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingPortMappingsByDestinationOutputResponse`
-    public func listCustomRoutingPortMappingsByDestinationPaginated(input: ListCustomRoutingPortMappingsByDestinationInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutputResponse>(input: input, inputKey: \ListCustomRoutingPortMappingsByDestinationInput.nextToken, outputKey: \ListCustomRoutingPortMappingsByDestinationOutputResponse.nextToken, paginationFunction: self.listCustomRoutingPortMappingsByDestination(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomRoutingPortMappingsByDestinationOutput`
+    public func listCustomRoutingPortMappingsByDestinationPaginated(input: ListCustomRoutingPortMappingsByDestinationInput) -> ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(input: input, inputKey: \ListCustomRoutingPortMappingsByDestinationInput.nextToken, outputKey: \ListCustomRoutingPortMappingsByDestinationOutput.nextToken, paginationFunction: self.listCustomRoutingPortMappingsByDestination(input:))
     }
 }
 
@@ -201,7 +201,7 @@ extension ListCustomRoutingPortMappingsByDestinationInput: ClientRuntime.Paginat
         )}
 }
 
-extension PaginatorSequence where Input == ListCustomRoutingPortMappingsByDestinationInput, Output == ListCustomRoutingPortMappingsByDestinationOutputResponse {
+extension PaginatorSequence where Input == ListCustomRoutingPortMappingsByDestinationInput, Output == ListCustomRoutingPortMappingsByDestinationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingPortMappingsByDestinationPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.DestinationPortMapping]`
     /// - Returns: `[GlobalAcceleratorClientTypes.DestinationPortMapping]`
@@ -210,16 +210,16 @@ extension PaginatorSequence where Input == ListCustomRoutingPortMappingsByDestin
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListEndpointGroupsOutputResponse]` results.
+    /// Paginate over `[ListEndpointGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEndpointGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointGroupsOutputResponse`
-    public func listEndpointGroupsPaginated(input: ListEndpointGroupsInput) -> ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutputResponse>(input: input, inputKey: \ListEndpointGroupsInput.nextToken, outputKey: \ListEndpointGroupsOutputResponse.nextToken, paginationFunction: self.listEndpointGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointGroupsOutput`
+    public func listEndpointGroupsPaginated(input: ListEndpointGroupsInput) -> ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEndpointGroupsInput, ListEndpointGroupsOutput>(input: input, inputKey: \ListEndpointGroupsInput.nextToken, outputKey: \ListEndpointGroupsOutput.nextToken, paginationFunction: self.listEndpointGroups(input:))
     }
 }
 
@@ -232,7 +232,7 @@ extension ListEndpointGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEndpointGroupsInput, Output == ListEndpointGroupsOutputResponse {
+extension PaginatorSequence where Input == ListEndpointGroupsInput, Output == ListEndpointGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointGroupsPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.EndpointGroup]`
     /// - Returns: `[GlobalAcceleratorClientTypes.EndpointGroup]`
@@ -241,16 +241,16 @@ extension PaginatorSequence where Input == ListEndpointGroupsInput, Output == Li
     }
 }
 extension GlobalAcceleratorClient {
-    /// Paginate over `[ListListenersOutputResponse]` results.
+    /// Paginate over `[ListListenersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListListenersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListListenersOutputResponse`
-    public func listListenersPaginated(input: ListListenersInput) -> ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutputResponse>(input: input, inputKey: \ListListenersInput.nextToken, outputKey: \ListListenersOutputResponse.nextToken, paginationFunction: self.listListeners(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListListenersOutput`
+    public func listListenersPaginated(input: ListListenersInput) -> ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutput> {
+        return ClientRuntime.PaginatorSequence<ListListenersInput, ListListenersOutput>(input: input, inputKey: \ListListenersInput.nextToken, outputKey: \ListListenersOutput.nextToken, paginationFunction: self.listListeners(input:))
     }
 }
 
@@ -263,7 +263,7 @@ extension ListListenersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListListenersInput, Output == ListListenersOutputResponse {
+extension PaginatorSequence where Input == ListListenersInput, Output == ListListenersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listListenersPaginated`
     /// to access the nested member `[GlobalAcceleratorClientTypes.Listener]`
     /// - Returns: `[GlobalAcceleratorClientTypes.Listener]`

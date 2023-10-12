@@ -302,6 +302,46 @@ extension CancelGremlinQueryInputBody: Swift.Decodable {
     }
 }
 
+extension CancelGremlinQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelGremlinQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct CancelGremlinQueryOutput: Swift.Equatable {
+    /// The status of the cancelation
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct CancelGremlinQueryOutputBody: Swift.Equatable {
+    let status: Swift.String?
+}
+
+extension CancelGremlinQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 enum CancelGremlinQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -323,46 +363,6 @@ enum CancelGremlinQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelGremlinQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelGremlinQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
-        }
-    }
-}
-
-public struct CancelGremlinQueryOutputResponse: Swift.Equatable {
-    /// The status of the cancelation
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
-    }
-}
-
-struct CancelGremlinQueryOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-}
-
-extension CancelGremlinQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
     }
 }
 
@@ -397,6 +397,46 @@ extension CancelLoaderJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelLoaderJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelLoaderJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct CancelLoaderJobOutput: Swift.Equatable {
+    /// The cancellation status.
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct CancelLoaderJobOutputBody: Swift.Equatable {
+    let status: Swift.String?
+}
+
+extension CancelLoaderJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 enum CancelLoaderJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -417,46 +457,6 @@ enum CancelLoaderJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelLoaderJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelLoaderJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
-        }
-    }
-}
-
-public struct CancelLoaderJobOutputResponse: Swift.Equatable {
-    /// The cancellation status.
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
-    }
-}
-
-struct CancelLoaderJobOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-}
-
-extension CancelLoaderJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
     }
 }
 
@@ -516,6 +516,46 @@ extension CancelMLDataProcessingJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelMLDataProcessingJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelMLDataProcessingJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct CancelMLDataProcessingJobOutput: Swift.Equatable {
+    /// The status of the cancellation request.
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct CancelMLDataProcessingJobOutputBody: Swift.Equatable {
+    let status: Swift.String?
+}
+
+extension CancelMLDataProcessingJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 enum CancelMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -534,46 +574,6 @@ enum CancelMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelMLDataProcessingJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelMLDataProcessingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
-        }
-    }
-}
-
-public struct CancelMLDataProcessingJobOutputResponse: Swift.Equatable {
-    /// The status of the cancellation request.
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
-    }
-}
-
-struct CancelMLDataProcessingJobOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-}
-
-extension CancelMLDataProcessingJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
     }
 }
 
@@ -633,6 +633,46 @@ extension CancelMLModelTrainingJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelMLModelTrainingJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelMLModelTrainingJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct CancelMLModelTrainingJobOutput: Swift.Equatable {
+    /// The status of the cancellation.
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct CancelMLModelTrainingJobOutputBody: Swift.Equatable {
+    let status: Swift.String?
+}
+
+extension CancelMLModelTrainingJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 enum CancelMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -651,46 +691,6 @@ enum CancelMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelMLModelTrainingJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelMLModelTrainingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
-        }
-    }
-}
-
-public struct CancelMLModelTrainingJobOutputResponse: Swift.Equatable {
-    /// The status of the cancellation.
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
-    }
-}
-
-struct CancelMLModelTrainingJobOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-}
-
-extension CancelMLModelTrainingJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
     }
 }
 
@@ -750,6 +750,46 @@ extension CancelMLModelTransformJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelMLModelTransformJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelMLModelTransformJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct CancelMLModelTransformJobOutput: Swift.Equatable {
+    /// the status of the cancelation.
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct CancelMLModelTransformJobOutputBody: Swift.Equatable {
+    let status: Swift.String?
+}
+
+extension CancelMLModelTransformJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 enum CancelMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -768,46 +808,6 @@ enum CancelMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelMLModelTransformJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelMLModelTransformJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
-        }
-    }
-}
-
-public struct CancelMLModelTransformJobOutputResponse: Swift.Equatable {
-    /// the status of the cancelation.
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
-    }
-}
-
-struct CancelMLModelTransformJobOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-}
-
-extension CancelMLModelTransformJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
     }
 }
 
@@ -859,6 +859,56 @@ extension CancelOpenCypherQueryInputBody: Swift.Decodable {
     }
 }
 
+extension CancelOpenCypherQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CancelOpenCypherQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct CancelOpenCypherQueryOutput: Swift.Equatable {
+    /// The cancelation payload for the openCypher query.
+    public var payload: Swift.Bool?
+    /// The cancellation status of the openCypher query.
+    public var status: Swift.String?
+
+    public init(
+        payload: Swift.Bool? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct CancelOpenCypherQueryOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: Swift.Bool?
+}
+
+extension CancelOpenCypherQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum CancelOpenCypherQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -881,56 +931,6 @@ enum CancelOpenCypherQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CancelOpenCypherQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CancelOpenCypherQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct CancelOpenCypherQueryOutputResponse: Swift.Equatable {
-    /// The cancelation payload for the openCypher query.
-    public var payload: Swift.Bool?
-    /// The cancellation status of the openCypher query.
-    public var status: Swift.String?
-
-    public init(
-        payload: Swift.Bool? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct CancelOpenCypherQueryOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: Swift.Bool?
-}
-
-extension CancelOpenCypherQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -1393,32 +1393,11 @@ extension CreateMLEndpointInputBody: Swift.Decodable {
     }
 }
 
-enum CreateMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateMLEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMLEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMLEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMLEndpointOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTimeInMillis = output.creationTimeInMillis
             self.id = output.id
@@ -1430,7 +1409,7 @@ extension CreateMLEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMLEndpointOutputResponse: Swift.Equatable {
+public struct CreateMLEndpointOutput: Swift.Equatable {
     /// The ARN for the new inference endpoint.
     public var arn: Swift.String?
     /// The endpoint creation time, in milliseconds.
@@ -1450,13 +1429,13 @@ public struct CreateMLEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMLEndpointOutputResponseBody: Swift.Equatable {
+struct CreateMLEndpointOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
 }
 
-extension CreateMLEndpointOutputResponseBody: Swift.Decodable {
+extension CreateMLEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTimeInMillis
@@ -1471,6 +1450,27 @@ extension CreateMLEndpointOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let creationTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimeInMillis)
         creationTimeInMillis = creationTimeInMillisDecoded
+    }
+}
+
+enum CreateMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1632,6 +1632,46 @@ extension DeleteMLEndpointInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteMLEndpointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteMLEndpointOutputBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct DeleteMLEndpointOutput: Swift.Equatable {
+    /// The status of the cancellation.
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct DeleteMLEndpointOutputBody: Swift.Equatable {
+    let status: Swift.String?
+}
+
+extension DeleteMLEndpointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 enum DeleteMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1653,46 +1693,6 @@ enum DeleteMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMLEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteMLEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.status = output.status
-        } else {
-            self.status = nil
-        }
-    }
-}
-
-public struct DeleteMLEndpointOutputResponse: Swift.Equatable {
-    /// The status of the cancellation.
-    public var status: Swift.String?
-
-    public init(
-        status: Swift.String? = nil
-    )
-    {
-        self.status = status
-    }
-}
-
-struct DeleteMLEndpointOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-}
-
-extension DeleteMLEndpointOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-    }
-}
-
 extension DeletePropertygraphStatisticsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/propertygraph/statistics"
@@ -1710,6 +1710,65 @@ struct DeletePropertygraphStatisticsInputBody: Swift.Equatable {
 extension DeletePropertygraphStatisticsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePropertygraphStatisticsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeletePropertygraphStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+        self.statusCode = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeletePropertygraphStatisticsOutput: Swift.Equatable {
+    /// The deletion payload.
+    public var payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
+    /// The cancel status.
+    public var status: Swift.String?
+    /// The HTTP response code: 200 if the delete was successful, or 204 if there were no statistics to delete.
+    public var statusCode: Swift.Int?
+
+    public init(
+        payload: NeptunedataClientTypes.DeleteStatisticsValueMap? = nil,
+        status: Swift.String? = nil,
+        statusCode: Swift.Int? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+        self.statusCode = statusCode
+    }
+}
+
+struct DeletePropertygraphStatisticsOutputBody: Swift.Equatable {
+    let statusCode: Swift.Int?
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
+}
+
+extension DeletePropertygraphStatisticsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+        case statusCode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.DeleteStatisticsValueMap.self, forKey: .payload)
+        payload = payloadDecoded
     }
 }
 
@@ -1736,11 +1795,31 @@ enum DeletePropertygraphStatisticsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeletePropertygraphStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSparqlStatisticsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/sparql/statistics"
+    }
+}
+
+public struct DeleteSparqlStatisticsInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteSparqlStatisticsInputBody: Swift.Equatable {
+}
+
+extension DeleteSparqlStatisticsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteSparqlStatisticsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeletePropertygraphStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSparqlStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
             self.payload = output.payload
             self.status = output.status
         } else {
@@ -1751,7 +1830,7 @@ extension DeletePropertygraphStatisticsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DeletePropertygraphStatisticsOutputResponse: Swift.Equatable {
+public struct DeleteSparqlStatisticsOutput: Swift.Equatable {
     /// The deletion payload.
     public var payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
     /// The cancel status.
@@ -1771,13 +1850,13 @@ public struct DeletePropertygraphStatisticsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeletePropertygraphStatisticsOutputResponseBody: Swift.Equatable {
+struct DeleteSparqlStatisticsOutputBody: Swift.Equatable {
     let statusCode: Swift.Int?
     let status: Swift.String?
     let payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
 }
 
-extension DeletePropertygraphStatisticsOutputResponseBody: Swift.Decodable {
+extension DeleteSparqlStatisticsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload
         case status
@@ -1792,26 +1871,6 @@ extension DeletePropertygraphStatisticsOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.DeleteStatisticsValueMap.self, forKey: .payload)
         payload = payloadDecoded
-    }
-}
-
-extension DeleteSparqlStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/sparql/statistics"
-    }
-}
-
-public struct DeleteSparqlStatisticsInput: Swift.Equatable {
-
-    public init() { }
-}
-
-struct DeleteSparqlStatisticsInputBody: Swift.Equatable {
-}
-
-extension DeleteSparqlStatisticsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -1835,65 +1894,6 @@ enum DeleteSparqlStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteSparqlStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteSparqlStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-        self.statusCode = httpResponse.statusCode.rawValue
-    }
-}
-
-public struct DeleteSparqlStatisticsOutputResponse: Swift.Equatable {
-    /// The deletion payload.
-    public var payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
-    /// The cancel status.
-    public var status: Swift.String?
-    /// The HTTP response code: 200 if the delete was successful, or 204 if there were no statistics to delete.
-    public var statusCode: Swift.Int?
-
-    public init(
-        payload: NeptunedataClientTypes.DeleteStatisticsValueMap? = nil,
-        status: Swift.String? = nil,
-        statusCode: Swift.Int? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-        self.statusCode = statusCode
-    }
-}
-
-struct DeleteSparqlStatisticsOutputResponseBody: Swift.Equatable {
-    let statusCode: Swift.Int?
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.DeleteStatisticsValueMap?
-}
-
-extension DeleteSparqlStatisticsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-        case statusCode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
-        statusCode = statusCodeDecoded
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.DeleteStatisticsValueMap.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -2092,6 +2092,57 @@ extension ExecuteFastResetInputBody: Swift.Decodable {
     }
 }
 
+extension ExecuteFastResetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecuteFastResetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ExecuteFastResetOutput: Swift.Equatable {
+    /// The payload is only returned by the initiateDatabaseReset action, and contains the unique token to use with the performDatabaseReset action to make the reset occur.
+    public var payload: NeptunedataClientTypes.FastResetToken?
+    /// The status is only returned for the performDatabaseReset action, and indicates whether or not the fast reset rquest is accepted.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: NeptunedataClientTypes.FastResetToken? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct ExecuteFastResetOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.FastResetToken?
+}
+
+extension ExecuteFastResetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.FastResetToken.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum ExecuteFastResetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2112,57 +2163,6 @@ enum ExecuteFastResetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteFastResetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExecuteFastResetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct ExecuteFastResetOutputResponse: Swift.Equatable {
-    /// The payload is only returned by the initiateDatabaseReset action, and contains the unique token to use with the performDatabaseReset action to make the reset occur.
-    public var payload: NeptunedataClientTypes.FastResetToken?
-    /// The status is only returned for the performDatabaseReset action, and indicates whether or not the fast reset rquest is accepted.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: NeptunedataClientTypes.FastResetToken? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct ExecuteFastResetOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.FastResetToken?
-}
-
-extension ExecuteFastResetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.FastResetToken.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -2214,6 +2214,47 @@ extension ExecuteGremlinExplainQueryInputBody: Swift.Decodable {
     }
 }
 
+extension ExecuteGremlinExplainQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        switch httpResponse.body {
+        case .data(let data):
+            self.output = data
+        case .stream(let stream):
+            self.output = try stream.readToEnd()
+        case .none:
+            self.output = nil
+        }
+    }
+}
+
+public struct ExecuteGremlinExplainQueryOutput: Swift.Equatable {
+    /// A text blob containing the Gremlin explain result, as described in [Tuning Gremlin queries](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html).
+    public var output: ClientRuntime.Data?
+
+    public init(
+        output: ClientRuntime.Data? = nil
+    )
+    {
+        self.output = output
+    }
+}
+
+struct ExecuteGremlinExplainQueryOutputBody: Swift.Equatable {
+    let output: ClientRuntime.Data?
+}
+
+extension ExecuteGremlinExplainQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case output
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .output)
+        output = outputDecoded
+    }
+}
+
 enum ExecuteGremlinExplainQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2241,47 +2282,6 @@ enum ExecuteGremlinExplainQueryOutputError: ClientRuntime.HttpResponseErrorBindi
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteGremlinExplainQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        switch httpResponse.body {
-        case .data(let data):
-            self.output = data
-        case .stream(let stream):
-            self.output = try stream.readToEnd()
-        case .none:
-            self.output = nil
-        }
-    }
-}
-
-public struct ExecuteGremlinExplainQueryOutputResponse: Swift.Equatable {
-    /// A text blob containing the Gremlin explain result, as described in [Tuning Gremlin queries](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html).
-    public var output: ClientRuntime.Data?
-
-    public init(
-        output: ClientRuntime.Data? = nil
-    )
-    {
-        self.output = output
-    }
-}
-
-struct ExecuteGremlinExplainQueryOutputResponseBody: Swift.Equatable {
-    let output: ClientRuntime.Data?
-}
-
-extension ExecuteGremlinExplainQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case output
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let outputDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .output)
-        output = outputDecoded
     }
 }
 
@@ -2381,6 +2381,47 @@ extension ExecuteGremlinProfileQueryInputBody: Swift.Decodable {
     }
 }
 
+extension ExecuteGremlinProfileQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        switch httpResponse.body {
+        case .data(let data):
+            self.output = data
+        case .stream(let stream):
+            self.output = try stream.readToEnd()
+        case .none:
+            self.output = nil
+        }
+    }
+}
+
+public struct ExecuteGremlinProfileQueryOutput: Swift.Equatable {
+    /// A text blob containing the Gremlin Profile result. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html) for details.
+    public var output: ClientRuntime.Data?
+
+    public init(
+        output: ClientRuntime.Data? = nil
+    )
+    {
+        self.output = output
+    }
+}
+
+struct ExecuteGremlinProfileQueryOutputBody: Swift.Equatable {
+    let output: ClientRuntime.Data?
+}
+
+extension ExecuteGremlinProfileQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case output
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .output)
+        output = outputDecoded
+    }
+}
+
 enum ExecuteGremlinProfileQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2408,47 +2449,6 @@ enum ExecuteGremlinProfileQueryOutputError: ClientRuntime.HttpResponseErrorBindi
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteGremlinProfileQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        switch httpResponse.body {
-        case .data(let data):
-            self.output = data
-        case .stream(let stream):
-            self.output = try stream.readToEnd()
-        case .none:
-            self.output = nil
-        }
-    }
-}
-
-public struct ExecuteGremlinProfileQueryOutputResponse: Swift.Equatable {
-    /// A text blob containing the Gremlin Profile result. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html) for details.
-    public var output: ClientRuntime.Data?
-
-    public init(
-        output: ClientRuntime.Data? = nil
-    )
-    {
-        self.output = output
-    }
-}
-
-struct ExecuteGremlinProfileQueryOutputResponseBody: Swift.Equatable {
-    let output: ClientRuntime.Data?
-}
-
-extension ExecuteGremlinProfileQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case output
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let outputDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .output)
-        output = outputDecoded
     }
 }
 
@@ -2514,6 +2514,76 @@ extension ExecuteGremlinQueryInputBody: Swift.Decodable {
     }
 }
 
+extension ExecuteGremlinQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecuteGremlinQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.meta = output.meta
+            self.requestId = output.requestId
+            self.result = output.result
+            self.status = output.status
+        } else {
+            self.meta = nil
+            self.requestId = nil
+            self.result = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ExecuteGremlinQueryOutput: Swift.Equatable {
+    /// Metadata about the Gremlin query.
+    public var meta: ClientRuntime.Document?
+    /// The unique identifier of the Gremlin query.
+    public var requestId: Swift.String?
+    /// The Gremlin query output from the server.
+    public var result: ClientRuntime.Document?
+    /// The status of the Gremlin query.
+    public var status: NeptunedataClientTypes.GremlinQueryStatusAttributes?
+
+    public init(
+        meta: ClientRuntime.Document? = nil,
+        requestId: Swift.String? = nil,
+        result: ClientRuntime.Document? = nil,
+        status: NeptunedataClientTypes.GremlinQueryStatusAttributes? = nil
+    )
+    {
+        self.meta = meta
+        self.requestId = requestId
+        self.result = result
+        self.status = status
+    }
+}
+
+struct ExecuteGremlinQueryOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: NeptunedataClientTypes.GremlinQueryStatusAttributes?
+    let result: ClientRuntime.Document?
+    let meta: ClientRuntime.Document?
+}
+
+extension ExecuteGremlinQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case meta
+        case requestId
+        case result
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.GremlinQueryStatusAttributes.self, forKey: .status)
+        status = statusDecoded
+        let resultDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .result)
+        result = resultDecoded
+        let metaDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .meta)
+        meta = metaDecoded
+    }
+}
+
 enum ExecuteGremlinQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2541,76 +2611,6 @@ enum ExecuteGremlinQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteGremlinQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExecuteGremlinQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.meta = output.meta
-            self.requestId = output.requestId
-            self.result = output.result
-            self.status = output.status
-        } else {
-            self.meta = nil
-            self.requestId = nil
-            self.result = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct ExecuteGremlinQueryOutputResponse: Swift.Equatable {
-    /// Metadata about the Gremlin query.
-    public var meta: ClientRuntime.Document?
-    /// The unique identifier of the Gremlin query.
-    public var requestId: Swift.String?
-    /// The Gremlin query output from the server.
-    public var result: ClientRuntime.Document?
-    /// The status of the Gremlin query.
-    public var status: NeptunedataClientTypes.GremlinQueryStatusAttributes?
-
-    public init(
-        meta: ClientRuntime.Document? = nil,
-        requestId: Swift.String? = nil,
-        result: ClientRuntime.Document? = nil,
-        status: NeptunedataClientTypes.GremlinQueryStatusAttributes? = nil
-    )
-    {
-        self.meta = meta
-        self.requestId = requestId
-        self.result = result
-        self.status = status
-    }
-}
-
-struct ExecuteGremlinQueryOutputResponseBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let status: NeptunedataClientTypes.GremlinQueryStatusAttributes?
-    let result: ClientRuntime.Document?
-    let meta: ClientRuntime.Document?
-}
-
-extension ExecuteGremlinQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case meta
-        case requestId
-        case result
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
-        requestId = requestIdDecoded
-        let statusDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.GremlinQueryStatusAttributes.self, forKey: .status)
-        status = statusDecoded
-        let resultDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .result)
-        result = resultDecoded
-        let metaDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .meta)
-        meta = metaDecoded
     }
 }
 
@@ -2687,6 +2687,48 @@ extension ExecuteOpenCypherExplainQueryInputBody: Swift.Decodable {
     }
 }
 
+extension ExecuteOpenCypherExplainQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        switch httpResponse.body {
+        case .data(let data):
+            self.results = data
+        case .stream(let stream):
+            self.results = try stream.readToEnd()
+        case .none:
+            self.results = nil
+        }
+    }
+}
+
+public struct ExecuteOpenCypherExplainQueryOutput: Swift.Equatable {
+    /// A text blob containing the openCypher explain results.
+    /// This member is required.
+    public var results: ClientRuntime.Data?
+
+    public init(
+        results: ClientRuntime.Data? = nil
+    )
+    {
+        self.results = results
+    }
+}
+
+struct ExecuteOpenCypherExplainQueryOutputBody: Swift.Equatable {
+    let results: ClientRuntime.Data?
+}
+
+extension ExecuteOpenCypherExplainQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .results)
+        results = resultsDecoded
+    }
+}
+
 enum ExecuteOpenCypherExplainQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2715,48 +2757,6 @@ enum ExecuteOpenCypherExplainQueryOutputError: ClientRuntime.HttpResponseErrorBi
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteOpenCypherExplainQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        switch httpResponse.body {
-        case .data(let data):
-            self.results = data
-        case .stream(let stream):
-            self.results = try stream.readToEnd()
-        case .none:
-            self.results = nil
-        }
-    }
-}
-
-public struct ExecuteOpenCypherExplainQueryOutputResponse: Swift.Equatable {
-    /// A text blob containing the openCypher explain results.
-    /// This member is required.
-    public var results: ClientRuntime.Data?
-
-    public init(
-        results: ClientRuntime.Data? = nil
-    )
-    {
-        self.results = results
-    }
-}
-
-struct ExecuteOpenCypherExplainQueryOutputResponseBody: Swift.Equatable {
-    let results: ClientRuntime.Data?
-}
-
-extension ExecuteOpenCypherExplainQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case results
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resultsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .results)
-        results = resultsDecoded
     }
 }
 
@@ -2820,6 +2820,47 @@ extension ExecuteOpenCypherQueryInputBody: Swift.Decodable {
     }
 }
 
+extension ExecuteOpenCypherQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecuteOpenCypherQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.results = output.results
+        } else {
+            self.results = nil
+        }
+    }
+}
+
+public struct ExecuteOpenCypherQueryOutput: Swift.Equatable {
+    /// The openCypherquery results.
+    /// This member is required.
+    public var results: ClientRuntime.Document?
+
+    public init(
+        results: ClientRuntime.Document? = nil
+    )
+    {
+        self.results = results
+    }
+}
+
+struct ExecuteOpenCypherQueryOutputBody: Swift.Equatable {
+    let results: ClientRuntime.Document?
+}
+
+extension ExecuteOpenCypherQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .results)
+        results = resultsDecoded
+    }
+}
+
 enum ExecuteOpenCypherQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2848,47 +2889,6 @@ enum ExecuteOpenCypherQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteOpenCypherQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExecuteOpenCypherQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.results = output.results
-        } else {
-            self.results = nil
-        }
-    }
-}
-
-public struct ExecuteOpenCypherQueryOutputResponse: Swift.Equatable {
-    /// The openCypherquery results.
-    /// This member is required.
-    public var results: ClientRuntime.Document?
-
-    public init(
-        results: ClientRuntime.Document? = nil
-    )
-    {
-        self.results = results
-    }
-}
-
-struct ExecuteOpenCypherQueryOutputResponseBody: Swift.Equatable {
-    let results: ClientRuntime.Document?
-}
-
-extension ExecuteOpenCypherQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case results
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resultsDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .results)
-        results = resultsDecoded
     }
 }
 
@@ -3149,29 +3149,11 @@ extension GetEngineStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetEngineStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEngineStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEngineStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEngineStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEngineStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbEngineVersion = output.dbEngineVersion
             self.dfeQueryEngine = output.dfeQueryEngine
             self.features = output.features
@@ -3203,7 +3185,7 @@ extension GetEngineStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEngineStatusOutputResponse: Swift.Equatable {
+public struct GetEngineStatusOutput: Swift.Equatable {
     /// Set to the Neptune engine version running on your DB cluster. If this engine version has been manually patched since it was released, the version number is prefixed by Patch-.
     public var dbEngineVersion: Swift.String?
     /// Set to enabled if the DFE engine is fully enabled, or to viaQueryHint (the default) if the DFE engine is only used with queries that have the useDFE query hint set to true.
@@ -3263,7 +3245,7 @@ public struct GetEngineStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEngineStatusOutputResponseBody: Swift.Equatable {
+struct GetEngineStatusOutputBody: Swift.Equatable {
     let status: Swift.String?
     let startTime: Swift.String?
     let dbEngineVersion: Swift.String?
@@ -3279,7 +3261,7 @@ struct GetEngineStatusOutputResponseBody: Swift.Equatable {
     let settings: [Swift.String:Swift.String]?
 }
 
-extension GetEngineStatusOutputResponseBody: Swift.Decodable {
+extension GetEngineStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbEngineVersion
         case dfeQueryEngine
@@ -3354,6 +3336,24 @@ extension GetEngineStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetEngineStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetGremlinQueryStatusInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let queryId = queryId else {
@@ -3385,6 +3385,66 @@ extension GetGremlinQueryStatusInputBody: Swift.Decodable {
     }
 }
 
+extension GetGremlinQueryStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetGremlinQueryStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.queryEvalStats = output.queryEvalStats
+            self.queryId = output.queryId
+            self.queryString = output.queryString
+        } else {
+            self.queryEvalStats = nil
+            self.queryId = nil
+            self.queryString = nil
+        }
+    }
+}
+
+public struct GetGremlinQueryStatusOutput: Swift.Equatable {
+    /// The evaluation status of the Gremlin query.
+    public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
+    /// The ID of the query for which status is being returned.
+    public var queryId: Swift.String?
+    /// The Gremlin query string.
+    public var queryString: Swift.String?
+
+    public init(
+        queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
+        queryId: Swift.String? = nil,
+        queryString: Swift.String? = nil
+    )
+    {
+        self.queryEvalStats = queryEvalStats
+        self.queryId = queryId
+        self.queryString = queryString
+    }
+}
+
+struct GetGremlinQueryStatusOutputBody: Swift.Equatable {
+    let queryId: Swift.String?
+    let queryString: Swift.String?
+    let queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
+}
+
+extension GetGremlinQueryStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryEvalStats
+        case queryId
+        case queryString
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
+        queryString = queryStringDecoded
+        let queryEvalStatsDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.QueryEvalStats.self, forKey: .queryEvalStats)
+        queryEvalStats = queryEvalStatsDecoded
+    }
+}
+
 enum GetGremlinQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3408,66 +3468,6 @@ enum GetGremlinQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetGremlinQueryStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetGremlinQueryStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.queryEvalStats = output.queryEvalStats
-            self.queryId = output.queryId
-            self.queryString = output.queryString
-        } else {
-            self.queryEvalStats = nil
-            self.queryId = nil
-            self.queryString = nil
-        }
-    }
-}
-
-public struct GetGremlinQueryStatusOutputResponse: Swift.Equatable {
-    /// The evaluation status of the Gremlin query.
-    public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
-    /// The ID of the query for which status is being returned.
-    public var queryId: Swift.String?
-    /// The Gremlin query string.
-    public var queryString: Swift.String?
-
-    public init(
-        queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
-        queryId: Swift.String? = nil,
-        queryString: Swift.String? = nil
-    )
-    {
-        self.queryEvalStats = queryEvalStats
-        self.queryId = queryId
-        self.queryString = queryString
-    }
-}
-
-struct GetGremlinQueryStatusOutputResponseBody: Swift.Equatable {
-    let queryId: Swift.String?
-    let queryString: Swift.String?
-    let queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
-}
-
-extension GetGremlinQueryStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case queryEvalStats
-        case queryId
-        case queryString
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
-        queryId = queryIdDecoded
-        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
-        queryString = queryStringDecoded
-        let queryEvalStatsDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.QueryEvalStats.self, forKey: .queryEvalStats)
-        queryEvalStats = queryEvalStatsDecoded
     }
 }
 
@@ -3543,6 +3543,58 @@ extension GetLoaderJobStatusInputBody: Swift.Decodable {
     }
 }
 
+extension GetLoaderJobStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLoaderJobStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetLoaderJobStatusOutput: Swift.Equatable {
+    /// Status information about the load job, in a layout that could look like this:
+    /// This member is required.
+    public var payload: ClientRuntime.Document?
+    /// The HTTP response code for the request.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: ClientRuntime.Document? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct GetLoaderJobStatusOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: ClientRuntime.Document?
+}
+
+extension GetLoaderJobStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum GetLoaderJobStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3563,58 +3615,6 @@ enum GetLoaderJobStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetLoaderJobStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetLoaderJobStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct GetLoaderJobStatusOutputResponse: Swift.Equatable {
-    /// Status information about the load job, in a layout that could look like this:
-    /// This member is required.
-    public var payload: ClientRuntime.Document?
-    /// The HTTP response code for the request.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: ClientRuntime.Document? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct GetLoaderJobStatusOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: ClientRuntime.Document?
-}
-
-extension GetLoaderJobStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -3666,32 +3666,11 @@ extension GetMLDataProcessingJobInputBody: Swift.Decodable {
     }
 }
 
-enum GetMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMLDataProcessingJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMLDataProcessingJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMLDataProcessingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMLDataProcessingJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.processingJob = output.processingJob
             self.status = output.status
@@ -3703,7 +3682,7 @@ extension GetMLDataProcessingJobOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetMLDataProcessingJobOutputResponse: Swift.Equatable {
+public struct GetMLDataProcessingJobOutput: Swift.Equatable {
     /// The unique identifier of this data-processing job.
     public var id: Swift.String?
     /// Definition of the data processing job.
@@ -3723,13 +3702,13 @@ public struct GetMLDataProcessingJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMLDataProcessingJobOutputResponseBody: Swift.Equatable {
+struct GetMLDataProcessingJobOutputBody: Swift.Equatable {
     let status: Swift.String?
     let id: Swift.String?
     let processingJob: NeptunedataClientTypes.MlResourceDefinition?
 }
 
-extension GetMLDataProcessingJobOutputResponseBody: Swift.Decodable {
+extension GetMLDataProcessingJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
         case processingJob
@@ -3744,6 +3723,27 @@ extension GetMLDataProcessingJobOutputResponseBody: Swift.Decodable {
         id = idDecoded
         let processingJobDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.MlResourceDefinition.self, forKey: .processingJob)
         processingJob = processingJobDecoded
+    }
+}
+
+enum GetMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3795,32 +3795,11 @@ extension GetMLEndpointInputBody: Swift.Decodable {
     }
 }
 
-enum GetMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMLEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMLEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMLEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMLEndpointOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpoint = output.endpoint
             self.endpointConfig = output.endpointConfig
             self.id = output.id
@@ -3834,7 +3813,7 @@ extension GetMLEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLEndpointOutputResponse: Swift.Equatable {
+public struct GetMLEndpointOutput: Swift.Equatable {
     /// The endpoint definition.
     public var endpoint: NeptunedataClientTypes.MlResourceDefinition?
     /// The endpoint configuration
@@ -3858,14 +3837,14 @@ public struct GetMLEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMLEndpointOutputResponseBody: Swift.Equatable {
+struct GetMLEndpointOutputBody: Swift.Equatable {
     let status: Swift.String?
     let id: Swift.String?
     let endpoint: NeptunedataClientTypes.MlResourceDefinition?
     let endpointConfig: NeptunedataClientTypes.MlConfigDefinition?
 }
 
-extension GetMLEndpointOutputResponseBody: Swift.Decodable {
+extension GetMLEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpoint
         case endpointConfig
@@ -3883,6 +3862,27 @@ extension GetMLEndpointOutputResponseBody: Swift.Decodable {
         endpoint = endpointDecoded
         let endpointConfigDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.MlConfigDefinition.self, forKey: .endpointConfig)
         endpointConfig = endpointConfigDecoded
+    }
+}
+
+enum GetMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3934,32 +3934,11 @@ extension GetMLModelTrainingJobInputBody: Swift.Decodable {
     }
 }
 
-enum GetMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMLModelTrainingJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMLModelTrainingJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMLModelTrainingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMLModelTrainingJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.hpoJob = output.hpoJob
             self.id = output.id
             self.mlModels = output.mlModels
@@ -3977,7 +3956,7 @@ extension GetMLModelTrainingJobOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetMLModelTrainingJobOutputResponse: Swift.Equatable {
+public struct GetMLModelTrainingJobOutput: Swift.Equatable {
     /// The HPO job.
     public var hpoJob: NeptunedataClientTypes.MlResourceDefinition?
     /// The unique identifier of this model-training job.
@@ -4009,7 +3988,7 @@ public struct GetMLModelTrainingJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMLModelTrainingJobOutputResponseBody: Swift.Equatable {
+struct GetMLModelTrainingJobOutputBody: Swift.Equatable {
     let status: Swift.String?
     let id: Swift.String?
     let processingJob: NeptunedataClientTypes.MlResourceDefinition?
@@ -4018,7 +3997,7 @@ struct GetMLModelTrainingJobOutputResponseBody: Swift.Equatable {
     let mlModels: [NeptunedataClientTypes.MlConfigDefinition]?
 }
 
-extension GetMLModelTrainingJobOutputResponseBody: Swift.Decodable {
+extension GetMLModelTrainingJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hpoJob
         case id
@@ -4051,6 +4030,27 @@ extension GetMLModelTrainingJobOutputResponseBody: Swift.Decodable {
             }
         }
         mlModels = mlModelsDecoded0
+    }
+}
+
+enum GetMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4102,32 +4102,11 @@ extension GetMLModelTransformJobInputBody: Swift.Decodable {
     }
 }
 
-enum GetMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMLModelTransformJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMLModelTransformJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMLModelTransformJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMLModelTransformJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseProcessingJob = output.baseProcessingJob
             self.id = output.id
             self.models = output.models
@@ -4143,7 +4122,7 @@ extension GetMLModelTransformJobOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetMLModelTransformJobOutputResponse: Swift.Equatable {
+public struct GetMLModelTransformJobOutput: Swift.Equatable {
     /// The base data processing job.
     public var baseProcessingJob: NeptunedataClientTypes.MlResourceDefinition?
     /// The unique identifier of the model-transform job to be retrieved.
@@ -4171,7 +4150,7 @@ public struct GetMLModelTransformJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMLModelTransformJobOutputResponseBody: Swift.Equatable {
+struct GetMLModelTransformJobOutputBody: Swift.Equatable {
     let status: Swift.String?
     let id: Swift.String?
     let baseProcessingJob: NeptunedataClientTypes.MlResourceDefinition?
@@ -4179,7 +4158,7 @@ struct GetMLModelTransformJobOutputResponseBody: Swift.Equatable {
     let models: [NeptunedataClientTypes.MlConfigDefinition]?
 }
 
-extension GetMLModelTransformJobOutputResponseBody: Swift.Decodable {
+extension GetMLModelTransformJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseProcessingJob
         case id
@@ -4209,6 +4188,27 @@ extension GetMLModelTransformJobOutputResponseBody: Swift.Decodable {
             }
         }
         models = modelsDecoded0
+    }
+}
+
+enum GetMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4243,6 +4243,66 @@ extension GetOpenCypherQueryStatusInputBody: Swift.Decodable {
     }
 }
 
+extension GetOpenCypherQueryStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetOpenCypherQueryStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.queryEvalStats = output.queryEvalStats
+            self.queryId = output.queryId
+            self.queryString = output.queryString
+        } else {
+            self.queryEvalStats = nil
+            self.queryId = nil
+            self.queryString = nil
+        }
+    }
+}
+
+public struct GetOpenCypherQueryStatusOutput: Swift.Equatable {
+    /// The openCypher query evaluation status.
+    public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
+    /// The unique ID of the query for which status is being returned.
+    public var queryId: Swift.String?
+    /// The openCypher query string.
+    public var queryString: Swift.String?
+
+    public init(
+        queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
+        queryId: Swift.String? = nil,
+        queryString: Swift.String? = nil
+    )
+    {
+        self.queryEvalStats = queryEvalStats
+        self.queryId = queryId
+        self.queryString = queryString
+    }
+}
+
+struct GetOpenCypherQueryStatusOutputBody: Swift.Equatable {
+    let queryId: Swift.String?
+    let queryString: Swift.String?
+    let queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
+}
+
+extension GetOpenCypherQueryStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryEvalStats
+        case queryId
+        case queryString
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
+        queryString = queryStringDecoded
+        let queryEvalStatsDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.QueryEvalStats.self, forKey: .queryEvalStats)
+        queryEvalStats = queryEvalStatsDecoded
+    }
+}
+
 enum GetOpenCypherQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4270,66 +4330,6 @@ enum GetOpenCypherQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetOpenCypherQueryStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetOpenCypherQueryStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.queryEvalStats = output.queryEvalStats
-            self.queryId = output.queryId
-            self.queryString = output.queryString
-        } else {
-            self.queryEvalStats = nil
-            self.queryId = nil
-            self.queryString = nil
-        }
-    }
-}
-
-public struct GetOpenCypherQueryStatusOutputResponse: Swift.Equatable {
-    /// The openCypher query evaluation status.
-    public var queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
-    /// The unique ID of the query for which status is being returned.
-    public var queryId: Swift.String?
-    /// The openCypher query string.
-    public var queryString: Swift.String?
-
-    public init(
-        queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
-        queryId: Swift.String? = nil,
-        queryString: Swift.String? = nil
-    )
-    {
-        self.queryEvalStats = queryEvalStats
-        self.queryId = queryId
-        self.queryString = queryString
-    }
-}
-
-struct GetOpenCypherQueryStatusOutputResponseBody: Swift.Equatable {
-    let queryId: Swift.String?
-    let queryString: Swift.String?
-    let queryEvalStats: NeptunedataClientTypes.QueryEvalStats?
-}
-
-extension GetOpenCypherQueryStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case queryEvalStats
-        case queryId
-        case queryString
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
-        queryId = queryIdDecoded
-        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
-        queryString = queryStringDecoded
-        let queryEvalStatsDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.QueryEvalStats.self, forKey: .queryEvalStats)
-        queryEvalStats = queryEvalStatsDecoded
-    }
-}
-
 extension GetPropertygraphStatisticsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/propertygraph/statistics"
@@ -4347,6 +4347,58 @@ struct GetPropertygraphStatisticsInputBody: Swift.Equatable {
 extension GetPropertygraphStatisticsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetPropertygraphStatisticsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPropertygraphStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetPropertygraphStatisticsOutput: Swift.Equatable {
+    /// Statistics for property-graph data.
+    /// This member is required.
+    public var payload: NeptunedataClientTypes.Statistics?
+    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: NeptunedataClientTypes.Statistics? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct GetPropertygraphStatisticsOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.Statistics?
+}
+
+extension GetPropertygraphStatisticsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.Statistics.self, forKey: .payload)
+        payload = payloadDecoded
     }
 }
 
@@ -4370,58 +4422,6 @@ enum GetPropertygraphStatisticsOutputError: ClientRuntime.HttpResponseErrorBindi
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetPropertygraphStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetPropertygraphStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct GetPropertygraphStatisticsOutputResponse: Swift.Equatable {
-    /// Statistics for property-graph data.
-    /// This member is required.
-    public var payload: NeptunedataClientTypes.Statistics?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: NeptunedataClientTypes.Statistics? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct GetPropertygraphStatisticsOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.Statistics?
-}
-
-extension GetPropertygraphStatisticsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.Statistics.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -4511,33 +4511,11 @@ extension GetPropertygraphStreamInputBody: Swift.Decodable {
     }
 }
 
-enum GetPropertygraphStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExpiredStreamException": return try await ExpiredStreamException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MemoryLimitExceededException": return try await MemoryLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StreamRecordsNotFoundException": return try await StreamRecordsNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPropertygraphStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPropertygraphStreamOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPropertygraphStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPropertygraphStreamOutputBody = try responseDecoder.decode(responseBody: data)
             self.format = output.format
             self.lastEventId = output.lastEventId
             self.lastTrxTimestampInMillis = output.lastTrxTimestampInMillis
@@ -4553,7 +4531,7 @@ extension GetPropertygraphStreamOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetPropertygraphStreamOutputResponse: Swift.Equatable {
+public struct GetPropertygraphStreamOutput: Swift.Equatable {
     /// Serialization format for the change records being returned. Currently, the only supported value is PG_JSON.
     /// This member is required.
     public var format: Swift.String?
@@ -4586,7 +4564,7 @@ public struct GetPropertygraphStreamOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPropertygraphStreamOutputResponseBody: Swift.Equatable {
+struct GetPropertygraphStreamOutputBody: Swift.Equatable {
     let lastEventId: [Swift.String:Swift.String]?
     let lastTrxTimestampInMillis: Swift.Int?
     let format: Swift.String?
@@ -4594,7 +4572,7 @@ struct GetPropertygraphStreamOutputResponseBody: Swift.Equatable {
     let totalRecords: Swift.Int?
 }
 
-extension GetPropertygraphStreamOutputResponseBody: Swift.Decodable {
+extension GetPropertygraphStreamOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case format
         case lastEventId
@@ -4633,6 +4611,28 @@ extension GetPropertygraphStreamOutputResponseBody: Swift.Decodable {
         records = recordsDecoded0
         let totalRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRecords)
         totalRecords = totalRecordsDecoded
+    }
+}
+
+enum GetPropertygraphStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredStreamException": return try await ExpiredStreamException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MemoryLimitExceededException": return try await MemoryLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StreamRecordsNotFoundException": return try await StreamRecordsNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4676,6 +4676,55 @@ extension GetPropertygraphSummaryInputBody: Swift.Decodable {
     }
 }
 
+extension GetPropertygraphSummaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPropertygraphSummaryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+        } else {
+            self.payload = nil
+        }
+        self.statusCode = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct GetPropertygraphSummaryOutput: Swift.Equatable {
+    /// Payload containing the property graph summary response.
+    public var payload: NeptunedataClientTypes.PropertygraphSummaryValueMap?
+    /// The HTTP return code of the request. If the request succeeded, the code is 200.
+    public var statusCode: Swift.Int?
+
+    public init(
+        payload: NeptunedataClientTypes.PropertygraphSummaryValueMap? = nil,
+        statusCode: Swift.Int? = nil
+    )
+    {
+        self.payload = payload
+        self.statusCode = statusCode
+    }
+}
+
+struct GetPropertygraphSummaryOutputBody: Swift.Equatable {
+    let statusCode: Swift.Int?
+    let payload: NeptunedataClientTypes.PropertygraphSummaryValueMap?
+}
+
+extension GetPropertygraphSummaryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case statusCode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.PropertygraphSummaryValueMap.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum GetPropertygraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4696,55 +4745,6 @@ enum GetPropertygraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetPropertygraphSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetPropertygraphSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-        } else {
-            self.payload = nil
-        }
-        self.statusCode = httpResponse.statusCode.rawValue
-    }
-}
-
-public struct GetPropertygraphSummaryOutputResponse: Swift.Equatable {
-    /// Payload containing the property graph summary response.
-    public var payload: NeptunedataClientTypes.PropertygraphSummaryValueMap?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200.
-    public var statusCode: Swift.Int?
-
-    public init(
-        payload: NeptunedataClientTypes.PropertygraphSummaryValueMap? = nil,
-        statusCode: Swift.Int? = nil
-    )
-    {
-        self.payload = payload
-        self.statusCode = statusCode
-    }
-}
-
-struct GetPropertygraphSummaryOutputResponseBody: Swift.Equatable {
-    let statusCode: Swift.Int?
-    let payload: NeptunedataClientTypes.PropertygraphSummaryValueMap?
-}
-
-extension GetPropertygraphSummaryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case statusCode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
-        statusCode = statusCodeDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.PropertygraphSummaryValueMap.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -4788,6 +4788,55 @@ extension GetRDFGraphSummaryInputBody: Swift.Decodable {
     }
 }
 
+extension GetRDFGraphSummaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRDFGraphSummaryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+        } else {
+            self.payload = nil
+        }
+        self.statusCode = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct GetRDFGraphSummaryOutput: Swift.Equatable {
+    /// Payload for an RDF graph summary response
+    public var payload: NeptunedataClientTypes.RDFGraphSummaryValueMap?
+    /// The HTTP return code of the request. If the request succeeded, the code is 200.
+    public var statusCode: Swift.Int?
+
+    public init(
+        payload: NeptunedataClientTypes.RDFGraphSummaryValueMap? = nil,
+        statusCode: Swift.Int? = nil
+    )
+    {
+        self.payload = payload
+        self.statusCode = statusCode
+    }
+}
+
+struct GetRDFGraphSummaryOutputBody: Swift.Equatable {
+    let statusCode: Swift.Int?
+    let payload: NeptunedataClientTypes.RDFGraphSummaryValueMap?
+}
+
+extension GetRDFGraphSummaryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case statusCode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.RDFGraphSummaryValueMap.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum GetRDFGraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4811,55 +4860,6 @@ enum GetRDFGraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRDFGraphSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetRDFGraphSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-        } else {
-            self.payload = nil
-        }
-        self.statusCode = httpResponse.statusCode.rawValue
-    }
-}
-
-public struct GetRDFGraphSummaryOutputResponse: Swift.Equatable {
-    /// Payload for an RDF graph summary response
-    public var payload: NeptunedataClientTypes.RDFGraphSummaryValueMap?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200.
-    public var statusCode: Swift.Int?
-
-    public init(
-        payload: NeptunedataClientTypes.RDFGraphSummaryValueMap? = nil,
-        statusCode: Swift.Int? = nil
-    )
-    {
-        self.payload = payload
-        self.statusCode = statusCode
-    }
-}
-
-struct GetRDFGraphSummaryOutputResponseBody: Swift.Equatable {
-    let statusCode: Swift.Int?
-    let payload: NeptunedataClientTypes.RDFGraphSummaryValueMap?
-}
-
-extension GetRDFGraphSummaryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case statusCode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode)
-        statusCode = statusCodeDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.RDFGraphSummaryValueMap.self, forKey: .payload)
-        payload = payloadDecoded
-    }
-}
-
 extension GetSparqlStatisticsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/sparql/statistics"
@@ -4877,6 +4877,58 @@ struct GetSparqlStatisticsInputBody: Swift.Equatable {
 extension GetSparqlStatisticsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetSparqlStatisticsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSparqlStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetSparqlStatisticsOutput: Swift.Equatable {
+    /// Statistics for RDF data.
+    /// This member is required.
+    public var payload: NeptunedataClientTypes.Statistics?
+    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: NeptunedataClientTypes.Statistics? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct GetSparqlStatisticsOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.Statistics?
+}
+
+extension GetSparqlStatisticsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.Statistics.self, forKey: .payload)
+        payload = payloadDecoded
     }
 }
 
@@ -4900,58 +4952,6 @@ enum GetSparqlStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSparqlStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetSparqlStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct GetSparqlStatisticsOutputResponse: Swift.Equatable {
-    /// Statistics for RDF data.
-    /// This member is required.
-    public var payload: NeptunedataClientTypes.Statistics?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: NeptunedataClientTypes.Statistics? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct GetSparqlStatisticsOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.Statistics?
-}
-
-extension GetSparqlStatisticsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.Statistics.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -5041,33 +5041,11 @@ extension GetSparqlStreamInputBody: Swift.Decodable {
     }
 }
 
-enum GetSparqlStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExpiredStreamException": return try await ExpiredStreamException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MemoryLimitExceededException": return try await MemoryLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StreamRecordsNotFoundException": return try await StreamRecordsNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSparqlStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSparqlStreamOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSparqlStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSparqlStreamOutputBody = try responseDecoder.decode(responseBody: data)
             self.format = output.format
             self.lastEventId = output.lastEventId
             self.lastTrxTimestampInMillis = output.lastTrxTimestampInMillis
@@ -5083,7 +5061,7 @@ extension GetSparqlStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSparqlStreamOutputResponse: Swift.Equatable {
+public struct GetSparqlStreamOutput: Swift.Equatable {
     /// Serialization format for the change records being returned. Currently, the only supported value is NQUADS.
     /// This member is required.
     public var format: Swift.String?
@@ -5116,7 +5094,7 @@ public struct GetSparqlStreamOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSparqlStreamOutputResponseBody: Swift.Equatable {
+struct GetSparqlStreamOutputBody: Swift.Equatable {
     let lastEventId: [Swift.String:Swift.String]?
     let lastTrxTimestampInMillis: Swift.Int?
     let format: Swift.String?
@@ -5124,7 +5102,7 @@ struct GetSparqlStreamOutputResponseBody: Swift.Equatable {
     let totalRecords: Swift.Int?
 }
 
-extension GetSparqlStreamOutputResponseBody: Swift.Decodable {
+extension GetSparqlStreamOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case format
         case lastEventId
@@ -5163,6 +5141,28 @@ extension GetSparqlStreamOutputResponseBody: Swift.Decodable {
         records = recordsDecoded0
         let totalRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRecords)
         totalRecords = totalRecordsDecoded
+    }
+}
+
+enum GetSparqlStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredStreamException": return try await ExpiredStreamException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MemoryLimitExceededException": return try await MemoryLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StreamRecordsNotFoundException": return try await StreamRecordsNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5781,37 +5781,11 @@ extension ListGremlinQueriesInputBody: Swift.Decodable {
     }
 }
 
-enum ListGremlinQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FailureByQueryException": return try await FailureByQueryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParsingException": return try await ParsingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ReadOnlyViolationException": return try await ReadOnlyViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TimeLimitExceededException": return try await TimeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListGremlinQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGremlinQueriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGremlinQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGremlinQueriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.acceptedQueryCount = output.acceptedQueryCount
             self.queries = output.queries
             self.runningQueryCount = output.runningQueryCount
@@ -5823,7 +5797,7 @@ extension ListGremlinQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGremlinQueriesOutputResponse: Swift.Equatable {
+public struct ListGremlinQueriesOutput: Swift.Equatable {
     /// The number of queries that have been accepted but not yet completed, including queries in the queue.
     public var acceptedQueryCount: Swift.Int?
     /// A list of the current queries.
@@ -5843,13 +5817,13 @@ public struct ListGremlinQueriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGremlinQueriesOutputResponseBody: Swift.Equatable {
+struct ListGremlinQueriesOutputBody: Swift.Equatable {
     let acceptedQueryCount: Swift.Int?
     let runningQueryCount: Swift.Int?
     let queries: [NeptunedataClientTypes.GremlinQueryStatus]?
 }
 
-extension ListGremlinQueriesOutputResponseBody: Swift.Decodable {
+extension ListGremlinQueriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptedQueryCount
         case queries
@@ -5873,6 +5847,32 @@ extension ListGremlinQueriesOutputResponseBody: Swift.Decodable {
             }
         }
         queries = queriesDecoded0
+    }
+}
+
+enum ListGremlinQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FailureByQueryException": return try await FailureByQueryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParsingException": return try await ParsingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReadOnlyViolationException": return try await ReadOnlyViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TimeLimitExceededException": return try await TimeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5924,6 +5924,58 @@ extension ListLoaderJobsInputBody: Swift.Decodable {
     }
 }
 
+extension ListLoaderJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListLoaderJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ListLoaderJobsOutput: Swift.Equatable {
+    /// The requested list of job IDs.
+    /// This member is required.
+    public var payload: NeptunedataClientTypes.LoaderIdResult?
+    /// Returns the status of the job list request.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: NeptunedataClientTypes.LoaderIdResult? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct ListLoaderJobsOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.LoaderIdResult?
+}
+
+extension ListLoaderJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.LoaderIdResult.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum ListLoaderJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5943,58 +5995,6 @@ enum ListLoaderJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListLoaderJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListLoaderJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct ListLoaderJobsOutputResponse: Swift.Equatable {
-    /// The requested list of job IDs.
-    /// This member is required.
-    public var payload: NeptunedataClientTypes.LoaderIdResult?
-    /// Returns the status of the job list request.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: NeptunedataClientTypes.LoaderIdResult? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct ListLoaderJobsOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.LoaderIdResult?
-}
-
-extension ListLoaderJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.LoaderIdResult.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -6046,6 +6046,55 @@ extension ListMLDataProcessingJobsInputBody: Swift.Decodable {
     }
 }
 
+extension ListMLDataProcessingJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMLDataProcessingJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.ids = output.ids
+        } else {
+            self.ids = nil
+        }
+    }
+}
+
+public struct ListMLDataProcessingJobsOutput: Swift.Equatable {
+    /// A page listing data processing job IDs.
+    public var ids: [Swift.String]?
+
+    public init(
+        ids: [Swift.String]? = nil
+    )
+    {
+        self.ids = ids
+    }
+}
+
+struct ListMLDataProcessingJobsOutputBody: Swift.Equatable {
+    let ids: [Swift.String]?
+}
+
+extension ListMLDataProcessingJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ids
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
+        var idsDecoded0:[Swift.String]? = nil
+        if let idsContainer = idsContainer {
+            idsDecoded0 = [Swift.String]()
+            for string0 in idsContainer {
+                if let string0 = string0 {
+                    idsDecoded0?.append(string0)
+                }
+            }
+        }
+        ids = idsDecoded0
+    }
+}
+
 enum ListMLDataProcessingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6064,55 +6113,6 @@ enum ListMLDataProcessingJobsOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListMLDataProcessingJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListMLDataProcessingJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.ids = output.ids
-        } else {
-            self.ids = nil
-        }
-    }
-}
-
-public struct ListMLDataProcessingJobsOutputResponse: Swift.Equatable {
-    /// A page listing data processing job IDs.
-    public var ids: [Swift.String]?
-
-    public init(
-        ids: [Swift.String]? = nil
-    )
-    {
-        self.ids = ids
-    }
-}
-
-struct ListMLDataProcessingJobsOutputResponseBody: Swift.Equatable {
-    let ids: [Swift.String]?
-}
-
-extension ListMLDataProcessingJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case ids
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
-        var idsDecoded0:[Swift.String]? = nil
-        if let idsContainer = idsContainer {
-            idsDecoded0 = [Swift.String]()
-            for string0 in idsContainer {
-                if let string0 = string0 {
-                    idsDecoded0?.append(string0)
-                }
-            }
-        }
-        ids = idsDecoded0
     }
 }
 
@@ -6164,6 +6164,55 @@ extension ListMLEndpointsInputBody: Swift.Decodable {
     }
 }
 
+extension ListMLEndpointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMLEndpointsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.ids = output.ids
+        } else {
+            self.ids = nil
+        }
+    }
+}
+
+public struct ListMLEndpointsOutput: Swift.Equatable {
+    /// A page from the list of inference endpoint IDs.
+    public var ids: [Swift.String]?
+
+    public init(
+        ids: [Swift.String]? = nil
+    )
+    {
+        self.ids = ids
+    }
+}
+
+struct ListMLEndpointsOutputBody: Swift.Equatable {
+    let ids: [Swift.String]?
+}
+
+extension ListMLEndpointsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ids
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
+        var idsDecoded0:[Swift.String]? = nil
+        if let idsContainer = idsContainer {
+            idsDecoded0 = [Swift.String]()
+            for string0 in idsContainer {
+                if let string0 = string0 {
+                    idsDecoded0?.append(string0)
+                }
+            }
+        }
+        ids = idsDecoded0
+    }
+}
+
 enum ListMLEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6182,55 +6231,6 @@ enum ListMLEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListMLEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListMLEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.ids = output.ids
-        } else {
-            self.ids = nil
-        }
-    }
-}
-
-public struct ListMLEndpointsOutputResponse: Swift.Equatable {
-    /// A page from the list of inference endpoint IDs.
-    public var ids: [Swift.String]?
-
-    public init(
-        ids: [Swift.String]? = nil
-    )
-    {
-        self.ids = ids
-    }
-}
-
-struct ListMLEndpointsOutputResponseBody: Swift.Equatable {
-    let ids: [Swift.String]?
-}
-
-extension ListMLEndpointsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case ids
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
-        var idsDecoded0:[Swift.String]? = nil
-        if let idsContainer = idsContainer {
-            idsDecoded0 = [Swift.String]()
-            for string0 in idsContainer {
-                if let string0 = string0 {
-                    idsDecoded0?.append(string0)
-                }
-            }
-        }
-        ids = idsDecoded0
     }
 }
 
@@ -6282,6 +6282,55 @@ extension ListMLModelTrainingJobsInputBody: Swift.Decodable {
     }
 }
 
+extension ListMLModelTrainingJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMLModelTrainingJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.ids = output.ids
+        } else {
+            self.ids = nil
+        }
+    }
+}
+
+public struct ListMLModelTrainingJobsOutput: Swift.Equatable {
+    /// A page of the list of model training job IDs.
+    public var ids: [Swift.String]?
+
+    public init(
+        ids: [Swift.String]? = nil
+    )
+    {
+        self.ids = ids
+    }
+}
+
+struct ListMLModelTrainingJobsOutputBody: Swift.Equatable {
+    let ids: [Swift.String]?
+}
+
+extension ListMLModelTrainingJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ids
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
+        var idsDecoded0:[Swift.String]? = nil
+        if let idsContainer = idsContainer {
+            idsDecoded0 = [Swift.String]()
+            for string0 in idsContainer {
+                if let string0 = string0 {
+                    idsDecoded0?.append(string0)
+                }
+            }
+        }
+        ids = idsDecoded0
+    }
+}
+
 enum ListMLModelTrainingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6300,55 +6349,6 @@ enum ListMLModelTrainingJobsOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListMLModelTrainingJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListMLModelTrainingJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.ids = output.ids
-        } else {
-            self.ids = nil
-        }
-    }
-}
-
-public struct ListMLModelTrainingJobsOutputResponse: Swift.Equatable {
-    /// A page of the list of model training job IDs.
-    public var ids: [Swift.String]?
-
-    public init(
-        ids: [Swift.String]? = nil
-    )
-    {
-        self.ids = ids
-    }
-}
-
-struct ListMLModelTrainingJobsOutputResponseBody: Swift.Equatable {
-    let ids: [Swift.String]?
-}
-
-extension ListMLModelTrainingJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case ids
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
-        var idsDecoded0:[Swift.String]? = nil
-        if let idsContainer = idsContainer {
-            idsDecoded0 = [Swift.String]()
-            for string0 in idsContainer {
-                if let string0 = string0 {
-                    idsDecoded0?.append(string0)
-                }
-            }
-        }
-        ids = idsDecoded0
     }
 }
 
@@ -6400,6 +6400,55 @@ extension ListMLModelTransformJobsInputBody: Swift.Decodable {
     }
 }
 
+extension ListMLModelTransformJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMLModelTransformJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.ids = output.ids
+        } else {
+            self.ids = nil
+        }
+    }
+}
+
+public struct ListMLModelTransformJobsOutput: Swift.Equatable {
+    /// A page from the list of model transform IDs.
+    public var ids: [Swift.String]?
+
+    public init(
+        ids: [Swift.String]? = nil
+    )
+    {
+        self.ids = ids
+    }
+}
+
+struct ListMLModelTransformJobsOutputBody: Swift.Equatable {
+    let ids: [Swift.String]?
+}
+
+extension ListMLModelTransformJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ids
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
+        var idsDecoded0:[Swift.String]? = nil
+        if let idsContainer = idsContainer {
+            idsDecoded0 = [Swift.String]()
+            for string0 in idsContainer {
+                if let string0 = string0 {
+                    idsDecoded0?.append(string0)
+                }
+            }
+        }
+        ids = idsDecoded0
+    }
+}
+
 enum ListMLModelTransformJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6418,55 +6467,6 @@ enum ListMLModelTransformJobsOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListMLModelTransformJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListMLModelTransformJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.ids = output.ids
-        } else {
-            self.ids = nil
-        }
-    }
-}
-
-public struct ListMLModelTransformJobsOutputResponse: Swift.Equatable {
-    /// A page from the list of model transform IDs.
-    public var ids: [Swift.String]?
-
-    public init(
-        ids: [Swift.String]? = nil
-    )
-    {
-        self.ids = ids
-    }
-}
-
-struct ListMLModelTransformJobsOutputResponseBody: Swift.Equatable {
-    let ids: [Swift.String]?
-}
-
-extension ListMLModelTransformJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case ids
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ids)
-        var idsDecoded0:[Swift.String]? = nil
-        if let idsContainer = idsContainer {
-            idsDecoded0 = [Swift.String]()
-            for string0 in idsContainer {
-                if let string0 = string0 {
-                    idsDecoded0?.append(string0)
-                }
-            }
-        }
-        ids = idsDecoded0
     }
 }
 
@@ -6510,6 +6510,75 @@ extension ListOpenCypherQueriesInputBody: Swift.Decodable {
     }
 }
 
+extension ListOpenCypherQueriesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListOpenCypherQueriesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.acceptedQueryCount = output.acceptedQueryCount
+            self.queries = output.queries
+            self.runningQueryCount = output.runningQueryCount
+        } else {
+            self.acceptedQueryCount = nil
+            self.queries = nil
+            self.runningQueryCount = nil
+        }
+    }
+}
+
+public struct ListOpenCypherQueriesOutput: Swift.Equatable {
+    /// The number of queries that have been accepted but not yet completed, including queries in the queue.
+    public var acceptedQueryCount: Swift.Int?
+    /// A list of current openCypher queries.
+    public var queries: [NeptunedataClientTypes.GremlinQueryStatus]?
+    /// The number of currently running openCypher queries.
+    public var runningQueryCount: Swift.Int?
+
+    public init(
+        acceptedQueryCount: Swift.Int? = nil,
+        queries: [NeptunedataClientTypes.GremlinQueryStatus]? = nil,
+        runningQueryCount: Swift.Int? = nil
+    )
+    {
+        self.acceptedQueryCount = acceptedQueryCount
+        self.queries = queries
+        self.runningQueryCount = runningQueryCount
+    }
+}
+
+struct ListOpenCypherQueriesOutputBody: Swift.Equatable {
+    let acceptedQueryCount: Swift.Int?
+    let runningQueryCount: Swift.Int?
+    let queries: [NeptunedataClientTypes.GremlinQueryStatus]?
+}
+
+extension ListOpenCypherQueriesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceptedQueryCount
+        case queries
+        case runningQueryCount
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceptedQueryCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .acceptedQueryCount)
+        acceptedQueryCount = acceptedQueryCountDecoded
+        let runningQueryCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningQueryCount)
+        runningQueryCount = runningQueryCountDecoded
+        let queriesContainer = try containerValues.decodeIfPresent([NeptunedataClientTypes.GremlinQueryStatus?].self, forKey: .queries)
+        var queriesDecoded0:[NeptunedataClientTypes.GremlinQueryStatus]? = nil
+        if let queriesContainer = queriesContainer {
+            queriesDecoded0 = [NeptunedataClientTypes.GremlinQueryStatus]()
+            for structure0 in queriesContainer {
+                if let structure0 = structure0 {
+                    queriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        queries = queriesDecoded0
+    }
+}
+
 enum ListOpenCypherQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6534,75 +6603,6 @@ enum ListOpenCypherQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListOpenCypherQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListOpenCypherQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.acceptedQueryCount = output.acceptedQueryCount
-            self.queries = output.queries
-            self.runningQueryCount = output.runningQueryCount
-        } else {
-            self.acceptedQueryCount = nil
-            self.queries = nil
-            self.runningQueryCount = nil
-        }
-    }
-}
-
-public struct ListOpenCypherQueriesOutputResponse: Swift.Equatable {
-    /// The number of queries that have been accepted but not yet completed, including queries in the queue.
-    public var acceptedQueryCount: Swift.Int?
-    /// A list of current openCypher queries.
-    public var queries: [NeptunedataClientTypes.GremlinQueryStatus]?
-    /// The number of currently running openCypher queries.
-    public var runningQueryCount: Swift.Int?
-
-    public init(
-        acceptedQueryCount: Swift.Int? = nil,
-        queries: [NeptunedataClientTypes.GremlinQueryStatus]? = nil,
-        runningQueryCount: Swift.Int? = nil
-    )
-    {
-        self.acceptedQueryCount = acceptedQueryCount
-        self.queries = queries
-        self.runningQueryCount = runningQueryCount
-    }
-}
-
-struct ListOpenCypherQueriesOutputResponseBody: Swift.Equatable {
-    let acceptedQueryCount: Swift.Int?
-    let runningQueryCount: Swift.Int?
-    let queries: [NeptunedataClientTypes.GremlinQueryStatus]?
-}
-
-extension ListOpenCypherQueriesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case acceptedQueryCount
-        case queries
-        case runningQueryCount
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let acceptedQueryCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .acceptedQueryCount)
-        acceptedQueryCount = acceptedQueryCountDecoded
-        let runningQueryCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningQueryCount)
-        runningQueryCount = runningQueryCountDecoded
-        let queriesContainer = try containerValues.decodeIfPresent([NeptunedataClientTypes.GremlinQueryStatus?].self, forKey: .queries)
-        var queriesDecoded0:[NeptunedataClientTypes.GremlinQueryStatus]? = nil
-        if let queriesContainer = queriesContainer {
-            queriesDecoded0 = [NeptunedataClientTypes.GremlinQueryStatus]()
-            for structure0 in queriesContainer {
-                if let structure0 = structure0 {
-                    queriesDecoded0?.append(structure0)
-                }
-            }
-        }
-        queries = queriesDecoded0
     }
 }
 
@@ -6937,6 +6937,57 @@ extension ManagePropertygraphStatisticsInputBody: Swift.Decodable {
     }
 }
 
+extension ManagePropertygraphStatisticsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ManagePropertygraphStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ManagePropertygraphStatisticsOutput: Swift.Equatable {
+    /// This is only returned for refresh mode.
+    public var payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
+    /// The HTTP return code of the request. If the request succeeded, the code is 200.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: NeptunedataClientTypes.RefreshStatisticsIdMap? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct ManagePropertygraphStatisticsOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
+}
+
+extension ManagePropertygraphStatisticsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.RefreshStatisticsIdMap.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum ManagePropertygraphStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6957,57 +7008,6 @@ enum ManagePropertygraphStatisticsOutputError: ClientRuntime.HttpResponseErrorBi
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ManagePropertygraphStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ManagePropertygraphStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct ManagePropertygraphStatisticsOutputResponse: Swift.Equatable {
-    /// This is only returned for refresh mode.
-    public var payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: NeptunedataClientTypes.RefreshStatisticsIdMap? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct ManagePropertygraphStatisticsOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
-}
-
-extension ManagePropertygraphStatisticsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.RefreshStatisticsIdMap.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -7058,6 +7058,57 @@ extension ManageSparqlStatisticsInputBody: Swift.Decodable {
     }
 }
 
+extension ManageSparqlStatisticsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ManageSparqlStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct ManageSparqlStatisticsOutput: Swift.Equatable {
+    /// This is only returned for refresh mode.
+    public var payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
+    /// The HTTP return code of the request. If the request succeeded, the code is 200.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: NeptunedataClientTypes.RefreshStatisticsIdMap? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct ManageSparqlStatisticsOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
+}
+
+extension ManageSparqlStatisticsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.RefreshStatisticsIdMap.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
 enum ManageSparqlStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7078,57 +7129,6 @@ enum ManageSparqlStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ManageSparqlStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ManageSparqlStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct ManageSparqlStatisticsOutputResponse: Swift.Equatable {
-    /// This is only returned for refresh mode.
-    public var payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: NeptunedataClientTypes.RefreshStatisticsIdMap? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct ManageSparqlStatisticsOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: NeptunedataClientTypes.RefreshStatisticsIdMap?
-}
-
-extension ManageSparqlStatisticsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadDecoded = try containerValues.decodeIfPresent(NeptunedataClientTypes.RefreshStatisticsIdMap.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -9636,6 +9636,67 @@ extension StartLoaderJobInputBody: Swift.Decodable {
     }
 }
 
+extension StartLoaderJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartLoaderJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payload = output.payload
+            self.status = output.status
+        } else {
+            self.payload = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct StartLoaderJobOutput: Swift.Equatable {
+    /// Contains a loadId name-value pair that provides an identifier for the load operation.
+    /// This member is required.
+    public var payload: [Swift.String:Swift.String]?
+    /// The HTTP return code indicating the status of the load job.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        payload: [Swift.String:Swift.String]? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.payload = payload
+        self.status = status
+    }
+}
+
+struct StartLoaderJobOutputBody: Swift.Equatable {
+    let status: Swift.String?
+    let payload: [Swift.String:Swift.String]?
+}
+
+extension StartLoaderJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let payloadContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .payload)
+        var payloadDecoded0: [Swift.String:Swift.String]? = nil
+        if let payloadContainer = payloadContainer {
+            payloadDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in payloadContainer {
+                if let string0 = string0 {
+                    payloadDecoded0?[key0] = string0
+                }
+            }
+        }
+        payload = payloadDecoded0
+    }
+}
+
 enum StartLoaderJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9657,67 +9718,6 @@ enum StartLoaderJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartLoaderJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartLoaderJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.payload = output.payload
-            self.status = output.status
-        } else {
-            self.payload = nil
-            self.status = nil
-        }
-    }
-}
-
-public struct StartLoaderJobOutputResponse: Swift.Equatable {
-    /// Contains a loadId name-value pair that provides an identifier for the load operation.
-    /// This member is required.
-    public var payload: [Swift.String:Swift.String]?
-    /// The HTTP return code indicating the status of the load job.
-    /// This member is required.
-    public var status: Swift.String?
-
-    public init(
-        payload: [Swift.String:Swift.String]? = nil,
-        status: Swift.String? = nil
-    )
-    {
-        self.payload = payload
-        self.status = status
-    }
-}
-
-struct StartLoaderJobOutputResponseBody: Swift.Equatable {
-    let status: Swift.String?
-    let payload: [Swift.String:Swift.String]?
-}
-
-extension StartLoaderJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload
-        case status
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
-        status = statusDecoded
-        let payloadContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .payload)
-        var payloadDecoded0: [Swift.String:Swift.String]? = nil
-        if let payloadContainer = payloadContainer {
-            payloadDecoded0 = [Swift.String:Swift.String]()
-            for (key0, string0) in payloadContainer {
-                if let string0 = string0 {
-                    payloadDecoded0?[key0] = string0
-                }
-            }
-        }
-        payload = payloadDecoded0
     }
 }
 
@@ -9962,32 +9962,11 @@ extension StartMLDataProcessingJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMLDataProcessingJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMLDataProcessingJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMLDataProcessingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMLDataProcessingJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTimeInMillis = output.creationTimeInMillis
             self.id = output.id
@@ -9999,7 +9978,7 @@ extension StartMLDataProcessingJobOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartMLDataProcessingJobOutputResponse: Swift.Equatable {
+public struct StartMLDataProcessingJobOutput: Swift.Equatable {
     /// The ARN of the data processing job.
     public var arn: Swift.String?
     /// The time it took to create the new processing job, in milliseconds.
@@ -10019,13 +9998,13 @@ public struct StartMLDataProcessingJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMLDataProcessingJobOutputResponseBody: Swift.Equatable {
+struct StartMLDataProcessingJobOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
 }
 
-extension StartMLDataProcessingJobOutputResponseBody: Swift.Decodable {
+extension StartMLDataProcessingJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTimeInMillis
@@ -10040,6 +10019,27 @@ extension StartMLDataProcessingJobOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let creationTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimeInMillis)
         creationTimeInMillis = creationTimeInMillisDecoded
+    }
+}
+
+enum StartMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10320,32 +10320,11 @@ extension StartMLModelTrainingJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMLModelTrainingJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMLModelTrainingJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMLModelTrainingJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMLModelTrainingJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTimeInMillis = output.creationTimeInMillis
             self.id = output.id
@@ -10357,7 +10336,7 @@ extension StartMLModelTrainingJobOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct StartMLModelTrainingJobOutputResponse: Swift.Equatable {
+public struct StartMLModelTrainingJobOutput: Swift.Equatable {
     /// The ARN of the new model training job.
     public var arn: Swift.String?
     /// The model training job creation time, in milliseconds.
@@ -10377,13 +10356,13 @@ public struct StartMLModelTrainingJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMLModelTrainingJobOutputResponseBody: Swift.Equatable {
+struct StartMLModelTrainingJobOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
 }
 
-extension StartMLModelTrainingJobOutputResponseBody: Swift.Decodable {
+extension StartMLModelTrainingJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTimeInMillis
@@ -10398,6 +10377,27 @@ extension StartMLModelTrainingJobOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let creationTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimeInMillis)
         creationTimeInMillis = creationTimeInMillisDecoded
+    }
+}
+
+enum StartMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10629,32 +10629,11 @@ extension StartMLModelTransformJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMLModelTransformJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMLModelTransformJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMLModelTransformJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMLModelTransformJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTimeInMillis = output.creationTimeInMillis
             self.id = output.id
@@ -10666,7 +10645,7 @@ extension StartMLModelTransformJobOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartMLModelTransformJobOutputResponse: Swift.Equatable {
+public struct StartMLModelTransformJobOutput: Swift.Equatable {
     /// The ARN of the model transform job.
     public var arn: Swift.String?
     /// The creation time of the model transform job, in milliseconds.
@@ -10686,13 +10665,13 @@ public struct StartMLModelTransformJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMLModelTransformJobOutputResponseBody: Swift.Equatable {
+struct StartMLModelTransformJobOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let creationTimeInMillis: Swift.Int?
 }
 
-extension StartMLModelTransformJobOutputResponseBody: Swift.Decodable {
+extension StartMLModelTransformJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case creationTimeInMillis
@@ -10707,6 +10686,27 @@ extension StartMLModelTransformJobOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let creationTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimeInMillis)
         creationTimeInMillis = creationTimeInMillisDecoded
+    }
+}
+
+enum StartMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientTimeoutException": return try await ClientTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConstraintViolationException": return try await ConstraintViolationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IllegalArgumentException": return try await IllegalArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingParameterException": return try await MissingParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MLResourceNotFoundException": return try await MLResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionsFailedException": return try await PreconditionsFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

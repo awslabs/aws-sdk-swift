@@ -32,6 +32,16 @@ extension DeleteConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteConnectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -43,16 +53,6 @@ enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteConnectionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ForbiddenException {
@@ -106,24 +106,11 @@ extension GetConnectionInputBody: Swift.Decodable {
     }
 }
 
-enum GetConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "GoneException": return try await GoneException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConnectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConnectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.connectedAt = output.connectedAt
             self.identity = output.identity
             self.lastActiveAt = output.lastActiveAt
@@ -135,7 +122,7 @@ extension GetConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionOutputResponse: Swift.Equatable {
+public struct GetConnectionOutput: Swift.Equatable {
     /// The time in ISO 8601 format for when the connection was established.
     public var connectedAt: ClientRuntime.Date?
     public var identity: ApiGatewayManagementApiClientTypes.Identity?
@@ -154,13 +141,13 @@ public struct GetConnectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetConnectionOutputResponseBody: Swift.Equatable {
+struct GetConnectionOutputBody: Swift.Equatable {
     let connectedAt: ClientRuntime.Date?
     let identity: ApiGatewayManagementApiClientTypes.Identity?
     let lastActiveAt: ClientRuntime.Date?
 }
 
-extension GetConnectionOutputResponseBody: Swift.Decodable {
+extension GetConnectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectedAt = "connectedAt"
         case identity = "identity"
@@ -175,6 +162,19 @@ extension GetConnectionOutputResponseBody: Swift.Decodable {
         identity = identityDecoded
         let lastActiveAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastActiveAt)
         lastActiveAt = lastActiveAtDecoded
+    }
+}
+
+enum GetConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GoneException": return try await GoneException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -328,7 +328,7 @@ public struct PostToConnectionInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PostToConnectionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PostToConnectionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PostToConnectionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -343,7 +343,7 @@ public struct PostToConnectionInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PostToConnectionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PostToConnectionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PostToConnectionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -403,6 +403,16 @@ extension PostToConnectionInputBody: Swift.Decodable {
     }
 }
 
+extension PostToConnectionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PostToConnectionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PostToConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -415,14 +425,4 @@ enum PostToConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PostToConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PostToConnectionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }

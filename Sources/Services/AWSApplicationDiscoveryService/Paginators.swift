@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ApplicationDiscoveryClient {
-    /// Paginate over `[DescribeContinuousExportsOutputResponse]` results.
+    /// Paginate over `[DescribeContinuousExportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeContinuousExportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeContinuousExportsOutputResponse`
-    public func describeContinuousExportsPaginated(input: DescribeContinuousExportsInput) -> ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutputResponse>(input: input, inputKey: \DescribeContinuousExportsInput.nextToken, outputKey: \DescribeContinuousExportsOutputResponse.nextToken, paginationFunction: self.describeContinuousExports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeContinuousExportsOutput`
+    public func describeContinuousExportsPaginated(input: DescribeContinuousExportsInput) -> ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(input: input, inputKey: \DescribeContinuousExportsInput.nextToken, outputKey: \DescribeContinuousExportsOutput.nextToken, paginationFunction: self.describeContinuousExports(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension DescribeContinuousExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ApplicationDiscoveryClient {
-    /// Paginate over `[DescribeImportTasksOutputResponse]` results.
+    /// Paginate over `[DescribeImportTasksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeImportTasksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImportTasksOutputResponse`
-    public func describeImportTasksPaginated(input: DescribeImportTasksInput) -> ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutputResponse>(input: input, inputKey: \DescribeImportTasksInput.nextToken, outputKey: \DescribeImportTasksOutputResponse.nextToken, paginationFunction: self.describeImportTasks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImportTasksOutput`
+    public func describeImportTasksPaginated(input: DescribeImportTasksInput) -> ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutput>(input: input, inputKey: \DescribeImportTasksInput.nextToken, outputKey: \DescribeImportTasksOutput.nextToken, paginationFunction: self.describeImportTasks(input:))
     }
 }
 

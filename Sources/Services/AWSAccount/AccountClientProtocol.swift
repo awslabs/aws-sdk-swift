@@ -8,7 +8,7 @@ public protocol AccountClientProtocol {
     ///
     /// - Parameter DeleteAlternateContactInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAlternateContactOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAlternateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol AccountClientProtocol {
     /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func deleteAlternateContact(input: DeleteAlternateContactInput) async throws -> DeleteAlternateContactOutputResponse
+    func deleteAlternateContact(input: DeleteAlternateContactInput) async throws -> DeleteAlternateContactOutput
     /// Disables (opts-out) a particular Region for an account.
     ///
     /// - Parameter DisableRegionInput : [no documentation found]
     ///
-    /// - Returns: `DisableRegionOutputResponse` : [no documentation found]
+    /// - Returns: `DisableRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func disableRegion(input: DisableRegionInput) async throws -> DisableRegionOutputResponse
+    func disableRegion(input: DisableRegionInput) async throws -> DisableRegionOutput
     /// Enables (opts-in) a particular Region for an account.
     ///
     /// - Parameter EnableRegionInput : [no documentation found]
     ///
-    /// - Returns: `EnableRegionOutputResponse` : [no documentation found]
+    /// - Returns: `EnableRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func enableRegion(input: EnableRegionInput) async throws -> EnableRegionOutputResponse
+    func enableRegion(input: EnableRegionInput) async throws -> EnableRegionOutput
     /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
     /// - Parameter GetAlternateContactInput : [no documentation found]
     ///
-    /// - Returns: `GetAlternateContactOutputResponse` : [no documentation found]
+    /// - Returns: `GetAlternateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,12 +63,12 @@ public protocol AccountClientProtocol {
     /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func getAlternateContact(input: GetAlternateContactInput) async throws -> GetAlternateContactOutputResponse
+    func getAlternateContact(input: GetAlternateContactInput) async throws -> GetAlternateContactOutput
     /// Retrieves the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
     ///
     /// - Parameter GetContactInformationInput : [no documentation found]
     ///
-    /// - Returns: `GetContactInformationOutputResponse` : [no documentation found]
+    /// - Returns: `GetContactInformationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -78,12 +78,12 @@ public protocol AccountClientProtocol {
     /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func getContactInformation(input: GetContactInformationInput) async throws -> GetContactInformationOutputResponse
+    func getContactInformation(input: GetContactInformationInput) async throws -> GetContactInformationOutput
     /// Retrieves the opt-in status of a particular Region.
     ///
     /// - Parameter GetRegionOptStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetRegionOptStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetRegionOptStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -92,12 +92,12 @@ public protocol AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func getRegionOptStatus(input: GetRegionOptStatusInput) async throws -> GetRegionOptStatusOutputResponse
+    func getRegionOptStatus(input: GetRegionOptStatusInput) async throws -> GetRegionOptStatusOutput
     /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-status-contains parameter.
     ///
     /// - Parameter ListRegionsInput : [no documentation found]
     ///
-    /// - Returns: `ListRegionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRegionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func listRegions(input: ListRegionsInput) async throws -> ListRegionsOutputResponse
+    func listRegions(input: ListRegionsInput) async throws -> ListRegionsOutput
     /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
     /// - Parameter PutAlternateContactInput : [no documentation found]
     ///
-    /// - Returns: `PutAlternateContactOutputResponse` : [no documentation found]
+    /// - Returns: `PutAlternateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func putAlternateContact(input: PutAlternateContactInput) async throws -> PutAlternateContactOutputResponse
+    func putAlternateContact(input: PutAlternateContactInput) async throws -> PutAlternateContactOutput
     /// Updates the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
     ///
     /// - Parameter PutContactInformationInput : [no documentation found]
     ///
-    /// - Returns: `PutContactInformationOutputResponse` : [no documentation found]
+    /// - Returns: `PutContactInformationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,7 +134,7 @@ public protocol AccountClientProtocol {
     /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
-    func putContactInformation(input: PutContactInformationInput) async throws -> PutContactInformationOutputResponse
+    func putContactInformation(input: PutContactInformationInput) async throws -> PutContactInformationOutput
 }
 
 public enum AccountClientTypes {}

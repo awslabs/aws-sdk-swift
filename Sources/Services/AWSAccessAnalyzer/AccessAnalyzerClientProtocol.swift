@@ -8,7 +8,7 @@ public protocol AccessAnalyzerClientProtocol {
     ///
     /// - Parameter ApplyArchiveRuleInput : Retroactively applies an archive rule.
     ///
-    /// - Returns: `ApplyArchiveRuleOutputResponse` : [no documentation found]
+    /// - Returns: `ApplyArchiveRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func applyArchiveRule(input: ApplyArchiveRuleInput) async throws -> ApplyArchiveRuleOutputResponse
+    func applyArchiveRule(input: ApplyArchiveRuleInput) async throws -> ApplyArchiveRuleOutput
     /// Cancels the requested policy generation.
     ///
     /// - Parameter CancelPolicyGenerationInput : [no documentation found]
     ///
-    /// - Returns: `CancelPolicyGenerationOutputResponse` : [no documentation found]
+    /// - Returns: `CancelPolicyGenerationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,12 +32,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func cancelPolicyGeneration(input: CancelPolicyGenerationInput) async throws -> CancelPolicyGenerationOutputResponse
+    func cancelPolicyGeneration(input: CancelPolicyGenerationInput) async throws -> CancelPolicyGenerationOutput
     /// Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
     ///
     /// - Parameter CreateAccessPreviewInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessPreviewOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccessPreviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func createAccessPreview(input: CreateAccessPreviewInput) async throws -> CreateAccessPreviewOutputResponse
+    func createAccessPreview(input: CreateAccessPreviewInput) async throws -> CreateAccessPreviewOutput
     /// Creates an analyzer for your account.
     ///
     /// - Parameter CreateAnalyzerInput : Creates an analyzer.
     ///
-    /// - Returns: `CreateAnalyzerOutputResponse` : The response to the request to create an analyzer.
+    /// - Returns: `CreateAnalyzerOutput` : The response to the request to create an analyzer.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func createAnalyzer(input: CreateAnalyzerInput) async throws -> CreateAnalyzerOutputResponse
+    func createAnalyzer(input: CreateAnalyzerInput) async throws -> CreateAnalyzerOutput
     /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
     /// - Parameter CreateArchiveRuleInput : Creates an archive rule.
     ///
-    /// - Returns: `CreateArchiveRuleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateArchiveRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func createArchiveRule(input: CreateArchiveRuleInput) async throws -> CreateArchiveRuleOutputResponse
+    func createArchiveRule(input: CreateArchiveRuleInput) async throws -> CreateArchiveRuleOutput
     /// Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
     ///
     /// - Parameter DeleteAnalyzerInput : Deletes an analyzer.
     ///
-    /// - Returns: `DeleteAnalyzerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnalyzerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func deleteAnalyzer(input: DeleteAnalyzerInput) async throws -> DeleteAnalyzerOutputResponse
+    func deleteAnalyzer(input: DeleteAnalyzerInput) async throws -> DeleteAnalyzerOutput
     /// Deletes the specified archive rule.
     ///
     /// - Parameter DeleteArchiveRuleInput : Deletes an archive rule.
     ///
-    /// - Returns: `DeleteArchiveRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteArchiveRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -112,12 +112,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func deleteArchiveRule(input: DeleteArchiveRuleInput) async throws -> DeleteArchiveRuleOutputResponse
+    func deleteArchiveRule(input: DeleteArchiveRuleInput) async throws -> DeleteArchiveRuleOutput
     /// Retrieves information about an access preview for the specified analyzer.
     ///
     /// - Parameter GetAccessPreviewInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessPreviewOutputResponse` : [no documentation found]
+    /// - Returns: `GetAccessPreviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,12 +127,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func getAccessPreview(input: GetAccessPreviewInput) async throws -> GetAccessPreviewOutputResponse
+    func getAccessPreview(input: GetAccessPreviewInput) async throws -> GetAccessPreviewOutput
     /// Retrieves information about a resource that was analyzed.
     ///
     /// - Parameter GetAnalyzedResourceInput : Retrieves an analyzed resource.
     ///
-    /// - Returns: `GetAnalyzedResourceOutputResponse` : The response to the request.
+    /// - Returns: `GetAnalyzedResourceOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -142,12 +142,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func getAnalyzedResource(input: GetAnalyzedResourceInput) async throws -> GetAnalyzedResourceOutputResponse
+    func getAnalyzedResource(input: GetAnalyzedResourceInput) async throws -> GetAnalyzedResourceOutput
     /// Retrieves information about the specified analyzer.
     ///
     /// - Parameter GetAnalyzerInput : Retrieves an analyzer.
     ///
-    /// - Returns: `GetAnalyzerOutputResponse` : The response to the request.
+    /// - Returns: `GetAnalyzerOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -157,12 +157,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func getAnalyzer(input: GetAnalyzerInput) async throws -> GetAnalyzerOutputResponse
+    func getAnalyzer(input: GetAnalyzerInput) async throws -> GetAnalyzerOutput
     /// Retrieves information about an archive rule. To learn about filter keys that you can use to create an archive rule, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
     /// - Parameter GetArchiveRuleInput : Retrieves an archive rule.
     ///
-    /// - Returns: `GetArchiveRuleOutputResponse` : The response to the request.
+    /// - Returns: `GetArchiveRuleOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,12 +172,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func getArchiveRule(input: GetArchiveRuleInput) async throws -> GetArchiveRuleOutputResponse
+    func getArchiveRule(input: GetArchiveRuleInput) async throws -> GetArchiveRuleOutput
     /// Retrieves information about the specified finding.
     ///
     /// - Parameter GetFindingInput : Retrieves a finding.
     ///
-    /// - Returns: `GetFindingOutputResponse` : The response to the request.
+    /// - Returns: `GetFindingOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -187,12 +187,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func getFinding(input: GetFindingInput) async throws -> GetFindingOutputResponse
+    func getFinding(input: GetFindingInput) async throws -> GetFindingOutput
     /// Retrieves the policy that was generated using StartPolicyGeneration.
     ///
     /// - Parameter GetGeneratedPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetGeneratedPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetGeneratedPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -201,12 +201,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func getGeneratedPolicy(input: GetGeneratedPolicyInput) async throws -> GetGeneratedPolicyOutputResponse
+    func getGeneratedPolicy(input: GetGeneratedPolicyInput) async throws -> GetGeneratedPolicyOutput
     /// Retrieves a list of access preview findings generated by the specified access preview.
     ///
     /// - Parameter ListAccessPreviewFindingsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessPreviewFindingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccessPreviewFindingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listAccessPreviewFindings(input: ListAccessPreviewFindingsInput) async throws -> ListAccessPreviewFindingsOutputResponse
+    func listAccessPreviewFindings(input: ListAccessPreviewFindingsInput) async throws -> ListAccessPreviewFindingsOutput
     /// Retrieves a list of access previews for the specified analyzer.
     ///
     /// - Parameter ListAccessPreviewsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessPreviewsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccessPreviewsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -232,12 +232,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listAccessPreviews(input: ListAccessPreviewsInput) async throws -> ListAccessPreviewsOutputResponse
+    func listAccessPreviews(input: ListAccessPreviewsInput) async throws -> ListAccessPreviewsOutput
     /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer..
     ///
     /// - Parameter ListAnalyzedResourcesInput : Retrieves a list of resources that have been analyzed.
     ///
-    /// - Returns: `ListAnalyzedResourcesOutputResponse` : The response to the request.
+    /// - Returns: `ListAnalyzedResourcesOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,12 +247,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listAnalyzedResources(input: ListAnalyzedResourcesInput) async throws -> ListAnalyzedResourcesOutputResponse
+    func listAnalyzedResources(input: ListAnalyzedResourcesInput) async throws -> ListAnalyzedResourcesOutput
     /// Retrieves a list of analyzers.
     ///
     /// - Parameter ListAnalyzersInput : Retrieves a list of analyzers.
     ///
-    /// - Returns: `ListAnalyzersOutputResponse` : The response to the request.
+    /// - Returns: `ListAnalyzersOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -261,12 +261,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listAnalyzers(input: ListAnalyzersInput) async throws -> ListAnalyzersOutputResponse
+    func listAnalyzers(input: ListAnalyzersInput) async throws -> ListAnalyzersOutput
     /// Retrieves a list of archive rules created for the specified analyzer.
     ///
     /// - Parameter ListArchiveRulesInput : Retrieves a list of archive rules created for the specified analyzer.
     ///
-    /// - Returns: `ListArchiveRulesOutputResponse` : The response to the request.
+    /// - Returns: `ListArchiveRulesOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -275,12 +275,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listArchiveRules(input: ListArchiveRulesInput) async throws -> ListArchiveRulesOutputResponse
+    func listArchiveRules(input: ListArchiveRulesInput) async throws -> ListArchiveRulesOutput
     /// Retrieves a list of findings generated by the specified analyzer. To learn about filter keys that you can use to retrieve a list of findings, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
     ///
     /// - Parameter ListFindingsInput : Retrieves a list of findings generated by the specified analyzer.
     ///
-    /// - Returns: `ListFindingsOutputResponse` : The response to the request.
+    /// - Returns: `ListFindingsOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -290,12 +290,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutputResponse
+    func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
     /// Lists all of the policy generations requested in the last seven days.
     ///
     /// - Parameter ListPolicyGenerationsInput : [no documentation found]
     ///
-    /// - Returns: `ListPolicyGenerationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPolicyGenerationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -304,12 +304,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listPolicyGenerations(input: ListPolicyGenerationsInput) async throws -> ListPolicyGenerationsOutputResponse
+    func listPolicyGenerations(input: ListPolicyGenerationsInput) async throws -> ListPolicyGenerationsOutput
     /// Retrieves a list of tags applied to the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : Retrieves a list of tags applied to the specified resource.
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : The response to the request.
+    /// - Returns: `ListTagsForResourceOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,12 +319,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts the policy generation request.
     ///
     /// - Parameter StartPolicyGenerationInput : [no documentation found]
     ///
-    /// - Returns: `StartPolicyGenerationOutputResponse` : [no documentation found]
+    /// - Returns: `StartPolicyGenerationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -335,12 +335,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ServiceQuotaExceededException` : Service quote met error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func startPolicyGeneration(input: StartPolicyGenerationInput) async throws -> StartPolicyGenerationOutputResponse
+    func startPolicyGeneration(input: StartPolicyGenerationInput) async throws -> StartPolicyGenerationOutput
     /// Immediately starts a scan of the policies applied to the specified resource.
     ///
     /// - Parameter StartResourceScanInput : Starts a scan of the policies applied to the specified resource.
     ///
-    /// - Returns: `StartResourceScanOutputResponse` : [no documentation found]
+    /// - Returns: `StartResourceScanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -350,12 +350,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func startResourceScan(input: StartResourceScanInput) async throws -> StartResourceScanOutputResponse
+    func startResourceScan(input: StartResourceScanInput) async throws -> StartResourceScanOutput
     /// Adds a tag to the specified resource.
     ///
     /// - Parameter TagResourceInput : Adds a tag to the specified resource.
     ///
-    /// - Returns: `TagResourceOutputResponse` : The response to the request.
+    /// - Returns: `TagResourceOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -365,12 +365,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag from the specified resource.
     ///
     /// - Parameter UntagResourceInput : Removes a tag from the specified resource.
     ///
-    /// - Returns: `UntagResourceOutputResponse` : The response to the request.
+    /// - Returns: `UntagResourceOutput` : The response to the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -380,12 +380,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the criteria and values for the specified archive rule.
     ///
     /// - Parameter UpdateArchiveRuleInput : Updates the specified archive rule.
     ///
-    /// - Returns: `UpdateArchiveRuleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateArchiveRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -395,12 +395,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func updateArchiveRule(input: UpdateArchiveRuleInput) async throws -> UpdateArchiveRuleOutputResponse
+    func updateArchiveRule(input: UpdateArchiveRuleInput) async throws -> UpdateArchiveRuleOutput
     /// Updates the status for the specified findings.
     ///
     /// - Parameter UpdateFindingsInput : Updates findings with the new values provided in the request.
     ///
-    /// - Returns: `UpdateFindingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFindingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutputResponse
+    func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutput
     /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
     ///
     /// - Parameter ValidatePolicyInput : [no documentation found]
     ///
-    /// - Returns: `ValidatePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `ValidatePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -424,7 +424,7 @@ public protocol AccessAnalyzerClientProtocol {
     /// - `InternalServerException` : Internal server error.
     /// - `ThrottlingException` : Throttling limit exceeded error.
     /// - `ValidationException` : Validation exception error.
-    func validatePolicy(input: ValidatePolicyInput) async throws -> ValidatePolicyOutputResponse
+    func validatePolicy(input: ValidatePolicyInput) async throws -> ValidatePolicyOutput
 }
 
 public enum AccessAnalyzerClientTypes {}

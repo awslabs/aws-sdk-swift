@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MgnClient {
-    /// Paginate over `[ListManagedAccountsOutputResponse]` results.
+    /// Paginate over `[ListManagedAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListManagedAccountsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedAccountsOutputResponse`
-    public func listManagedAccountsPaginated(input: ListManagedAccountsInput) -> ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutputResponse>(input: input, inputKey: \ListManagedAccountsInput.nextToken, outputKey: \ListManagedAccountsOutputResponse.nextToken, paginationFunction: self.listManagedAccounts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedAccountsOutput`
+    public func listManagedAccountsPaginated(input: ListManagedAccountsInput) -> ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListManagedAccountsInput, ListManagedAccountsOutput>(input: input, inputKey: \ListManagedAccountsInput.nextToken, outputKey: \ListManagedAccountsOutput.nextToken, paginationFunction: self.listManagedAccounts(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListManagedAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListManagedAccountsInput, Output == ListManagedAccountsOutputResponse {
+extension PaginatorSequence where Input == ListManagedAccountsInput, Output == ListManagedAccountsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listManagedAccountsPaginated`
     /// to access the nested member `[MgnClientTypes.ManagedAccount]`
     /// - Returns: `[MgnClientTypes.ManagedAccount]`

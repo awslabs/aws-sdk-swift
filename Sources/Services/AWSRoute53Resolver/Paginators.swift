@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension Route53ResolverClient {
-    /// Paginate over `[ListFirewallConfigsOutputResponse]` results.
+    /// Paginate over `[ListFirewallConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFirewallConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallConfigsOutputResponse`
-    public func listFirewallConfigsPaginated(input: ListFirewallConfigsInput) -> ClientRuntime.PaginatorSequence<ListFirewallConfigsInput, ListFirewallConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFirewallConfigsInput, ListFirewallConfigsOutputResponse>(input: input, inputKey: \ListFirewallConfigsInput.nextToken, outputKey: \ListFirewallConfigsOutputResponse.nextToken, paginationFunction: self.listFirewallConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallConfigsOutput`
+    public func listFirewallConfigsPaginated(input: ListFirewallConfigsInput) -> ClientRuntime.PaginatorSequence<ListFirewallConfigsInput, ListFirewallConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallConfigsInput, ListFirewallConfigsOutput>(input: input, inputKey: \ListFirewallConfigsInput.nextToken, outputKey: \ListFirewallConfigsOutput.nextToken, paginationFunction: self.listFirewallConfigs(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListFirewallConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallConfigsInput, Output == ListFirewallConfigsOutputResponse {
+extension PaginatorSequence where Input == ListFirewallConfigsInput, Output == ListFirewallConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallConfigsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.FirewallConfig]`
     /// - Returns: `[Route53ResolverClientTypes.FirewallConfig]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListFirewallConfigsInput, Output == L
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListFirewallDomainListsOutputResponse]` results.
+    /// Paginate over `[ListFirewallDomainListsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFirewallDomainListsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallDomainListsOutputResponse`
-    public func listFirewallDomainListsPaginated(input: ListFirewallDomainListsInput) -> ClientRuntime.PaginatorSequence<ListFirewallDomainListsInput, ListFirewallDomainListsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFirewallDomainListsInput, ListFirewallDomainListsOutputResponse>(input: input, inputKey: \ListFirewallDomainListsInput.nextToken, outputKey: \ListFirewallDomainListsOutputResponse.nextToken, paginationFunction: self.listFirewallDomainLists(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallDomainListsOutput`
+    public func listFirewallDomainListsPaginated(input: ListFirewallDomainListsInput) -> ClientRuntime.PaginatorSequence<ListFirewallDomainListsInput, ListFirewallDomainListsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(input: input, inputKey: \ListFirewallDomainListsInput.nextToken, outputKey: \ListFirewallDomainListsOutput.nextToken, paginationFunction: self.listFirewallDomainLists(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension ListFirewallDomainListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallDomainListsInput, Output == ListFirewallDomainListsOutputResponse {
+extension PaginatorSequence where Input == ListFirewallDomainListsInput, Output == ListFirewallDomainListsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallDomainListsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.FirewallDomainListMetadata]`
     /// - Returns: `[Route53ResolverClientTypes.FirewallDomainListMetadata]`
@@ -63,16 +63,16 @@ extension PaginatorSequence where Input == ListFirewallDomainListsInput, Output 
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListFirewallDomainsOutputResponse]` results.
+    /// Paginate over `[ListFirewallDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFirewallDomainsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallDomainsOutputResponse`
-    public func listFirewallDomainsPaginated(input: ListFirewallDomainsInput) -> ClientRuntime.PaginatorSequence<ListFirewallDomainsInput, ListFirewallDomainsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFirewallDomainsInput, ListFirewallDomainsOutputResponse>(input: input, inputKey: \ListFirewallDomainsInput.nextToken, outputKey: \ListFirewallDomainsOutputResponse.nextToken, paginationFunction: self.listFirewallDomains(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallDomainsOutput`
+    public func listFirewallDomainsPaginated(input: ListFirewallDomainsInput) -> ClientRuntime.PaginatorSequence<ListFirewallDomainsInput, ListFirewallDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallDomainsInput, ListFirewallDomainsOutput>(input: input, inputKey: \ListFirewallDomainsInput.nextToken, outputKey: \ListFirewallDomainsOutput.nextToken, paginationFunction: self.listFirewallDomains(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListFirewallDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallDomainsInput, Output == ListFirewallDomainsOutputResponse {
+extension PaginatorSequence where Input == ListFirewallDomainsInput, Output == ListFirewallDomainsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallDomainsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -94,16 +94,16 @@ extension PaginatorSequence where Input == ListFirewallDomainsInput, Output == L
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListFirewallRuleGroupAssociationsOutputResponse]` results.
+    /// Paginate over `[ListFirewallRuleGroupAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFirewallRuleGroupAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRuleGroupAssociationsOutputResponse`
-    public func listFirewallRuleGroupAssociationsPaginated(input: ListFirewallRuleGroupAssociationsInput) -> ClientRuntime.PaginatorSequence<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutputResponse>(input: input, inputKey: \ListFirewallRuleGroupAssociationsInput.nextToken, outputKey: \ListFirewallRuleGroupAssociationsOutputResponse.nextToken, paginationFunction: self.listFirewallRuleGroupAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRuleGroupAssociationsOutput`
+    public func listFirewallRuleGroupAssociationsPaginated(input: ListFirewallRuleGroupAssociationsInput) -> ClientRuntime.PaginatorSequence<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(input: input, inputKey: \ListFirewallRuleGroupAssociationsInput.nextToken, outputKey: \ListFirewallRuleGroupAssociationsOutput.nextToken, paginationFunction: self.listFirewallRuleGroupAssociations(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListFirewallRuleGroupAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallRuleGroupAssociationsInput, Output == ListFirewallRuleGroupAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListFirewallRuleGroupAssociationsInput, Output == ListFirewallRuleGroupAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallRuleGroupAssociationsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.FirewallRuleGroupAssociation]`
     /// - Returns: `[Route53ResolverClientTypes.FirewallRuleGroupAssociation]`
@@ -128,16 +128,16 @@ extension PaginatorSequence where Input == ListFirewallRuleGroupAssociationsInpu
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListFirewallRuleGroupsOutputResponse]` results.
+    /// Paginate over `[ListFirewallRuleGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFirewallRuleGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRuleGroupsOutputResponse`
-    public func listFirewallRuleGroupsPaginated(input: ListFirewallRuleGroupsInput) -> ClientRuntime.PaginatorSequence<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutputResponse>(input: input, inputKey: \ListFirewallRuleGroupsInput.nextToken, outputKey: \ListFirewallRuleGroupsOutputResponse.nextToken, paginationFunction: self.listFirewallRuleGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRuleGroupsOutput`
+    public func listFirewallRuleGroupsPaginated(input: ListFirewallRuleGroupsInput) -> ClientRuntime.PaginatorSequence<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(input: input, inputKey: \ListFirewallRuleGroupsInput.nextToken, outputKey: \ListFirewallRuleGroupsOutput.nextToken, paginationFunction: self.listFirewallRuleGroups(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListFirewallRuleGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallRuleGroupsInput, Output == ListFirewallRuleGroupsOutputResponse {
+extension PaginatorSequence where Input == ListFirewallRuleGroupsInput, Output == ListFirewallRuleGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallRuleGroupsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.FirewallRuleGroupMetadata]`
     /// - Returns: `[Route53ResolverClientTypes.FirewallRuleGroupMetadata]`
@@ -158,16 +158,16 @@ extension PaginatorSequence where Input == ListFirewallRuleGroupsInput, Output =
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListFirewallRulesOutputResponse]` results.
+    /// Paginate over `[ListFirewallRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFirewallRulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRulesOutputResponse`
-    public func listFirewallRulesPaginated(input: ListFirewallRulesInput) -> ClientRuntime.PaginatorSequence<ListFirewallRulesInput, ListFirewallRulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFirewallRulesInput, ListFirewallRulesOutputResponse>(input: input, inputKey: \ListFirewallRulesInput.nextToken, outputKey: \ListFirewallRulesOutputResponse.nextToken, paginationFunction: self.listFirewallRules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRulesOutput`
+    public func listFirewallRulesPaginated(input: ListFirewallRulesInput) -> ClientRuntime.PaginatorSequence<ListFirewallRulesInput, ListFirewallRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallRulesInput, ListFirewallRulesOutput>(input: input, inputKey: \ListFirewallRulesInput.nextToken, outputKey: \ListFirewallRulesOutput.nextToken, paginationFunction: self.listFirewallRules(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListFirewallRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallRulesInput, Output == ListFirewallRulesOutputResponse {
+extension PaginatorSequence where Input == ListFirewallRulesInput, Output == ListFirewallRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallRulesPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.FirewallRule]`
     /// - Returns: `[Route53ResolverClientTypes.FirewallRule]`
@@ -191,16 +191,16 @@ extension PaginatorSequence where Input == ListFirewallRulesInput, Output == Lis
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListOutpostResolversOutputResponse]` results.
+    /// Paginate over `[ListOutpostResolversOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOutpostResolversInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOutpostResolversOutputResponse`
-    public func listOutpostResolversPaginated(input: ListOutpostResolversInput) -> ClientRuntime.PaginatorSequence<ListOutpostResolversInput, ListOutpostResolversOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOutpostResolversInput, ListOutpostResolversOutputResponse>(input: input, inputKey: \ListOutpostResolversInput.nextToken, outputKey: \ListOutpostResolversOutputResponse.nextToken, paginationFunction: self.listOutpostResolvers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOutpostResolversOutput`
+    public func listOutpostResolversPaginated(input: ListOutpostResolversInput) -> ClientRuntime.PaginatorSequence<ListOutpostResolversInput, ListOutpostResolversOutput> {
+        return ClientRuntime.PaginatorSequence<ListOutpostResolversInput, ListOutpostResolversOutput>(input: input, inputKey: \ListOutpostResolversInput.nextToken, outputKey: \ListOutpostResolversOutput.nextToken, paginationFunction: self.listOutpostResolvers(input:))
     }
 }
 
@@ -213,7 +213,7 @@ extension ListOutpostResolversInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOutpostResolversInput, Output == ListOutpostResolversOutputResponse {
+extension PaginatorSequence where Input == ListOutpostResolversInput, Output == ListOutpostResolversOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOutpostResolversPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.OutpostResolver]`
     /// - Returns: `[Route53ResolverClientTypes.OutpostResolver]`
@@ -222,16 +222,16 @@ extension PaginatorSequence where Input == ListOutpostResolversInput, Output == 
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverConfigsOutputResponse]` results.
+    /// Paginate over `[ListResolverConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverConfigsOutputResponse`
-    public func listResolverConfigsPaginated(input: ListResolverConfigsInput) -> ClientRuntime.PaginatorSequence<ListResolverConfigsInput, ListResolverConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverConfigsInput, ListResolverConfigsOutputResponse>(input: input, inputKey: \ListResolverConfigsInput.nextToken, outputKey: \ListResolverConfigsOutputResponse.nextToken, paginationFunction: self.listResolverConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverConfigsOutput`
+    public func listResolverConfigsPaginated(input: ListResolverConfigsInput) -> ClientRuntime.PaginatorSequence<ListResolverConfigsInput, ListResolverConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverConfigsInput, ListResolverConfigsOutput>(input: input, inputKey: \ListResolverConfigsInput.nextToken, outputKey: \ListResolverConfigsOutput.nextToken, paginationFunction: self.listResolverConfigs(input:))
     }
 }
 
@@ -243,7 +243,7 @@ extension ListResolverConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverConfigsInput, Output == ListResolverConfigsOutputResponse {
+extension PaginatorSequence where Input == ListResolverConfigsInput, Output == ListResolverConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverConfigsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverConfig]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverConfig]`
@@ -252,16 +252,16 @@ extension PaginatorSequence where Input == ListResolverConfigsInput, Output == L
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverDnssecConfigsOutputResponse]` results.
+    /// Paginate over `[ListResolverDnssecConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverDnssecConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverDnssecConfigsOutputResponse`
-    public func listResolverDnssecConfigsPaginated(input: ListResolverDnssecConfigsInput) -> ClientRuntime.PaginatorSequence<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutputResponse>(input: input, inputKey: \ListResolverDnssecConfigsInput.nextToken, outputKey: \ListResolverDnssecConfigsOutputResponse.nextToken, paginationFunction: self.listResolverDnssecConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverDnssecConfigsOutput`
+    public func listResolverDnssecConfigsPaginated(input: ListResolverDnssecConfigsInput) -> ClientRuntime.PaginatorSequence<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(input: input, inputKey: \ListResolverDnssecConfigsInput.nextToken, outputKey: \ListResolverDnssecConfigsOutput.nextToken, paginationFunction: self.listResolverDnssecConfigs(input:))
     }
 }
 
@@ -274,7 +274,7 @@ extension ListResolverDnssecConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverDnssecConfigsInput, Output == ListResolverDnssecConfigsOutputResponse {
+extension PaginatorSequence where Input == ListResolverDnssecConfigsInput, Output == ListResolverDnssecConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverDnssecConfigsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverDnssecConfig]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverDnssecConfig]`
@@ -283,16 +283,16 @@ extension PaginatorSequence where Input == ListResolverDnssecConfigsInput, Outpu
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverEndpointIpAddressesOutputResponse]` results.
+    /// Paginate over `[ListResolverEndpointIpAddressesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverEndpointIpAddressesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverEndpointIpAddressesOutputResponse`
-    public func listResolverEndpointIpAddressesPaginated(input: ListResolverEndpointIpAddressesInput) -> ClientRuntime.PaginatorSequence<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutputResponse>(input: input, inputKey: \ListResolverEndpointIpAddressesInput.nextToken, outputKey: \ListResolverEndpointIpAddressesOutputResponse.nextToken, paginationFunction: self.listResolverEndpointIpAddresses(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverEndpointIpAddressesOutput`
+    public func listResolverEndpointIpAddressesPaginated(input: ListResolverEndpointIpAddressesInput) -> ClientRuntime.PaginatorSequence<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(input: input, inputKey: \ListResolverEndpointIpAddressesInput.nextToken, outputKey: \ListResolverEndpointIpAddressesOutput.nextToken, paginationFunction: self.listResolverEndpointIpAddresses(input:))
     }
 }
 
@@ -305,7 +305,7 @@ extension ListResolverEndpointIpAddressesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverEndpointIpAddressesInput, Output == ListResolverEndpointIpAddressesOutputResponse {
+extension PaginatorSequence where Input == ListResolverEndpointIpAddressesInput, Output == ListResolverEndpointIpAddressesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverEndpointIpAddressesPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.IpAddressResponse]`
     /// - Returns: `[Route53ResolverClientTypes.IpAddressResponse]`
@@ -314,16 +314,16 @@ extension PaginatorSequence where Input == ListResolverEndpointIpAddressesInput,
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverEndpointsOutputResponse]` results.
+    /// Paginate over `[ListResolverEndpointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverEndpointsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverEndpointsOutputResponse`
-    public func listResolverEndpointsPaginated(input: ListResolverEndpointsInput) -> ClientRuntime.PaginatorSequence<ListResolverEndpointsInput, ListResolverEndpointsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverEndpointsInput, ListResolverEndpointsOutputResponse>(input: input, inputKey: \ListResolverEndpointsInput.nextToken, outputKey: \ListResolverEndpointsOutputResponse.nextToken, paginationFunction: self.listResolverEndpoints(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverEndpointsOutput`
+    public func listResolverEndpointsPaginated(input: ListResolverEndpointsInput) -> ClientRuntime.PaginatorSequence<ListResolverEndpointsInput, ListResolverEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverEndpointsInput, ListResolverEndpointsOutput>(input: input, inputKey: \ListResolverEndpointsInput.nextToken, outputKey: \ListResolverEndpointsOutput.nextToken, paginationFunction: self.listResolverEndpoints(input:))
     }
 }
 
@@ -336,7 +336,7 @@ extension ListResolverEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverEndpointsInput, Output == ListResolverEndpointsOutputResponse {
+extension PaginatorSequence where Input == ListResolverEndpointsInput, Output == ListResolverEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverEndpointsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverEndpoint]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverEndpoint]`
@@ -345,16 +345,16 @@ extension PaginatorSequence where Input == ListResolverEndpointsInput, Output ==
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverQueryLogConfigAssociationsOutputResponse]` results.
+    /// Paginate over `[ListResolverQueryLogConfigAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverQueryLogConfigAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverQueryLogConfigAssociationsOutputResponse`
-    public func listResolverQueryLogConfigAssociationsPaginated(input: ListResolverQueryLogConfigAssociationsInput) -> ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutputResponse>(input: input, inputKey: \ListResolverQueryLogConfigAssociationsInput.nextToken, outputKey: \ListResolverQueryLogConfigAssociationsOutputResponse.nextToken, paginationFunction: self.listResolverQueryLogConfigAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverQueryLogConfigAssociationsOutput`
+    public func listResolverQueryLogConfigAssociationsPaginated(input: ListResolverQueryLogConfigAssociationsInput) -> ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(input: input, inputKey: \ListResolverQueryLogConfigAssociationsInput.nextToken, outputKey: \ListResolverQueryLogConfigAssociationsOutput.nextToken, paginationFunction: self.listResolverQueryLogConfigAssociations(input:))
     }
 }
 
@@ -369,7 +369,7 @@ extension ListResolverQueryLogConfigAssociationsInput: ClientRuntime.PaginateTok
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverQueryLogConfigAssociationsInput, Output == ListResolverQueryLogConfigAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListResolverQueryLogConfigAssociationsInput, Output == ListResolverQueryLogConfigAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverQueryLogConfigAssociationsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverQueryLogConfigAssociation]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverQueryLogConfigAssociation]`
@@ -378,16 +378,16 @@ extension PaginatorSequence where Input == ListResolverQueryLogConfigAssociation
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverQueryLogConfigsOutputResponse]` results.
+    /// Paginate over `[ListResolverQueryLogConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverQueryLogConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverQueryLogConfigsOutputResponse`
-    public func listResolverQueryLogConfigsPaginated(input: ListResolverQueryLogConfigsInput) -> ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutputResponse>(input: input, inputKey: \ListResolverQueryLogConfigsInput.nextToken, outputKey: \ListResolverQueryLogConfigsOutputResponse.nextToken, paginationFunction: self.listResolverQueryLogConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverQueryLogConfigsOutput`
+    public func listResolverQueryLogConfigsPaginated(input: ListResolverQueryLogConfigsInput) -> ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(input: input, inputKey: \ListResolverQueryLogConfigsInput.nextToken, outputKey: \ListResolverQueryLogConfigsOutput.nextToken, paginationFunction: self.listResolverQueryLogConfigs(input:))
     }
 }
 
@@ -402,7 +402,7 @@ extension ListResolverQueryLogConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverQueryLogConfigsInput, Output == ListResolverQueryLogConfigsOutputResponse {
+extension PaginatorSequence where Input == ListResolverQueryLogConfigsInput, Output == ListResolverQueryLogConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverQueryLogConfigsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverQueryLogConfig]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverQueryLogConfig]`
@@ -411,16 +411,16 @@ extension PaginatorSequence where Input == ListResolverQueryLogConfigsInput, Out
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverRuleAssociationsOutputResponse]` results.
+    /// Paginate over `[ListResolverRuleAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverRuleAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverRuleAssociationsOutputResponse`
-    public func listResolverRuleAssociationsPaginated(input: ListResolverRuleAssociationsInput) -> ClientRuntime.PaginatorSequence<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutputResponse>(input: input, inputKey: \ListResolverRuleAssociationsInput.nextToken, outputKey: \ListResolverRuleAssociationsOutputResponse.nextToken, paginationFunction: self.listResolverRuleAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverRuleAssociationsOutput`
+    public func listResolverRuleAssociationsPaginated(input: ListResolverRuleAssociationsInput) -> ClientRuntime.PaginatorSequence<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(input: input, inputKey: \ListResolverRuleAssociationsInput.nextToken, outputKey: \ListResolverRuleAssociationsOutput.nextToken, paginationFunction: self.listResolverRuleAssociations(input:))
     }
 }
 
@@ -433,7 +433,7 @@ extension ListResolverRuleAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverRuleAssociationsInput, Output == ListResolverRuleAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListResolverRuleAssociationsInput, Output == ListResolverRuleAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverRuleAssociationsPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverRuleAssociation]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverRuleAssociation]`
@@ -442,16 +442,16 @@ extension PaginatorSequence where Input == ListResolverRuleAssociationsInput, Ou
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListResolverRulesOutputResponse]` results.
+    /// Paginate over `[ListResolverRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResolverRulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverRulesOutputResponse`
-    public func listResolverRulesPaginated(input: ListResolverRulesInput) -> ClientRuntime.PaginatorSequence<ListResolverRulesInput, ListResolverRulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResolverRulesInput, ListResolverRulesOutputResponse>(input: input, inputKey: \ListResolverRulesInput.nextToken, outputKey: \ListResolverRulesOutputResponse.nextToken, paginationFunction: self.listResolverRules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolverRulesOutput`
+    public func listResolverRulesPaginated(input: ListResolverRulesInput) -> ClientRuntime.PaginatorSequence<ListResolverRulesInput, ListResolverRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolverRulesInput, ListResolverRulesOutput>(input: input, inputKey: \ListResolverRulesInput.nextToken, outputKey: \ListResolverRulesOutput.nextToken, paginationFunction: self.listResolverRules(input:))
     }
 }
 
@@ -464,7 +464,7 @@ extension ListResolverRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResolverRulesInput, Output == ListResolverRulesOutputResponse {
+extension PaginatorSequence where Input == ListResolverRulesInput, Output == ListResolverRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResolverRulesPaginated`
     /// to access the nested member `[Route53ResolverClientTypes.ResolverRule]`
     /// - Returns: `[Route53ResolverClientTypes.ResolverRule]`
@@ -473,16 +473,16 @@ extension PaginatorSequence where Input == ListResolverRulesInput, Output == Lis
     }
 }
 extension Route53ResolverClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -495,7 +495,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[Route53ResolverClientTypes.Tag]`
     /// - Returns: `[Route53ResolverClientTypes.Tag]`

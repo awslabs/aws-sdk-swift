@@ -141,27 +141,11 @@ extension GetIceServerConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetIceServerConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SessionExpiredException": return try await SessionExpiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetIceServerConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIceServerConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIceServerConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIceServerConfigOutputBody = try responseDecoder.decode(responseBody: data)
             self.iceServerList = output.iceServerList
         } else {
             self.iceServerList = nil
@@ -169,7 +153,7 @@ extension GetIceServerConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIceServerConfigOutputResponse: Swift.Equatable {
+public struct GetIceServerConfigOutput: Swift.Equatable {
     /// The list of ICE server information objects.
     public var iceServerList: [KinesisVideoSignalingClientTypes.IceServer]?
 
@@ -181,11 +165,11 @@ public struct GetIceServerConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIceServerConfigOutputResponseBody: Swift.Equatable {
+struct GetIceServerConfigOutputBody: Swift.Equatable {
     let iceServerList: [KinesisVideoSignalingClientTypes.IceServer]?
 }
 
-extension GetIceServerConfigOutputResponseBody: Swift.Decodable {
+extension GetIceServerConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case iceServerList = "IceServerList"
     }
@@ -203,6 +187,22 @@ extension GetIceServerConfigOutputResponseBody: Swift.Decodable {
             }
         }
         iceServerList = iceServerListDecoded0
+    }
+}
+
+enum GetIceServerConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SessionExpiredException": return try await SessionExpiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -577,25 +577,11 @@ extension SendAlexaOfferToMasterInputBody: Swift.Decodable {
     }
 }
 
-enum SendAlexaOfferToMasterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SendAlexaOfferToMasterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendAlexaOfferToMasterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendAlexaOfferToMasterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendAlexaOfferToMasterOutputBody = try responseDecoder.decode(responseBody: data)
             self.answer = output.answer
         } else {
             self.answer = nil
@@ -603,7 +589,7 @@ extension SendAlexaOfferToMasterOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct SendAlexaOfferToMasterOutputResponse: Swift.Equatable {
+public struct SendAlexaOfferToMasterOutput: Swift.Equatable {
     /// The base64-encoded SDP answer content.
     public var answer: Swift.String?
 
@@ -615,11 +601,11 @@ public struct SendAlexaOfferToMasterOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendAlexaOfferToMasterOutputResponseBody: Swift.Equatable {
+struct SendAlexaOfferToMasterOutputBody: Swift.Equatable {
     let answer: Swift.String?
 }
 
-extension SendAlexaOfferToMasterOutputResponseBody: Swift.Decodable {
+extension SendAlexaOfferToMasterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case answer = "Answer"
     }
@@ -628,6 +614,20 @@ extension SendAlexaOfferToMasterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let answerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .answer)
         answer = answerDecoded
+    }
+}
+
+enum SendAlexaOfferToMasterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

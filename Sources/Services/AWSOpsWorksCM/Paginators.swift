@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension OpsWorksCMClient {
-    /// Paginate over `[DescribeBackupsOutputResponse]` results.
+    /// Paginate over `[DescribeBackupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeBackupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutputResponse`
-    public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutputResponse>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutputResponse.nextToken, paginationFunction: self.describeBackups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutput`
+    public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutput.nextToken, paginationFunction: self.describeBackups(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeBackupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeBackupsInput, Output == DescribeBackupsOutputResponse {
+extension PaginatorSequence where Input == DescribeBackupsInput, Output == DescribeBackupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeBackupsPaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.Backup]`
     /// - Returns: `[OpsWorksCMClientTypes.Backup]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeBackupsInput, Output == Descr
     }
 }
 extension OpsWorksCMClient {
-    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    /// Paginate over `[DescribeEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
-    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutputResponse.nextToken, paginationFunction: self.describeEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
+    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.ServerEvent]`
     /// - Returns: `[OpsWorksCMClientTypes.ServerEvent]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == DescribeEventsInput, Output == Descri
     }
 }
 extension OpsWorksCMClient {
-    /// Paginate over `[DescribeServersOutputResponse]` results.
+    /// Paginate over `[DescribeServersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeServersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServersOutputResponse`
-    public func describeServersPaginated(input: DescribeServersInput) -> ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutputResponse>(input: input, inputKey: \DescribeServersInput.nextToken, outputKey: \DescribeServersOutputResponse.nextToken, paginationFunction: self.describeServers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServersOutput`
+    public func describeServersPaginated(input: DescribeServersInput) -> ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutput>(input: input, inputKey: \DescribeServersInput.nextToken, outputKey: \DescribeServersOutput.nextToken, paginationFunction: self.describeServers(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension DescribeServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeServersInput, Output == DescribeServersOutputResponse {
+extension PaginatorSequence where Input == DescribeServersInput, Output == DescribeServersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeServersPaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.Server]`
     /// - Returns: `[OpsWorksCMClientTypes.Server]`
@@ -97,16 +97,16 @@ extension PaginatorSequence where Input == DescribeServersInput, Output == Descr
     }
 }
 extension OpsWorksCMClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.Tag]`
     /// - Returns: `[OpsWorksCMClientTypes.Tag]`

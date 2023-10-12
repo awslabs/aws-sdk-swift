@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AppIntegrationsClient {
-    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
-    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
+    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.ApplicationSummary]`
     /// - Returns: `[AppIntegrationsClientTypes.ApplicationSummary]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListApplicationsInput, Output == List
     }
 }
 extension AppIntegrationsClient {
-    /// Paginate over `[ListDataIntegrationAssociationsOutputResponse]` results.
+    /// Paginate over `[ListDataIntegrationAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataIntegrationAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataIntegrationAssociationsOutputResponse`
-    public func listDataIntegrationAssociationsPaginated(input: ListDataIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutputResponse>(input: input, inputKey: \ListDataIntegrationAssociationsInput.nextToken, outputKey: \ListDataIntegrationAssociationsOutputResponse.nextToken, paginationFunction: self.listDataIntegrationAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataIntegrationAssociationsOutput`
+    public func listDataIntegrationAssociationsPaginated(input: ListDataIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput>(input: input, inputKey: \ListDataIntegrationAssociationsInput.nextToken, outputKey: \ListDataIntegrationAssociationsOutput.nextToken, paginationFunction: self.listDataIntegrationAssociations(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListDataIntegrationAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataIntegrationAssociationsInput, Output == ListDataIntegrationAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListDataIntegrationAssociationsInput, Output == ListDataIntegrationAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataIntegrationAssociationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.DataIntegrationAssociationSummary]`
     /// - Returns: `[AppIntegrationsClientTypes.DataIntegrationAssociationSummary]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListDataIntegrationAssociationsInput,
     }
 }
 extension AppIntegrationsClient {
-    /// Paginate over `[ListDataIntegrationsOutputResponse]` results.
+    /// Paginate over `[ListDataIntegrationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataIntegrationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataIntegrationsOutputResponse`
-    public func listDataIntegrationsPaginated(input: ListDataIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutputResponse>(input: input, inputKey: \ListDataIntegrationsInput.nextToken, outputKey: \ListDataIntegrationsOutputResponse.nextToken, paginationFunction: self.listDataIntegrations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataIntegrationsOutput`
+    public func listDataIntegrationsPaginated(input: ListDataIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutput>(input: input, inputKey: \ListDataIntegrationsInput.nextToken, outputKey: \ListDataIntegrationsOutput.nextToken, paginationFunction: self.listDataIntegrations(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListDataIntegrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataIntegrationsInput, Output == ListDataIntegrationsOutputResponse {
+extension PaginatorSequence where Input == ListDataIntegrationsInput, Output == ListDataIntegrationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataIntegrationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.DataIntegrationSummary]`
     /// - Returns: `[AppIntegrationsClientTypes.DataIntegrationSummary]`
@@ -94,16 +94,16 @@ extension PaginatorSequence where Input == ListDataIntegrationsInput, Output == 
     }
 }
 extension AppIntegrationsClient {
-    /// Paginate over `[ListEventIntegrationAssociationsOutputResponse]` results.
+    /// Paginate over `[ListEventIntegrationAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEventIntegrationAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEventIntegrationAssociationsOutputResponse`
-    public func listEventIntegrationAssociationsPaginated(input: ListEventIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutputResponse>(input: input, inputKey: \ListEventIntegrationAssociationsInput.nextToken, outputKey: \ListEventIntegrationAssociationsOutputResponse.nextToken, paginationFunction: self.listEventIntegrationAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventIntegrationAssociationsOutput`
+    public func listEventIntegrationAssociationsPaginated(input: ListEventIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput>(input: input, inputKey: \ListEventIntegrationAssociationsInput.nextToken, outputKey: \ListEventIntegrationAssociationsOutput.nextToken, paginationFunction: self.listEventIntegrationAssociations(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListEventIntegrationAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEventIntegrationAssociationsInput, Output == ListEventIntegrationAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListEventIntegrationAssociationsInput, Output == ListEventIntegrationAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEventIntegrationAssociationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.EventIntegrationAssociation]`
     /// - Returns: `[AppIntegrationsClientTypes.EventIntegrationAssociation]`
@@ -125,16 +125,16 @@ extension PaginatorSequence where Input == ListEventIntegrationAssociationsInput
     }
 }
 extension AppIntegrationsClient {
-    /// Paginate over `[ListEventIntegrationsOutputResponse]` results.
+    /// Paginate over `[ListEventIntegrationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEventIntegrationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEventIntegrationsOutputResponse`
-    public func listEventIntegrationsPaginated(input: ListEventIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutputResponse>(input: input, inputKey: \ListEventIntegrationsInput.nextToken, outputKey: \ListEventIntegrationsOutputResponse.nextToken, paginationFunction: self.listEventIntegrations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventIntegrationsOutput`
+    public func listEventIntegrationsPaginated(input: ListEventIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutput>(input: input, inputKey: \ListEventIntegrationsInput.nextToken, outputKey: \ListEventIntegrationsOutput.nextToken, paginationFunction: self.listEventIntegrations(input:))
     }
 }
 
@@ -146,7 +146,7 @@ extension ListEventIntegrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEventIntegrationsInput, Output == ListEventIntegrationsOutputResponse {
+extension PaginatorSequence where Input == ListEventIntegrationsInput, Output == ListEventIntegrationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEventIntegrationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.EventIntegration]`
     /// - Returns: `[AppIntegrationsClientTypes.EventIntegration]`

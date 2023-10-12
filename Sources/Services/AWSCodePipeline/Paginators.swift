@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodePipelineClient {
-    /// Paginate over `[ListActionExecutionsOutputResponse]` results.
+    /// Paginate over `[ListActionExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListActionExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListActionExecutionsOutputResponse`
-    public func listActionExecutionsPaginated(input: ListActionExecutionsInput) -> ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutputResponse>(input: input, inputKey: \ListActionExecutionsInput.nextToken, outputKey: \ListActionExecutionsOutputResponse.nextToken, paginationFunction: self.listActionExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListActionExecutionsOutput`
+    public func listActionExecutionsPaginated(input: ListActionExecutionsInput) -> ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutput>(input: input, inputKey: \ListActionExecutionsInput.nextToken, outputKey: \ListActionExecutionsOutput.nextToken, paginationFunction: self.listActionExecutions(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListActionExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListActionExecutionsInput, Output == ListActionExecutionsOutputResponse {
+extension PaginatorSequence where Input == ListActionExecutionsInput, Output == ListActionExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listActionExecutionsPaginated`
     /// to access the nested member `[CodePipelineClientTypes.ActionExecutionDetail]`
     /// - Returns: `[CodePipelineClientTypes.ActionExecutionDetail]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListActionExecutionsInput, Output == 
     }
 }
 extension CodePipelineClient {
-    /// Paginate over `[ListActionTypesOutputResponse]` results.
+    /// Paginate over `[ListActionTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListActionTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListActionTypesOutputResponse`
-    public func listActionTypesPaginated(input: ListActionTypesInput) -> ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutputResponse>(input: input, inputKey: \ListActionTypesInput.nextToken, outputKey: \ListActionTypesOutputResponse.nextToken, paginationFunction: self.listActionTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListActionTypesOutput`
+    public func listActionTypesPaginated(input: ListActionTypesInput) -> ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutput>(input: input, inputKey: \ListActionTypesInput.nextToken, outputKey: \ListActionTypesOutput.nextToken, paginationFunction: self.listActionTypes(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListActionTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListActionTypesInput, Output == ListActionTypesOutputResponse {
+extension PaginatorSequence where Input == ListActionTypesInput, Output == ListActionTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listActionTypesPaginated`
     /// to access the nested member `[CodePipelineClientTypes.ActionType]`
     /// - Returns: `[CodePipelineClientTypes.ActionType]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == ListActionTypesInput, Output == ListA
     }
 }
 extension CodePipelineClient {
-    /// Paginate over `[ListPipelineExecutionsOutputResponse]` results.
+    /// Paginate over `[ListPipelineExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPipelineExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineExecutionsOutputResponse`
-    public func listPipelineExecutionsPaginated(input: ListPipelineExecutionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse>(input: input, inputKey: \ListPipelineExecutionsInput.nextToken, outputKey: \ListPipelineExecutionsOutputResponse.nextToken, paginationFunction: self.listPipelineExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineExecutionsOutput`
+    public func listPipelineExecutionsPaginated(input: ListPipelineExecutionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(input: input, inputKey: \ListPipelineExecutionsInput.nextToken, outputKey: \ListPipelineExecutionsOutput.nextToken, paginationFunction: self.listPipelineExecutions(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPipelineExecutionsInput, Output == ListPipelineExecutionsOutputResponse {
+extension PaginatorSequence where Input == ListPipelineExecutionsInput, Output == ListPipelineExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPipelineExecutionsPaginated`
     /// to access the nested member `[CodePipelineClientTypes.PipelineExecutionSummary]`
     /// - Returns: `[CodePipelineClientTypes.PipelineExecutionSummary]`
@@ -97,16 +97,16 @@ extension PaginatorSequence where Input == ListPipelineExecutionsInput, Output =
     }
 }
 extension CodePipelineClient {
-    /// Paginate over `[ListPipelinesOutputResponse]` results.
+    /// Paginate over `[ListPipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPipelinesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutputResponse`
-    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutputResponse.nextToken, paginationFunction: self.listPipelines(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
+    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutput.nextToken, paginationFunction: self.listPipelines(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutputResponse {
+extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[CodePipelineClientTypes.PipelineSummary]`
     /// - Returns: `[CodePipelineClientTypes.PipelineSummary]`
@@ -127,16 +127,16 @@ extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPip
     }
 }
 extension CodePipelineClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[CodePipelineClientTypes.Tag]`
     /// - Returns: `[CodePipelineClientTypes.Tag]`
@@ -158,16 +158,16 @@ extension PaginatorSequence where Input == ListTagsForResourceInput, Output == L
     }
 }
 extension CodePipelineClient {
-    /// Paginate over `[ListWebhooksOutputResponse]` results.
+    /// Paginate over `[ListWebhooksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWebhooksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWebhooksOutputResponse`
-    public func listWebhooksPaginated(input: ListWebhooksInput) -> ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutputResponse>(input: input, inputKey: \ListWebhooksInput.nextToken, outputKey: \ListWebhooksOutputResponse.nextToken, paginationFunction: self.listWebhooks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWebhooksOutput`
+    public func listWebhooksPaginated(input: ListWebhooksInput) -> ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutput> {
+        return ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutput>(input: input, inputKey: \ListWebhooksInput.nextToken, outputKey: \ListWebhooksOutput.nextToken, paginationFunction: self.listWebhooks(input:))
     }
 }
 
@@ -179,7 +179,7 @@ extension ListWebhooksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListWebhooksInput, Output == ListWebhooksOutputResponse {
+extension PaginatorSequence where Input == ListWebhooksInput, Output == ListWebhooksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listWebhooksPaginated`
     /// to access the nested member `[CodePipelineClientTypes.ListWebhookItem]`
     /// - Returns: `[CodePipelineClientTypes.ListWebhookItem]`

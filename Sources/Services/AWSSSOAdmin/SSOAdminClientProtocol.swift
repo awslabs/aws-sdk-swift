@@ -8,7 +8,7 @@ public protocol SSOAdminClientProtocol {
     ///
     /// - Parameter AttachCustomerManagedPolicyReferenceToPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `AttachCustomerManagedPolicyReferenceToPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func attachCustomerManagedPolicyReferenceToPermissionSet(input: AttachCustomerManagedPolicyReferenceToPermissionSetInput) async throws -> AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse
+    func attachCustomerManagedPolicyReferenceToPermissionSet(input: AttachCustomerManagedPolicyReferenceToPermissionSetInput) async throws -> AttachCustomerManagedPolicyReferenceToPermissionSetOutput
     /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `AttachManagedPolicyToPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `AttachManagedPolicyToPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput) async throws -> AttachManagedPolicyToPermissionSetOutputResponse
+    func attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput) async throws -> AttachManagedPolicyToPermissionSetOutput
     /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
     /// - Parameter CreateAccountAssignmentInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccountAssignmentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccountAssignmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,12 +54,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func createAccountAssignment(input: CreateAccountAssignmentInput) async throws -> CreateAccountAssignmentOutputResponse
+    func createAccountAssignment(input: CreateAccountAssignmentInput) async throws -> CreateAccountAssignmentOutput
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     ///
     /// - Parameter CreateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func createInstanceAccessControlAttributeConfiguration(input: CreateInstanceAccessControlAttributeConfigurationInput) async throws -> CreateInstanceAccessControlAttributeConfigurationOutputResponse
+    func createInstanceAccessControlAttributeConfiguration(input: CreateInstanceAccessControlAttributeConfigurationInput) async throws -> CreateInstanceAccessControlAttributeConfigurationOutput
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
     /// - Parameter CreatePermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `CreatePermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -87,12 +87,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func createPermissionSet(input: CreatePermissionSetInput) async throws -> CreatePermissionSetOutputResponse
+    func createPermissionSet(input: CreatePermissionSetInput) async throws -> CreatePermissionSetOutput
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
     /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccountAssignmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccountAssignmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -103,12 +103,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deleteAccountAssignment(input: DeleteAccountAssignmentInput) async throws -> DeleteAccountAssignmentOutputResponse
+    func deleteAccountAssignment(input: DeleteAccountAssignmentInput) async throws -> DeleteAccountAssignmentOutput
     /// Deletes the inline policy from a specified permission set.
     ///
     /// - Parameter DeleteInlinePolicyFromPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInlinePolicyFromPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInlinePolicyFromPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -119,12 +119,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deleteInlinePolicyFromPermissionSet(input: DeleteInlinePolicyFromPermissionSetInput) async throws -> DeleteInlinePolicyFromPermissionSetOutputResponse
+    func deleteInlinePolicyFromPermissionSet(input: DeleteInlinePolicyFromPermissionSetInput) async throws -> DeleteInlinePolicyFromPermissionSetOutput
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter DeleteInstanceAccessControlAttributeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -135,12 +135,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deleteInstanceAccessControlAttributeConfiguration(input: DeleteInstanceAccessControlAttributeConfigurationInput) async throws -> DeleteInstanceAccessControlAttributeConfigurationOutputResponse
+    func deleteInstanceAccessControlAttributeConfiguration(input: DeleteInstanceAccessControlAttributeConfigurationInput) async throws -> DeleteInstanceAccessControlAttributeConfigurationOutput
     /// Deletes the permissions boundary from a specified [PermissionSet].
     ///
     /// - Parameter DeletePermissionsBoundaryFromPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `DeletePermissionsBoundaryFromPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePermissionsBoundaryFromPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -150,12 +150,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deletePermissionsBoundaryFromPermissionSet(input: DeletePermissionsBoundaryFromPermissionSetInput) async throws -> DeletePermissionsBoundaryFromPermissionSetOutputResponse
+    func deletePermissionsBoundaryFromPermissionSet(input: DeletePermissionsBoundaryFromPermissionSetInput) async throws -> DeletePermissionsBoundaryFromPermissionSetOutput
     /// Deletes the specified permission set.
     ///
     /// - Parameter DeletePermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `DeletePermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,12 +166,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deletePermissionSet(input: DeletePermissionSetInput) async throws -> DeletePermissionSetOutputResponse
+    func deletePermissionSet(input: DeletePermissionSetInput) async throws -> DeletePermissionSetOutput
     /// Describes the status of the assignment creation request.
     ///
     /// - Parameter DescribeAccountAssignmentCreationStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountAssignmentCreationStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountAssignmentCreationStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -181,12 +181,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describeAccountAssignmentCreationStatus(input: DescribeAccountAssignmentCreationStatusInput) async throws -> DescribeAccountAssignmentCreationStatusOutputResponse
+    func describeAccountAssignmentCreationStatus(input: DescribeAccountAssignmentCreationStatusInput) async throws -> DescribeAccountAssignmentCreationStatusOutput
     /// Describes the status of the assignment deletion request.
     ///
     /// - Parameter DescribeAccountAssignmentDeletionStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountAssignmentDeletionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountAssignmentDeletionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -196,12 +196,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describeAccountAssignmentDeletionStatus(input: DescribeAccountAssignmentDeletionStatusInput) async throws -> DescribeAccountAssignmentDeletionStatusOutputResponse
+    func describeAccountAssignmentDeletionStatus(input: DescribeAccountAssignmentDeletionStatusInput) async throws -> DescribeAccountAssignmentDeletionStatusOutput
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter DescribeInstanceAccessControlAttributeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,12 +211,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describeInstanceAccessControlAttributeConfiguration(input: DescribeInstanceAccessControlAttributeConfigurationInput) async throws -> DescribeInstanceAccessControlAttributeConfigurationOutputResponse
+    func describeInstanceAccessControlAttributeConfiguration(input: DescribeInstanceAccessControlAttributeConfigurationInput) async throws -> DescribeInstanceAccessControlAttributeConfigurationOutput
     /// Gets the details of the permission set.
     ///
     /// - Parameter DescribePermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `DescribePermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -226,12 +226,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describePermissionSet(input: DescribePermissionSetInput) async throws -> DescribePermissionSetOutputResponse
+    func describePermissionSet(input: DescribePermissionSetInput) async throws -> DescribePermissionSetOutput
     /// Describes the status for the given permission set provisioning request.
     ///
     /// - Parameter DescribePermissionSetProvisioningStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribePermissionSetProvisioningStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePermissionSetProvisioningStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describePermissionSetProvisioningStatus(input: DescribePermissionSetProvisioningStatusInput) async throws -> DescribePermissionSetProvisioningStatusOutputResponse
+    func describePermissionSetProvisioningStatus(input: DescribePermissionSetProvisioningStatusInput) async throws -> DescribePermissionSetProvisioningStatusOutput
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
     ///
     /// - Parameter DetachCustomerManagedPolicyReferenceFromPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -257,12 +257,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func detachCustomerManagedPolicyReferenceFromPermissionSet(input: DetachCustomerManagedPolicyReferenceFromPermissionSetInput) async throws -> DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse
+    func detachCustomerManagedPolicyReferenceFromPermissionSet(input: DetachCustomerManagedPolicyReferenceFromPermissionSetInput) async throws -> DetachCustomerManagedPolicyReferenceFromPermissionSetOutput
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
     /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `DetachManagedPolicyFromPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `DetachManagedPolicyFromPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func detachManagedPolicyFromPermissionSet(input: DetachManagedPolicyFromPermissionSetInput) async throws -> DetachManagedPolicyFromPermissionSetOutputResponse
+    func detachManagedPolicyFromPermissionSet(input: DetachManagedPolicyFromPermissionSetInput) async throws -> DetachManagedPolicyFromPermissionSetOutput
     /// Obtains the inline policy assigned to the permission set.
     ///
     /// - Parameter GetInlinePolicyForPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `GetInlinePolicyForPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `GetInlinePolicyForPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -288,12 +288,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func getInlinePolicyForPermissionSet(input: GetInlinePolicyForPermissionSetInput) async throws -> GetInlinePolicyForPermissionSetOutputResponse
+    func getInlinePolicyForPermissionSet(input: GetInlinePolicyForPermissionSetInput) async throws -> GetInlinePolicyForPermissionSetOutput
     /// Obtains the permissions boundary for a specified [PermissionSet].
     ///
     /// - Parameter GetPermissionsBoundaryForPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `GetPermissionsBoundaryForPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `GetPermissionsBoundaryForPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -303,12 +303,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func getPermissionsBoundaryForPermissionSet(input: GetPermissionsBoundaryForPermissionSetInput) async throws -> GetPermissionsBoundaryForPermissionSetOutputResponse
+    func getPermissionsBoundaryForPermissionSet(input: GetPermissionsBoundaryForPermissionSetInput) async throws -> GetPermissionsBoundaryForPermissionSetOutput
     /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountAssignmentCreationStatusOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountAssignmentCreationStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listAccountAssignmentCreationStatus(input: ListAccountAssignmentCreationStatusInput) async throws -> ListAccountAssignmentCreationStatusOutputResponse
+    func listAccountAssignmentCreationStatus(input: ListAccountAssignmentCreationStatusInput) async throws -> ListAccountAssignmentCreationStatusOutput
     /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountAssignmentDeletionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountAssignmentDeletionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,12 +333,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listAccountAssignmentDeletionStatus(input: ListAccountAssignmentDeletionStatusInput) async throws -> ListAccountAssignmentDeletionStatusOutputResponse
+    func listAccountAssignmentDeletionStatus(input: ListAccountAssignmentDeletionStatusInput) async throws -> ListAccountAssignmentDeletionStatusOutput
     /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
     /// - Parameter ListAccountAssignmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountAssignmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountAssignmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -348,12 +348,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listAccountAssignments(input: ListAccountAssignmentsInput) async throws -> ListAccountAssignmentsOutputResponse
+    func listAccountAssignments(input: ListAccountAssignmentsInput) async throws -> ListAccountAssignmentsOutput
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountsForProvisionedPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountsForProvisionedPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -363,12 +363,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listAccountsForProvisionedPermissionSet(input: ListAccountsForProvisionedPermissionSetInput) async throws -> ListAccountsForProvisionedPermissionSetOutputResponse
+    func listAccountsForProvisionedPermissionSet(input: ListAccountsForProvisionedPermissionSetInput) async throws -> ListAccountsForProvisionedPermissionSetOutput
     /// Lists all customer managed policies attached to a specified [PermissionSet].
     ///
     /// - Parameter ListCustomerManagedPolicyReferencesInPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomerManagedPolicyReferencesInPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -378,12 +378,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listCustomerManagedPolicyReferencesInPermissionSet(input: ListCustomerManagedPolicyReferencesInPermissionSetInput) async throws -> ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse
+    func listCustomerManagedPolicyReferencesInPermissionSet(input: ListCustomerManagedPolicyReferencesInPermissionSetInput) async throws -> ListCustomerManagedPolicyReferencesInPermissionSetOutput
     /// Lists the IAM Identity Center instances that the caller has access to.
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -392,12 +392,12 @@ public protocol SSOAdminClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
+    func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `ListManagedPoliciesInPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `ListManagedPoliciesInPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,12 +407,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listManagedPoliciesInPermissionSet(input: ListManagedPoliciesInPermissionSetInput) async throws -> ListManagedPoliciesInPermissionSetOutputResponse
+    func listManagedPoliciesInPermissionSet(input: ListManagedPoliciesInPermissionSetInput) async throws -> ListManagedPoliciesInPermissionSetOutput
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListPermissionSetProvisioningStatusInput : [no documentation found]
     ///
-    /// - Returns: `ListPermissionSetProvisioningStatusOutputResponse` : [no documentation found]
+    /// - Returns: `ListPermissionSetProvisioningStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -422,12 +422,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listPermissionSetProvisioningStatus(input: ListPermissionSetProvisioningStatusInput) async throws -> ListPermissionSetProvisioningStatusOutputResponse
+    func listPermissionSetProvisioningStatus(input: ListPermissionSetProvisioningStatusInput) async throws -> ListPermissionSetProvisioningStatusOutput
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
     ///
     /// - Parameter ListPermissionSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListPermissionSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPermissionSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -437,12 +437,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listPermissionSets(input: ListPermissionSetsInput) async throws -> ListPermissionSetsOutputResponse
+    func listPermissionSets(input: ListPermissionSetsInput) async throws -> ListPermissionSetsOutput
     /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
     /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
     ///
-    /// - Returns: `ListPermissionSetsProvisionedToAccountOutputResponse` : [no documentation found]
+    /// - Returns: `ListPermissionSetsProvisionedToAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,12 +452,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listPermissionSetsProvisionedToAccount(input: ListPermissionSetsProvisionedToAccountInput) async throws -> ListPermissionSetsProvisionedToAccountOutputResponse
+    func listPermissionSetsProvisionedToAccount(input: ListPermissionSetsProvisionedToAccountInput) async throws -> ListPermissionSetsProvisionedToAccountOutput
     /// Lists the tags that are attached to a specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -467,12 +467,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
     /// - Parameter ProvisionPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `ProvisionPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `ProvisionPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,12 +483,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func provisionPermissionSet(input: ProvisionPermissionSetInput) async throws -> ProvisionPermissionSetOutputResponse
+    func provisionPermissionSet(input: ProvisionPermissionSetInput) async throws -> ProvisionPermissionSetOutput
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter PutInlinePolicyToPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `PutInlinePolicyToPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `PutInlinePolicyToPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,12 +500,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func putInlinePolicyToPermissionSet(input: PutInlinePolicyToPermissionSetInput) async throws -> PutInlinePolicyToPermissionSetOutputResponse
+    func putInlinePolicyToPermissionSet(input: PutInlinePolicyToPermissionSetInput) async throws -> PutInlinePolicyToPermissionSetOutput
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
     /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `PutPermissionsBoundaryToPermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `PutPermissionsBoundaryToPermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,12 +516,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func putPermissionsBoundaryToPermissionSet(input: PutPermissionsBoundaryToPermissionSetInput) async throws -> PutPermissionsBoundaryToPermissionSetOutputResponse
+    func putPermissionsBoundaryToPermissionSet(input: PutPermissionsBoundaryToPermissionSetInput) async throws -> PutPermissionsBoundaryToPermissionSetOutput
     /// Associates a set of tags with a specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,12 +533,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Disassociates a set of tags from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -549,12 +549,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter UpdateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,12 +565,12 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func updateInstanceAccessControlAttributeConfiguration(input: UpdateInstanceAccessControlAttributeConfigurationInput) async throws -> UpdateInstanceAccessControlAttributeConfigurationOutputResponse
+    func updateInstanceAccessControlAttributeConfiguration(input: UpdateInstanceAccessControlAttributeConfigurationInput) async throws -> UpdateInstanceAccessControlAttributeConfigurationOutput
     /// Updates an existing permission set.
     ///
     /// - Parameter UpdatePermissionSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePermissionSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePermissionSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,7 +581,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func updatePermissionSet(input: UpdatePermissionSetInput) async throws -> UpdatePermissionSetOutputResponse
+    func updatePermissionSet(input: UpdatePermissionSetInput) async throws -> UpdatePermissionSetOutput
 }
 
 public enum SSOAdminClientTypes {}

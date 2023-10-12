@@ -317,6 +317,47 @@ extension DisableControlInputBody: Swift.Decodable {
     }
 }
 
+extension DisableControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisableControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct DisableControlOutput: Swift.Equatable {
+    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct DisableControlOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension DisableControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
 enum DisableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -331,47 +372,6 @@ enum DisableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DisableControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisableControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.operationIdentifier = output.operationIdentifier
-        } else {
-            self.operationIdentifier = nil
-        }
-    }
-}
-
-public struct DisableControlOutputResponse: Swift.Equatable {
-    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-struct DisableControlOutputResponseBody: Swift.Equatable {
-    let operationIdentifier: Swift.String?
-}
-
-extension DisableControlOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case operationIdentifier
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
-        operationIdentifier = operationIdentifierDecoded
     }
 }
 
@@ -436,6 +436,47 @@ extension EnableControlInputBody: Swift.Decodable {
     }
 }
 
+extension EnableControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableControlOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct EnableControlOutput: Swift.Equatable {
+    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct EnableControlOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension EnableControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
 enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -450,47 +491,6 @@ enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension EnableControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnableControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.operationIdentifier = output.operationIdentifier
-        } else {
-            self.operationIdentifier = nil
-        }
-    }
-}
-
-public struct EnableControlOutputResponse: Swift.Equatable {
-    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-struct EnableControlOutputResponseBody: Swift.Equatable {
-    let operationIdentifier: Swift.String?
-}
-
-extension EnableControlOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case operationIdentifier
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
-        operationIdentifier = operationIdentifierDecoded
     }
 }
 
@@ -577,26 +577,11 @@ extension GetControlOperationInputBody: Swift.Decodable {
     }
 }
 
-enum GetControlOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetControlOperationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetControlOperationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetControlOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetControlOperationOutputBody = try responseDecoder.decode(responseBody: data)
             self.controlOperation = output.controlOperation
         } else {
             self.controlOperation = nil
@@ -604,7 +589,7 @@ extension GetControlOperationOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetControlOperationOutputResponse: Swift.Equatable {
+public struct GetControlOperationOutput: Swift.Equatable {
     ///
     /// This member is required.
     public var controlOperation: ControlTowerClientTypes.ControlOperation?
@@ -617,11 +602,11 @@ public struct GetControlOperationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetControlOperationOutputResponseBody: Swift.Equatable {
+struct GetControlOperationOutputBody: Swift.Equatable {
     let controlOperation: ControlTowerClientTypes.ControlOperation?
 }
 
-extension GetControlOperationOutputResponseBody: Swift.Decodable {
+extension GetControlOperationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlOperation
     }
@@ -630,6 +615,21 @@ extension GetControlOperationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let controlOperationDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.ControlOperation.self, forKey: .controlOperation)
         controlOperation = controlOperationDecoded
+    }
+}
+
+enum GetControlOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -761,26 +761,11 @@ extension ListEnabledControlsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEnabledControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEnabledControlsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEnabledControlsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEnabledControlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEnabledControlsOutputBody = try responseDecoder.decode(responseBody: data)
             self.enabledControls = output.enabledControls
             self.nextToken = output.nextToken
         } else {
@@ -790,7 +775,7 @@ extension ListEnabledControlsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnabledControlsOutputResponse: Swift.Equatable {
+public struct ListEnabledControlsOutput: Swift.Equatable {
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
     /// This member is required.
     public var enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
@@ -807,12 +792,12 @@ public struct ListEnabledControlsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEnabledControlsOutputResponseBody: Swift.Equatable {
+struct ListEnabledControlsOutputBody: Swift.Equatable {
     let enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListEnabledControlsOutputResponseBody: Swift.Decodable {
+extension ListEnabledControlsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabledControls
         case nextToken
@@ -833,6 +818,21 @@ extension ListEnabledControlsOutputResponseBody: Swift.Decodable {
         enabledControls = enabledControlsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEnabledControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -8,19 +8,19 @@ public protocol GreengrassV2ClientProtocol {
     ///
     /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
     ///
-    /// - Returns: `AssociateServiceRoleToAccountOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateServiceRoleToAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutputResponse
+    func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput
     /// Associates a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to IoT Greengrass to retrieve associated core devices' connectivity information and certificates. For more information, see [Configure cloud discovery](https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-cloud-discovery.html) in the IoT Greengrass V2 Developer Guide. Client devices are local IoT devices that connect to and communicate with an IoT Greengrass core device over MQTT. You can connect client devices to a core device to sync MQTT messages and data to Amazon Web Services IoT Core and interact with client devices in Greengrass components. For more information, see [Interact with local IoT devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/interact-with-local-iot-devices.html) in the IoT Greengrass V2 Developer Guide.
     ///
     /// - Parameter BatchAssociateClientDeviceWithCoreDeviceInput : [no documentation found]
     ///
-    /// - Returns: `BatchAssociateClientDeviceWithCoreDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `BatchAssociateClientDeviceWithCoreDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -30,12 +30,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func batchAssociateClientDeviceWithCoreDevice(input: BatchAssociateClientDeviceWithCoreDeviceInput) async throws -> BatchAssociateClientDeviceWithCoreDeviceOutputResponse
+    func batchAssociateClientDeviceWithCoreDevice(input: BatchAssociateClientDeviceWithCoreDeviceInput) async throws -> BatchAssociateClientDeviceWithCoreDeviceOutput
     /// Disassociates a list of client devices from a core device. After you disassociate a client device from a core device, the client device won't be able to use cloud discovery to retrieve the core device's connectivity information and certificates.
     ///
     /// - Parameter BatchDisassociateClientDeviceFromCoreDeviceInput : [no documentation found]
     ///
-    /// - Returns: `BatchDisassociateClientDeviceFromCoreDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDisassociateClientDeviceFromCoreDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -45,12 +45,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func batchDisassociateClientDeviceFromCoreDevice(input: BatchDisassociateClientDeviceFromCoreDeviceInput) async throws -> BatchDisassociateClientDeviceFromCoreDeviceOutputResponse
+    func batchDisassociateClientDeviceFromCoreDevice(input: BatchDisassociateClientDeviceFromCoreDeviceInput) async throws -> BatchDisassociateClientDeviceFromCoreDeviceOutput
     /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deployment, this operation doesn't change anything for that device.
     ///
     /// - Parameter CancelDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CancelDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CancelDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,7 +61,7 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func cancelDeployment(input: CancelDeploymentInput) async throws -> CancelDeploymentOutputResponse
+    func cancelDeployment(input: CancelDeploymentInput) async throws -> CancelDeploymentOutput
     /// Creates a component. Components are software that run on Greengrass core devices. After you develop and test a component on your core device, you can use this operation to upload your component to IoT Greengrass. Then, you can deploy the component to other core devices. You can use this operation to do the following:
     ///
     /// * Create components from recipes Create a component from a recipe, which is a file that defines the component's metadata, parameters, dependencies, lifecycle, artifacts, and platform capability. For more information, see [IoT Greengrass component recipe reference](https://docs.aws.amazon.com/greengrass/v2/developerguide/component-recipe-reference.html) in the IoT Greengrass V2 Developer Guide. To create a component from a recipe, specify inlineRecipe when you call this operation.
@@ -91,7 +91,7 @@ public protocol GreengrassV2ClientProtocol {
     ///
     /// - Parameter CreateComponentVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateComponentVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateComponentVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -103,12 +103,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota. For example, you might have the maximum number of components that you can create.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func createComponentVersion(input: CreateComponentVersionInput) async throws -> CreateComponentVersionOutputResponse
+    func createComponentVersion(input: CreateComponentVersionInput) async throws -> CreateComponentVersionOutput
     /// Creates a continuous deployment for a target, which is a Greengrass core device or group of core devices. When you add a new core device to a group of core devices that has a deployment, IoT Greengrass deploys that group's deployment to the new device. You can define one deployment for each target. When you create a new deployment for a target that has an existing deployment, you replace the previous deployment. IoT Greengrass applies the new deployment to the target devices. Every deployment has a revision number that indicates how many deployment revisions you define for a target. Use this operation to create a new revision of an existing deployment. For more information, see the [Create deployments](https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html) in the IoT Greengrass V2 Developer Guide.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
     /// Deletes a version of a component from IoT Greengrass. This operation deletes the component's recipe and artifacts. As a result, deployments that refer to this component version will fail. If you have deployments that use this component version, you can remove the component from the deployment or update the deployment to use a valid version.
     ///
     /// - Parameter DeleteComponentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -136,12 +136,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
+    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
     /// Deletes a Greengrass core device, which is an IoT thing. This operation removes the core device from the list of core devices. This operation doesn't delete the IoT thing. For more information about how to delete the IoT thing, see [DeleteThing](https://docs.aws.amazon.com/iot/latest/apireference/API_DeleteThing.html) in the IoT API Reference.
     ///
     /// - Parameter DeleteCoreDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCoreDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCoreDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -152,12 +152,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func deleteCoreDevice(input: DeleteCoreDeviceInput) async throws -> DeleteCoreDeviceOutputResponse
+    func deleteCoreDevice(input: DeleteCoreDeviceInput) async throws -> DeleteCoreDeviceOutput
     /// Deletes a deployment. To delete an active deployment, you must first cancel it. For more information, see [CancelDeployment](https://docs.aws.amazon.com/iot/latest/apireference/API_CancelDeployment.html). Deleting a deployment doesn't affect core devices that run that deployment, because core devices store the deployment's configuration on the device. Additionally, core devices can roll back to a previous deployment that has been deleted.
     ///
     /// - Parameter DeleteDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -168,12 +168,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutputResponse
+    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
     /// Retrieves metadata for a version of a component.
     ///
     /// - Parameter DescribeComponentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,23 +183,23 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutputResponse
+    func describeComponent(input: DescribeComponentInput) async throws -> DescribeComponentOutput
     /// Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device connectivity information. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
     /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateServiceRoleFromAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateServiceRoleFromAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
-    func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutputResponse
+    func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput
     /// Gets the recipe for a version of a component.
     ///
     /// - Parameter GetComponentInput : [no documentation found]
     ///
-    /// - Returns: `GetComponentOutputResponse` : [no documentation found]
+    /// - Returns: `GetComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func getComponent(input: GetComponentInput) async throws -> GetComponentOutputResponse
+    func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
     /// Gets the pre-signed URL to download a public or a Lambda component artifact. Core devices call this operation to identify the URL that they can use to download an artifact to install.
     ///
     /// - Parameter GetComponentVersionArtifactInput : [no documentation found]
     ///
-    /// - Returns: `GetComponentVersionArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `GetComponentVersionArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,19 +224,19 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func getComponentVersionArtifact(input: GetComponentVersionArtifactInput) async throws -> GetComponentVersionArtifactOutputResponse
+    func getComponentVersionArtifact(input: GetComponentVersionArtifactInput) async throws -> GetComponentVersionArtifactOutput
     /// Retrieves connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html), IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
     /// - Parameter GetConnectivityInfoInput : [no documentation found]
     ///
-    /// - Returns: `GetConnectivityInfoOutputResponse` : [no documentation found]
+    /// - Returns: `GetConnectivityInfoOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutputResponse
+    func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput
     /// Retrieves metadata for a Greengrass core device. IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:
     ///
     /// * When the IoT Greengrass Core software starts
@@ -251,7 +251,7 @@ public protocol GreengrassV2ClientProtocol {
     ///
     /// - Parameter GetCoreDeviceInput : [no documentation found]
     ///
-    /// - Returns: `GetCoreDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `GetCoreDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -261,12 +261,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func getCoreDevice(input: GetCoreDeviceInput) async throws -> GetCoreDeviceOutputResponse
+    func getCoreDevice(input: GetCoreDeviceInput) async throws -> GetCoreDeviceOutput
     /// Gets a deployment. Deployments define the components that run on Greengrass core devices.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -276,23 +276,23 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
     /// Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. For more information, see [Greengrass service role](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-service-role.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
     /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceRoleForAccountOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceRoleForAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
-    func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutputResponse
+    func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput
     /// Retrieves a paginated list of client devices that are associated with a core device.
     ///
     /// - Parameter ListClientDevicesAssociatedWithCoreDeviceInput : [no documentation found]
     ///
-    /// - Returns: `ListClientDevicesAssociatedWithCoreDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `ListClientDevicesAssociatedWithCoreDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -302,12 +302,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listClientDevicesAssociatedWithCoreDevice(input: ListClientDevicesAssociatedWithCoreDeviceInput) async throws -> ListClientDevicesAssociatedWithCoreDeviceOutputResponse
+    func listClientDevicesAssociatedWithCoreDevice(input: ListClientDevicesAssociatedWithCoreDeviceInput) async throws -> ListClientDevicesAssociatedWithCoreDeviceOutput
     /// Retrieves a paginated list of component summaries. This list includes components that you have permission to view.
     ///
     /// - Parameter ListComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,12 +317,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
+    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
     /// Retrieves a paginated list of all versions for a component. Greater versions are listed first.
     ///
     /// - Parameter ListComponentVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListComponentVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListComponentVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -332,7 +332,7 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listComponentVersions(input: ListComponentVersionsInput) async throws -> ListComponentVersionsOutputResponse
+    func listComponentVersions(input: ListComponentVersionsInput) async throws -> ListComponentVersionsOutput
     /// Retrieves a paginated list of Greengrass core devices. IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:
     ///
     /// * When the IoT Greengrass Core software starts
@@ -347,7 +347,7 @@ public protocol GreengrassV2ClientProtocol {
     ///
     /// - Parameter ListCoreDevicesInput : [no documentation found]
     ///
-    /// - Returns: `ListCoreDevicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCoreDevicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -356,12 +356,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listCoreDevices(input: ListCoreDevicesInput) async throws -> ListCoreDevicesOutputResponse
+    func listCoreDevices(input: ListCoreDevicesInput) async throws -> ListCoreDevicesOutput
     /// Retrieves a paginated list of deployments.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -370,12 +370,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
     /// Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
     ///
     /// - Parameter ListEffectiveDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListEffectiveDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEffectiveDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,7 +385,7 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listEffectiveDeployments(input: ListEffectiveDeploymentsInput) async throws -> ListEffectiveDeploymentsOutputResponse
+    func listEffectiveDeployments(input: ListEffectiveDeploymentsInput) async throws -> ListEffectiveDeploymentsOutput
     /// Retrieves a paginated list of the components that a Greengrass core device runs. By default, this list doesn't include components that are deployed as dependencies of other components. To include dependencies in the response, set the topologyFilter parameter to ALL. IoT Greengrass relies on individual devices to send status updates to the Amazon Web Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if device isn't connected to the Amazon Web Services Cloud, then the reported status of that device might not reflect its current status. The status timestamp indicates when the device status was last updated. Core devices send status updates at the following times:
     ///
     /// * When the IoT Greengrass Core software starts
@@ -400,7 +400,7 @@ public protocol GreengrassV2ClientProtocol {
     ///
     /// - Parameter ListInstalledComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListInstalledComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInstalledComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listInstalledComponents(input: ListInstalledComponentsInput) async throws -> ListInstalledComponentsOutputResponse
+    func listInstalledComponents(input: ListInstalledComponentsInput) async throws -> ListInstalledComponentsOutput
     /// Retrieves the list of tags for an IoT Greengrass resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,12 +423,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Retrieves a list of components that meet the component, version, and platform requirements of a deployment. Greengrass core devices call this operation when they receive a deployment to identify the components to install. This operation identifies components that meet all dependency requirements for a deployment. If the requirements conflict, then this operation returns an error and the deployment fails. For example, this occurs if component A requires version >2.0.0 and component B requires version <2.0.0 of a component dependency. When you specify the component candidates to resolve, IoT Greengrass compares each component's digest from the core device with the component's digest in the Amazon Web Services Cloud. If the digests don't match, then IoT Greengrass specifies to use the version from the Amazon Web Services Cloud. To use this operation, you must use the data plane API endpoint and authenticate with an IoT device certificate. For more information, see [IoT Greengrass endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/greengrass.html).
     ///
     /// - Parameter ResolveComponentCandidatesInput : [no documentation found]
     ///
-    /// - Returns: `ResolveComponentCandidatesOutputResponse` : [no documentation found]
+    /// - Returns: `ResolveComponentCandidatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -439,12 +439,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func resolveComponentCandidates(input: ResolveComponentCandidatesInput) async throws -> ResolveComponentCandidatesOutputResponse
+    func resolveComponentCandidates(input: ResolveComponentCandidatesInput) async throws -> ResolveComponentCandidatesOutput
     /// Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation updates the tag's value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,12 +452,12 @@ public protocol GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag from an IoT Greengrass resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -465,19 +465,19 @@ public protocol GreengrassV2ClientProtocol {
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates connectivity information for a Greengrass core device. Connectivity information includes endpoints and ports where client devices can connect to an MQTT broker on the core device. When a client device calls the [IoT Greengrass discovery API](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html), IoT Greengrass returns connectivity information for all of the core devices where the client device can connect. For more information, see [Connect client devices to core devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html) in the IoT Greengrass Version 2 Developer Guide.
     ///
     /// - Parameter UpdateConnectivityInfoInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConnectivityInfoOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConnectivityInfoOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : IoT Greengrass can't process your request right now. Try again later.
     /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-    func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutputResponse
+    func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput
 }
 
 public enum GreengrassV2ClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ElasticBeanstalkClient {
-    /// Paginate over `[DescribeEnvironmentManagedActionHistoryOutputResponse]` results.
+    /// Paginate over `[DescribeEnvironmentManagedActionHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEnvironmentManagedActionHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEnvironmentManagedActionHistoryOutputResponse`
-    public func describeEnvironmentManagedActionHistoryPaginated(input: DescribeEnvironmentManagedActionHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutputResponse>(input: input, inputKey: \DescribeEnvironmentManagedActionHistoryInput.nextToken, outputKey: \DescribeEnvironmentManagedActionHistoryOutputResponse.nextToken, paginationFunction: self.describeEnvironmentManagedActionHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEnvironmentManagedActionHistoryOutput`
+    public func describeEnvironmentManagedActionHistoryPaginated(input: DescribeEnvironmentManagedActionHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(input: input, inputKey: \DescribeEnvironmentManagedActionHistoryInput.nextToken, outputKey: \DescribeEnvironmentManagedActionHistoryOutput.nextToken, paginationFunction: self.describeEnvironmentManagedActionHistory(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeEnvironmentManagedActionHistoryInput: ClientRuntime.PaginateTo
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEnvironmentManagedActionHistoryInput, Output == DescribeEnvironmentManagedActionHistoryOutputResponse {
+extension PaginatorSequence where Input == DescribeEnvironmentManagedActionHistoryInput, Output == DescribeEnvironmentManagedActionHistoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEnvironmentManagedActionHistoryPaginated`
     /// to access the nested member `[ElasticBeanstalkClientTypes.ManagedActionHistoryItem]`
     /// - Returns: `[ElasticBeanstalkClientTypes.ManagedActionHistoryItem]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeEnvironmentManagedActionHisto
     }
 }
 extension ElasticBeanstalkClient {
-    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    /// Paginate over `[DescribeEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
-    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutputResponse.nextToken, paginationFunction: self.describeEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
+    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -66,7 +66,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[ElasticBeanstalkClientTypes.EventDescription]`
     /// - Returns: `[ElasticBeanstalkClientTypes.EventDescription]`
@@ -75,16 +75,16 @@ extension PaginatorSequence where Input == DescribeEventsInput, Output == Descri
     }
 }
 extension ElasticBeanstalkClient {
-    /// Paginate over `[ListPlatformBranchesOutputResponse]` results.
+    /// Paginate over `[ListPlatformBranchesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPlatformBranchesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformBranchesOutputResponse`
-    public func listPlatformBranchesPaginated(input: ListPlatformBranchesInput) -> ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutputResponse>(input: input, inputKey: \ListPlatformBranchesInput.nextToken, outputKey: \ListPlatformBranchesOutputResponse.nextToken, paginationFunction: self.listPlatformBranches(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformBranchesOutput`
+    public func listPlatformBranchesPaginated(input: ListPlatformBranchesInput) -> ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPlatformBranchesInput, ListPlatformBranchesOutput>(input: input, inputKey: \ListPlatformBranchesInput.nextToken, outputKey: \ListPlatformBranchesOutput.nextToken, paginationFunction: self.listPlatformBranches(input:))
     }
 }
 
@@ -97,16 +97,16 @@ extension ListPlatformBranchesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ElasticBeanstalkClient {
-    /// Paginate over `[ListPlatformVersionsOutputResponse]` results.
+    /// Paginate over `[ListPlatformVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPlatformVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformVersionsOutputResponse`
-    public func listPlatformVersionsPaginated(input: ListPlatformVersionsInput) -> ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutputResponse>(input: input, inputKey: \ListPlatformVersionsInput.nextToken, outputKey: \ListPlatformVersionsOutputResponse.nextToken, paginationFunction: self.listPlatformVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformVersionsOutput`
+    public func listPlatformVersionsPaginated(input: ListPlatformVersionsInput) -> ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPlatformVersionsInput, ListPlatformVersionsOutput>(input: input, inputKey: \ListPlatformVersionsInput.nextToken, outputKey: \ListPlatformVersionsOutput.nextToken, paginationFunction: self.listPlatformVersions(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListPlatformVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPlatformVersionsInput, Output == ListPlatformVersionsOutputResponse {
+extension PaginatorSequence where Input == ListPlatformVersionsInput, Output == ListPlatformVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPlatformVersionsPaginated`
     /// to access the nested member `[ElasticBeanstalkClientTypes.PlatformSummary]`
     /// - Returns: `[ElasticBeanstalkClientTypes.PlatformSummary]`

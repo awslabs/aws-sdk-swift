@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension SignerClientProtocol {
 
-    static func successfulSigningJobWaiterConfig() throws -> WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutputResponse, Error>) -> Bool in
+    static func successfulSigningJobWaiterConfig() throws -> WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutput> {
+        let acceptors: [WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutput, Error>) -> Bool in
                 // JMESPath expression: "status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Succeeded"
@@ -14,7 +14,7 @@ extension SignerClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Succeeded")
             }),
-            .init(state: .failure, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutput, Error>) -> Bool in
                 // JMESPath expression: "status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -22,12 +22,12 @@ extension SignerClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeSigningJobInput, result: Result<DescribeSigningJobOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeSigningJobInput, DescribeSigningJobOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the SuccessfulSigningJob event on the describeSigningJob operation.
@@ -41,7 +41,7 @@ extension SignerClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilSuccessfulSigningJob(options: WaiterOptions, input: DescribeSigningJobInput) async throws -> WaiterOutcome<DescribeSigningJobOutputResponse> {
+    public func waitUntilSuccessfulSigningJob(options: WaiterOptions, input: DescribeSigningJobInput) async throws -> WaiterOutcome<DescribeSigningJobOutput> {
         let waiter = Waiter(config: try Self.successfulSigningJobWaiterConfig(), operation: self.describeSigningJob(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

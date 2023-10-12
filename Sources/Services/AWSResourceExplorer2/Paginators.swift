@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ResourceExplorer2Client {
-    /// Paginate over `[ListSupportedResourceTypesOutputResponse]` results.
+    /// Paginate over `[ListSupportedResourceTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSupportedResourceTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSupportedResourceTypesOutputResponse`
-    public func listSupportedResourceTypesPaginated(input: ListSupportedResourceTypesInput) -> ClientRuntime.PaginatorSequence<ListSupportedResourceTypesInput, ListSupportedResourceTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSupportedResourceTypesInput, ListSupportedResourceTypesOutputResponse>(input: input, inputKey: \ListSupportedResourceTypesInput.nextToken, outputKey: \ListSupportedResourceTypesOutputResponse.nextToken, paginationFunction: self.listSupportedResourceTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSupportedResourceTypesOutput`
+    public func listSupportedResourceTypesPaginated(input: ListSupportedResourceTypesInput) -> ClientRuntime.PaginatorSequence<ListSupportedResourceTypesInput, ListSupportedResourceTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSupportedResourceTypesInput, ListSupportedResourceTypesOutput>(input: input, inputKey: \ListSupportedResourceTypesInput.nextToken, outputKey: \ListSupportedResourceTypesOutput.nextToken, paginationFunction: self.listSupportedResourceTypes(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListSupportedResourceTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSupportedResourceTypesInput, Output == ListSupportedResourceTypesOutputResponse {
+extension PaginatorSequence where Input == ListSupportedResourceTypesInput, Output == ListSupportedResourceTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSupportedResourceTypesPaginated`
     /// to access the nested member `[ResourceExplorer2ClientTypes.SupportedResourceType]`
     /// - Returns: `[ResourceExplorer2ClientTypes.SupportedResourceType]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListSupportedResourceTypesInput, Outp
     }
 }
 extension ResourceExplorer2Client {
-    /// Paginate over `[SearchOutputResponse]` results.
+    /// Paginate over `[SearchOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchOutputResponse`
-    public func searchPaginated(input: SearchInput) -> ClientRuntime.PaginatorSequence<SearchInput, SearchOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchInput, SearchOutputResponse>(input: input, inputKey: \SearchInput.nextToken, outputKey: \SearchOutputResponse.nextToken, paginationFunction: self.search(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchOutput`
+    public func searchPaginated(input: SearchInput) -> ClientRuntime.PaginatorSequence<SearchInput, SearchOutput> {
+        return ClientRuntime.PaginatorSequence<SearchInput, SearchOutput>(input: input, inputKey: \SearchInput.nextToken, outputKey: \SearchOutput.nextToken, paginationFunction: self.search(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension SearchInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchInput, Output == SearchOutputResponse {
+extension PaginatorSequence where Input == SearchInput, Output == SearchOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchPaginated`
     /// to access the nested member `[ResourceExplorer2ClientTypes.Resource]`
     /// - Returns: `[ResourceExplorer2ClientTypes.Resource]`

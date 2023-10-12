@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension VoiceIDClient {
-    /// Paginate over `[ListFraudsterRegistrationJobsOutputResponse]` results.
+    /// Paginate over `[ListFraudsterRegistrationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFraudsterRegistrationJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFraudsterRegistrationJobsOutputResponse`
-    public func listFraudsterRegistrationJobsPaginated(input: ListFraudsterRegistrationJobsInput) -> ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse>(input: input, inputKey: \ListFraudsterRegistrationJobsInput.nextToken, outputKey: \ListFraudsterRegistrationJobsOutputResponse.nextToken, paginationFunction: self.listFraudsterRegistrationJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFraudsterRegistrationJobsOutput`
+    public func listFraudsterRegistrationJobsPaginated(input: ListFraudsterRegistrationJobsInput) -> ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(input: input, inputKey: \ListFraudsterRegistrationJobsInput.nextToken, outputKey: \ListFraudsterRegistrationJobsOutput.nextToken, paginationFunction: self.listFraudsterRegistrationJobs(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListFraudsterRegistrationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFraudsterRegistrationJobsInput, Output == ListFraudsterRegistrationJobsOutputResponse {
+extension PaginatorSequence where Input == ListFraudsterRegistrationJobsInput, Output == ListFraudsterRegistrationJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFraudsterRegistrationJobsPaginated`
     /// to access the nested member `[VoiceIDClientTypes.FraudsterRegistrationJobSummary]`
     /// - Returns: `[VoiceIDClientTypes.FraudsterRegistrationJobSummary]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListFraudsterRegistrationJobsInput, O
     }
 }
 extension VoiceIDClient {
-    /// Paginate over `[ListFraudstersOutputResponse]` results.
+    /// Paginate over `[ListFraudstersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFraudstersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFraudstersOutputResponse`
-    public func listFraudstersPaginated(input: ListFraudstersInput) -> ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutputResponse>(input: input, inputKey: \ListFraudstersInput.nextToken, outputKey: \ListFraudstersOutputResponse.nextToken, paginationFunction: self.listFraudsters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFraudstersOutput`
+    public func listFraudstersPaginated(input: ListFraudstersInput) -> ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutput> {
+        return ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutput>(input: input, inputKey: \ListFraudstersInput.nextToken, outputKey: \ListFraudstersOutput.nextToken, paginationFunction: self.listFraudsters(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListFraudstersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFraudstersInput, Output == ListFraudstersOutputResponse {
+extension PaginatorSequence where Input == ListFraudstersInput, Output == ListFraudstersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFraudstersPaginated`
     /// to access the nested member `[VoiceIDClientTypes.FraudsterSummary]`
     /// - Returns: `[VoiceIDClientTypes.FraudsterSummary]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == ListFraudstersInput, Output == ListFr
     }
 }
 extension VoiceIDClient {
-    /// Paginate over `[ListSpeakerEnrollmentJobsOutputResponse]` results.
+    /// Paginate over `[ListSpeakerEnrollmentJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSpeakerEnrollmentJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSpeakerEnrollmentJobsOutputResponse`
-    public func listSpeakerEnrollmentJobsPaginated(input: ListSpeakerEnrollmentJobsInput) -> ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse>(input: input, inputKey: \ListSpeakerEnrollmentJobsInput.nextToken, outputKey: \ListSpeakerEnrollmentJobsOutputResponse.nextToken, paginationFunction: self.listSpeakerEnrollmentJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSpeakerEnrollmentJobsOutput`
+    public func listSpeakerEnrollmentJobsPaginated(input: ListSpeakerEnrollmentJobsInput) -> ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(input: input, inputKey: \ListSpeakerEnrollmentJobsInput.nextToken, outputKey: \ListSpeakerEnrollmentJobsOutput.nextToken, paginationFunction: self.listSpeakerEnrollmentJobs(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListSpeakerEnrollmentJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSpeakerEnrollmentJobsInput, Output == ListSpeakerEnrollmentJobsOutputResponse {
+extension PaginatorSequence where Input == ListSpeakerEnrollmentJobsInput, Output == ListSpeakerEnrollmentJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSpeakerEnrollmentJobsPaginated`
     /// to access the nested member `[VoiceIDClientTypes.SpeakerEnrollmentJobSummary]`
     /// - Returns: `[VoiceIDClientTypes.SpeakerEnrollmentJobSummary]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == ListSpeakerEnrollmentJobsInput, Outpu
     }
 }
 extension VoiceIDClient {
-    /// Paginate over `[ListSpeakersOutputResponse]` results.
+    /// Paginate over `[ListSpeakersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSpeakersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSpeakersOutputResponse`
-    public func listSpeakersPaginated(input: ListSpeakersInput) -> ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutputResponse>(input: input, inputKey: \ListSpeakersInput.nextToken, outputKey: \ListSpeakersOutputResponse.nextToken, paginationFunction: self.listSpeakers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSpeakersOutput`
+    public func listSpeakersPaginated(input: ListSpeakersInput) -> ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutput> {
+        return ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutput>(input: input, inputKey: \ListSpeakersInput.nextToken, outputKey: \ListSpeakersOutput.nextToken, paginationFunction: self.listSpeakers(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension ListSpeakersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSpeakersInput, Output == ListSpeakersOutputResponse {
+extension PaginatorSequence where Input == ListSpeakersInput, Output == ListSpeakersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSpeakersPaginated`
     /// to access the nested member `[VoiceIDClientTypes.SpeakerSummary]`
     /// - Returns: `[VoiceIDClientTypes.SpeakerSummary]`
@@ -130,16 +130,16 @@ extension PaginatorSequence where Input == ListSpeakersInput, Output == ListSpea
     }
 }
 extension VoiceIDClient {
-    /// Paginate over `[ListWatchlistsOutputResponse]` results.
+    /// Paginate over `[ListWatchlistsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWatchlistsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWatchlistsOutputResponse`
-    public func listWatchlistsPaginated(input: ListWatchlistsInput) -> ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutputResponse>(input: input, inputKey: \ListWatchlistsInput.nextToken, outputKey: \ListWatchlistsOutputResponse.nextToken, paginationFunction: self.listWatchlists(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWatchlistsOutput`
+    public func listWatchlistsPaginated(input: ListWatchlistsInput) -> ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutput>(input: input, inputKey: \ListWatchlistsInput.nextToken, outputKey: \ListWatchlistsOutput.nextToken, paginationFunction: self.listWatchlists(input:))
     }
 }
 
@@ -152,7 +152,7 @@ extension ListWatchlistsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListWatchlistsInput, Output == ListWatchlistsOutputResponse {
+extension PaginatorSequence where Input == ListWatchlistsInput, Output == ListWatchlistsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listWatchlistsPaginated`
     /// to access the nested member `[VoiceIDClientTypes.WatchlistSummary]`
     /// - Returns: `[VoiceIDClientTypes.WatchlistSummary]`

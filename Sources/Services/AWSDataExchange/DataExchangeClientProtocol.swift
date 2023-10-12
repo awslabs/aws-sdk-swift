@@ -8,7 +8,7 @@ public protocol DataExchangeClientProtocol {
     ///
     /// - Parameter CancelJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
+    func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
     /// This operation creates a data set.
     ///
     /// - Parameter CreateDataSetInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutputResponse
+    func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput
     /// This operation creates an event action.
     ///
     /// - Parameter CreateEventActionInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventActionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEventActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutputResponse
+    func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutput
     /// This operation creates a job.
     ///
     /// - Parameter CreateJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,12 +64,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
+    func createJob(input: CreateJobInput) async throws -> CreateJobOutput
     /// This operation creates a revision for a data set.
     ///
     /// - Parameter CreateRevisionInput : [no documentation found]
     ///
-    /// - Returns: `CreateRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,12 +79,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutputResponse
+    func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutput
     /// This operation deletes an asset.
     ///
     /// - Parameter DeleteAssetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAssetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAssetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -95,12 +95,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutputResponse
+    func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
     /// This operation deletes a data set.
     ///
     /// - Parameter DeleteDataSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -111,12 +111,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutputResponse
+    func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput
     /// This operation deletes the event action.
     ///
     /// - Parameter DeleteEventActionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventActionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,12 +125,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutputResponse
+    func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutput
     /// This operation deletes a revision.
     ///
     /// - Parameter DeleteRevisionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutputResponse
+    func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutput
     /// This operation returns information about an asset.
     ///
     /// - Parameter GetAssetInput : [no documentation found]
     ///
-    /// - Returns: `GetAssetOutputResponse` : [no documentation found]
+    /// - Returns: `GetAssetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func getAsset(input: GetAssetInput) async throws -> GetAssetOutputResponse
+    func getAsset(input: GetAssetInput) async throws -> GetAssetOutput
     /// This operation returns information about a data set.
     ///
     /// - Parameter GetDataSetInput : [no documentation found]
     ///
-    /// - Returns: `GetDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -169,12 +169,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutputResponse
+    func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutput
     /// This operation retrieves information about an event action.
     ///
     /// - Parameter GetEventActionInput : [no documentation found]
     ///
-    /// - Returns: `GetEventActionOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,12 +183,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutputResponse
+    func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutput
     /// This operation returns information about a job.
     ///
     /// - Parameter GetJobInput : [no documentation found]
     ///
-    /// - Returns: `GetJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -197,12 +197,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
+    func getJob(input: GetJobInput) async throws -> GetJobOutput
     /// This operation returns information about a revision.
     ///
     /// - Parameter GetRevisionInput : [no documentation found]
     ///
-    /// - Returns: `GetRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `GetRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,12 +211,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutputResponse
+    func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutput
     /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
     ///
     /// - Parameter ListDataSetRevisionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSetRevisionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSetRevisionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,12 +225,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutputResponse
+    func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutput
     /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
     ///
     /// - Parameter ListDataSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -239,12 +239,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
+    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
     /// This operation lists your event actions.
     ///
     /// - Parameter ListEventActionsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventActionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventActionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -253,12 +253,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutputResponse
+    func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutput
     /// This operation lists your jobs sorted by CreatedAt in descending order.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,12 +267,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
+    func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
     /// This operation lists a revision's assets sorted alphabetically in descending order.
     ///
     /// - Parameter ListRevisionAssetsInput : [no documentation found]
     ///
-    /// - Returns: `ListRevisionAssetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRevisionAssetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -281,18 +281,18 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutputResponse
+    func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutput
     /// This operation lists the tags on the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// This operation revokes subscribers' access to a revision.
     ///
     /// - Parameter RevokeRevisionInput : [no documentation found]
     ///
-    /// - Returns: `RevokeRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -303,12 +303,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutputResponse
+    func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutput
     /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
     ///
     /// - Parameter SendApiAssetInput : [no documentation found]
     ///
-    /// - Returns: `SendApiAssetOutputResponse` : [no documentation found]
+    /// - Returns: `SendApiAssetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutputResponse
+    func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutput
     /// This operation starts a job.
     ///
     /// - Parameter StartJobInput : [no documentation found]
     ///
-    /// - Returns: `StartJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -334,24 +334,24 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func startJob(input: StartJobInput) async throws -> StartJobOutputResponse
+    func startJob(input: StartJobInput) async throws -> StartJobOutput
     /// This operation tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// This operation removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// This operation updates an asset.
     ///
     /// - Parameter UpdateAssetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAssetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAssetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -362,12 +362,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutputResponse
+    func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutput
     /// This operation updates a data set.
     ///
     /// - Parameter UpdateDataSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -377,12 +377,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutputResponse
+    func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput
     /// This operation updates the event action.
     ///
     /// - Parameter UpdateEventActionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventActionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEventActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -392,12 +392,12 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutputResponse
+    func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutput
     /// This operation updates a revision.
     ///
     /// - Parameter UpdateRevisionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,7 +408,7 @@ public protocol DataExchangeClientProtocol {
     /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
-    func updateRevision(input: UpdateRevisionInput) async throws -> UpdateRevisionOutputResponse
+    func updateRevision(input: UpdateRevisionInput) async throws -> UpdateRevisionOutput
 }
 
 public enum DataExchangeClientTypes {}

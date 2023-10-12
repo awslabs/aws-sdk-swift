@@ -8,14 +8,14 @@ public protocol PersonalizeRuntimeClientProtocol {
     ///
     /// - Parameter GetPersonalizedRankingInput : [no documentation found]
     ///
-    /// - Returns: `GetPersonalizedRankingOutputResponse` : [no documentation found]
+    /// - Returns: `GetPersonalizedRankingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    func getPersonalizedRanking(input: GetPersonalizedRankingInput) async throws -> GetPersonalizedRankingOutputResponse
+    func getPersonalizedRanking(input: GetPersonalizedRankingInput) async throws -> GetPersonalizedRankingOutput
     /// Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to create the solution backing the campaign as follows:
     ///
     /// * USER_PERSONALIZATION - userId required, itemId not used
@@ -27,14 +27,14 @@ public protocol PersonalizeRuntimeClientProtocol {
     ///
     /// - Parameter GetRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `GetRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `GetRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutputResponse
+    func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput
 }
 
 public enum PersonalizeRuntimeClientTypes {}

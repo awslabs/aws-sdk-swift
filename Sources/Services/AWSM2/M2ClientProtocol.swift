@@ -8,7 +8,7 @@ public protocol M2ClientProtocol {
     ///
     /// - Parameter CancelBatchJobExecutionInput : [no documentation found]
     ///
-    /// - Returns: `CancelBatchJobExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `CancelBatchJobExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutputResponse
+    func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutput
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol M2ClientProtocol {
     /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Starts a data set import task for a specific application.
     ///
     /// - Parameter CreateDataSetImportTaskInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataSetImportTaskOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataSetImportTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol M2ClientProtocol {
     /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutputResponse
+    func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutput
     /// Creates and starts a deployment to deploy an application into a runtime environment.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol M2ClientProtocol {
     /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
     /// Creates a runtime environment for a given runtime engine.
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,12 +85,12 @@ public protocol M2ClientProtocol {
     /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
+    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
     /// Deletes a specific application. You cannot delete a running application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -100,12 +100,12 @@ public protocol M2ClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     ///
     /// - Parameter DeleteApplicationFromEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApplicationFromEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationFromEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutputResponse
+    func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutput
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol M2ClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
+    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
     /// Describes the details of a specific application.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -146,12 +146,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
     /// Returns details about a specific version of a specific application.
     ///
     /// - Parameter GetApplicationVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getApplicationVersion(input: GetApplicationVersionInput) async throws -> GetApplicationVersionOutputResponse
+    func getApplicationVersion(input: GetApplicationVersionInput) async throws -> GetApplicationVersionOutput
     /// Gets the details of a specific batch job execution for a specific application.
     ///
     /// - Parameter GetBatchJobExecutionInput : [no documentation found]
     ///
-    /// - Returns: `GetBatchJobExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `GetBatchJobExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,12 +176,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getBatchJobExecution(input: GetBatchJobExecutionInput) async throws -> GetBatchJobExecutionOutputResponse
+    func getBatchJobExecution(input: GetBatchJobExecutionInput) async throws -> GetBatchJobExecutionOutput
     /// Gets the details of a specific data set.
     ///
     /// - Parameter GetDataSetDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetDataSetDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataSetDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -191,12 +191,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutputResponse
+    func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutput
     /// Gets the status of a data set import task initiated with the [CreateDataSetImportTask] operation.
     ///
     /// - Parameter GetDataSetImportTaskInput : [no documentation found]
     ///
-    /// - Returns: `GetDataSetImportTaskOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataSetImportTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,12 +206,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getDataSetImportTask(input: GetDataSetImportTaskInput) async throws -> GetDataSetImportTaskOutputResponse
+    func getDataSetImportTask(input: GetDataSetImportTaskInput) async throws -> GetDataSetImportTaskOutput
     /// Gets details of a specific deployment with a given deployment identifier.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -221,12 +221,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
     /// Describes a specific runtime environment.
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
+    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
     /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
     ///
     /// - Parameter GetSignedBluinsightsUrlInput : [no documentation found]
     ///
-    /// - Returns: `GetSignedBluinsightsUrlOutputResponse` : [no documentation found]
+    /// - Returns: `GetSignedBluinsightsUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -249,12 +249,12 @@ public protocol M2ClientProtocol {
     /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
-    func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutputResponse
+    func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutput
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,12 +263,12 @@ public protocol M2ClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
     /// Returns a list of the application versions for a specific application.
     ///
     /// - Parameter ListApplicationVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -278,12 +278,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutputResponse
+    func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     ///
     /// - Parameter ListBatchJobDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListBatchJobDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBatchJobDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -293,12 +293,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutputResponse
+    func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutput
     /// Lists historical, current, and scheduled batch job executions for a specific application.
     ///
     /// - Parameter ListBatchJobExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListBatchJobExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBatchJobExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -308,12 +308,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutputResponse
+    func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutput
     /// Lists the data set imports for the specified application.
     ///
     /// - Parameter ListDataSetImportHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSetImportHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSetImportHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutputResponse
+    func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutput
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
     ///
     /// - Parameter ListDataSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -338,12 +338,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
+    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -353,12 +353,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
     /// Lists the available engine versions.
     ///
     /// - Parameter ListEngineVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListEngineVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEngineVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -367,12 +367,12 @@ public protocol M2ClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutputResponse
+    func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput
     /// Lists the runtime environments.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -381,12 +381,12 @@ public protocol M2ClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
+    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -396,12 +396,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts an application that is currently stopped.
     ///
     /// - Parameter StartApplicationInput : [no documentation found]
     ///
-    /// - Returns: `StartApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StartApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,12 +412,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutputResponse
+    func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
     ///
     /// - Parameter StartBatchJobInput : [no documentation found]
     ///
-    /// - Returns: `StartBatchJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartBatchJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -428,12 +428,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func startBatchJob(input: StartBatchJobInput) async throws -> StartBatchJobOutputResponse
+    func startBatchJob(input: StartBatchJobInput) async throws -> StartBatchJobOutput
     /// Stops a running application.
     ///
     /// - Parameter StopApplicationInput : [no documentation found]
     ///
-    /// - Returns: `StopApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StopApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,12 +444,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutputResponse
+    func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput
     /// Adds one or more tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,12 +460,12 @@ public protocol M2ClientProtocol {
     /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,12 +475,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an application and creates a new version.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,12 +491,12 @@ public protocol M2ClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Updates the configuration details for a specific runtime environment.
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -508,7 +508,7 @@ public protocol M2ClientProtocol {
     /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
-    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
+    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
 }
 
 public enum M2ClientTypes {}

@@ -8,7 +8,7 @@ public protocol KendraClientProtocol {
     ///
     /// - Parameter AssociateEntitiesToExperienceInput : [no documentation found]
     ///
-    /// - Returns: `AssociateEntitiesToExperienceOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateEntitiesToExperienceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func associateEntitiesToExperience(input: AssociateEntitiesToExperienceInput) async throws -> AssociateEntitiesToExperienceOutputResponse
+    func associateEntitiesToExperience(input: AssociateEntitiesToExperienceInput) async throws -> AssociateEntitiesToExperienceOutput
     /// Defines the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter AssociatePersonasToEntitiesInput : [no documentation found]
     ///
-    /// - Returns: `AssociatePersonasToEntitiesOutputResponse` : [no documentation found]
+    /// - Returns: `AssociatePersonasToEntitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func associatePersonasToEntities(input: AssociatePersonasToEntitiesInput) async throws -> AssociatePersonasToEntitiesOutputResponse
+    func associatePersonasToEntities(input: AssociatePersonasToEntitiesInput) async throws -> AssociatePersonasToEntitiesOutput
     /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocument could take up to an hour or more, depending on the number of documents you want to delete.
     ///
     /// - Parameter BatchDeleteDocumentInput : [no documentation found]
     ///
-    /// - Returns: `BatchDeleteDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDeleteDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutputResponse
+    func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutput
     /// Removes one or more sets of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
     ///
     /// - Parameter BatchDeleteFeaturedResultsSetInput : [no documentation found]
     ///
-    /// - Returns: `BatchDeleteFeaturedResultsSetOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDeleteFeaturedResultsSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func batchDeleteFeaturedResultsSet(input: BatchDeleteFeaturedResultsSetInput) async throws -> BatchDeleteFeaturedResultsSetOutputResponse
+    func batchDeleteFeaturedResultsSet(input: BatchDeleteFeaturedResultsSetInput) async throws -> BatchDeleteFeaturedResultsSetOutput
     /// Returns the indexing status for one or more documents submitted with the [ BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API. When you use the BatchPutDocument API, documents are indexed asynchronously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the [ BatchDeleteDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteDocument.html) API. When a document is deleted from the index, Amazon Kendra returns NOT_FOUND as the status.
     ///
     /// - Parameter BatchGetDocumentStatusInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetDocumentStatusOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetDocumentStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func batchGetDocumentStatus(input: BatchGetDocumentStatusInput) async throws -> BatchGetDocumentStatusOutputResponse
+    func batchGetDocumentStatus(input: BatchGetDocumentStatusInput) async throws -> BatchGetDocumentStatusOutput
     /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of indexing your documents. For an example of ingesting inline documents using Python and Java SDKs, see [Adding files directly to an index](https://docs.aws.amazon.com/kendra/latest/dg/in-adding-binary-doc.html).
     ///
     /// - Parameter BatchPutDocumentInput : [no documentation found]
     ///
-    /// - Returns: `BatchPutDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `BatchPutDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutputResponse
+    func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutput
     /// Clears existing query suggestions from an index. This deletes existing suggestions only, not the queries in the query log. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. If you do not see any new suggestions, then please allow Amazon Kendra to collect enough queries to learn new suggestions. ClearQuerySuggestions is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter ClearQuerySuggestionsInput : [no documentation found]
     ///
-    /// - Returns: `ClearQuerySuggestionsOutputResponse` : [no documentation found]
+    /// - Returns: `ClearQuerySuggestionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func clearQuerySuggestions(input: ClearQuerySuggestionsInput) async throws -> ClearQuerySuggestionsOutputResponse
+    func clearQuerySuggestions(input: ClearQuerySuggestionsInput) async throws -> ClearQuerySuggestionsOutput
     /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these users leaves the company or switches to a team that should be blocked from accessing top-secret documents. The user still has access to top-secret documents because the user had access when your documents were previously indexed. You can create a specific access control configuration for the user with deny access. You can later update the access control configuration to allow access if the user returns to the company and re-joins the 'top-secret' team. You can re-configure access control for your documents as circumstances change. To apply your access control configuration to certain documents, you call the [BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API with the AccessControlConfigurationId included in the [Document](https://docs.aws.amazon.com/kendra/latest/dg/API_Document.html) object. If you use an S3 bucket as a data source, you update the .metadata.json with the AccessControlConfigurationId and synchronize your data source. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
     ///
     /// - Parameter CreateAccessControlConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessControlConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccessControlConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createAccessControlConfiguration(input: CreateAccessControlConfigurationInput) async throws -> CreateAccessControlConfigurationOutputResponse
+    func createAccessControlConfiguration(input: CreateAccessControlConfigurationInput) async throws -> CreateAccessControlConfigurationOutput
     /// Creates a data source connector that you want to use with an Amazon Kendra index. You specify a name, data source connector type and description for your data source. You also specify configuration information for the data source connector. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised. For an example of creating an index and data source using the Python SDK, see [Getting started with Python SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html). For an example of creating an index and data source using the Java SDK, see [Getting started with Java SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html).
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -150,12 +150,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutputResponse
+    func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
     /// Creates an Amazon Kendra experience such as a search application. For more information on creating a search application experience, including using the Python and Java SDKs, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter CreateExperienceInput : [no documentation found]
     ///
-    /// - Returns: `CreateExperienceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateExperienceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -167,12 +167,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createExperience(input: CreateExperienceInput) async throws -> CreateExperienceOutputResponse
+    func createExperience(input: CreateExperienceInput) async throws -> CreateExperienceOutput
     /// Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored in an Amazon S3 bucket. Adding FAQs to an index is an asynchronous operation. For an example of adding an FAQ to an index using Python and Java SDKs, see [Using your FAQ file](https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html#using-faq-file).
     ///
     /// - Parameter CreateFaqInput : [no documentation found]
     ///
-    /// - Returns: `CreateFaqOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFaqOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createFaq(input: CreateFaqInput) async throws -> CreateFaqOutputResponse
+    func createFaq(input: CreateFaqInput) async throws -> CreateFaqOutput
     /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can request to increase this limit by contacting [Support](http://aws.amazon.com/contact-us/).
     ///
     /// - Parameter CreateFeaturedResultsSetInput : [no documentation found]
     ///
-    /// - Returns: `CreateFeaturedResultsSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFeaturedResultsSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -201,12 +201,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createFeaturedResultsSet(input: CreateFeaturedResultsSetInput) async throws -> CreateFeaturedResultsSetOutputResponse
+    func createFeaturedResultsSet(input: CreateFeaturedResultsSetInput) async throws -> CreateFeaturedResultsSetOutput
     /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported [data sources](https://docs.aws.amazon.com/kendra/latest/dg/data-sources.html). For an example of creating an index and data source using the Python SDK, see [Getting started with Python SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html). For an example of creating an index and data source using the Java SDK, see [Getting started with Java SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html).
     ///
     /// - Parameter CreateIndexInput : [no documentation found]
     ///
-    /// - Returns: `CreateIndexOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIndexOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,12 +218,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutputResponse
+    func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput
     /// Creates a block list to exlcude certain queries from suggestions. Any query that contains words or phrases specified in the block list is blocked or filtered out from being shown as a suggestion. You need to provide the file location of your block list text file in your S3 bucket. In your text file, enter each block word or phrase on a separate line. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html). CreateQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region. For an example of creating a block list for query suggestions using the Python SDK, see [Query suggestions block list](https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#query-suggestions-blocklist).
     ///
     /// - Parameter CreateQuerySuggestionsBlockListInput : [no documentation found]
     ///
-    /// - Returns: `CreateQuerySuggestionsBlockListOutputResponse` : [no documentation found]
+    /// - Returns: `CreateQuerySuggestionsBlockListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,12 +235,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createQuerySuggestionsBlockList(input: CreateQuerySuggestionsBlockListInput) async throws -> CreateQuerySuggestionsBlockListOutputResponse
+    func createQuerySuggestionsBlockList(input: CreateQuerySuggestionsBlockListInput) async throws -> CreateQuerySuggestionsBlockListOutput
     /// Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format. For an example of adding a thesaurus file to an index, see [Adding custom synonyms to an index](https://docs.aws.amazon.com/kendra/latest/dg/index-synonyms-adding-thesaurus-file.html).
     ///
     /// - Parameter CreateThesaurusInput : [no documentation found]
     ///
-    /// - Returns: `CreateThesaurusOutputResponse` : [no documentation found]
+    /// - Returns: `CreateThesaurusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -252,12 +252,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func createThesaurus(input: CreateThesaurusInput) async throws -> CreateThesaurusOutputResponse
+    func createThesaurus(input: CreateThesaurusInput) async throws -> CreateThesaurusOutput
     /// Deletes an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     ///
     /// - Parameter DeleteAccessControlConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessControlConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccessControlConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,12 +268,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteAccessControlConfiguration(input: DeleteAccessControlConfigurationInput) async throws -> DeleteAccessControlConfigurationOutputResponse
+    func deleteAccessControlConfiguration(input: DeleteAccessControlConfigurationInput) async throws -> DeleteAccessControlConfigurationOutput
     /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see [Deleting Data Sources](https://docs.aws.amazon.com/kendra/latest/dg/delete-data-source.html). Deleting an entire data source or re-syncing your index after deleting specific documents from a data source could take up to an hour or more, depending on the number of documents you want to delete.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -284,12 +284,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutputResponse
+    func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
     /// Deletes your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter DeleteExperienceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteExperienceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteExperienceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,12 +300,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteExperience(input: DeleteExperienceInput) async throws -> DeleteExperienceOutputResponse
+    func deleteExperience(input: DeleteExperienceInput) async throws -> DeleteExperienceOutput
     /// Removes an FAQ from an index.
     ///
     /// - Parameter DeleteFaqInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFaqOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFaqOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -316,12 +316,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteFaq(input: DeleteFaqInput) async throws -> DeleteFaqOutputResponse
+    func deleteFaq(input: DeleteFaqInput) async throws -> DeleteFaqOutput
     /// Deletes an existing Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex API is set to DELETING.
     ///
     /// - Parameter DeleteIndexInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIndexOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIndexOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -332,12 +332,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutputResponse
+    func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput
     /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping. DeletePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter DeletePrincipalMappingInput : [no documentation found]
     ///
-    /// - Returns: `DeletePrincipalMappingOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePrincipalMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -348,12 +348,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deletePrincipalMapping(input: DeletePrincipalMappingInput) async throws -> DeletePrincipalMappingOutputResponse
+    func deletePrincipalMapping(input: DeletePrincipalMappingInput) async throws -> DeletePrincipalMappingOutput
     /// Deletes a block list used for query suggestions for an index. A deleted block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to add back the queries that were previously blocked. DeleteQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter DeleteQuerySuggestionsBlockListInput : [no documentation found]
     ///
-    /// - Returns: `DeleteQuerySuggestionsBlockListOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteQuerySuggestionsBlockListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,12 +364,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteQuerySuggestionsBlockList(input: DeleteQuerySuggestionsBlockListInput) async throws -> DeleteQuerySuggestionsBlockListOutputResponse
+    func deleteQuerySuggestionsBlockList(input: DeleteQuerySuggestionsBlockListInput) async throws -> DeleteQuerySuggestionsBlockListOutput
     /// Deletes an existing Amazon Kendra thesaurus.
     ///
     /// - Parameter DeleteThesaurusInput : [no documentation found]
     ///
-    /// - Returns: `DeleteThesaurusOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteThesaurusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -380,12 +380,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func deleteThesaurus(input: DeleteThesaurusInput) async throws -> DeleteThesaurusOutputResponse
+    func deleteThesaurus(input: DeleteThesaurusInput) async throws -> DeleteThesaurusOutput
     /// Gets information about an access control configuration that you created for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     ///
     /// - Parameter DescribeAccessControlConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccessControlConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccessControlConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -395,12 +395,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeAccessControlConfiguration(input: DescribeAccessControlConfigurationInput) async throws -> DescribeAccessControlConfigurationOutputResponse
+    func describeAccessControlConfiguration(input: DescribeAccessControlConfigurationInput) async throws -> DescribeAccessControlConfigurationOutput
     /// Gets information about an Amazon Kendra data source connector.
     ///
     /// - Parameter DescribeDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutputResponse
+    func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutput
     /// Gets information about your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter DescribeExperienceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeExperienceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeExperienceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,12 +425,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeExperience(input: DescribeExperienceInput) async throws -> DescribeExperienceOutputResponse
+    func describeExperience(input: DescribeExperienceInput) async throws -> DescribeExperienceOutput
     /// Gets information about an FAQ list.
     ///
     /// - Parameter DescribeFaqInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFaqOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFaqOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,12 +440,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeFaq(input: DescribeFaqInput) async throws -> DescribeFaqOutputResponse
+    func describeFaq(input: DescribeFaqInput) async throws -> DescribeFaqOutput
     /// Gets information about a set of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
     ///
     /// - Parameter DescribeFeaturedResultsSetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFeaturedResultsSetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFeaturedResultsSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,12 +455,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeFeaturedResultsSet(input: DescribeFeaturedResultsSetInput) async throws -> DescribeFeaturedResultsSetOutputResponse
+    func describeFeaturedResultsSet(input: DescribeFeaturedResultsSetInput) async throws -> DescribeFeaturedResultsSetOutput
     /// Gets information about an existing Amazon Kendra index.
     ///
     /// - Parameter DescribeIndexInput : [no documentation found]
     ///
-    /// - Returns: `DescribeIndexOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeIndexOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -470,12 +470,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutputResponse
+    func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutput
     /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed. DescribePrincipalMapping is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter DescribePrincipalMappingInput : [no documentation found]
     ///
-    /// - Returns: `DescribePrincipalMappingOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePrincipalMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,12 +485,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describePrincipalMapping(input: DescribePrincipalMappingInput) async throws -> DescribePrincipalMappingOutputResponse
+    func describePrincipalMapping(input: DescribePrincipalMappingInput) async throws -> DescribePrincipalMappingOutput
     /// Gets information about a block list used for query suggestions for an index. This is used to check the current settings that are applied to a block list. DescribeQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter DescribeQuerySuggestionsBlockListInput : [no documentation found]
     ///
-    /// - Returns: `DescribeQuerySuggestionsBlockListOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeQuerySuggestionsBlockListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,12 +500,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeQuerySuggestionsBlockList(input: DescribeQuerySuggestionsBlockListInput) async throws -> DescribeQuerySuggestionsBlockListOutputResponse
+    func describeQuerySuggestionsBlockList(input: DescribeQuerySuggestionsBlockListInput) async throws -> DescribeQuerySuggestionsBlockListOutput
     /// Gets information on the settings of query suggestions for an index. This is used to check the current settings applied to query suggestions. DescribeQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter DescribeQuerySuggestionsConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeQuerySuggestionsConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeQuerySuggestionsConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,12 +515,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeQuerySuggestionsConfig(input: DescribeQuerySuggestionsConfigInput) async throws -> DescribeQuerySuggestionsConfigOutputResponse
+    func describeQuerySuggestionsConfig(input: DescribeQuerySuggestionsConfigInput) async throws -> DescribeQuerySuggestionsConfigOutput
     /// Gets information about an existing Amazon Kendra thesaurus.
     ///
     /// - Parameter DescribeThesaurusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeThesaurusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeThesaurusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,12 +530,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func describeThesaurus(input: DescribeThesaurusInput) async throws -> DescribeThesaurusOutputResponse
+    func describeThesaurus(input: DescribeThesaurusInput) async throws -> DescribeThesaurusOutput
     /// Prevents users or groups in your IAM Identity Center identity source from accessing your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter DisassociateEntitiesFromExperienceInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateEntitiesFromExperienceOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateEntitiesFromExperienceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -545,12 +545,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func disassociateEntitiesFromExperience(input: DisassociateEntitiesFromExperienceInput) async throws -> DisassociateEntitiesFromExperienceOutputResponse
+    func disassociateEntitiesFromExperience(input: DisassociateEntitiesFromExperienceInput) async throws -> DisassociateEntitiesFromExperienceOutput
     /// Removes the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter DisassociatePersonasFromEntitiesInput : [no documentation found]
     ///
-    /// - Returns: `DisassociatePersonasFromEntitiesOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociatePersonasFromEntitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,12 +560,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func disassociatePersonasFromEntities(input: DisassociatePersonasFromEntitiesInput) async throws -> DisassociatePersonasFromEntitiesOutputResponse
+    func disassociatePersonasFromEntities(input: DisassociatePersonasFromEntitiesInput) async throws -> DisassociatePersonasFromEntitiesOutput
     /// Fetches the queries that are suggested to your users. GetQuerySuggestions is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter GetQuerySuggestionsInput : [no documentation found]
     ///
-    /// - Returns: `GetQuerySuggestionsOutputResponse` : [no documentation found]
+    /// - Returns: `GetQuerySuggestionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,12 +577,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func getQuerySuggestions(input: GetQuerySuggestionsInput) async throws -> GetQuerySuggestionsOutputResponse
+    func getQuerySuggestions(input: GetQuerySuggestionsInput) async throws -> GetQuerySuggestionsOutput
     /// Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
     ///
     /// - Parameter GetSnapshotsInput : [no documentation found]
     ///
-    /// - Returns: `GetSnapshotsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSnapshotsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,12 +591,12 @@ public protocol KendraClientProtocol {
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `InvalidRequestException` : The input to the request is not valid. Please provide the correct input and try again.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
-    func getSnapshots(input: GetSnapshotsInput) async throws -> GetSnapshotsOutputResponse
+    func getSnapshots(input: GetSnapshotsInput) async throws -> GetSnapshotsOutput
     /// Lists one or more access control configurations for an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     ///
     /// - Parameter ListAccessControlConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessControlConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccessControlConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,12 +606,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listAccessControlConfigurations(input: ListAccessControlConfigurationsInput) async throws -> ListAccessControlConfigurationsOutputResponse
+    func listAccessControlConfigurations(input: ListAccessControlConfigurationsInput) async throws -> ListAccessControlConfigurationsOutput
     /// Lists the data source connectors that you have created.
     ///
     /// - Parameter ListDataSourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,12 +621,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutputResponse
+    func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
     /// Gets statistics about synchronizing a data source connector.
     ///
     /// - Parameter ListDataSourceSyncJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSourceSyncJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSourceSyncJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,12 +637,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutputResponse
+    func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutput
     /// Lists specific permissions of users and groups with access to your Amazon Kendra experience.
     ///
     /// - Parameter ListEntityPersonasInput : [no documentation found]
     ///
-    /// - Returns: `ListEntityPersonasOutputResponse` : [no documentation found]
+    /// - Returns: `ListEntityPersonasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,12 +652,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listEntityPersonas(input: ListEntityPersonasInput) async throws -> ListEntityPersonasOutputResponse
+    func listEntityPersonas(input: ListEntityPersonasInput) async throws -> ListEntityPersonasOutput
     /// Lists users or groups in your IAM Identity Center identity source that are granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter ListExperienceEntitiesInput : [no documentation found]
     ///
-    /// - Returns: `ListExperienceEntitiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListExperienceEntitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,12 +667,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listExperienceEntities(input: ListExperienceEntitiesInput) async throws -> ListExperienceEntitiesOutputResponse
+    func listExperienceEntities(input: ListExperienceEntitiesInput) async throws -> ListExperienceEntitiesOutput
     /// Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter ListExperiencesInput : [no documentation found]
     ///
-    /// - Returns: `ListExperiencesOutputResponse` : [no documentation found]
+    /// - Returns: `ListExperiencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,12 +682,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listExperiences(input: ListExperiencesInput) async throws -> ListExperiencesOutputResponse
+    func listExperiences(input: ListExperiencesInput) async throws -> ListExperiencesOutput
     /// Gets a list of FAQ lists associated with an index.
     ///
     /// - Parameter ListFaqsInput : [no documentation found]
     ///
-    /// - Returns: `ListFaqsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFaqsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,12 +697,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listFaqs(input: ListFaqsInput) async throws -> ListFaqsOutputResponse
+    func listFaqs(input: ListFaqsInput) async throws -> ListFaqsOutput
     /// Lists all your sets of featured results for a given index. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
     ///
     /// - Parameter ListFeaturedResultsSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListFeaturedResultsSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFeaturedResultsSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -712,12 +712,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listFeaturedResultsSets(input: ListFeaturedResultsSetsInput) async throws -> ListFeaturedResultsSetsOutputResponse
+    func listFeaturedResultsSets(input: ListFeaturedResultsSetsInput) async throws -> ListFeaturedResultsSetsOutput
     /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter ListGroupsOlderThanOrderingIdInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupsOlderThanOrderingIdOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupsOlderThanOrderingIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,12 +728,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listGroupsOlderThanOrderingId(input: ListGroupsOlderThanOrderingIdInput) async throws -> ListGroupsOlderThanOrderingIdOutputResponse
+    func listGroupsOlderThanOrderingId(input: ListGroupsOlderThanOrderingIdInput) async throws -> ListGroupsOlderThanOrderingIdOutput
     /// Lists the Amazon Kendra indexes that you created.
     ///
     /// - Parameter ListIndicesInput : [no documentation found]
     ///
-    /// - Returns: `ListIndicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListIndicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -742,12 +742,12 @@ public protocol KendraClientProtocol {
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutputResponse
+    func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput
     /// Lists the block lists used for query suggestions for an index. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html). ListQuerySuggestionsBlockLists is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter ListQuerySuggestionsBlockListsInput : [no documentation found]
     ///
-    /// - Returns: `ListQuerySuggestionsBlockListsOutputResponse` : [no documentation found]
+    /// - Returns: `ListQuerySuggestionsBlockListsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -757,12 +757,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listQuerySuggestionsBlockLists(input: ListQuerySuggestionsBlockListsInput) async throws -> ListQuerySuggestionsBlockListsOutputResponse
+    func listQuerySuggestionsBlockLists(input: ListQuerySuggestionsBlockListsInput) async throws -> ListQuerySuggestionsBlockListsOutput
     /// Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources can have tags associated with them.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,12 +772,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists the thesauri for an index.
     ///
     /// - Parameter ListThesauriInput : [no documentation found]
     ///
-    /// - Returns: `ListThesauriOutputResponse` : [no documentation found]
+    /// - Returns: `ListThesauriOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -787,12 +787,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func listThesauri(input: ListThesauriInput) async throws -> ListThesauriOutputResponse
+    func listThesauri(input: ListThesauriInput) async throws -> ListThesauriOutput
     /// Maps users to their groups so that you only need to provide the user ID when you issue the query. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their search results. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. For more information, see [Filtering on user context](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html). If more than five PUT actions for a group are currently processing, a validation exception is thrown.
     ///
     /// - Parameter PutPrincipalMappingInput : [no documentation found]
     ///
-    /// - Returns: `PutPrincipalMappingOutputResponse` : [no documentation found]
+    /// - Returns: `PutPrincipalMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,7 +804,7 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func putPrincipalMapping(input: PutPrincipalMappingInput) async throws -> PutPrincipalMappingOutputResponse
+    func putPrincipalMapping(input: PutPrincipalMappingInput) async throws -> PutPrincipalMappingOutput
     /// Searches an index given an input query. You can configure boosting or relevance tuning at the query level to override boosting at the index level, filter based on document fields/attributes and faceted search, and filter based on the user or their group access to documents. You can also include certain fields in the response that might provide useful additional information. A query response contains three types of results.
     ///
     /// * Relevant suggested answers. The answers can be either a text excerpt or table excerpt. The answer can be highlighted in the excerpt.
@@ -818,7 +818,7 @@ public protocol KendraClientProtocol {
     ///
     /// - Parameter QueryInput : [no documentation found]
     ///
-    /// - Returns: `QueryOutputResponse` : [no documentation found]
+    /// - Returns: `QueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,7 +830,7 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func query(input: QueryInput) async throws -> QueryOutputResponse
+    func query(input: QueryInput) async throws -> QueryOutput
     /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the [Query](https://docs.aws.amazon.com/kendra/latest/APIReference/API_Query.html) API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:
     ///
     /// * Override boosting at the index level
@@ -844,7 +844,7 @@ public protocol KendraClientProtocol {
     ///
     /// - Parameter RetrieveInput : [no documentation found]
     ///
-    /// - Returns: `RetrieveOutputResponse` : [no documentation found]
+    /// - Returns: `RetrieveOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,12 +856,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func retrieve(input: RetrieveInput) async throws -> RetrieveOutputResponse
+    func retrieve(input: RetrieveInput) async throws -> RetrieveOutput
     /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception. Re-syncing your data source with your index after modifying, adding, or deleting documents from your data source respository could take up to an hour or more, depending on the number of documents to sync.
     ///
     /// - Parameter StartDataSourceSyncJobInput : [no documentation found]
     ///
-    /// - Returns: `StartDataSourceSyncJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartDataSourceSyncJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,12 +873,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutputResponse
+    func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutput
     /// Stops a synchronization job that is currently running. You can't stop a scheduled synchronization job.
     ///
     /// - Parameter StopDataSourceSyncJobInput : [no documentation found]
     ///
-    /// - Returns: `StopDataSourceSyncJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopDataSourceSyncJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -888,12 +888,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutputResponse
+    func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutput
     /// Enables you to provide feedback to Amazon Kendra to improve the performance of your index. SubmitFeedback is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter SubmitFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `SubmitFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `SubmitFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,12 +904,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutputResponse
+    func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutput
     /// Adds the specified tag to the specified index, FAQ, or data source resource. If the tag already exists, the existing value is replaced with the new value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,12 +919,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag from an index, FAQ, or a data source.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,12 +934,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceUnavailableException` : The resource you want to use isn't available. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an access control configuration for your documents in an index. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can update an access control configuration you created without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. You created an 'allow' access control configuration for one user who recently joined the 'top-secret' team, switching from a team with 'deny' access to top-secret documents. However, the user suddenly returns to their previous team and should no longer have access to top secret documents. You can update the access control configuration to re-configure access control for your documents as circumstances change. You call the [BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API to apply the updated access control configuration, with the AccessControlConfigurationId included in the [Document](https://docs.aws.amazon.com/kendra/latest/dg/API_Document.html) object. If you use an S3 bucket as a data source, you synchronize your data source to apply the AccessControlConfigurationId in the .metadata.json file. Amazon Kendra currently only supports access control configuration for S3 data sources and documents indexed using the BatchPutDocument API.
     ///
     /// - Parameter UpdateAccessControlConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccessControlConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccessControlConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,12 +951,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateAccessControlConfiguration(input: UpdateAccessControlConfigurationInput) async throws -> UpdateAccessControlConfigurationOutputResponse
+    func updateAccessControlConfiguration(input: UpdateAccessControlConfigurationInput) async throws -> UpdateAccessControlConfigurationOutput
     /// Updates an existing Amazon Kendra data source connector.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,12 +967,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutputResponse
+    func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
     /// Updates your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     ///
     /// - Parameter UpdateExperienceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateExperienceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateExperienceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,12 +983,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateExperience(input: UpdateExperienceInput) async throws -> UpdateExperienceOutputResponse
+    func updateExperience(input: UpdateExperienceInput) async throws -> UpdateExperienceOutput
     /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are featured in the search results.
     ///
     /// - Parameter UpdateFeaturedResultsSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFeaturedResultsSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFeaturedResultsSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,12 +999,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateFeaturedResultsSet(input: UpdateFeaturedResultsSetInput) async throws -> UpdateFeaturedResultsSetOutputResponse
+    func updateFeaturedResultsSet(input: UpdateFeaturedResultsSetInput) async throws -> UpdateFeaturedResultsSetOutput
     /// Updates an existing Amazon Kendra index.
     ///
     /// - Parameter UpdateIndexInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIndexOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIndexOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1016,12 +1016,12 @@ public protocol KendraClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutputResponse
+    func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput
     /// Updates a block list used for query suggestions for an index. Updates to a block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to apply any updates to the block list. Other changes not related to the block list apply immediately. If a block list is updating, then you need to wait for the first update to finish before submitting another update. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. UpdateQuerySuggestionsBlockList is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter UpdateQuerySuggestionsBlockListInput : [no documentation found]
     ///
-    /// - Returns: `UpdateQuerySuggestionsBlockListOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateQuerySuggestionsBlockListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,12 +1032,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateQuerySuggestionsBlockList(input: UpdateQuerySuggestionsBlockListInput) async throws -> UpdateQuerySuggestionsBlockListOutputResponse
+    func updateQuerySuggestionsBlockList(input: UpdateQuerySuggestionsBlockListInput) async throws -> UpdateQuerySuggestionsBlockListOutput
     /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing, you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the updates made and the number of search queries in your index. You can still enable/disable query suggestions at any time. UpdateQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     ///
     /// - Parameter UpdateQuerySuggestionsConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateQuerySuggestionsConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateQuerySuggestionsConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1048,12 +1048,12 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateQuerySuggestionsConfig(input: UpdateQuerySuggestionsConfigInput) async throws -> UpdateQuerySuggestionsConfigOutputResponse
+    func updateQuerySuggestionsConfig(input: UpdateQuerySuggestionsConfigInput) async throws -> UpdateQuerySuggestionsConfigOutput
     /// Updates a thesaurus for an index.
     ///
     /// - Parameter UpdateThesaurusInput : [no documentation found]
     ///
-    /// - Returns: `UpdateThesaurusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateThesaurusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1064,7 +1064,7 @@ public protocol KendraClientProtocol {
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Please check you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
-    func updateThesaurus(input: UpdateThesaurusInput) async throws -> UpdateThesaurusOutputResponse
+    func updateThesaurus(input: UpdateThesaurusInput) async throws -> UpdateThesaurusOutput
 }
 
 public enum KendraClientTypes {}

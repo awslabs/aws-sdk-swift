@@ -407,6 +407,16 @@ extension AddClientIDToOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
+extension AddClientIDToOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddClientIDToOpenIDConnectProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddClientIDToOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -418,16 +428,6 @@ enum AddClientIDToOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddClientIDToOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddClientIDToOpenIDConnectProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AddRoleToInstanceProfileInput: Swift.Encodable {
@@ -488,6 +488,16 @@ extension AddRoleToInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension AddRoleToInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddRoleToInstanceProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddRoleToInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -500,16 +510,6 @@ enum AddRoleToInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddRoleToInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddRoleToInstanceProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AddUserToGroupInput: Swift.Encodable {
@@ -570,6 +570,16 @@ extension AddUserToGroupInputBody: Swift.Decodable {
     }
 }
 
+extension AddUserToGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AddUserToGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddUserToGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -580,16 +590,6 @@ enum AddUserToGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AddUserToGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AddUserToGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes {
@@ -685,6 +685,16 @@ extension AttachGroupPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension AttachGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AttachGroupPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AttachGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -697,16 +707,6 @@ enum AttachGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AttachGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AttachGroupPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AttachRolePolicyInput: Swift.Encodable {
@@ -767,6 +767,16 @@ extension AttachRolePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension AttachRolePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AttachRolePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AttachRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -780,16 +790,6 @@ enum AttachRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AttachRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AttachRolePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AttachUserPolicyInput: Swift.Encodable {
@@ -850,6 +850,16 @@ extension AttachUserPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension AttachUserPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AttachUserPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AttachUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -862,16 +872,6 @@ enum AttachUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AttachUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AttachUserPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes.AttachedPermissionsBoundary: Swift.Codable {
@@ -1027,6 +1027,16 @@ extension ChangePasswordInputBody: Swift.Decodable {
     }
 }
 
+extension ChangePasswordOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ChangePasswordOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum ChangePasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -1040,16 +1050,6 @@ enum ChangePasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension ChangePasswordOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ChangePasswordOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ConcurrentModificationException {
@@ -1294,23 +1294,11 @@ extension CreateAccessKeyInputBody: Swift.Decodable {
     }
 }
 
-enum CreateAccessKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateAccessKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAccessKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAccessKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAccessKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessKey = output.accessKey
         } else {
             self.accessKey = nil
@@ -1319,7 +1307,7 @@ extension CreateAccessKeyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [CreateAccessKey] request.
-public struct CreateAccessKeyOutputResponse: Swift.Equatable {
+public struct CreateAccessKeyOutput: Swift.Equatable {
     /// A structure with details about the access key.
     /// This member is required.
     public var accessKey: IAMClientTypes.AccessKey?
@@ -1332,11 +1320,11 @@ public struct CreateAccessKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAccessKeyOutputResponseBody: Swift.Equatable {
+struct CreateAccessKeyOutputBody: Swift.Equatable {
     let accessKey: IAMClientTypes.AccessKey?
 }
 
-extension CreateAccessKeyOutputResponseBody: Swift.Decodable {
+extension CreateAccessKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessKey = "AccessKey"
     }
@@ -1346,6 +1334,18 @@ extension CreateAccessKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateAccessKeyResult"))
         let accessKeyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.AccessKey.self, forKey: .accessKey)
         accessKey = accessKeyDecoded
+    }
+}
+
+enum CreateAccessKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1395,6 +1395,16 @@ extension CreateAccountAliasInputBody: Swift.Decodable {
     }
 }
 
+extension CreateAccountAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateAccountAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CreateAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -1406,16 +1416,6 @@ enum CreateAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension CreateAccountAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateAccountAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateGroupInput: Swift.Encodable {
@@ -1475,24 +1475,11 @@ extension CreateGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
         } else {
             self.group = nil
@@ -1501,7 +1488,7 @@ extension CreateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [CreateGroup] request.
-public struct CreateGroupOutputResponse: Swift.Equatable {
+public struct CreateGroupOutput: Swift.Equatable {
     /// A structure containing details about the new group.
     /// This member is required.
     public var group: IAMClientTypes.Group?
@@ -1514,11 +1501,11 @@ public struct CreateGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputResponseBody: Swift.Equatable {
+struct CreateGroupOutputBody: Swift.Equatable {
     let group: IAMClientTypes.Group?
 }
 
-extension CreateGroupOutputResponseBody: Swift.Decodable {
+extension CreateGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case group = "Group"
     }
@@ -1528,6 +1515,19 @@ extension CreateGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateGroupResult"))
         let groupDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Group.self, forKey: .group)
         group = groupDecoded
+    }
+}
+
+enum CreateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1625,25 +1625,11 @@ extension CreateInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
-enum CreateInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateInstanceProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfile = output.instanceProfile
         } else {
             self.instanceProfile = nil
@@ -1652,7 +1638,7 @@ extension CreateInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Contains the response to a successful [CreateInstanceProfile] request.
-public struct CreateInstanceProfileOutputResponse: Swift.Equatable {
+public struct CreateInstanceProfileOutput: Swift.Equatable {
     /// A structure containing details about the new instance profile.
     /// This member is required.
     public var instanceProfile: IAMClientTypes.InstanceProfile?
@@ -1665,11 +1651,11 @@ public struct CreateInstanceProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateInstanceProfileOutputResponseBody: Swift.Equatable {
+struct CreateInstanceProfileOutputBody: Swift.Equatable {
     let instanceProfile: IAMClientTypes.InstanceProfile?
 }
 
-extension CreateInstanceProfileOutputResponseBody: Swift.Decodable {
+extension CreateInstanceProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceProfile = "InstanceProfile"
     }
@@ -1679,6 +1665,20 @@ extension CreateInstanceProfileOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateInstanceProfileResult"))
         let instanceProfileDecoded = try containerValues.decodeIfPresent(IAMClientTypes.InstanceProfile.self, forKey: .instanceProfile)
         instanceProfile = instanceProfileDecoded
+    }
+}
+
+enum CreateInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1756,25 +1756,11 @@ extension CreateLoginProfileInputBody: Swift.Decodable {
     }
 }
 
-enum CreateLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PasswordPolicyViolation": return try await PasswordPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLoginProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateLoginProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateLoginProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.loginProfile = output.loginProfile
         } else {
             self.loginProfile = nil
@@ -1783,7 +1769,7 @@ extension CreateLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [CreateLoginProfile] request.
-public struct CreateLoginProfileOutputResponse: Swift.Equatable {
+public struct CreateLoginProfileOutput: Swift.Equatable {
     /// A structure containing the user name and password create date.
     /// This member is required.
     public var loginProfile: IAMClientTypes.LoginProfile?
@@ -1796,11 +1782,11 @@ public struct CreateLoginProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateLoginProfileOutputResponseBody: Swift.Equatable {
+struct CreateLoginProfileOutputBody: Swift.Equatable {
     let loginProfile: IAMClientTypes.LoginProfile?
 }
 
-extension CreateLoginProfileOutputResponseBody: Swift.Decodable {
+extension CreateLoginProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loginProfile = "LoginProfile"
     }
@@ -1810,6 +1796,20 @@ extension CreateLoginProfileOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateLoginProfileResult"))
         let loginProfileDecoded = try containerValues.decodeIfPresent(IAMClientTypes.LoginProfile.self, forKey: .loginProfile)
         loginProfile = loginProfileDecoded
+    }
+}
+
+enum CreateLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PasswordPolicyViolation": return try await PasswordPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1971,25 +1971,11 @@ extension CreateOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
-enum CreateOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateOpenIDConnectProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateOpenIDConnectProviderOutputBody = try responseDecoder.decode(responseBody: data)
             self.openIDConnectProviderArn = output.openIDConnectProviderArn
             self.tags = output.tags
         } else {
@@ -2000,7 +1986,7 @@ extension CreateOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Contains the response to a successful [CreateOpenIDConnectProvider] request.
-public struct CreateOpenIDConnectProviderOutputResponse: Swift.Equatable {
+public struct CreateOpenIDConnectProviderOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see [OpenIDConnectProviderListEntry].
     public var openIDConnectProviderArn: Swift.String?
     /// A list of tags that are attached to the new IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
@@ -2016,12 +2002,12 @@ public struct CreateOpenIDConnectProviderOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateOpenIDConnectProviderOutputResponseBody: Swift.Equatable {
+struct CreateOpenIDConnectProviderOutputBody: Swift.Equatable {
     let openIDConnectProviderArn: Swift.String?
     let tags: [IAMClientTypes.Tag]?
 }
 
-extension CreateOpenIDConnectProviderOutputResponseBody: Swift.Decodable {
+extension CreateOpenIDConnectProviderOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         case tags = "Tags"
@@ -2050,6 +2036,20 @@ extension CreateOpenIDConnectProviderOutputResponseBody: Swift.Decodable {
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum CreateOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2177,6 +2177,48 @@ extension CreatePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension CreatePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+/// Contains the response to a successful [CreatePolicy] request.
+public struct CreatePolicyOutput: Swift.Equatable {
+    /// A structure containing details about the new policy.
+    public var policy: IAMClientTypes.Policy?
+
+    public init(
+        policy: IAMClientTypes.Policy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct CreatePolicyOutputBody: Swift.Equatable {
+    let policy: IAMClientTypes.Policy?
+}
+
+extension CreatePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreatePolicyResult"))
+        let policyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Policy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
 enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2189,48 +2231,6 @@ enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreatePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreatePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.policy = output.policy
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-/// Contains the response to a successful [CreatePolicy] request.
-public struct CreatePolicyOutputResponse: Swift.Equatable {
-    /// A structure containing details about the new policy.
-    public var policy: IAMClientTypes.Policy?
-
-    public init(
-        policy: IAMClientTypes.Policy? = nil
-    )
-    {
-        self.policy = policy
-    }
-}
-
-struct CreatePolicyOutputResponseBody: Swift.Equatable {
-    let policy: IAMClientTypes.Policy?
-}
-
-extension CreatePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy = "Policy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreatePolicyResult"))
-        let policyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Policy.self, forKey: .policy)
-        policy = policyDecoded
     }
 }
 
@@ -2309,25 +2309,11 @@ extension CreatePolicyVersionInputBody: Swift.Decodable {
     }
 }
 
-enum CreatePolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreatePolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePolicyVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePolicyVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyVersion = output.policyVersion
         } else {
             self.policyVersion = nil
@@ -2336,7 +2322,7 @@ extension CreatePolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [CreatePolicyVersion] request.
-public struct CreatePolicyVersionOutputResponse: Swift.Equatable {
+public struct CreatePolicyVersionOutput: Swift.Equatable {
     /// A structure containing details about the new policy version.
     public var policyVersion: IAMClientTypes.PolicyVersion?
 
@@ -2348,11 +2334,11 @@ public struct CreatePolicyVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePolicyVersionOutputResponseBody: Swift.Equatable {
+struct CreatePolicyVersionOutputBody: Swift.Equatable {
     let policyVersion: IAMClientTypes.PolicyVersion?
 }
 
-extension CreatePolicyVersionOutputResponseBody: Swift.Decodable {
+extension CreatePolicyVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyVersion = "PolicyVersion"
     }
@@ -2362,6 +2348,20 @@ extension CreatePolicyVersionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreatePolicyVersionResult"))
         let policyVersionDecoded = try containerValues.decodeIfPresent(IAMClientTypes.PolicyVersion.self, forKey: .policyVersion)
         policyVersion = policyVersionDecoded
+    }
+}
+
+enum CreatePolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2513,26 +2513,11 @@ extension CreateRoleInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateRoleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRoleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRoleOutputBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
             self.role = nil
@@ -2541,7 +2526,7 @@ extension CreateRoleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [CreateRole] request.
-public struct CreateRoleOutputResponse: Swift.Equatable {
+public struct CreateRoleOutput: Swift.Equatable {
     /// A structure containing details about the new role.
     /// This member is required.
     public var role: IAMClientTypes.Role?
@@ -2554,11 +2539,11 @@ public struct CreateRoleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRoleOutputResponseBody: Swift.Equatable {
+struct CreateRoleOutputBody: Swift.Equatable {
     let role: IAMClientTypes.Role?
 }
 
-extension CreateRoleOutputResponseBody: Swift.Decodable {
+extension CreateRoleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case role = "Role"
     }
@@ -2568,6 +2553,21 @@ extension CreateRoleOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateRoleResult"))
         let roleDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Role.self, forKey: .role)
         role = roleDecoded
+    }
+}
+
+enum CreateRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2666,25 +2666,11 @@ extension CreateSAMLProviderInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSAMLProviderOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSAMLProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSAMLProviderOutputBody = try responseDecoder.decode(responseBody: data)
             self.samlProviderArn = output.samlProviderArn
             self.tags = output.tags
         } else {
@@ -2695,7 +2681,7 @@ extension CreateSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [CreateSAMLProvider] request.
-public struct CreateSAMLProviderOutputResponse: Swift.Equatable {
+public struct CreateSAMLProviderOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
     public var samlProviderArn: Swift.String?
     /// A list of tags that are attached to the new IAM SAML provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
@@ -2711,12 +2697,12 @@ public struct CreateSAMLProviderOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSAMLProviderOutputResponseBody: Swift.Equatable {
+struct CreateSAMLProviderOutputBody: Swift.Equatable {
     let samlProviderArn: Swift.String?
     let tags: [IAMClientTypes.Tag]?
 }
 
-extension CreateSAMLProviderOutputResponseBody: Swift.Decodable {
+extension CreateSAMLProviderOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case samlProviderArn = "SAMLProviderArn"
         case tags = "Tags"
@@ -2745,6 +2731,20 @@ extension CreateSAMLProviderOutputResponseBody: Swift.Decodable {
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum CreateSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -2817,24 +2817,11 @@ extension CreateServiceLinkedRoleInputBody: Swift.Decodable {
     }
 }
 
-enum CreateServiceLinkedRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateServiceLinkedRoleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateServiceLinkedRoleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateServiceLinkedRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateServiceLinkedRoleOutputBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
             self.role = nil
@@ -2842,7 +2829,7 @@ extension CreateServiceLinkedRoleOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateServiceLinkedRoleOutputResponse: Swift.Equatable {
+public struct CreateServiceLinkedRoleOutput: Swift.Equatable {
     /// A [Role] object that contains details about the newly created role.
     public var role: IAMClientTypes.Role?
 
@@ -2854,11 +2841,11 @@ public struct CreateServiceLinkedRoleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateServiceLinkedRoleOutputResponseBody: Swift.Equatable {
+struct CreateServiceLinkedRoleOutputBody: Swift.Equatable {
     let role: IAMClientTypes.Role?
 }
 
-extension CreateServiceLinkedRoleOutputResponseBody: Swift.Decodable {
+extension CreateServiceLinkedRoleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case role = "Role"
     }
@@ -2868,6 +2855,19 @@ extension CreateServiceLinkedRoleOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateServiceLinkedRoleResult"))
         let roleDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Role.self, forKey: .role)
         role = roleDecoded
+    }
+}
+
+enum CreateServiceLinkedRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2929,23 +2929,11 @@ extension CreateServiceSpecificCredentialInputBody: Swift.Decodable {
     }
 }
 
-enum CreateServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NotSupportedService": return try await ServiceNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateServiceSpecificCredentialOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateServiceSpecificCredentialOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateServiceSpecificCredentialOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateServiceSpecificCredentialOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceSpecificCredential = output.serviceSpecificCredential
         } else {
             self.serviceSpecificCredential = nil
@@ -2953,7 +2941,7 @@ extension CreateServiceSpecificCredentialOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct CreateServiceSpecificCredentialOutputResponse: Swift.Equatable {
+public struct CreateServiceSpecificCredentialOutput: Swift.Equatable {
     /// A structure that contains information about the newly created service-specific credential. This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you must reset the password with [ResetServiceSpecificCredential].
     public var serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 
@@ -2965,11 +2953,11 @@ public struct CreateServiceSpecificCredentialOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateServiceSpecificCredentialOutputResponseBody: Swift.Equatable {
+struct CreateServiceSpecificCredentialOutputBody: Swift.Equatable {
     let serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 }
 
-extension CreateServiceSpecificCredentialOutputResponseBody: Swift.Decodable {
+extension CreateServiceSpecificCredentialOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceSpecificCredential = "ServiceSpecificCredential"
     }
@@ -2979,6 +2967,18 @@ extension CreateServiceSpecificCredentialOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateServiceSpecificCredentialResult"))
         let serviceSpecificCredentialDecoded = try containerValues.decodeIfPresent(IAMClientTypes.ServiceSpecificCredential.self, forKey: .serviceSpecificCredential)
         serviceSpecificCredential = serviceSpecificCredentialDecoded
+    }
+}
+
+enum CreateServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NotSupportedService": return try await ServiceNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3087,6 +3087,48 @@ extension CreateUserInputBody: Swift.Decodable {
     }
 }
 
+extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateUserOutputBody = try responseDecoder.decode(responseBody: data)
+            self.user = output.user
+        } else {
+            self.user = nil
+        }
+    }
+}
+
+/// Contains the response to a successful [CreateUser] request.
+public struct CreateUserOutput: Swift.Equatable {
+    /// A structure with details about the new IAM user.
+    public var user: IAMClientTypes.User?
+
+    public init(
+        user: IAMClientTypes.User? = nil
+    )
+    {
+        self.user = user
+    }
+}
+
+struct CreateUserOutputBody: Swift.Equatable {
+    let user: IAMClientTypes.User?
+}
+
+extension CreateUserOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case user = "User"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateUserResult"))
+        let userDecoded = try containerValues.decodeIfPresent(IAMClientTypes.User.self, forKey: .user)
+        user = userDecoded
+    }
+}
+
 enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3099,48 +3141,6 @@ enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.user = output.user
-        } else {
-            self.user = nil
-        }
-    }
-}
-
-/// Contains the response to a successful [CreateUser] request.
-public struct CreateUserOutputResponse: Swift.Equatable {
-    /// A structure with details about the new IAM user.
-    public var user: IAMClientTypes.User?
-
-    public init(
-        user: IAMClientTypes.User? = nil
-    )
-    {
-        self.user = user
-    }
-}
-
-struct CreateUserOutputResponseBody: Swift.Equatable {
-    let user: IAMClientTypes.User?
-}
-
-extension CreateUserOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case user = "User"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateUserResult"))
-        let userDecoded = try containerValues.decodeIfPresent(IAMClientTypes.User.self, forKey: .user)
-        user = userDecoded
     }
 }
 
@@ -3238,25 +3238,11 @@ extension CreateVirtualMFADeviceInputBody: Swift.Decodable {
     }
 }
 
-enum CreateVirtualMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateVirtualMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateVirtualMFADeviceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateVirtualMFADeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateVirtualMFADeviceOutputBody = try responseDecoder.decode(responseBody: data)
             self.virtualMFADevice = output.virtualMFADevice
         } else {
             self.virtualMFADevice = nil
@@ -3265,7 +3251,7 @@ extension CreateVirtualMFADeviceOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Contains the response to a successful [CreateVirtualMFADevice] request.
-public struct CreateVirtualMFADeviceOutputResponse: Swift.Equatable {
+public struct CreateVirtualMFADeviceOutput: Swift.Equatable {
     /// A structure containing details about the new virtual MFA device.
     /// This member is required.
     public var virtualMFADevice: IAMClientTypes.VirtualMFADevice?
@@ -3278,11 +3264,11 @@ public struct CreateVirtualMFADeviceOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateVirtualMFADeviceOutputResponseBody: Swift.Equatable {
+struct CreateVirtualMFADeviceOutputBody: Swift.Equatable {
     let virtualMFADevice: IAMClientTypes.VirtualMFADevice?
 }
 
-extension CreateVirtualMFADeviceOutputResponseBody: Swift.Decodable {
+extension CreateVirtualMFADeviceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case virtualMFADevice = "VirtualMFADevice"
     }
@@ -3292,6 +3278,20 @@ extension CreateVirtualMFADeviceOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateVirtualMFADeviceResult"))
         let virtualMFADeviceDecoded = try containerValues.decodeIfPresent(IAMClientTypes.VirtualMFADevice.self, forKey: .virtualMFADevice)
         virtualMFADevice = virtualMFADeviceDecoded
+    }
+}
+
+enum CreateVirtualMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3515,6 +3515,16 @@ extension DeactivateMFADeviceInputBody: Swift.Decodable {
     }
 }
 
+extension DeactivateMFADeviceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeactivateMFADeviceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeactivateMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3527,16 +3537,6 @@ enum DeactivateMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeactivateMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeactivateMFADeviceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccessKeyInput: Swift.Encodable {
@@ -3596,6 +3596,16 @@ extension DeleteAccessKeyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccessKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccessKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccessKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3606,16 +3616,6 @@ enum DeleteAccessKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccessKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccountAliasInput: Swift.Encodable {
@@ -3664,6 +3664,16 @@ extension DeleteAccountAliasInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccountAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccountAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3675,16 +3685,6 @@ enum DeleteAccountAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccountAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccountAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccountPasswordPolicyInput: Swift.Encodable {
@@ -3706,6 +3706,16 @@ public struct DeleteAccountPasswordPolicyInput: Swift.Equatable {
     public init() { }
 }
 
+extension DeleteAccountPasswordPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccountPasswordPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccountPasswordPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3716,16 +3726,6 @@ enum DeleteAccountPasswordPolicyOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccountPasswordPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccountPasswordPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteConflictException {
@@ -3828,6 +3828,16 @@ extension DeleteGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3839,16 +3849,6 @@ enum DeleteGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteGroupPolicyInput: Swift.Encodable {
@@ -3909,6 +3909,16 @@ extension DeleteGroupPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteGroupPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3919,16 +3929,6 @@ enum DeleteGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteGroupPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteInstanceProfileInput: Swift.Encodable {
@@ -3977,6 +3977,16 @@ extension DeleteInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteInstanceProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3988,16 +3998,6 @@ enum DeleteInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteInstanceProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteLoginProfileInput: Swift.Encodable {
@@ -4046,6 +4046,16 @@ extension DeleteLoginProfileInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteLoginProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLoginProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4057,16 +4067,6 @@ enum DeleteLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLoginProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteOpenIDConnectProviderInput: Swift.Encodable {
@@ -4115,6 +4115,16 @@ extension DeleteOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteOpenIDConnectProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4125,16 +4135,6 @@ enum DeleteOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteOpenIDConnectProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePolicyInput: Swift.Encodable {
@@ -4183,6 +4183,16 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4195,16 +4205,6 @@ enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeletePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePolicyVersionInput: Swift.Encodable {
@@ -4265,6 +4265,16 @@ extension DeletePolicyVersionInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePolicyVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePolicyVersionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4277,16 +4287,6 @@ enum DeletePolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeletePolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePolicyVersionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRoleInput: Swift.Encodable {
@@ -4335,6 +4335,16 @@ extension DeleteRoleInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRoleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRoleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4348,16 +4358,6 @@ enum DeleteRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteRoleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRoleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRolePermissionsBoundaryInput: Swift.Encodable {
@@ -4406,6 +4406,16 @@ extension DeleteRolePermissionsBoundaryInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRolePermissionsBoundaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRolePermissionsBoundaryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRolePermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4416,16 +4426,6 @@ enum DeleteRolePermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteRolePermissionsBoundaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRolePermissionsBoundaryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRolePolicyInput: Swift.Encodable {
@@ -4486,6 +4486,16 @@ extension DeleteRolePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRolePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRolePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4497,16 +4507,6 @@ enum DeleteRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRolePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSAMLProviderInput: Swift.Encodable {
@@ -4555,6 +4555,16 @@ extension DeleteSAMLProviderInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSAMLProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSAMLProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4566,16 +4576,6 @@ enum DeleteSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSAMLProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSSHPublicKeyInput: Swift.Encodable {
@@ -4636,6 +4636,16 @@ extension DeleteSSHPublicKeyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSSHPublicKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4644,16 +4654,6 @@ enum DeleteSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSSHPublicKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteServerCertificateInput: Swift.Encodable {
@@ -4702,6 +4702,16 @@ extension DeleteServerCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServerCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteServerCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4713,16 +4723,6 @@ enum DeleteServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteServerCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteServiceLinkedRoleInput: Swift.Encodable {
@@ -4771,23 +4771,11 @@ extension DeleteServiceLinkedRoleInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteServiceLinkedRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteServiceLinkedRoleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteServiceLinkedRoleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteServiceLinkedRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteServiceLinkedRoleOutputBody = try responseDecoder.decode(responseBody: data)
             self.deletionTaskId = output.deletionTaskId
         } else {
             self.deletionTaskId = nil
@@ -4795,7 +4783,7 @@ extension DeleteServiceLinkedRoleOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteServiceLinkedRoleOutputResponse: Swift.Equatable {
+public struct DeleteServiceLinkedRoleOutput: Swift.Equatable {
     /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role///.
     /// This member is required.
     public var deletionTaskId: Swift.String?
@@ -4808,11 +4796,11 @@ public struct DeleteServiceLinkedRoleOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteServiceLinkedRoleOutputResponseBody: Swift.Equatable {
+struct DeleteServiceLinkedRoleOutputBody: Swift.Equatable {
     let deletionTaskId: Swift.String?
 }
 
-extension DeleteServiceLinkedRoleOutputResponseBody: Swift.Decodable {
+extension DeleteServiceLinkedRoleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletionTaskId = "DeletionTaskId"
     }
@@ -4822,6 +4810,18 @@ extension DeleteServiceLinkedRoleOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteServiceLinkedRoleResult"))
         let deletionTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionTaskId)
         deletionTaskId = deletionTaskIdDecoded
+    }
+}
+
+enum DeleteServiceLinkedRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4882,6 +4882,16 @@ extension DeleteServiceSpecificCredentialInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServiceSpecificCredentialOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteServiceSpecificCredentialOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4890,16 +4900,6 @@ enum DeleteServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteServiceSpecificCredentialOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteServiceSpecificCredentialOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSigningCertificateInput: Swift.Encodable {
@@ -4959,6 +4959,16 @@ extension DeleteSigningCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSigningCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSigningCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSigningCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4970,16 +4980,6 @@ enum DeleteSigningCertificateOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteSigningCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSigningCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteUserInput: Swift.Encodable {
@@ -5028,6 +5028,16 @@ extension DeleteUserInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteUserOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5040,16 +5050,6 @@ enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteUserOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteUserPermissionsBoundaryInput: Swift.Encodable {
@@ -5098,6 +5098,16 @@ extension DeleteUserPermissionsBoundaryInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteUserPermissionsBoundaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteUserPermissionsBoundaryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteUserPermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5107,16 +5117,6 @@ enum DeleteUserPermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteUserPermissionsBoundaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteUserPermissionsBoundaryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteUserPolicyInput: Swift.Encodable {
@@ -5177,6 +5177,16 @@ extension DeleteUserPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteUserPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteUserPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5187,16 +5197,6 @@ enum DeleteUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteUserPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVirtualMFADeviceInput: Swift.Encodable {
@@ -5245,6 +5245,16 @@ extension DeleteVirtualMFADeviceInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVirtualMFADeviceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVirtualMFADeviceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVirtualMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5257,16 +5267,6 @@ enum DeleteVirtualMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteVirtualMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVirtualMFADeviceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes.DeletionTaskFailureReasonType: Swift.Codable {
@@ -5436,6 +5436,16 @@ extension DetachGroupPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DetachGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DetachGroupPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DetachGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5447,16 +5457,6 @@ enum DetachGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DetachGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DetachGroupPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DetachRolePolicyInput: Swift.Encodable {
@@ -5517,6 +5517,16 @@ extension DetachRolePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DetachRolePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DetachRolePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DetachRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5529,16 +5539,6 @@ enum DetachRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DetachRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DetachRolePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DetachUserPolicyInput: Swift.Encodable {
@@ -5599,6 +5599,16 @@ extension DetachUserPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DetachUserPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DetachUserPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DetachUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5610,16 +5620,6 @@ enum DetachUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DetachUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DetachUserPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DuplicateCertificateException {
@@ -5812,6 +5812,16 @@ extension EnableMFADeviceInputBody: Swift.Decodable {
     }
 }
 
+extension EnableMFADeviceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableMFADeviceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum EnableMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5826,16 +5836,6 @@ enum EnableMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension EnableMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct EnableMFADeviceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes {
@@ -6431,22 +6431,11 @@ public struct GenerateCredentialReportInput: Swift.Equatable {
     public init() { }
 }
 
-enum GenerateCredentialReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GenerateCredentialReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateCredentialReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateCredentialReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateCredentialReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.state = output.state
         } else {
@@ -6457,7 +6446,7 @@ extension GenerateCredentialReportOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Contains the response to a successful [GenerateCredentialReport] request.
-public struct GenerateCredentialReportOutputResponse: Swift.Equatable {
+public struct GenerateCredentialReportOutput: Swift.Equatable {
     /// Information about the credential report.
     public var description: Swift.String?
     /// Information about the state of the credential report.
@@ -6473,12 +6462,12 @@ public struct GenerateCredentialReportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateCredentialReportOutputResponseBody: Swift.Equatable {
+struct GenerateCredentialReportOutputBody: Swift.Equatable {
     let state: IAMClientTypes.ReportStateType?
     let description: Swift.String?
 }
 
-extension GenerateCredentialReportOutputResponseBody: Swift.Decodable {
+extension GenerateCredentialReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case state = "State"
@@ -6491,6 +6480,17 @@ extension GenerateCredentialReportOutputResponseBody: Swift.Decodable {
         state = stateDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+    }
+}
+
+enum GenerateCredentialReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6551,21 +6551,11 @@ extension GenerateOrganizationsAccessReportInputBody: Swift.Decodable {
     }
 }
 
-enum GenerateOrganizationsAccessReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ReportGenerationLimitExceeded": return try await ReportGenerationLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GenerateOrganizationsAccessReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateOrganizationsAccessReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateOrganizationsAccessReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateOrganizationsAccessReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
             self.jobId = nil
@@ -6573,7 +6563,7 @@ extension GenerateOrganizationsAccessReportOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct GenerateOrganizationsAccessReportOutputResponse: Swift.Equatable {
+public struct GenerateOrganizationsAccessReportOutput: Swift.Equatable {
     /// The job identifier that you can use in the [GetOrganizationsAccessReport] operation.
     public var jobId: Swift.String?
 
@@ -6585,11 +6575,11 @@ public struct GenerateOrganizationsAccessReportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateOrganizationsAccessReportOutputResponseBody: Swift.Equatable {
+struct GenerateOrganizationsAccessReportOutputBody: Swift.Equatable {
     let jobId: Swift.String?
 }
 
-extension GenerateOrganizationsAccessReportOutputResponseBody: Swift.Decodable {
+extension GenerateOrganizationsAccessReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
     }
@@ -6599,6 +6589,16 @@ extension GenerateOrganizationsAccessReportOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GenerateOrganizationsAccessReportResult"))
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
+    }
+}
+
+enum GenerateOrganizationsAccessReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ReportGenerationLimitExceeded": return try await ReportGenerationLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6659,22 +6659,11 @@ extension GenerateServiceLastAccessedDetailsInputBody: Swift.Decodable {
     }
 }
 
-enum GenerateServiceLastAccessedDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GenerateServiceLastAccessedDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateServiceLastAccessedDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateServiceLastAccessedDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateServiceLastAccessedDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
             self.jobId = nil
@@ -6682,7 +6671,7 @@ extension GenerateServiceLastAccessedDetailsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GenerateServiceLastAccessedDetailsOutputResponse: Swift.Equatable {
+public struct GenerateServiceLastAccessedDetailsOutput: Swift.Equatable {
     /// The JobId that you can use in the [GetServiceLastAccessedDetails] or [GetServiceLastAccessedDetailsWithEntities] operations. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
     public var jobId: Swift.String?
 
@@ -6694,11 +6683,11 @@ public struct GenerateServiceLastAccessedDetailsOutputResponse: Swift.Equatable 
     }
 }
 
-struct GenerateServiceLastAccessedDetailsOutputResponseBody: Swift.Equatable {
+struct GenerateServiceLastAccessedDetailsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
 }
 
-extension GenerateServiceLastAccessedDetailsOutputResponseBody: Swift.Decodable {
+extension GenerateServiceLastAccessedDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
     }
@@ -6708,6 +6697,17 @@ extension GenerateServiceLastAccessedDetailsOutputResponseBody: Swift.Decodable 
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GenerateServiceLastAccessedDetailsResult"))
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
+    }
+}
+
+enum GenerateServiceLastAccessedDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6757,21 +6757,11 @@ extension GetAccessKeyLastUsedInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessKeyLastUsedOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessKeyLastUsedOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessKeyLastUsedOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessKeyLastUsedOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessKeyLastUsedOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessKeyLastUsed = output.accessKeyLastUsed
             self.userName = output.userName
         } else {
@@ -6782,7 +6772,7 @@ extension GetAccessKeyLastUsedOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a successful [GetAccessKeyLastUsed] request. It is also returned as a member of the [AccessKeyMetaData] structure returned by the [ListAccessKeys] action.
-public struct GetAccessKeyLastUsedOutputResponse: Swift.Equatable {
+public struct GetAccessKeyLastUsedOutput: Swift.Equatable {
     /// Contains information about the last time the access key was used.
     public var accessKeyLastUsed: IAMClientTypes.AccessKeyLastUsed?
     /// The name of the IAM user that owns this access key.
@@ -6798,12 +6788,12 @@ public struct GetAccessKeyLastUsedOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccessKeyLastUsedOutputResponseBody: Swift.Equatable {
+struct GetAccessKeyLastUsedOutputBody: Swift.Equatable {
     let userName: Swift.String?
     let accessKeyLastUsed: IAMClientTypes.AccessKeyLastUsed?
 }
 
-extension GetAccessKeyLastUsedOutputResponseBody: Swift.Decodable {
+extension GetAccessKeyLastUsedOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessKeyLastUsed = "AccessKeyLastUsed"
         case userName = "UserName"
@@ -6816,6 +6806,16 @@ extension GetAccessKeyLastUsedOutputResponseBody: Swift.Decodable {
         userName = userNameDecoded
         let accessKeyLastUsedDecoded = try containerValues.decodeIfPresent(IAMClientTypes.AccessKeyLastUsed.self, forKey: .accessKeyLastUsed)
         accessKeyLastUsed = accessKeyLastUsedDecoded
+    }
+}
+
+enum GetAccessKeyLastUsedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6912,21 +6912,11 @@ extension GetAccountAuthorizationDetailsInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccountAuthorizationDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccountAuthorizationDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccountAuthorizationDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccountAuthorizationDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccountAuthorizationDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.groupDetailList = output.groupDetailList
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -6945,7 +6935,7 @@ extension GetAccountAuthorizationDetailsOutputResponse: ClientRuntime.HttpRespon
 }
 
 /// Contains the response to a successful [GetAccountAuthorizationDetails] request.
-public struct GetAccountAuthorizationDetailsOutputResponse: Swift.Equatable {
+public struct GetAccountAuthorizationDetailsOutput: Swift.Equatable {
     /// A list containing information about IAM groups.
     public var groupDetailList: [IAMClientTypes.GroupDetail]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -6977,7 +6967,7 @@ public struct GetAccountAuthorizationDetailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccountAuthorizationDetailsOutputResponseBody: Swift.Equatable {
+struct GetAccountAuthorizationDetailsOutputBody: Swift.Equatable {
     let userDetailList: [IAMClientTypes.UserDetail]?
     let groupDetailList: [IAMClientTypes.GroupDetail]?
     let roleDetailList: [IAMClientTypes.RoleDetail]?
@@ -6986,7 +6976,7 @@ struct GetAccountAuthorizationDetailsOutputResponseBody: Swift.Equatable {
     let marker: Swift.String?
 }
 
-extension GetAccountAuthorizationDetailsOutputResponseBody: Swift.Decodable {
+extension GetAccountAuthorizationDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groupDetailList = "GroupDetailList"
         case isTruncated = "IsTruncated"
@@ -7082,6 +7072,16 @@ extension GetAccountAuthorizationDetailsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetAccountAuthorizationDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetAccountPasswordPolicyInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7101,22 +7101,11 @@ public struct GetAccountPasswordPolicyInput: Swift.Equatable {
     public init() { }
 }
 
-enum GetAccountPasswordPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccountPasswordPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccountPasswordPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccountPasswordPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccountPasswordPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.passwordPolicy = output.passwordPolicy
         } else {
             self.passwordPolicy = nil
@@ -7125,7 +7114,7 @@ extension GetAccountPasswordPolicyOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Contains the response to a successful [GetAccountPasswordPolicy] request.
-public struct GetAccountPasswordPolicyOutputResponse: Swift.Equatable {
+public struct GetAccountPasswordPolicyOutput: Swift.Equatable {
     /// A structure that contains details about the account's password policy.
     /// This member is required.
     public var passwordPolicy: IAMClientTypes.PasswordPolicy?
@@ -7138,11 +7127,11 @@ public struct GetAccountPasswordPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccountPasswordPolicyOutputResponseBody: Swift.Equatable {
+struct GetAccountPasswordPolicyOutputBody: Swift.Equatable {
     let passwordPolicy: IAMClientTypes.PasswordPolicy?
 }
 
-extension GetAccountPasswordPolicyOutputResponseBody: Swift.Decodable {
+extension GetAccountPasswordPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case passwordPolicy = "PasswordPolicy"
     }
@@ -7152,6 +7141,17 @@ extension GetAccountPasswordPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetAccountPasswordPolicyResult"))
         let passwordPolicyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.PasswordPolicy.self, forKey: .passwordPolicy)
         passwordPolicy = passwordPolicyDecoded
+    }
+}
+
+enum GetAccountPasswordPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7174,21 +7174,11 @@ public struct GetAccountSummaryInput: Swift.Equatable {
     public init() { }
 }
 
-enum GetAccountSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccountSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccountSummaryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccountSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccountSummaryOutputBody = try responseDecoder.decode(responseBody: data)
             self.summaryMap = output.summaryMap
         } else {
             self.summaryMap = nil
@@ -7197,7 +7187,7 @@ extension GetAccountSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetAccountSummary] request.
-public struct GetAccountSummaryOutputResponse: Swift.Equatable {
+public struct GetAccountSummaryOutput: Swift.Equatable {
     /// A set of key–value pairs containing information about IAM entity usage and IAM quotas.
     public var summaryMap: [Swift.String:Swift.Int]?
 
@@ -7209,11 +7199,11 @@ public struct GetAccountSummaryOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccountSummaryOutputResponseBody: Swift.Equatable {
+struct GetAccountSummaryOutputBody: Swift.Equatable {
     let summaryMap: [Swift.String:Swift.Int]?
 }
 
-extension GetAccountSummaryOutputResponseBody: Swift.Decodable {
+extension GetAccountSummaryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case summaryMap = "SummaryMap"
     }
@@ -7239,6 +7229,16 @@ extension GetAccountSummaryOutputResponseBody: Swift.Decodable {
             }
         } else {
             summaryMap = nil
+        }
+    }
+}
+
+enum GetAccountSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7321,21 +7321,11 @@ extension GetContextKeysForCustomPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetContextKeysForCustomPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetContextKeysForCustomPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetContextKeysForCustomPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetContextKeysForCustomPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetContextKeysForCustomPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.contextKeyNames = output.contextKeyNames
         } else {
             self.contextKeyNames = nil
@@ -7344,7 +7334,7 @@ extension GetContextKeysForCustomPolicyOutputResponse: ClientRuntime.HttpRespons
 }
 
 /// Contains the response to a successful [GetContextKeysForPrincipalPolicy] or [GetContextKeysForCustomPolicy] request.
-public struct GetContextKeysForCustomPolicyOutputResponse: Swift.Equatable {
+public struct GetContextKeysForCustomPolicyOutput: Swift.Equatable {
     /// The list of context keys that are referenced in the input policies.
     public var contextKeyNames: [Swift.String]?
 
@@ -7356,11 +7346,11 @@ public struct GetContextKeysForCustomPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetContextKeysForCustomPolicyOutputResponseBody: Swift.Equatable {
+struct GetContextKeysForCustomPolicyOutputBody: Swift.Equatable {
     let contextKeyNames: [Swift.String]?
 }
 
-extension GetContextKeysForCustomPolicyOutputResponseBody: Swift.Decodable {
+extension GetContextKeysForCustomPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contextKeyNames = "ContextKeyNames"
     }
@@ -7386,6 +7376,16 @@ extension GetContextKeysForCustomPolicyOutputResponseBody: Swift.Decodable {
             }
         } else {
             contextKeyNames = nil
+        }
+    }
+}
+
+enum GetContextKeysForCustomPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -7479,22 +7479,11 @@ extension GetContextKeysForPrincipalPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetContextKeysForPrincipalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetContextKeysForPrincipalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetContextKeysForPrincipalPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetContextKeysForPrincipalPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetContextKeysForPrincipalPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.contextKeyNames = output.contextKeyNames
         } else {
             self.contextKeyNames = nil
@@ -7503,7 +7492,7 @@ extension GetContextKeysForPrincipalPolicyOutputResponse: ClientRuntime.HttpResp
 }
 
 /// Contains the response to a successful [GetContextKeysForPrincipalPolicy] or [GetContextKeysForCustomPolicy] request.
-public struct GetContextKeysForPrincipalPolicyOutputResponse: Swift.Equatable {
+public struct GetContextKeysForPrincipalPolicyOutput: Swift.Equatable {
     /// The list of context keys that are referenced in the input policies.
     public var contextKeyNames: [Swift.String]?
 
@@ -7515,11 +7504,11 @@ public struct GetContextKeysForPrincipalPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetContextKeysForPrincipalPolicyOutputResponseBody: Swift.Equatable {
+struct GetContextKeysForPrincipalPolicyOutputBody: Swift.Equatable {
     let contextKeyNames: [Swift.String]?
 }
 
-extension GetContextKeysForPrincipalPolicyOutputResponseBody: Swift.Decodable {
+extension GetContextKeysForPrincipalPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contextKeyNames = "ContextKeyNames"
     }
@@ -7549,6 +7538,17 @@ extension GetContextKeysForPrincipalPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetContextKeysForPrincipalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetCredentialReportInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -7568,24 +7568,11 @@ public struct GetCredentialReportInput: Swift.Equatable {
     public init() { }
 }
 
-enum GetCredentialReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ReportExpired": return try await CredentialReportExpiredException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReportNotPresent": return try await CredentialReportNotPresentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReportInProgress": return try await CredentialReportNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCredentialReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCredentialReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCredentialReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCredentialReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
             self.generatedTime = output.generatedTime
             self.reportFormat = output.reportFormat
@@ -7598,7 +7585,7 @@ extension GetCredentialReportOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetCredentialReport] request.
-public struct GetCredentialReportOutputResponse: Swift.Equatable {
+public struct GetCredentialReportOutput: Swift.Equatable {
     /// Contains the credential report. The report is Base64-encoded.
     public var content: ClientRuntime.Data?
     /// The date and time when the credential report was created, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601).
@@ -7618,13 +7605,13 @@ public struct GetCredentialReportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCredentialReportOutputResponseBody: Swift.Equatable {
+struct GetCredentialReportOutputBody: Swift.Equatable {
     let content: ClientRuntime.Data?
     let reportFormat: IAMClientTypes.ReportFormatType?
     let generatedTime: ClientRuntime.Date?
 }
 
-extension GetCredentialReportOutputResponseBody: Swift.Decodable {
+extension GetCredentialReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
         case generatedTime = "GeneratedTime"
@@ -7648,6 +7635,19 @@ extension GetCredentialReportOutputResponseBody: Swift.Decodable {
         reportFormat = reportFormatDecoded
         let generatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .generatedTime)
         generatedTime = generatedTimeDecoded
+    }
+}
+
+enum GetCredentialReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ReportExpired": return try await CredentialReportExpiredException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReportNotPresent": return try await CredentialReportNotPresentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReportInProgress": return try await CredentialReportNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7719,22 +7719,11 @@ extension GetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum GetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.group = output.group
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -7749,7 +7738,7 @@ extension GetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetGroup] request.
-public struct GetGroupOutputResponse: Swift.Equatable {
+public struct GetGroupOutput: Swift.Equatable {
     /// A structure that contains details about the group.
     /// This member is required.
     public var group: IAMClientTypes.Group?
@@ -7775,14 +7764,14 @@ public struct GetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetGroupOutputResponseBody: Swift.Equatable {
+struct GetGroupOutputBody: Swift.Equatable {
     let group: IAMClientTypes.Group?
     let users: [IAMClientTypes.User]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension GetGroupOutputResponseBody: Swift.Decodable {
+extension GetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case group = "Group"
         case isTruncated = "IsTruncated"
@@ -7818,6 +7807,17 @@ extension GetGroupOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum GetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7879,22 +7879,11 @@ extension GetGroupPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetGroupPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetGroupPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.groupName = output.groupName
             self.policyDocument = output.policyDocument
             self.policyName = output.policyName
@@ -7907,7 +7896,7 @@ extension GetGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetGroupPolicy] request.
-public struct GetGroupPolicyOutputResponse: Swift.Equatable {
+public struct GetGroupPolicyOutput: Swift.Equatable {
     /// The group the policy is associated with.
     /// This member is required.
     public var groupName: Swift.String?
@@ -7930,13 +7919,13 @@ public struct GetGroupPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetGroupPolicyOutputResponseBody: Swift.Equatable {
+struct GetGroupPolicyOutputBody: Swift.Equatable {
     let groupName: Swift.String?
     let policyName: Swift.String?
     let policyDocument: Swift.String?
 }
 
-extension GetGroupPolicyOutputResponseBody: Swift.Decodable {
+extension GetGroupPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groupName = "GroupName"
         case policyDocument = "PolicyDocument"
@@ -7952,6 +7941,17 @@ extension GetGroupPolicyOutputResponseBody: Swift.Decodable {
         policyName = policyNameDecoded
         let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
         policyDocument = policyDocumentDecoded
+    }
+}
+
+enum GetGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8001,22 +8001,11 @@ extension GetInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
-enum GetInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetInstanceProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfile = output.instanceProfile
         } else {
             self.instanceProfile = nil
@@ -8025,7 +8014,7 @@ extension GetInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetInstanceProfile] request.
-public struct GetInstanceProfileOutputResponse: Swift.Equatable {
+public struct GetInstanceProfileOutput: Swift.Equatable {
     /// A structure containing details about the instance profile.
     /// This member is required.
     public var instanceProfile: IAMClientTypes.InstanceProfile?
@@ -8038,11 +8027,11 @@ public struct GetInstanceProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetInstanceProfileOutputResponseBody: Swift.Equatable {
+struct GetInstanceProfileOutputBody: Swift.Equatable {
     let instanceProfile: IAMClientTypes.InstanceProfile?
 }
 
-extension GetInstanceProfileOutputResponseBody: Swift.Decodable {
+extension GetInstanceProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceProfile = "InstanceProfile"
     }
@@ -8052,6 +8041,17 @@ extension GetInstanceProfileOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetInstanceProfileResult"))
         let instanceProfileDecoded = try containerValues.decodeIfPresent(IAMClientTypes.InstanceProfile.self, forKey: .instanceProfile)
         instanceProfile = instanceProfileDecoded
+    }
+}
+
+enum GetInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8101,22 +8101,11 @@ extension GetLoginProfileInputBody: Swift.Decodable {
     }
 }
 
-enum GetLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLoginProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLoginProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLoginProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.loginProfile = output.loginProfile
         } else {
             self.loginProfile = nil
@@ -8125,7 +8114,7 @@ extension GetLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetLoginProfile] request.
-public struct GetLoginProfileOutputResponse: Swift.Equatable {
+public struct GetLoginProfileOutput: Swift.Equatable {
     /// A structure containing the user name and the profile creation date for the user.
     /// This member is required.
     public var loginProfile: IAMClientTypes.LoginProfile?
@@ -8138,11 +8127,11 @@ public struct GetLoginProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLoginProfileOutputResponseBody: Swift.Equatable {
+struct GetLoginProfileOutputBody: Swift.Equatable {
     let loginProfile: IAMClientTypes.LoginProfile?
 }
 
-extension GetLoginProfileOutputResponseBody: Swift.Decodable {
+extension GetLoginProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loginProfile = "LoginProfile"
     }
@@ -8152,6 +8141,17 @@ extension GetLoginProfileOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetLoginProfileResult"))
         let loginProfileDecoded = try containerValues.decodeIfPresent(IAMClientTypes.LoginProfile.self, forKey: .loginProfile)
         loginProfile = loginProfileDecoded
+    }
+}
+
+enum GetLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8212,22 +8212,11 @@ extension GetMFADeviceInputBody: Swift.Decodable {
     }
 }
 
-enum GetMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMFADeviceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMFADeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMFADeviceOutputBody = try responseDecoder.decode(responseBody: data)
             self.certifications = output.certifications
             self.enableDate = output.enableDate
             self.serialNumber = output.serialNumber
@@ -8241,7 +8230,7 @@ extension GetMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMFADeviceOutputResponse: Swift.Equatable {
+public struct GetMFADeviceOutput: Swift.Equatable {
     /// The certifications of a specified user's MFA device. We currently provide FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from [ FIDO Alliance Metadata Service (MDS)](https://fidoalliance.org/metadata/).
     public var certifications: [Swift.String:Swift.String]?
     /// The date that a specified user's MFA device was first enabled.
@@ -8266,14 +8255,14 @@ public struct GetMFADeviceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMFADeviceOutputResponseBody: Swift.Equatable {
+struct GetMFADeviceOutputBody: Swift.Equatable {
     let userName: Swift.String?
     let serialNumber: Swift.String?
     let enableDate: ClientRuntime.Date?
     let certifications: [Swift.String:Swift.String]?
 }
 
-extension GetMFADeviceOutputResponseBody: Swift.Decodable {
+extension GetMFADeviceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certifications = "Certifications"
         case enableDate = "EnableDate"
@@ -8308,6 +8297,17 @@ extension GetMFADeviceOutputResponseBody: Swift.Decodable {
             }
         } else {
             certifications = nil
+        }
+    }
+}
+
+enum GetMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8358,23 +8358,11 @@ extension GetOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
-enum GetOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetOpenIDConnectProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetOpenIDConnectProviderOutputBody = try responseDecoder.decode(responseBody: data)
             self.clientIDList = output.clientIDList
             self.createDate = output.createDate
             self.tags = output.tags
@@ -8391,7 +8379,7 @@ extension GetOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Contains the response to a successful [GetOpenIDConnectProvider] request.
-public struct GetOpenIDConnectProviderOutputResponse: Swift.Equatable {
+public struct GetOpenIDConnectProviderOutput: Swift.Equatable {
     /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider].
     public var clientIDList: [Swift.String]?
     /// The date and time when the IAM OIDC provider resource object was created in the Amazon Web Services account.
@@ -8419,7 +8407,7 @@ public struct GetOpenIDConnectProviderOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOpenIDConnectProviderOutputResponseBody: Swift.Equatable {
+struct GetOpenIDConnectProviderOutputBody: Swift.Equatable {
     let url: Swift.String?
     let clientIDList: [Swift.String]?
     let thumbprintList: [Swift.String]?
@@ -8427,7 +8415,7 @@ struct GetOpenIDConnectProviderOutputResponseBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
 }
 
-extension GetOpenIDConnectProviderOutputResponseBody: Swift.Decodable {
+extension GetOpenIDConnectProviderOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientIDList = "ClientIDList"
         case createDate = "CreateDate"
@@ -8499,6 +8487,18 @@ extension GetOpenIDConnectProviderOutputResponseBody: Swift.Decodable {
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum GetOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8582,21 +8582,11 @@ extension GetOrganizationsAccessReportInputBody: Swift.Decodable {
     }
 }
 
-enum GetOrganizationsAccessReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetOrganizationsAccessReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOrganizationsAccessReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetOrganizationsAccessReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetOrganizationsAccessReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessDetails = output.accessDetails
             self.errorDetails = output.errorDetails
             self.isTruncated = output.isTruncated
@@ -8620,7 +8610,7 @@ extension GetOrganizationsAccessReportOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetOrganizationsAccessReportOutputResponse: Swift.Equatable {
+public struct GetOrganizationsAccessReportOutput: Swift.Equatable {
     /// An object that contains details about the most recent attempt to access the service.
     public var accessDetails: [IAMClientTypes.AccessDetail]?
     /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport], [GetServiceLastAccessedDetails], and [GetServiceLastAccessedDetailsWithEntities] operations.
@@ -8666,7 +8656,7 @@ public struct GetOrganizationsAccessReportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOrganizationsAccessReportOutputResponseBody: Swift.Equatable {
+struct GetOrganizationsAccessReportOutputBody: Swift.Equatable {
     let jobStatus: IAMClientTypes.JobStatusType?
     let jobCreationDate: ClientRuntime.Date?
     let jobCompletionDate: ClientRuntime.Date?
@@ -8678,7 +8668,7 @@ struct GetOrganizationsAccessReportOutputResponseBody: Swift.Equatable {
     let errorDetails: IAMClientTypes.ErrorDetails?
 }
 
-extension GetOrganizationsAccessReportOutputResponseBody: Swift.Decodable {
+extension GetOrganizationsAccessReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessDetails = "AccessDetails"
         case errorDetails = "ErrorDetails"
@@ -8732,6 +8722,16 @@ extension GetOrganizationsAccessReportOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetOrganizationsAccessReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetPolicyInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -8778,23 +8778,11 @@ extension GetPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -8803,7 +8791,7 @@ extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetPolicy] request.
-public struct GetPolicyOutputResponse: Swift.Equatable {
+public struct GetPolicyOutput: Swift.Equatable {
     /// A structure containing details about the policy.
     public var policy: IAMClientTypes.Policy?
 
@@ -8815,11 +8803,11 @@ public struct GetPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputResponseBody: Swift.Equatable {
+struct GetPolicyOutputBody: Swift.Equatable {
     let policy: IAMClientTypes.Policy?
 }
 
-extension GetPolicyOutputResponseBody: Swift.Decodable {
+extension GetPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -8829,6 +8817,18 @@ extension GetPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetPolicyResult"))
         let policyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Policy.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8890,23 +8890,11 @@ extension GetPolicyVersionInputBody: Swift.Decodable {
     }
 }
 
-enum GetPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPolicyVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPolicyVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyVersion = output.policyVersion
         } else {
             self.policyVersion = nil
@@ -8915,7 +8903,7 @@ extension GetPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetPolicyVersion] request.
-public struct GetPolicyVersionOutputResponse: Swift.Equatable {
+public struct GetPolicyVersionOutput: Swift.Equatable {
     /// A structure containing details about the policy version.
     public var policyVersion: IAMClientTypes.PolicyVersion?
 
@@ -8927,11 +8915,11 @@ public struct GetPolicyVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPolicyVersionOutputResponseBody: Swift.Equatable {
+struct GetPolicyVersionOutputBody: Swift.Equatable {
     let policyVersion: IAMClientTypes.PolicyVersion?
 }
 
-extension GetPolicyVersionOutputResponseBody: Swift.Decodable {
+extension GetPolicyVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyVersion = "PolicyVersion"
     }
@@ -8941,6 +8929,18 @@ extension GetPolicyVersionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetPolicyVersionResult"))
         let policyVersionDecoded = try containerValues.decodeIfPresent(IAMClientTypes.PolicyVersion.self, forKey: .policyVersion)
         policyVersion = policyVersionDecoded
+    }
+}
+
+enum GetPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8990,22 +8990,11 @@ extension GetRoleInputBody: Swift.Decodable {
     }
 }
 
-enum GetRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetRoleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRoleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRoleOutputBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
             self.role = nil
@@ -9014,7 +9003,7 @@ extension GetRoleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetRole] request.
-public struct GetRoleOutputResponse: Swift.Equatable {
+public struct GetRoleOutput: Swift.Equatable {
     /// A structure containing details about the IAM role.
     /// This member is required.
     public var role: IAMClientTypes.Role?
@@ -9027,11 +9016,11 @@ public struct GetRoleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRoleOutputResponseBody: Swift.Equatable {
+struct GetRoleOutputBody: Swift.Equatable {
     let role: IAMClientTypes.Role?
 }
 
-extension GetRoleOutputResponseBody: Swift.Decodable {
+extension GetRoleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case role = "Role"
     }
@@ -9041,6 +9030,17 @@ extension GetRoleOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetRoleResult"))
         let roleDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Role.self, forKey: .role)
         role = roleDecoded
+    }
+}
+
+enum GetRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9102,22 +9102,11 @@ extension GetRolePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRolePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRolePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRolePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyDocument = output.policyDocument
             self.policyName = output.policyName
             self.roleName = output.roleName
@@ -9130,7 +9119,7 @@ extension GetRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetRolePolicy] request.
-public struct GetRolePolicyOutputResponse: Swift.Equatable {
+public struct GetRolePolicyOutput: Swift.Equatable {
     /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -9153,13 +9142,13 @@ public struct GetRolePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRolePolicyOutputResponseBody: Swift.Equatable {
+struct GetRolePolicyOutputBody: Swift.Equatable {
     let roleName: Swift.String?
     let policyName: Swift.String?
     let policyDocument: Swift.String?
 }
 
-extension GetRolePolicyOutputResponseBody: Swift.Decodable {
+extension GetRolePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyDocument = "PolicyDocument"
         case policyName = "PolicyName"
@@ -9175,6 +9164,17 @@ extension GetRolePolicyOutputResponseBody: Swift.Decodable {
         policyName = policyNameDecoded
         let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
         policyDocument = policyDocumentDecoded
+    }
+}
+
+enum GetRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9224,23 +9224,11 @@ extension GetSAMLProviderInputBody: Swift.Decodable {
     }
 }
 
-enum GetSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSAMLProviderOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSAMLProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSAMLProviderOutputBody = try responseDecoder.decode(responseBody: data)
             self.createDate = output.createDate
             self.samlMetadataDocument = output.samlMetadataDocument
             self.tags = output.tags
@@ -9255,7 +9243,7 @@ extension GetSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetSAMLProvider] request.
-public struct GetSAMLProviderOutputResponse: Swift.Equatable {
+public struct GetSAMLProviderOutput: Swift.Equatable {
     /// The date and time when the SAML provider was created.
     public var createDate: ClientRuntime.Date?
     /// The XML metadata document that includes information about an identity provider.
@@ -9279,14 +9267,14 @@ public struct GetSAMLProviderOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSAMLProviderOutputResponseBody: Swift.Equatable {
+struct GetSAMLProviderOutputBody: Swift.Equatable {
     let samlMetadataDocument: Swift.String?
     let createDate: ClientRuntime.Date?
     let validUntil: ClientRuntime.Date?
     let tags: [IAMClientTypes.Tag]?
 }
 
-extension GetSAMLProviderOutputResponseBody: Swift.Decodable {
+extension GetSAMLProviderOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createDate = "CreateDate"
         case samlMetadataDocument = "SAMLMetadataDocument"
@@ -9321,6 +9309,18 @@ extension GetSAMLProviderOutputResponseBody: Swift.Decodable {
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum GetSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9395,22 +9395,11 @@ extension GetSSHPublicKeyInputBody: Swift.Decodable {
     }
 }
 
-enum GetSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnrecognizedPublicKeyEncoding": return try await UnrecognizedPublicKeyEncodingException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSSHPublicKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.sshPublicKey = output.sshPublicKey
         } else {
             self.sshPublicKey = nil
@@ -9419,7 +9408,7 @@ extension GetSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetSSHPublicKey] request.
-public struct GetSSHPublicKeyOutputResponse: Swift.Equatable {
+public struct GetSSHPublicKeyOutput: Swift.Equatable {
     /// A structure containing details about the SSH public key.
     public var sshPublicKey: IAMClientTypes.SSHPublicKey?
 
@@ -9431,11 +9420,11 @@ public struct GetSSHPublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSSHPublicKeyOutputResponseBody: Swift.Equatable {
+struct GetSSHPublicKeyOutputBody: Swift.Equatable {
     let sshPublicKey: IAMClientTypes.SSHPublicKey?
 }
 
-extension GetSSHPublicKeyOutputResponseBody: Swift.Decodable {
+extension GetSSHPublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sshPublicKey = "SSHPublicKey"
     }
@@ -9445,6 +9434,17 @@ extension GetSSHPublicKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetSSHPublicKeyResult"))
         let sshPublicKeyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.SSHPublicKey.self, forKey: .sshPublicKey)
         sshPublicKey = sshPublicKeyDecoded
+    }
+}
+
+enum GetSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnrecognizedPublicKeyEncoding": return try await UnrecognizedPublicKeyEncodingException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9494,22 +9494,11 @@ extension GetServerCertificateInputBody: Swift.Decodable {
     }
 }
 
-enum GetServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServerCertificateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServerCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServerCertificateOutputBody = try responseDecoder.decode(responseBody: data)
             self.serverCertificate = output.serverCertificate
         } else {
             self.serverCertificate = nil
@@ -9518,7 +9507,7 @@ extension GetServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a successful [GetServerCertificate] request.
-public struct GetServerCertificateOutputResponse: Swift.Equatable {
+public struct GetServerCertificateOutput: Swift.Equatable {
     /// A structure containing details about the server certificate.
     /// This member is required.
     public var serverCertificate: IAMClientTypes.ServerCertificate?
@@ -9531,11 +9520,11 @@ public struct GetServerCertificateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServerCertificateOutputResponseBody: Swift.Equatable {
+struct GetServerCertificateOutputBody: Swift.Equatable {
     let serverCertificate: IAMClientTypes.ServerCertificate?
 }
 
-extension GetServerCertificateOutputResponseBody: Swift.Decodable {
+extension GetServerCertificateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serverCertificate = "ServerCertificate"
     }
@@ -9545,6 +9534,17 @@ extension GetServerCertificateOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetServerCertificateResult"))
         let serverCertificateDecoded = try containerValues.decodeIfPresent(IAMClientTypes.ServerCertificate.self, forKey: .serverCertificate)
         serverCertificate = serverCertificateDecoded
+    }
+}
+
+enum GetServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9616,22 +9616,11 @@ extension GetServiceLastAccessedDetailsInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceLastAccessedDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetServiceLastAccessedDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceLastAccessedDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceLastAccessedDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceLastAccessedDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.isTruncated = output.isTruncated
             self.jobCompletionDate = output.jobCompletionDate
@@ -9653,7 +9642,7 @@ extension GetServiceLastAccessedDetailsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetServiceLastAccessedDetailsOutputResponse: Swift.Equatable {
+public struct GetServiceLastAccessedDetailsOutput: Swift.Equatable {
     /// An object that contains details about the reason the operation failed.
     public var error: IAMClientTypes.ErrorDetails?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -9697,7 +9686,7 @@ public struct GetServiceLastAccessedDetailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceLastAccessedDetailsOutputResponseBody: Swift.Equatable {
+struct GetServiceLastAccessedDetailsOutputBody: Swift.Equatable {
     let jobStatus: IAMClientTypes.JobStatusType?
     let jobType: IAMClientTypes.AccessAdvisorUsageGranularityType?
     let jobCreationDate: ClientRuntime.Date?
@@ -9708,7 +9697,7 @@ struct GetServiceLastAccessedDetailsOutputResponseBody: Swift.Equatable {
     let error: IAMClientTypes.ErrorDetails?
 }
 
-extension GetServiceLastAccessedDetailsOutputResponseBody: Swift.Decodable {
+extension GetServiceLastAccessedDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case error = "Error"
         case isTruncated = "IsTruncated"
@@ -9756,6 +9745,17 @@ extension GetServiceLastAccessedDetailsOutputResponseBody: Swift.Decodable {
         marker = markerDecoded
         let errorDecoded = try containerValues.decodeIfPresent(IAMClientTypes.ErrorDetails.self, forKey: .error)
         error = errorDecoded
+    }
+}
+
+enum GetServiceLastAccessedDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9839,22 +9839,11 @@ extension GetServiceLastAccessedDetailsWithEntitiesInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceLastAccessedDetailsWithEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetServiceLastAccessedDetailsWithEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceLastAccessedDetailsWithEntitiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceLastAccessedDetailsWithEntitiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.entityDetailsList = output.entityDetailsList
             self.error = output.error
             self.isTruncated = output.isTruncated
@@ -9874,7 +9863,7 @@ extension GetServiceLastAccessedDetailsWithEntitiesOutputResponse: ClientRuntime
     }
 }
 
-public struct GetServiceLastAccessedDetailsWithEntitiesOutputResponse: Swift.Equatable {
+public struct GetServiceLastAccessedDetailsWithEntitiesOutput: Swift.Equatable {
     /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified Amazon Web Services service.
     /// This member is required.
     public var entityDetailsList: [IAMClientTypes.EntityDetails]?
@@ -9914,7 +9903,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutputResponse: Swift.Equ
     }
 }
 
-struct GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody: Swift.Equatable {
+struct GetServiceLastAccessedDetailsWithEntitiesOutputBody: Swift.Equatable {
     let jobStatus: IAMClientTypes.JobStatusType?
     let jobCreationDate: ClientRuntime.Date?
     let jobCompletionDate: ClientRuntime.Date?
@@ -9924,7 +9913,7 @@ struct GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody: Swift.Equata
     let error: IAMClientTypes.ErrorDetails?
 }
 
-extension GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody: Swift.Decodable {
+extension GetServiceLastAccessedDetailsWithEntitiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entityDetailsList = "EntityDetailsList"
         case error = "Error"
@@ -9969,6 +9958,17 @@ extension GetServiceLastAccessedDetailsWithEntitiesOutputResponseBody: Swift.Dec
         marker = markerDecoded
         let errorDecoded = try containerValues.decodeIfPresent(IAMClientTypes.ErrorDetails.self, forKey: .error)
         error = errorDecoded
+    }
+}
+
+enum GetServiceLastAccessedDetailsWithEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10018,23 +10018,11 @@ extension GetServiceLinkedRoleDeletionStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceLinkedRoleDeletionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetServiceLinkedRoleDeletionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceLinkedRoleDeletionStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceLinkedRoleDeletionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceLinkedRoleDeletionStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.reason = output.reason
             self.status = output.status
         } else {
@@ -10044,7 +10032,7 @@ extension GetServiceLinkedRoleDeletionStatusOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GetServiceLinkedRoleDeletionStatusOutputResponse: Swift.Equatable {
+public struct GetServiceLinkedRoleDeletionStatusOutput: Swift.Equatable {
     /// An object that contains details about the reason the deletion failed.
     public var reason: IAMClientTypes.DeletionTaskFailureReasonType?
     /// The status of the deletion.
@@ -10061,12 +10049,12 @@ public struct GetServiceLinkedRoleDeletionStatusOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetServiceLinkedRoleDeletionStatusOutputResponseBody: Swift.Equatable {
+struct GetServiceLinkedRoleDeletionStatusOutputBody: Swift.Equatable {
     let status: IAMClientTypes.DeletionTaskStatusType?
     let reason: IAMClientTypes.DeletionTaskFailureReasonType?
 }
 
-extension GetServiceLinkedRoleDeletionStatusOutputResponseBody: Swift.Decodable {
+extension GetServiceLinkedRoleDeletionStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reason = "Reason"
         case status = "Status"
@@ -10079,6 +10067,18 @@ extension GetServiceLinkedRoleDeletionStatusOutputResponseBody: Swift.Decodable 
         status = statusDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(IAMClientTypes.DeletionTaskFailureReasonType.self, forKey: .reason)
         reason = reasonDecoded
+    }
+}
+
+enum GetServiceLinkedRoleDeletionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10127,22 +10127,11 @@ extension GetUserInputBody: Swift.Decodable {
     }
 }
 
-enum GetUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetUserOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetUserOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetUserOutputBody = try responseDecoder.decode(responseBody: data)
             self.user = output.user
         } else {
             self.user = nil
@@ -10151,7 +10140,7 @@ extension GetUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetUser] request.
-public struct GetUserOutputResponse: Swift.Equatable {
+public struct GetUserOutput: Swift.Equatable {
     /// A structure containing details about the IAM user. Due to a service issue, password last used data does not include password use from May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects [last sign-in](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_finding-unused.html) dates shown in the IAM console and password last used dates in the [IAM credential report](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html), and returned by this operation. If users signed in during the affected time, the password last used date that is returned is the date the user last signed in before May 3, 2018. For users that signed in after May 23, 2018 14:08 PDT, the returned password last used date is accurate. You can use password last used information to identify unused credentials for deletion. For example, you might delete users who did not sign in to Amazon Web Services in the last 90 days. In cases like this, we recommend that you adjust your evaluation window to include dates after May 23, 2018. Alternatively, if your users use access keys to access Amazon Web Services programmatically you can refer to access key last used information because it is accurate for all dates.
     /// This member is required.
     public var user: IAMClientTypes.User?
@@ -10164,11 +10153,11 @@ public struct GetUserOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetUserOutputResponseBody: Swift.Equatable {
+struct GetUserOutputBody: Swift.Equatable {
     let user: IAMClientTypes.User?
 }
 
-extension GetUserOutputResponseBody: Swift.Decodable {
+extension GetUserOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case user = "User"
     }
@@ -10178,6 +10167,17 @@ extension GetUserOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetUserResult"))
         let userDecoded = try containerValues.decodeIfPresent(IAMClientTypes.User.self, forKey: .user)
         user = userDecoded
+    }
+}
+
+enum GetUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10239,22 +10239,11 @@ extension GetUserPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetUserPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetUserPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetUserPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyDocument = output.policyDocument
             self.policyName = output.policyName
             self.userName = output.userName
@@ -10267,7 +10256,7 @@ extension GetUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [GetUserPolicy] request.
-public struct GetUserPolicyOutputResponse: Swift.Equatable {
+public struct GetUserPolicyOutput: Swift.Equatable {
     /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -10290,13 +10279,13 @@ public struct GetUserPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetUserPolicyOutputResponseBody: Swift.Equatable {
+struct GetUserPolicyOutputBody: Swift.Equatable {
     let userName: Swift.String?
     let policyName: Swift.String?
     let policyDocument: Swift.String?
 }
 
-extension GetUserPolicyOutputResponseBody: Swift.Decodable {
+extension GetUserPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyDocument = "PolicyDocument"
         case policyName = "PolicyName"
@@ -10312,6 +10301,17 @@ extension GetUserPolicyOutputResponseBody: Swift.Decodable {
         policyName = policyNameDecoded
         let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
         policyDocument = policyDocumentDecoded
+    }
+}
+
+enum GetUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11221,22 +11221,11 @@ extension ListAccessKeysInputBody: Swift.Decodable {
     }
 }
 
-enum ListAccessKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAccessKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccessKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccessKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccessKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessKeyMetadata = output.accessKeyMetadata
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -11249,7 +11238,7 @@ extension ListAccessKeysOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListAccessKeys] request.
-public struct ListAccessKeysOutputResponse: Swift.Equatable {
+public struct ListAccessKeysOutput: Swift.Equatable {
     /// A list of objects containing metadata about the access keys.
     /// This member is required.
     public var accessKeyMetadata: [IAMClientTypes.AccessKeyMetadata]?
@@ -11270,13 +11259,13 @@ public struct ListAccessKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccessKeysOutputResponseBody: Swift.Equatable {
+struct ListAccessKeysOutputBody: Swift.Equatable {
     let accessKeyMetadata: [IAMClientTypes.AccessKeyMetadata]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListAccessKeysOutputResponseBody: Swift.Decodable {
+extension ListAccessKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessKeyMetadata = "AccessKeyMetadata"
         case isTruncated = "IsTruncated"
@@ -11309,6 +11298,17 @@ extension ListAccessKeysOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListAccessKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11368,21 +11368,11 @@ extension ListAccountAliasesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAccountAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAccountAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccountAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccountAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccountAliasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountAliases = output.accountAliases
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -11395,7 +11385,7 @@ extension ListAccountAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListAccountAliases] request.
-public struct ListAccountAliasesOutputResponse: Swift.Equatable {
+public struct ListAccountAliasesOutput: Swift.Equatable {
     /// A list of aliases associated with the account. Amazon Web Services supports only one alias per account.
     /// This member is required.
     public var accountAliases: [Swift.String]?
@@ -11416,13 +11406,13 @@ public struct ListAccountAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccountAliasesOutputResponseBody: Swift.Equatable {
+struct ListAccountAliasesOutputBody: Swift.Equatable {
     let accountAliases: [Swift.String]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListAccountAliasesOutputResponseBody: Swift.Decodable {
+extension ListAccountAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountAliases = "AccountAliases"
         case isTruncated = "IsTruncated"
@@ -11455,6 +11445,16 @@ extension ListAccountAliasesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListAccountAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11537,23 +11537,11 @@ extension ListAttachedGroupPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAttachedGroupPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAttachedGroupPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAttachedGroupPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAttachedGroupPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAttachedGroupPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attachedPolicies = output.attachedPolicies
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -11566,7 +11554,7 @@ extension ListAttachedGroupPoliciesOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// Contains the response to a successful [ListAttachedGroupPolicies] request.
-public struct ListAttachedGroupPoliciesOutputResponse: Swift.Equatable {
+public struct ListAttachedGroupPoliciesOutput: Swift.Equatable {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -11586,13 +11574,13 @@ public struct ListAttachedGroupPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAttachedGroupPoliciesOutputResponseBody: Swift.Equatable {
+struct ListAttachedGroupPoliciesOutputBody: Swift.Equatable {
     let attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListAttachedGroupPoliciesOutputResponseBody: Swift.Decodable {
+extension ListAttachedGroupPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attachedPolicies = "AttachedPolicies"
         case isTruncated = "IsTruncated"
@@ -11625,6 +11613,18 @@ extension ListAttachedGroupPoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListAttachedGroupPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11707,23 +11707,11 @@ extension ListAttachedRolePoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAttachedRolePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAttachedRolePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAttachedRolePoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAttachedRolePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAttachedRolePoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attachedPolicies = output.attachedPolicies
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -11736,7 +11724,7 @@ extension ListAttachedRolePoliciesOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Contains the response to a successful [ListAttachedRolePolicies] request.
-public struct ListAttachedRolePoliciesOutputResponse: Swift.Equatable {
+public struct ListAttachedRolePoliciesOutput: Swift.Equatable {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -11756,13 +11744,13 @@ public struct ListAttachedRolePoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAttachedRolePoliciesOutputResponseBody: Swift.Equatable {
+struct ListAttachedRolePoliciesOutputBody: Swift.Equatable {
     let attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListAttachedRolePoliciesOutputResponseBody: Swift.Decodable {
+extension ListAttachedRolePoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attachedPolicies = "AttachedPolicies"
         case isTruncated = "IsTruncated"
@@ -11795,6 +11783,18 @@ extension ListAttachedRolePoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListAttachedRolePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11877,23 +11877,11 @@ extension ListAttachedUserPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAttachedUserPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAttachedUserPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAttachedUserPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAttachedUserPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAttachedUserPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attachedPolicies = output.attachedPolicies
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -11906,7 +11894,7 @@ extension ListAttachedUserPoliciesOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// Contains the response to a successful [ListAttachedUserPolicies] request.
-public struct ListAttachedUserPoliciesOutputResponse: Swift.Equatable {
+public struct ListAttachedUserPoliciesOutput: Swift.Equatable {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -11926,13 +11914,13 @@ public struct ListAttachedUserPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAttachedUserPoliciesOutputResponseBody: Swift.Equatable {
+struct ListAttachedUserPoliciesOutputBody: Swift.Equatable {
     let attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListAttachedUserPoliciesOutputResponseBody: Swift.Decodable {
+extension ListAttachedUserPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attachedPolicies = "AttachedPolicies"
         case isTruncated = "IsTruncated"
@@ -11965,6 +11953,18 @@ extension ListAttachedUserPoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListAttachedUserPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12069,23 +12069,11 @@ extension ListEntitiesForPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum ListEntitiesForPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListEntitiesForPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEntitiesForPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEntitiesForPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEntitiesForPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.policyGroups = output.policyGroups
@@ -12102,7 +12090,7 @@ extension ListEntitiesForPolicyOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Contains the response to a successful [ListEntitiesForPolicy] request.
-public struct ListEntitiesForPolicyOutputResponse: Swift.Equatable {
+public struct ListEntitiesForPolicyOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12130,7 +12118,7 @@ public struct ListEntitiesForPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEntitiesForPolicyOutputResponseBody: Swift.Equatable {
+struct ListEntitiesForPolicyOutputBody: Swift.Equatable {
     let policyGroups: [IAMClientTypes.PolicyGroup]?
     let policyUsers: [IAMClientTypes.PolicyUser]?
     let policyRoles: [IAMClientTypes.PolicyRole]?
@@ -12138,7 +12126,7 @@ struct ListEntitiesForPolicyOutputResponseBody: Swift.Equatable {
     let marker: Swift.String?
 }
 
-extension ListEntitiesForPolicyOutputResponseBody: Swift.Decodable {
+extension ListEntitiesForPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -12214,6 +12202,18 @@ extension ListEntitiesForPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListEntitiesForPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListGroupPoliciesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -12282,22 +12282,11 @@ extension ListGroupPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListGroupPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListGroupPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGroupPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGroupPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGroupPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.policyNames = output.policyNames
@@ -12310,7 +12299,7 @@ extension ListGroupPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListGroupPolicies] request.
-public struct ListGroupPoliciesOutputResponse: Swift.Equatable {
+public struct ListGroupPoliciesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12331,13 +12320,13 @@ public struct ListGroupPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGroupPoliciesOutputResponseBody: Swift.Equatable {
+struct ListGroupPoliciesOutputBody: Swift.Equatable {
     let policyNames: [Swift.String]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListGroupPoliciesOutputResponseBody: Swift.Decodable {
+extension ListGroupPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -12370,6 +12359,17 @@ extension ListGroupPoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListGroupPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12441,22 +12441,11 @@ extension ListGroupsForUserInputBody: Swift.Decodable {
     }
 }
 
-enum ListGroupsForUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListGroupsForUserOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGroupsForUserOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGroupsForUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGroupsForUserOutputBody = try responseDecoder.decode(responseBody: data)
             self.groups = output.groups
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -12469,7 +12458,7 @@ extension ListGroupsForUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListGroupsForUser] request.
-public struct ListGroupsForUserOutputResponse: Swift.Equatable {
+public struct ListGroupsForUserOutput: Swift.Equatable {
     /// A list of groups.
     /// This member is required.
     public var groups: [IAMClientTypes.Group]?
@@ -12490,13 +12479,13 @@ public struct ListGroupsForUserOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGroupsForUserOutputResponseBody: Swift.Equatable {
+struct ListGroupsForUserOutputBody: Swift.Equatable {
     let groups: [IAMClientTypes.Group]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListGroupsForUserOutputResponseBody: Swift.Decodable {
+extension ListGroupsForUserOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groups = "Groups"
         case isTruncated = "IsTruncated"
@@ -12529,6 +12518,17 @@ extension ListGroupsForUserOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListGroupsForUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12599,21 +12599,11 @@ extension ListGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.groups = output.groups
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -12626,7 +12616,7 @@ extension ListGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListGroups] request.
-public struct ListGroupsOutputResponse: Swift.Equatable {
+public struct ListGroupsOutput: Swift.Equatable {
     /// A list of groups.
     /// This member is required.
     public var groups: [IAMClientTypes.Group]?
@@ -12647,13 +12637,13 @@ public struct ListGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputResponseBody: Swift.Equatable {
+struct ListGroupsOutputBody: Swift.Equatable {
     let groups: [IAMClientTypes.Group]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListGroupsOutputResponseBody: Swift.Decodable {
+extension ListGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groups = "Groups"
         case isTruncated = "IsTruncated"
@@ -12686,6 +12676,16 @@ extension ListGroupsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12757,22 +12757,11 @@ extension ListInstanceProfileTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListInstanceProfileTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListInstanceProfileTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstanceProfileTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstanceProfileTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstanceProfileTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -12784,7 +12773,7 @@ extension ListInstanceProfileTagsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListInstanceProfileTagsOutputResponse: Swift.Equatable {
+public struct ListInstanceProfileTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12805,13 +12794,13 @@ public struct ListInstanceProfileTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstanceProfileTagsOutputResponseBody: Swift.Equatable {
+struct ListInstanceProfileTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListInstanceProfileTagsOutputResponseBody: Swift.Decodable {
+extension ListInstanceProfileTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -12844,6 +12833,17 @@ extension ListInstanceProfileTagsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListInstanceProfileTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12915,22 +12915,11 @@ extension ListInstanceProfilesForRoleInputBody: Swift.Decodable {
     }
 }
 
-enum ListInstanceProfilesForRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListInstanceProfilesForRoleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstanceProfilesForRoleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstanceProfilesForRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstanceProfilesForRoleOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfiles = output.instanceProfiles
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -12943,7 +12932,7 @@ extension ListInstanceProfilesForRoleOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Contains the response to a successful [ListInstanceProfilesForRole] request.
-public struct ListInstanceProfilesForRoleOutputResponse: Swift.Equatable {
+public struct ListInstanceProfilesForRoleOutput: Swift.Equatable {
     /// A list of instance profiles.
     /// This member is required.
     public var instanceProfiles: [IAMClientTypes.InstanceProfile]?
@@ -12964,13 +12953,13 @@ public struct ListInstanceProfilesForRoleOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstanceProfilesForRoleOutputResponseBody: Swift.Equatable {
+struct ListInstanceProfilesForRoleOutputBody: Swift.Equatable {
     let instanceProfiles: [IAMClientTypes.InstanceProfile]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListInstanceProfilesForRoleOutputResponseBody: Swift.Decodable {
+extension ListInstanceProfilesForRoleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceProfiles = "InstanceProfiles"
         case isTruncated = "IsTruncated"
@@ -13003,6 +12992,17 @@ extension ListInstanceProfilesForRoleOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListInstanceProfilesForRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13073,21 +13073,11 @@ extension ListInstanceProfilesInputBody: Swift.Decodable {
     }
 }
 
-enum ListInstanceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListInstanceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstanceProfilesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstanceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstanceProfilesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceProfiles = output.instanceProfiles
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -13100,7 +13090,7 @@ extension ListInstanceProfilesOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a successful [ListInstanceProfiles] request.
-public struct ListInstanceProfilesOutputResponse: Swift.Equatable {
+public struct ListInstanceProfilesOutput: Swift.Equatable {
     /// A list of instance profiles.
     /// This member is required.
     public var instanceProfiles: [IAMClientTypes.InstanceProfile]?
@@ -13121,13 +13111,13 @@ public struct ListInstanceProfilesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstanceProfilesOutputResponseBody: Swift.Equatable {
+struct ListInstanceProfilesOutputBody: Swift.Equatable {
     let instanceProfiles: [IAMClientTypes.InstanceProfile]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListInstanceProfilesOutputResponseBody: Swift.Decodable {
+extension ListInstanceProfilesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceProfiles = "InstanceProfiles"
         case isTruncated = "IsTruncated"
@@ -13160,6 +13150,16 @@ extension ListInstanceProfilesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListInstanceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13231,23 +13231,11 @@ extension ListMFADeviceTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListMFADeviceTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListMFADeviceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMFADeviceTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMFADeviceTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMFADeviceTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -13259,7 +13247,7 @@ extension ListMFADeviceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMFADeviceTagsOutputResponse: Swift.Equatable {
+public struct ListMFADeviceTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -13280,13 +13268,13 @@ public struct ListMFADeviceTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMFADeviceTagsOutputResponseBody: Swift.Equatable {
+struct ListMFADeviceTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListMFADeviceTagsOutputResponseBody: Swift.Decodable {
+extension ListMFADeviceTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -13319,6 +13307,18 @@ extension ListMFADeviceTagsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListMFADeviceTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13389,22 +13389,11 @@ extension ListMFADevicesInputBody: Swift.Decodable {
     }
 }
 
-enum ListMFADevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListMFADevicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMFADevicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMFADevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMFADevicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.mfaDevices = output.mfaDevices
@@ -13417,7 +13406,7 @@ extension ListMFADevicesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListMFADevices] request.
-public struct ListMFADevicesOutputResponse: Swift.Equatable {
+public struct ListMFADevicesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -13438,13 +13427,13 @@ public struct ListMFADevicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMFADevicesOutputResponseBody: Swift.Equatable {
+struct ListMFADevicesOutputBody: Swift.Equatable {
     let mfaDevices: [IAMClientTypes.MFADevice]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListMFADevicesOutputResponseBody: Swift.Decodable {
+extension ListMFADevicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case mfaDevices = "MFADevices"
@@ -13477,6 +13466,17 @@ extension ListMFADevicesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListMFADevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13548,23 +13548,11 @@ extension ListOpenIDConnectProviderTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListOpenIDConnectProviderTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListOpenIDConnectProviderTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOpenIDConnectProviderTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListOpenIDConnectProviderTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListOpenIDConnectProviderTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -13576,7 +13564,7 @@ extension ListOpenIDConnectProviderTagsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListOpenIDConnectProviderTagsOutputResponse: Swift.Equatable {
+public struct ListOpenIDConnectProviderTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -13597,13 +13585,13 @@ public struct ListOpenIDConnectProviderTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOpenIDConnectProviderTagsOutputResponseBody: Swift.Equatable {
+struct ListOpenIDConnectProviderTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListOpenIDConnectProviderTagsOutputResponseBody: Swift.Decodable {
+extension ListOpenIDConnectProviderTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -13639,6 +13627,18 @@ extension ListOpenIDConnectProviderTagsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListOpenIDConnectProviderTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListOpenIDConnectProvidersInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -13658,21 +13658,11 @@ public struct ListOpenIDConnectProvidersInput: Swift.Equatable {
     public init() { }
 }
 
-enum ListOpenIDConnectProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListOpenIDConnectProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOpenIDConnectProvidersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListOpenIDConnectProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListOpenIDConnectProvidersOutputBody = try responseDecoder.decode(responseBody: data)
             self.openIDConnectProviderList = output.openIDConnectProviderList
         } else {
             self.openIDConnectProviderList = nil
@@ -13681,7 +13671,7 @@ extension ListOpenIDConnectProvidersOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// Contains the response to a successful [ListOpenIDConnectProviders] request.
-public struct ListOpenIDConnectProvidersOutputResponse: Swift.Equatable {
+public struct ListOpenIDConnectProvidersOutput: Swift.Equatable {
     /// The list of IAM OIDC provider resource objects defined in the Amazon Web Services account.
     public var openIDConnectProviderList: [IAMClientTypes.OpenIDConnectProviderListEntry]?
 
@@ -13693,11 +13683,11 @@ public struct ListOpenIDConnectProvidersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOpenIDConnectProvidersOutputResponseBody: Swift.Equatable {
+struct ListOpenIDConnectProvidersOutputBody: Swift.Equatable {
     let openIDConnectProviderList: [IAMClientTypes.OpenIDConnectProviderListEntry]?
 }
 
-extension ListOpenIDConnectProvidersOutputResponseBody: Swift.Decodable {
+extension ListOpenIDConnectProvidersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case openIDConnectProviderList = "OpenIDConnectProviderList"
     }
@@ -13723,6 +13713,16 @@ extension ListOpenIDConnectProvidersOutputResponseBody: Swift.Decodable {
             }
         } else {
             openIDConnectProviderList = nil
+        }
+    }
+}
+
+enum ListOpenIDConnectProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -13893,22 +13893,11 @@ extension ListPoliciesGrantingServiceAccessInputBody: Swift.Decodable {
     }
 }
 
-enum ListPoliciesGrantingServiceAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListPoliciesGrantingServiceAccessOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPoliciesGrantingServiceAccessOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPoliciesGrantingServiceAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPoliciesGrantingServiceAccessOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.policiesGrantingServiceAccess = output.policiesGrantingServiceAccess
@@ -13920,7 +13909,7 @@ extension ListPoliciesGrantingServiceAccessOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct ListPoliciesGrantingServiceAccessOutputResponse: Swift.Equatable {
+public struct ListPoliciesGrantingServiceAccessOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -13941,13 +13930,13 @@ public struct ListPoliciesGrantingServiceAccessOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPoliciesGrantingServiceAccessOutputResponseBody: Swift.Equatable {
+struct ListPoliciesGrantingServiceAccessOutputBody: Swift.Equatable {
     let policiesGrantingServiceAccess: [IAMClientTypes.ListPoliciesGrantingServiceAccessEntry]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListPoliciesGrantingServiceAccessOutputResponseBody: Swift.Decodable {
+extension ListPoliciesGrantingServiceAccessOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -13980,6 +13969,17 @@ extension ListPoliciesGrantingServiceAccessOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListPoliciesGrantingServiceAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14083,21 +14083,11 @@ extension ListPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.policies = output.policies
@@ -14110,7 +14100,7 @@ extension ListPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListPolicies] request.
-public struct ListPoliciesOutputResponse: Swift.Equatable {
+public struct ListPoliciesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -14130,13 +14120,13 @@ public struct ListPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPoliciesOutputResponseBody: Swift.Equatable {
+struct ListPoliciesOutputBody: Swift.Equatable {
     let policies: [IAMClientTypes.Policy]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListPoliciesOutputResponseBody: Swift.Decodable {
+extension ListPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -14169,6 +14159,16 @@ extension ListPoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14240,23 +14240,11 @@ extension ListPolicyTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListPolicyTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListPolicyTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPolicyTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPolicyTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPolicyTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -14268,7 +14256,7 @@ extension ListPolicyTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPolicyTagsOutputResponse: Swift.Equatable {
+public struct ListPolicyTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -14289,13 +14277,13 @@ public struct ListPolicyTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPolicyTagsOutputResponseBody: Swift.Equatable {
+struct ListPolicyTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListPolicyTagsOutputResponseBody: Swift.Decodable {
+extension ListPolicyTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -14328,6 +14316,18 @@ extension ListPolicyTagsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListPolicyTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14399,23 +14399,11 @@ extension ListPolicyVersionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListPolicyVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListPolicyVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPolicyVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPolicyVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPolicyVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.versions = output.versions
@@ -14428,7 +14416,7 @@ extension ListPolicyVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListPolicyVersions] request.
-public struct ListPolicyVersionsOutputResponse: Swift.Equatable {
+public struct ListPolicyVersionsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -14448,13 +14436,13 @@ public struct ListPolicyVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPolicyVersionsOutputResponseBody: Swift.Equatable {
+struct ListPolicyVersionsOutputBody: Swift.Equatable {
     let versions: [IAMClientTypes.PolicyVersion]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListPolicyVersionsOutputResponseBody: Swift.Decodable {
+extension ListPolicyVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -14487,6 +14475,18 @@ extension ListPolicyVersionsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListPolicyVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14558,22 +14558,11 @@ extension ListRolePoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRolePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListRolePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRolePoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRolePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRolePoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.policyNames = output.policyNames
@@ -14586,7 +14575,7 @@ extension ListRolePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListRolePolicies] request.
-public struct ListRolePoliciesOutputResponse: Swift.Equatable {
+public struct ListRolePoliciesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -14607,13 +14596,13 @@ public struct ListRolePoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRolePoliciesOutputResponseBody: Swift.Equatable {
+struct ListRolePoliciesOutputBody: Swift.Equatable {
     let policyNames: [Swift.String]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListRolePoliciesOutputResponseBody: Swift.Decodable {
+extension ListRolePoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -14646,6 +14635,17 @@ extension ListRolePoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListRolePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14717,22 +14717,11 @@ extension ListRoleTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRoleTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListRoleTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRoleTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRoleTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRoleTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -14744,7 +14733,7 @@ extension ListRoleTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoleTagsOutputResponse: Swift.Equatable {
+public struct ListRoleTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -14765,13 +14754,13 @@ public struct ListRoleTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRoleTagsOutputResponseBody: Swift.Equatable {
+struct ListRoleTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListRoleTagsOutputResponseBody: Swift.Decodable {
+extension ListRoleTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -14804,6 +14793,17 @@ extension ListRoleTagsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListRoleTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14874,21 +14874,11 @@ extension ListRolesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListRolesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRolesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRolesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRolesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.roles = output.roles
@@ -14901,7 +14891,7 @@ extension ListRolesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListRoles] request.
-public struct ListRolesOutputResponse: Swift.Equatable {
+public struct ListRolesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -14922,13 +14912,13 @@ public struct ListRolesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRolesOutputResponseBody: Swift.Equatable {
+struct ListRolesOutputBody: Swift.Equatable {
     let roles: [IAMClientTypes.Role]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListRolesOutputResponseBody: Swift.Decodable {
+extension ListRolesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -14961,6 +14951,16 @@ extension ListRolesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15032,23 +15032,11 @@ extension ListSAMLProviderTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSAMLProviderTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListSAMLProviderTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSAMLProviderTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSAMLProviderTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSAMLProviderTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -15060,7 +15048,7 @@ extension ListSAMLProviderTagsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListSAMLProviderTagsOutputResponse: Swift.Equatable {
+public struct ListSAMLProviderTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -15081,13 +15069,13 @@ public struct ListSAMLProviderTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSAMLProviderTagsOutputResponseBody: Swift.Equatable {
+struct ListSAMLProviderTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListSAMLProviderTagsOutputResponseBody: Swift.Decodable {
+extension ListSAMLProviderTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -15123,6 +15111,18 @@ extension ListSAMLProviderTagsOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListSAMLProviderTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ListSAMLProvidersInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -15142,21 +15142,11 @@ public struct ListSAMLProvidersInput: Swift.Equatable {
     public init() { }
 }
 
-enum ListSAMLProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListSAMLProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSAMLProvidersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSAMLProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSAMLProvidersOutputBody = try responseDecoder.decode(responseBody: data)
             self.samlProviderList = output.samlProviderList
         } else {
             self.samlProviderList = nil
@@ -15165,7 +15155,7 @@ extension ListSAMLProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListSAMLProviders] request.
-public struct ListSAMLProvidersOutputResponse: Swift.Equatable {
+public struct ListSAMLProvidersOutput: Swift.Equatable {
     /// The list of SAML provider resource objects defined in IAM for this Amazon Web Services account.
     public var samlProviderList: [IAMClientTypes.SAMLProviderListEntry]?
 
@@ -15177,11 +15167,11 @@ public struct ListSAMLProvidersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSAMLProvidersOutputResponseBody: Swift.Equatable {
+struct ListSAMLProvidersOutputBody: Swift.Equatable {
     let samlProviderList: [IAMClientTypes.SAMLProviderListEntry]?
 }
 
-extension ListSAMLProvidersOutputResponseBody: Swift.Decodable {
+extension ListSAMLProvidersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case samlProviderList = "SAMLProviderList"
     }
@@ -15207,6 +15197,16 @@ extension ListSAMLProvidersOutputResponseBody: Swift.Decodable {
             }
         } else {
             samlProviderList = nil
+        }
+    }
+}
+
+enum ListSAMLProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -15278,21 +15278,11 @@ extension ListSSHPublicKeysInputBody: Swift.Decodable {
     }
 }
 
-enum ListSSHPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListSSHPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSSHPublicKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSSHPublicKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSSHPublicKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.sshPublicKeys = output.sshPublicKeys
@@ -15305,7 +15295,7 @@ extension ListSSHPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListSSHPublicKeys] request.
-public struct ListSSHPublicKeysOutputResponse: Swift.Equatable {
+public struct ListSSHPublicKeysOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -15325,13 +15315,13 @@ public struct ListSSHPublicKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSSHPublicKeysOutputResponseBody: Swift.Equatable {
+struct ListSSHPublicKeysOutputBody: Swift.Equatable {
     let sshPublicKeys: [IAMClientTypes.SSHPublicKeyMetadata]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListSSHPublicKeysOutputResponseBody: Swift.Decodable {
+extension ListSSHPublicKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -15364,6 +15354,16 @@ extension ListSSHPublicKeysOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListSSHPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15435,22 +15435,11 @@ extension ListServerCertificateTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListServerCertificateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListServerCertificateTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServerCertificateTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServerCertificateTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServerCertificateTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -15462,7 +15451,7 @@ extension ListServerCertificateTagsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListServerCertificateTagsOutputResponse: Swift.Equatable {
+public struct ListServerCertificateTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -15483,13 +15472,13 @@ public struct ListServerCertificateTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServerCertificateTagsOutputResponseBody: Swift.Equatable {
+struct ListServerCertificateTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListServerCertificateTagsOutputResponseBody: Swift.Decodable {
+extension ListServerCertificateTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -15522,6 +15511,17 @@ extension ListServerCertificateTagsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListServerCertificateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15592,21 +15592,11 @@ extension ListServerCertificatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListServerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListServerCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServerCertificatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServerCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServerCertificatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.serverCertificateMetadataList = output.serverCertificateMetadataList
@@ -15619,7 +15609,7 @@ extension ListServerCertificatesOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Contains the response to a successful [ListServerCertificates] request.
-public struct ListServerCertificatesOutputResponse: Swift.Equatable {
+public struct ListServerCertificatesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -15640,13 +15630,13 @@ public struct ListServerCertificatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServerCertificatesOutputResponseBody: Swift.Equatable {
+struct ListServerCertificatesOutputBody: Swift.Equatable {
     let serverCertificateMetadataList: [IAMClientTypes.ServerCertificateMetadata]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListServerCertificatesOutputResponseBody: Swift.Decodable {
+extension ListServerCertificatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -15679,6 +15669,16 @@ extension ListServerCertificatesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListServerCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15738,22 +15738,11 @@ extension ListServiceSpecificCredentialsInputBody: Swift.Decodable {
     }
 }
 
-enum ListServiceSpecificCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NotSupportedService": return try await ServiceNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListServiceSpecificCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListServiceSpecificCredentialsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListServiceSpecificCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListServiceSpecificCredentialsOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceSpecificCredentials = output.serviceSpecificCredentials
         } else {
             self.serviceSpecificCredentials = nil
@@ -15761,7 +15750,7 @@ extension ListServiceSpecificCredentialsOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListServiceSpecificCredentialsOutputResponse: Swift.Equatable {
+public struct ListServiceSpecificCredentialsOutput: Swift.Equatable {
     /// A list of structures that each contain details about a service-specific credential.
     public var serviceSpecificCredentials: [IAMClientTypes.ServiceSpecificCredentialMetadata]?
 
@@ -15773,11 +15762,11 @@ public struct ListServiceSpecificCredentialsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListServiceSpecificCredentialsOutputResponseBody: Swift.Equatable {
+struct ListServiceSpecificCredentialsOutputBody: Swift.Equatable {
     let serviceSpecificCredentials: [IAMClientTypes.ServiceSpecificCredentialMetadata]?
 }
 
-extension ListServiceSpecificCredentialsOutputResponseBody: Swift.Decodable {
+extension ListServiceSpecificCredentialsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceSpecificCredentials = "ServiceSpecificCredentials"
     }
@@ -15803,6 +15792,17 @@ extension ListServiceSpecificCredentialsOutputResponseBody: Swift.Decodable {
             }
         } else {
             serviceSpecificCredentials = nil
+        }
+    }
+}
+
+enum ListServiceSpecificCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NotSupportedService": return try await ServiceNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -15874,22 +15874,11 @@ extension ListSigningCertificatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSigningCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListSigningCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSigningCertificatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSigningCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSigningCertificatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.certificates = output.certificates
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -15902,7 +15891,7 @@ extension ListSigningCertificatesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Contains the response to a successful [ListSigningCertificates] request.
-public struct ListSigningCertificatesOutputResponse: Swift.Equatable {
+public struct ListSigningCertificatesOutput: Swift.Equatable {
     /// A list of the user's signing certificate information.
     /// This member is required.
     public var certificates: [IAMClientTypes.SigningCertificate]?
@@ -15923,13 +15912,13 @@ public struct ListSigningCertificatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSigningCertificatesOutputResponseBody: Swift.Equatable {
+struct ListSigningCertificatesOutputBody: Swift.Equatable {
     let certificates: [IAMClientTypes.SigningCertificate]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListSigningCertificatesOutputResponseBody: Swift.Decodable {
+extension ListSigningCertificatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificates = "Certificates"
         case isTruncated = "IsTruncated"
@@ -15962,6 +15951,17 @@ extension ListSigningCertificatesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListSigningCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16033,22 +16033,11 @@ extension ListUserPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListUserPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListUserPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListUserPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListUserPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListUserPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.policyNames = output.policyNames
@@ -16061,7 +16050,7 @@ extension ListUserPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListUserPolicies] request.
-public struct ListUserPoliciesOutputResponse: Swift.Equatable {
+public struct ListUserPoliciesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -16082,13 +16071,13 @@ public struct ListUserPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListUserPoliciesOutputResponseBody: Swift.Equatable {
+struct ListUserPoliciesOutputBody: Swift.Equatable {
     let policyNames: [Swift.String]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListUserPoliciesOutputResponseBody: Swift.Decodable {
+extension ListUserPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -16121,6 +16110,17 @@ extension ListUserPoliciesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListUserPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16192,22 +16192,11 @@ extension ListUserTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListUserTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListUserTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListUserTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListUserTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListUserTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.tags = output.tags
@@ -16219,7 +16208,7 @@ extension ListUserTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserTagsOutputResponse: Swift.Equatable {
+public struct ListUserTagsOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -16240,13 +16229,13 @@ public struct ListUserTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListUserTagsOutputResponseBody: Swift.Equatable {
+struct ListUserTagsOutputBody: Swift.Equatable {
     let tags: [IAMClientTypes.Tag]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListUserTagsOutputResponseBody: Swift.Decodable {
+extension ListUserTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -16279,6 +16268,17 @@ extension ListUserTagsOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListUserTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16349,21 +16349,11 @@ extension ListUsersInputBody: Swift.Decodable {
     }
 }
 
-enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListUsersOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.users = output.users
@@ -16376,7 +16366,7 @@ extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [ListUsers] request.
-public struct ListUsersOutputResponse: Swift.Equatable {
+public struct ListUsersOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -16397,13 +16387,13 @@ public struct ListUsersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputResponseBody: Swift.Equatable {
+struct ListUsersOutputBody: Swift.Equatable {
     let users: [IAMClientTypes.User]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListUsersOutputResponseBody: Swift.Decodable {
+extension ListUsersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -16436,6 +16426,16 @@ extension ListUsersOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16506,20 +16506,11 @@ extension ListVirtualMFADevicesInputBody: Swift.Decodable {
     }
 }
 
-enum ListVirtualMFADevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListVirtualMFADevicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVirtualMFADevicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVirtualMFADevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVirtualMFADevicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.isTruncated = output.isTruncated
             self.marker = output.marker
             self.virtualMFADevices = output.virtualMFADevices
@@ -16532,7 +16523,7 @@ extension ListVirtualMFADevicesOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Contains the response to a successful [ListVirtualMFADevices] request.
-public struct ListVirtualMFADevicesOutputResponse: Swift.Equatable {
+public struct ListVirtualMFADevicesOutput: Swift.Equatable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -16553,13 +16544,13 @@ public struct ListVirtualMFADevicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVirtualMFADevicesOutputResponseBody: Swift.Equatable {
+struct ListVirtualMFADevicesOutputBody: Swift.Equatable {
     let virtualMFADevices: [IAMClientTypes.VirtualMFADevice]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension ListVirtualMFADevicesOutputResponseBody: Swift.Decodable {
+extension ListVirtualMFADevicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case marker = "Marker"
@@ -16592,6 +16583,15 @@ extension ListVirtualMFADevicesOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum ListVirtualMFADevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18295,6 +18295,16 @@ extension PutGroupPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutGroupPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutGroupPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18306,16 +18316,6 @@ enum PutGroupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutGroupPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutGroupPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutRolePermissionsBoundaryInput: Swift.Encodable {
@@ -18376,6 +18376,16 @@ extension PutRolePermissionsBoundaryInputBody: Swift.Decodable {
     }
 }
 
+extension PutRolePermissionsBoundaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutRolePermissionsBoundaryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutRolePermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18388,16 +18398,6 @@ enum PutRolePermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutRolePermissionsBoundaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutRolePermissionsBoundaryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutRolePolicyInput: Swift.Encodable {
@@ -18476,6 +18476,16 @@ extension PutRolePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutRolePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutRolePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18488,16 +18498,6 @@ enum PutRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutRolePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutUserPermissionsBoundaryInput: Swift.Encodable {
@@ -18558,6 +18558,16 @@ extension PutUserPermissionsBoundaryInputBody: Swift.Decodable {
     }
 }
 
+extension PutUserPermissionsBoundaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutUserPermissionsBoundaryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutUserPermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18569,16 +18579,6 @@ enum PutUserPermissionsBoundaryOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutUserPermissionsBoundaryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutUserPermissionsBoundaryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutUserPolicyInput: Swift.Encodable {
@@ -18657,6 +18657,16 @@ extension PutUserPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutUserPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutUserPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18668,16 +18678,6 @@ enum PutUserPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutUserPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutUserPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveClientIDFromOpenIDConnectProviderInput: Swift.Encodable {
@@ -18738,6 +18738,16 @@ extension RemoveClientIDFromOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveClientIDFromOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveClientIDFromOpenIDConnectProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveClientIDFromOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18748,16 +18758,6 @@ enum RemoveClientIDFromOpenIDConnectProviderOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveClientIDFromOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveClientIDFromOpenIDConnectProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveRoleFromInstanceProfileInput: Swift.Encodable {
@@ -18818,6 +18818,16 @@ extension RemoveRoleFromInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveRoleFromInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveRoleFromInstanceProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveRoleFromInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18829,16 +18839,6 @@ enum RemoveRoleFromInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveRoleFromInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveRoleFromInstanceProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveUserFromGroupInput: Swift.Encodable {
@@ -18899,6 +18899,16 @@ extension RemoveUserFromGroupInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveUserFromGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveUserFromGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveUserFromGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18909,16 +18919,6 @@ enum RemoveUserFromGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension RemoveUserFromGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveUserFromGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes {
@@ -19096,21 +19096,11 @@ extension ResetServiceSpecificCredentialInputBody: Swift.Decodable {
     }
 }
 
-enum ResetServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ResetServiceSpecificCredentialOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResetServiceSpecificCredentialOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResetServiceSpecificCredentialOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResetServiceSpecificCredentialOutputBody = try responseDecoder.decode(responseBody: data)
             self.serviceSpecificCredential = output.serviceSpecificCredential
         } else {
             self.serviceSpecificCredential = nil
@@ -19118,7 +19108,7 @@ extension ResetServiceSpecificCredentialOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ResetServiceSpecificCredentialOutputResponse: Swift.Equatable {
+public struct ResetServiceSpecificCredentialOutput: Swift.Equatable {
     /// A structure with details about the updated service-specific credential, including the new password. This is the only time that you can access the password. You cannot recover the password later, but you can reset it again.
     public var serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 
@@ -19130,11 +19120,11 @@ public struct ResetServiceSpecificCredentialOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResetServiceSpecificCredentialOutputResponseBody: Swift.Equatable {
+struct ResetServiceSpecificCredentialOutputBody: Swift.Equatable {
     let serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 }
 
-extension ResetServiceSpecificCredentialOutputResponseBody: Swift.Decodable {
+extension ResetServiceSpecificCredentialOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serviceSpecificCredential = "ServiceSpecificCredential"
     }
@@ -19144,6 +19134,16 @@ extension ResetServiceSpecificCredentialOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetServiceSpecificCredentialResult"))
         let serviceSpecificCredentialDecoded = try containerValues.decodeIfPresent(IAMClientTypes.ServiceSpecificCredential.self, forKey: .serviceSpecificCredential)
         serviceSpecificCredential = serviceSpecificCredentialDecoded
+    }
+}
+
+enum ResetServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19394,6 +19394,16 @@ extension ResyncMFADeviceInputBody: Swift.Decodable {
     }
 }
 
+extension ResyncMFADeviceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ResyncMFADeviceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum ResyncMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -19406,16 +19416,6 @@ enum ResyncMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension ResyncMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct ResyncMFADeviceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes.Role: Swift.Codable {
@@ -20832,6 +20832,16 @@ extension SetDefaultPolicyVersionInputBody: Swift.Decodable {
     }
 }
 
+extension SetDefaultPolicyVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SetDefaultPolicyVersionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum SetDefaultPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -20843,16 +20853,6 @@ enum SetDefaultPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension SetDefaultPolicyVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SetDefaultPolicyVersionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SetSecurityTokenServicePreferencesInput: Swift.Encodable {
@@ -20901,6 +20901,16 @@ extension SetSecurityTokenServicePreferencesInputBody: Swift.Decodable {
     }
 }
 
+extension SetSecurityTokenServicePreferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SetSecurityTokenServicePreferencesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum SetSecurityTokenServicePreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -20909,16 +20919,6 @@ enum SetSecurityTokenServicePreferencesOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension SetSecurityTokenServicePreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SetSecurityTokenServicePreferencesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes.SigningCertificate: Swift.Codable {
@@ -21316,22 +21316,11 @@ extension SimulateCustomPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum SimulateCustomPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PolicyEvaluation": return try await PolicyEvaluationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SimulateCustomPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SimulateCustomPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SimulateCustomPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SimulateCustomPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -21344,7 +21333,7 @@ extension SimulateCustomPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a successful [SimulatePrincipalPolicy] or [SimulateCustomPolicy] request.
-public struct SimulateCustomPolicyOutputResponse: Swift.Equatable {
+public struct SimulateCustomPolicyOutput: Swift.Equatable {
     /// The results of the simulation.
     public var evaluationResults: [IAMClientTypes.EvaluationResult]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -21364,13 +21353,13 @@ public struct SimulateCustomPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct SimulateCustomPolicyOutputResponseBody: Swift.Equatable {
+struct SimulateCustomPolicyOutputBody: Swift.Equatable {
     let evaluationResults: [IAMClientTypes.EvaluationResult]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension SimulateCustomPolicyOutputResponseBody: Swift.Decodable {
+extension SimulateCustomPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case evaluationResults = "EvaluationResults"
         case isTruncated = "IsTruncated"
@@ -21403,6 +21392,17 @@ extension SimulateCustomPolicyOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum SimulateCustomPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PolicyEvaluation": return try await PolicyEvaluationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21733,23 +21733,11 @@ extension SimulatePrincipalPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum SimulatePrincipalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PolicyEvaluation": return try await PolicyEvaluationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension SimulatePrincipalPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SimulatePrincipalPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SimulatePrincipalPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SimulatePrincipalPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.evaluationResults = output.evaluationResults
             self.isTruncated = output.isTruncated
             self.marker = output.marker
@@ -21762,7 +21750,7 @@ extension SimulatePrincipalPolicyOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Contains the response to a successful [SimulatePrincipalPolicy] or [SimulateCustomPolicy] request.
-public struct SimulatePrincipalPolicyOutputResponse: Swift.Equatable {
+public struct SimulatePrincipalPolicyOutput: Swift.Equatable {
     /// The results of the simulation.
     public var evaluationResults: [IAMClientTypes.EvaluationResult]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -21782,13 +21770,13 @@ public struct SimulatePrincipalPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct SimulatePrincipalPolicyOutputResponseBody: Swift.Equatable {
+struct SimulatePrincipalPolicyOutputBody: Swift.Equatable {
     let evaluationResults: [IAMClientTypes.EvaluationResult]?
     let isTruncated: Swift.Bool
     let marker: Swift.String?
 }
 
-extension SimulatePrincipalPolicyOutputResponseBody: Swift.Decodable {
+extension SimulatePrincipalPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case evaluationResults = "EvaluationResults"
         case isTruncated = "IsTruncated"
@@ -21821,6 +21809,18 @@ extension SimulatePrincipalPolicyOutputResponseBody: Swift.Decodable {
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum SimulatePrincipalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PolicyEvaluation": return try await PolicyEvaluationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22194,6 +22194,16 @@ extension TagInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension TagInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagInstanceProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22206,16 +22216,6 @@ enum TagInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagInstanceProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagMFADeviceInput: Swift.Encodable {
@@ -22302,6 +22302,16 @@ extension TagMFADeviceInputBody: Swift.Decodable {
     }
 }
 
+extension TagMFADeviceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagMFADeviceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22314,16 +22324,6 @@ enum TagMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagMFADeviceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagOpenIDConnectProviderInput: Swift.Encodable {
@@ -22410,6 +22410,16 @@ extension TagOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
+extension TagOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagOpenIDConnectProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22422,16 +22432,6 @@ enum TagOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagOpenIDConnectProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagPolicyInput: Swift.Encodable {
@@ -22518,6 +22518,16 @@ extension TagPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension TagPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22530,16 +22540,6 @@ enum TagPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagRoleInput: Swift.Encodable {
@@ -22626,6 +22626,16 @@ extension TagRoleInputBody: Swift.Decodable {
     }
 }
 
+extension TagRoleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagRoleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22638,16 +22648,6 @@ enum TagRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagRoleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagRoleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagSAMLProviderInput: Swift.Encodable {
@@ -22734,6 +22734,16 @@ extension TagSAMLProviderInputBody: Swift.Decodable {
     }
 }
 
+extension TagSAMLProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagSAMLProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22746,16 +22756,6 @@ enum TagSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagSAMLProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagServerCertificateInput: Swift.Encodable {
@@ -22842,6 +22842,16 @@ extension TagServerCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension TagServerCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagServerCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22854,16 +22864,6 @@ enum TagServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagServerCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagUserInput: Swift.Encodable {
@@ -22950,6 +22950,16 @@ extension TagUserInputBody: Swift.Decodable {
     }
 }
 
+extension TagUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagUserOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22962,16 +22972,6 @@ enum TagUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagUserOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension IAMClientTypes.TrackedActionLastAccessed: Swift.Codable {
@@ -23231,6 +23231,16 @@ extension UntagInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension UntagInstanceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagInstanceProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23242,16 +23252,6 @@ enum UntagInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagInstanceProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagMFADeviceInput: Swift.Encodable {
@@ -23338,6 +23338,16 @@ extension UntagMFADeviceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagMFADeviceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagMFADeviceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23349,16 +23359,6 @@ enum UntagMFADeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagMFADeviceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagMFADeviceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagOpenIDConnectProviderInput: Swift.Encodable {
@@ -23445,6 +23445,16 @@ extension UntagOpenIDConnectProviderInputBody: Swift.Decodable {
     }
 }
 
+extension UntagOpenIDConnectProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagOpenIDConnectProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23456,16 +23466,6 @@ enum UntagOpenIDConnectProviderOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagOpenIDConnectProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagOpenIDConnectProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagPolicyInput: Swift.Encodable {
@@ -23552,6 +23552,16 @@ extension UntagPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UntagPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23563,16 +23573,6 @@ enum UntagPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagRoleInput: Swift.Encodable {
@@ -23659,6 +23659,16 @@ extension UntagRoleInputBody: Swift.Decodable {
     }
 }
 
+extension UntagRoleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagRoleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23669,16 +23679,6 @@ enum UntagRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagRoleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagRoleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagSAMLProviderInput: Swift.Encodable {
@@ -23765,6 +23765,16 @@ extension UntagSAMLProviderInputBody: Swift.Decodable {
     }
 }
 
+extension UntagSAMLProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagSAMLProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23776,16 +23786,6 @@ enum UntagSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagSAMLProviderOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagServerCertificateInput: Swift.Encodable {
@@ -23872,6 +23872,16 @@ extension UntagServerCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension UntagServerCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagServerCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23883,16 +23893,6 @@ enum UntagServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagServerCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagUserInput: Swift.Encodable {
@@ -23979,6 +23979,16 @@ extension UntagUserInputBody: Swift.Decodable {
     }
 }
 
+extension UntagUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagUserOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -23989,16 +23999,6 @@ enum UntagUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UntagUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagUserOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAccessKeyInput: Swift.Encodable {
@@ -24070,6 +24070,16 @@ extension UpdateAccessKeyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAccessKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateAccessKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateAccessKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24080,16 +24090,6 @@ enum UpdateAccessKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateAccessKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateAccessKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAccountPasswordPolicyInput: Swift.Encodable {
@@ -24225,6 +24225,16 @@ extension UpdateAccountPasswordPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAccountPasswordPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateAccountPasswordPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateAccountPasswordPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24236,16 +24246,6 @@ enum UpdateAccountPasswordPolicyOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateAccountPasswordPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateAccountPasswordPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAssumeRolePolicyInput: Swift.Encodable {
@@ -24312,6 +24312,16 @@ extension UpdateAssumeRolePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAssumeRolePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateAssumeRolePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateAssumeRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24324,16 +24334,6 @@ enum UpdateAssumeRolePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateAssumeRolePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateAssumeRolePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateGroupInput: Swift.Encodable {
@@ -24404,6 +24404,16 @@ extension UpdateGroupInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24415,16 +24425,6 @@ enum UpdateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateLoginProfileInput: Swift.CustomDebugStringConvertible {
@@ -24509,6 +24509,16 @@ extension UpdateLoginProfileInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateLoginProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateLoginProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24521,16 +24531,6 @@ enum UpdateLoginProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateLoginProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateLoginProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateOpenIDConnectProviderThumbprintInput: Swift.Encodable {
@@ -24617,6 +24617,16 @@ extension UpdateOpenIDConnectProviderThumbprintInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateOpenIDConnectProviderThumbprintOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateOpenIDConnectProviderThumbprintOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateOpenIDConnectProviderThumbprintOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24627,16 +24637,6 @@ enum UpdateOpenIDConnectProviderThumbprintOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateOpenIDConnectProviderThumbprintOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateOpenIDConnectProviderThumbprintOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateRoleDescriptionInput: Swift.Encodable {
@@ -24697,23 +24697,11 @@ extension UpdateRoleDescriptionInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateRoleDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnmodifiableEntity": return try await UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdateRoleDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateRoleDescriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateRoleDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateRoleDescriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.role = output.role
         } else {
             self.role = nil
@@ -24721,7 +24709,7 @@ extension UpdateRoleDescriptionOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateRoleDescriptionOutputResponse: Swift.Equatable {
+public struct UpdateRoleDescriptionOutput: Swift.Equatable {
     /// A structure that contains details about the modified role.
     public var role: IAMClientTypes.Role?
 
@@ -24733,11 +24721,11 @@ public struct UpdateRoleDescriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateRoleDescriptionOutputResponseBody: Swift.Equatable {
+struct UpdateRoleDescriptionOutputBody: Swift.Equatable {
     let role: IAMClientTypes.Role?
 }
 
-extension UpdateRoleDescriptionOutputResponseBody: Swift.Decodable {
+extension UpdateRoleDescriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case role = "Role"
     }
@@ -24747,6 +24735,18 @@ extension UpdateRoleDescriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateRoleDescriptionResult"))
         let roleDecoded = try containerValues.decodeIfPresent(IAMClientTypes.Role.self, forKey: .role)
         role = roleDecoded
+    }
+}
+
+enum UpdateRoleDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnmodifiableEntity": return try await UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -24818,6 +24818,16 @@ extension UpdateRoleInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRoleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateRoleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -24828,16 +24838,6 @@ enum UpdateRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateRoleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateRoleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateSAMLProviderInput: Swift.Encodable {
@@ -24898,24 +24898,11 @@ extension UpdateSAMLProviderInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdateSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSAMLProviderOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSAMLProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSAMLProviderOutputBody = try responseDecoder.decode(responseBody: data)
             self.samlProviderArn = output.samlProviderArn
         } else {
             self.samlProviderArn = nil
@@ -24924,7 +24911,7 @@ extension UpdateSAMLProviderOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [UpdateSAMLProvider] request.
-public struct UpdateSAMLProviderOutputResponse: Swift.Equatable {
+public struct UpdateSAMLProviderOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
     public var samlProviderArn: Swift.String?
 
@@ -24936,11 +24923,11 @@ public struct UpdateSAMLProviderOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSAMLProviderOutputResponseBody: Swift.Equatable {
+struct UpdateSAMLProviderOutputBody: Swift.Equatable {
     let samlProviderArn: Swift.String?
 }
 
-extension UpdateSAMLProviderOutputResponseBody: Swift.Decodable {
+extension UpdateSAMLProviderOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case samlProviderArn = "SAMLProviderArn"
     }
@@ -24950,6 +24937,19 @@ extension UpdateSAMLProviderOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UpdateSAMLProviderResult"))
         let samlProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .samlProviderArn)
         samlProviderArn = samlProviderArnDecoded
+    }
+}
+
+enum UpdateSAMLProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -25023,6 +25023,16 @@ extension UpdateSSHPublicKeyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateSSHPublicKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -25031,16 +25041,6 @@ enum UpdateSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateSSHPublicKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateServerCertificateInput: Swift.Encodable {
@@ -25111,6 +25111,16 @@ extension UpdateServerCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServerCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateServerCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -25122,16 +25132,6 @@ enum UpdateServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateServerCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateServiceSpecificCredentialInput: Swift.Encodable {
@@ -25203,6 +25203,16 @@ extension UpdateServiceSpecificCredentialInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateServiceSpecificCredentialOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateServiceSpecificCredentialOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -25211,16 +25221,6 @@ enum UpdateServiceSpecificCredentialOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateServiceSpecificCredentialOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateServiceSpecificCredentialOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateSigningCertificateInput: Swift.Encodable {
@@ -25292,6 +25292,16 @@ extension UpdateSigningCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSigningCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateSigningCertificateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateSigningCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -25302,16 +25312,6 @@ enum UpdateSigningCertificateOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateSigningCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateSigningCertificateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateUserInput: Swift.Encodable {
@@ -25382,6 +25382,16 @@ extension UpdateUserInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateUserOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -25395,16 +25405,6 @@ enum UpdateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension UpdateUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateUserOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UploadSSHPublicKeyInput: Swift.Encodable {
@@ -25471,25 +25471,11 @@ extension UploadSSHPublicKeyInputBody: Swift.Decodable {
     }
 }
 
-enum UploadSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DuplicateSSHPublicKey": return try await DuplicateSSHPublicKeyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidPublicKey": return try await InvalidPublicKeyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnrecognizedPublicKeyEncoding": return try await UnrecognizedPublicKeyEncodingException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UploadSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UploadSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UploadSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UploadSSHPublicKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.sshPublicKey = output.sshPublicKey
         } else {
             self.sshPublicKey = nil
@@ -25498,7 +25484,7 @@ extension UploadSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a successful [UploadSSHPublicKey] request.
-public struct UploadSSHPublicKeyOutputResponse: Swift.Equatable {
+public struct UploadSSHPublicKeyOutput: Swift.Equatable {
     /// Contains information about the SSH public key.
     public var sshPublicKey: IAMClientTypes.SSHPublicKey?
 
@@ -25510,11 +25496,11 @@ public struct UploadSSHPublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct UploadSSHPublicKeyOutputResponseBody: Swift.Equatable {
+struct UploadSSHPublicKeyOutputBody: Swift.Equatable {
     let sshPublicKey: IAMClientTypes.SSHPublicKey?
 }
 
-extension UploadSSHPublicKeyOutputResponseBody: Swift.Decodable {
+extension UploadSSHPublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sshPublicKey = "SSHPublicKey"
     }
@@ -25524,6 +25510,20 @@ extension UploadSSHPublicKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UploadSSHPublicKeyResult"))
         let sshPublicKeyDecoded = try containerValues.decodeIfPresent(IAMClientTypes.SSHPublicKey.self, forKey: .sshPublicKey)
         sshPublicKey = sshPublicKeyDecoded
+    }
+}
+
+enum UploadSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DuplicateSSHPublicKey": return try await DuplicateSSHPublicKeyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidPublicKey": return try await InvalidPublicKeyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchEntity": return try await NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnrecognizedPublicKeyEncoding": return try await UnrecognizedPublicKeyEncodingException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -25679,27 +25679,11 @@ extension UploadServerCertificateInputBody: Swift.Decodable {
     }
 }
 
-enum UploadServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "KeyPairMismatch": return try await KeyPairMismatchException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedCertificate": return try await MalformedCertificateException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UploadServerCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UploadServerCertificateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UploadServerCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UploadServerCertificateOutputBody = try responseDecoder.decode(responseBody: data)
             self.serverCertificateMetadata = output.serverCertificateMetadata
             self.tags = output.tags
         } else {
@@ -25710,7 +25694,7 @@ extension UploadServerCertificateOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Contains the response to a successful [UploadServerCertificate] request.
-public struct UploadServerCertificateOutputResponse: Swift.Equatable {
+public struct UploadServerCertificateOutput: Swift.Equatable {
     /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
     public var serverCertificateMetadata: IAMClientTypes.ServerCertificateMetadata?
     /// A list of tags that are attached to the new IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
@@ -25726,12 +25710,12 @@ public struct UploadServerCertificateOutputResponse: Swift.Equatable {
     }
 }
 
-struct UploadServerCertificateOutputResponseBody: Swift.Equatable {
+struct UploadServerCertificateOutputBody: Swift.Equatable {
     let serverCertificateMetadata: IAMClientTypes.ServerCertificateMetadata?
     let tags: [IAMClientTypes.Tag]?
 }
 
-extension UploadServerCertificateOutputResponseBody: Swift.Decodable {
+extension UploadServerCertificateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serverCertificateMetadata = "ServerCertificateMetadata"
         case tags = "Tags"
@@ -25760,6 +25744,22 @@ extension UploadServerCertificateOutputResponseBody: Swift.Decodable {
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum UploadServerCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "EntityAlreadyExists": return try await EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidInput": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KeyPairMismatch": return try await KeyPairMismatchException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedCertificate": return try await MalformedCertificateException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -25827,6 +25827,49 @@ extension UploadSigningCertificateInputBody: Swift.Decodable {
     }
 }
 
+extension UploadSigningCertificateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UploadSigningCertificateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificate = output.certificate
+        } else {
+            self.certificate = nil
+        }
+    }
+}
+
+/// Contains the response to a successful [UploadSigningCertificate] request.
+public struct UploadSigningCertificateOutput: Swift.Equatable {
+    /// Information about the certificate.
+    /// This member is required.
+    public var certificate: IAMClientTypes.SigningCertificate?
+
+    public init(
+        certificate: IAMClientTypes.SigningCertificate? = nil
+    )
+    {
+        self.certificate = certificate
+    }
+}
+
+struct UploadSigningCertificateOutputBody: Swift.Equatable {
+    let certificate: IAMClientTypes.SigningCertificate?
+}
+
+extension UploadSigningCertificateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificate = "Certificate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UploadSigningCertificateResult"))
+        let certificateDecoded = try containerValues.decodeIfPresent(IAMClientTypes.SigningCertificate.self, forKey: .certificate)
+        certificate = certificateDecoded
+    }
+}
+
 enum UploadSigningCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -25841,49 +25884,6 @@ enum UploadSigningCertificateOutputError: ClientRuntime.HttpResponseErrorBinding
             case "ServiceFailure": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension UploadSigningCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UploadSigningCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.certificate = output.certificate
-        } else {
-            self.certificate = nil
-        }
-    }
-}
-
-/// Contains the response to a successful [UploadSigningCertificate] request.
-public struct UploadSigningCertificateOutputResponse: Swift.Equatable {
-    /// Information about the certificate.
-    /// This member is required.
-    public var certificate: IAMClientTypes.SigningCertificate?
-
-    public init(
-        certificate: IAMClientTypes.SigningCertificate? = nil
-    )
-    {
-        self.certificate = certificate
-    }
-}
-
-struct UploadSigningCertificateOutputResponseBody: Swift.Equatable {
-    let certificate: IAMClientTypes.SigningCertificate?
-}
-
-extension UploadSigningCertificateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case certificate = "Certificate"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("UploadSigningCertificateResult"))
-        let certificateDecoded = try containerValues.decodeIfPresent(IAMClientTypes.SigningCertificate.self, forKey: .certificate)
-        certificate = certificateDecoded
     }
 }
 

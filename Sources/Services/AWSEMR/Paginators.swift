@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension EMRClient {
-    /// Paginate over `[ListBootstrapActionsOutputResponse]` results.
+    /// Paginate over `[ListBootstrapActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBootstrapActionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBootstrapActionsOutputResponse`
-    public func listBootstrapActionsPaginated(input: ListBootstrapActionsInput) -> ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse>(input: input, inputKey: \ListBootstrapActionsInput.marker, outputKey: \ListBootstrapActionsOutputResponse.marker, paginationFunction: self.listBootstrapActions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBootstrapActionsOutput`
+    public func listBootstrapActionsPaginated(input: ListBootstrapActionsInput) -> ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBootstrapActionsInput, ListBootstrapActionsOutput>(input: input, inputKey: \ListBootstrapActionsInput.marker, outputKey: \ListBootstrapActionsOutput.marker, paginationFunction: self.listBootstrapActions(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListBootstrapActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBootstrapActionsInput, Output == ListBootstrapActionsOutputResponse {
+extension PaginatorSequence where Input == ListBootstrapActionsInput, Output == ListBootstrapActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBootstrapActionsPaginated`
     /// to access the nested member `[EMRClientTypes.Command]`
     /// - Returns: `[EMRClientTypes.Command]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListBootstrapActionsInput, Output == 
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListClustersOutputResponse]` results.
+    /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutputResponse`
-    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse>(input: input, inputKey: \ListClustersInput.marker, outputKey: \ListClustersOutputResponse.marker, paginationFunction: self.listClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
+    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.marker, outputKey: \ListClustersOutput.marker, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutputResponse {
+extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[EMRClientTypes.ClusterSummary]`
     /// - Returns: `[EMRClientTypes.ClusterSummary]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListClustersInput, Output == ListClus
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListInstanceFleetsOutputResponse]` results.
+    /// Paginate over `[ListInstanceFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstanceFleetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceFleetsOutputResponse`
-    public func listInstanceFleetsPaginated(input: ListInstanceFleetsInput) -> ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse>(input: input, inputKey: \ListInstanceFleetsInput.marker, outputKey: \ListInstanceFleetsOutputResponse.marker, paginationFunction: self.listInstanceFleets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceFleetsOutput`
+    public func listInstanceFleetsPaginated(input: ListInstanceFleetsInput) -> ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstanceFleetsInput, ListInstanceFleetsOutput>(input: input, inputKey: \ListInstanceFleetsInput.marker, outputKey: \ListInstanceFleetsOutput.marker, paginationFunction: self.listInstanceFleets(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListInstanceFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstanceFleetsInput, Output == ListInstanceFleetsOutputResponse {
+extension PaginatorSequence where Input == ListInstanceFleetsInput, Output == ListInstanceFleetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceFleetsPaginated`
     /// to access the nested member `[EMRClientTypes.InstanceFleet]`
     /// - Returns: `[EMRClientTypes.InstanceFleet]`
@@ -95,16 +95,16 @@ extension PaginatorSequence where Input == ListInstanceFleetsInput, Output == Li
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListInstanceGroupsOutputResponse]` results.
+    /// Paginate over `[ListInstanceGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstanceGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceGroupsOutputResponse`
-    public func listInstanceGroupsPaginated(input: ListInstanceGroupsInput) -> ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse>(input: input, inputKey: \ListInstanceGroupsInput.marker, outputKey: \ListInstanceGroupsOutputResponse.marker, paginationFunction: self.listInstanceGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceGroupsOutput`
+    public func listInstanceGroupsPaginated(input: ListInstanceGroupsInput) -> ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstanceGroupsInput, ListInstanceGroupsOutput>(input: input, inputKey: \ListInstanceGroupsInput.marker, outputKey: \ListInstanceGroupsOutput.marker, paginationFunction: self.listInstanceGroups(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListInstanceGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstanceGroupsInput, Output == ListInstanceGroupsOutputResponse {
+extension PaginatorSequence where Input == ListInstanceGroupsInput, Output == ListInstanceGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceGroupsPaginated`
     /// to access the nested member `[EMRClientTypes.InstanceGroup]`
     /// - Returns: `[EMRClientTypes.InstanceGroup]`
@@ -125,16 +125,16 @@ extension PaginatorSequence where Input == ListInstanceGroupsInput, Output == Li
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListInstancesOutputResponse]` results.
+    /// Paginate over `[ListInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutputResponse`
-    public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutputResponse>(input: input, inputKey: \ListInstancesInput.marker, outputKey: \ListInstancesOutputResponse.marker, paginationFunction: self.listInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
+    public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.marker, outputKey: \ListInstancesOutput.marker, paginationFunction: self.listInstances(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutputResponse {
+extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstancesPaginated`
     /// to access the nested member `[EMRClientTypes.Instance]`
     /// - Returns: `[EMRClientTypes.Instance]`
@@ -160,16 +160,16 @@ extension PaginatorSequence where Input == ListInstancesInput, Output == ListIns
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListNotebookExecutionsOutputResponse]` results.
+    /// Paginate over `[ListNotebookExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNotebookExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNotebookExecutionsOutputResponse`
-    public func listNotebookExecutionsPaginated(input: ListNotebookExecutionsInput) -> ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse>(input: input, inputKey: \ListNotebookExecutionsInput.marker, outputKey: \ListNotebookExecutionsOutputResponse.marker, paginationFunction: self.listNotebookExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNotebookExecutionsOutput`
+    public func listNotebookExecutionsPaginated(input: ListNotebookExecutionsInput) -> ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(input: input, inputKey: \ListNotebookExecutionsInput.marker, outputKey: \ListNotebookExecutionsOutput.marker, paginationFunction: self.listNotebookExecutions(input:))
     }
 }
 
@@ -185,7 +185,7 @@ extension ListNotebookExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNotebookExecutionsInput, Output == ListNotebookExecutionsOutputResponse {
+extension PaginatorSequence where Input == ListNotebookExecutionsInput, Output == ListNotebookExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNotebookExecutionsPaginated`
     /// to access the nested member `[EMRClientTypes.NotebookExecutionSummary]`
     /// - Returns: `[EMRClientTypes.NotebookExecutionSummary]`
@@ -194,16 +194,16 @@ extension PaginatorSequence where Input == ListNotebookExecutionsInput, Output =
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListReleaseLabelsOutputResponse]` results.
+    /// Paginate over `[ListReleaseLabelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListReleaseLabelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListReleaseLabelsOutputResponse`
-    public func listReleaseLabelsPaginated(input: ListReleaseLabelsInput) -> ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse>(input: input, inputKey: \ListReleaseLabelsInput.nextToken, outputKey: \ListReleaseLabelsOutputResponse.nextToken, paginationFunction: self.listReleaseLabels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReleaseLabelsOutput`
+    public func listReleaseLabelsPaginated(input: ListReleaseLabelsInput) -> ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListReleaseLabelsInput, ListReleaseLabelsOutput>(input: input, inputKey: \ListReleaseLabelsInput.nextToken, outputKey: \ListReleaseLabelsOutput.nextToken, paginationFunction: self.listReleaseLabels(input:))
     }
 }
 
@@ -216,16 +216,16 @@ extension ListReleaseLabelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension EMRClient {
-    /// Paginate over `[ListSecurityConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListSecurityConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSecurityConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityConfigurationsOutputResponse`
-    public func listSecurityConfigurationsPaginated(input: ListSecurityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse>(input: input, inputKey: \ListSecurityConfigurationsInput.marker, outputKey: \ListSecurityConfigurationsOutputResponse.marker, paginationFunction: self.listSecurityConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityConfigurationsOutput`
+    public func listSecurityConfigurationsPaginated(input: ListSecurityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(input: input, inputKey: \ListSecurityConfigurationsInput.marker, outputKey: \ListSecurityConfigurationsOutput.marker, paginationFunction: self.listSecurityConfigurations(input:))
     }
 }
 
@@ -236,7 +236,7 @@ extension ListSecurityConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSecurityConfigurationsInput, Output == ListSecurityConfigurationsOutputResponse {
+extension PaginatorSequence where Input == ListSecurityConfigurationsInput, Output == ListSecurityConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityConfigurationsPaginated`
     /// to access the nested member `[EMRClientTypes.SecurityConfigurationSummary]`
     /// - Returns: `[EMRClientTypes.SecurityConfigurationSummary]`
@@ -245,16 +245,16 @@ extension PaginatorSequence where Input == ListSecurityConfigurationsInput, Outp
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListStepsOutputResponse]` results.
+    /// Paginate over `[ListStepsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStepsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStepsOutputResponse`
-    public func listStepsPaginated(input: ListStepsInput) -> ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutputResponse>(input: input, inputKey: \ListStepsInput.marker, outputKey: \ListStepsOutputResponse.marker, paginationFunction: self.listSteps(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStepsOutput`
+    public func listStepsPaginated(input: ListStepsInput) -> ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStepsInput, ListStepsOutput>(input: input, inputKey: \ListStepsInput.marker, outputKey: \ListStepsOutput.marker, paginationFunction: self.listSteps(input:))
     }
 }
 
@@ -268,7 +268,7 @@ extension ListStepsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStepsInput, Output == ListStepsOutputResponse {
+extension PaginatorSequence where Input == ListStepsInput, Output == ListStepsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStepsPaginated`
     /// to access the nested member `[EMRClientTypes.StepSummary]`
     /// - Returns: `[EMRClientTypes.StepSummary]`
@@ -277,16 +277,16 @@ extension PaginatorSequence where Input == ListStepsInput, Output == ListStepsOu
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListStudiosOutputResponse]` results.
+    /// Paginate over `[ListStudiosOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStudiosInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStudiosOutputResponse`
-    public func listStudiosPaginated(input: ListStudiosInput) -> ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutputResponse>(input: input, inputKey: \ListStudiosInput.marker, outputKey: \ListStudiosOutputResponse.marker, paginationFunction: self.listStudios(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStudiosOutput`
+    public func listStudiosPaginated(input: ListStudiosInput) -> ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutput> {
+        return ClientRuntime.PaginatorSequence<ListStudiosInput, ListStudiosOutput>(input: input, inputKey: \ListStudiosInput.marker, outputKey: \ListStudiosOutput.marker, paginationFunction: self.listStudios(input:))
     }
 }
 
@@ -297,7 +297,7 @@ extension ListStudiosInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStudiosInput, Output == ListStudiosOutputResponse {
+extension PaginatorSequence where Input == ListStudiosInput, Output == ListStudiosOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStudiosPaginated`
     /// to access the nested member `[EMRClientTypes.StudioSummary]`
     /// - Returns: `[EMRClientTypes.StudioSummary]`
@@ -306,16 +306,16 @@ extension PaginatorSequence where Input == ListStudiosInput, Output == ListStudi
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListStudioSessionMappingsOutputResponse]` results.
+    /// Paginate over `[ListStudioSessionMappingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStudioSessionMappingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStudioSessionMappingsOutputResponse`
-    public func listStudioSessionMappingsPaginated(input: ListStudioSessionMappingsInput) -> ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse>(input: input, inputKey: \ListStudioSessionMappingsInput.marker, outputKey: \ListStudioSessionMappingsOutputResponse.marker, paginationFunction: self.listStudioSessionMappings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStudioSessionMappingsOutput`
+    public func listStudioSessionMappingsPaginated(input: ListStudioSessionMappingsInput) -> ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(input: input, inputKey: \ListStudioSessionMappingsInput.marker, outputKey: \ListStudioSessionMappingsOutput.marker, paginationFunction: self.listStudioSessionMappings(input:))
     }
 }
 
@@ -328,7 +328,7 @@ extension ListStudioSessionMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStudioSessionMappingsInput, Output == ListStudioSessionMappingsOutputResponse {
+extension PaginatorSequence where Input == ListStudioSessionMappingsInput, Output == ListStudioSessionMappingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStudioSessionMappingsPaginated`
     /// to access the nested member `[EMRClientTypes.SessionMappingSummary]`
     /// - Returns: `[EMRClientTypes.SessionMappingSummary]`
@@ -337,16 +337,16 @@ extension PaginatorSequence where Input == ListStudioSessionMappingsInput, Outpu
     }
 }
 extension EMRClient {
-    /// Paginate over `[ListSupportedInstanceTypesOutputResponse]` results.
+    /// Paginate over `[ListSupportedInstanceTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSupportedInstanceTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSupportedInstanceTypesOutputResponse`
-    public func listSupportedInstanceTypesPaginated(input: ListSupportedInstanceTypesInput) -> ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutputResponse>(input: input, inputKey: \ListSupportedInstanceTypesInput.marker, outputKey: \ListSupportedInstanceTypesOutputResponse.marker, paginationFunction: self.listSupportedInstanceTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSupportedInstanceTypesOutput`
+    public func listSupportedInstanceTypesPaginated(input: ListSupportedInstanceTypesInput) -> ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(input: input, inputKey: \ListSupportedInstanceTypesInput.marker, outputKey: \ListSupportedInstanceTypesOutput.marker, paginationFunction: self.listSupportedInstanceTypes(input:))
     }
 }
 

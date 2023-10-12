@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension M2Client {
-    /// Paginate over `[ListEngineVersionsOutputResponse]` results.
+    /// Paginate over `[ListEngineVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEngineVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEngineVersionsOutputResponse`
-    public func listEngineVersionsPaginated(input: ListEngineVersionsInput) -> ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutputResponse>(input: input, inputKey: \ListEngineVersionsInput.nextToken, outputKey: \ListEngineVersionsOutputResponse.nextToken, paginationFunction: self.listEngineVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEngineVersionsOutput`
+    public func listEngineVersionsPaginated(input: ListEngineVersionsInput) -> ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput>(input: input, inputKey: \ListEngineVersionsInput.nextToken, outputKey: \ListEngineVersionsOutput.nextToken, paginationFunction: self.listEngineVersions(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEngineVersionsInput, Output == ListEngineVersionsOutputResponse {
+extension PaginatorSequence where Input == ListEngineVersionsInput, Output == ListEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEngineVersionsPaginated`
     /// to access the nested member `[M2ClientTypes.EngineVersionsSummary]`
     /// - Returns: `[M2ClientTypes.EngineVersionsSummary]`

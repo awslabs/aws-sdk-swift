@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension KafkaClient {
-    /// Paginate over `[ListClientVpcConnectionsOutputResponse]` results.
+    /// Paginate over `[ListClientVpcConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClientVpcConnectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClientVpcConnectionsOutputResponse`
-    public func listClientVpcConnectionsPaginated(input: ListClientVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutputResponse>(input: input, inputKey: \ListClientVpcConnectionsInput.nextToken, outputKey: \ListClientVpcConnectionsOutputResponse.nextToken, paginationFunction: self.listClientVpcConnections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClientVpcConnectionsOutput`
+    public func listClientVpcConnectionsPaginated(input: ListClientVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput>(input: input, inputKey: \ListClientVpcConnectionsInput.nextToken, outputKey: \ListClientVpcConnectionsOutput.nextToken, paginationFunction: self.listClientVpcConnections(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListClientVpcConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClientVpcConnectionsInput, Output == ListClientVpcConnectionsOutputResponse {
+extension PaginatorSequence where Input == ListClientVpcConnectionsInput, Output == ListClientVpcConnectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClientVpcConnectionsPaginated`
     /// to access the nested member `[KafkaClientTypes.ClientVpcConnection]`
     /// - Returns: `[KafkaClientTypes.ClientVpcConnection]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListClientVpcConnectionsInput, Output
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListClusterOperationsOutputResponse]` results.
+    /// Paginate over `[ListClusterOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClusterOperationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsOutputResponse`
-    public func listClusterOperationsPaginated(input: ListClusterOperationsInput) -> ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutputResponse>(input: input, inputKey: \ListClusterOperationsInput.nextToken, outputKey: \ListClusterOperationsOutputResponse.nextToken, paginationFunction: self.listClusterOperations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsOutput`
+    public func listClusterOperationsPaginated(input: ListClusterOperationsInput) -> ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput>(input: input, inputKey: \ListClusterOperationsInput.nextToken, outputKey: \ListClusterOperationsOutput.nextToken, paginationFunction: self.listClusterOperations(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListClusterOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClusterOperationsInput, Output == ListClusterOperationsOutputResponse {
+extension PaginatorSequence where Input == ListClusterOperationsInput, Output == ListClusterOperationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClusterOperationsPaginated`
     /// to access the nested member `[KafkaClientTypes.ClusterOperationInfo]`
     /// - Returns: `[KafkaClientTypes.ClusterOperationInfo]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListClusterOperationsInput, Output ==
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListClusterOperationsV2OutputResponse]` results.
+    /// Paginate over `[ListClusterOperationsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClusterOperationsV2Input]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsV2OutputResponse`
-    public func listClusterOperationsV2Paginated(input: ListClusterOperationsV2Input) -> ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2OutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2OutputResponse>(input: input, inputKey: \ListClusterOperationsV2Input.nextToken, outputKey: \ListClusterOperationsV2OutputResponse.nextToken, paginationFunction: self.listClusterOperationsV2(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsV2Output`
+    public func listClusterOperationsV2Paginated(input: ListClusterOperationsV2Input) -> ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2Output>(input: input, inputKey: \ListClusterOperationsV2Input.nextToken, outputKey: \ListClusterOperationsV2Output.nextToken, paginationFunction: self.listClusterOperationsV2(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListClusterOperationsV2Input: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClusterOperationsV2Input, Output == ListClusterOperationsV2OutputResponse {
+extension PaginatorSequence where Input == ListClusterOperationsV2Input, Output == ListClusterOperationsV2Output {
     /// This paginator transforms the `AsyncSequence` returned by `listClusterOperationsV2Paginated`
     /// to access the nested member `[KafkaClientTypes.ClusterOperationV2Summary]`
     /// - Returns: `[KafkaClientTypes.ClusterOperationV2Summary]`
@@ -96,16 +96,16 @@ extension PaginatorSequence where Input == ListClusterOperationsV2Input, Output 
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListClustersOutputResponse]` results.
+    /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutputResponse`
-    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutputResponse.nextToken, paginationFunction: self.listClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
+    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutput.nextToken, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutputResponse {
+extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[KafkaClientTypes.ClusterInfo]`
     /// - Returns: `[KafkaClientTypes.ClusterInfo]`
@@ -127,16 +127,16 @@ extension PaginatorSequence where Input == ListClustersInput, Output == ListClus
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListClustersV2OutputResponse]` results.
+    /// Paginate over `[ListClustersV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClustersV2Input]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersV2OutputResponse`
-    public func listClustersV2Paginated(input: ListClustersV2Input) -> ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2OutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2OutputResponse>(input: input, inputKey: \ListClustersV2Input.nextToken, outputKey: \ListClustersV2OutputResponse.nextToken, paginationFunction: self.listClustersV2(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersV2Output`
+    public func listClustersV2Paginated(input: ListClustersV2Input) -> ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2Output> {
+        return ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2Output>(input: input, inputKey: \ListClustersV2Input.nextToken, outputKey: \ListClustersV2Output.nextToken, paginationFunction: self.listClustersV2(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ListClustersV2Input: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersV2Input, Output == ListClustersV2OutputResponse {
+extension PaginatorSequence where Input == ListClustersV2Input, Output == ListClustersV2Output {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersV2Paginated`
     /// to access the nested member `[KafkaClientTypes.Cluster]`
     /// - Returns: `[KafkaClientTypes.Cluster]`
@@ -159,16 +159,16 @@ extension PaginatorSequence where Input == ListClustersV2Input, Output == ListCl
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListConfigurationRevisionsOutputResponse]` results.
+    /// Paginate over `[ListConfigurationRevisionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConfigurationRevisionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationRevisionsOutputResponse`
-    public func listConfigurationRevisionsPaginated(input: ListConfigurationRevisionsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutputResponse>(input: input, inputKey: \ListConfigurationRevisionsInput.nextToken, outputKey: \ListConfigurationRevisionsOutputResponse.nextToken, paginationFunction: self.listConfigurationRevisions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationRevisionsOutput`
+    public func listConfigurationRevisionsPaginated(input: ListConfigurationRevisionsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(input: input, inputKey: \ListConfigurationRevisionsInput.nextToken, outputKey: \ListConfigurationRevisionsOutput.nextToken, paginationFunction: self.listConfigurationRevisions(input:))
     }
 }
 
@@ -181,7 +181,7 @@ extension ListConfigurationRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListConfigurationRevisionsInput, Output == ListConfigurationRevisionsOutputResponse {
+extension PaginatorSequence where Input == ListConfigurationRevisionsInput, Output == ListConfigurationRevisionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listConfigurationRevisionsPaginated`
     /// to access the nested member `[KafkaClientTypes.ConfigurationRevision]`
     /// - Returns: `[KafkaClientTypes.ConfigurationRevision]`
@@ -190,16 +190,16 @@ extension PaginatorSequence where Input == ListConfigurationRevisionsInput, Outp
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationsOutputResponse`
-    public func listConfigurationsPaginated(input: ListConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutputResponse>(input: input, inputKey: \ListConfigurationsInput.nextToken, outputKey: \ListConfigurationsOutputResponse.nextToken, paginationFunction: self.listConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationsOutput`
+    public func listConfigurationsPaginated(input: ListConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput>(input: input, inputKey: \ListConfigurationsInput.nextToken, outputKey: \ListConfigurationsOutput.nextToken, paginationFunction: self.listConfigurations(input:))
     }
 }
 
@@ -211,7 +211,7 @@ extension ListConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListConfigurationsInput, Output == ListConfigurationsOutputResponse {
+extension PaginatorSequence where Input == ListConfigurationsInput, Output == ListConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listConfigurationsPaginated`
     /// to access the nested member `[KafkaClientTypes.Configuration]`
     /// - Returns: `[KafkaClientTypes.Configuration]`
@@ -220,16 +220,16 @@ extension PaginatorSequence where Input == ListConfigurationsInput, Output == Li
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListKafkaVersionsOutputResponse]` results.
+    /// Paginate over `[ListKafkaVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKafkaVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKafkaVersionsOutputResponse`
-    public func listKafkaVersionsPaginated(input: ListKafkaVersionsInput) -> ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutputResponse>(input: input, inputKey: \ListKafkaVersionsInput.nextToken, outputKey: \ListKafkaVersionsOutputResponse.nextToken, paginationFunction: self.listKafkaVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKafkaVersionsOutput`
+    public func listKafkaVersionsPaginated(input: ListKafkaVersionsInput) -> ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutput>(input: input, inputKey: \ListKafkaVersionsInput.nextToken, outputKey: \ListKafkaVersionsOutput.nextToken, paginationFunction: self.listKafkaVersions(input:))
     }
 }
 
@@ -241,7 +241,7 @@ extension ListKafkaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListKafkaVersionsInput, Output == ListKafkaVersionsOutputResponse {
+extension PaginatorSequence where Input == ListKafkaVersionsInput, Output == ListKafkaVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKafkaVersionsPaginated`
     /// to access the nested member `[KafkaClientTypes.KafkaVersion]`
     /// - Returns: `[KafkaClientTypes.KafkaVersion]`
@@ -250,16 +250,16 @@ extension PaginatorSequence where Input == ListKafkaVersionsInput, Output == Lis
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListNodesOutputResponse]` results.
+    /// Paginate over `[ListNodesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNodesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutputResponse`
-    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutputResponse>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutputResponse.nextToken, paginationFunction: self.listNodes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
+    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
     }
 }
 
@@ -272,7 +272,7 @@ extension ListNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListNodesInput, Output == ListNodesOutputResponse {
+extension PaginatorSequence where Input == ListNodesInput, Output == ListNodesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listNodesPaginated`
     /// to access the nested member `[KafkaClientTypes.NodeInfo]`
     /// - Returns: `[KafkaClientTypes.NodeInfo]`
@@ -281,16 +281,16 @@ extension PaginatorSequence where Input == ListNodesInput, Output == ListNodesOu
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListScramSecretsOutputResponse]` results.
+    /// Paginate over `[ListScramSecretsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListScramSecretsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListScramSecretsOutputResponse`
-    public func listScramSecretsPaginated(input: ListScramSecretsInput) -> ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutputResponse>(input: input, inputKey: \ListScramSecretsInput.nextToken, outputKey: \ListScramSecretsOutputResponse.nextToken, paginationFunction: self.listScramSecrets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScramSecretsOutput`
+    public func listScramSecretsPaginated(input: ListScramSecretsInput) -> ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutput> {
+        return ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutput>(input: input, inputKey: \ListScramSecretsInput.nextToken, outputKey: \ListScramSecretsOutput.nextToken, paginationFunction: self.listScramSecrets(input:))
     }
 }
 
@@ -303,7 +303,7 @@ extension ListScramSecretsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListScramSecretsInput, Output == ListScramSecretsOutputResponse {
+extension PaginatorSequence where Input == ListScramSecretsInput, Output == ListScramSecretsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listScramSecretsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -312,16 +312,16 @@ extension PaginatorSequence where Input == ListScramSecretsInput, Output == List
     }
 }
 extension KafkaClient {
-    /// Paginate over `[ListVpcConnectionsOutputResponse]` results.
+    /// Paginate over `[ListVpcConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVpcConnectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectionsOutputResponse`
-    public func listVpcConnectionsPaginated(input: ListVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutputResponse>(input: input, inputKey: \ListVpcConnectionsInput.nextToken, outputKey: \ListVpcConnectionsOutputResponse.nextToken, paginationFunction: self.listVpcConnections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectionsOutput`
+    public func listVpcConnectionsPaginated(input: ListVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutput>(input: input, inputKey: \ListVpcConnectionsInput.nextToken, outputKey: \ListVpcConnectionsOutput.nextToken, paginationFunction: self.listVpcConnections(input:))
     }
 }
 
@@ -333,7 +333,7 @@ extension ListVpcConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListVpcConnectionsInput, Output == ListVpcConnectionsOutputResponse {
+extension PaginatorSequence where Input == ListVpcConnectionsInput, Output == ListVpcConnectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listVpcConnectionsPaginated`
     /// to access the nested member `[KafkaClientTypes.VpcConnection]`
     /// - Returns: `[KafkaClientTypes.VpcConnection]`

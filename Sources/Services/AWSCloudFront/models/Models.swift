@@ -556,6 +556,16 @@ extension AssociateAliasInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -568,16 +578,6 @@ enum AssociateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension AssociateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension BatchTooLarge {
@@ -3692,6 +3692,63 @@ extension CopyDistributionInputBody: Swift.Decodable {
     }
 }
 
+extension CopyDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+            self.distribution = output
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+public struct CopyDistributionOutput: Swift.Equatable {
+    /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The version identifier for the current version of the staging distribution.
+    public var eTag: Swift.String?
+    /// The URL of the staging distribution.
+    public var location: Swift.String?
+
+    public init(
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+        self.location = location
+    }
+}
+
+struct CopyDistributionOutputBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension CopyDistributionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
+    }
+}
+
 enum CopyDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3765,63 +3822,6 @@ enum CopyDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CopyDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-            self.location = locationHeaderValue
-        } else {
-            self.location = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
-            self.distribution = output
-        } else {
-            self.distribution = nil
-        }
-    }
-}
-
-public struct CopyDistributionOutputResponse: Swift.Equatable {
-    /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
-    public var distribution: CloudFrontClientTypes.Distribution?
-    /// The version identifier for the current version of the staging distribution.
-    public var eTag: Swift.String?
-    /// The URL of the staging distribution.
-    public var location: Swift.String?
-
-    public init(
-        distribution: CloudFrontClientTypes.Distribution? = nil,
-        eTag: Swift.String? = nil,
-        location: Swift.String? = nil
-    )
-    {
-        self.distribution = distribution
-        self.eTag = eTag
-        self.location = location
-    }
-}
-
-struct CopyDistributionOutputResponseBody: Swift.Equatable {
-    let distribution: CloudFrontClientTypes.Distribution?
-}
-
-extension CopyDistributionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case distribution = "Distribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
-        distribution = distributionDecoded
-    }
-}
-
 public struct CreateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateCachePolicyInputBodyMiddleware"
 
@@ -3829,7 +3829,7 @@ public struct CreateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateCachePolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCachePolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCachePolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -3857,7 +3857,7 @@ public struct CreateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateCachePolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateCachePolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateCachePolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -3926,24 +3926,7 @@ extension CreateCachePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CachePolicyAlreadyExists": return try await CachePolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCachePolicies": return try await TooManyCachePolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCookiesInCachePolicy": return try await TooManyCookiesInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyHeadersInCachePolicy": return try await TooManyHeadersInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyQueryStringsInCachePolicy": return try await TooManyQueryStringsInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCachePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -3964,7 +3947,7 @@ extension CreateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCachePolicyOutputResponse: Swift.Equatable {
+public struct CreateCachePolicyOutput: Swift.Equatable {
     /// A cache policy.
     public var cachePolicy: CloudFrontClientTypes.CachePolicy?
     /// The current version of the cache policy.
@@ -3984,11 +3967,11 @@ public struct CreateCachePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateCachePolicyOutputResponseBody: Swift.Equatable {
+struct CreateCachePolicyOutputBody: Swift.Equatable {
     let cachePolicy: CloudFrontClientTypes.CachePolicy?
 }
 
-extension CreateCachePolicyOutputResponseBody: Swift.Decodable {
+extension CreateCachePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachePolicy = "CachePolicy"
     }
@@ -4000,6 +3983,23 @@ extension CreateCachePolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CachePolicyAlreadyExists": return try await CachePolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCachePolicies": return try await TooManyCachePolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCookiesInCachePolicy": return try await TooManyCookiesInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyHeadersInCachePolicy": return try await TooManyHeadersInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyQueryStringsInCachePolicy": return try await TooManyQueryStringsInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateCloudFrontOriginAccessIdentityInputBodyMiddleware"
 
@@ -4007,7 +4007,7 @@ public struct CreateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateCloudFrontOriginAccessIdentityInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCloudFrontOriginAccessIdentityOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCloudFrontOriginAccessIdentityOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -4035,7 +4035,7 @@ public struct CreateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateCloudFrontOriginAccessIdentityInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateCloudFrontOriginAccessIdentityOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateCloudFrontOriginAccessIdentityOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -4105,21 +4105,7 @@ extension CreateCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CloudFrontOriginAccessIdentityAlreadyExists": return try await CloudFrontOriginAccessIdentityAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MissingBody": return try await MissingBody(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCloudFrontOriginAccessIdentities": return try await TooManyCloudFrontOriginAccessIdentities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCloudFrontOriginAccessIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -4141,7 +4127,7 @@ extension CreateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.Http
 }
 
 /// The returned result of the corresponding request.
-public struct CreateCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatable {
+public struct CreateCloudFrontOriginAccessIdentityOutput: Swift.Equatable {
     /// The origin access identity's information.
     public var cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
     /// The current version of the origin access identity created.
@@ -4161,11 +4147,11 @@ public struct CreateCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatabl
     }
 }
 
-struct CreateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Equatable {
+struct CreateCloudFrontOriginAccessIdentityOutputBody: Swift.Equatable {
     let cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
 }
 
-extension CreateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodable {
+extension CreateCloudFrontOriginAccessIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
     }
@@ -4177,6 +4163,20 @@ extension CreateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodabl
     }
 }
 
+enum CreateCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CloudFrontOriginAccessIdentityAlreadyExists": return try await CloudFrontOriginAccessIdentityAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MissingBody": return try await MissingBody(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCloudFrontOriginAccessIdentities": return try await TooManyCloudFrontOriginAccessIdentities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateContinuousDeploymentPolicyInputBodyMiddleware"
 
@@ -4184,7 +4184,7 @@ public struct CreateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateContinuousDeploymentPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateContinuousDeploymentPolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateContinuousDeploymentPolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -4212,7 +4212,7 @@ public struct CreateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateContinuousDeploymentPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateContinuousDeploymentPolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateContinuousDeploymentPolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -4281,22 +4281,7 @@ extension CreateContinuousDeploymentPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum CreateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ContinuousDeploymentPolicyAlreadyExists": return try await ContinuousDeploymentPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "StagingDistributionInUse": return try await StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyContinuousDeploymentPolicies": return try await TooManyContinuousDeploymentPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateContinuousDeploymentPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -4317,7 +4302,7 @@ extension CreateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
+public struct CreateContinuousDeploymentPolicyOutput: Swift.Equatable {
     /// A continuous deployment policy.
     public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
     /// The version identifier for the current version of the continuous deployment policy.
@@ -4337,11 +4322,11 @@ public struct CreateContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateContinuousDeploymentPolicyOutputResponseBody: Swift.Equatable {
+struct CreateContinuousDeploymentPolicyOutputBody: Swift.Equatable {
     let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
 }
 
-extension CreateContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
+extension CreateContinuousDeploymentPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
     }
@@ -4353,6 +4338,21 @@ extension CreateContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ContinuousDeploymentPolicyAlreadyExists": return try await ContinuousDeploymentPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StagingDistributionInUse": return try await StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyContinuousDeploymentPolicies": return try await TooManyContinuousDeploymentPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateDistributionInputBodyMiddleware"
 
@@ -4360,7 +4360,7 @@ public struct CreateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateDistributionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateDistributionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateDistributionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -4388,7 +4388,7 @@ public struct CreateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateDistributionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateDistributionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateDistributionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -4455,6 +4455,64 @@ extension CreateDistributionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionConfig.self, forKey: .distributionConfig)
         distributionConfig = distributionConfigDecoded
+    }
+}
+
+extension CreateDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+            self.distribution = output
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+/// The returned result of the corresponding request.
+public struct CreateDistributionOutput: Swift.Equatable {
+    /// The distribution's information.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The current version of the distribution created.
+    public var eTag: Swift.String?
+    /// The fully qualified URI of the new distribution resource just created.
+    public var location: Swift.String?
+
+    public init(
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+        self.location = location
+    }
+}
+
+struct CreateDistributionOutputBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension CreateDistributionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
     }
 }
 
@@ -4532,64 +4590,6 @@ enum CreateDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-            self.location = locationHeaderValue
-        } else {
-            self.location = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
-            self.distribution = output
-        } else {
-            self.distribution = nil
-        }
-    }
-}
-
-/// The returned result of the corresponding request.
-public struct CreateDistributionOutputResponse: Swift.Equatable {
-    /// The distribution's information.
-    public var distribution: CloudFrontClientTypes.Distribution?
-    /// The current version of the distribution created.
-    public var eTag: Swift.String?
-    /// The fully qualified URI of the new distribution resource just created.
-    public var location: Swift.String?
-
-    public init(
-        distribution: CloudFrontClientTypes.Distribution? = nil,
-        eTag: Swift.String? = nil,
-        location: Swift.String? = nil
-    )
-    {
-        self.distribution = distribution
-        self.eTag = eTag
-        self.location = location
-    }
-}
-
-struct CreateDistributionOutputResponseBody: Swift.Equatable {
-    let distribution: CloudFrontClientTypes.Distribution?
-}
-
-extension CreateDistributionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case distribution = "Distribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
-        distribution = distributionDecoded
-    }
-}
-
 public struct CreateDistributionWithTagsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateDistributionWithTagsInputBodyMiddleware"
 
@@ -4597,7 +4597,7 @@ public struct CreateDistributionWithTagsInputBodyMiddleware: ClientRuntime.Middl
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateDistributionWithTagsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateDistributionWithTagsOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateDistributionWithTagsOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -4625,7 +4625,7 @@ public struct CreateDistributionWithTagsInputBodyMiddleware: ClientRuntime.Middl
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateDistributionWithTagsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateDistributionWithTagsOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateDistributionWithTagsOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -4705,6 +4705,64 @@ extension CreateDistributionWithTagsInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDistributionWithTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+            self.distribution = output
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+/// The returned result of the corresponding request.
+public struct CreateDistributionWithTagsOutput: Swift.Equatable {
+    /// The distribution's information.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The current version of the distribution created.
+    public var eTag: Swift.String?
+    /// The fully qualified URI of the new distribution resource just created.
+    public var location: Swift.String?
+
+    public init(
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+        self.location = location
+    }
+}
+
+struct CreateDistributionWithTagsOutputBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension CreateDistributionWithTagsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
+    }
+}
+
 enum CreateDistributionWithTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4780,64 +4838,6 @@ enum CreateDistributionWithTagsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension CreateDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-            self.location = locationHeaderValue
-        } else {
-            self.location = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
-            self.distribution = output
-        } else {
-            self.distribution = nil
-        }
-    }
-}
-
-/// The returned result of the corresponding request.
-public struct CreateDistributionWithTagsOutputResponse: Swift.Equatable {
-    /// The distribution's information.
-    public var distribution: CloudFrontClientTypes.Distribution?
-    /// The current version of the distribution created.
-    public var eTag: Swift.String?
-    /// The fully qualified URI of the new distribution resource just created.
-    public var location: Swift.String?
-
-    public init(
-        distribution: CloudFrontClientTypes.Distribution? = nil,
-        eTag: Swift.String? = nil,
-        location: Swift.String? = nil
-    )
-    {
-        self.distribution = distribution
-        self.eTag = eTag
-        self.location = location
-    }
-}
-
-struct CreateDistributionWithTagsOutputResponseBody: Swift.Equatable {
-    let distribution: CloudFrontClientTypes.Distribution?
-}
-
-extension CreateDistributionWithTagsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case distribution = "Distribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
-        distribution = distributionDecoded
-    }
-}
-
 public struct CreateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateFieldLevelEncryptionConfigInputBodyMiddleware"
 
@@ -4845,7 +4845,7 @@ public struct CreateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateFieldLevelEncryptionConfigInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateFieldLevelEncryptionConfigOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateFieldLevelEncryptionConfigOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -4873,7 +4873,7 @@ public struct CreateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateFieldLevelEncryptionConfigInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateFieldLevelEncryptionConfigOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateFieldLevelEncryptionConfigOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -4942,24 +4942,7 @@ extension CreateFieldLevelEncryptionConfigInputBody: Swift.Decodable {
     }
 }
 
-enum CreateFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "FieldLevelEncryptionConfigAlreadyExists": return try await FieldLevelEncryptionConfigAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFieldLevelEncryptionProfile": return try await NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "QueryArgProfileEmpty": return try await QueryArgProfileEmpty(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFieldLevelEncryptionConfigs": return try await TooManyFieldLevelEncryptionConfigs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFieldLevelEncryptionContentTypeProfiles": return try await TooManyFieldLevelEncryptionContentTypeProfiles(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFieldLevelEncryptionQueryArgProfiles": return try await TooManyFieldLevelEncryptionQueryArgProfiles(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFieldLevelEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -4980,7 +4963,7 @@ extension CreateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateFieldLevelEncryptionConfigOutputResponse: Swift.Equatable {
+public struct CreateFieldLevelEncryptionConfigOutput: Swift.Equatable {
     /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// Returned when you create a new field-level encryption configuration.
@@ -5000,11 +4983,11 @@ public struct CreateFieldLevelEncryptionConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFieldLevelEncryptionConfigOutputResponseBody: Swift.Equatable {
+struct CreateFieldLevelEncryptionConfigOutputBody: Swift.Equatable {
     let fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption?
 }
 
-extension CreateFieldLevelEncryptionConfigOutputResponseBody: Swift.Decodable {
+extension CreateFieldLevelEncryptionConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryption = "FieldLevelEncryption"
     }
@@ -5016,6 +4999,23 @@ extension CreateFieldLevelEncryptionConfigOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "FieldLevelEncryptionConfigAlreadyExists": return try await FieldLevelEncryptionConfigAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFieldLevelEncryptionProfile": return try await NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "QueryArgProfileEmpty": return try await QueryArgProfileEmpty(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFieldLevelEncryptionConfigs": return try await TooManyFieldLevelEncryptionConfigs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFieldLevelEncryptionContentTypeProfiles": return try await TooManyFieldLevelEncryptionContentTypeProfiles(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFieldLevelEncryptionQueryArgProfiles": return try await TooManyFieldLevelEncryptionQueryArgProfiles(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateFieldLevelEncryptionProfileInputBodyMiddleware"
 
@@ -5023,7 +5023,7 @@ public struct CreateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateFieldLevelEncryptionProfileInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateFieldLevelEncryptionProfileOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateFieldLevelEncryptionProfileOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5051,7 +5051,7 @@ public struct CreateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateFieldLevelEncryptionProfileInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateFieldLevelEncryptionProfileOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateFieldLevelEncryptionProfileOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5120,24 +5120,7 @@ extension CreateFieldLevelEncryptionProfileInputBody: Swift.Decodable {
     }
 }
 
-enum CreateFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "FieldLevelEncryptionProfileAlreadyExists": return try await FieldLevelEncryptionProfileAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "FieldLevelEncryptionProfileSizeExceeded": return try await FieldLevelEncryptionProfileSizeExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFieldLevelEncryptionEncryptionEntities": return try await TooManyFieldLevelEncryptionEncryptionEntities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFieldLevelEncryptionFieldPatterns": return try await TooManyFieldLevelEncryptionFieldPatterns(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFieldLevelEncryptionProfiles": return try await TooManyFieldLevelEncryptionProfiles(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFieldLevelEncryptionProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -5158,7 +5141,7 @@ extension CreateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct CreateFieldLevelEncryptionProfileOutputResponse: Swift.Equatable {
+public struct CreateFieldLevelEncryptionProfileOutput: Swift.Equatable {
     /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// Returned when you create a new field-level encryption profile.
@@ -5178,11 +5161,11 @@ public struct CreateFieldLevelEncryptionProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFieldLevelEncryptionProfileOutputResponseBody: Swift.Equatable {
+struct CreateFieldLevelEncryptionProfileOutputBody: Swift.Equatable {
     let fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile?
 }
 
-extension CreateFieldLevelEncryptionProfileOutputResponseBody: Swift.Decodable {
+extension CreateFieldLevelEncryptionProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
     }
@@ -5191,6 +5174,23 @@ extension CreateFieldLevelEncryptionProfileOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionProfileDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionProfile.self, forKey: .fieldLevelEncryptionProfile)
         fieldLevelEncryptionProfile = fieldLevelEncryptionProfileDecoded
+    }
+}
+
+enum CreateFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "FieldLevelEncryptionProfileAlreadyExists": return try await FieldLevelEncryptionProfileAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "FieldLevelEncryptionProfileSizeExceeded": return try await FieldLevelEncryptionProfileSizeExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFieldLevelEncryptionEncryptionEntities": return try await TooManyFieldLevelEncryptionEncryptionEntities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFieldLevelEncryptionFieldPatterns": return try await TooManyFieldLevelEncryptionFieldPatterns(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFieldLevelEncryptionProfiles": return try await TooManyFieldLevelEncryptionProfiles(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5298,21 +5298,7 @@ extension CreateFunctionInputBody: Swift.Decodable {
     }
 }
 
-enum CreateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "FunctionAlreadyExists": return try await FunctionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "FunctionSizeLimitExceeded": return try await FunctionSizeLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyFunctions": return try await TooManyFunctions(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFunctionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -5333,7 +5319,7 @@ extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFunctionOutputResponse: Swift.Equatable {
+public struct CreateFunctionOutput: Swift.Equatable {
     /// The version identifier for the current version of the CloudFront function.
     public var eTag: Swift.String?
     /// Contains configuration information and metadata about a CloudFront function.
@@ -5353,11 +5339,11 @@ public struct CreateFunctionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFunctionOutputResponseBody: Swift.Equatable {
+struct CreateFunctionOutputBody: Swift.Equatable {
     let functionSummary: CloudFrontClientTypes.FunctionSummary?
 }
 
-extension CreateFunctionOutputResponseBody: Swift.Decodable {
+extension CreateFunctionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionSummary = "FunctionSummary"
     }
@@ -5369,6 +5355,20 @@ extension CreateFunctionOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "FunctionAlreadyExists": return try await FunctionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "FunctionSizeLimitExceeded": return try await FunctionSizeLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyFunctions": return try await TooManyFunctions(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateInvalidationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateInvalidationInputBodyMiddleware"
 
@@ -5376,7 +5376,7 @@ public struct CreateInvalidationInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateInvalidationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateInvalidationOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateInvalidationOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5404,7 +5404,7 @@ public struct CreateInvalidationInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateInvalidationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateInvalidationOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateInvalidationOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5482,23 +5482,7 @@ extension CreateInvalidationInputBody: Swift.Decodable {
     }
 }
 
-enum CreateInvalidationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "BatchTooLarge": return try await BatchTooLarge(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MissingBody": return try await MissingBody(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyInvalidationsInProgress": return try await TooManyInvalidationsInProgress(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateInvalidationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             self.location = locationHeaderValue
@@ -5515,7 +5499,7 @@ extension CreateInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The returned result of the corresponding request.
-public struct CreateInvalidationOutputResponse: Swift.Equatable {
+public struct CreateInvalidationOutput: Swift.Equatable {
     /// The invalidation's information.
     public var invalidation: CloudFrontClientTypes.Invalidation?
     /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
@@ -5531,11 +5515,11 @@ public struct CreateInvalidationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateInvalidationOutputResponseBody: Swift.Equatable {
+struct CreateInvalidationOutputBody: Swift.Equatable {
     let invalidation: CloudFrontClientTypes.Invalidation?
 }
 
-extension CreateInvalidationOutputResponseBody: Swift.Decodable {
+extension CreateInvalidationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invalidation = "Invalidation"
     }
@@ -5547,6 +5531,22 @@ extension CreateInvalidationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateInvalidationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "BatchTooLarge": return try await BatchTooLarge(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MissingBody": return try await MissingBody(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyInvalidationsInProgress": return try await TooManyInvalidationsInProgress(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateKeyGroupInputBodyMiddleware"
 
@@ -5554,7 +5554,7 @@ public struct CreateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateKeyGroupInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateKeyGroupOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateKeyGroupOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5582,7 +5582,7 @@ public struct CreateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateKeyGroupInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateKeyGroupOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateKeyGroupOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5651,20 +5651,7 @@ extension CreateKeyGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "KeyGroupAlreadyExists": return try await KeyGroupAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyKeyGroups": return try await TooManyKeyGroups(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyPublicKeysInKeyGroup": return try await TooManyPublicKeysInKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateKeyGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -5685,7 +5672,7 @@ extension CreateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKeyGroupOutputResponse: Swift.Equatable {
+public struct CreateKeyGroupOutput: Swift.Equatable {
     /// The identifier for this version of the key group.
     public var eTag: Swift.String?
     /// The key group that was just created.
@@ -5705,11 +5692,11 @@ public struct CreateKeyGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateKeyGroupOutputResponseBody: Swift.Equatable {
+struct CreateKeyGroupOutputBody: Swift.Equatable {
     let keyGroup: CloudFrontClientTypes.KeyGroup?
 }
 
-extension CreateKeyGroupOutputResponseBody: Swift.Decodable {
+extension CreateKeyGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyGroup = "KeyGroup"
     }
@@ -5721,6 +5708,19 @@ extension CreateKeyGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KeyGroupAlreadyExists": return try await KeyGroupAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyKeyGroups": return try await TooManyKeyGroups(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyPublicKeysInKeyGroup": return try await TooManyPublicKeysInKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateMonitoringSubscriptionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateMonitoringSubscriptionInputBodyMiddleware"
 
@@ -5728,7 +5728,7 @@ public struct CreateMonitoringSubscriptionInputBodyMiddleware: ClientRuntime.Mid
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateMonitoringSubscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateMonitoringSubscriptionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateMonitoringSubscriptionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5756,7 +5756,7 @@ public struct CreateMonitoringSubscriptionInputBodyMiddleware: ClientRuntime.Mid
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateMonitoringSubscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateMonitoringSubscriptionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateMonitoringSubscriptionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5833,6 +5833,45 @@ extension CreateMonitoringSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateMonitoringSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
+            self.monitoringSubscription = output
+        } else {
+            self.monitoringSubscription = nil
+        }
+    }
+}
+
+public struct CreateMonitoringSubscriptionOutput: Swift.Equatable {
+    /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+    public var monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription?
+
+    public init(
+        monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription? = nil
+    )
+    {
+        self.monitoringSubscription = monitoringSubscription
+    }
+}
+
+struct CreateMonitoringSubscriptionOutputBody: Swift.Equatable {
+    let monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription?
+}
+
+extension CreateMonitoringSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case monitoringSubscription = "MonitoringSubscription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let monitoringSubscriptionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.MonitoringSubscription.self, forKey: .monitoringSubscription)
+        monitoringSubscription = monitoringSubscriptionDecoded
+    }
+}
+
 enum CreateMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5846,45 +5885,6 @@ enum CreateMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension CreateMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
-            self.monitoringSubscription = output
-        } else {
-            self.monitoringSubscription = nil
-        }
-    }
-}
-
-public struct CreateMonitoringSubscriptionOutputResponse: Swift.Equatable {
-    /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
-    public var monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription?
-
-    public init(
-        monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription? = nil
-    )
-    {
-        self.monitoringSubscription = monitoringSubscription
-    }
-}
-
-struct CreateMonitoringSubscriptionOutputResponseBody: Swift.Equatable {
-    let monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription?
-}
-
-extension CreateMonitoringSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case monitoringSubscription = "MonitoringSubscription"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let monitoringSubscriptionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.MonitoringSubscription.self, forKey: .monitoringSubscription)
-        monitoringSubscription = monitoringSubscriptionDecoded
-    }
-}
-
 public struct CreateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateOriginAccessControlInputBodyMiddleware"
 
@@ -5892,7 +5892,7 @@ public struct CreateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateOriginAccessControlInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateOriginAccessControlOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateOriginAccessControlOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5920,7 +5920,7 @@ public struct CreateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateOriginAccessControlInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateOriginAccessControlOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateOriginAccessControlOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5989,19 +5989,7 @@ extension CreateOriginAccessControlInputBody: Swift.Decodable {
     }
 }
 
-enum CreateOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "OriginAccessControlAlreadyExists": return try await OriginAccessControlAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyOriginAccessControls": return try await TooManyOriginAccessControls(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateOriginAccessControlOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -6022,7 +6010,7 @@ extension CreateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateOriginAccessControlOutputResponse: Swift.Equatable {
+public struct CreateOriginAccessControlOutput: Swift.Equatable {
     /// The version identifier for the current version of the origin access control.
     public var eTag: Swift.String?
     /// The URL of the origin access control.
@@ -6042,11 +6030,11 @@ public struct CreateOriginAccessControlOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateOriginAccessControlOutputResponseBody: Swift.Equatable {
+struct CreateOriginAccessControlOutputBody: Swift.Equatable {
     let originAccessControl: CloudFrontClientTypes.OriginAccessControl?
 }
 
-extension CreateOriginAccessControlOutputResponseBody: Swift.Decodable {
+extension CreateOriginAccessControlOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originAccessControl = "OriginAccessControl"
     }
@@ -6058,6 +6046,18 @@ extension CreateOriginAccessControlOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OriginAccessControlAlreadyExists": return try await OriginAccessControlAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyOriginAccessControls": return try await TooManyOriginAccessControls(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateOriginRequestPolicyInputBodyMiddleware"
 
@@ -6065,7 +6065,7 @@ public struct CreateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateOriginRequestPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateOriginRequestPolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateOriginRequestPolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6093,7 +6093,7 @@ public struct CreateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateOriginRequestPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateOriginRequestPolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateOriginRequestPolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6162,24 +6162,7 @@ extension CreateOriginRequestPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum CreateOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "OriginRequestPolicyAlreadyExists": return try await OriginRequestPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCookiesInOriginRequestPolicy": return try await TooManyCookiesInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyHeadersInOriginRequestPolicy": return try await TooManyHeadersInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyOriginRequestPolicies": return try await TooManyOriginRequestPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyQueryStringsInOriginRequestPolicy": return try await TooManyQueryStringsInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateOriginRequestPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -6200,7 +6183,7 @@ extension CreateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateOriginRequestPolicyOutputResponse: Swift.Equatable {
+public struct CreateOriginRequestPolicyOutput: Swift.Equatable {
     /// The current version of the origin request policy.
     public var eTag: Swift.String?
     /// The fully qualified URI of the origin request policy just created.
@@ -6220,11 +6203,11 @@ public struct CreateOriginRequestPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateOriginRequestPolicyOutputResponseBody: Swift.Equatable {
+struct CreateOriginRequestPolicyOutputBody: Swift.Equatable {
     let originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy?
 }
 
-extension CreateOriginRequestPolicyOutputResponseBody: Swift.Decodable {
+extension CreateOriginRequestPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originRequestPolicy = "OriginRequestPolicy"
     }
@@ -6236,6 +6219,23 @@ extension CreateOriginRequestPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OriginRequestPolicyAlreadyExists": return try await OriginRequestPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCookiesInOriginRequestPolicy": return try await TooManyCookiesInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyHeadersInOriginRequestPolicy": return try await TooManyHeadersInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyOriginRequestPolicies": return try await TooManyOriginRequestPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyQueryStringsInOriginRequestPolicy": return try await TooManyQueryStringsInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreatePublicKeyInputBodyMiddleware"
 
@@ -6243,7 +6243,7 @@ public struct CreatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreatePublicKeyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreatePublicKeyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreatePublicKeyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6271,7 +6271,7 @@ public struct CreatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreatePublicKeyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreatePublicKeyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreatePublicKeyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6340,19 +6340,7 @@ extension CreatePublicKeyInputBody: Swift.Decodable {
     }
 }
 
-enum CreatePublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PublicKeyAlreadyExists": return try await PublicKeyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyPublicKeys": return try await TooManyPublicKeys(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -6373,7 +6361,7 @@ extension CreatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePublicKeyOutputResponse: Swift.Equatable {
+public struct CreatePublicKeyOutput: Swift.Equatable {
     /// The identifier for this version of the public key.
     public var eTag: Swift.String?
     /// The URL of the public key.
@@ -6393,11 +6381,11 @@ public struct CreatePublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePublicKeyOutputResponseBody: Swift.Equatable {
+struct CreatePublicKeyOutputBody: Swift.Equatable {
     let publicKey: CloudFrontClientTypes.PublicKey?
 }
 
-extension CreatePublicKeyOutputResponseBody: Swift.Decodable {
+extension CreatePublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicKey = "PublicKey"
     }
@@ -6406,6 +6394,18 @@ extension CreatePublicKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicKeyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.PublicKey.self, forKey: .publicKey)
         publicKey = publicKeyDecoded
+    }
+}
+
+enum CreatePublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PublicKeyAlreadyExists": return try await PublicKeyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyPublicKeys": return try await TooManyPublicKeys(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6553,6 +6553,46 @@ extension CreateRealtimeLogConfigInputBody: Swift.Decodable {
     }
 }
 
+extension CreateRealtimeLogConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRealtimeLogConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.realtimeLogConfig = output.realtimeLogConfig
+        } else {
+            self.realtimeLogConfig = nil
+        }
+    }
+}
+
+public struct CreateRealtimeLogConfigOutput: Swift.Equatable {
+    /// A real-time log configuration.
+    public var realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
+
+    public init(
+        realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
+    )
+    {
+        self.realtimeLogConfig = realtimeLogConfig
+    }
+}
+
+struct CreateRealtimeLogConfigOutputBody: Swift.Equatable {
+    let realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
+}
+
+extension CreateRealtimeLogConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case realtimeLogConfig = "RealtimeLogConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let realtimeLogConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.RealtimeLogConfig.self, forKey: .realtimeLogConfig)
+        realtimeLogConfig = realtimeLogConfigDecoded
+    }
+}
+
 enum CreateRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -6566,46 +6606,6 @@ enum CreateRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension CreateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.realtimeLogConfig = output.realtimeLogConfig
-        } else {
-            self.realtimeLogConfig = nil
-        }
-    }
-}
-
-public struct CreateRealtimeLogConfigOutputResponse: Swift.Equatable {
-    /// A real-time log configuration.
-    public var realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
-
-    public init(
-        realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
-    )
-    {
-        self.realtimeLogConfig = realtimeLogConfig
-    }
-}
-
-struct CreateRealtimeLogConfigOutputResponseBody: Swift.Equatable {
-    let realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
-}
-
-extension CreateRealtimeLogConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case realtimeLogConfig = "RealtimeLogConfig"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let realtimeLogConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.RealtimeLogConfig.self, forKey: .realtimeLogConfig)
-        realtimeLogConfig = realtimeLogConfigDecoded
-    }
-}
-
 public struct CreateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateResponseHeadersPolicyInputBodyMiddleware"
 
@@ -6613,7 +6613,7 @@ public struct CreateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateResponseHeadersPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateResponseHeadersPolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateResponseHeadersPolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6641,7 +6641,7 @@ public struct CreateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateResponseHeadersPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateResponseHeadersPolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateResponseHeadersPolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6710,24 +6710,7 @@ extension CreateResponseHeadersPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum CreateResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ResponseHeadersPolicyAlreadyExists": return try await ResponseHeadersPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooLongCSPInResponseHeadersPolicy": return try await TooLongCSPInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyCustomHeadersInResponseHeadersPolicy": return try await TooManyCustomHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRemoveHeadersInResponseHeadersPolicy": return try await TooManyRemoveHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyResponseHeadersPolicies": return try await TooManyResponseHeadersPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateResponseHeadersPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -6748,7 +6731,7 @@ extension CreateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateResponseHeadersPolicyOutputResponse: Swift.Equatable {
+public struct CreateResponseHeadersPolicyOutput: Swift.Equatable {
     /// The version identifier for the current version of the response headers policy.
     public var eTag: Swift.String?
     /// The URL of the response headers policy.
@@ -6768,11 +6751,11 @@ public struct CreateResponseHeadersPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateResponseHeadersPolicyOutputResponseBody: Swift.Equatable {
+struct CreateResponseHeadersPolicyOutputBody: Swift.Equatable {
     let responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy?
 }
 
-extension CreateResponseHeadersPolicyOutputResponseBody: Swift.Decodable {
+extension CreateResponseHeadersPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case responseHeadersPolicy = "ResponseHeadersPolicy"
     }
@@ -6784,6 +6767,23 @@ extension CreateResponseHeadersPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResponseHeadersPolicyAlreadyExists": return try await ResponseHeadersPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooLongCSPInResponseHeadersPolicy": return try await TooLongCSPInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyCustomHeadersInResponseHeadersPolicy": return try await TooManyCustomHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRemoveHeadersInResponseHeadersPolicy": return try await TooManyRemoveHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyResponseHeadersPolicies": return try await TooManyResponseHeadersPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct CreateStreamingDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateStreamingDistributionInputBodyMiddleware"
 
@@ -6791,7 +6791,7 @@ public struct CreateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateStreamingDistributionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateStreamingDistributionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateStreamingDistributionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6819,7 +6819,7 @@ public struct CreateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateStreamingDistributionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateStreamingDistributionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateStreamingDistributionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6889,6 +6889,64 @@ extension CreateStreamingDistributionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStreamingDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
+            self.streamingDistribution = output
+        } else {
+            self.streamingDistribution = nil
+        }
+    }
+}
+
+/// The returned result of the corresponding request.
+public struct CreateStreamingDistributionOutput: Swift.Equatable {
+    /// The current version of the streaming distribution created.
+    public var eTag: Swift.String?
+    /// The fully qualified URI of the new streaming distribution resource just created.
+    public var location: Swift.String?
+    /// The streaming distribution's information.
+    public var streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
+
+    public init(
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil,
+        streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
+    )
+    {
+        self.eTag = eTag
+        self.location = location
+        self.streamingDistribution = streamingDistribution
+    }
+}
+
+struct CreateStreamingDistributionOutputBody: Swift.Equatable {
+    let streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
+}
+
+extension CreateStreamingDistributionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingDistribution = "StreamingDistribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingDistributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistribution.self, forKey: .streamingDistribution)
+        streamingDistribution = streamingDistributionDecoded
+    }
+}
+
 enum CreateStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -6911,64 +6969,6 @@ enum CreateStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension CreateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-            self.location = locationHeaderValue
-        } else {
-            self.location = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
-            self.streamingDistribution = output
-        } else {
-            self.streamingDistribution = nil
-        }
-    }
-}
-
-/// The returned result of the corresponding request.
-public struct CreateStreamingDistributionOutputResponse: Swift.Equatable {
-    /// The current version of the streaming distribution created.
-    public var eTag: Swift.String?
-    /// The fully qualified URI of the new streaming distribution resource just created.
-    public var location: Swift.String?
-    /// The streaming distribution's information.
-    public var streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
-
-    public init(
-        eTag: Swift.String? = nil,
-        location: Swift.String? = nil,
-        streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
-    )
-    {
-        self.eTag = eTag
-        self.location = location
-        self.streamingDistribution = streamingDistribution
-    }
-}
-
-struct CreateStreamingDistributionOutputResponseBody: Swift.Equatable {
-    let streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
-}
-
-extension CreateStreamingDistributionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingDistribution = "StreamingDistribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingDistributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistribution.self, forKey: .streamingDistribution)
-        streamingDistribution = streamingDistributionDecoded
-    }
-}
-
 public struct CreateStreamingDistributionWithTagsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateStreamingDistributionWithTagsInputBodyMiddleware"
 
@@ -6976,7 +6976,7 @@ public struct CreateStreamingDistributionWithTagsInputBodyMiddleware: ClientRunt
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateStreamingDistributionWithTagsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateStreamingDistributionWithTagsOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateStreamingDistributionWithTagsOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -7004,7 +7004,7 @@ public struct CreateStreamingDistributionWithTagsInputBodyMiddleware: ClientRunt
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateStreamingDistributionWithTagsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateStreamingDistributionWithTagsOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateStreamingDistributionWithTagsOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -7084,30 +7084,7 @@ extension CreateStreamingDistributionWithTagsInputBody: Swift.Decodable {
     }
 }
 
-enum CreateStreamingDistributionWithTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CNAMEAlreadyExists": return try await CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidOrigin": return try await InvalidOrigin(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidOriginAccessControl": return try await InvalidOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidOriginAccessIdentity": return try await InvalidOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidTagging": return try await InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MissingBody": return try await MissingBody(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "StreamingDistributionAlreadyExists": return try await StreamingDistributionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyStreamingDistributionCNAMEs": return try await TooManyStreamingDistributionCNAMEs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyStreamingDistributions": return try await TooManyStreamingDistributions(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyTrustedSigners": return try await TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TrustedSignerDoesNotExist": return try await TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateStreamingDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateStreamingDistributionWithTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -7129,7 +7106,7 @@ extension CreateStreamingDistributionWithTagsOutputResponse: ClientRuntime.HttpR
 }
 
 /// The returned result of the corresponding request.
-public struct CreateStreamingDistributionWithTagsOutputResponse: Swift.Equatable {
+public struct CreateStreamingDistributionWithTagsOutput: Swift.Equatable {
     /// The current version of the distribution created.
     public var eTag: Swift.String?
     /// The fully qualified URI of the new streaming distribution resource just created.
@@ -7149,11 +7126,11 @@ public struct CreateStreamingDistributionWithTagsOutputResponse: Swift.Equatable
     }
 }
 
-struct CreateStreamingDistributionWithTagsOutputResponseBody: Swift.Equatable {
+struct CreateStreamingDistributionWithTagsOutputBody: Swift.Equatable {
     let streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
 }
 
-extension CreateStreamingDistributionWithTagsOutputResponseBody: Swift.Decodable {
+extension CreateStreamingDistributionWithTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamingDistribution = "StreamingDistribution"
     }
@@ -7162,6 +7139,29 @@ extension CreateStreamingDistributionWithTagsOutputResponseBody: Swift.Decodable
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamingDistributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistribution.self, forKey: .streamingDistribution)
         streamingDistribution = streamingDistributionDecoded
+    }
+}
+
+enum CreateStreamingDistributionWithTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CNAMEAlreadyExists": return try await CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InconsistentQuantities": return try await InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidOrigin": return try await InvalidOrigin(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidOriginAccessControl": return try await InvalidOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidOriginAccessIdentity": return try await InvalidOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidTagging": return try await InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MissingBody": return try await MissingBody(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StreamingDistributionAlreadyExists": return try await StreamingDistributionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyStreamingDistributionCNAMEs": return try await TooManyStreamingDistributionCNAMEs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyStreamingDistributions": return try await TooManyStreamingDistributions(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyTrustedSigners": return try await TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TrustedSignerDoesNotExist": return try await TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7846,6 +7846,16 @@ extension DeleteCachePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCachePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCachePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7859,16 +7869,6 @@ enum DeleteCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCachePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCloudFrontOriginAccessIdentityInput: ClientRuntime.HeaderProvider {
@@ -7917,6 +7917,16 @@ extension DeleteCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCloudFrontOriginAccessIdentityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCloudFrontOriginAccessIdentityOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7929,16 +7939,6 @@ enum DeleteCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteContinuousDeploymentPolicyInput: ClientRuntime.HeaderProvider {
@@ -7986,6 +7986,16 @@ extension DeleteContinuousDeploymentPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteContinuousDeploymentPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteContinuousDeploymentPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7999,16 +8009,6 @@ enum DeleteContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteDistributionInput: ClientRuntime.HeaderProvider {
@@ -8076,6 +8076,16 @@ extension DeleteDistributionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDistributionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8088,16 +8098,6 @@ enum DeleteDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteDistributionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteFieldLevelEncryptionConfigInput: ClientRuntime.HeaderProvider {
@@ -8145,6 +8145,16 @@ extension DeleteFieldLevelEncryptionConfigInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteFieldLevelEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFieldLevelEncryptionConfigOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8157,16 +8167,6 @@ enum DeleteFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteFieldLevelEncryptionConfigOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteFieldLevelEncryptionProfileInput: ClientRuntime.HeaderProvider {
@@ -8214,6 +8214,16 @@ extension DeleteFieldLevelEncryptionProfileInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteFieldLevelEncryptionProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFieldLevelEncryptionProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8226,16 +8236,6 @@ enum DeleteFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteFieldLevelEncryptionProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteFunctionInput: ClientRuntime.HeaderProvider {
@@ -8284,6 +8284,16 @@ extension DeleteFunctionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteFunctionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteFunctionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8296,16 +8306,6 @@ enum DeleteFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteFunctionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteKeyGroupInput: ClientRuntime.HeaderProvider {
@@ -8353,6 +8353,16 @@ extension DeleteKeyGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteKeyGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKeyGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8364,16 +8374,6 @@ enum DeleteKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteKeyGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteMonitoringSubscriptionInput: ClientRuntime.URLPathProvider {
@@ -8407,6 +8407,16 @@ extension DeleteMonitoringSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteMonitoringSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteMonitoringSubscriptionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8418,16 +8428,6 @@ enum DeleteMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteMonitoringSubscriptionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteOriginAccessControlInput: ClientRuntime.HeaderProvider {
@@ -8475,6 +8475,16 @@ extension DeleteOriginAccessControlInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteOriginAccessControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteOriginAccessControlOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8487,16 +8497,6 @@ enum DeleteOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteOriginAccessControlOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteOriginRequestPolicyInput: ClientRuntime.HeaderProvider {
@@ -8544,6 +8544,16 @@ extension DeleteOriginRequestPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteOriginRequestPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteOriginRequestPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8557,16 +8567,6 @@ enum DeleteOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteOriginRequestPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePublicKeyInput: ClientRuntime.HeaderProvider {
@@ -8614,6 +8614,16 @@ extension DeletePublicKeyInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePublicKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePublicKeyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8626,16 +8636,6 @@ enum DeletePublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeletePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePublicKeyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRealtimeLogConfigInput: ClientRuntime.DynamicNodeEncoding {
@@ -8714,6 +8714,16 @@ extension DeleteRealtimeLogConfigInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRealtimeLogConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRealtimeLogConfigOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8725,16 +8735,6 @@ enum DeleteRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRealtimeLogConfigOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteResponseHeadersPolicyInput: ClientRuntime.HeaderProvider {
@@ -8782,6 +8782,16 @@ extension DeleteResponseHeadersPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteResponseHeadersPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteResponseHeadersPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8795,16 +8805,6 @@ enum DeleteResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteResponseHeadersPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteStreamingDistributionInput: ClientRuntime.HeaderProvider {
@@ -8853,6 +8853,16 @@ extension DeleteStreamingDistributionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStreamingDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStreamingDistributionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -8865,16 +8875,6 @@ enum DeleteStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStreamingDistributionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeFunctionInput: ClientRuntime.QueryItemProvider {
@@ -8925,18 +8925,7 @@ extension DescribeFunctionInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFunctionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -8952,7 +8941,7 @@ extension DescribeFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFunctionOutputResponse: Swift.Equatable {
+public struct DescribeFunctionOutput: Swift.Equatable {
     /// The version identifier for the current version of the CloudFront function.
     public var eTag: Swift.String?
     /// Contains configuration information and metadata about a CloudFront function.
@@ -8968,11 +8957,11 @@ public struct DescribeFunctionOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFunctionOutputResponseBody: Swift.Equatable {
+struct DescribeFunctionOutputBody: Swift.Equatable {
     let functionSummary: CloudFrontClientTypes.FunctionSummary?
 }
 
-extension DescribeFunctionOutputResponseBody: Swift.Decodable {
+extension DescribeFunctionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionSummary = "FunctionSummary"
     }
@@ -8981,6 +8970,17 @@ extension DescribeFunctionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionSummaryDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FunctionSummary.self, forKey: .functionSummary)
         functionSummary = functionSummaryDecoded
+    }
+}
+
+enum DescribeFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12473,18 +12473,7 @@ extension GetCachePolicyConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetCachePolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCachePolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCachePolicyConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -12500,7 +12489,7 @@ extension GetCachePolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetCachePolicyConfigOutputResponse: Swift.Equatable {
+public struct GetCachePolicyConfigOutput: Swift.Equatable {
     /// The cache policy configuration.
     public var cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig?
     /// The current version of the cache policy.
@@ -12516,11 +12505,11 @@ public struct GetCachePolicyConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCachePolicyConfigOutputResponseBody: Swift.Equatable {
+struct GetCachePolicyConfigOutputBody: Swift.Equatable {
     let cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig?
 }
 
-extension GetCachePolicyConfigOutputResponseBody: Swift.Decodable {
+extension GetCachePolicyConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachePolicyConfig = "CachePolicyConfig"
     }
@@ -12529,6 +12518,17 @@ extension GetCachePolicyConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cachePolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CachePolicyConfig.self, forKey: .cachePolicyConfig)
         cachePolicyConfig = cachePolicyConfigDecoded
+    }
+}
+
+enum GetCachePolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12563,18 +12563,7 @@ extension GetCachePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCachePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -12590,7 +12579,7 @@ extension GetCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCachePolicyOutputResponse: Swift.Equatable {
+public struct GetCachePolicyOutput: Swift.Equatable {
     /// The cache policy.
     public var cachePolicy: CloudFrontClientTypes.CachePolicy?
     /// The current version of the cache policy.
@@ -12606,11 +12595,11 @@ public struct GetCachePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCachePolicyOutputResponseBody: Swift.Equatable {
+struct GetCachePolicyOutputBody: Swift.Equatable {
     let cachePolicy: CloudFrontClientTypes.CachePolicy?
 }
 
-extension GetCachePolicyOutputResponseBody: Swift.Decodable {
+extension GetCachePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachePolicy = "CachePolicy"
     }
@@ -12619,6 +12608,17 @@ extension GetCachePolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cachePolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CachePolicy.self, forKey: .cachePolicy)
         cachePolicy = cachePolicyDecoded
+    }
+}
+
+enum GetCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12654,18 +12654,7 @@ extension GetCloudFrontOriginAccessIdentityConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetCloudFrontOriginAccessIdentityConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchCloudFrontOriginAccessIdentity": return try await NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCloudFrontOriginAccessIdentityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCloudFrontOriginAccessIdentityConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -12682,7 +12671,7 @@ extension GetCloudFrontOriginAccessIdentityConfigOutputResponse: ClientRuntime.H
 }
 
 /// The returned result of the corresponding request.
-public struct GetCloudFrontOriginAccessIdentityConfigOutputResponse: Swift.Equatable {
+public struct GetCloudFrontOriginAccessIdentityConfigOutput: Swift.Equatable {
     /// The origin access identity's configuration information.
     public var cloudFrontOriginAccessIdentityConfig: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig?
     /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
@@ -12698,11 +12687,11 @@ public struct GetCloudFrontOriginAccessIdentityConfigOutputResponse: Swift.Equat
     }
 }
 
-struct GetCloudFrontOriginAccessIdentityConfigOutputResponseBody: Swift.Equatable {
+struct GetCloudFrontOriginAccessIdentityConfigOutputBody: Swift.Equatable {
     let cloudFrontOriginAccessIdentityConfig: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig?
 }
 
-extension GetCloudFrontOriginAccessIdentityConfigOutputResponseBody: Swift.Decodable {
+extension GetCloudFrontOriginAccessIdentityConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
     }
@@ -12711,6 +12700,17 @@ extension GetCloudFrontOriginAccessIdentityConfigOutputResponseBody: Swift.Decod
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudFrontOriginAccessIdentityConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.self, forKey: .cloudFrontOriginAccessIdentityConfig)
         cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfigDecoded
+    }
+}
+
+enum GetCloudFrontOriginAccessIdentityConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchCloudFrontOriginAccessIdentity": return try await NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12746,18 +12746,7 @@ extension GetCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
     }
 }
 
-enum GetCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchCloudFrontOriginAccessIdentity": return try await NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCloudFrontOriginAccessIdentityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -12774,7 +12763,7 @@ extension GetCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpRes
 }
 
 /// The returned result of the corresponding request.
-public struct GetCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatable {
+public struct GetCloudFrontOriginAccessIdentityOutput: Swift.Equatable {
     /// The origin access identity's information.
     public var cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
     /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
@@ -12790,11 +12779,11 @@ public struct GetCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Equatable {
+struct GetCloudFrontOriginAccessIdentityOutputBody: Swift.Equatable {
     let cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
 }
 
-extension GetCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodable {
+extension GetCloudFrontOriginAccessIdentityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
     }
@@ -12803,6 +12792,17 @@ extension GetCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudFrontOriginAccessIdentityDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentity.self, forKey: .cloudFrontOriginAccessIdentity)
         cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentityDecoded
+    }
+}
+
+enum GetCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchCloudFrontOriginAccessIdentity": return try await NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12837,18 +12837,7 @@ extension GetContinuousDeploymentPolicyConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetContinuousDeploymentPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchContinuousDeploymentPolicy": return try await NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetContinuousDeploymentPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetContinuousDeploymentPolicyConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -12864,7 +12853,7 @@ extension GetContinuousDeploymentPolicyConfigOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct GetContinuousDeploymentPolicyConfigOutputResponse: Swift.Equatable {
+public struct GetContinuousDeploymentPolicyConfigOutput: Swift.Equatable {
     /// Contains the configuration for a continuous deployment policy.
     public var continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
     /// The version identifier for the current version of the continuous deployment policy.
@@ -12880,11 +12869,11 @@ public struct GetContinuousDeploymentPolicyConfigOutputResponse: Swift.Equatable
     }
 }
 
-struct GetContinuousDeploymentPolicyConfigOutputResponseBody: Swift.Equatable {
+struct GetContinuousDeploymentPolicyConfigOutputBody: Swift.Equatable {
     let continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig?
 }
 
-extension GetContinuousDeploymentPolicyConfigOutputResponseBody: Swift.Decodable {
+extension GetContinuousDeploymentPolicyConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
     }
@@ -12893,6 +12882,17 @@ extension GetContinuousDeploymentPolicyConfigOutputResponseBody: Swift.Decodable
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let continuousDeploymentPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.self, forKey: .continuousDeploymentPolicyConfig)
         continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfigDecoded
+    }
+}
+
+enum GetContinuousDeploymentPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchContinuousDeploymentPolicy": return try await NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12927,18 +12927,7 @@ extension GetContinuousDeploymentPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchContinuousDeploymentPolicy": return try await NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetContinuousDeploymentPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -12954,7 +12943,7 @@ extension GetContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
+public struct GetContinuousDeploymentPolicyOutput: Swift.Equatable {
     /// A continuous deployment policy.
     public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
     /// The version identifier for the current version of the continuous deployment policy.
@@ -12970,11 +12959,11 @@ public struct GetContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetContinuousDeploymentPolicyOutputResponseBody: Swift.Equatable {
+struct GetContinuousDeploymentPolicyOutputBody: Swift.Equatable {
     let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
 }
 
-extension GetContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
+extension GetContinuousDeploymentPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
     }
@@ -12983,6 +12972,17 @@ extension GetContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
         continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
+    }
+}
+
+enum GetContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchContinuousDeploymentPolicy": return try await NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13018,18 +13018,7 @@ extension GetDistributionConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetDistributionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDistributionConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13046,7 +13035,7 @@ extension GetDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// The returned result of the corresponding request.
-public struct GetDistributionConfigOutputResponse: Swift.Equatable {
+public struct GetDistributionConfigOutput: Swift.Equatable {
     /// The distribution's configuration information.
     public var distributionConfig: CloudFrontClientTypes.DistributionConfig?
     /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
@@ -13062,11 +13051,11 @@ public struct GetDistributionConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDistributionConfigOutputResponseBody: Swift.Equatable {
+struct GetDistributionConfigOutputBody: Swift.Equatable {
     let distributionConfig: CloudFrontClientTypes.DistributionConfig?
 }
 
-extension GetDistributionConfigOutputResponseBody: Swift.Decodable {
+extension GetDistributionConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionConfig = "DistributionConfig"
     }
@@ -13075,6 +13064,17 @@ extension GetDistributionConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionConfig.self, forKey: .distributionConfig)
         distributionConfig = distributionConfigDecoded
+    }
+}
+
+enum GetDistributionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13110,18 +13110,7 @@ extension GetDistributionInputBody: Swift.Decodable {
     }
 }
 
-enum GetDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDistributionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13138,7 +13127,7 @@ extension GetDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The returned result of the corresponding request.
-public struct GetDistributionOutputResponse: Swift.Equatable {
+public struct GetDistributionOutput: Swift.Equatable {
     /// The distribution's information.
     public var distribution: CloudFrontClientTypes.Distribution?
     /// The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
@@ -13154,11 +13143,11 @@ public struct GetDistributionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDistributionOutputResponseBody: Swift.Equatable {
+struct GetDistributionOutputBody: Swift.Equatable {
     let distribution: CloudFrontClientTypes.Distribution?
 }
 
-extension GetDistributionOutputResponseBody: Swift.Decodable {
+extension GetDistributionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distribution = "Distribution"
     }
@@ -13167,6 +13156,17 @@ extension GetDistributionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
         distribution = distributionDecoded
+    }
+}
+
+enum GetDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13201,18 +13201,7 @@ extension GetFieldLevelEncryptionConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFieldLevelEncryptionConfig": return try await NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFieldLevelEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13228,7 +13217,7 @@ extension GetFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetFieldLevelEncryptionConfigOutputResponse: Swift.Equatable {
+public struct GetFieldLevelEncryptionConfigOutput: Swift.Equatable {
     /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// Return the field-level encryption configuration information.
@@ -13244,11 +13233,11 @@ public struct GetFieldLevelEncryptionConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFieldLevelEncryptionConfigOutputResponseBody: Swift.Equatable {
+struct GetFieldLevelEncryptionConfigOutputBody: Swift.Equatable {
     let fieldLevelEncryptionConfig: CloudFrontClientTypes.FieldLevelEncryptionConfig?
 }
 
-extension GetFieldLevelEncryptionConfigOutputResponseBody: Swift.Decodable {
+extension GetFieldLevelEncryptionConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
     }
@@ -13257,6 +13246,17 @@ extension GetFieldLevelEncryptionConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionConfig.self, forKey: .fieldLevelEncryptionConfig)
         fieldLevelEncryptionConfig = fieldLevelEncryptionConfigDecoded
+    }
+}
+
+enum GetFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFieldLevelEncryptionConfig": return try await NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13291,18 +13291,7 @@ extension GetFieldLevelEncryptionInputBody: Swift.Decodable {
     }
 }
 
-enum GetFieldLevelEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFieldLevelEncryptionConfig": return try await NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetFieldLevelEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFieldLevelEncryptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13318,7 +13307,7 @@ extension GetFieldLevelEncryptionOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetFieldLevelEncryptionOutputResponse: Swift.Equatable {
+public struct GetFieldLevelEncryptionOutput: Swift.Equatable {
     /// The current version of the field level encryption configuration. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// Return the field-level encryption configuration information.
@@ -13334,11 +13323,11 @@ public struct GetFieldLevelEncryptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFieldLevelEncryptionOutputResponseBody: Swift.Equatable {
+struct GetFieldLevelEncryptionOutputBody: Swift.Equatable {
     let fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption?
 }
 
-extension GetFieldLevelEncryptionOutputResponseBody: Swift.Decodable {
+extension GetFieldLevelEncryptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryption = "FieldLevelEncryption"
     }
@@ -13347,6 +13336,17 @@ extension GetFieldLevelEncryptionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryption.self, forKey: .fieldLevelEncryption)
         fieldLevelEncryption = fieldLevelEncryptionDecoded
+    }
+}
+
+enum GetFieldLevelEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFieldLevelEncryptionConfig": return try await NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13381,18 +13381,7 @@ extension GetFieldLevelEncryptionProfileConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetFieldLevelEncryptionProfileConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFieldLevelEncryptionProfile": return try await NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetFieldLevelEncryptionProfileConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFieldLevelEncryptionProfileConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13408,7 +13397,7 @@ extension GetFieldLevelEncryptionProfileConfigOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct GetFieldLevelEncryptionProfileConfigOutputResponse: Swift.Equatable {
+public struct GetFieldLevelEncryptionProfileConfigOutput: Swift.Equatable {
     /// The current version of the field-level encryption profile configuration result. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// Return the field-level encryption profile configuration information.
@@ -13424,11 +13413,11 @@ public struct GetFieldLevelEncryptionProfileConfigOutputResponse: Swift.Equatabl
     }
 }
 
-struct GetFieldLevelEncryptionProfileConfigOutputResponseBody: Swift.Equatable {
+struct GetFieldLevelEncryptionProfileConfigOutputBody: Swift.Equatable {
     let fieldLevelEncryptionProfileConfig: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig?
 }
 
-extension GetFieldLevelEncryptionProfileConfigOutputResponseBody: Swift.Decodable {
+extension GetFieldLevelEncryptionProfileConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
     }
@@ -13437,6 +13426,17 @@ extension GetFieldLevelEncryptionProfileConfigOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionProfileConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionProfileConfig.self, forKey: .fieldLevelEncryptionProfileConfig)
         fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfigDecoded
+    }
+}
+
+enum GetFieldLevelEncryptionProfileConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFieldLevelEncryptionProfile": return try await NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13471,18 +13471,7 @@ extension GetFieldLevelEncryptionProfileInputBody: Swift.Decodable {
     }
 }
 
-enum GetFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFieldLevelEncryptionProfile": return try await NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFieldLevelEncryptionProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13498,7 +13487,7 @@ extension GetFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetFieldLevelEncryptionProfileOutputResponse: Swift.Equatable {
+public struct GetFieldLevelEncryptionProfileOutput: Swift.Equatable {
     /// The current version of the field level encryption profile. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// Return the field-level encryption profile information.
@@ -13514,11 +13503,11 @@ public struct GetFieldLevelEncryptionProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFieldLevelEncryptionProfileOutputResponseBody: Swift.Equatable {
+struct GetFieldLevelEncryptionProfileOutputBody: Swift.Equatable {
     let fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile?
 }
 
-extension GetFieldLevelEncryptionProfileOutputResponseBody: Swift.Decodable {
+extension GetFieldLevelEncryptionProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
     }
@@ -13527,6 +13516,17 @@ extension GetFieldLevelEncryptionProfileOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionProfileDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionProfile.self, forKey: .fieldLevelEncryptionProfile)
         fieldLevelEncryptionProfile = fieldLevelEncryptionProfileDecoded
+    }
+}
+
+enum GetFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFieldLevelEncryptionProfile": return try await NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13578,23 +13578,12 @@ extension GetFunctionInputBody: Swift.Decodable {
     }
 }
 
-enum GetFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetFunctionOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetFunctionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetFunctionOutputResponse(contentType: \(Swift.String(describing: contentType)), eTag: \(Swift.String(describing: eTag)), functionCode: \"CONTENT_REDACTED\")"}
+        "GetFunctionOutput(contentType: \(Swift.String(describing: contentType)), eTag: \(Swift.String(describing: eTag)), functionCode: \"CONTENT_REDACTED\")"}
 }
 
-extension GetFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFunctionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -13617,7 +13606,7 @@ extension GetFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFunctionOutputResponse: Swift.Equatable {
+public struct GetFunctionOutput: Swift.Equatable {
     /// The content type (media type) of the response.
     public var contentType: Swift.String?
     /// The version identifier for the current version of the CloudFront function.
@@ -13637,11 +13626,11 @@ public struct GetFunctionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFunctionOutputResponseBody: Swift.Equatable {
+struct GetFunctionOutputBody: Swift.Equatable {
     let functionCode: ClientRuntime.Data?
 }
 
-extension GetFunctionOutputResponseBody: Swift.Decodable {
+extension GetFunctionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionCode = "FunctionCode"
     }
@@ -13657,6 +13646,17 @@ extension GetFunctionOutputResponseBody: Swift.Decodable {
             }
         } else {
             functionCode = nil
+        }
+    }
+}
+
+enum GetFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -13701,19 +13701,7 @@ extension GetInvalidationInputBody: Swift.Decodable {
     }
 }
 
-enum GetInvalidationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchInvalidation": return try await NoSuchInvalidation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetInvalidationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.Invalidation = try responseDecoder.decode(responseBody: data)
@@ -13725,7 +13713,7 @@ extension GetInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The returned result of the corresponding request.
-public struct GetInvalidationOutputResponse: Swift.Equatable {
+public struct GetInvalidationOutput: Swift.Equatable {
     /// The invalidation's information. For more information, see [Invalidation Complex Type](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/InvalidationDatatype.html).
     public var invalidation: CloudFrontClientTypes.Invalidation?
 
@@ -13737,11 +13725,11 @@ public struct GetInvalidationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetInvalidationOutputResponseBody: Swift.Equatable {
+struct GetInvalidationOutputBody: Swift.Equatable {
     let invalidation: CloudFrontClientTypes.Invalidation?
 }
 
-extension GetInvalidationOutputResponseBody: Swift.Decodable {
+extension GetInvalidationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invalidation = "Invalidation"
     }
@@ -13750,6 +13738,18 @@ extension GetInvalidationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let invalidationDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Invalidation.self, forKey: .invalidation)
         invalidation = invalidationDecoded
+    }
+}
+
+enum GetInvalidationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchInvalidation": return try await NoSuchInvalidation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13784,17 +13784,7 @@ extension GetKeyGroupConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetKeyGroupConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetKeyGroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetKeyGroupConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13810,7 +13800,7 @@ extension GetKeyGroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyGroupConfigOutputResponse: Swift.Equatable {
+public struct GetKeyGroupConfigOutput: Swift.Equatable {
     /// The identifier for this version of the key group.
     public var eTag: Swift.String?
     /// The key group configuration.
@@ -13826,11 +13816,11 @@ public struct GetKeyGroupConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetKeyGroupConfigOutputResponseBody: Swift.Equatable {
+struct GetKeyGroupConfigOutputBody: Swift.Equatable {
     let keyGroupConfig: CloudFrontClientTypes.KeyGroupConfig?
 }
 
-extension GetKeyGroupConfigOutputResponseBody: Swift.Decodable {
+extension GetKeyGroupConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyGroupConfig = "KeyGroupConfig"
     }
@@ -13839,6 +13829,16 @@ extension GetKeyGroupConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyGroupConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.KeyGroupConfig.self, forKey: .keyGroupConfig)
         keyGroupConfig = keyGroupConfigDecoded
+    }
+}
+
+enum GetKeyGroupConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13873,17 +13873,7 @@ extension GetKeyGroupInputBody: Swift.Decodable {
     }
 }
 
-enum GetKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetKeyGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -13899,7 +13889,7 @@ extension GetKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyGroupOutputResponse: Swift.Equatable {
+public struct GetKeyGroupOutput: Swift.Equatable {
     /// The identifier for this version of the key group.
     public var eTag: Swift.String?
     /// The key group.
@@ -13915,11 +13905,11 @@ public struct GetKeyGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetKeyGroupOutputResponseBody: Swift.Equatable {
+struct GetKeyGroupOutputBody: Swift.Equatable {
     let keyGroup: CloudFrontClientTypes.KeyGroup?
 }
 
-extension GetKeyGroupOutputResponseBody: Swift.Decodable {
+extension GetKeyGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyGroup = "KeyGroup"
     }
@@ -13928,6 +13918,16 @@ extension GetKeyGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyGroupDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.KeyGroup.self, forKey: .keyGroup)
         keyGroup = keyGroupDecoded
+    }
+}
+
+enum GetKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13962,20 +13962,7 @@ extension GetMonitoringSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-enum GetMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchMonitoringSubscription": return try await NoSuchMonitoringSubscription(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMonitoringSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
@@ -13986,7 +13973,7 @@ extension GetMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetMonitoringSubscriptionOutputResponse: Swift.Equatable {
+public struct GetMonitoringSubscriptionOutput: Swift.Equatable {
     /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
     public var monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription?
 
@@ -13998,11 +13985,11 @@ public struct GetMonitoringSubscriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMonitoringSubscriptionOutputResponseBody: Swift.Equatable {
+struct GetMonitoringSubscriptionOutputBody: Swift.Equatable {
     let monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription?
 }
 
-extension GetMonitoringSubscriptionOutputResponseBody: Swift.Decodable {
+extension GetMonitoringSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case monitoringSubscription = "MonitoringSubscription"
     }
@@ -14011,6 +13998,19 @@ extension GetMonitoringSubscriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let monitoringSubscriptionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.MonitoringSubscription.self, forKey: .monitoringSubscription)
         monitoringSubscription = monitoringSubscriptionDecoded
+    }
+}
+
+enum GetMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchMonitoringSubscription": return try await NoSuchMonitoringSubscription(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14045,18 +14045,7 @@ extension GetOriginAccessControlConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetOriginAccessControlConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchOriginAccessControl": return try await NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetOriginAccessControlConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOriginAccessControlConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14072,7 +14061,7 @@ extension GetOriginAccessControlConfigOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetOriginAccessControlConfigOutputResponse: Swift.Equatable {
+public struct GetOriginAccessControlConfigOutput: Swift.Equatable {
     /// The version identifier for the current version of the origin access control.
     public var eTag: Swift.String?
     /// Contains an origin access control configuration.
@@ -14088,11 +14077,11 @@ public struct GetOriginAccessControlConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOriginAccessControlConfigOutputResponseBody: Swift.Equatable {
+struct GetOriginAccessControlConfigOutputBody: Swift.Equatable {
     let originAccessControlConfig: CloudFrontClientTypes.OriginAccessControlConfig?
 }
 
-extension GetOriginAccessControlConfigOutputResponseBody: Swift.Decodable {
+extension GetOriginAccessControlConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originAccessControlConfig = "OriginAccessControlConfig"
     }
@@ -14101,6 +14090,17 @@ extension GetOriginAccessControlConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originAccessControlConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginAccessControlConfig.self, forKey: .originAccessControlConfig)
         originAccessControlConfig = originAccessControlConfigDecoded
+    }
+}
+
+enum GetOriginAccessControlConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchOriginAccessControl": return try await NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14135,18 +14135,7 @@ extension GetOriginAccessControlInputBody: Swift.Decodable {
     }
 }
 
-enum GetOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchOriginAccessControl": return try await NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOriginAccessControlOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14162,7 +14151,7 @@ extension GetOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetOriginAccessControlOutputResponse: Swift.Equatable {
+public struct GetOriginAccessControlOutput: Swift.Equatable {
     /// The version identifier for the current version of the origin access control.
     public var eTag: Swift.String?
     /// Contains an origin access control, including its unique identifier.
@@ -14178,11 +14167,11 @@ public struct GetOriginAccessControlOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOriginAccessControlOutputResponseBody: Swift.Equatable {
+struct GetOriginAccessControlOutputBody: Swift.Equatable {
     let originAccessControl: CloudFrontClientTypes.OriginAccessControl?
 }
 
-extension GetOriginAccessControlOutputResponseBody: Swift.Decodable {
+extension GetOriginAccessControlOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originAccessControl = "OriginAccessControl"
     }
@@ -14191,6 +14180,17 @@ extension GetOriginAccessControlOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originAccessControlDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginAccessControl.self, forKey: .originAccessControl)
         originAccessControl = originAccessControlDecoded
+    }
+}
+
+enum GetOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchOriginAccessControl": return try await NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14225,18 +14225,7 @@ extension GetOriginRequestPolicyConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetOriginRequestPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetOriginRequestPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOriginRequestPolicyConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14252,7 +14241,7 @@ extension GetOriginRequestPolicyConfigOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetOriginRequestPolicyConfigOutputResponse: Swift.Equatable {
+public struct GetOriginRequestPolicyConfigOutput: Swift.Equatable {
     /// The current version of the origin request policy.
     public var eTag: Swift.String?
     /// The origin request policy configuration.
@@ -14268,11 +14257,11 @@ public struct GetOriginRequestPolicyConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOriginRequestPolicyConfigOutputResponseBody: Swift.Equatable {
+struct GetOriginRequestPolicyConfigOutputBody: Swift.Equatable {
     let originRequestPolicyConfig: CloudFrontClientTypes.OriginRequestPolicyConfig?
 }
 
-extension GetOriginRequestPolicyConfigOutputResponseBody: Swift.Decodable {
+extension GetOriginRequestPolicyConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originRequestPolicyConfig = "OriginRequestPolicyConfig"
     }
@@ -14281,6 +14270,17 @@ extension GetOriginRequestPolicyConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originRequestPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginRequestPolicyConfig.self, forKey: .originRequestPolicyConfig)
         originRequestPolicyConfig = originRequestPolicyConfigDecoded
+    }
+}
+
+enum GetOriginRequestPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14315,18 +14315,7 @@ extension GetOriginRequestPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetOriginRequestPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14342,7 +14331,7 @@ extension GetOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetOriginRequestPolicyOutputResponse: Swift.Equatable {
+public struct GetOriginRequestPolicyOutput: Swift.Equatable {
     /// The current version of the origin request policy.
     public var eTag: Swift.String?
     /// The origin request policy.
@@ -14358,11 +14347,11 @@ public struct GetOriginRequestPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetOriginRequestPolicyOutputResponseBody: Swift.Equatable {
+struct GetOriginRequestPolicyOutputBody: Swift.Equatable {
     let originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy?
 }
 
-extension GetOriginRequestPolicyOutputResponseBody: Swift.Decodable {
+extension GetOriginRequestPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originRequestPolicy = "OriginRequestPolicy"
     }
@@ -14371,6 +14360,17 @@ extension GetOriginRequestPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originRequestPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginRequestPolicy.self, forKey: .originRequestPolicy)
         originRequestPolicy = originRequestPolicyDecoded
+    }
+}
+
+enum GetOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14405,18 +14405,7 @@ extension GetPublicKeyConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetPublicKeyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetPublicKeyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPublicKeyConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14432,7 +14421,7 @@ extension GetPublicKeyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPublicKeyConfigOutputResponse: Swift.Equatable {
+public struct GetPublicKeyConfigOutput: Swift.Equatable {
     /// The identifier for this version of the public key configuration.
     public var eTag: Swift.String?
     /// A public key configuration.
@@ -14448,11 +14437,11 @@ public struct GetPublicKeyConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPublicKeyConfigOutputResponseBody: Swift.Equatable {
+struct GetPublicKeyConfigOutputBody: Swift.Equatable {
     let publicKeyConfig: CloudFrontClientTypes.PublicKeyConfig?
 }
 
-extension GetPublicKeyConfigOutputResponseBody: Swift.Decodable {
+extension GetPublicKeyConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicKeyConfig = "PublicKeyConfig"
     }
@@ -14461,6 +14450,17 @@ extension GetPublicKeyConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicKeyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.PublicKeyConfig.self, forKey: .publicKeyConfig)
         publicKeyConfig = publicKeyConfigDecoded
+    }
+}
+
+enum GetPublicKeyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14495,18 +14495,7 @@ extension GetPublicKeyInputBody: Swift.Decodable {
     }
 }
 
-enum GetPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14522,7 +14511,7 @@ extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPublicKeyOutputResponse: Swift.Equatable {
+public struct GetPublicKeyOutput: Swift.Equatable {
     /// The identifier for this version of the public key.
     public var eTag: Swift.String?
     /// The public key.
@@ -14538,11 +14527,11 @@ public struct GetPublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPublicKeyOutputResponseBody: Swift.Equatable {
+struct GetPublicKeyOutputBody: Swift.Equatable {
     let publicKey: CloudFrontClientTypes.PublicKey?
 }
 
-extension GetPublicKeyOutputResponseBody: Swift.Decodable {
+extension GetPublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicKey = "PublicKey"
     }
@@ -14551,6 +14540,17 @@ extension GetPublicKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicKeyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.PublicKey.self, forKey: .publicKey)
         publicKey = publicKeyDecoded
+    }
+}
+
+enum GetPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14630,23 +14630,11 @@ extension GetRealtimeLogConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchRealtimeLogConfig": return try await NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRealtimeLogConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRealtimeLogConfigOutputBody = try responseDecoder.decode(responseBody: data)
             self.realtimeLogConfig = output.realtimeLogConfig
         } else {
             self.realtimeLogConfig = nil
@@ -14654,7 +14642,7 @@ extension GetRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetRealtimeLogConfigOutputResponse: Swift.Equatable {
+public struct GetRealtimeLogConfigOutput: Swift.Equatable {
     /// A real-time log configuration.
     public var realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
 
@@ -14666,11 +14654,11 @@ public struct GetRealtimeLogConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRealtimeLogConfigOutputResponseBody: Swift.Equatable {
+struct GetRealtimeLogConfigOutputBody: Swift.Equatable {
     let realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
 }
 
-extension GetRealtimeLogConfigOutputResponseBody: Swift.Decodable {
+extension GetRealtimeLogConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case realtimeLogConfig = "RealtimeLogConfig"
     }
@@ -14679,6 +14667,18 @@ extension GetRealtimeLogConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let realtimeLogConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.RealtimeLogConfig.self, forKey: .realtimeLogConfig)
         realtimeLogConfig = realtimeLogConfigDecoded
+    }
+}
+
+enum GetRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchRealtimeLogConfig": return try await NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14713,18 +14713,7 @@ extension GetResponseHeadersPolicyConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetResponseHeadersPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetResponseHeadersPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResponseHeadersPolicyConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14740,7 +14729,7 @@ extension GetResponseHeadersPolicyConfigOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetResponseHeadersPolicyConfigOutputResponse: Swift.Equatable {
+public struct GetResponseHeadersPolicyConfigOutput: Swift.Equatable {
     /// The version identifier for the current version of the response headers policy.
     public var eTag: Swift.String?
     /// Contains a response headers policy.
@@ -14756,11 +14745,11 @@ public struct GetResponseHeadersPolicyConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResponseHeadersPolicyConfigOutputResponseBody: Swift.Equatable {
+struct GetResponseHeadersPolicyConfigOutputBody: Swift.Equatable {
     let responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig?
 }
 
-extension GetResponseHeadersPolicyConfigOutputResponseBody: Swift.Decodable {
+extension GetResponseHeadersPolicyConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
     }
@@ -14769,6 +14758,17 @@ extension GetResponseHeadersPolicyConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseHeadersPolicyConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicyConfig.self, forKey: .responseHeadersPolicyConfig)
         responseHeadersPolicyConfig = responseHeadersPolicyConfigDecoded
+    }
+}
+
+enum GetResponseHeadersPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14803,18 +14803,7 @@ extension GetResponseHeadersPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResponseHeadersPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14830,7 +14819,7 @@ extension GetResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetResponseHeadersPolicyOutputResponse: Swift.Equatable {
+public struct GetResponseHeadersPolicyOutput: Swift.Equatable {
     /// The version identifier for the current version of the response headers policy.
     public var eTag: Swift.String?
     /// Contains a response headers policy.
@@ -14846,11 +14835,11 @@ public struct GetResponseHeadersPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResponseHeadersPolicyOutputResponseBody: Swift.Equatable {
+struct GetResponseHeadersPolicyOutputBody: Swift.Equatable {
     let responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy?
 }
 
-extension GetResponseHeadersPolicyOutputResponseBody: Swift.Decodable {
+extension GetResponseHeadersPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case responseHeadersPolicy = "ResponseHeadersPolicy"
     }
@@ -14859,6 +14848,17 @@ extension GetResponseHeadersPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseHeadersPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicy.self, forKey: .responseHeadersPolicy)
         responseHeadersPolicy = responseHeadersPolicyDecoded
+    }
+}
+
+enum GetResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14894,18 +14894,7 @@ extension GetStreamingDistributionConfigInputBody: Swift.Decodable {
     }
 }
 
-enum GetStreamingDistributionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchStreamingDistribution": return try await NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetStreamingDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetStreamingDistributionConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -14922,7 +14911,7 @@ extension GetStreamingDistributionConfigOutputResponse: ClientRuntime.HttpRespon
 }
 
 /// The returned result of the corresponding request.
-public struct GetStreamingDistributionConfigOutputResponse: Swift.Equatable {
+public struct GetStreamingDistributionConfigOutput: Swift.Equatable {
     /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// The streaming distribution's configuration information.
@@ -14938,11 +14927,11 @@ public struct GetStreamingDistributionConfigOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetStreamingDistributionConfigOutputResponseBody: Swift.Equatable {
+struct GetStreamingDistributionConfigOutputBody: Swift.Equatable {
     let streamingDistributionConfig: CloudFrontClientTypes.StreamingDistributionConfig?
 }
 
-extension GetStreamingDistributionConfigOutputResponseBody: Swift.Decodable {
+extension GetStreamingDistributionConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamingDistributionConfig = "StreamingDistributionConfig"
     }
@@ -14951,6 +14940,17 @@ extension GetStreamingDistributionConfigOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamingDistributionConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistributionConfig.self, forKey: .streamingDistributionConfig)
         streamingDistributionConfig = streamingDistributionConfigDecoded
+    }
+}
+
+enum GetStreamingDistributionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchStreamingDistribution": return try await NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -14986,18 +14986,7 @@ extension GetStreamingDistributionInputBody: Swift.Decodable {
     }
 }
 
-enum GetStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchStreamingDistribution": return try await NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetStreamingDistributionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -15014,7 +15003,7 @@ extension GetStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 /// The returned result of the corresponding request.
-public struct GetStreamingDistributionOutputResponse: Swift.Equatable {
+public struct GetStreamingDistributionOutput: Swift.Equatable {
     /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
     public var eTag: Swift.String?
     /// The streaming distribution's information.
@@ -15030,11 +15019,11 @@ public struct GetStreamingDistributionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetStreamingDistributionOutputResponseBody: Swift.Equatable {
+struct GetStreamingDistributionOutputBody: Swift.Equatable {
     let streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
 }
 
-extension GetStreamingDistributionOutputResponseBody: Swift.Decodable {
+extension GetStreamingDistributionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamingDistribution = "StreamingDistribution"
     }
@@ -15043,6 +15032,17 @@ extension GetStreamingDistributionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamingDistributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistribution.self, forKey: .streamingDistribution)
         streamingDistribution = streamingDistributionDecoded
+    }
+}
+
+enum GetStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchStreamingDistribution": return try await NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18076,19 +18076,7 @@ extension ListCachePoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListCachePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListCachePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCachePoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.CachePolicyList = try responseDecoder.decode(responseBody: data)
@@ -18099,7 +18087,7 @@ extension ListCachePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCachePoliciesOutputResponse: Swift.Equatable {
+public struct ListCachePoliciesOutput: Swift.Equatable {
     /// A list of cache policies.
     public var cachePolicyList: CloudFrontClientTypes.CachePolicyList?
 
@@ -18111,11 +18099,11 @@ public struct ListCachePoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCachePoliciesOutputResponseBody: Swift.Equatable {
+struct ListCachePoliciesOutputBody: Swift.Equatable {
     let cachePolicyList: CloudFrontClientTypes.CachePolicyList?
 }
 
-extension ListCachePoliciesOutputResponseBody: Swift.Decodable {
+extension ListCachePoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachePolicyList = "CachePolicyList"
     }
@@ -18124,6 +18112,18 @@ extension ListCachePoliciesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cachePolicyListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CachePolicyList.self, forKey: .cachePolicyList)
         cachePolicyList = cachePolicyListDecoded
+    }
+}
+
+enum ListCachePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18176,17 +18176,7 @@ extension ListCloudFrontOriginAccessIdentitiesInputBody: Swift.Decodable {
     }
 }
 
-enum ListCloudFrontOriginAccessIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListCloudFrontOriginAccessIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCloudFrontOriginAccessIdentitiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList = try responseDecoder.decode(responseBody: data)
@@ -18198,7 +18188,7 @@ extension ListCloudFrontOriginAccessIdentitiesOutputResponse: ClientRuntime.Http
 }
 
 /// The returned result of the corresponding request.
-public struct ListCloudFrontOriginAccessIdentitiesOutputResponse: Swift.Equatable {
+public struct ListCloudFrontOriginAccessIdentitiesOutput: Swift.Equatable {
     /// The CloudFrontOriginAccessIdentityList type.
     public var cloudFrontOriginAccessIdentityList: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList?
 
@@ -18210,11 +18200,11 @@ public struct ListCloudFrontOriginAccessIdentitiesOutputResponse: Swift.Equatabl
     }
 }
 
-struct ListCloudFrontOriginAccessIdentitiesOutputResponseBody: Swift.Equatable {
+struct ListCloudFrontOriginAccessIdentitiesOutputBody: Swift.Equatable {
     let cloudFrontOriginAccessIdentityList: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList?
 }
 
-extension ListCloudFrontOriginAccessIdentitiesOutputResponseBody: Swift.Decodable {
+extension ListCloudFrontOriginAccessIdentitiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
     }
@@ -18223,6 +18213,16 @@ extension ListCloudFrontOriginAccessIdentitiesOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cloudFrontOriginAccessIdentityListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentityList.self, forKey: .cloudFrontOriginAccessIdentityList)
         cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityListDecoded
+    }
+}
+
+enum ListCloudFrontOriginAccessIdentitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18296,18 +18296,7 @@ extension ListConflictingAliasesInputBody: Swift.Decodable {
     }
 }
 
-enum ListConflictingAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListConflictingAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListConflictingAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.ConflictingAliasesList = try responseDecoder.decode(responseBody: data)
@@ -18318,7 +18307,7 @@ extension ListConflictingAliasesOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListConflictingAliasesOutputResponse: Swift.Equatable {
+public struct ListConflictingAliasesOutput: Swift.Equatable {
     /// A list of conflicting aliases.
     public var conflictingAliasesList: CloudFrontClientTypes.ConflictingAliasesList?
 
@@ -18330,11 +18319,11 @@ public struct ListConflictingAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListConflictingAliasesOutputResponseBody: Swift.Equatable {
+struct ListConflictingAliasesOutputBody: Swift.Equatable {
     let conflictingAliasesList: CloudFrontClientTypes.ConflictingAliasesList?
 }
 
-extension ListConflictingAliasesOutputResponseBody: Swift.Decodable {
+extension ListConflictingAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case conflictingAliasesList = "ConflictingAliasesList"
     }
@@ -18343,6 +18332,17 @@ extension ListConflictingAliasesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let conflictingAliasesListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ConflictingAliasesList.self, forKey: .conflictingAliasesList)
         conflictingAliasesList = conflictingAliasesListDecoded
+    }
+}
+
+enum ListConflictingAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18394,19 +18394,7 @@ extension ListContinuousDeploymentPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListContinuousDeploymentPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchContinuousDeploymentPolicy": return try await NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListContinuousDeploymentPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListContinuousDeploymentPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.ContinuousDeploymentPolicyList = try responseDecoder.decode(responseBody: data)
@@ -18417,7 +18405,7 @@ extension ListContinuousDeploymentPoliciesOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ListContinuousDeploymentPoliciesOutputResponse: Swift.Equatable {
+public struct ListContinuousDeploymentPoliciesOutput: Swift.Equatable {
     /// A list of continuous deployment policies.
     public var continuousDeploymentPolicyList: CloudFrontClientTypes.ContinuousDeploymentPolicyList?
 
@@ -18429,11 +18417,11 @@ public struct ListContinuousDeploymentPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListContinuousDeploymentPoliciesOutputResponseBody: Swift.Equatable {
+struct ListContinuousDeploymentPoliciesOutputBody: Swift.Equatable {
     let continuousDeploymentPolicyList: CloudFrontClientTypes.ContinuousDeploymentPolicyList?
 }
 
-extension ListContinuousDeploymentPoliciesOutputResponseBody: Swift.Decodable {
+extension ListContinuousDeploymentPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case continuousDeploymentPolicyList = "ContinuousDeploymentPolicyList"
     }
@@ -18442,6 +18430,18 @@ extension ListContinuousDeploymentPoliciesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let continuousDeploymentPolicyListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicyList.self, forKey: .continuousDeploymentPolicyList)
         continuousDeploymentPolicyList = continuousDeploymentPolicyListDecoded
+    }
+}
+
+enum ListContinuousDeploymentPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchContinuousDeploymentPolicy": return try await NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18501,19 +18501,7 @@ extension ListDistributionsByCachePolicyIdInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsByCachePolicyIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsByCachePolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsByCachePolicyIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
@@ -18524,7 +18512,7 @@ extension ListDistributionsByCachePolicyIdOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ListDistributionsByCachePolicyIdOutputResponse: Swift.Equatable {
+public struct ListDistributionsByCachePolicyIdOutput: Swift.Equatable {
     /// A list of distribution IDs.
     public var distributionIdList: CloudFrontClientTypes.DistributionIdList?
 
@@ -18536,11 +18524,11 @@ public struct ListDistributionsByCachePolicyIdOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDistributionsByCachePolicyIdOutputResponseBody: Swift.Equatable {
+struct ListDistributionsByCachePolicyIdOutputBody: Swift.Equatable {
     let distributionIdList: CloudFrontClientTypes.DistributionIdList?
 }
 
-extension ListDistributionsByCachePolicyIdOutputResponseBody: Swift.Decodable {
+extension ListDistributionsByCachePolicyIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionIdList = "DistributionIdList"
     }
@@ -18549,6 +18537,18 @@ extension ListDistributionsByCachePolicyIdOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionIdListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionIdList.self, forKey: .distributionIdList)
         distributionIdList = distributionIdListDecoded
+    }
+}
+
+enum ListDistributionsByCachePolicyIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchCachePolicy": return try await NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18608,18 +18608,7 @@ extension ListDistributionsByKeyGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsByKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsByKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsByKeyGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
@@ -18630,7 +18619,7 @@ extension ListDistributionsByKeyGroupOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListDistributionsByKeyGroupOutputResponse: Swift.Equatable {
+public struct ListDistributionsByKeyGroupOutput: Swift.Equatable {
     /// A list of distribution IDs.
     public var distributionIdList: CloudFrontClientTypes.DistributionIdList?
 
@@ -18642,11 +18631,11 @@ public struct ListDistributionsByKeyGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDistributionsByKeyGroupOutputResponseBody: Swift.Equatable {
+struct ListDistributionsByKeyGroupOutputBody: Swift.Equatable {
     let distributionIdList: CloudFrontClientTypes.DistributionIdList?
 }
 
-extension ListDistributionsByKeyGroupOutputResponseBody: Swift.Decodable {
+extension ListDistributionsByKeyGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionIdList = "DistributionIdList"
     }
@@ -18655,6 +18644,17 @@ extension ListDistributionsByKeyGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionIdListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionIdList.self, forKey: .distributionIdList)
         distributionIdList = distributionIdListDecoded
+    }
+}
+
+enum ListDistributionsByKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18714,19 +18714,7 @@ extension ListDistributionsByOriginRequestPolicyIdInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsByOriginRequestPolicyIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsByOriginRequestPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsByOriginRequestPolicyIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
@@ -18737,7 +18725,7 @@ extension ListDistributionsByOriginRequestPolicyIdOutputResponse: ClientRuntime.
     }
 }
 
-public struct ListDistributionsByOriginRequestPolicyIdOutputResponse: Swift.Equatable {
+public struct ListDistributionsByOriginRequestPolicyIdOutput: Swift.Equatable {
     /// A list of distribution IDs.
     public var distributionIdList: CloudFrontClientTypes.DistributionIdList?
 
@@ -18749,11 +18737,11 @@ public struct ListDistributionsByOriginRequestPolicyIdOutputResponse: Swift.Equa
     }
 }
 
-struct ListDistributionsByOriginRequestPolicyIdOutputResponseBody: Swift.Equatable {
+struct ListDistributionsByOriginRequestPolicyIdOutputBody: Swift.Equatable {
     let distributionIdList: CloudFrontClientTypes.DistributionIdList?
 }
 
-extension ListDistributionsByOriginRequestPolicyIdOutputResponseBody: Swift.Decodable {
+extension ListDistributionsByOriginRequestPolicyIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionIdList = "DistributionIdList"
     }
@@ -18762,6 +18750,18 @@ extension ListDistributionsByOriginRequestPolicyIdOutputResponseBody: Swift.Deco
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionIdListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionIdList.self, forKey: .distributionIdList)
         distributionIdList = distributionIdListDecoded
+    }
+}
+
+enum ListDistributionsByOriginRequestPolicyIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18865,17 +18865,7 @@ extension ListDistributionsByRealtimeLogConfigInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsByRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsByRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsByRealtimeLogConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
@@ -18886,7 +18876,7 @@ extension ListDistributionsByRealtimeLogConfigOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct ListDistributionsByRealtimeLogConfigOutputResponse: Swift.Equatable {
+public struct ListDistributionsByRealtimeLogConfigOutput: Swift.Equatable {
     /// A distribution list.
     public var distributionList: CloudFrontClientTypes.DistributionList?
 
@@ -18898,11 +18888,11 @@ public struct ListDistributionsByRealtimeLogConfigOutputResponse: Swift.Equatabl
     }
 }
 
-struct ListDistributionsByRealtimeLogConfigOutputResponseBody: Swift.Equatable {
+struct ListDistributionsByRealtimeLogConfigOutputBody: Swift.Equatable {
     let distributionList: CloudFrontClientTypes.DistributionList?
 }
 
-extension ListDistributionsByRealtimeLogConfigOutputResponseBody: Swift.Decodable {
+extension ListDistributionsByRealtimeLogConfigOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionList = "DistributionList"
     }
@@ -18911,6 +18901,16 @@ extension ListDistributionsByRealtimeLogConfigOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionList.self, forKey: .distributionList)
         distributionList = distributionListDecoded
+    }
+}
+
+enum ListDistributionsByRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18970,19 +18970,7 @@ extension ListDistributionsByResponseHeadersPolicyIdInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsByResponseHeadersPolicyIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsByResponseHeadersPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsByResponseHeadersPolicyIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
@@ -18993,7 +18981,7 @@ extension ListDistributionsByResponseHeadersPolicyIdOutputResponse: ClientRuntim
     }
 }
 
-public struct ListDistributionsByResponseHeadersPolicyIdOutputResponse: Swift.Equatable {
+public struct ListDistributionsByResponseHeadersPolicyIdOutput: Swift.Equatable {
     /// A list of distribution IDs.
     public var distributionIdList: CloudFrontClientTypes.DistributionIdList?
 
@@ -19005,11 +18993,11 @@ public struct ListDistributionsByResponseHeadersPolicyIdOutputResponse: Swift.Eq
     }
 }
 
-struct ListDistributionsByResponseHeadersPolicyIdOutputResponseBody: Swift.Equatable {
+struct ListDistributionsByResponseHeadersPolicyIdOutputBody: Swift.Equatable {
     let distributionIdList: CloudFrontClientTypes.DistributionIdList?
 }
 
-extension ListDistributionsByResponseHeadersPolicyIdOutputResponseBody: Swift.Decodable {
+extension ListDistributionsByResponseHeadersPolicyIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionIdList = "DistributionIdList"
     }
@@ -19018,6 +19006,18 @@ extension ListDistributionsByResponseHeadersPolicyIdOutputResponseBody: Swift.De
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionIdListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionIdList.self, forKey: .distributionIdList)
         distributionIdList = distributionIdListDecoded
+    }
+}
+
+enum ListDistributionsByResponseHeadersPolicyIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19078,18 +19078,7 @@ extension ListDistributionsByWebACLIdInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsByWebACLIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidWebACLId": return try await InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsByWebACLIdOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsByWebACLIdOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
@@ -19101,7 +19090,7 @@ extension ListDistributionsByWebACLIdOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// The response to a request to list the distributions that are associated with a specified WAF web ACL.
-public struct ListDistributionsByWebACLIdOutputResponse: Swift.Equatable {
+public struct ListDistributionsByWebACLIdOutput: Swift.Equatable {
     /// The DistributionList type.
     public var distributionList: CloudFrontClientTypes.DistributionList?
 
@@ -19113,11 +19102,11 @@ public struct ListDistributionsByWebACLIdOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDistributionsByWebACLIdOutputResponseBody: Swift.Equatable {
+struct ListDistributionsByWebACLIdOutputBody: Swift.Equatable {
     let distributionList: CloudFrontClientTypes.DistributionList?
 }
 
-extension ListDistributionsByWebACLIdOutputResponseBody: Swift.Decodable {
+extension ListDistributionsByWebACLIdOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionList = "DistributionList"
     }
@@ -19126,6 +19115,17 @@ extension ListDistributionsByWebACLIdOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionList.self, forKey: .distributionList)
         distributionList = distributionListDecoded
+    }
+}
+
+enum ListDistributionsByWebACLIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidWebACLId": return try await InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19178,17 +19178,7 @@ extension ListDistributionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListDistributionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDistributionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
@@ -19200,7 +19190,7 @@ extension ListDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The returned result of the corresponding request.
-public struct ListDistributionsOutputResponse: Swift.Equatable {
+public struct ListDistributionsOutput: Swift.Equatable {
     /// The DistributionList type.
     public var distributionList: CloudFrontClientTypes.DistributionList?
 
@@ -19212,11 +19202,11 @@ public struct ListDistributionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDistributionsOutputResponseBody: Swift.Equatable {
+struct ListDistributionsOutputBody: Swift.Equatable {
     let distributionList: CloudFrontClientTypes.DistributionList?
 }
 
-extension ListDistributionsOutputResponseBody: Swift.Decodable {
+extension ListDistributionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distributionList = "DistributionList"
     }
@@ -19225,6 +19215,16 @@ extension ListDistributionsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let distributionListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.DistributionList.self, forKey: .distributionList)
         distributionList = distributionListDecoded
+    }
+}
+
+enum ListDistributionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19276,17 +19276,7 @@ extension ListFieldLevelEncryptionConfigsInputBody: Swift.Decodable {
     }
 }
 
-enum ListFieldLevelEncryptionConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListFieldLevelEncryptionConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFieldLevelEncryptionConfigsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FieldLevelEncryptionList = try responseDecoder.decode(responseBody: data)
@@ -19297,7 +19287,7 @@ extension ListFieldLevelEncryptionConfigsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListFieldLevelEncryptionConfigsOutputResponse: Swift.Equatable {
+public struct ListFieldLevelEncryptionConfigsOutput: Swift.Equatable {
     /// Returns a list of all field-level encryption configurations that have been created in CloudFront for this account.
     public var fieldLevelEncryptionList: CloudFrontClientTypes.FieldLevelEncryptionList?
 
@@ -19309,11 +19299,11 @@ public struct ListFieldLevelEncryptionConfigsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFieldLevelEncryptionConfigsOutputResponseBody: Swift.Equatable {
+struct ListFieldLevelEncryptionConfigsOutputBody: Swift.Equatable {
     let fieldLevelEncryptionList: CloudFrontClientTypes.FieldLevelEncryptionList?
 }
 
-extension ListFieldLevelEncryptionConfigsOutputResponseBody: Swift.Decodable {
+extension ListFieldLevelEncryptionConfigsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryptionList = "FieldLevelEncryptionList"
     }
@@ -19322,6 +19312,16 @@ extension ListFieldLevelEncryptionConfigsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionList.self, forKey: .fieldLevelEncryptionList)
         fieldLevelEncryptionList = fieldLevelEncryptionListDecoded
+    }
+}
+
+enum ListFieldLevelEncryptionConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19373,17 +19373,7 @@ extension ListFieldLevelEncryptionProfilesInputBody: Swift.Decodable {
     }
 }
 
-enum ListFieldLevelEncryptionProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListFieldLevelEncryptionProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFieldLevelEncryptionProfilesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FieldLevelEncryptionProfileList = try responseDecoder.decode(responseBody: data)
@@ -19394,7 +19384,7 @@ extension ListFieldLevelEncryptionProfilesOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ListFieldLevelEncryptionProfilesOutputResponse: Swift.Equatable {
+public struct ListFieldLevelEncryptionProfilesOutput: Swift.Equatable {
     /// Returns a list of the field-level encryption profiles that have been created in CloudFront for this account.
     public var fieldLevelEncryptionProfileList: CloudFrontClientTypes.FieldLevelEncryptionProfileList?
 
@@ -19406,11 +19396,11 @@ public struct ListFieldLevelEncryptionProfilesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFieldLevelEncryptionProfilesOutputResponseBody: Swift.Equatable {
+struct ListFieldLevelEncryptionProfilesOutputBody: Swift.Equatable {
     let fieldLevelEncryptionProfileList: CloudFrontClientTypes.FieldLevelEncryptionProfileList?
 }
 
-extension ListFieldLevelEncryptionProfilesOutputResponseBody: Swift.Decodable {
+extension ListFieldLevelEncryptionProfilesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldLevelEncryptionProfileList = "FieldLevelEncryptionProfileList"
     }
@@ -19419,6 +19409,16 @@ extension ListFieldLevelEncryptionProfilesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldLevelEncryptionProfileListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionProfileList.self, forKey: .fieldLevelEncryptionProfileList)
         fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileListDecoded
+    }
+}
+
+enum ListFieldLevelEncryptionProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19478,18 +19478,7 @@ extension ListFunctionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListFunctionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListFunctionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFunctionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FunctionList = try responseDecoder.decode(responseBody: data)
@@ -19500,7 +19489,7 @@ extension ListFunctionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFunctionsOutputResponse: Swift.Equatable {
+public struct ListFunctionsOutput: Swift.Equatable {
     /// A list of CloudFront functions.
     public var functionList: CloudFrontClientTypes.FunctionList?
 
@@ -19512,11 +19501,11 @@ public struct ListFunctionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFunctionsOutputResponseBody: Swift.Equatable {
+struct ListFunctionsOutputBody: Swift.Equatable {
     let functionList: CloudFrontClientTypes.FunctionList?
 }
 
-extension ListFunctionsOutputResponseBody: Swift.Decodable {
+extension ListFunctionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionList = "FunctionList"
     }
@@ -19525,6 +19514,17 @@ extension ListFunctionsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FunctionList.self, forKey: .functionList)
         functionList = functionListDecoded
+    }
+}
+
+enum ListFunctionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19585,19 +19585,7 @@ extension ListInvalidationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListInvalidationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListInvalidationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInvalidationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.InvalidationList = try responseDecoder.decode(responseBody: data)
@@ -19609,7 +19597,7 @@ extension ListInvalidationsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The returned result of the corresponding request.
-public struct ListInvalidationsOutputResponse: Swift.Equatable {
+public struct ListInvalidationsOutput: Swift.Equatable {
     /// Information about invalidation batches.
     public var invalidationList: CloudFrontClientTypes.InvalidationList?
 
@@ -19621,11 +19609,11 @@ public struct ListInvalidationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInvalidationsOutputResponseBody: Swift.Equatable {
+struct ListInvalidationsOutputBody: Swift.Equatable {
     let invalidationList: CloudFrontClientTypes.InvalidationList?
 }
 
-extension ListInvalidationsOutputResponseBody: Swift.Decodable {
+extension ListInvalidationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invalidationList = "InvalidationList"
     }
@@ -19634,6 +19622,18 @@ extension ListInvalidationsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let invalidationListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.InvalidationList.self, forKey: .invalidationList)
         invalidationList = invalidationListDecoded
+    }
+}
+
+enum ListInvalidationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchDistribution": return try await NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19685,17 +19685,7 @@ extension ListKeyGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListKeyGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListKeyGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListKeyGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.KeyGroupList = try responseDecoder.decode(responseBody: data)
@@ -19706,7 +19696,7 @@ extension ListKeyGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeyGroupsOutputResponse: Swift.Equatable {
+public struct ListKeyGroupsOutput: Swift.Equatable {
     /// A list of key groups.
     public var keyGroupList: CloudFrontClientTypes.KeyGroupList?
 
@@ -19718,11 +19708,11 @@ public struct ListKeyGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListKeyGroupsOutputResponseBody: Swift.Equatable {
+struct ListKeyGroupsOutputBody: Swift.Equatable {
     let keyGroupList: CloudFrontClientTypes.KeyGroupList?
 }
 
-extension ListKeyGroupsOutputResponseBody: Swift.Decodable {
+extension ListKeyGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyGroupList = "KeyGroupList"
     }
@@ -19731,6 +19721,16 @@ extension ListKeyGroupsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyGroupListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.KeyGroupList.self, forKey: .keyGroupList)
         keyGroupList = keyGroupListDecoded
+    }
+}
+
+enum ListKeyGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19782,17 +19782,7 @@ extension ListOriginAccessControlsInputBody: Swift.Decodable {
     }
 }
 
-enum ListOriginAccessControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListOriginAccessControlsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOriginAccessControlsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.OriginAccessControlList = try responseDecoder.decode(responseBody: data)
@@ -19803,7 +19793,7 @@ extension ListOriginAccessControlsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListOriginAccessControlsOutputResponse: Swift.Equatable {
+public struct ListOriginAccessControlsOutput: Swift.Equatable {
     /// A list of origin access controls.
     public var originAccessControlList: CloudFrontClientTypes.OriginAccessControlList?
 
@@ -19815,11 +19805,11 @@ public struct ListOriginAccessControlsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOriginAccessControlsOutputResponseBody: Swift.Equatable {
+struct ListOriginAccessControlsOutputBody: Swift.Equatable {
     let originAccessControlList: CloudFrontClientTypes.OriginAccessControlList?
 }
 
-extension ListOriginAccessControlsOutputResponseBody: Swift.Decodable {
+extension ListOriginAccessControlsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originAccessControlList = "OriginAccessControlList"
     }
@@ -19828,6 +19818,16 @@ extension ListOriginAccessControlsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originAccessControlListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginAccessControlList.self, forKey: .originAccessControlList)
         originAccessControlList = originAccessControlListDecoded
+    }
+}
+
+enum ListOriginAccessControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19891,19 +19891,7 @@ extension ListOriginRequestPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListOriginRequestPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListOriginRequestPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListOriginRequestPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.OriginRequestPolicyList = try responseDecoder.decode(responseBody: data)
@@ -19914,7 +19902,7 @@ extension ListOriginRequestPoliciesOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListOriginRequestPoliciesOutputResponse: Swift.Equatable {
+public struct ListOriginRequestPoliciesOutput: Swift.Equatable {
     /// A list of origin request policies.
     public var originRequestPolicyList: CloudFrontClientTypes.OriginRequestPolicyList?
 
@@ -19926,11 +19914,11 @@ public struct ListOriginRequestPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListOriginRequestPoliciesOutputResponseBody: Swift.Equatable {
+struct ListOriginRequestPoliciesOutputBody: Swift.Equatable {
     let originRequestPolicyList: CloudFrontClientTypes.OriginRequestPolicyList?
 }
 
-extension ListOriginRequestPoliciesOutputResponseBody: Swift.Decodable {
+extension ListOriginRequestPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case originRequestPolicyList = "OriginRequestPolicyList"
     }
@@ -19939,6 +19927,18 @@ extension ListOriginRequestPoliciesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let originRequestPolicyListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginRequestPolicyList.self, forKey: .originRequestPolicyList)
         originRequestPolicyList = originRequestPolicyListDecoded
+    }
+}
+
+enum ListOriginRequestPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchOriginRequestPolicy": return try await NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19990,17 +19990,7 @@ extension ListPublicKeysInputBody: Swift.Decodable {
     }
 }
 
-enum ListPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPublicKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.PublicKeyList = try responseDecoder.decode(responseBody: data)
@@ -20011,7 +20001,7 @@ extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPublicKeysOutputResponse: Swift.Equatable {
+public struct ListPublicKeysOutput: Swift.Equatable {
     /// Returns a list of all public keys that have been added to CloudFront for this account.
     public var publicKeyList: CloudFrontClientTypes.PublicKeyList?
 
@@ -20023,11 +20013,11 @@ public struct ListPublicKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPublicKeysOutputResponseBody: Swift.Equatable {
+struct ListPublicKeysOutputBody: Swift.Equatable {
     let publicKeyList: CloudFrontClientTypes.PublicKeyList?
 }
 
-extension ListPublicKeysOutputResponseBody: Swift.Decodable {
+extension ListPublicKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicKeyList = "PublicKeyList"
     }
@@ -20036,6 +20026,16 @@ extension ListPublicKeysOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicKeyListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.PublicKeyList.self, forKey: .publicKeyList)
         publicKeyList = publicKeyListDecoded
+    }
+}
+
+enum ListPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20087,19 +20087,7 @@ extension ListRealtimeLogConfigsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRealtimeLogConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchRealtimeLogConfig": return try await NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListRealtimeLogConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRealtimeLogConfigsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.RealtimeLogConfigs = try responseDecoder.decode(responseBody: data)
@@ -20110,7 +20098,7 @@ extension ListRealtimeLogConfigsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListRealtimeLogConfigsOutputResponse: Swift.Equatable {
+public struct ListRealtimeLogConfigsOutput: Swift.Equatable {
     /// A list of real-time log configurations.
     public var realtimeLogConfigs: CloudFrontClientTypes.RealtimeLogConfigs?
 
@@ -20122,11 +20110,11 @@ public struct ListRealtimeLogConfigsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRealtimeLogConfigsOutputResponseBody: Swift.Equatable {
+struct ListRealtimeLogConfigsOutputBody: Swift.Equatable {
     let realtimeLogConfigs: CloudFrontClientTypes.RealtimeLogConfigs?
 }
 
-extension ListRealtimeLogConfigsOutputResponseBody: Swift.Decodable {
+extension ListRealtimeLogConfigsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case realtimeLogConfigs = "RealtimeLogConfigs"
     }
@@ -20135,6 +20123,18 @@ extension ListRealtimeLogConfigsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let realtimeLogConfigsDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.RealtimeLogConfigs.self, forKey: .realtimeLogConfigs)
         realtimeLogConfigs = realtimeLogConfigsDecoded
+    }
+}
+
+enum ListRealtimeLogConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchRealtimeLogConfig": return try await NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20198,19 +20198,7 @@ extension ListResponseHeadersPoliciesInputBody: Swift.Decodable {
     }
 }
 
-enum ListResponseHeadersPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListResponseHeadersPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListResponseHeadersPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.ResponseHeadersPolicyList = try responseDecoder.decode(responseBody: data)
@@ -20221,7 +20209,7 @@ extension ListResponseHeadersPoliciesOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListResponseHeadersPoliciesOutputResponse: Swift.Equatable {
+public struct ListResponseHeadersPoliciesOutput: Swift.Equatable {
     /// A list of response headers policies.
     public var responseHeadersPolicyList: CloudFrontClientTypes.ResponseHeadersPolicyList?
 
@@ -20233,11 +20221,11 @@ public struct ListResponseHeadersPoliciesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListResponseHeadersPoliciesOutputResponseBody: Swift.Equatable {
+struct ListResponseHeadersPoliciesOutputBody: Swift.Equatable {
     let responseHeadersPolicyList: CloudFrontClientTypes.ResponseHeadersPolicyList?
 }
 
-extension ListResponseHeadersPoliciesOutputResponseBody: Swift.Decodable {
+extension ListResponseHeadersPoliciesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case responseHeadersPolicyList = "ResponseHeadersPolicyList"
     }
@@ -20246,6 +20234,18 @@ extension ListResponseHeadersPoliciesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let responseHeadersPolicyListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicyList.self, forKey: .responseHeadersPolicyList)
         responseHeadersPolicyList = responseHeadersPolicyListDecoded
+    }
+}
+
+enum ListResponseHeadersPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResponseHeadersPolicy": return try await NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20298,17 +20298,7 @@ extension ListStreamingDistributionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListStreamingDistributionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListStreamingDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStreamingDistributionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.StreamingDistributionList = try responseDecoder.decode(responseBody: data)
@@ -20320,7 +20310,7 @@ extension ListStreamingDistributionsOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// The returned result of the corresponding request.
-public struct ListStreamingDistributionsOutputResponse: Swift.Equatable {
+public struct ListStreamingDistributionsOutput: Swift.Equatable {
     /// The StreamingDistributionList type.
     public var streamingDistributionList: CloudFrontClientTypes.StreamingDistributionList?
 
@@ -20332,11 +20322,11 @@ public struct ListStreamingDistributionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStreamingDistributionsOutputResponseBody: Swift.Equatable {
+struct ListStreamingDistributionsOutputBody: Swift.Equatable {
     let streamingDistributionList: CloudFrontClientTypes.StreamingDistributionList?
 }
 
-extension ListStreamingDistributionsOutputResponseBody: Swift.Decodable {
+extension ListStreamingDistributionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamingDistributionList = "StreamingDistributionList"
     }
@@ -20345,6 +20335,16 @@ extension ListStreamingDistributionsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamingDistributionListDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistributionList.self, forKey: .streamingDistributionList)
         streamingDistributionList = streamingDistributionListDecoded
+    }
+}
+
+enum ListStreamingDistributionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20392,20 +20392,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidTagging": return try await InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.Tags = try responseDecoder.decode(responseBody: data)
@@ -20417,7 +20404,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The returned result of the corresponding request.
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A complex type that contains zero or more Tag elements.
     /// This member is required.
     public var tags: CloudFrontClientTypes.Tags?
@@ -20430,11 +20417,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: CloudFrontClientTypes.Tags?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -20443,6 +20430,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Tags.self, forKey: .tags)
         tags = tagsDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidTagging": return try await InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -24789,21 +24789,7 @@ extension PublishFunctionInputBody: Swift.Decodable {
     }
 }
 
-enum PublishFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension PublishFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PublishFunctionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FunctionSummary = try responseDecoder.decode(responseBody: data)
@@ -24814,7 +24800,7 @@ extension PublishFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishFunctionOutputResponse: Swift.Equatable {
+public struct PublishFunctionOutput: Swift.Equatable {
     /// Contains configuration information and metadata about a CloudFront function.
     public var functionSummary: CloudFrontClientTypes.FunctionSummary?
 
@@ -24826,11 +24812,11 @@ public struct PublishFunctionOutputResponse: Swift.Equatable {
     }
 }
 
-struct PublishFunctionOutputResponseBody: Swift.Equatable {
+struct PublishFunctionOutputBody: Swift.Equatable {
     let functionSummary: CloudFrontClientTypes.FunctionSummary?
 }
 
-extension PublishFunctionOutputResponseBody: Swift.Decodable {
+extension PublishFunctionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionSummary = "FunctionSummary"
     }
@@ -24839,6 +24825,20 @@ extension PublishFunctionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let functionSummaryDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FunctionSummary.self, forKey: .functionSummary)
         functionSummary = functionSummaryDecoded
+    }
+}
+
+enum PublishFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -29296,7 +29296,7 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<TagResourceInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<TagResourceOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<TagResourceOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -29324,7 +29324,7 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<TagResourceInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<TagResourceOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<TagResourceOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -29415,6 +29415,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -29426,16 +29436,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CloudFrontClientTypes.Tags: Swift.Codable {
@@ -29677,21 +29677,7 @@ extension TestFunctionInputBody: Swift.Decodable {
     }
 }
 
-enum TestFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TestFunctionFailed": return try await TestFunctionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension TestFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TestFunctionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.TestResult = try responseDecoder.decode(responseBody: data)
@@ -29702,7 +29688,7 @@ extension TestFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestFunctionOutputResponse: Swift.Equatable {
+public struct TestFunctionOutput: Swift.Equatable {
     /// An object that represents the result of running the function with the provided event object.
     public var testResult: CloudFrontClientTypes.TestResult?
 
@@ -29714,11 +29700,11 @@ public struct TestFunctionOutputResponse: Swift.Equatable {
     }
 }
 
-struct TestFunctionOutputResponseBody: Swift.Equatable {
+struct TestFunctionOutputBody: Swift.Equatable {
     let testResult: CloudFrontClientTypes.TestResult?
 }
 
-extension TestFunctionOutputResponseBody: Swift.Decodable {
+extension TestFunctionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case testResult = "TestResult"
     }
@@ -29727,6 +29713,20 @@ extension TestFunctionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let testResultDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.TestResult.self, forKey: .testResult)
         testResult = testResultDecoded
+    }
+}
+
+enum TestFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TestFunctionFailed": return try await TestFunctionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -33085,7 +33085,7 @@ public struct UntagResourceInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UntagResourceInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UntagResourceOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UntagResourceOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33113,7 +33113,7 @@ public struct UntagResourceInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UntagResourceInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UntagResourceOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UntagResourceOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33204,6 +33204,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -33217,16 +33227,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 public struct UpdateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateCachePolicyInputBodyMiddleware"
 
@@ -33234,7 +33234,7 @@ public struct UpdateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateCachePolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCachePolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCachePolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33262,7 +33262,7 @@ public struct UpdateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateCachePolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCachePolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCachePolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33353,6 +33353,54 @@ extension UpdateCachePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateCachePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.CachePolicy = try responseDecoder.decode(responseBody: data)
+            self.cachePolicy = output
+        } else {
+            self.cachePolicy = nil
+        }
+    }
+}
+
+public struct UpdateCachePolicyOutput: Swift.Equatable {
+    /// A cache policy.
+    public var cachePolicy: CloudFrontClientTypes.CachePolicy?
+    /// The current version of the cache policy.
+    public var eTag: Swift.String?
+
+    public init(
+        cachePolicy: CloudFrontClientTypes.CachePolicy? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.cachePolicy = cachePolicy
+        self.eTag = eTag
+    }
+}
+
+struct UpdateCachePolicyOutputBody: Swift.Equatable {
+    let cachePolicy: CloudFrontClientTypes.CachePolicy?
+}
+
+extension UpdateCachePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cachePolicy = "CachePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cachePolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CachePolicy.self, forKey: .cachePolicy)
+        cachePolicy = cachePolicyDecoded
+    }
+}
+
 enum UpdateCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -33373,54 +33421,6 @@ enum UpdateCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.CachePolicy = try responseDecoder.decode(responseBody: data)
-            self.cachePolicy = output
-        } else {
-            self.cachePolicy = nil
-        }
-    }
-}
-
-public struct UpdateCachePolicyOutputResponse: Swift.Equatable {
-    /// A cache policy.
-    public var cachePolicy: CloudFrontClientTypes.CachePolicy?
-    /// The current version of the cache policy.
-    public var eTag: Swift.String?
-
-    public init(
-        cachePolicy: CloudFrontClientTypes.CachePolicy? = nil,
-        eTag: Swift.String? = nil
-    )
-    {
-        self.cachePolicy = cachePolicy
-        self.eTag = eTag
-    }
-}
-
-struct UpdateCachePolicyOutputResponseBody: Swift.Equatable {
-    let cachePolicy: CloudFrontClientTypes.CachePolicy?
-}
-
-extension UpdateCachePolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cachePolicy = "CachePolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let cachePolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CachePolicy.self, forKey: .cachePolicy)
-        cachePolicy = cachePolicyDecoded
-    }
-}
-
 public struct UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware"
 
@@ -33428,7 +33428,7 @@ public struct UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateCloudFrontOriginAccessIdentityInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCloudFrontOriginAccessIdentityOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCloudFrontOriginAccessIdentityOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33456,7 +33456,7 @@ public struct UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateCloudFrontOriginAccessIdentityInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCloudFrontOriginAccessIdentityOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCloudFrontOriginAccessIdentityOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33548,6 +33548,55 @@ extension UpdateCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateCloudFrontOriginAccessIdentityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentity = try responseDecoder.decode(responseBody: data)
+            self.cloudFrontOriginAccessIdentity = output
+        } else {
+            self.cloudFrontOriginAccessIdentity = nil
+        }
+    }
+}
+
+/// The returned result of the corresponding request.
+public struct UpdateCloudFrontOriginAccessIdentityOutput: Swift.Equatable {
+    /// The origin access identity's information.
+    public var cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
+    /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+    public var eTag: Swift.String?
+
+    public init(
+        cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+        self.eTag = eTag
+    }
+}
+
+struct UpdateCloudFrontOriginAccessIdentityOutputBody: Swift.Equatable {
+    let cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
+}
+
+extension UpdateCloudFrontOriginAccessIdentityOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudFrontOriginAccessIdentityDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentity.self, forKey: .cloudFrontOriginAccessIdentity)
+        cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentityDecoded
+    }
+}
+
 enum UpdateCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -33565,55 +33614,6 @@ enum UpdateCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension UpdateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentity = try responseDecoder.decode(responseBody: data)
-            self.cloudFrontOriginAccessIdentity = output
-        } else {
-            self.cloudFrontOriginAccessIdentity = nil
-        }
-    }
-}
-
-/// The returned result of the corresponding request.
-public struct UpdateCloudFrontOriginAccessIdentityOutputResponse: Swift.Equatable {
-    /// The origin access identity's information.
-    public var cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
-    /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-    public var eTag: Swift.String?
-
-    public init(
-        cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity? = nil,
-        eTag: Swift.String? = nil
-    )
-    {
-        self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
-        self.eTag = eTag
-    }
-}
-
-struct UpdateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Equatable {
-    let cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?
-}
-
-extension UpdateCloudFrontOriginAccessIdentityOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let cloudFrontOriginAccessIdentityDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.CloudFrontOriginAccessIdentity.self, forKey: .cloudFrontOriginAccessIdentity)
-        cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentityDecoded
-    }
-}
-
 public struct UpdateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateContinuousDeploymentPolicyInputBodyMiddleware"
 
@@ -33621,7 +33621,7 @@ public struct UpdateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateContinuousDeploymentPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateContinuousDeploymentPolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateContinuousDeploymentPolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33649,7 +33649,7 @@ public struct UpdateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateContinuousDeploymentPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateContinuousDeploymentPolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateContinuousDeploymentPolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33740,6 +33740,54 @@ extension UpdateContinuousDeploymentPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateContinuousDeploymentPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
+            self.continuousDeploymentPolicy = output
+        } else {
+            self.continuousDeploymentPolicy = nil
+        }
+    }
+}
+
+public struct UpdateContinuousDeploymentPolicyOutput: Swift.Equatable {
+    /// A continuous deployment policy.
+    public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+    /// The version identifier for the current version of the continuous deployment policy.
+    public var eTag: Swift.String?
+
+    public init(
+        continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.continuousDeploymentPolicy = continuousDeploymentPolicy
+        self.eTag = eTag
+    }
+}
+
+struct UpdateContinuousDeploymentPolicyOutputBody: Swift.Equatable {
+    let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
+}
+
+extension UpdateContinuousDeploymentPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
+        continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
+    }
+}
+
 enum UpdateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -33756,54 +33804,6 @@ enum UpdateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension UpdateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
-            self.continuousDeploymentPolicy = output
-        } else {
-            self.continuousDeploymentPolicy = nil
-        }
-    }
-}
-
-public struct UpdateContinuousDeploymentPolicyOutputResponse: Swift.Equatable {
-    /// A continuous deployment policy.
-    public var continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
-    /// The version identifier for the current version of the continuous deployment policy.
-    public var eTag: Swift.String?
-
-    public init(
-        continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
-        eTag: Swift.String? = nil
-    )
-    {
-        self.continuousDeploymentPolicy = continuousDeploymentPolicy
-        self.eTag = eTag
-    }
-}
-
-struct UpdateContinuousDeploymentPolicyOutputResponseBody: Swift.Equatable {
-    let continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy?
-}
-
-extension UpdateContinuousDeploymentPolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let continuousDeploymentPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ContinuousDeploymentPolicy.self, forKey: .continuousDeploymentPolicy)
-        continuousDeploymentPolicy = continuousDeploymentPolicyDecoded
-    }
-}
-
 public struct UpdateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateDistributionInputBodyMiddleware"
 
@@ -33811,7 +33811,7 @@ public struct UpdateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateDistributionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateDistributionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateDistributionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33839,7 +33839,7 @@ public struct UpdateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateDistributionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateDistributionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateDistributionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33931,6 +33931,55 @@ extension UpdateDistributionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+            self.distribution = output
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+/// The returned result of the corresponding request.
+public struct UpdateDistributionOutput: Swift.Equatable {
+    /// The distribution's information.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+    public var eTag: Swift.String?
+
+    public init(
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+    }
+}
+
+struct UpdateDistributionOutputBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension UpdateDistributionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
+    }
+}
+
 enum UpdateDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -34006,55 +34055,6 @@ enum UpdateDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
-            self.distribution = output
-        } else {
-            self.distribution = nil
-        }
-    }
-}
-
-/// The returned result of the corresponding request.
-public struct UpdateDistributionOutputResponse: Swift.Equatable {
-    /// The distribution's information.
-    public var distribution: CloudFrontClientTypes.Distribution?
-    /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-    public var eTag: Swift.String?
-
-    public init(
-        distribution: CloudFrontClientTypes.Distribution? = nil,
-        eTag: Swift.String? = nil
-    )
-    {
-        self.distribution = distribution
-        self.eTag = eTag
-    }
-}
-
-struct UpdateDistributionOutputResponseBody: Swift.Equatable {
-    let distribution: CloudFrontClientTypes.Distribution?
-}
-
-extension UpdateDistributionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case distribution = "Distribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
-        distribution = distributionDecoded
-    }
-}
-
 extension UpdateDistributionWithStagingConfigInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -34114,6 +34114,54 @@ struct UpdateDistributionWithStagingConfigInputBody: Swift.Equatable {
 extension UpdateDistributionWithStagingConfigInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UpdateDistributionWithStagingConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+            self.distribution = output
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+public struct UpdateDistributionWithStagingConfigOutput: Swift.Equatable {
+    /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The current version of the primary distribution (after it's updated).
+    public var eTag: Swift.String?
+
+    public init(
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+    }
+}
+
+struct UpdateDistributionWithStagingConfigOutputBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension UpdateDistributionWithStagingConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
     }
 }
 
@@ -34187,54 +34235,6 @@ enum UpdateDistributionWithStagingConfigOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension UpdateDistributionWithStagingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
-            self.distribution = output
-        } else {
-            self.distribution = nil
-        }
-    }
-}
-
-public struct UpdateDistributionWithStagingConfigOutputResponse: Swift.Equatable {
-    /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
-    public var distribution: CloudFrontClientTypes.Distribution?
-    /// The current version of the primary distribution (after it's updated).
-    public var eTag: Swift.String?
-
-    public init(
-        distribution: CloudFrontClientTypes.Distribution? = nil,
-        eTag: Swift.String? = nil
-    )
-    {
-        self.distribution = distribution
-        self.eTag = eTag
-    }
-}
-
-struct UpdateDistributionWithStagingConfigOutputResponseBody: Swift.Equatable {
-    let distribution: CloudFrontClientTypes.Distribution?
-}
-
-extension UpdateDistributionWithStagingConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case distribution = "Distribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
-        distribution = distributionDecoded
-    }
-}
-
 public struct UpdateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateFieldLevelEncryptionConfigInputBodyMiddleware"
 
@@ -34242,7 +34242,7 @@ public struct UpdateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateFieldLevelEncryptionConfigInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionConfigOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionConfigOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -34270,7 +34270,7 @@ public struct UpdateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateFieldLevelEncryptionConfigInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionConfigOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionConfigOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -34361,6 +34361,54 @@ extension UpdateFieldLevelEncryptionConfigInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateFieldLevelEncryptionConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.FieldLevelEncryption = try responseDecoder.decode(responseBody: data)
+            self.fieldLevelEncryption = output
+        } else {
+            self.fieldLevelEncryption = nil
+        }
+    }
+}
+
+public struct UpdateFieldLevelEncryptionConfigOutput: Swift.Equatable {
+    /// The value of the ETag header that you received when updating the configuration. For example: E2QWRUHAPOMQZL.
+    public var eTag: Swift.String?
+    /// Return the results of updating the configuration.
+    public var fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption?
+
+    public init(
+        eTag: Swift.String? = nil,
+        fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption? = nil
+    )
+    {
+        self.eTag = eTag
+        self.fieldLevelEncryption = fieldLevelEncryption
+    }
+}
+
+struct UpdateFieldLevelEncryptionConfigOutputBody: Swift.Equatable {
+    let fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption?
+}
+
+extension UpdateFieldLevelEncryptionConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldLevelEncryption = "FieldLevelEncryption"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldLevelEncryptionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryption.self, forKey: .fieldLevelEncryption)
+        fieldLevelEncryption = fieldLevelEncryptionDecoded
+    }
+}
+
 enum UpdateFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -34381,54 +34429,6 @@ enum UpdateFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension UpdateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.FieldLevelEncryption = try responseDecoder.decode(responseBody: data)
-            self.fieldLevelEncryption = output
-        } else {
-            self.fieldLevelEncryption = nil
-        }
-    }
-}
-
-public struct UpdateFieldLevelEncryptionConfigOutputResponse: Swift.Equatable {
-    /// The value of the ETag header that you received when updating the configuration. For example: E2QWRUHAPOMQZL.
-    public var eTag: Swift.String?
-    /// Return the results of updating the configuration.
-    public var fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption?
-
-    public init(
-        eTag: Swift.String? = nil,
-        fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption? = nil
-    )
-    {
-        self.eTag = eTag
-        self.fieldLevelEncryption = fieldLevelEncryption
-    }
-}
-
-struct UpdateFieldLevelEncryptionConfigOutputResponseBody: Swift.Equatable {
-    let fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption?
-}
-
-extension UpdateFieldLevelEncryptionConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fieldLevelEncryption = "FieldLevelEncryption"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fieldLevelEncryptionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryption.self, forKey: .fieldLevelEncryption)
-        fieldLevelEncryption = fieldLevelEncryptionDecoded
-    }
-}
-
 public struct UpdateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateFieldLevelEncryptionProfileInputBodyMiddleware"
 
@@ -34436,7 +34436,7 @@ public struct UpdateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateFieldLevelEncryptionProfileInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionProfileOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionProfileOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -34464,7 +34464,7 @@ public struct UpdateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateFieldLevelEncryptionProfileInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionProfileOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateFieldLevelEncryptionProfileOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -34555,6 +34555,54 @@ extension UpdateFieldLevelEncryptionProfileInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateFieldLevelEncryptionProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.FieldLevelEncryptionProfile = try responseDecoder.decode(responseBody: data)
+            self.fieldLevelEncryptionProfile = output
+        } else {
+            self.fieldLevelEncryptionProfile = nil
+        }
+    }
+}
+
+public struct UpdateFieldLevelEncryptionProfileOutput: Swift.Equatable {
+    /// The result of the field-level encryption profile request.
+    public var eTag: Swift.String?
+    /// Return the results of updating the profile.
+    public var fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile?
+
+    public init(
+        eTag: Swift.String? = nil,
+        fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile? = nil
+    )
+    {
+        self.eTag = eTag
+        self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
+    }
+}
+
+struct UpdateFieldLevelEncryptionProfileOutputBody: Swift.Equatable {
+    let fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile?
+}
+
+extension UpdateFieldLevelEncryptionProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldLevelEncryptionProfileDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionProfile.self, forKey: .fieldLevelEncryptionProfile)
+        fieldLevelEncryptionProfile = fieldLevelEncryptionProfileDecoded
+    }
+}
+
 enum UpdateFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -34573,54 +34621,6 @@ enum UpdateFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErr
             case "TooManyFieldLevelEncryptionFieldPatterns": return try await TooManyFieldLevelEncryptionFieldPatterns(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension UpdateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.FieldLevelEncryptionProfile = try responseDecoder.decode(responseBody: data)
-            self.fieldLevelEncryptionProfile = output
-        } else {
-            self.fieldLevelEncryptionProfile = nil
-        }
-    }
-}
-
-public struct UpdateFieldLevelEncryptionProfileOutputResponse: Swift.Equatable {
-    /// The result of the field-level encryption profile request.
-    public var eTag: Swift.String?
-    /// Return the results of updating the profile.
-    public var fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile?
-
-    public init(
-        eTag: Swift.String? = nil,
-        fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile? = nil
-    )
-    {
-        self.eTag = eTag
-        self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
-    }
-}
-
-struct UpdateFieldLevelEncryptionProfileOutputResponseBody: Swift.Equatable {
-    let fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile?
-}
-
-extension UpdateFieldLevelEncryptionProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fieldLevelEncryptionProfileDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.FieldLevelEncryptionProfile.self, forKey: .fieldLevelEncryptionProfile)
-        fieldLevelEncryptionProfile = fieldLevelEncryptionProfileDecoded
     }
 }
 
@@ -34738,22 +34738,7 @@ extension UpdateFunctionInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "FunctionSizeLimitExceeded": return try await FunctionSizeLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateFunctionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETtag") {
             self.eTag = eTagHeaderValue
@@ -34769,7 +34754,7 @@ extension UpdateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFunctionOutputResponse: Swift.Equatable {
+public struct UpdateFunctionOutput: Swift.Equatable {
     /// The version identifier for the current version of the CloudFront function.
     public var eTag: Swift.String?
     /// Contains configuration information and metadata about a CloudFront function.
@@ -34785,11 +34770,11 @@ public struct UpdateFunctionOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionOutputResponseBody: Swift.Equatable {
+struct UpdateFunctionOutputBody: Swift.Equatable {
     let functionSummary: CloudFrontClientTypes.FunctionSummary?
 }
 
-extension UpdateFunctionOutputResponseBody: Swift.Decodable {
+extension UpdateFunctionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionSummary = "FunctionSummary"
     }
@@ -34801,6 +34786,21 @@ extension UpdateFunctionOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum UpdateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "FunctionSizeLimitExceeded": return try await FunctionSizeLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchFunctionExists": return try await NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct UpdateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateKeyGroupInputBodyMiddleware"
 
@@ -34808,7 +34808,7 @@ public struct UpdateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateKeyGroupInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateKeyGroupOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateKeyGroupOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -34836,7 +34836,7 @@ public struct UpdateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateKeyGroupInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateKeyGroupOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateKeyGroupOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -34927,22 +34927,7 @@ extension UpdateKeyGroupInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "KeyGroupAlreadyExists": return try await KeyGroupAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyPublicKeysInKeyGroup": return try await TooManyPublicKeysInKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateKeyGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -34958,7 +34943,7 @@ extension UpdateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateKeyGroupOutputResponse: Swift.Equatable {
+public struct UpdateKeyGroupOutput: Swift.Equatable {
     /// The identifier for this version of the key group.
     public var eTag: Swift.String?
     /// The key group that was just updated.
@@ -34974,11 +34959,11 @@ public struct UpdateKeyGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateKeyGroupOutputResponseBody: Swift.Equatable {
+struct UpdateKeyGroupOutputBody: Swift.Equatable {
     let keyGroup: CloudFrontClientTypes.KeyGroup?
 }
 
-extension UpdateKeyGroupOutputResponseBody: Swift.Decodable {
+extension UpdateKeyGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyGroup = "KeyGroup"
     }
@@ -34990,6 +34975,21 @@ extension UpdateKeyGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum UpdateKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KeyGroupAlreadyExists": return try await KeyGroupAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchResource": return try await NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyPublicKeysInKeyGroup": return try await TooManyPublicKeysInKeyGroup(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct UpdateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateOriginAccessControlInputBodyMiddleware"
 
@@ -34997,7 +34997,7 @@ public struct UpdateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateOriginAccessControlInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateOriginAccessControlOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateOriginAccessControlOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -35025,7 +35025,7 @@ public struct UpdateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateOriginAccessControlInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateOriginAccessControlOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateOriginAccessControlOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -35116,6 +35116,54 @@ extension UpdateOriginAccessControlInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateOriginAccessControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.OriginAccessControl = try responseDecoder.decode(responseBody: data)
+            self.originAccessControl = output
+        } else {
+            self.originAccessControl = nil
+        }
+    }
+}
+
+public struct UpdateOriginAccessControlOutput: Swift.Equatable {
+    /// The new version of the origin access control after it has been updated.
+    public var eTag: Swift.String?
+    /// The origin access control after it has been updated.
+    public var originAccessControl: CloudFrontClientTypes.OriginAccessControl?
+
+    public init(
+        eTag: Swift.String? = nil,
+        originAccessControl: CloudFrontClientTypes.OriginAccessControl? = nil
+    )
+    {
+        self.eTag = eTag
+        self.originAccessControl = originAccessControl
+    }
+}
+
+struct UpdateOriginAccessControlOutputBody: Swift.Equatable {
+    let originAccessControl: CloudFrontClientTypes.OriginAccessControl?
+}
+
+extension UpdateOriginAccessControlOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originAccessControl = "OriginAccessControl"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let originAccessControlDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginAccessControl.self, forKey: .originAccessControl)
+        originAccessControl = originAccessControlDecoded
+    }
+}
+
 enum UpdateOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -35132,54 +35180,6 @@ enum UpdateOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension UpdateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.OriginAccessControl = try responseDecoder.decode(responseBody: data)
-            self.originAccessControl = output
-        } else {
-            self.originAccessControl = nil
-        }
-    }
-}
-
-public struct UpdateOriginAccessControlOutputResponse: Swift.Equatable {
-    /// The new version of the origin access control after it has been updated.
-    public var eTag: Swift.String?
-    /// The origin access control after it has been updated.
-    public var originAccessControl: CloudFrontClientTypes.OriginAccessControl?
-
-    public init(
-        eTag: Swift.String? = nil,
-        originAccessControl: CloudFrontClientTypes.OriginAccessControl? = nil
-    )
-    {
-        self.eTag = eTag
-        self.originAccessControl = originAccessControl
-    }
-}
-
-struct UpdateOriginAccessControlOutputResponseBody: Swift.Equatable {
-    let originAccessControl: CloudFrontClientTypes.OriginAccessControl?
-}
-
-extension UpdateOriginAccessControlOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case originAccessControl = "OriginAccessControl"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let originAccessControlDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginAccessControl.self, forKey: .originAccessControl)
-        originAccessControl = originAccessControlDecoded
-    }
-}
-
 public struct UpdateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateOriginRequestPolicyInputBodyMiddleware"
 
@@ -35187,7 +35187,7 @@ public struct UpdateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateOriginRequestPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateOriginRequestPolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateOriginRequestPolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -35215,7 +35215,7 @@ public struct UpdateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateOriginRequestPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateOriginRequestPolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateOriginRequestPolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -35306,6 +35306,54 @@ extension UpdateOriginRequestPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateOriginRequestPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.OriginRequestPolicy = try responseDecoder.decode(responseBody: data)
+            self.originRequestPolicy = output
+        } else {
+            self.originRequestPolicy = nil
+        }
+    }
+}
+
+public struct UpdateOriginRequestPolicyOutput: Swift.Equatable {
+    /// The current version of the origin request policy.
+    public var eTag: Swift.String?
+    /// An origin request policy.
+    public var originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy?
+
+    public init(
+        eTag: Swift.String? = nil,
+        originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy? = nil
+    )
+    {
+        self.eTag = eTag
+        self.originRequestPolicy = originRequestPolicy
+    }
+}
+
+struct UpdateOriginRequestPolicyOutputBody: Swift.Equatable {
+    let originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy?
+}
+
+extension UpdateOriginRequestPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originRequestPolicy = "OriginRequestPolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let originRequestPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginRequestPolicy.self, forKey: .originRequestPolicy)
+        originRequestPolicy = originRequestPolicyDecoded
+    }
+}
+
 enum UpdateOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -35326,54 +35374,6 @@ enum UpdateOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension UpdateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.OriginRequestPolicy = try responseDecoder.decode(responseBody: data)
-            self.originRequestPolicy = output
-        } else {
-            self.originRequestPolicy = nil
-        }
-    }
-}
-
-public struct UpdateOriginRequestPolicyOutputResponse: Swift.Equatable {
-    /// The current version of the origin request policy.
-    public var eTag: Swift.String?
-    /// An origin request policy.
-    public var originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy?
-
-    public init(
-        eTag: Swift.String? = nil,
-        originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy? = nil
-    )
-    {
-        self.eTag = eTag
-        self.originRequestPolicy = originRequestPolicy
-    }
-}
-
-struct UpdateOriginRequestPolicyOutputResponseBody: Swift.Equatable {
-    let originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy?
-}
-
-extension UpdateOriginRequestPolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case originRequestPolicy = "OriginRequestPolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let originRequestPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.OriginRequestPolicy.self, forKey: .originRequestPolicy)
-        originRequestPolicy = originRequestPolicyDecoded
-    }
-}
-
 public struct UpdatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdatePublicKeyInputBodyMiddleware"
 
@@ -35381,7 +35381,7 @@ public struct UpdatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdatePublicKeyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdatePublicKeyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdatePublicKeyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -35409,7 +35409,7 @@ public struct UpdatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdatePublicKeyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdatePublicKeyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdatePublicKeyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -35500,23 +35500,7 @@ extension UpdatePublicKeyInputBody: Swift.Decodable {
     }
 }
 
-enum UpdatePublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CannotChangeImmutablePublicKeyFields": return try await CannotChangeImmutablePublicKeyFields(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IllegalUpdate": return try await IllegalUpdate(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
@@ -35532,7 +35516,7 @@ extension UpdatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePublicKeyOutputResponse: Swift.Equatable {
+public struct UpdatePublicKeyOutput: Swift.Equatable {
     /// The identifier of the current version of the public key.
     public var eTag: Swift.String?
     /// The public key.
@@ -35548,11 +35532,11 @@ public struct UpdatePublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePublicKeyOutputResponseBody: Swift.Equatable {
+struct UpdatePublicKeyOutputBody: Swift.Equatable {
     let publicKey: CloudFrontClientTypes.PublicKey?
 }
 
-extension UpdatePublicKeyOutputResponseBody: Swift.Decodable {
+extension UpdatePublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicKey = "PublicKey"
     }
@@ -35561,6 +35545,22 @@ extension UpdatePublicKeyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicKeyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.PublicKey.self, forKey: .publicKey)
         publicKey = publicKeyDecoded
+    }
+}
+
+enum UpdatePublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AccessDenied": return try await AccessDenied(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CannotChangeImmutablePublicKeyFields": return try await CannotChangeImmutablePublicKeyFields(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IllegalUpdate": return try await IllegalUpdate(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NoSuchPublicKey": return try await NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PreconditionFailed": return try await PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -35716,6 +35716,46 @@ extension UpdateRealtimeLogConfigInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRealtimeLogConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRealtimeLogConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.realtimeLogConfig = output.realtimeLogConfig
+        } else {
+            self.realtimeLogConfig = nil
+        }
+    }
+}
+
+public struct UpdateRealtimeLogConfigOutput: Swift.Equatable {
+    /// A real-time log configuration.
+    public var realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
+
+    public init(
+        realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
+    )
+    {
+        self.realtimeLogConfig = realtimeLogConfig
+    }
+}
+
+struct UpdateRealtimeLogConfigOutputBody: Swift.Equatable {
+    let realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
+}
+
+extension UpdateRealtimeLogConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case realtimeLogConfig = "RealtimeLogConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let realtimeLogConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.RealtimeLogConfig.self, forKey: .realtimeLogConfig)
+        realtimeLogConfig = realtimeLogConfigDecoded
+    }
+}
+
 enum UpdateRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -35728,46 +35768,6 @@ enum UpdateRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension UpdateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.realtimeLogConfig = output.realtimeLogConfig
-        } else {
-            self.realtimeLogConfig = nil
-        }
-    }
-}
-
-public struct UpdateRealtimeLogConfigOutputResponse: Swift.Equatable {
-    /// A real-time log configuration.
-    public var realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
-
-    public init(
-        realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
-    )
-    {
-        self.realtimeLogConfig = realtimeLogConfig
-    }
-}
-
-struct UpdateRealtimeLogConfigOutputResponseBody: Swift.Equatable {
-    let realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig?
-}
-
-extension UpdateRealtimeLogConfigOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case realtimeLogConfig = "RealtimeLogConfig"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let realtimeLogConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.RealtimeLogConfig.self, forKey: .realtimeLogConfig)
-        realtimeLogConfig = realtimeLogConfigDecoded
-    }
-}
-
 public struct UpdateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateResponseHeadersPolicyInputBodyMiddleware"
 
@@ -35775,7 +35775,7 @@ public struct UpdateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateResponseHeadersPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateResponseHeadersPolicyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateResponseHeadersPolicyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -35803,7 +35803,7 @@ public struct UpdateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateResponseHeadersPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateResponseHeadersPolicyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateResponseHeadersPolicyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -35894,6 +35894,54 @@ extension UpdateResponseHeadersPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateResponseHeadersPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.ResponseHeadersPolicy = try responseDecoder.decode(responseBody: data)
+            self.responseHeadersPolicy = output
+        } else {
+            self.responseHeadersPolicy = nil
+        }
+    }
+}
+
+public struct UpdateResponseHeadersPolicyOutput: Swift.Equatable {
+    /// The current version of the response headers policy.
+    public var eTag: Swift.String?
+    /// A response headers policy.
+    public var responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy?
+
+    public init(
+        eTag: Swift.String? = nil,
+        responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy? = nil
+    )
+    {
+        self.eTag = eTag
+        self.responseHeadersPolicy = responseHeadersPolicy
+    }
+}
+
+struct UpdateResponseHeadersPolicyOutputBody: Swift.Equatable {
+    let responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy?
+}
+
+extension UpdateResponseHeadersPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case responseHeadersPolicy = "ResponseHeadersPolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let responseHeadersPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicy.self, forKey: .responseHeadersPolicy)
+        responseHeadersPolicy = responseHeadersPolicyDecoded
+    }
+}
+
 enum UpdateResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -35914,54 +35962,6 @@ enum UpdateResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension UpdateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.ResponseHeadersPolicy = try responseDecoder.decode(responseBody: data)
-            self.responseHeadersPolicy = output
-        } else {
-            self.responseHeadersPolicy = nil
-        }
-    }
-}
-
-public struct UpdateResponseHeadersPolicyOutputResponse: Swift.Equatable {
-    /// The current version of the response headers policy.
-    public var eTag: Swift.String?
-    /// A response headers policy.
-    public var responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy?
-
-    public init(
-        eTag: Swift.String? = nil,
-        responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy? = nil
-    )
-    {
-        self.eTag = eTag
-        self.responseHeadersPolicy = responseHeadersPolicy
-    }
-}
-
-struct UpdateResponseHeadersPolicyOutputResponseBody: Swift.Equatable {
-    let responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy?
-}
-
-extension UpdateResponseHeadersPolicyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case responseHeadersPolicy = "ResponseHeadersPolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let responseHeadersPolicyDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicy.self, forKey: .responseHeadersPolicy)
-        responseHeadersPolicy = responseHeadersPolicyDecoded
-    }
-}
-
 public struct UpdateStreamingDistributionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateStreamingDistributionInputBodyMiddleware"
 
@@ -35969,7 +35969,7 @@ public struct UpdateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateStreamingDistributionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateStreamingDistributionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateStreamingDistributionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -35997,7 +35997,7 @@ public struct UpdateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateStreamingDistributionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateStreamingDistributionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateStreamingDistributionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -36089,6 +36089,55 @@ extension UpdateStreamingDistributionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateStreamingDistributionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
+            self.streamingDistribution = output
+        } else {
+            self.streamingDistribution = nil
+        }
+    }
+}
+
+/// The returned result of the corresponding request.
+public struct UpdateStreamingDistributionOutput: Swift.Equatable {
+    /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
+    public var eTag: Swift.String?
+    /// The streaming distribution's information.
+    public var streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
+
+    public init(
+        eTag: Swift.String? = nil,
+        streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
+    )
+    {
+        self.eTag = eTag
+        self.streamingDistribution = streamingDistribution
+    }
+}
+
+struct UpdateStreamingDistributionOutputBody: Swift.Equatable {
+    let streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
+}
+
+extension UpdateStreamingDistributionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingDistribution = "StreamingDistribution"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingDistributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistribution.self, forKey: .streamingDistribution)
+        streamingDistribution = streamingDistributionDecoded
+    }
+}
+
 enum UpdateStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -36109,55 +36158,6 @@ enum UpdateStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBind
             case "TrustedSignerDoesNotExist": return try await TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension UpdateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
-            self.eTag = eTagHeaderValue
-        } else {
-            self.eTag = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
-            self.streamingDistribution = output
-        } else {
-            self.streamingDistribution = nil
-        }
-    }
-}
-
-/// The returned result of the corresponding request.
-public struct UpdateStreamingDistributionOutputResponse: Swift.Equatable {
-    /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-    public var eTag: Swift.String?
-    /// The streaming distribution's information.
-    public var streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
-
-    public init(
-        eTag: Swift.String? = nil,
-        streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
-    )
-    {
-        self.eTag = eTag
-        self.streamingDistribution = streamingDistribution
-    }
-}
-
-struct UpdateStreamingDistributionOutputResponseBody: Swift.Equatable {
-    let streamingDistribution: CloudFrontClientTypes.StreamingDistribution?
-}
-
-extension UpdateStreamingDistributionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingDistribution = "StreamingDistribution"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingDistributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.StreamingDistribution.self, forKey: .streamingDistribution)
-        streamingDistribution = streamingDistributionDecoded
     }
 }
 

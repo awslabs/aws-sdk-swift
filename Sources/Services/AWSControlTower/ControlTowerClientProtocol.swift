@@ -26,7 +26,7 @@ public protocol ControlTowerClientProtocol {
     ///
     /// - Parameter DisableControlInput : [no documentation found]
     ///
-    /// - Returns: `DisableControlOutputResponse` : [no documentation found]
+    /// - Returns: `DisableControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -38,12 +38,12 @@ public protocol ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func disableControl(input: DisableControlInput) async throws -> DisableControlOutputResponse
+    func disableControl(input: DisableControlInput) async throws -> DisableControlOutput
     /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify.
     ///
     /// - Parameter EnableControlInput : [no documentation found]
     ///
-    /// - Returns: `EnableControlOutputResponse` : [no documentation found]
+    /// - Returns: `EnableControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,12 +55,12 @@ public protocol ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func enableControl(input: EnableControlInput) async throws -> EnableControlOutputResponse
+    func enableControl(input: EnableControlInput) async throws -> EnableControlOutput
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days.
     ///
     /// - Parameter GetControlOperationInput : [no documentation found]
     ///
-    /// - Returns: `GetControlOperationOutputResponse` : [no documentation found]
+    /// - Returns: `GetControlOperationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutputResponse
+    func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutput
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
     ///
     /// - Parameter ListEnabledControlsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnabledControlsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnabledControlsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,7 +85,7 @@ public protocol ControlTowerClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutputResponse
+    func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutput
 }
 
 public enum ControlTowerClientTypes {}

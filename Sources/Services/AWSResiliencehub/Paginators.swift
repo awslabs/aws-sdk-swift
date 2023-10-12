@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ResiliencehubClient {
-    /// Paginate over `[ListAlarmRecommendationsOutputResponse]` results.
+    /// Paginate over `[ListAlarmRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAlarmRecommendationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAlarmRecommendationsOutputResponse`
-    public func listAlarmRecommendationsPaginated(input: ListAlarmRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutputResponse>(input: input, inputKey: \ListAlarmRecommendationsInput.nextToken, outputKey: \ListAlarmRecommendationsOutputResponse.nextToken, paginationFunction: self.listAlarmRecommendations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAlarmRecommendationsOutput`
+    public func listAlarmRecommendationsPaginated(input: ListAlarmRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(input: input, inputKey: \ListAlarmRecommendationsInput.nextToken, outputKey: \ListAlarmRecommendationsOutput.nextToken, paginationFunction: self.listAlarmRecommendations(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension ListAlarmRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppAssessmentComplianceDriftsOutputResponse]` results.
+    /// Paginate over `[ListAppAssessmentComplianceDriftsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppAssessmentComplianceDriftsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentComplianceDriftsOutputResponse`
-    public func listAppAssessmentComplianceDriftsPaginated(input: ListAppAssessmentComplianceDriftsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutputResponse>(input: input, inputKey: \ListAppAssessmentComplianceDriftsInput.nextToken, outputKey: \ListAppAssessmentComplianceDriftsOutputResponse.nextToken, paginationFunction: self.listAppAssessmentComplianceDrifts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentComplianceDriftsOutput`
+    public func listAppAssessmentComplianceDriftsPaginated(input: ListAppAssessmentComplianceDriftsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(input: input, inputKey: \ListAppAssessmentComplianceDriftsInput.nextToken, outputKey: \ListAppAssessmentComplianceDriftsOutput.nextToken, paginationFunction: self.listAppAssessmentComplianceDrifts(input:))
     }
 }
 
@@ -47,16 +47,16 @@ extension ListAppAssessmentComplianceDriftsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppAssessmentsOutputResponse]` results.
+    /// Paginate over `[ListAppAssessmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppAssessmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentsOutputResponse`
-    public func listAppAssessmentsPaginated(input: ListAppAssessmentsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutputResponse>(input: input, inputKey: \ListAppAssessmentsInput.nextToken, outputKey: \ListAppAssessmentsOutputResponse.nextToken, paginationFunction: self.listAppAssessments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAssessmentsOutput`
+    public func listAppAssessmentsPaginated(input: ListAppAssessmentsInput) -> ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppAssessmentsInput, ListAppAssessmentsOutput>(input: input, inputKey: \ListAppAssessmentsInput.nextToken, outputKey: \ListAppAssessmentsOutput.nextToken, paginationFunction: self.listAppAssessments(input:))
     }
 }
 
@@ -74,16 +74,16 @@ extension ListAppAssessmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppComponentCompliancesOutputResponse]` results.
+    /// Paginate over `[ListAppComponentCompliancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppComponentCompliancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppComponentCompliancesOutputResponse`
-    public func listAppComponentCompliancesPaginated(input: ListAppComponentCompliancesInput) -> ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutputResponse>(input: input, inputKey: \ListAppComponentCompliancesInput.nextToken, outputKey: \ListAppComponentCompliancesOutputResponse.nextToken, paginationFunction: self.listAppComponentCompliances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppComponentCompliancesOutput`
+    public func listAppComponentCompliancesPaginated(input: ListAppComponentCompliancesInput) -> ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(input: input, inputKey: \ListAppComponentCompliancesInput.nextToken, outputKey: \ListAppComponentCompliancesOutput.nextToken, paginationFunction: self.listAppComponentCompliances(input:))
     }
 }
 
@@ -96,16 +96,16 @@ extension ListAppComponentCompliancesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppComponentRecommendationsOutputResponse]` results.
+    /// Paginate over `[ListAppComponentRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppComponentRecommendationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppComponentRecommendationsOutputResponse`
-    public func listAppComponentRecommendationsPaginated(input: ListAppComponentRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutputResponse>(input: input, inputKey: \ListAppComponentRecommendationsInput.nextToken, outputKey: \ListAppComponentRecommendationsOutputResponse.nextToken, paginationFunction: self.listAppComponentRecommendations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppComponentRecommendationsOutput`
+    public func listAppComponentRecommendationsPaginated(input: ListAppComponentRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(input: input, inputKey: \ListAppComponentRecommendationsInput.nextToken, outputKey: \ListAppComponentRecommendationsOutput.nextToken, paginationFunction: self.listAppComponentRecommendations(input:))
     }
 }
 
@@ -118,16 +118,16 @@ extension ListAppComponentRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppInputSourcesOutputResponse]` results.
+    /// Paginate over `[ListAppInputSourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppInputSourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppInputSourcesOutputResponse`
-    public func listAppInputSourcesPaginated(input: ListAppInputSourcesInput) -> ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutputResponse>(input: input, inputKey: \ListAppInputSourcesInput.nextToken, outputKey: \ListAppInputSourcesOutputResponse.nextToken, paginationFunction: self.listAppInputSources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppInputSourcesOutput`
+    public func listAppInputSourcesPaginated(input: ListAppInputSourcesInput) -> ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppInputSourcesInput, ListAppInputSourcesOutput>(input: input, inputKey: \ListAppInputSourcesInput.nextToken, outputKey: \ListAppInputSourcesOutput.nextToken, paginationFunction: self.listAppInputSources(input:))
     }
 }
 
@@ -141,16 +141,16 @@ extension ListAppInputSourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppsOutputResponse]` results.
+    /// Paginate over `[ListAppsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppsOutputResponse`
-    public func listAppsPaginated(input: ListAppsInput) -> ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutputResponse>(input: input, inputKey: \ListAppsInput.nextToken, outputKey: \ListAppsOutputResponse.nextToken, paginationFunction: self.listApps(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppsOutput`
+    public func listAppsPaginated(input: ListAppsInput) -> ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \ListAppsInput.nextToken, outputKey: \ListAppsOutput.nextToken, paginationFunction: self.listApps(input:))
     }
 }
 
@@ -164,16 +164,16 @@ extension ListAppsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppVersionAppComponentsOutputResponse]` results.
+    /// Paginate over `[ListAppVersionAppComponentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppVersionAppComponentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionAppComponentsOutputResponse`
-    public func listAppVersionAppComponentsPaginated(input: ListAppVersionAppComponentsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutputResponse>(input: input, inputKey: \ListAppVersionAppComponentsInput.nextToken, outputKey: \ListAppVersionAppComponentsOutputResponse.nextToken, paginationFunction: self.listAppVersionAppComponents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionAppComponentsOutput`
+    public func listAppVersionAppComponentsPaginated(input: ListAppVersionAppComponentsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(input: input, inputKey: \ListAppVersionAppComponentsInput.nextToken, outputKey: \ListAppVersionAppComponentsOutput.nextToken, paginationFunction: self.listAppVersionAppComponents(input:))
     }
 }
 
@@ -187,16 +187,16 @@ extension ListAppVersionAppComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppVersionResourceMappingsOutputResponse]` results.
+    /// Paginate over `[ListAppVersionResourceMappingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppVersionResourceMappingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionResourceMappingsOutputResponse`
-    public func listAppVersionResourceMappingsPaginated(input: ListAppVersionResourceMappingsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutputResponse>(input: input, inputKey: \ListAppVersionResourceMappingsInput.nextToken, outputKey: \ListAppVersionResourceMappingsOutputResponse.nextToken, paginationFunction: self.listAppVersionResourceMappings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionResourceMappingsOutput`
+    public func listAppVersionResourceMappingsPaginated(input: ListAppVersionResourceMappingsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(input: input, inputKey: \ListAppVersionResourceMappingsInput.nextToken, outputKey: \ListAppVersionResourceMappingsOutput.nextToken, paginationFunction: self.listAppVersionResourceMappings(input:))
     }
 }
 
@@ -210,16 +210,16 @@ extension ListAppVersionResourceMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppVersionResourcesOutputResponse]` results.
+    /// Paginate over `[ListAppVersionResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppVersionResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionResourcesOutputResponse`
-    public func listAppVersionResourcesPaginated(input: ListAppVersionResourcesInput) -> ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutputResponse>(input: input, inputKey: \ListAppVersionResourcesInput.nextToken, outputKey: \ListAppVersionResourcesOutputResponse.nextToken, paginationFunction: self.listAppVersionResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionResourcesOutput`
+    public func listAppVersionResourcesPaginated(input: ListAppVersionResourcesInput) -> ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(input: input, inputKey: \ListAppVersionResourcesInput.nextToken, outputKey: \ListAppVersionResourcesOutput.nextToken, paginationFunction: self.listAppVersionResources(input:))
     }
 }
 
@@ -234,16 +234,16 @@ extension ListAppVersionResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListAppVersionsOutputResponse]` results.
+    /// Paginate over `[ListAppVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionsOutputResponse`
-    public func listAppVersionsPaginated(input: ListAppVersionsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutputResponse>(input: input, inputKey: \ListAppVersionsInput.nextToken, outputKey: \ListAppVersionsOutputResponse.nextToken, paginationFunction: self.listAppVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppVersionsOutput`
+    public func listAppVersionsPaginated(input: ListAppVersionsInput) -> ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppVersionsInput, ListAppVersionsOutput>(input: input, inputKey: \ListAppVersionsInput.nextToken, outputKey: \ListAppVersionsOutput.nextToken, paginationFunction: self.listAppVersions(input:))
     }
 }
 
@@ -258,16 +258,16 @@ extension ListAppVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListRecommendationTemplatesOutputResponse]` results.
+    /// Paginate over `[ListRecommendationTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRecommendationTemplatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationTemplatesOutputResponse`
-    public func listRecommendationTemplatesPaginated(input: ListRecommendationTemplatesInput) -> ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutputResponse>(input: input, inputKey: \ListRecommendationTemplatesInput.nextToken, outputKey: \ListRecommendationTemplatesOutputResponse.nextToken, paginationFunction: self.listRecommendationTemplates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationTemplatesOutput`
+    public func listRecommendationTemplatesPaginated(input: ListRecommendationTemplatesInput) -> ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>(input: input, inputKey: \ListRecommendationTemplatesInput.nextToken, outputKey: \ListRecommendationTemplatesOutput.nextToken, paginationFunction: self.listRecommendationTemplates(input:))
     }
 }
 
@@ -284,16 +284,16 @@ extension ListRecommendationTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListResiliencyPoliciesOutputResponse]` results.
+    /// Paginate over `[ListResiliencyPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResiliencyPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResiliencyPoliciesOutputResponse`
-    public func listResiliencyPoliciesPaginated(input: ListResiliencyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutputResponse>(input: input, inputKey: \ListResiliencyPoliciesInput.nextToken, outputKey: \ListResiliencyPoliciesOutputResponse.nextToken, paginationFunction: self.listResiliencyPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResiliencyPoliciesOutput`
+    public func listResiliencyPoliciesPaginated(input: ListResiliencyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>(input: input, inputKey: \ListResiliencyPoliciesInput.nextToken, outputKey: \ListResiliencyPoliciesOutput.nextToken, paginationFunction: self.listResiliencyPolicies(input:))
     }
 }
 
@@ -306,16 +306,16 @@ extension ListResiliencyPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListSopRecommendationsOutputResponse]` results.
+    /// Paginate over `[ListSopRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSopRecommendationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSopRecommendationsOutputResponse`
-    public func listSopRecommendationsPaginated(input: ListSopRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutputResponse>(input: input, inputKey: \ListSopRecommendationsInput.nextToken, outputKey: \ListSopRecommendationsOutputResponse.nextToken, paginationFunction: self.listSopRecommendations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSopRecommendationsOutput`
+    public func listSopRecommendationsPaginated(input: ListSopRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSopRecommendationsInput, ListSopRecommendationsOutput>(input: input, inputKey: \ListSopRecommendationsInput.nextToken, outputKey: \ListSopRecommendationsOutput.nextToken, paginationFunction: self.listSopRecommendations(input:))
     }
 }
 
@@ -328,16 +328,16 @@ extension ListSopRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListSuggestedResiliencyPoliciesOutputResponse]` results.
+    /// Paginate over `[ListSuggestedResiliencyPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSuggestedResiliencyPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSuggestedResiliencyPoliciesOutputResponse`
-    public func listSuggestedResiliencyPoliciesPaginated(input: ListSuggestedResiliencyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutputResponse>(input: input, inputKey: \ListSuggestedResiliencyPoliciesInput.nextToken, outputKey: \ListSuggestedResiliencyPoliciesOutputResponse.nextToken, paginationFunction: self.listSuggestedResiliencyPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSuggestedResiliencyPoliciesOutput`
+    public func listSuggestedResiliencyPoliciesPaginated(input: ListSuggestedResiliencyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>(input: input, inputKey: \ListSuggestedResiliencyPoliciesInput.nextToken, outputKey: \ListSuggestedResiliencyPoliciesOutput.nextToken, paginationFunction: self.listSuggestedResiliencyPolicies(input:))
     }
 }
 
@@ -349,16 +349,16 @@ extension ListSuggestedResiliencyPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListTestRecommendationsOutputResponse]` results.
+    /// Paginate over `[ListTestRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTestRecommendationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTestRecommendationsOutputResponse`
-    public func listTestRecommendationsPaginated(input: ListTestRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutputResponse>(input: input, inputKey: \ListTestRecommendationsInput.nextToken, outputKey: \ListTestRecommendationsOutputResponse.nextToken, paginationFunction: self.listTestRecommendations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestRecommendationsOutput`
+    public func listTestRecommendationsPaginated(input: ListTestRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestRecommendationsInput, ListTestRecommendationsOutput>(input: input, inputKey: \ListTestRecommendationsInput.nextToken, outputKey: \ListTestRecommendationsOutput.nextToken, paginationFunction: self.listTestRecommendations(input:))
     }
 }
 
@@ -371,16 +371,16 @@ extension ListTestRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ResiliencehubClient {
-    /// Paginate over `[ListUnsupportedAppVersionResourcesOutputResponse]` results.
+    /// Paginate over `[ListUnsupportedAppVersionResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUnsupportedAppVersionResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUnsupportedAppVersionResourcesOutputResponse`
-    public func listUnsupportedAppVersionResourcesPaginated(input: ListUnsupportedAppVersionResourcesInput) -> ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutputResponse>(input: input, inputKey: \ListUnsupportedAppVersionResourcesInput.nextToken, outputKey: \ListUnsupportedAppVersionResourcesOutputResponse.nextToken, paginationFunction: self.listUnsupportedAppVersionResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUnsupportedAppVersionResourcesOutput`
+    public func listUnsupportedAppVersionResourcesPaginated(input: ListUnsupportedAppVersionResourcesInput) -> ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(input: input, inputKey: \ListUnsupportedAppVersionResourcesInput.nextToken, outputKey: \ListUnsupportedAppVersionResourcesOutput.nextToken, paginationFunction: self.listUnsupportedAppVersionResources(input:))
     }
 }
 

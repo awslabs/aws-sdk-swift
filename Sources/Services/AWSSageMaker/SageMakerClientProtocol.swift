@@ -12,119 +12,119 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter AddAssociationInput : [no documentation found]
     ///
-    /// - Returns: `AddAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `AddAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func addAssociation(input: AddAssociationInput) async throws -> AddAssociationOutputResponse
+    func addAssociation(input: AddAssociationInput) async throws -> AddAssociationOutput
     /// Adds or overwrites one or more tags for the specified SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see [Amazon Web Services Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/). Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of [CreateHyperParameterTuningJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateHyperParameterTuningJob.html) Tags that you add to a SageMaker Studio Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the Tags parameter of [CreateDomain](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateDomain.html) or [CreateUserProfile](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateUserProfile.html).
     ///
     /// - Parameter AddTagsInput : [no documentation found]
     ///
-    /// - Returns: `AddTagsOutputResponse` : [no documentation found]
-    func addTags(input: AddTagsInput) async throws -> AddTagsOutputResponse
+    /// - Returns: `AddTagsOutput` : [no documentation found]
+    func addTags(input: AddTagsInput) async throws -> AddTagsOutput
     /// Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the [DisassociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DisassociateTrialComponent.html) API.
     ///
     /// - Parameter AssociateTrialComponentInput : [no documentation found]
     ///
-    /// - Returns: `AssociateTrialComponentOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateTrialComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func associateTrialComponent(input: AssociateTrialComponentInput) async throws -> AssociateTrialComponentOutputResponse
+    func associateTrialComponent(input: AssociateTrialComponentInput) async throws -> AssociateTrialComponentOutput
     /// This action batch describes a list of versioned model packages
     ///
     /// - Parameter BatchDescribeModelPackageInput : [no documentation found]
     ///
-    /// - Returns: `BatchDescribeModelPackageOutputResponse` : [no documentation found]
-    func batchDescribeModelPackage(input: BatchDescribeModelPackageInput) async throws -> BatchDescribeModelPackageOutputResponse
+    /// - Returns: `BatchDescribeModelPackageOutput` : [no documentation found]
+    func batchDescribeModelPackage(input: BatchDescribeModelPackageInput) async throws -> BatchDescribeModelPackageOutput
     /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
     /// - Parameter CreateActionInput : [no documentation found]
     ///
-    /// - Returns: `CreateActionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createAction(input: CreateActionInput) async throws -> CreateActionOutputResponse
+    func createAction(input: CreateActionInput) async throws -> CreateActionOutput
     /// Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web Services Marketplace.
     ///
     /// - Parameter CreateAlgorithmInput : [no documentation found]
     ///
-    /// - Returns: `CreateAlgorithmOutputResponse` : [no documentation found]
-    func createAlgorithm(input: CreateAlgorithmInput) async throws -> CreateAlgorithmOutputResponse
+    /// - Returns: `CreateAlgorithmOutput` : [no documentation found]
+    func createAlgorithm(input: CreateAlgorithmInput) async throws -> CreateAlgorithmOutput
     /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker Studio upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
     ///
     /// - Parameter CreateAppInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
+    func createApp(input: CreateAppInput) async throws -> CreateAppOutput
     /// Creates a configuration for running a SageMaker image as a KernelGateway app. The configuration specifies the Amazon Elastic File System (EFS) storage volume on the image, and a list of the kernels in the image.
     ///
     /// - Parameter CreateAppImageConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppImageConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppImageConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func createAppImageConfig(input: CreateAppImageConfigInput) async throws -> CreateAppImageConfigOutputResponse
+    func createAppImageConfig(input: CreateAppImageConfigInput) async throws -> CreateAppImageConfigOutput
     /// Creates an artifact. An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
     /// - Parameter CreateArtifactInput : [no documentation found]
     ///
-    /// - Returns: `CreateArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `CreateArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createArtifact(input: CreateArtifactInput) async throws -> CreateArtifactOutputResponse
+    func createArtifact(input: CreateArtifactInput) async throws -> CreateArtifactOutput
     /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, and non-tabular problem types such as image or text classification. Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
     ///
     /// - Parameter CreateAutoMLJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateAutoMLJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAutoMLJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createAutoMLJob(input: CreateAutoMLJobInput) async throws -> CreateAutoMLJobOutputResponse
+    func createAutoMLJob(input: CreateAutoMLJobInput) async throws -> CreateAutoMLJobOutput
     /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) are new versions of [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html) and [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, and non-tabular problem types such as image or text classification. Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). You can find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html).
     ///
     /// - Parameter CreateAutoMLJobV2Input : [no documentation found]
     ///
-    /// - Returns: `CreateAutoMLJobV2OutputResponse` : [no documentation found]
+    /// - Returns: `CreateAutoMLJobV2Output` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createAutoMLJobV2(input: CreateAutoMLJobV2Input) async throws -> CreateAutoMLJobV2OutputResponse
+    func createAutoMLJobV2(input: CreateAutoMLJobV2Input) async throws -> CreateAutoMLJobV2Output
     /// Creates a Git repository as a resource in your SageMaker account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository.
     ///
     /// - Parameter CreateCodeRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `CreateCodeRepositoryOutputResponse` : [no documentation found]
-    func createCodeRepository(input: CreateCodeRepositoryInput) async throws -> CreateCodeRepositoryOutputResponse
+    /// - Returns: `CreateCodeRepositoryOutput` : [no documentation found]
+    func createCodeRepository(input: CreateCodeRepositoryInput) async throws -> CreateCodeRepositoryOutput
     /// Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify. If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:
     ///
     /// * A name for the compilation job
@@ -140,49 +140,49 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateCompilationJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateCompilationJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCompilationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createCompilationJob(input: CreateCompilationJobInput) async throws -> CreateCompilationJobOutputResponse
+    func createCompilationJob(input: CreateCompilationJobInput) async throws -> CreateCompilationJobOutput
     /// Creates a context. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
     /// - Parameter CreateContextInput : [no documentation found]
     ///
-    /// - Returns: `CreateContextOutputResponse` : [no documentation found]
+    /// - Returns: `CreateContextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createContext(input: CreateContextInput) async throws -> CreateContextOutputResponse
+    func createContext(input: CreateContextInput) async throws -> CreateContextOutput
     /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
     ///
     /// - Parameter CreateDataQualityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataQualityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataQualityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createDataQualityJobDefinition(input: CreateDataQualityJobDefinitionInput) async throws -> CreateDataQualityJobDefinitionOutputResponse
+    func createDataQualityJobDefinition(input: CreateDataQualityJobDefinitionInput) async throws -> CreateDataQualityJobDefinitionOutput
     /// Creates a device fleet.
     ///
     /// - Parameter CreateDeviceFleetInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeviceFleetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeviceFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createDeviceFleet(input: CreateDeviceFleetInput) async throws -> CreateDeviceFleetOutputResponse
+    func createDeviceFleet(input: CreateDeviceFleetInput) async throws -> CreateDeviceFleetOutput
     /// Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other. EFS storage When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see [Protect Data at Rest Using Encryption](https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html). VPC configuration All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:
     ///
     /// * PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.
@@ -194,47 +194,47 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
     ///
-    /// - Returns: `CreateDomainOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
+    func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
     /// Creates an edge deployment plan, consisting of multiple stages. Each stage may have a different deployment configuration and devices.
     ///
     /// - Parameter CreateEdgeDeploymentPlanInput : [no documentation found]
     ///
-    /// - Returns: `CreateEdgeDeploymentPlanOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEdgeDeploymentPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createEdgeDeploymentPlan(input: CreateEdgeDeploymentPlanInput) async throws -> CreateEdgeDeploymentPlanOutputResponse
+    func createEdgeDeploymentPlan(input: CreateEdgeDeploymentPlanInput) async throws -> CreateEdgeDeploymentPlanOutput
     /// Creates a new stage in an existing edge deployment plan.
     ///
     /// - Parameter CreateEdgeDeploymentStageInput : [no documentation found]
     ///
-    /// - Returns: `CreateEdgeDeploymentStageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEdgeDeploymentStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createEdgeDeploymentStage(input: CreateEdgeDeploymentStageInput) async throws -> CreateEdgeDeploymentStageOutputResponse
+    func createEdgeDeploymentStage(input: CreateEdgeDeploymentStageInput) async throws -> CreateEdgeDeploymentStageOutput
     /// Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
     ///
     /// - Parameter CreateEdgePackagingJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateEdgePackagingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEdgePackagingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createEdgePackagingJob(input: CreateEdgePackagingJobInput) async throws -> CreateEdgePackagingJobOutputResponse
+    func createEdgePackagingJob(input: CreateEdgePackagingJobInput) async throws -> CreateEdgePackagingJobOutput
     /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the [CreateEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html) API. Use this API to deploy models using SageMaker hosting services. You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. The endpoint name must be unique within an Amazon Web Services Region in your Amazon Web Services account. When it receives the request, SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them. When you call [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html), a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting [Eventually Consistent Reads](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html), the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call [DescribeEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpointConfig.html) before calling [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) to minimize the potential impact of a DynamoDB eventually consistent read. When SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html) API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provided. Amazon Web Services STS is activated in your Amazon Web Services account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the Amazon Web Services Identity and Access Management User Guide. To add the IAM role policies for using this API operation, go to the [IAM console](https://console.aws.amazon.com/iam/), and choose Roles in the left navigation pane. Search the IAM role that you want to grant access to use the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) and [CreateEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html) API operations, add the following policies to the role.
     ///
     /// * Option 1: For a full SageMaker access, search and attach the AmazonSageMakerFullAccess policy.
@@ -243,112 +243,112 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateEndpointInput : [no documentation found]
     ///
-    /// - Returns: `CreateEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutputResponse
+    func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
     /// Creates an endpoint configuration that SageMaker hosting services uses to deploy models. In the configuration, you identify one or more models, created using the CreateModel API, to deploy and the resources that you want SageMaker to provision. Then you call the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) API. Use this API if you want to use SageMaker hosting services to deploy models into production. In the request, you define a ProductionVariant, for each model that you want to deploy. Each ProductionVariant parameter also describes the resources that you want SageMaker to provision. This includes the number and type of ML compute instances to deploy. If you are hosting multiple models, you also assign a VariantWeight to specify how much traffic you want to allocate to each model. For example, suppose that you want to host two models, A and B, and you assign traffic weight 2 for model A and 1 for model B. SageMaker distributes two-thirds of the traffic to Model A, and one-third to model B. When you call [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html), a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting [Eventually Consistent Reads](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html), the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call [DescribeEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpointConfig.html) before calling [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) to minimize the potential impact of a DynamoDB eventually consistent read.
     ///
     /// - Parameter CreateEndpointConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateEndpointConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEndpointConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createEndpointConfig(input: CreateEndpointConfigInput) async throws -> CreateEndpointConfigOutputResponse
+    func createEndpointConfig(input: CreateEndpointConfigInput) async throws -> CreateEndpointConfigOutput
     /// Creates a SageMaker experiment. An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components, that produce a machine learning model. In the Studio UI, trials are referred to as run groups and trial components are referred to as runs. The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change to one or more inputs, while keeping the remaining inputs constant. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to experiments, trials, trial components and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search for the tags. To add a description to an experiment, specify the optional Description parameter. To add a description later, or to change the description, call the [UpdateExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateExperiment.html) API. To get a list of all your experiments, call the [ListExperiments](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListExperiments.html) API. To view an experiment's properties, call the [DescribeExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeExperiment.html) API. To get a list of all the trials associated with an experiment, call the [ListTrials](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTrials.html) API. To create a trial call the [CreateTrial](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrial.html) API.
     ///
     /// - Parameter CreateExperimentInput : [no documentation found]
     ///
-    /// - Returns: `CreateExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutputResponse
+    func createExperiment(input: CreateExperimentInput) async throws -> CreateExperimentOutput
     /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record. The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check [Amazon Web Services service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) to see the FeatureGroups quota for your Amazon Web Services account. You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
     ///
     /// - Parameter CreateFeatureGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateFeatureGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFeatureGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createFeatureGroup(input: CreateFeatureGroupInput) async throws -> CreateFeatureGroupOutputResponse
+    func createFeatureGroup(input: CreateFeatureGroupInput) async throws -> CreateFeatureGroupOutput
     /// Creates a flow definition.
     ///
     /// - Parameter CreateFlowDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateFlowDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFlowDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createFlowDefinition(input: CreateFlowDefinitionInput) async throws -> CreateFlowDefinitionOutputResponse
+    func createFlowDefinition(input: CreateFlowDefinitionInput) async throws -> CreateFlowDefinitionOutput
     /// Create a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter CreateHubInput : [no documentation found]
     ///
-    /// - Returns: `CreateHubOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHubOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createHub(input: CreateHubInput) async throws -> CreateHubOutputResponse
+    func createHub(input: CreateHubInput) async throws -> CreateHubOutput
     /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
     ///
     /// - Parameter CreateHumanTaskUiInput : [no documentation found]
     ///
-    /// - Returns: `CreateHumanTaskUiOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHumanTaskUiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createHumanTaskUi(input: CreateHumanTaskUiInput) async throws -> CreateHumanTaskUiOutputResponse
+    func createHumanTaskUi(input: CreateHumanTaskUiInput) async throws -> CreateHumanTaskUiOutput
     /// Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter values that result in a model that performs the best, as measured by an objective metric that you choose. A hyperparameter tuning job automatically creates Amazon SageMaker experiments, trials, and trial components for each training job that it runs. You can view these entities in Amazon SageMaker Studio. For more information, see [View Experiments, Trials, and Trial Components](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments-view-compare.html#experiments-view). Do not include any security-sensitive information including account access IDs, secrets or tokens in any hyperparameter field. If the use of security-sensitive credentials are detected, SageMaker will reject your training job request and return an exception error.
     ///
     /// - Parameter CreateHyperParameterTuningJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateHyperParameterTuningJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHyperParameterTuningJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createHyperParameterTuningJob(input: CreateHyperParameterTuningJobInput) async throws -> CreateHyperParameterTuningJobOutputResponse
+    func createHyperParameterTuningJob(input: CreateHyperParameterTuningJobInput) async throws -> CreateHyperParameterTuningJobOutput
     /// Creates a custom SageMaker image. A SageMaker image is a set of image versions. Each image version represents a container image stored in Amazon Elastic Container Registry (ECR). For more information, see [Bring your own SageMaker image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
     ///
     /// - Parameter CreateImageInput : [no documentation found]
     ///
-    /// - Returns: `CreateImageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createImage(input: CreateImageInput) async throws -> CreateImageOutputResponse
+    func createImage(input: CreateImageInput) async throws -> CreateImageOutput
     /// Creates a version of the SageMaker image specified by ImageName. The version represents the Amazon Elastic Container Registry (ECR) container image specified by BaseImage.
     ///
     /// - Parameter CreateImageVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateImageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateImageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -356,31 +356,31 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createImageVersion(input: CreateImageVersionInput) async throws -> CreateImageVersionOutputResponse
+    func createImageVersion(input: CreateImageVersionInput) async throws -> CreateImageVersionOutput
     /// Creates an inference experiment using the configurations specified in the request. Use this API to setup and schedule an experiment to compare model variants on a Amazon SageMaker inference endpoint. For more information about inference experiments, see [Shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests.html). Amazon SageMaker begins your experiment at the scheduled time and routes traffic to your endpoint's model variants based on your specified configuration. While the experiment is in progress or after it has concluded, you can view metrics that compare your model variants. For more information, see [View, monitor, and edit shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests-view-monitor-edit.html).
     ///
     /// - Parameter CreateInferenceExperimentInput : [no documentation found]
     ///
-    /// - Returns: `CreateInferenceExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInferenceExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createInferenceExperiment(input: CreateInferenceExperimentInput) async throws -> CreateInferenceExperimentOutputResponse
+    func createInferenceExperiment(input: CreateInferenceExperimentInput) async throws -> CreateInferenceExperimentOutput
     /// Starts a recommendation job. You can create either an instance recommendation or load test job.
     ///
     /// - Parameter CreateInferenceRecommendationsJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateInferenceRecommendationsJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInferenceRecommendationsJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createInferenceRecommendationsJob(input: CreateInferenceRecommendationsJobInput) async throws -> CreateInferenceRecommendationsJobOutputResponse
+    func createInferenceRecommendationsJob(input: CreateInferenceRecommendationsJobInput) async throws -> CreateInferenceRecommendationsJobOutput
     /// Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers:
     ///
     /// * A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required.
@@ -394,54 +394,54 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateLabelingJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateLabelingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLabelingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createLabelingJob(input: CreateLabelingJobInput) async throws -> CreateLabelingJobOutputResponse
+    func createLabelingJob(input: CreateLabelingJobInput) async throws -> CreateLabelingJobOutput
     /// Creates a model in SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions. Use this API to create a model if you want to use SageMaker hosting services or run a batch transform job. To host your model, you create an endpoint configuration with the CreateEndpointConfig API, and then create an endpoint with the CreateEndpoint API. SageMaker then deploys all of the containers that you defined for the model in the hosting environment. For an example that calls this method when deploying a model to SageMaker hosting services, see [Create a Model (Amazon Web Services SDK for Python (Boto 3)).](https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints-deployment.html#realtime-endpoints-deployment-create-model) To run a batch transform using your model, you start a job with the CreateTransformJob API. SageMaker uses your model and your dataset to get inferences which are then saved to a specified S3 location. In the request, you also provide an IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute hosting instances or for batch transform jobs. In addition, you also use the IAM role to manage permissions the inference code needs. For example, if the inference code access any other Amazon Web Services resources, you grant necessary permissions via this role.
     ///
     /// - Parameter CreateModelInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
+    func createModel(input: CreateModelInput) async throws -> CreateModelOutput
     /// Creates the definition for a model bias job.
     ///
     /// - Parameter CreateModelBiasJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelBiasJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelBiasJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModelBiasJobDefinition(input: CreateModelBiasJobDefinitionInput) async throws -> CreateModelBiasJobDefinitionOutputResponse
+    func createModelBiasJobDefinition(input: CreateModelBiasJobDefinitionInput) async throws -> CreateModelBiasJobDefinitionOutput
     /// Creates an Amazon SageMaker Model Card. For information about how to use model cards, see [Amazon SageMaker Model Card](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html).
     ///
     /// - Parameter CreateModelCardInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelCardOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelCardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModelCard(input: CreateModelCardInput) async throws -> CreateModelCardOutputResponse
+    func createModelCard(input: CreateModelCardInput) async throws -> CreateModelCardOutput
     /// Creates an Amazon SageMaker Model Card export job.
     ///
     /// - Parameter CreateModelCardExportJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelCardExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelCardExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,19 +449,19 @@ public protocol SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createModelCardExportJob(input: CreateModelCardExportJobInput) async throws -> CreateModelCardExportJobOutputResponse
+    func createModelCardExportJob(input: CreateModelCardExportJobInput) async throws -> CreateModelCardExportJobOutput
     /// Creates the definition for a model explainability job.
     ///
     /// - Parameter CreateModelExplainabilityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelExplainabilityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelExplainabilityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModelExplainabilityJobDefinition(input: CreateModelExplainabilityJobDefinitionInput) async throws -> CreateModelExplainabilityJobDefinitionOutputResponse
+    func createModelExplainabilityJobDefinition(input: CreateModelExplainabilityJobDefinitionInput) async throws -> CreateModelExplainabilityJobDefinitionOutput
     /// Creates a model package that you can use to create SageMaker models or list on Amazon Web Services Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To create a model from an algorithm resource that you created or subscribed to in Amazon Web Services Marketplace, provide a value for SourceAlgorithmSpecification. There are two types of model packages:
     ///
     /// * Versioned - a model that is part of a model group in the model registry.
@@ -470,49 +470,49 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateModelPackageInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelPackageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelPackageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModelPackage(input: CreateModelPackageInput) async throws -> CreateModelPackageOutputResponse
+    func createModelPackage(input: CreateModelPackageInput) async throws -> CreateModelPackageOutput
     /// Creates a model group. A model group contains a group of model versions.
     ///
     /// - Parameter CreateModelPackageGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelPackageGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelPackageGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModelPackageGroup(input: CreateModelPackageGroupInput) async throws -> CreateModelPackageGroupOutputResponse
+    func createModelPackageGroup(input: CreateModelPackageGroupInput) async throws -> CreateModelPackageGroupOutput
     /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
     ///
     /// - Parameter CreateModelQualityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelQualityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelQualityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createModelQualityJobDefinition(input: CreateModelQualityJobDefinitionInput) async throws -> CreateModelQualityJobDefinitionOutputResponse
+    func createModelQualityJobDefinition(input: CreateModelQualityJobDefinitionInput) async throws -> CreateModelQualityJobDefinitionOutput
     /// Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the data captured for an Amazon SageMaker Endpoint.
     ///
     /// - Parameter CreateMonitoringScheduleInput : [no documentation found]
     ///
-    /// - Returns: `CreateMonitoringScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMonitoringScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createMonitoringSchedule(input: CreateMonitoringScheduleInput) async throws -> CreateMonitoringScheduleOutputResponse
+    func createMonitoringSchedule(input: CreateMonitoringScheduleInput) async throws -> CreateMonitoringScheduleOutput
     /// Creates an SageMaker notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook. In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance. SageMaker also provides a set of example notebooks. Each notebook demonstrates how to use SageMaker with a specific algorithm or with a machine learning framework. After receiving the request, SageMaker does the following:
     ///
     /// * Creates a network interface in the SageMaker VPC.
@@ -526,58 +526,58 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateNotebookInstanceInput : [no documentation found]
     ///
-    /// - Returns: `CreateNotebookInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNotebookInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createNotebookInstance(input: CreateNotebookInstanceInput) async throws -> CreateNotebookInstanceOutputResponse
+    func createNotebookInstance(input: CreateNotebookInstanceInput) async throws -> CreateNotebookInstanceOutput
     /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     ///
     /// - Parameter CreateNotebookInstanceLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateNotebookInstanceLifecycleConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNotebookInstanceLifecycleConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createNotebookInstanceLifecycleConfig(input: CreateNotebookInstanceLifecycleConfigInput) async throws -> CreateNotebookInstanceLifecycleConfigOutputResponse
+    func createNotebookInstanceLifecycleConfig(input: CreateNotebookInstanceLifecycleConfigInput) async throws -> CreateNotebookInstanceLifecycleConfigOutput
     /// Creates a pipeline using a JSON pipeline definition.
     ///
     /// - Parameter CreatePipelineInput : [no documentation found]
     ///
-    /// - Returns: `CreatePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutputResponse
+    func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
     /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM. The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see [Connect to SageMaker Studio Through an Interface VPC Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-interface-endpoint.html) . The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
     ///
     /// - Parameter CreatePresignedDomainUrlInput : [no documentation found]
     ///
-    /// - Returns: `CreatePresignedDomainUrlOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePresignedDomainUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createPresignedDomainUrl(input: CreatePresignedDomainUrlInput) async throws -> CreatePresignedDomainUrlOutputResponse
+    func createPresignedDomainUrl(input: CreatePresignedDomainUrlInput) async throws -> CreatePresignedDomainUrlOutput
     /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker console, when you choose Open next to a notebook instance, SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see [Limit Access to a Notebook Instance by IP Address](https://docs.aws.amazon.com/sagemaker/latest/dg/security_iam_id-based-policy-examples.html#nbi-ip-filter). The URL that you get from a call to [CreatePresignedNotebookInstanceUrl](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreatePresignedNotebookInstanceUrl.html) is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
     ///
     /// - Parameter CreatePresignedNotebookInstanceUrlInput : [no documentation found]
     ///
-    /// - Returns: `CreatePresignedNotebookInstanceUrlOutputResponse` : [no documentation found]
-    func createPresignedNotebookInstanceUrl(input: CreatePresignedNotebookInstanceUrlInput) async throws -> CreatePresignedNotebookInstanceUrlOutputResponse
+    /// - Returns: `CreatePresignedNotebookInstanceUrlOutput` : [no documentation found]
+    func createPresignedNotebookInstanceUrl(input: CreatePresignedNotebookInstanceUrlInput) async throws -> CreatePresignedNotebookInstanceUrlOutput
     /// Creates a processing job.
     ///
     /// - Parameter CreateProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -585,41 +585,41 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createProcessingJob(input: CreateProcessingJobInput) async throws -> CreateProcessingJobOutputResponse
+    func createProcessingJob(input: CreateProcessingJobInput) async throws -> CreateProcessingJobOutput
     /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     /// Creates a space used for real time collaboration in a Domain.
     ///
     /// - Parameter CreateSpaceInput : [no documentation found]
     ///
-    /// - Returns: `CreateSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutputResponse
+    func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutput
     /// Creates a new Studio Lifecycle Configuration.
     ///
     /// - Parameter CreateStudioLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateStudioLifecycleConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStudioLifecycleConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func createStudioLifecycleConfig(input: CreateStudioLifecycleConfigInput) async throws -> CreateStudioLifecycleConfigOutputResponse
+    func createStudioLifecycleConfig(input: CreateStudioLifecycleConfigInput) async throws -> CreateStudioLifecycleConfigOutput
     /// Starts a model training job. After training completes, SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify. If you choose to host your model using SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than SageMaker, provided that you know how to use them for inference. In the request body, you provide the following:
     ///
     /// * AlgorithmSpecification - Identifies the training algorithm to use.
@@ -647,7 +647,7 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,7 +655,7 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createTrainingJob(input: CreateTrainingJobInput) async throws -> CreateTrainingJobOutputResponse
+    func createTrainingJob(input: CreateTrainingJobInput) async throws -> CreateTrainingJobOutput
     /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:
     ///
     /// * TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.
@@ -673,7 +673,7 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter CreateTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -681,1170 +681,1170 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createTransformJob(input: CreateTransformJobInput) async throws -> CreateTransformJobOutputResponse
+    func createTransformJob(input: CreateTransformJobInput) async throws -> CreateTransformJobOutput
     /// Creates an SageMaker trial. A trial is a set of steps called trial components that produce a machine learning model. A trial is part of a single SageMaker experiment. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search for the tags. To get a list of all your trials, call the [ListTrials](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTrials.html) API. To view a trial's properties, call the [DescribeTrial](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrial.html) API. To create a trial component, call the [CreateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrialComponent.html) API.
     ///
     /// - Parameter CreateTrialInput : [no documentation found]
     ///
-    /// - Returns: `CreateTrialOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTrialOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func createTrial(input: CreateTrialInput) async throws -> CreateTrialOutputResponse
+    func createTrial(input: CreateTrialInput) async throws -> CreateTrialOutput
     /// Creates a trial component, which is a stage of a machine learning trial. A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial component and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search for the tags.
     ///
     /// - Parameter CreateTrialComponentInput : [no documentation found]
     ///
-    /// - Returns: `CreateTrialComponentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTrialComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createTrialComponent(input: CreateTrialComponentInput) async throws -> CreateTrialComponentOutputResponse
+    func createTrialComponent(input: CreateTrialComponentInput) async throws -> CreateTrialComponentOutput
     /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to Amazon SageMaker Studio. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System (EFS) home directory.
     ///
     /// - Parameter CreateUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutputResponse
+    func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
     /// Use this operation to create a workforce. This operation will return an error if a workforce already exists in the Amazon Web Services Region that you specify. You can only create one workforce in each Amazon Web Services Region per Amazon Web Services account. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use the [DeleteWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkforce.html) API operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. To create a private workforce using Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an Amazon Cognito workforce using the Amazon SageMaker console. For more information, see [ Create a Private Workforce (Amazon Cognito)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private.html). To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. Your OIDC IdP must support groups because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see [ Create a Private Workforce (OIDC IdP)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-oidc.html).
     ///
     /// - Parameter CreateWorkforceInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkforceOutputResponse` : [no documentation found]
-    func createWorkforce(input: CreateWorkforceInput) async throws -> CreateWorkforceOutputResponse
+    /// - Returns: `CreateWorkforceOutput` : [no documentation found]
+    func createWorkforce(input: CreateWorkforceInput) async throws -> CreateWorkforceOutput
     /// Creates a new work team for labeling your data. A work team is defined by one or more Amazon Cognito user pools. You must first create the user pools before you can create a work team. You cannot create more than 25 work teams in an account and region.
     ///
     /// - Parameter CreateWorkteamInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkteamOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorkteamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func createWorkteam(input: CreateWorkteamInput) async throws -> CreateWorkteamOutputResponse
+    func createWorkteam(input: CreateWorkteamInput) async throws -> CreateWorkteamOutput
     /// Deletes an action.
     ///
     /// - Parameter DeleteActionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteActionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteAction(input: DeleteActionInput) async throws -> DeleteActionOutputResponse
+    func deleteAction(input: DeleteActionInput) async throws -> DeleteActionOutput
     /// Removes the specified algorithm from your account.
     ///
     /// - Parameter DeleteAlgorithmInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAlgorithmOutputResponse` : [no documentation found]
-    func deleteAlgorithm(input: DeleteAlgorithmInput) async throws -> DeleteAlgorithmOutputResponse
+    /// - Returns: `DeleteAlgorithmOutput` : [no documentation found]
+    func deleteAlgorithm(input: DeleteAlgorithmInput) async throws -> DeleteAlgorithmOutput
     /// Used to stop and delete an app.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
+    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
     /// Deletes an AppImageConfig.
     ///
     /// - Parameter DeleteAppImageConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppImageConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppImageConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteAppImageConfig(input: DeleteAppImageConfigInput) async throws -> DeleteAppImageConfigOutputResponse
+    func deleteAppImageConfig(input: DeleteAppImageConfigInput) async throws -> DeleteAppImageConfigOutput
     /// Deletes an artifact. Either ArtifactArn or Source must be specified.
     ///
     /// - Parameter DeleteArtifactInput : [no documentation found]
     ///
-    /// - Returns: `DeleteArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteArtifact(input: DeleteArtifactInput) async throws -> DeleteArtifactOutputResponse
+    func deleteArtifact(input: DeleteArtifactInput) async throws -> DeleteArtifactOutput
     /// Deletes an association.
     ///
     /// - Parameter DeleteAssociationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutputResponse
+    func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput
     /// Deletes the specified Git repository from your account.
     ///
     /// - Parameter DeleteCodeRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCodeRepositoryOutputResponse` : [no documentation found]
-    func deleteCodeRepository(input: DeleteCodeRepositoryInput) async throws -> DeleteCodeRepositoryOutputResponse
+    /// - Returns: `DeleteCodeRepositoryOutput` : [no documentation found]
+    func deleteCodeRepository(input: DeleteCodeRepositoryInput) async throws -> DeleteCodeRepositoryOutput
     /// Deletes an context.
     ///
     /// - Parameter DeleteContextInput : [no documentation found]
     ///
-    /// - Returns: `DeleteContextOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteContextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteContext(input: DeleteContextInput) async throws -> DeleteContextOutputResponse
+    func deleteContext(input: DeleteContextInput) async throws -> DeleteContextOutput
     /// Deletes a data quality monitoring job definition.
     ///
     /// - Parameter DeleteDataQualityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataQualityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataQualityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteDataQualityJobDefinition(input: DeleteDataQualityJobDefinitionInput) async throws -> DeleteDataQualityJobDefinitionOutputResponse
+    func deleteDataQualityJobDefinition(input: DeleteDataQualityJobDefinitionInput) async throws -> DeleteDataQualityJobDefinitionOutput
     /// Deletes a fleet.
     ///
     /// - Parameter DeleteDeviceFleetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func deleteDeviceFleet(input: DeleteDeviceFleetInput) async throws -> DeleteDeviceFleetOutputResponse
+    func deleteDeviceFleet(input: DeleteDeviceFleetInput) async throws -> DeleteDeviceFleetOutput
     /// Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDomainOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
+    func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
     /// Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
     ///
     /// - Parameter DeleteEdgeDeploymentPlanInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEdgeDeploymentPlanOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEdgeDeploymentPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func deleteEdgeDeploymentPlan(input: DeleteEdgeDeploymentPlanInput) async throws -> DeleteEdgeDeploymentPlanOutputResponse
+    func deleteEdgeDeploymentPlan(input: DeleteEdgeDeploymentPlanInput) async throws -> DeleteEdgeDeploymentPlanOutput
     /// Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
     ///
     /// - Parameter DeleteEdgeDeploymentStageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEdgeDeploymentStageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEdgeDeploymentStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func deleteEdgeDeploymentStage(input: DeleteEdgeDeploymentStageInput) async throws -> DeleteEdgeDeploymentStageOutputResponse
+    func deleteEdgeDeploymentStage(input: DeleteEdgeDeploymentStageInput) async throws -> DeleteEdgeDeploymentStageOutput
     /// Deletes an endpoint. SageMaker frees up all of the resources that were deployed when the endpoint was created. SageMaker retires any custom KMS key grants associated with the endpoint, meaning you don't need to use the [RevokeGrant](http://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html) API call. When you delete your endpoint, SageMaker asynchronously deletes associated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissions for your [ExecutionRoleArn](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModel.html#sagemaker-CreateModel-request-ExecutionRoleArn), otherwise SageMaker cannot delete these resources.
     ///
     /// - Parameter DeleteEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
-    func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
+    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
+    func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
     /// Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
     ///
     /// - Parameter DeleteEndpointConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEndpointConfigOutputResponse` : [no documentation found]
-    func deleteEndpointConfig(input: DeleteEndpointConfigInput) async throws -> DeleteEndpointConfigOutputResponse
+    /// - Returns: `DeleteEndpointConfigOutput` : [no documentation found]
+    func deleteEndpointConfig(input: DeleteEndpointConfigInput) async throws -> DeleteEndpointConfigOutput
     /// Deletes an SageMaker experiment. All trials associated with the experiment must be deleted first. Use the [ListTrials](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTrials.html) API to get a list of the trials associated with the experiment.
     ///
     /// - Parameter DeleteExperimentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutputResponse
+    func deleteExperiment(input: DeleteExperimentInput) async throws -> DeleteExperimentOutput
     /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted.
     ///
     /// - Parameter DeleteFeatureGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFeatureGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFeatureGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteFeatureGroup(input: DeleteFeatureGroupInput) async throws -> DeleteFeatureGroupOutputResponse
+    func deleteFeatureGroup(input: DeleteFeatureGroupInput) async throws -> DeleteFeatureGroupOutput
     /// Deletes the specified flow definition.
     ///
     /// - Parameter DeleteFlowDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFlowDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFlowDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteFlowDefinition(input: DeleteFlowDefinitionInput) async throws -> DeleteFlowDefinitionOutputResponse
+    func deleteFlowDefinition(input: DeleteFlowDefinitionInput) async throws -> DeleteFlowDefinitionOutput
     /// Delete a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter DeleteHubInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHubOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHubOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteHub(input: DeleteHubInput) async throws -> DeleteHubOutputResponse
+    func deleteHub(input: DeleteHubInput) async throws -> DeleteHubOutput
     /// Delete the contents of a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter DeleteHubContentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHubContentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHubContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteHubContent(input: DeleteHubContentInput) async throws -> DeleteHubContentOutputResponse
+    func deleteHubContent(input: DeleteHubContentInput) async throws -> DeleteHubContentOutput
     /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use [ListHumanTaskUis](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListHumanTaskUis.html). When you delete a worker task template, it no longer appears when you call ListHumanTaskUis.
     ///
     /// - Parameter DeleteHumanTaskUiInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHumanTaskUiOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHumanTaskUiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteHumanTaskUi(input: DeleteHumanTaskUiInput) async throws -> DeleteHumanTaskUiOutputResponse
+    func deleteHumanTaskUi(input: DeleteHumanTaskUiInput) async throws -> DeleteHumanTaskUiOutput
     /// Deletes a SageMaker image and all versions of the image. The container images aren't deleted.
     ///
     /// - Parameter DeleteImageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutputResponse
+    func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
     /// Deletes a version of a SageMaker image. The container image the version represents isn't deleted.
     ///
     /// - Parameter DeleteImageVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteImageVersion(input: DeleteImageVersionInput) async throws -> DeleteImageVersionOutputResponse
+    func deleteImageVersion(input: DeleteImageVersionInput) async throws -> DeleteImageVersionOutput
     /// Deletes an inference experiment. This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment.
     ///
     /// - Parameter DeleteInferenceExperimentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInferenceExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInferenceExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteInferenceExperiment(input: DeleteInferenceExperimentInput) async throws -> DeleteInferenceExperimentOutputResponse
+    func deleteInferenceExperiment(input: DeleteInferenceExperimentInput) async throws -> DeleteInferenceExperimentOutput
     /// Deletes a model. The DeleteModel API deletes only the model entry that was created in SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model.
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelOutputResponse` : [no documentation found]
-    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
+    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
     /// Deletes an Amazon SageMaker model bias job definition.
     ///
     /// - Parameter DeleteModelBiasJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelBiasJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelBiasJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteModelBiasJobDefinition(input: DeleteModelBiasJobDefinitionInput) async throws -> DeleteModelBiasJobDefinitionOutputResponse
+    func deleteModelBiasJobDefinition(input: DeleteModelBiasJobDefinitionInput) async throws -> DeleteModelBiasJobDefinitionOutput
     /// Deletes an Amazon SageMaker Model Card.
     ///
     /// - Parameter DeleteModelCardInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelCardOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelCardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteModelCard(input: DeleteModelCardInput) async throws -> DeleteModelCardOutputResponse
+    func deleteModelCard(input: DeleteModelCardInput) async throws -> DeleteModelCardOutput
     /// Deletes an Amazon SageMaker model explainability job definition.
     ///
     /// - Parameter DeleteModelExplainabilityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelExplainabilityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelExplainabilityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteModelExplainabilityJobDefinition(input: DeleteModelExplainabilityJobDefinitionInput) async throws -> DeleteModelExplainabilityJobDefinitionOutputResponse
+    func deleteModelExplainabilityJobDefinition(input: DeleteModelExplainabilityJobDefinitionInput) async throws -> DeleteModelExplainabilityJobDefinitionOutput
     /// Deletes a model package. A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
     ///
     /// - Parameter DeleteModelPackageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelPackageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelPackageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    func deleteModelPackage(input: DeleteModelPackageInput) async throws -> DeleteModelPackageOutputResponse
+    func deleteModelPackage(input: DeleteModelPackageInput) async throws -> DeleteModelPackageOutput
     /// Deletes the specified model group.
     ///
     /// - Parameter DeleteModelPackageGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelPackageGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelPackageGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    func deleteModelPackageGroup(input: DeleteModelPackageGroupInput) async throws -> DeleteModelPackageGroupOutputResponse
+    func deleteModelPackageGroup(input: DeleteModelPackageGroupInput) async throws -> DeleteModelPackageGroupOutput
     /// Deletes a model group resource policy.
     ///
     /// - Parameter DeleteModelPackageGroupPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelPackageGroupPolicyOutputResponse` : [no documentation found]
-    func deleteModelPackageGroupPolicy(input: DeleteModelPackageGroupPolicyInput) async throws -> DeleteModelPackageGroupPolicyOutputResponse
+    /// - Returns: `DeleteModelPackageGroupPolicyOutput` : [no documentation found]
+    func deleteModelPackageGroupPolicy(input: DeleteModelPackageGroupPolicyInput) async throws -> DeleteModelPackageGroupPolicyOutput
     /// Deletes the secified model quality monitoring job definition.
     ///
     /// - Parameter DeleteModelQualityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelQualityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelQualityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteModelQualityJobDefinition(input: DeleteModelQualityJobDefinitionInput) async throws -> DeleteModelQualityJobDefinitionOutputResponse
+    func deleteModelQualityJobDefinition(input: DeleteModelQualityJobDefinitionInput) async throws -> DeleteModelQualityJobDefinitionOutput
     /// Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
     ///
     /// - Parameter DeleteMonitoringScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMonitoringScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMonitoringScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteMonitoringSchedule(input: DeleteMonitoringScheduleInput) async throws -> DeleteMonitoringScheduleOutputResponse
+    func deleteMonitoringSchedule(input: DeleteMonitoringScheduleInput) async throws -> DeleteMonitoringScheduleOutput
     /// Deletes an SageMaker notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API. When you delete a notebook instance, you lose all of your data. SageMaker removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
     ///
     /// - Parameter DeleteNotebookInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNotebookInstanceOutputResponse` : [no documentation found]
-    func deleteNotebookInstance(input: DeleteNotebookInstanceInput) async throws -> DeleteNotebookInstanceOutputResponse
+    /// - Returns: `DeleteNotebookInstanceOutput` : [no documentation found]
+    func deleteNotebookInstance(input: DeleteNotebookInstanceInput) async throws -> DeleteNotebookInstanceOutput
     /// Deletes a notebook instance lifecycle configuration.
     ///
     /// - Parameter DeleteNotebookInstanceLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNotebookInstanceLifecycleConfigOutputResponse` : [no documentation found]
-    func deleteNotebookInstanceLifecycleConfig(input: DeleteNotebookInstanceLifecycleConfigInput) async throws -> DeleteNotebookInstanceLifecycleConfigOutputResponse
+    /// - Returns: `DeleteNotebookInstanceLifecycleConfigOutput` : [no documentation found]
+    func deleteNotebookInstanceLifecycleConfig(input: DeleteNotebookInstanceLifecycleConfigInput) async throws -> DeleteNotebookInstanceLifecycleConfigOutput
     /// Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the StopPipelineExecution API. When you delete a pipeline, all instances of the pipeline are deleted.
     ///
     /// - Parameter DeletePipelineInput : [no documentation found]
     ///
-    /// - Returns: `DeletePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutputResponse
+    func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
     /// Delete the specified project.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     /// Used to delete a space.
     ///
     /// - Parameter DeleteSpaceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutputResponse
+    func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutput
     /// Deletes the Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
     ///
     /// - Parameter DeleteStudioLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStudioLifecycleConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStudioLifecycleConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteStudioLifecycleConfig(input: DeleteStudioLifecycleConfigInput) async throws -> DeleteStudioLifecycleConfigOutputResponse
+    func deleteStudioLifecycleConfig(input: DeleteStudioLifecycleConfigInput) async throws -> DeleteStudioLifecycleConfigOutput
     /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API. When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. When you call this API to delete tags from a SageMaker Studio Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Studio Domain or User Profile launched before you called this API.
     ///
     /// - Parameter DeleteTagsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
-    func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
+    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
     /// Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the [DescribeTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrialComponent.html) API to get the list of trial components.
     ///
     /// - Parameter DeleteTrialInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTrialOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTrialOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteTrial(input: DeleteTrialInput) async throws -> DeleteTrialOutputResponse
+    func deleteTrial(input: DeleteTrialInput) async throws -> DeleteTrialOutput
     /// Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the [DisassociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DisassociateTrialComponent.html) API.
     ///
     /// - Parameter DeleteTrialComponentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTrialComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTrialComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteTrialComponent(input: DeleteTrialComponentInput) async throws -> DeleteTrialComponentOutputResponse
+    func deleteTrialComponent(input: DeleteTrialComponentInput) async throws -> DeleteTrialComponentOutput
     /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
     ///
     /// - Parameter DeleteUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutputResponse
+    func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput
     /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the existing workforce and then use [CreateWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateWorkforce.html) to create a new workforce. If a private workforce contains one or more work teams, you must use the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html) operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will recieve a ResourceInUse error.
     ///
     /// - Parameter DeleteWorkforceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkforceOutputResponse` : [no documentation found]
-    func deleteWorkforce(input: DeleteWorkforceInput) async throws -> DeleteWorkforceOutputResponse
+    /// - Returns: `DeleteWorkforceOutput` : [no documentation found]
+    func deleteWorkforce(input: DeleteWorkforceInput) async throws -> DeleteWorkforceOutput
     /// Deletes an existing work team. This operation can't be undone.
     ///
     /// - Parameter DeleteWorkteamInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkteamOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkteamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func deleteWorkteam(input: DeleteWorkteamInput) async throws -> DeleteWorkteamOutputResponse
+    func deleteWorkteam(input: DeleteWorkteamInput) async throws -> DeleteWorkteamOutput
     /// Deregisters the specified devices. After you deregister a device, you will need to re-register the devices.
     ///
     /// - Parameter DeregisterDevicesInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterDevicesOutputResponse` : [no documentation found]
-    func deregisterDevices(input: DeregisterDevicesInput) async throws -> DeregisterDevicesOutputResponse
+    /// - Returns: `DeregisterDevicesOutput` : [no documentation found]
+    func deregisterDevices(input: DeregisterDevicesInput) async throws -> DeregisterDevicesOutput
     /// Describes an action.
     ///
     /// - Parameter DescribeActionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeActionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeAction(input: DescribeActionInput) async throws -> DescribeActionOutputResponse
+    func describeAction(input: DescribeActionInput) async throws -> DescribeActionOutput
     /// Returns a description of the specified algorithm that is in your account.
     ///
     /// - Parameter DescribeAlgorithmInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAlgorithmOutputResponse` : [no documentation found]
-    func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutputResponse
+    /// - Returns: `DescribeAlgorithmOutput` : [no documentation found]
+    func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput
     /// Describes the app.
     ///
     /// - Parameter DescribeAppInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutputResponse
+    func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
     /// Describes an AppImageConfig.
     ///
     /// - Parameter DescribeAppImageConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppImageConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppImageConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeAppImageConfig(input: DescribeAppImageConfigInput) async throws -> DescribeAppImageConfigOutputResponse
+    func describeAppImageConfig(input: DescribeAppImageConfigInput) async throws -> DescribeAppImageConfigOutput
     /// Describes an artifact.
     ///
     /// - Parameter DescribeArtifactInput : [no documentation found]
     ///
-    /// - Returns: `DescribeArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeArtifact(input: DescribeArtifactInput) async throws -> DescribeArtifactOutputResponse
+    func describeArtifact(input: DescribeArtifactInput) async throws -> DescribeArtifactOutput
     /// Returns information about an AutoML job created by calling [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html). AutoML jobs created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) cannot be described by DescribeAutoMLJob.
     ///
     /// - Parameter DescribeAutoMLJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAutoMLJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAutoMLJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeAutoMLJob(input: DescribeAutoMLJobInput) async throws -> DescribeAutoMLJobOutputResponse
+    func describeAutoMLJob(input: DescribeAutoMLJobInput) async throws -> DescribeAutoMLJobOutput
     /// Returns information about an AutoML job created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) or [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html).
     ///
     /// - Parameter DescribeAutoMLJobV2Input : [no documentation found]
     ///
-    /// - Returns: `DescribeAutoMLJobV2OutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAutoMLJobV2Output` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeAutoMLJobV2(input: DescribeAutoMLJobV2Input) async throws -> DescribeAutoMLJobV2OutputResponse
+    func describeAutoMLJobV2(input: DescribeAutoMLJobV2Input) async throws -> DescribeAutoMLJobV2Output
     /// Gets details about the specified Git repository.
     ///
     /// - Parameter DescribeCodeRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCodeRepositoryOutputResponse` : [no documentation found]
-    func describeCodeRepository(input: DescribeCodeRepositoryInput) async throws -> DescribeCodeRepositoryOutputResponse
+    /// - Returns: `DescribeCodeRepositoryOutput` : [no documentation found]
+    func describeCodeRepository(input: DescribeCodeRepositoryInput) async throws -> DescribeCodeRepositoryOutput
     /// Returns information about a model compilation job. To create a model compilation job, use [CreateCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateCompilationJob.html). To get information about multiple model compilation jobs, use [ListCompilationJobs](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListCompilationJobs.html).
     ///
     /// - Parameter DescribeCompilationJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCompilationJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCompilationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeCompilationJob(input: DescribeCompilationJobInput) async throws -> DescribeCompilationJobOutputResponse
+    func describeCompilationJob(input: DescribeCompilationJobInput) async throws -> DescribeCompilationJobOutput
     /// Describes a context.
     ///
     /// - Parameter DescribeContextInput : [no documentation found]
     ///
-    /// - Returns: `DescribeContextOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeContextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeContext(input: DescribeContextInput) async throws -> DescribeContextOutputResponse
+    func describeContext(input: DescribeContextInput) async throws -> DescribeContextOutput
     /// Gets the details of a data quality monitoring job definition.
     ///
     /// - Parameter DescribeDataQualityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataQualityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataQualityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeDataQualityJobDefinition(input: DescribeDataQualityJobDefinitionInput) async throws -> DescribeDataQualityJobDefinitionOutputResponse
+    func describeDataQualityJobDefinition(input: DescribeDataQualityJobDefinitionInput) async throws -> DescribeDataQualityJobDefinitionOutput
     /// Describes the device.
     ///
     /// - Parameter DescribeDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutputResponse
+    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
     /// A description of the fleet the device belongs to.
     ///
     /// - Parameter DescribeDeviceFleetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeviceFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeviceFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeDeviceFleet(input: DescribeDeviceFleetInput) async throws -> DescribeDeviceFleetOutputResponse
+    func describeDeviceFleet(input: DescribeDeviceFleetInput) async throws -> DescribeDeviceFleetOutput
     /// The description of the domain.
     ///
     /// - Parameter DescribeDomainInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDomainOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutputResponse
+    func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput
     /// Describes an edge deployment plan with deployment status per stage.
     ///
     /// - Parameter DescribeEdgeDeploymentPlanInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEdgeDeploymentPlanOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEdgeDeploymentPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeEdgeDeploymentPlan(input: DescribeEdgeDeploymentPlanInput) async throws -> DescribeEdgeDeploymentPlanOutputResponse
+    func describeEdgeDeploymentPlan(input: DescribeEdgeDeploymentPlanInput) async throws -> DescribeEdgeDeploymentPlanOutput
     /// A description of edge packaging jobs.
     ///
     /// - Parameter DescribeEdgePackagingJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEdgePackagingJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEdgePackagingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeEdgePackagingJob(input: DescribeEdgePackagingJobInput) async throws -> DescribeEdgePackagingJobOutputResponse
+    func describeEdgePackagingJob(input: DescribeEdgePackagingJobInput) async throws -> DescribeEdgePackagingJobOutput
     /// Returns the description of an endpoint.
     ///
     /// - Parameter DescribeEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEndpointOutputResponse` : [no documentation found]
-    func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutputResponse
+    /// - Returns: `DescribeEndpointOutput` : [no documentation found]
+    func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
     /// Returns the description of an endpoint configuration created using the CreateEndpointConfig API.
     ///
     /// - Parameter DescribeEndpointConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEndpointConfigOutputResponse` : [no documentation found]
-    func describeEndpointConfig(input: DescribeEndpointConfigInput) async throws -> DescribeEndpointConfigOutputResponse
+    /// - Returns: `DescribeEndpointConfigOutput` : [no documentation found]
+    func describeEndpointConfig(input: DescribeEndpointConfigInput) async throws -> DescribeEndpointConfigOutput
     /// Provides a list of an experiment's properties.
     ///
     /// - Parameter DescribeExperimentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeExperiment(input: DescribeExperimentInput) async throws -> DescribeExperimentOutputResponse
+    func describeExperiment(input: DescribeExperimentInput) async throws -> DescribeExperimentOutput
     /// Use this operation to describe a FeatureGroup. The response includes information on the creation time, FeatureGroup name, the unique identifier for each FeatureGroup, and more.
     ///
     /// - Parameter DescribeFeatureGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFeatureGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFeatureGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeFeatureGroup(input: DescribeFeatureGroupInput) async throws -> DescribeFeatureGroupOutputResponse
+    func describeFeatureGroup(input: DescribeFeatureGroupInput) async throws -> DescribeFeatureGroupOutput
     /// Shows the metadata for a feature within a feature group.
     ///
     /// - Parameter DescribeFeatureMetadataInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFeatureMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFeatureMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeFeatureMetadata(input: DescribeFeatureMetadataInput) async throws -> DescribeFeatureMetadataOutputResponse
+    func describeFeatureMetadata(input: DescribeFeatureMetadataInput) async throws -> DescribeFeatureMetadataOutput
     /// Returns information about the specified flow definition.
     ///
     /// - Parameter DescribeFlowDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFlowDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFlowDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeFlowDefinition(input: DescribeFlowDefinitionInput) async throws -> DescribeFlowDefinitionOutputResponse
+    func describeFlowDefinition(input: DescribeFlowDefinitionInput) async throws -> DescribeFlowDefinitionOutput
     /// Describe a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter DescribeHubInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHubOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHubOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutputResponse
+    func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutput
     /// Describe the content of a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter DescribeHubContentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHubContentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHubContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutputResponse
+    func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutput
     /// Returns information about the requested human task user interface (worker task template).
     ///
     /// - Parameter DescribeHumanTaskUiInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHumanTaskUiOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHumanTaskUiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutputResponse
+    func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutput
     /// Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
     ///
     /// - Parameter DescribeHyperParameterTuningJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHyperParameterTuningJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHyperParameterTuningJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeHyperParameterTuningJob(input: DescribeHyperParameterTuningJobInput) async throws -> DescribeHyperParameterTuningJobOutputResponse
+    func describeHyperParameterTuningJob(input: DescribeHyperParameterTuningJobInput) async throws -> DescribeHyperParameterTuningJobOutput
     /// Describes a SageMaker image.
     ///
     /// - Parameter DescribeImageInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImageOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeImage(input: DescribeImageInput) async throws -> DescribeImageOutputResponse
+    func describeImage(input: DescribeImageInput) async throws -> DescribeImageOutput
     /// Describes a version of a SageMaker image.
     ///
     /// - Parameter DescribeImageVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeImageVersion(input: DescribeImageVersionInput) async throws -> DescribeImageVersionOutputResponse
+    func describeImageVersion(input: DescribeImageVersionInput) async throws -> DescribeImageVersionOutput
     /// Returns details about an inference experiment.
     ///
     /// - Parameter DescribeInferenceExperimentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInferenceExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInferenceExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeInferenceExperiment(input: DescribeInferenceExperimentInput) async throws -> DescribeInferenceExperimentOutputResponse
+    func describeInferenceExperiment(input: DescribeInferenceExperimentInput) async throws -> DescribeInferenceExperimentOutput
     /// Provides the results of the Inference Recommender job. One or more recommendation jobs are returned.
     ///
     /// - Parameter DescribeInferenceRecommendationsJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInferenceRecommendationsJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInferenceRecommendationsJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeInferenceRecommendationsJob(input: DescribeInferenceRecommendationsJobInput) async throws -> DescribeInferenceRecommendationsJobOutputResponse
+    func describeInferenceRecommendationsJob(input: DescribeInferenceRecommendationsJobInput) async throws -> DescribeInferenceRecommendationsJobOutput
     /// Gets information about a labeling job.
     ///
     /// - Parameter DescribeLabelingJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLabelingJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLabelingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeLabelingJob(input: DescribeLabelingJobInput) async throws -> DescribeLabelingJobOutputResponse
+    func describeLabelingJob(input: DescribeLabelingJobInput) async throws -> DescribeLabelingJobOutput
     /// Provides a list of properties for the requested lineage group. For more information, see [ Cross-Account Lineage Tracking ](https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html) in the Amazon SageMaker Developer Guide.
     ///
     /// - Parameter DescribeLineageGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLineageGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLineageGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeLineageGroup(input: DescribeLineageGroupInput) async throws -> DescribeLineageGroupOutputResponse
+    func describeLineageGroup(input: DescribeLineageGroupInput) async throws -> DescribeLineageGroupOutput
     /// Describes a model that you created using the CreateModel API.
     ///
     /// - Parameter DescribeModelInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelOutputResponse` : [no documentation found]
-    func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutputResponse
+    /// - Returns: `DescribeModelOutput` : [no documentation found]
+    func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput
     /// Returns a description of a model bias job definition.
     ///
     /// - Parameter DescribeModelBiasJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelBiasJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelBiasJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeModelBiasJobDefinition(input: DescribeModelBiasJobDefinitionInput) async throws -> DescribeModelBiasJobDefinitionOutputResponse
+    func describeModelBiasJobDefinition(input: DescribeModelBiasJobDefinitionInput) async throws -> DescribeModelBiasJobDefinitionOutput
     /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
     ///
     /// - Parameter DescribeModelCardInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelCardOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelCardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeModelCard(input: DescribeModelCardInput) async throws -> DescribeModelCardOutputResponse
+    func describeModelCard(input: DescribeModelCardInput) async throws -> DescribeModelCardOutput
     /// Describes an Amazon SageMaker Model Card export job.
     ///
     /// - Parameter DescribeModelCardExportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelCardExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelCardExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeModelCardExportJob(input: DescribeModelCardExportJobInput) async throws -> DescribeModelCardExportJobOutputResponse
+    func describeModelCardExportJob(input: DescribeModelCardExportJobInput) async throws -> DescribeModelCardExportJobOutput
     /// Returns a description of a model explainability job definition.
     ///
     /// - Parameter DescribeModelExplainabilityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelExplainabilityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelExplainabilityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeModelExplainabilityJobDefinition(input: DescribeModelExplainabilityJobDefinitionInput) async throws -> DescribeModelExplainabilityJobDefinitionOutputResponse
+    func describeModelExplainabilityJobDefinition(input: DescribeModelExplainabilityJobDefinitionInput) async throws -> DescribeModelExplainabilityJobDefinitionOutput
     /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     ///
     /// - Parameter DescribeModelPackageInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelPackageOutputResponse` : [no documentation found]
-    func describeModelPackage(input: DescribeModelPackageInput) async throws -> DescribeModelPackageOutputResponse
+    /// - Returns: `DescribeModelPackageOutput` : [no documentation found]
+    func describeModelPackage(input: DescribeModelPackageInput) async throws -> DescribeModelPackageOutput
     /// Gets a description for the specified model group.
     ///
     /// - Parameter DescribeModelPackageGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelPackageGroupOutputResponse` : [no documentation found]
-    func describeModelPackageGroup(input: DescribeModelPackageGroupInput) async throws -> DescribeModelPackageGroupOutputResponse
+    /// - Returns: `DescribeModelPackageGroupOutput` : [no documentation found]
+    func describeModelPackageGroup(input: DescribeModelPackageGroupInput) async throws -> DescribeModelPackageGroupOutput
     /// Returns a description of a model quality job definition.
     ///
     /// - Parameter DescribeModelQualityJobDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelQualityJobDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelQualityJobDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeModelQualityJobDefinition(input: DescribeModelQualityJobDefinitionInput) async throws -> DescribeModelQualityJobDefinitionOutputResponse
+    func describeModelQualityJobDefinition(input: DescribeModelQualityJobDefinitionInput) async throws -> DescribeModelQualityJobDefinitionOutput
     /// Describes the schedule for a monitoring job.
     ///
     /// - Parameter DescribeMonitoringScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMonitoringScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMonitoringScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeMonitoringSchedule(input: DescribeMonitoringScheduleInput) async throws -> DescribeMonitoringScheduleOutputResponse
+    func describeMonitoringSchedule(input: DescribeMonitoringScheduleInput) async throws -> DescribeMonitoringScheduleOutput
     /// Returns information about a notebook instance.
     ///
     /// - Parameter DescribeNotebookInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNotebookInstanceOutputResponse` : [no documentation found]
-    func describeNotebookInstance(input: DescribeNotebookInstanceInput) async throws -> DescribeNotebookInstanceOutputResponse
+    /// - Returns: `DescribeNotebookInstanceOutput` : [no documentation found]
+    func describeNotebookInstance(input: DescribeNotebookInstanceInput) async throws -> DescribeNotebookInstanceOutput
     /// Returns a description of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     ///
     /// - Parameter DescribeNotebookInstanceLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNotebookInstanceLifecycleConfigOutputResponse` : [no documentation found]
-    func describeNotebookInstanceLifecycleConfig(input: DescribeNotebookInstanceLifecycleConfigInput) async throws -> DescribeNotebookInstanceLifecycleConfigOutputResponse
+    /// - Returns: `DescribeNotebookInstanceLifecycleConfigOutput` : [no documentation found]
+    func describeNotebookInstanceLifecycleConfig(input: DescribeNotebookInstanceLifecycleConfigInput) async throws -> DescribeNotebookInstanceLifecycleConfigOutput
     /// Describes the details of a pipeline.
     ///
     /// - Parameter DescribePipelineInput : [no documentation found]
     ///
-    /// - Returns: `DescribePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutputResponse
+    func describePipeline(input: DescribePipelineInput) async throws -> DescribePipelineOutput
     /// Describes the details of an execution's pipeline definition.
     ///
     /// - Parameter DescribePipelineDefinitionForExecutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribePipelineDefinitionForExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePipelineDefinitionForExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describePipelineDefinitionForExecution(input: DescribePipelineDefinitionForExecutionInput) async throws -> DescribePipelineDefinitionForExecutionOutputResponse
+    func describePipelineDefinitionForExecution(input: DescribePipelineDefinitionForExecutionInput) async throws -> DescribePipelineDefinitionForExecutionOutput
     /// Describes the details of a pipeline execution.
     ///
     /// - Parameter DescribePipelineExecutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribePipelineExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePipelineExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describePipelineExecution(input: DescribePipelineExecutionInput) async throws -> DescribePipelineExecutionOutputResponse
+    func describePipelineExecution(input: DescribePipelineExecutionInput) async throws -> DescribePipelineExecutionOutput
     /// Returns a description of a processing job.
     ///
     /// - Parameter DescribeProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeProcessingJob(input: DescribeProcessingJobInput) async throws -> DescribeProcessingJobOutputResponse
+    func describeProcessingJob(input: DescribeProcessingJobInput) async throws -> DescribeProcessingJobOutput
     /// Describes the details of a project.
     ///
     /// - Parameter DescribeProjectInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProjectOutputResponse` : [no documentation found]
-    func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutputResponse
+    /// - Returns: `DescribeProjectOutput` : [no documentation found]
+    func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
     /// Describes the space.
     ///
     /// - Parameter DescribeSpaceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeSpace(input: DescribeSpaceInput) async throws -> DescribeSpaceOutputResponse
+    func describeSpace(input: DescribeSpaceInput) async throws -> DescribeSpaceOutput
     /// Describes the Studio Lifecycle Configuration.
     ///
     /// - Parameter DescribeStudioLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStudioLifecycleConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStudioLifecycleConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeStudioLifecycleConfig(input: DescribeStudioLifecycleConfigInput) async throws -> DescribeStudioLifecycleConfigOutputResponse
+    func describeStudioLifecycleConfig(input: DescribeStudioLifecycleConfigInput) async throws -> DescribeStudioLifecycleConfigOutput
     /// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace.
     ///
     /// - Parameter DescribeSubscribedWorkteamInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSubscribedWorkteamOutputResponse` : [no documentation found]
-    func describeSubscribedWorkteam(input: DescribeSubscribedWorkteamInput) async throws -> DescribeSubscribedWorkteamOutputResponse
+    /// - Returns: `DescribeSubscribedWorkteamOutput` : [no documentation found]
+    func describeSubscribedWorkteam(input: DescribeSubscribedWorkteamInput) async throws -> DescribeSubscribedWorkteamOutput
     /// Returns information about a training job. Some of the attributes below only appear if the training job successfully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason, attributes like TrainingStartTime, TrainingTimeInSeconds, TrainingEndTime, and BillableTimeInSeconds may not be present in the response.
     ///
     /// - Parameter DescribeTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeTrainingJob(input: DescribeTrainingJobInput) async throws -> DescribeTrainingJobOutputResponse
+    func describeTrainingJob(input: DescribeTrainingJobInput) async throws -> DescribeTrainingJobOutput
     /// Returns information about a transform job.
     ///
     /// - Parameter DescribeTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeTransformJob(input: DescribeTransformJobInput) async throws -> DescribeTransformJobOutputResponse
+    func describeTransformJob(input: DescribeTransformJobInput) async throws -> DescribeTransformJobOutput
     /// Provides a list of a trial's properties.
     ///
     /// - Parameter DescribeTrialInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTrialOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTrialOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeTrial(input: DescribeTrialInput) async throws -> DescribeTrialOutputResponse
+    func describeTrial(input: DescribeTrialInput) async throws -> DescribeTrialOutput
     /// Provides a list of a trials component's properties.
     ///
     /// - Parameter DescribeTrialComponentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTrialComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTrialComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeTrialComponent(input: DescribeTrialComponentInput) async throws -> DescribeTrialComponentOutputResponse
+    func describeTrialComponent(input: DescribeTrialComponentInput) async throws -> DescribeTrialComponentOutput
     /// Describes a user profile. For more information, see CreateUserProfile.
     ///
     /// - Parameter DescribeUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutputResponse
+    func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput
     /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Allowable IP address ranges are the IP addresses that workers can use to access tasks. This operation applies only to private workforces.
     ///
     /// - Parameter DescribeWorkforceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorkforceOutputResponse` : [no documentation found]
-    func describeWorkforce(input: DescribeWorkforceInput) async throws -> DescribeWorkforceOutputResponse
+    /// - Returns: `DescribeWorkforceOutput` : [no documentation found]
+    func describeWorkforce(input: DescribeWorkforceInput) async throws -> DescribeWorkforceOutput
     /// Gets information about a specific work team. You can see information such as the create date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
     ///
     /// - Parameter DescribeWorkteamInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorkteamOutputResponse` : [no documentation found]
-    func describeWorkteam(input: DescribeWorkteamInput) async throws -> DescribeWorkteamOutputResponse
+    /// - Returns: `DescribeWorkteamOutput` : [no documentation found]
+    func describeWorkteam(input: DescribeWorkteamInput) async throws -> DescribeWorkteamOutput
     /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     ///
     /// - Parameter DisableSagemakerServicecatalogPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `DisableSagemakerServicecatalogPortfolioOutputResponse` : [no documentation found]
-    func disableSagemakerServicecatalogPortfolio(input: DisableSagemakerServicecatalogPortfolioInput) async throws -> DisableSagemakerServicecatalogPortfolioOutputResponse
+    /// - Returns: `DisableSagemakerServicecatalogPortfolioOutput` : [no documentation found]
+    func disableSagemakerServicecatalogPortfolio(input: DisableSagemakerServicecatalogPortfolioInput) async throws -> DisableSagemakerServicecatalogPortfolioOutput
     /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the [AssociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AssociateTrialComponent.html) API. To get a list of the trials a component is associated with, use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. Specify ExperimentTrialComponent for the Resource parameter. The list appears in the response under Results.TrialComponent.Parents.
     ///
     /// - Parameter DisassociateTrialComponentInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateTrialComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateTrialComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func disassociateTrialComponent(input: DisassociateTrialComponentInput) async throws -> DisassociateTrialComponentOutputResponse
+    func disassociateTrialComponent(input: DisassociateTrialComponentInput) async throws -> DisassociateTrialComponentOutput
     /// Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     ///
     /// - Parameter EnableSagemakerServicecatalogPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `EnableSagemakerServicecatalogPortfolioOutputResponse` : [no documentation found]
-    func enableSagemakerServicecatalogPortfolio(input: EnableSagemakerServicecatalogPortfolioInput) async throws -> EnableSagemakerServicecatalogPortfolioOutputResponse
+    /// - Returns: `EnableSagemakerServicecatalogPortfolioOutput` : [no documentation found]
+    func enableSagemakerServicecatalogPortfolio(input: EnableSagemakerServicecatalogPortfolioInput) async throws -> EnableSagemakerServicecatalogPortfolioOutput
     /// Describes a fleet.
     ///
     /// - Parameter GetDeviceFleetReportInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceFleetReportOutputResponse` : [no documentation found]
-    func getDeviceFleetReport(input: GetDeviceFleetReportInput) async throws -> GetDeviceFleetReportOutputResponse
+    /// - Returns: `GetDeviceFleetReportOutput` : [no documentation found]
+    func getDeviceFleetReport(input: GetDeviceFleetReportInput) async throws -> GetDeviceFleetReportOutput
     /// The resource policy for the lineage group.
     ///
     /// - Parameter GetLineageGroupPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetLineageGroupPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetLineageGroupPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func getLineageGroupPolicy(input: GetLineageGroupPolicyInput) async throws -> GetLineageGroupPolicyOutputResponse
+    func getLineageGroupPolicy(input: GetLineageGroupPolicyInput) async throws -> GetLineageGroupPolicyOutput
     /// Gets a resource policy that manages access for a model group. For information about resource policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the Amazon Web Services Identity and Access Management User Guide..
     ///
     /// - Parameter GetModelPackageGroupPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetModelPackageGroupPolicyOutputResponse` : [no documentation found]
-    func getModelPackageGroupPolicy(input: GetModelPackageGroupPolicyInput) async throws -> GetModelPackageGroupPolicyOutputResponse
+    /// - Returns: `GetModelPackageGroupPolicyOutput` : [no documentation found]
+    func getModelPackageGroupPolicy(input: GetModelPackageGroupPolicyInput) async throws -> GetModelPackageGroupPolicyOutput
     /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     ///
     /// - Parameter GetSagemakerServicecatalogPortfolioStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetSagemakerServicecatalogPortfolioStatusOutputResponse` : [no documentation found]
-    func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutputResponse
+    /// - Returns: `GetSagemakerServicecatalogPortfolioStatusOutput` : [no documentation found]
+    func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput
     /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
     ///
     /// - Parameter GetScalingConfigurationRecommendationInput : [no documentation found]
     ///
-    /// - Returns: `GetScalingConfigurationRecommendationOutputResponse` : [no documentation found]
+    /// - Returns: `GetScalingConfigurationRecommendationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutputResponse
+    func getScalingConfigurationRecommendation(input: GetScalingConfigurationRecommendationInput) async throws -> GetScalingConfigurationRecommendationOutput
     /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     ///
     /// - Parameter GetSearchSuggestionsInput : [no documentation found]
     ///
-    /// - Returns: `GetSearchSuggestionsOutputResponse` : [no documentation found]
-    func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutputResponse
+    /// - Returns: `GetSearchSuggestionsOutput` : [no documentation found]
+    func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutput
     /// Import hub content. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter ImportHubContentInput : [no documentation found]
     ///
-    /// - Returns: `ImportHubContentOutputResponse` : [no documentation found]
+    /// - Returns: `ImportHubContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1852,504 +1852,504 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func importHubContent(input: ImportHubContentInput) async throws -> ImportHubContentOutputResponse
+    func importHubContent(input: ImportHubContentInput) async throws -> ImportHubContentOutput
     /// Lists the actions in your account and their properties.
     ///
     /// - Parameter ListActionsInput : [no documentation found]
     ///
-    /// - Returns: `ListActionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListActionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listActions(input: ListActionsInput) async throws -> ListActionsOutputResponse
+    func listActions(input: ListActionsInput) async throws -> ListActionsOutput
     /// Lists the machine learning algorithms that have been created.
     ///
     /// - Parameter ListAlgorithmsInput : [no documentation found]
     ///
-    /// - Returns: `ListAlgorithmsOutputResponse` : [no documentation found]
-    func listAlgorithms(input: ListAlgorithmsInput) async throws -> ListAlgorithmsOutputResponse
+    /// - Returns: `ListAlgorithmsOutput` : [no documentation found]
+    func listAlgorithms(input: ListAlgorithmsInput) async throws -> ListAlgorithmsOutput
     /// Lists the aliases of a specified image or image version.
     ///
     /// - Parameter ListAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
+    func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
     /// Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
     ///
     /// - Parameter ListAppImageConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppImageConfigsOutputResponse` : [no documentation found]
-    func listAppImageConfigs(input: ListAppImageConfigsInput) async throws -> ListAppImageConfigsOutputResponse
+    /// - Returns: `ListAppImageConfigsOutput` : [no documentation found]
+    func listAppImageConfigs(input: ListAppImageConfigsInput) async throws -> ListAppImageConfigsOutput
     /// Lists apps.
     ///
     /// - Parameter ListAppsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppsOutputResponse` : [no documentation found]
-    func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
+    /// - Returns: `ListAppsOutput` : [no documentation found]
+    func listApps(input: ListAppsInput) async throws -> ListAppsOutput
     /// Lists the artifacts in your account and their properties.
     ///
     /// - Parameter ListArtifactsInput : [no documentation found]
     ///
-    /// - Returns: `ListArtifactsOutputResponse` : [no documentation found]
+    /// - Returns: `ListArtifactsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutputResponse
+    func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
     /// Lists the associations in your account and their properties.
     ///
     /// - Parameter ListAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutputResponse
+    func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput
     /// Request a list of jobs.
     ///
     /// - Parameter ListAutoMLJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListAutoMLJobsOutputResponse` : [no documentation found]
-    func listAutoMLJobs(input: ListAutoMLJobsInput) async throws -> ListAutoMLJobsOutputResponse
+    /// - Returns: `ListAutoMLJobsOutput` : [no documentation found]
+    func listAutoMLJobs(input: ListAutoMLJobsInput) async throws -> ListAutoMLJobsOutput
     /// List the candidates created for the job.
     ///
     /// - Parameter ListCandidatesForAutoMLJobInput : [no documentation found]
     ///
-    /// - Returns: `ListCandidatesForAutoMLJobOutputResponse` : [no documentation found]
+    /// - Returns: `ListCandidatesForAutoMLJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listCandidatesForAutoMLJob(input: ListCandidatesForAutoMLJobInput) async throws -> ListCandidatesForAutoMLJobOutputResponse
+    func listCandidatesForAutoMLJob(input: ListCandidatesForAutoMLJobInput) async throws -> ListCandidatesForAutoMLJobOutput
     /// Gets a list of the Git repositories in your account.
     ///
     /// - Parameter ListCodeRepositoriesInput : [no documentation found]
     ///
-    /// - Returns: `ListCodeRepositoriesOutputResponse` : [no documentation found]
-    func listCodeRepositories(input: ListCodeRepositoriesInput) async throws -> ListCodeRepositoriesOutputResponse
+    /// - Returns: `ListCodeRepositoriesOutput` : [no documentation found]
+    func listCodeRepositories(input: ListCodeRepositoriesInput) async throws -> ListCodeRepositoriesOutput
     /// Lists model compilation jobs that satisfy various filters. To create a model compilation job, use [CreateCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateCompilationJob.html). To get information about a particular model compilation job you have created, use [DescribeCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeCompilationJob.html).
     ///
     /// - Parameter ListCompilationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListCompilationJobsOutputResponse` : [no documentation found]
-    func listCompilationJobs(input: ListCompilationJobsInput) async throws -> ListCompilationJobsOutputResponse
+    /// - Returns: `ListCompilationJobsOutput` : [no documentation found]
+    func listCompilationJobs(input: ListCompilationJobsInput) async throws -> ListCompilationJobsOutput
     /// Lists the contexts in your account and their properties.
     ///
     /// - Parameter ListContextsInput : [no documentation found]
     ///
-    /// - Returns: `ListContextsOutputResponse` : [no documentation found]
+    /// - Returns: `ListContextsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listContexts(input: ListContextsInput) async throws -> ListContextsOutputResponse
+    func listContexts(input: ListContextsInput) async throws -> ListContextsOutput
     /// Lists the data quality job definitions in your account.
     ///
     /// - Parameter ListDataQualityJobDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataQualityJobDefinitionsOutputResponse` : [no documentation found]
-    func listDataQualityJobDefinitions(input: ListDataQualityJobDefinitionsInput) async throws -> ListDataQualityJobDefinitionsOutputResponse
+    /// - Returns: `ListDataQualityJobDefinitionsOutput` : [no documentation found]
+    func listDataQualityJobDefinitions(input: ListDataQualityJobDefinitionsInput) async throws -> ListDataQualityJobDefinitionsOutput
     /// Returns a list of devices in the fleet.
     ///
     /// - Parameter ListDeviceFleetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceFleetsOutputResponse` : [no documentation found]
-    func listDeviceFleets(input: ListDeviceFleetsInput) async throws -> ListDeviceFleetsOutputResponse
+    /// - Returns: `ListDeviceFleetsOutput` : [no documentation found]
+    func listDeviceFleets(input: ListDeviceFleetsInput) async throws -> ListDeviceFleetsOutput
     /// A list of devices.
     ///
     /// - Parameter ListDevicesInput : [no documentation found]
     ///
-    /// - Returns: `ListDevicesOutputResponse` : [no documentation found]
-    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
+    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
     /// Lists the domains.
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
     ///
-    /// - Returns: `ListDomainsOutputResponse` : [no documentation found]
-    func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
+    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
     /// Lists all edge deployment plans.
     ///
     /// - Parameter ListEdgeDeploymentPlansInput : [no documentation found]
     ///
-    /// - Returns: `ListEdgeDeploymentPlansOutputResponse` : [no documentation found]
-    func listEdgeDeploymentPlans(input: ListEdgeDeploymentPlansInput) async throws -> ListEdgeDeploymentPlansOutputResponse
+    /// - Returns: `ListEdgeDeploymentPlansOutput` : [no documentation found]
+    func listEdgeDeploymentPlans(input: ListEdgeDeploymentPlansInput) async throws -> ListEdgeDeploymentPlansOutput
     /// Returns a list of edge packaging jobs.
     ///
     /// - Parameter ListEdgePackagingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListEdgePackagingJobsOutputResponse` : [no documentation found]
-    func listEdgePackagingJobs(input: ListEdgePackagingJobsInput) async throws -> ListEdgePackagingJobsOutputResponse
+    /// - Returns: `ListEdgePackagingJobsOutput` : [no documentation found]
+    func listEdgePackagingJobs(input: ListEdgePackagingJobsInput) async throws -> ListEdgePackagingJobsOutput
     /// Lists endpoint configurations.
     ///
     /// - Parameter ListEndpointConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListEndpointConfigsOutputResponse` : [no documentation found]
-    func listEndpointConfigs(input: ListEndpointConfigsInput) async throws -> ListEndpointConfigsOutputResponse
+    /// - Returns: `ListEndpointConfigsOutput` : [no documentation found]
+    func listEndpointConfigs(input: ListEndpointConfigsInput) async throws -> ListEndpointConfigsOutput
     /// Lists endpoints.
     ///
     /// - Parameter ListEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListEndpointsOutputResponse` : [no documentation found]
-    func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutputResponse
+    /// - Returns: `ListEndpointsOutput` : [no documentation found]
+    func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
     /// Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
     ///
     /// - Parameter ListExperimentsInput : [no documentation found]
     ///
-    /// - Returns: `ListExperimentsOutputResponse` : [no documentation found]
-    func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutputResponse
+    /// - Returns: `ListExperimentsOutput` : [no documentation found]
+    func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput
     /// List FeatureGroups based on given filter and order.
     ///
     /// - Parameter ListFeatureGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListFeatureGroupsOutputResponse` : [no documentation found]
-    func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutputResponse
+    /// - Returns: `ListFeatureGroupsOutput` : [no documentation found]
+    func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutput
     /// Returns information about the flow definitions in your account.
     ///
     /// - Parameter ListFlowDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListFlowDefinitionsOutputResponse` : [no documentation found]
-    func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutputResponse
+    /// - Returns: `ListFlowDefinitionsOutput` : [no documentation found]
+    func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutput
     /// List the contents of a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter ListHubContentsInput : [no documentation found]
     ///
-    /// - Returns: `ListHubContentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHubContentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listHubContents(input: ListHubContentsInput) async throws -> ListHubContentsOutputResponse
+    func listHubContents(input: ListHubContentsInput) async throws -> ListHubContentsOutput
     /// List hub content versions. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter ListHubContentVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListHubContentVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHubContentVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listHubContentVersions(input: ListHubContentVersionsInput) async throws -> ListHubContentVersionsOutputResponse
+    func listHubContentVersions(input: ListHubContentVersionsInput) async throws -> ListHubContentVersionsOutput
     /// List all existing hubs. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter ListHubsInput : [no documentation found]
     ///
-    /// - Returns: `ListHubsOutputResponse` : [no documentation found]
-    func listHubs(input: ListHubsInput) async throws -> ListHubsOutputResponse
+    /// - Returns: `ListHubsOutput` : [no documentation found]
+    func listHubs(input: ListHubsInput) async throws -> ListHubsOutput
     /// Returns information about the human task user interfaces in your account.
     ///
     /// - Parameter ListHumanTaskUisInput : [no documentation found]
     ///
-    /// - Returns: `ListHumanTaskUisOutputResponse` : [no documentation found]
-    func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutputResponse
+    /// - Returns: `ListHumanTaskUisOutput` : [no documentation found]
+    func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutput
     /// Gets a list of [HyperParameterTuningJobSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobSummary.html) objects that describe the hyperparameter tuning jobs launched in your account.
     ///
     /// - Parameter ListHyperParameterTuningJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListHyperParameterTuningJobsOutputResponse` : [no documentation found]
-    func listHyperParameterTuningJobs(input: ListHyperParameterTuningJobsInput) async throws -> ListHyperParameterTuningJobsOutputResponse
+    /// - Returns: `ListHyperParameterTuningJobsOutput` : [no documentation found]
+    func listHyperParameterTuningJobs(input: ListHyperParameterTuningJobsInput) async throws -> ListHyperParameterTuningJobsOutput
     /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
     ///
     /// - Parameter ListImagesInput : [no documentation found]
     ///
-    /// - Returns: `ListImagesOutputResponse` : [no documentation found]
-    func listImages(input: ListImagesInput) async throws -> ListImagesOutputResponse
+    /// - Returns: `ListImagesOutput` : [no documentation found]
+    func listImages(input: ListImagesInput) async throws -> ListImagesOutput
     /// Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
     ///
     /// - Parameter ListImageVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListImageVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListImageVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listImageVersions(input: ListImageVersionsInput) async throws -> ListImageVersionsOutputResponse
+    func listImageVersions(input: ListImageVersionsInput) async throws -> ListImageVersionsOutput
     /// Returns the list of all inference experiments.
     ///
     /// - Parameter ListInferenceExperimentsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceExperimentsOutputResponse` : [no documentation found]
-    func listInferenceExperiments(input: ListInferenceExperimentsInput) async throws -> ListInferenceExperimentsOutputResponse
+    /// - Returns: `ListInferenceExperimentsOutput` : [no documentation found]
+    func listInferenceExperiments(input: ListInferenceExperimentsInput) async throws -> ListInferenceExperimentsOutput
     /// Lists recommendation jobs that satisfy various filters.
     ///
     /// - Parameter ListInferenceRecommendationsJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceRecommendationsJobsOutputResponse` : [no documentation found]
-    func listInferenceRecommendationsJobs(input: ListInferenceRecommendationsJobsInput) async throws -> ListInferenceRecommendationsJobsOutputResponse
+    /// - Returns: `ListInferenceRecommendationsJobsOutput` : [no documentation found]
+    func listInferenceRecommendationsJobs(input: ListInferenceRecommendationsJobsInput) async throws -> ListInferenceRecommendationsJobsOutput
     /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
     ///
     /// - Parameter ListInferenceRecommendationsJobStepsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceRecommendationsJobStepsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceRecommendationsJobStepsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listInferenceRecommendationsJobSteps(input: ListInferenceRecommendationsJobStepsInput) async throws -> ListInferenceRecommendationsJobStepsOutputResponse
+    func listInferenceRecommendationsJobSteps(input: ListInferenceRecommendationsJobStepsInput) async throws -> ListInferenceRecommendationsJobStepsOutput
     /// Gets a list of labeling jobs.
     ///
     /// - Parameter ListLabelingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListLabelingJobsOutputResponse` : [no documentation found]
-    func listLabelingJobs(input: ListLabelingJobsInput) async throws -> ListLabelingJobsOutputResponse
+    /// - Returns: `ListLabelingJobsOutput` : [no documentation found]
+    func listLabelingJobs(input: ListLabelingJobsInput) async throws -> ListLabelingJobsOutput
     /// Gets a list of labeling jobs assigned to a specified work team.
     ///
     /// - Parameter ListLabelingJobsForWorkteamInput : [no documentation found]
     ///
-    /// - Returns: `ListLabelingJobsForWorkteamOutputResponse` : [no documentation found]
+    /// - Returns: `ListLabelingJobsForWorkteamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listLabelingJobsForWorkteam(input: ListLabelingJobsForWorkteamInput) async throws -> ListLabelingJobsForWorkteamOutputResponse
+    func listLabelingJobsForWorkteam(input: ListLabelingJobsForWorkteamInput) async throws -> ListLabelingJobsForWorkteamOutput
     /// A list of lineage groups shared with your Amazon Web Services account. For more information, see [ Cross-Account Lineage Tracking ](https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html) in the Amazon SageMaker Developer Guide.
     ///
     /// - Parameter ListLineageGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListLineageGroupsOutputResponse` : [no documentation found]
-    func listLineageGroups(input: ListLineageGroupsInput) async throws -> ListLineageGroupsOutputResponse
+    /// - Returns: `ListLineageGroupsOutput` : [no documentation found]
+    func listLineageGroups(input: ListLineageGroupsInput) async throws -> ListLineageGroupsOutput
     /// Lists model bias jobs definitions that satisfy various filters.
     ///
     /// - Parameter ListModelBiasJobDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelBiasJobDefinitionsOutputResponse` : [no documentation found]
-    func listModelBiasJobDefinitions(input: ListModelBiasJobDefinitionsInput) async throws -> ListModelBiasJobDefinitionsOutputResponse
+    /// - Returns: `ListModelBiasJobDefinitionsOutput` : [no documentation found]
+    func listModelBiasJobDefinitions(input: ListModelBiasJobDefinitionsInput) async throws -> ListModelBiasJobDefinitionsOutput
     /// List the export jobs for the Amazon SageMaker Model Card.
     ///
     /// - Parameter ListModelCardExportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelCardExportJobsOutputResponse` : [no documentation found]
-    func listModelCardExportJobs(input: ListModelCardExportJobsInput) async throws -> ListModelCardExportJobsOutputResponse
+    /// - Returns: `ListModelCardExportJobsOutput` : [no documentation found]
+    func listModelCardExportJobs(input: ListModelCardExportJobsInput) async throws -> ListModelCardExportJobsOutput
     /// List existing model cards.
     ///
     /// - Parameter ListModelCardsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelCardsOutputResponse` : [no documentation found]
-    func listModelCards(input: ListModelCardsInput) async throws -> ListModelCardsOutputResponse
+    /// - Returns: `ListModelCardsOutput` : [no documentation found]
+    func listModelCards(input: ListModelCardsInput) async throws -> ListModelCardsOutput
     /// List existing versions of an Amazon SageMaker Model Card.
     ///
     /// - Parameter ListModelCardVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelCardVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListModelCardVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listModelCardVersions(input: ListModelCardVersionsInput) async throws -> ListModelCardVersionsOutputResponse
+    func listModelCardVersions(input: ListModelCardVersionsInput) async throws -> ListModelCardVersionsOutput
     /// Lists model explainability job definitions that satisfy various filters.
     ///
     /// - Parameter ListModelExplainabilityJobDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelExplainabilityJobDefinitionsOutputResponse` : [no documentation found]
-    func listModelExplainabilityJobDefinitions(input: ListModelExplainabilityJobDefinitionsInput) async throws -> ListModelExplainabilityJobDefinitionsOutputResponse
+    /// - Returns: `ListModelExplainabilityJobDefinitionsOutput` : [no documentation found]
+    func listModelExplainabilityJobDefinitions(input: ListModelExplainabilityJobDefinitionsInput) async throws -> ListModelExplainabilityJobDefinitionsOutput
     /// Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
     ///
     /// - Parameter ListModelMetadataInput : [no documentation found]
     ///
-    /// - Returns: `ListModelMetadataOutputResponse` : [no documentation found]
-    func listModelMetadata(input: ListModelMetadataInput) async throws -> ListModelMetadataOutputResponse
+    /// - Returns: `ListModelMetadataOutput` : [no documentation found]
+    func listModelMetadata(input: ListModelMetadataInput) async throws -> ListModelMetadataOutput
     /// Gets a list of the model groups in your Amazon Web Services account.
     ///
     /// - Parameter ListModelPackageGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelPackageGroupsOutputResponse` : [no documentation found]
-    func listModelPackageGroups(input: ListModelPackageGroupsInput) async throws -> ListModelPackageGroupsOutputResponse
+    /// - Returns: `ListModelPackageGroupsOutput` : [no documentation found]
+    func listModelPackageGroups(input: ListModelPackageGroupsInput) async throws -> ListModelPackageGroupsOutput
     /// Lists the model packages that have been created.
     ///
     /// - Parameter ListModelPackagesInput : [no documentation found]
     ///
-    /// - Returns: `ListModelPackagesOutputResponse` : [no documentation found]
-    func listModelPackages(input: ListModelPackagesInput) async throws -> ListModelPackagesOutputResponse
+    /// - Returns: `ListModelPackagesOutput` : [no documentation found]
+    func listModelPackages(input: ListModelPackagesInput) async throws -> ListModelPackagesOutput
     /// Gets a list of model quality monitoring job definitions in your account.
     ///
     /// - Parameter ListModelQualityJobDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelQualityJobDefinitionsOutputResponse` : [no documentation found]
-    func listModelQualityJobDefinitions(input: ListModelQualityJobDefinitionsInput) async throws -> ListModelQualityJobDefinitionsOutputResponse
+    /// - Returns: `ListModelQualityJobDefinitionsOutput` : [no documentation found]
+    func listModelQualityJobDefinitions(input: ListModelQualityJobDefinitionsInput) async throws -> ListModelQualityJobDefinitionsOutput
     /// Lists models created with the CreateModel API.
     ///
     /// - Parameter ListModelsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelsOutputResponse` : [no documentation found]
-    func listModels(input: ListModelsInput) async throws -> ListModelsOutputResponse
+    /// - Returns: `ListModelsOutput` : [no documentation found]
+    func listModels(input: ListModelsInput) async throws -> ListModelsOutput
     /// Gets a list of past alerts in a model monitoring schedule.
     ///
     /// - Parameter ListMonitoringAlertHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListMonitoringAlertHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListMonitoringAlertHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listMonitoringAlertHistory(input: ListMonitoringAlertHistoryInput) async throws -> ListMonitoringAlertHistoryOutputResponse
+    func listMonitoringAlertHistory(input: ListMonitoringAlertHistoryInput) async throws -> ListMonitoringAlertHistoryOutput
     /// Gets the alerts for a single monitoring schedule.
     ///
     /// - Parameter ListMonitoringAlertsInput : [no documentation found]
     ///
-    /// - Returns: `ListMonitoringAlertsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMonitoringAlertsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listMonitoringAlerts(input: ListMonitoringAlertsInput) async throws -> ListMonitoringAlertsOutputResponse
+    func listMonitoringAlerts(input: ListMonitoringAlertsInput) async throws -> ListMonitoringAlertsOutput
     /// Returns list of all monitoring job executions.
     ///
     /// - Parameter ListMonitoringExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListMonitoringExecutionsOutputResponse` : [no documentation found]
-    func listMonitoringExecutions(input: ListMonitoringExecutionsInput) async throws -> ListMonitoringExecutionsOutputResponse
+    /// - Returns: `ListMonitoringExecutionsOutput` : [no documentation found]
+    func listMonitoringExecutions(input: ListMonitoringExecutionsInput) async throws -> ListMonitoringExecutionsOutput
     /// Returns list of all monitoring schedules.
     ///
     /// - Parameter ListMonitoringSchedulesInput : [no documentation found]
     ///
-    /// - Returns: `ListMonitoringSchedulesOutputResponse` : [no documentation found]
-    func listMonitoringSchedules(input: ListMonitoringSchedulesInput) async throws -> ListMonitoringSchedulesOutputResponse
+    /// - Returns: `ListMonitoringSchedulesOutput` : [no documentation found]
+    func listMonitoringSchedules(input: ListMonitoringSchedulesInput) async throws -> ListMonitoringSchedulesOutput
     /// Lists notebook instance lifestyle configurations created with the [CreateNotebookInstanceLifecycleConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateNotebookInstanceLifecycleConfig.html) API.
     ///
     /// - Parameter ListNotebookInstanceLifecycleConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListNotebookInstanceLifecycleConfigsOutputResponse` : [no documentation found]
-    func listNotebookInstanceLifecycleConfigs(input: ListNotebookInstanceLifecycleConfigsInput) async throws -> ListNotebookInstanceLifecycleConfigsOutputResponse
+    /// - Returns: `ListNotebookInstanceLifecycleConfigsOutput` : [no documentation found]
+    func listNotebookInstanceLifecycleConfigs(input: ListNotebookInstanceLifecycleConfigsInput) async throws -> ListNotebookInstanceLifecycleConfigsOutput
     /// Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
     ///
     /// - Parameter ListNotebookInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListNotebookInstancesOutputResponse` : [no documentation found]
-    func listNotebookInstances(input: ListNotebookInstancesInput) async throws -> ListNotebookInstancesOutputResponse
+    /// - Returns: `ListNotebookInstancesOutput` : [no documentation found]
+    func listNotebookInstances(input: ListNotebookInstancesInput) async throws -> ListNotebookInstancesOutput
     /// Gets a list of the pipeline executions.
     ///
     /// - Parameter ListPipelineExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListPipelineExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPipelineExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutputResponse
+    func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput
     /// Gets a list of PipeLineExecutionStep objects.
     ///
     /// - Parameter ListPipelineExecutionStepsInput : [no documentation found]
     ///
-    /// - Returns: `ListPipelineExecutionStepsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPipelineExecutionStepsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listPipelineExecutionSteps(input: ListPipelineExecutionStepsInput) async throws -> ListPipelineExecutionStepsOutputResponse
+    func listPipelineExecutionSteps(input: ListPipelineExecutionStepsInput) async throws -> ListPipelineExecutionStepsOutput
     /// Gets a list of parameters for a pipeline execution.
     ///
     /// - Parameter ListPipelineParametersForExecutionInput : [no documentation found]
     ///
-    /// - Returns: `ListPipelineParametersForExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `ListPipelineParametersForExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listPipelineParametersForExecution(input: ListPipelineParametersForExecutionInput) async throws -> ListPipelineParametersForExecutionOutputResponse
+    func listPipelineParametersForExecution(input: ListPipelineParametersForExecutionInput) async throws -> ListPipelineParametersForExecutionOutput
     /// Gets a list of pipelines.
     ///
     /// - Parameter ListPipelinesInput : [no documentation found]
     ///
-    /// - Returns: `ListPipelinesOutputResponse` : [no documentation found]
-    func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutputResponse
+    /// - Returns: `ListPipelinesOutput` : [no documentation found]
+    func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
     /// Lists processing jobs that satisfy various filters.
     ///
     /// - Parameter ListProcessingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListProcessingJobsOutputResponse` : [no documentation found]
-    func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutputResponse
+    /// - Returns: `ListProcessingJobsOutput` : [no documentation found]
+    func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutput
     /// Gets a list of the projects in an Amazon Web Services account.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
-    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     /// Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
     ///
     /// - Parameter ListResourceCatalogsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceCatalogsOutputResponse` : [no documentation found]
-    func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutputResponse
+    /// - Returns: `ListResourceCatalogsOutput` : [no documentation found]
+    func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutput
     /// Lists spaces.
     ///
     /// - Parameter ListSpacesInput : [no documentation found]
     ///
-    /// - Returns: `ListSpacesOutputResponse` : [no documentation found]
-    func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
+    /// - Returns: `ListSpacesOutput` : [no documentation found]
+    func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput
     /// Lists devices allocated to the stage, containing detailed device information and deployment status.
     ///
     /// - Parameter ListStageDevicesInput : [no documentation found]
     ///
-    /// - Returns: `ListStageDevicesOutputResponse` : [no documentation found]
-    func listStageDevices(input: ListStageDevicesInput) async throws -> ListStageDevicesOutputResponse
+    /// - Returns: `ListStageDevicesOutput` : [no documentation found]
+    func listStageDevices(input: ListStageDevicesInput) async throws -> ListStageDevicesOutput
     /// Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
     ///
     /// - Parameter ListStudioLifecycleConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListStudioLifecycleConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStudioLifecycleConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func listStudioLifecycleConfigs(input: ListStudioLifecycleConfigsInput) async throws -> ListStudioLifecycleConfigsOutputResponse
+    func listStudioLifecycleConfigs(input: ListStudioLifecycleConfigsInput) async throws -> ListStudioLifecycleConfigsOutput
     /// Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     ///
     /// - Parameter ListSubscribedWorkteamsInput : [no documentation found]
     ///
-    /// - Returns: `ListSubscribedWorkteamsOutputResponse` : [no documentation found]
-    func listSubscribedWorkteams(input: ListSubscribedWorkteamsInput) async throws -> ListSubscribedWorkteamsOutputResponse
+    /// - Returns: `ListSubscribedWorkteamsOutput` : [no documentation found]
+    func listSubscribedWorkteams(input: ListSubscribedWorkteamsInput) async throws -> ListSubscribedWorkteamsOutput
     /// Returns the tags for the specified SageMaker resource.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
-    func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    /// - Returns: `ListTagsOutput` : [no documentation found]
+    func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     /// Lists training jobs. When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress, are selected (sorted according to the creation time, from the most current to the oldest). Next, those with a status of InProgress are returned. You can quickly test the API using the following Amazon Web Services CLI code. aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress
     ///
     /// - Parameter ListTrainingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListTrainingJobsOutputResponse` : [no documentation found]
-    func listTrainingJobs(input: ListTrainingJobsInput) async throws -> ListTrainingJobsOutputResponse
+    /// - Returns: `ListTrainingJobsOutput` : [no documentation found]
+    func listTrainingJobs(input: ListTrainingJobsInput) async throws -> ListTrainingJobsOutput
     /// Gets a list of [TrainingJobSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingJobSummary.html) objects that describe the training jobs that a hyperparameter tuning job launched.
     ///
     /// - Parameter ListTrainingJobsForHyperParameterTuningJobInput : [no documentation found]
     ///
-    /// - Returns: `ListTrainingJobsForHyperParameterTuningJobOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrainingJobsForHyperParameterTuningJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listTrainingJobsForHyperParameterTuningJob(input: ListTrainingJobsForHyperParameterTuningJobInput) async throws -> ListTrainingJobsForHyperParameterTuningJobOutputResponse
+    func listTrainingJobsForHyperParameterTuningJob(input: ListTrainingJobsForHyperParameterTuningJobInput) async throws -> ListTrainingJobsForHyperParameterTuningJobOutput
     /// Lists transform jobs.
     ///
     /// - Parameter ListTransformJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListTransformJobsOutputResponse` : [no documentation found]
-    func listTransformJobs(input: ListTransformJobsInput) async throws -> ListTransformJobsOutputResponse
+    /// - Returns: `ListTransformJobsOutput` : [no documentation found]
+    func listTransformJobs(input: ListTransformJobsInput) async throws -> ListTransformJobsOutput
     /// Lists the trial components in your account. You can sort the list by trial component name or creation time. You can filter the list to show only components that were created in a specific time range. You can also filter on one of the following:
     ///
     /// * ExperimentName
@@ -2360,86 +2360,86 @@ public protocol SageMakerClientProtocol {
     ///
     /// - Parameter ListTrialComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListTrialComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrialComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listTrialComponents(input: ListTrialComponentsInput) async throws -> ListTrialComponentsOutputResponse
+    func listTrialComponents(input: ListTrialComponentsInput) async throws -> ListTrialComponentsOutput
     /// Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
     ///
     /// - Parameter ListTrialsInput : [no documentation found]
     ///
-    /// - Returns: `ListTrialsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTrialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func listTrials(input: ListTrialsInput) async throws -> ListTrialsOutputResponse
+    func listTrials(input: ListTrialsInput) async throws -> ListTrialsOutput
     /// Lists user profiles.
     ///
     /// - Parameter ListUserProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListUserProfilesOutputResponse` : [no documentation found]
-    func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutputResponse
+    /// - Returns: `ListUserProfilesOutput` : [no documentation found]
+    func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput
     /// Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region.
     ///
     /// - Parameter ListWorkforcesInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkforcesOutputResponse` : [no documentation found]
-    func listWorkforces(input: ListWorkforcesInput) async throws -> ListWorkforcesOutputResponse
+    /// - Returns: `ListWorkforcesOutput` : [no documentation found]
+    func listWorkforces(input: ListWorkforcesInput) async throws -> ListWorkforcesOutput
     /// Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     ///
     /// - Parameter ListWorkteamsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkteamsOutputResponse` : [no documentation found]
-    func listWorkteams(input: ListWorkteamsInput) async throws -> ListWorkteamsOutputResponse
+    /// - Returns: `ListWorkteamsOutput` : [no documentation found]
+    func listWorkteams(input: ListWorkteamsInput) async throws -> ListWorkteamsOutput
     /// Adds a resouce policy to control access to a model group. For information about resoure policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the Amazon Web Services Identity and Access Management User Guide..
     ///
     /// - Parameter PutModelPackageGroupPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutModelPackageGroupPolicyOutputResponse` : [no documentation found]
-    func putModelPackageGroupPolicy(input: PutModelPackageGroupPolicyInput) async throws -> PutModelPackageGroupPolicyOutputResponse
+    /// - Returns: `PutModelPackageGroupPolicyOutput` : [no documentation found]
+    func putModelPackageGroupPolicy(input: PutModelPackageGroupPolicyInput) async throws -> PutModelPackageGroupPolicyOutput
     /// Use this action to inspect your lineage and discover relationships between entities. For more information, see [ Querying Lineage Entities](https://docs.aws.amazon.com/sagemaker/latest/dg/querying-lineage-entities.html) in the Amazon SageMaker Developer Guide.
     ///
     /// - Parameter QueryLineageInput : [no documentation found]
     ///
-    /// - Returns: `QueryLineageOutputResponse` : [no documentation found]
+    /// - Returns: `QueryLineageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func queryLineage(input: QueryLineageInput) async throws -> QueryLineageOutputResponse
+    func queryLineage(input: QueryLineageInput) async throws -> QueryLineageOutput
     /// Register devices.
     ///
     /// - Parameter RegisterDevicesInput : [no documentation found]
     ///
-    /// - Returns: `RegisterDevicesOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterDevicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func registerDevices(input: RegisterDevicesInput) async throws -> RegisterDevicesOutputResponse
+    func registerDevices(input: RegisterDevicesInput) async throws -> RegisterDevicesOutput
     /// Renders the UI template so that you can preview the worker's experience.
     ///
     /// - Parameter RenderUiTemplateInput : [no documentation found]
     ///
-    /// - Returns: `RenderUiTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `RenderUiTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func renderUiTemplate(input: RenderUiTemplateInput) async throws -> RenderUiTemplateOutputResponse
+    func renderUiTemplate(input: RenderUiTemplateInput) async throws -> RenderUiTemplateOutput
     /// Retry the execution of the pipeline.
     ///
     /// - Parameter RetryPipelineExecutionInput : [no documentation found]
     ///
-    /// - Returns: `RetryPipelineExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `RetryPipelineExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2447,304 +2447,304 @@ public protocol SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func retryPipelineExecution(input: RetryPipelineExecutionInput) async throws -> RetryPipelineExecutionOutputResponse
+    func retryPipelineExecution(input: RetryPipelineExecutionInput) async throws -> RetryPipelineExecutionOutput
     /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp. The Search API may provide access to otherwise restricted data. See [Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference](https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html) for more information.
     ///
     /// - Parameter SearchInput : [no documentation found]
     ///
-    /// - Returns: `SearchOutputResponse` : [no documentation found]
-    func search(input: SearchInput) async throws -> SearchOutputResponse
+    /// - Returns: `SearchOutput` : [no documentation found]
+    func search(input: SearchInput) async throws -> SearchOutput
     /// Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
     ///
     /// - Parameter SendPipelineExecutionStepFailureInput : [no documentation found]
     ///
-    /// - Returns: `SendPipelineExecutionStepFailureOutputResponse` : [no documentation found]
+    /// - Returns: `SendPipelineExecutionStepFailureOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func sendPipelineExecutionStepFailure(input: SendPipelineExecutionStepFailureInput) async throws -> SendPipelineExecutionStepFailureOutputResponse
+    func sendPipelineExecutionStepFailure(input: SendPipelineExecutionStepFailureInput) async throws -> SendPipelineExecutionStepFailureOutput
     /// Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
     ///
     /// - Parameter SendPipelineExecutionStepSuccessInput : [no documentation found]
     ///
-    /// - Returns: `SendPipelineExecutionStepSuccessOutputResponse` : [no documentation found]
+    /// - Returns: `SendPipelineExecutionStepSuccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func sendPipelineExecutionStepSuccess(input: SendPipelineExecutionStepSuccessInput) async throws -> SendPipelineExecutionStepSuccessOutputResponse
+    func sendPipelineExecutionStepSuccess(input: SendPipelineExecutionStepSuccessInput) async throws -> SendPipelineExecutionStepSuccessOutput
     /// Starts a stage in an edge deployment plan.
     ///
     /// - Parameter StartEdgeDeploymentStageInput : [no documentation found]
     ///
-    /// - Returns: `StartEdgeDeploymentStageOutputResponse` : [no documentation found]
-    func startEdgeDeploymentStage(input: StartEdgeDeploymentStageInput) async throws -> StartEdgeDeploymentStageOutputResponse
+    /// - Returns: `StartEdgeDeploymentStageOutput` : [no documentation found]
+    func startEdgeDeploymentStage(input: StartEdgeDeploymentStageInput) async throws -> StartEdgeDeploymentStageOutput
     /// Starts an inference experiment.
     ///
     /// - Parameter StartInferenceExperimentInput : [no documentation found]
     ///
-    /// - Returns: `StartInferenceExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `StartInferenceExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func startInferenceExperiment(input: StartInferenceExperimentInput) async throws -> StartInferenceExperimentOutputResponse
+    func startInferenceExperiment(input: StartInferenceExperimentInput) async throws -> StartInferenceExperimentOutput
     /// Starts a previously stopped monitoring schedule. By default, when you successfully create a new schedule, the status of a monitoring schedule is scheduled.
     ///
     /// - Parameter StartMonitoringScheduleInput : [no documentation found]
     ///
-    /// - Returns: `StartMonitoringScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `StartMonitoringScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func startMonitoringSchedule(input: StartMonitoringScheduleInput) async throws -> StartMonitoringScheduleOutputResponse
+    func startMonitoringSchedule(input: StartMonitoringScheduleInput) async throws -> StartMonitoringScheduleOutput
     /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
     ///
     /// - Parameter StartNotebookInstanceInput : [no documentation found]
     ///
-    /// - Returns: `StartNotebookInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `StartNotebookInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func startNotebookInstance(input: StartNotebookInstanceInput) async throws -> StartNotebookInstanceOutputResponse
+    func startNotebookInstance(input: StartNotebookInstanceInput) async throws -> StartNotebookInstanceOutput
     /// Starts a pipeline execution.
     ///
     /// - Parameter StartPipelineExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartPipelineExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartPipelineExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutputResponse
+    func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput
     /// A method for forcing a running job to shut down.
     ///
     /// - Parameter StopAutoMLJobInput : [no documentation found]
     ///
-    /// - Returns: `StopAutoMLJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopAutoMLJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopAutoMLJob(input: StopAutoMLJobInput) async throws -> StopAutoMLJobOutputResponse
+    func stopAutoMLJob(input: StopAutoMLJobInput) async throws -> StopAutoMLJobOutput
     /// Stops a model compilation job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped.
     ///
     /// - Parameter StopCompilationJobInput : [no documentation found]
     ///
-    /// - Returns: `StopCompilationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopCompilationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopCompilationJob(input: StopCompilationJobInput) async throws -> StopCompilationJobOutputResponse
+    func stopCompilationJob(input: StopCompilationJobInput) async throws -> StopCompilationJobOutput
     /// Stops a stage in an edge deployment plan.
     ///
     /// - Parameter StopEdgeDeploymentStageInput : [no documentation found]
     ///
-    /// - Returns: `StopEdgeDeploymentStageOutputResponse` : [no documentation found]
-    func stopEdgeDeploymentStage(input: StopEdgeDeploymentStageInput) async throws -> StopEdgeDeploymentStageOutputResponse
+    /// - Returns: `StopEdgeDeploymentStageOutput` : [no documentation found]
+    func stopEdgeDeploymentStage(input: StopEdgeDeploymentStageInput) async throws -> StopEdgeDeploymentStageOutput
     /// Request to stop an edge packaging job.
     ///
     /// - Parameter StopEdgePackagingJobInput : [no documentation found]
     ///
-    /// - Returns: `StopEdgePackagingJobOutputResponse` : [no documentation found]
-    func stopEdgePackagingJob(input: StopEdgePackagingJobInput) async throws -> StopEdgePackagingJobOutputResponse
+    /// - Returns: `StopEdgePackagingJobOutput` : [no documentation found]
+    func stopEdgePackagingJob(input: StopEdgePackagingJobInput) async throws -> StopEdgePackagingJobOutput
     /// Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job.
     ///
     /// - Parameter StopHyperParameterTuningJobInput : [no documentation found]
     ///
-    /// - Returns: `StopHyperParameterTuningJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopHyperParameterTuningJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopHyperParameterTuningJob(input: StopHyperParameterTuningJobInput) async throws -> StopHyperParameterTuningJobOutputResponse
+    func stopHyperParameterTuningJob(input: StopHyperParameterTuningJobInput) async throws -> StopHyperParameterTuningJobOutput
     /// Stops an inference experiment.
     ///
     /// - Parameter StopInferenceExperimentInput : [no documentation found]
     ///
-    /// - Returns: `StopInferenceExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `StopInferenceExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopInferenceExperiment(input: StopInferenceExperimentInput) async throws -> StopInferenceExperimentOutputResponse
+    func stopInferenceExperiment(input: StopInferenceExperimentInput) async throws -> StopInferenceExperimentOutput
     /// Stops an Inference Recommender job.
     ///
     /// - Parameter StopInferenceRecommendationsJobInput : [no documentation found]
     ///
-    /// - Returns: `StopInferenceRecommendationsJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopInferenceRecommendationsJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopInferenceRecommendationsJob(input: StopInferenceRecommendationsJobInput) async throws -> StopInferenceRecommendationsJobOutputResponse
+    func stopInferenceRecommendationsJob(input: StopInferenceRecommendationsJobInput) async throws -> StopInferenceRecommendationsJobOutput
     /// Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
     ///
     /// - Parameter StopLabelingJobInput : [no documentation found]
     ///
-    /// - Returns: `StopLabelingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopLabelingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopLabelingJob(input: StopLabelingJobInput) async throws -> StopLabelingJobOutputResponse
+    func stopLabelingJob(input: StopLabelingJobInput) async throws -> StopLabelingJobOutput
     /// Stops a previously started monitoring schedule.
     ///
     /// - Parameter StopMonitoringScheduleInput : [no documentation found]
     ///
-    /// - Returns: `StopMonitoringScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `StopMonitoringScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopMonitoringSchedule(input: StopMonitoringScheduleInput) async throws -> StopMonitoringScheduleOutputResponse
+    func stopMonitoringSchedule(input: StopMonitoringScheduleInput) async throws -> StopMonitoringScheduleOutput
     /// Terminates the ML compute instance. Before terminating the instance, SageMaker disconnects the ML storage volume from it. SageMaker preserves the ML storage volume. SageMaker stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
     ///
     /// - Parameter StopNotebookInstanceInput : [no documentation found]
     ///
-    /// - Returns: `StopNotebookInstanceOutputResponse` : [no documentation found]
-    func stopNotebookInstance(input: StopNotebookInstanceInput) async throws -> StopNotebookInstanceOutputResponse
+    /// - Returns: `StopNotebookInstanceOutput` : [no documentation found]
+    func stopNotebookInstance(input: StopNotebookInstanceInput) async throws -> StopNotebookInstanceOutput
     /// Stops a pipeline execution. Callback Step A pipeline execution won't stop while a callback step is running. When you call StopPipelineExecution on a pipeline execution with a running callback step, SageMaker Pipelines sends an additional Amazon SQS message to the specified SQS queue. The body of the SQS message contains a "Status" field which is set to "Stopping". You should add logic to your Amazon SQS message consumer to take any needed action (for example, resource cleanup) upon receipt of the message followed by a call to SendPipelineExecutionStepSuccess or SendPipelineExecutionStepFailure. Only when SageMaker Pipelines receives one of these calls will it stop the pipeline execution. Lambda Step A pipeline execution can't be stopped while a lambda step is running because the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the execution while the Lambda function is running, the pipeline waits for the Lambda function to finish or until the timeout is hit, whichever occurs first, and then stops. If the Lambda function finishes, the pipeline execution status is Stopped. If the timeout is hit the pipeline execution status is Failed.
     ///
     /// - Parameter StopPipelineExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StopPipelineExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StopPipelineExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutputResponse
+    func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput
     /// Stops a processing job.
     ///
     /// - Parameter StopProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `StopProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopProcessingJob(input: StopProcessingJobInput) async throws -> StopProcessingJobOutputResponse
+    func stopProcessingJob(input: StopProcessingJobInput) async throws -> StopProcessingJobOutput
     /// Stops a training job. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost. When it receives a StopTrainingJob request, SageMaker changes the status of the job to Stopping. After SageMaker stops the job, it sets the status to Stopped.
     ///
     /// - Parameter StopTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `StopTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopTrainingJob(input: StopTrainingJobInput) async throws -> StopTrainingJobOutputResponse
+    func stopTrainingJob(input: StopTrainingJobInput) async throws -> StopTrainingJobOutput
     /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
     ///
     /// - Parameter StopTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `StopTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func stopTransformJob(input: StopTransformJobInput) async throws -> StopTransformJobOutputResponse
+    func stopTransformJob(input: StopTransformJobInput) async throws -> StopTransformJobOutput
     /// Updates an action.
     ///
     /// - Parameter UpdateActionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateActionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateAction(input: UpdateActionInput) async throws -> UpdateActionOutputResponse
+    func updateAction(input: UpdateActionInput) async throws -> UpdateActionOutput
     /// Updates the properties of an AppImageConfig.
     ///
     /// - Parameter UpdateAppImageConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppImageConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppImageConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateAppImageConfig(input: UpdateAppImageConfigInput) async throws -> UpdateAppImageConfigOutputResponse
+    func updateAppImageConfig(input: UpdateAppImageConfigInput) async throws -> UpdateAppImageConfigOutput
     /// Updates an artifact.
     ///
     /// - Parameter UpdateArtifactInput : [no documentation found]
     ///
-    /// - Returns: `UpdateArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateArtifact(input: UpdateArtifactInput) async throws -> UpdateArtifactOutputResponse
+    func updateArtifact(input: UpdateArtifactInput) async throws -> UpdateArtifactOutput
     /// Updates the specified Git repository with the specified values.
     ///
     /// - Parameter UpdateCodeRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCodeRepositoryOutputResponse` : [no documentation found]
-    func updateCodeRepository(input: UpdateCodeRepositoryInput) async throws -> UpdateCodeRepositoryOutputResponse
+    /// - Returns: `UpdateCodeRepositoryOutput` : [no documentation found]
+    func updateCodeRepository(input: UpdateCodeRepositoryInput) async throws -> UpdateCodeRepositoryOutput
     /// Updates a context.
     ///
     /// - Parameter UpdateContextInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContextOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateContext(input: UpdateContextInput) async throws -> UpdateContextOutputResponse
+    func updateContext(input: UpdateContextInput) async throws -> UpdateContextOutput
     /// Updates a fleet of devices.
     ///
     /// - Parameter UpdateDeviceFleetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceFleetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
-    func updateDeviceFleet(input: UpdateDeviceFleetInput) async throws -> UpdateDeviceFleetOutputResponse
+    func updateDeviceFleet(input: UpdateDeviceFleetInput) async throws -> UpdateDeviceFleetOutput
     /// Updates one or more devices in a fleet.
     ///
     /// - Parameter UpdateDevicesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDevicesOutputResponse` : [no documentation found]
-    func updateDevices(input: UpdateDevicesInput) async throws -> UpdateDevicesOutputResponse
+    /// - Returns: `UpdateDevicesOutput` : [no documentation found]
+    func updateDevices(input: UpdateDevicesInput) async throws -> UpdateDevicesOutput
     /// Updates the default settings for new user profiles in the domain.
     ///
     /// - Parameter UpdateDomainInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDomainOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2752,115 +2752,115 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutputResponse
+    func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput
     /// Deploys the new EndpointConfig specified in the request, switches to using newly created endpoint, and then deletes resources provisioned for the endpoint using the previous EndpointConfig (there is no availability loss). When SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html) API. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
     ///
     /// - Parameter UpdateEndpointInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutputResponse
+    func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput
     /// Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html) API.
     ///
     /// - Parameter UpdateEndpointWeightsAndCapacitiesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEndpointWeightsAndCapacitiesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEndpointWeightsAndCapacitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func updateEndpointWeightsAndCapacities(input: UpdateEndpointWeightsAndCapacitiesInput) async throws -> UpdateEndpointWeightsAndCapacitiesOutputResponse
+    func updateEndpointWeightsAndCapacities(input: UpdateEndpointWeightsAndCapacitiesInput) async throws -> UpdateEndpointWeightsAndCapacitiesOutput
     /// Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
     ///
     /// - Parameter UpdateExperimentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutputResponse
+    func updateExperiment(input: UpdateExperimentInput) async throws -> UpdateExperimentOutput
     /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all records added to the feature group after the feature group is updated. If a record level TtlDuration exists from using the PutRecord API, the record level TtlDuration applies to that record instead of the default TtlDuration.
     ///
     /// - Parameter UpdateFeatureGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFeatureGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFeatureGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutputResponse
+    func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutput
     /// Updates the description and parameters of the feature group.
     ///
     /// - Parameter UpdateFeatureMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFeatureMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFeatureMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutputResponse
+    func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutput
     /// Update a hub. Hub APIs are only callable through SageMaker Studio.
     ///
     /// - Parameter UpdateHubInput : [no documentation found]
     ///
-    /// - Returns: `UpdateHubOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateHubOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateHub(input: UpdateHubInput) async throws -> UpdateHubOutputResponse
+    func updateHub(input: UpdateHubInput) async throws -> UpdateHubOutput
     /// Updates the properties of a SageMaker image. To change the image's tags, use the [AddTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AddTags.html) and [DeleteTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteTags.html) APIs.
     ///
     /// - Parameter UpdateImageInput : [no documentation found]
     ///
-    /// - Returns: `UpdateImageOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateImage(input: UpdateImageInput) async throws -> UpdateImageOutputResponse
+    func updateImage(input: UpdateImageInput) async throws -> UpdateImageOutput
     /// Updates the properties of a SageMaker image version.
     ///
     /// - Parameter UpdateImageVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateImageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateImageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateImageVersion(input: UpdateImageVersionInput) async throws -> UpdateImageVersionOutputResponse
+    func updateImageVersion(input: UpdateImageVersionInput) async throws -> UpdateImageVersionOutput
     /// Updates an inference experiment that you created. The status of the inference experiment has to be either Created, Running. For more information on the status of an inference experiment, see [DescribeInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeInferenceExperiment.html).
     ///
     /// - Parameter UpdateInferenceExperimentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInferenceExperimentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInferenceExperimentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateInferenceExperiment(input: UpdateInferenceExperimentInput) async throws -> UpdateInferenceExperimentOutputResponse
+    func updateInferenceExperiment(input: UpdateInferenceExperimentInput) async throws -> UpdateInferenceExperimentOutput
     /// Update an Amazon SageMaker Model Card. You cannot update both model card content and model card status in a single call.
     ///
     /// - Parameter UpdateModelCardInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelCardOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelCardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2868,92 +2868,92 @@ public protocol SageMakerClientProtocol {
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateModelCard(input: UpdateModelCardInput) async throws -> UpdateModelCardOutputResponse
+    func updateModelCard(input: UpdateModelCardInput) async throws -> UpdateModelCardOutput
     /// Updates a versioned model.
     ///
     /// - Parameter UpdateModelPackageInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelPackageOutputResponse` : [no documentation found]
-    func updateModelPackage(input: UpdateModelPackageInput) async throws -> UpdateModelPackageOutputResponse
+    /// - Returns: `UpdateModelPackageOutput` : [no documentation found]
+    func updateModelPackage(input: UpdateModelPackageInput) async throws -> UpdateModelPackageOutput
     /// Update the parameters of a model monitor alert.
     ///
     /// - Parameter UpdateMonitoringAlertInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMonitoringAlertOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMonitoringAlertOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateMonitoringAlert(input: UpdateMonitoringAlertInput) async throws -> UpdateMonitoringAlertOutputResponse
+    func updateMonitoringAlert(input: UpdateMonitoringAlertInput) async throws -> UpdateMonitoringAlertOutput
     /// Updates a previously created schedule.
     ///
     /// - Parameter UpdateMonitoringScheduleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMonitoringScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMonitoringScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateMonitoringSchedule(input: UpdateMonitoringScheduleInput) async throws -> UpdateMonitoringScheduleOutputResponse
+    func updateMonitoringSchedule(input: UpdateMonitoringScheduleInput) async throws -> UpdateMonitoringScheduleOutput
     /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
     ///
     /// - Parameter UpdateNotebookInstanceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNotebookInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNotebookInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func updateNotebookInstance(input: UpdateNotebookInstanceInput) async throws -> UpdateNotebookInstanceOutputResponse
+    func updateNotebookInstance(input: UpdateNotebookInstanceInput) async throws -> UpdateNotebookInstanceOutput
     /// Updates a notebook instance lifecycle configuration created with the [CreateNotebookInstanceLifecycleConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateNotebookInstanceLifecycleConfig.html) API.
     ///
     /// - Parameter UpdateNotebookInstanceLifecycleConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNotebookInstanceLifecycleConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNotebookInstanceLifecycleConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func updateNotebookInstanceLifecycleConfig(input: UpdateNotebookInstanceLifecycleConfigInput) async throws -> UpdateNotebookInstanceLifecycleConfigOutputResponse
+    func updateNotebookInstanceLifecycleConfig(input: UpdateNotebookInstanceLifecycleConfigInput) async throws -> UpdateNotebookInstanceLifecycleConfigOutput
     /// Updates a pipeline.
     ///
     /// - Parameter UpdatePipelineInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutputResponse
+    func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
     /// Updates a pipeline execution.
     ///
     /// - Parameter UpdatePipelineExecutionInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePipelineExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePipelineExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updatePipelineExecution(input: UpdatePipelineExecutionInput) async throws -> UpdatePipelineExecutionOutputResponse
+    func updatePipelineExecution(input: UpdatePipelineExecutionInput) async throws -> UpdatePipelineExecutionOutput
     /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. You must not update a project that is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project.
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
-    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
     /// Updates the settings of a space.
     ///
     /// - Parameter UpdateSpaceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSpaceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2961,47 +2961,47 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutputResponse
+    func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutput
     /// Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length.
     ///
     /// - Parameter UpdateTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateTrainingJob(input: UpdateTrainingJobInput) async throws -> UpdateTrainingJobOutputResponse
+    func updateTrainingJob(input: UpdateTrainingJobInput) async throws -> UpdateTrainingJobOutput
     /// Updates the display name of a trial.
     ///
     /// - Parameter UpdateTrialInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrialOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrialOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateTrial(input: UpdateTrialInput) async throws -> UpdateTrialOutputResponse
+    func updateTrial(input: UpdateTrialInput) async throws -> UpdateTrialOutput
     /// Updates one or more properties of a trial component.
     ///
     /// - Parameter UpdateTrialComponentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTrialComponentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTrialComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateTrialComponent(input: UpdateTrialComponentInput) async throws -> UpdateTrialComponentOutputResponse
+    func updateTrialComponent(input: UpdateTrialComponentInput) async throws -> UpdateTrialComponentOutput
     /// Updates a user profile.
     ///
     /// - Parameter UpdateUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3009,29 +3009,29 @@ public protocol SageMakerClientProtocol {
     /// - `ResourceInUse` : Resource being accessed is in use.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
-    func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutputResponse
+    func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput
     /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet. Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten [CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html). By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict access to all the workers in public internet, add the SourceIpConfig CIDR value as "10.0.0.0/16". Amazon SageMaker does not support Source Ip restriction for worker portals in VPC. Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP. You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html) operation. After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the [DescribeWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeWorkforce.html) operation. This operation only applies to private workforces.
     ///
     /// - Parameter UpdateWorkforceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkforceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkforceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-    func updateWorkforce(input: UpdateWorkforceInput) async throws -> UpdateWorkforceOutputResponse
+    func updateWorkforce(input: UpdateWorkforceInput) async throws -> UpdateWorkforceOutput
     /// Updates an existing work team with new member definitions or description.
     ///
     /// - Parameter UpdateWorkteamInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkteamOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkteamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-    func updateWorkteam(input: UpdateWorkteamInput) async throws -> UpdateWorkteamOutputResponse
+    func updateWorkteam(input: UpdateWorkteamInput) async throws -> UpdateWorkteamOutput
 }
 
 public enum SageMakerClientTypes {}

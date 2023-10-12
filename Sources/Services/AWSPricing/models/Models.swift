@@ -175,26 +175,11 @@ extension DescribeServicesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeServicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeServicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeServicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.formatVersion = output.formatVersion
             self.nextToken = output.nextToken
             self.services = output.services
@@ -206,7 +191,7 @@ extension DescribeServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServicesOutputResponse: Swift.Equatable {
+public struct DescribeServicesOutput: Swift.Equatable {
     /// The format version of the response. For example, aws_v1.
     public var formatVersion: Swift.String?
     /// The pagination token for the next set of retrievable results.
@@ -226,13 +211,13 @@ public struct DescribeServicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeServicesOutputResponseBody: Swift.Equatable {
+struct DescribeServicesOutputBody: Swift.Equatable {
     let services: [PricingClientTypes.Service]?
     let formatVersion: Swift.String?
     let nextToken: Swift.String?
 }
 
-extension DescribeServicesOutputResponseBody: Swift.Decodable {
+extension DescribeServicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case formatVersion = "FormatVersion"
         case nextToken = "NextToken"
@@ -256,6 +241,21 @@ extension DescribeServicesOutputResponseBody: Swift.Decodable {
         formatVersion = formatVersionDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -486,26 +486,11 @@ extension GetAttributeValuesInputBody: Swift.Decodable {
     }
 }
 
-enum GetAttributeValuesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAttributeValuesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAttributeValuesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAttributeValuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAttributeValuesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attributeValues = output.attributeValues
             self.nextToken = output.nextToken
         } else {
@@ -515,7 +500,7 @@ extension GetAttributeValuesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAttributeValuesOutputResponse: Swift.Equatable {
+public struct GetAttributeValuesOutput: Swift.Equatable {
     /// The list of values for an attribute. For example, Throughput Optimized HDD and Provisioned IOPS are two available values for the AmazonEC2volumeType.
     public var attributeValues: [PricingClientTypes.AttributeValue]?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -531,12 +516,12 @@ public struct GetAttributeValuesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAttributeValuesOutputResponseBody: Swift.Equatable {
+struct GetAttributeValuesOutputBody: Swift.Equatable {
     let attributeValues: [PricingClientTypes.AttributeValue]?
     let nextToken: Swift.String?
 }
 
-extension GetAttributeValuesOutputResponseBody: Swift.Decodable {
+extension GetAttributeValuesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeValues = "AttributeValues"
         case nextToken = "NextToken"
@@ -557,6 +542,21 @@ extension GetAttributeValuesOutputResponseBody: Swift.Decodable {
         attributeValues = attributeValuesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetAttributeValuesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -621,25 +621,11 @@ extension GetPriceListFileUrlInputBody: Swift.Decodable {
     }
 }
 
-enum GetPriceListFileUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPriceListFileUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPriceListFileUrlOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPriceListFileUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPriceListFileUrlOutputBody = try responseDecoder.decode(responseBody: data)
             self.url = output.url
         } else {
             self.url = nil
@@ -647,7 +633,7 @@ extension GetPriceListFileUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPriceListFileUrlOutputResponse: Swift.Equatable {
+public struct GetPriceListFileUrlOutput: Swift.Equatable {
     /// The URL to download your Price List file from.
     public var url: Swift.String?
 
@@ -659,11 +645,11 @@ public struct GetPriceListFileUrlOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPriceListFileUrlOutputResponseBody: Swift.Equatable {
+struct GetPriceListFileUrlOutputBody: Swift.Equatable {
     let url: Swift.String?
 }
 
-extension GetPriceListFileUrlOutputResponseBody: Swift.Decodable {
+extension GetPriceListFileUrlOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case url = "Url"
     }
@@ -672,6 +658,20 @@ extension GetPriceListFileUrlOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
         url = urlDecoded
+    }
+}
+
+enum GetPriceListFileUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -783,26 +783,11 @@ extension GetProductsInputBody: Swift.Decodable {
     }
 }
 
-enum GetProductsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetProductsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetProductsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetProductsOutputBody = try responseDecoder.decode(responseBody: data)
             self.formatVersion = output.formatVersion
             self.nextToken = output.nextToken
             self.priceList = output.priceList
@@ -814,7 +799,7 @@ extension GetProductsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProductsOutputResponse: Swift.Equatable {
+public struct GetProductsOutput: Swift.Equatable {
     /// The format version of the response. For example, aws_v1.
     public var formatVersion: Swift.String?
     /// The pagination token that indicates the next set of results to retrieve.
@@ -834,13 +819,13 @@ public struct GetProductsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetProductsOutputResponseBody: Swift.Equatable {
+struct GetProductsOutputBody: Swift.Equatable {
     let formatVersion: Swift.String?
     let priceList: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension GetProductsOutputResponseBody: Swift.Decodable {
+extension GetProductsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case formatVersion = "FormatVersion"
         case nextToken = "NextToken"
@@ -864,6 +849,21 @@ extension GetProductsOutputResponseBody: Swift.Decodable {
         priceList = priceListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetProductsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1142,27 +1142,11 @@ extension ListPriceListsInputBody: Swift.Decodable {
     }
 }
 
-enum ListPriceListsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPriceListsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPriceListsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPriceListsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPriceListsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.priceLists = output.priceLists
         } else {
@@ -1172,7 +1156,7 @@ extension ListPriceListsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPriceListsOutputResponse: Swift.Equatable {
+public struct ListPriceListsOutput: Swift.Equatable {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// The type of price list references that match your request.
@@ -1188,12 +1172,12 @@ public struct ListPriceListsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPriceListsOutputResponseBody: Swift.Equatable {
+struct ListPriceListsOutputBody: Swift.Equatable {
     let priceLists: [PricingClientTypes.PriceList]?
     let nextToken: Swift.String?
 }
 
-extension ListPriceListsOutputResponseBody: Swift.Decodable {
+extension ListPriceListsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case priceLists = "PriceLists"
@@ -1214,6 +1198,22 @@ extension ListPriceListsOutputResponseBody: Swift.Decodable {
         priceLists = priceListsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPriceListsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredNextTokenException": return try await ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

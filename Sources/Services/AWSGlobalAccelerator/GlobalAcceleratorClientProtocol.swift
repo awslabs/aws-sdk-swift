@@ -15,7 +15,7 @@ public protocol GlobalAcceleratorClientProtocol {
     ///
     /// - Parameter AddCustomRoutingEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `AddCustomRoutingEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `AddCustomRoutingEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -27,7 +27,7 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func addCustomRoutingEndpoints(input: AddCustomRoutingEndpointsInput) async throws -> AddCustomRoutingEndpointsOutputResponse
+    func addCustomRoutingEndpoints(input: AddCustomRoutingEndpointsInput) async throws -> AddCustomRoutingEndpointsOutput
     /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the [CreateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_CreateEndpointGroup.html) API) or when you update an endpoint group (with the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator:
     ///
     /// * It's faster, because Global Accelerator only has to resolve the new endpoints that you're adding, rather than resolving new and existing endpoints.
@@ -39,7 +39,7 @@ public protocol GlobalAcceleratorClientProtocol {
     ///
     /// - Parameter AddEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `AddEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `AddEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    func addEndpoints(input: AddEndpointsInput) async throws -> AddEndpointsOutputResponse
+    func addEndpoints(input: AddEndpointsInput) async throws -> AddEndpointsOutput
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use [ WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
     ///
-    /// - Returns: `AdvertiseByoipCidrOutputResponse` : [no documentation found]
+    /// - Returns: `AdvertiseByoipCidrOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `IncorrectCidrStateException` : The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutputResponse
+    func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
     /// - Parameter AllowCustomRoutingTrafficInput : [no documentation found]
     ///
-    /// - Returns: `AllowCustomRoutingTrafficOutputResponse` : [no documentation found]
+    /// - Returns: `AllowCustomRoutingTrafficOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -78,12 +78,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func allowCustomRoutingTraffic(input: AllowCustomRoutingTrafficInput) async throws -> AllowCustomRoutingTrafficOutputResponse
+    func allowCustomRoutingTraffic(input: AllowCustomRoutingTrafficInput) async throws -> AllowCustomRoutingTrafficOutput
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `CreateAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -91,12 +91,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutputResponse
+    func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutput
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateCustomRoutingAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `CreateCustomRoutingAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCustomRoutingAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -105,12 +105,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func createCustomRoutingAccelerator(input: CreateCustomRoutingAcceleratorInput) async throws -> CreateCustomRoutingAcceleratorOutputResponse
+    func createCustomRoutingAccelerator(input: CreateCustomRoutingAcceleratorInput) async throws -> CreateCustomRoutingAcceleratorOutput
     /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region.
     ///
     /// - Parameter CreateCustomRoutingEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateCustomRoutingEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCustomRoutingEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -123,12 +123,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func createCustomRoutingEndpointGroup(input: CreateCustomRoutingEndpointGroupInput) async throws -> CreateCustomRoutingEndpointGroupOutputResponse
+    func createCustomRoutingEndpointGroup(input: CreateCustomRoutingEndpointGroupInput) async throws -> CreateCustomRoutingEndpointGroupOutput
     /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify.
     ///
     /// - Parameter CreateCustomRoutingListenerInput : [no documentation found]
     ///
-    /// - Returns: `CreateCustomRoutingListenerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCustomRoutingListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,12 +138,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func createCustomRoutingListener(input: CreateCustomRoutingListenerInput) async throws -> CreateCustomRoutingListenerOutputResponse
+    func createCustomRoutingListener(input: CreateCustomRoutingListenerInput) async throws -> CreateCustomRoutingListenerOutput
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter CreateEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func createEndpointGroup(input: CreateEndpointGroupInput) async throws -> CreateEndpointGroupOutputResponse
+    func createEndpointGroup(input: CreateEndpointGroupInput) async throws -> CreateEndpointGroupOutput
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify.
     ///
     /// - Parameter CreateListenerInput : [no documentation found]
     ///
-    /// - Returns: `CreateListenerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -170,12 +170,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func createListener(input: CreateListenerInput) async throws -> CreateListenerOutputResponse
+    func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -185,12 +185,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AssociatedListenerFoundException` : The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutputResponse
+    func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutput
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteCustomRoutingAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomRoutingAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomRoutingAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -200,12 +200,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AssociatedListenerFoundException` : The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func deleteCustomRoutingAccelerator(input: DeleteCustomRoutingAcceleratorInput) async throws -> DeleteCustomRoutingAcceleratorOutputResponse
+    func deleteCustomRoutingAccelerator(input: DeleteCustomRoutingAcceleratorInput) async throws -> DeleteCustomRoutingAcceleratorOutput
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     ///
     /// - Parameter DeleteCustomRoutingEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomRoutingEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomRoutingEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -213,12 +213,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func deleteCustomRoutingEndpointGroup(input: DeleteCustomRoutingEndpointGroupInput) async throws -> DeleteCustomRoutingEndpointGroupOutputResponse
+    func deleteCustomRoutingEndpointGroup(input: DeleteCustomRoutingEndpointGroupInput) async throws -> DeleteCustomRoutingEndpointGroupOutput
     /// Delete a listener for a custom routing accelerator.
     ///
     /// - Parameter DeleteCustomRoutingListenerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomRoutingListenerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomRoutingListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -227,12 +227,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func deleteCustomRoutingListener(input: DeleteCustomRoutingListenerInput) async throws -> DeleteCustomRoutingListenerOutputResponse
+    func deleteCustomRoutingListener(input: DeleteCustomRoutingListenerInput) async throws -> DeleteCustomRoutingListenerOutput
     /// Delete an endpoint group from a listener.
     ///
     /// - Parameter DeleteEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -240,12 +240,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func deleteEndpointGroup(input: DeleteEndpointGroupInput) async throws -> DeleteEndpointGroupOutputResponse
+    func deleteEndpointGroup(input: DeleteEndpointGroupInput) async throws -> DeleteEndpointGroupOutput
     /// Delete a listener from an accelerator.
     ///
     /// - Parameter DeleteListenerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteListenerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -254,12 +254,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutputResponse
+    func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
     /// - Parameter DenyCustomRoutingTrafficInput : [no documentation found]
     ///
-    /// - Returns: `DenyCustomRoutingTrafficOutputResponse` : [no documentation found]
+    /// - Returns: `DenyCustomRoutingTrafficOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,12 +267,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func denyCustomRoutingTraffic(input: DenyCustomRoutingTrafficInput) async throws -> DenyCustomRoutingTrafficOutputResponse
+    func denyCustomRoutingTraffic(input: DenyCustomRoutingTrafficInput) async throws -> DenyCustomRoutingTrafficOutput
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html) and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
     ///
-    /// - Returns: `DeprovisionByoipCidrOutputResponse` : [no documentation found]
+    /// - Returns: `DeprovisionByoipCidrOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,12 +282,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `IncorrectCidrStateException` : The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutputResponse
+    func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput
     /// Describe an accelerator.
     ///
     /// - Parameter DescribeAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -295,12 +295,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func describeAccelerator(input: DescribeAcceleratorInput) async throws -> DescribeAcceleratorOutputResponse
+    func describeAccelerator(input: DescribeAcceleratorInput) async throws -> DescribeAcceleratorOutput
     /// Describe the attributes of an accelerator.
     ///
     /// - Parameter DescribeAcceleratorAttributesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAcceleratorAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAcceleratorAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -308,12 +308,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func describeAcceleratorAttributes(input: DescribeAcceleratorAttributesInput) async throws -> DescribeAcceleratorAttributesOutputResponse
+    func describeAcceleratorAttributes(input: DescribeAcceleratorAttributesInput) async throws -> DescribeAcceleratorAttributesOutput
     /// Describe a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomRoutingAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomRoutingAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -321,12 +321,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func describeCustomRoutingAccelerator(input: DescribeCustomRoutingAcceleratorInput) async throws -> DescribeCustomRoutingAcceleratorOutputResponse
+    func describeCustomRoutingAccelerator(input: DescribeCustomRoutingAcceleratorInput) async throws -> DescribeCustomRoutingAcceleratorOutput
     /// Describe the attributes of a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorAttributesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomRoutingAcceleratorAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomRoutingAcceleratorAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -334,12 +334,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func describeCustomRoutingAcceleratorAttributes(input: DescribeCustomRoutingAcceleratorAttributesInput) async throws -> DescribeCustomRoutingAcceleratorAttributesOutputResponse
+    func describeCustomRoutingAcceleratorAttributes(input: DescribeCustomRoutingAcceleratorAttributesInput) async throws -> DescribeCustomRoutingAcceleratorAttributesOutput
     /// Describe an endpoint group for a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomRoutingEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomRoutingEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -347,12 +347,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func describeCustomRoutingEndpointGroup(input: DescribeCustomRoutingEndpointGroupInput) async throws -> DescribeCustomRoutingEndpointGroupOutputResponse
+    func describeCustomRoutingEndpointGroup(input: DescribeCustomRoutingEndpointGroupInput) async throws -> DescribeCustomRoutingEndpointGroupOutput
     /// The description of a listener for a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingListenerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomRoutingListenerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomRoutingListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -360,12 +360,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func describeCustomRoutingListener(input: DescribeCustomRoutingListenerInput) async throws -> DescribeCustomRoutingListenerOutputResponse
+    func describeCustomRoutingListener(input: DescribeCustomRoutingListenerInput) async throws -> DescribeCustomRoutingListenerOutput
     /// Describe an endpoint group.
     ///
     /// - Parameter DescribeEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -373,12 +373,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func describeEndpointGroup(input: DescribeEndpointGroupInput) async throws -> DescribeEndpointGroupOutputResponse
+    func describeEndpointGroup(input: DescribeEndpointGroupInput) async throws -> DescribeEndpointGroupOutput
     /// Describe a listener.
     ///
     /// - Parameter DescribeListenerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeListenerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,12 +386,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func describeListener(input: DescribeListenerInput) async throws -> DescribeListenerOutputResponse
+    func describeListener(input: DescribeListenerInput) async throws -> DescribeListenerOutput
     /// List the accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListAcceleratorsInput : [no documentation found]
     ///
-    /// - Returns: `ListAcceleratorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAcceleratorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -399,12 +399,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listAccelerators(input: ListAcceleratorsInput) async throws -> ListAcceleratorsOutputResponse
+    func listAccelerators(input: ListAcceleratorsInput) async throws -> ListAcceleratorsOutput
     /// Lists the IP address ranges that were specified in calls to [ProvisionByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html), including the current state and a history of state changes.
     ///
     /// - Parameter ListByoipCidrsInput : [no documentation found]
     ///
-    /// - Returns: `ListByoipCidrsOutputResponse` : [no documentation found]
+    /// - Returns: `ListByoipCidrsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,12 +413,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listByoipCidrs(input: ListByoipCidrsInput) async throws -> ListByoipCidrsOutputResponse
+    func listByoipCidrs(input: ListByoipCidrsInput) async throws -> ListByoipCidrsOutput
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListCustomRoutingAcceleratorsInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomRoutingAcceleratorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomRoutingAcceleratorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,12 +426,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listCustomRoutingAccelerators(input: ListCustomRoutingAcceleratorsInput) async throws -> ListCustomRoutingAcceleratorsOutputResponse
+    func listCustomRoutingAccelerators(input: ListCustomRoutingAcceleratorsInput) async throws -> ListCustomRoutingAcceleratorsOutput
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     ///
     /// - Parameter ListCustomRoutingEndpointGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomRoutingEndpointGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomRoutingEndpointGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,12 +440,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func listCustomRoutingEndpointGroups(input: ListCustomRoutingEndpointGroupsInput) async throws -> ListCustomRoutingEndpointGroupsOutputResponse
+    func listCustomRoutingEndpointGroups(input: ListCustomRoutingEndpointGroupsInput) async throws -> ListCustomRoutingEndpointGroupsOutput
     /// List the listeners for a custom routing accelerator.
     ///
     /// - Parameter ListCustomRoutingListenersInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomRoutingListenersOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomRoutingListenersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,12 +454,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listCustomRoutingListeners(input: ListCustomRoutingListenersInput) async throws -> ListCustomRoutingListenersOutputResponse
+    func listCustomRoutingListeners(input: ListCustomRoutingListenersInput) async throws -> ListCustomRoutingListenersOutput
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and ports are allowed or denied traffic.
     ///
     /// - Parameter ListCustomRoutingPortMappingsInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomRoutingPortMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomRoutingPortMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listCustomRoutingPortMappings(input: ListCustomRoutingPortMappingsInput) async throws -> ListCustomRoutingPortMappingsOutputResponse
+    func listCustomRoutingPortMappings(input: ListCustomRoutingPortMappingsInput) async throws -> ListCustomRoutingPortMappingsOutput
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance.
     ///
     /// - Parameter ListCustomRoutingPortMappingsByDestinationInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomRoutingPortMappingsByDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomRoutingPortMappingsByDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,12 +483,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listCustomRoutingPortMappingsByDestination(input: ListCustomRoutingPortMappingsByDestinationInput) async throws -> ListCustomRoutingPortMappingsByDestinationOutputResponse
+    func listCustomRoutingPortMappingsByDestination(input: ListCustomRoutingPortMappingsByDestinationInput) async throws -> ListCustomRoutingPortMappingsByDestinationOutput
     /// List the endpoint groups that are associated with a listener.
     ///
     /// - Parameter ListEndpointGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListEndpointGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEndpointGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,12 +497,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func listEndpointGroups(input: ListEndpointGroupsInput) async throws -> ListEndpointGroupsOutputResponse
+    func listEndpointGroups(input: ListEndpointGroupsInput) async throws -> ListEndpointGroupsOutput
     /// List the listeners for an accelerator.
     ///
     /// - Parameter ListListenersInput : [no documentation found]
     ///
-    /// - Returns: `ListListenersOutputResponse` : [no documentation found]
+    /// - Returns: `ListListenersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,12 +511,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
-    func listListeners(input: ListListenersInput) async throws -> ListListenersOutputResponse
+    func listListeners(input: ListListenersInput) async throws -> ListListenersOutput
     /// List all tags for an accelerator. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,12 +524,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [ AdvertiseByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter ProvisionByoipCidrInput : [no documentation found]
     ///
-    /// - Returns: `ProvisionByoipCidrOutputResponse` : [no documentation found]
+    /// - Returns: `ProvisionByoipCidrOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -539,12 +539,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutputResponse
+    func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput
     /// Remove endpoints from a custom routing accelerator.
     ///
     /// - Parameter RemoveCustomRoutingEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `RemoveCustomRoutingEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveCustomRoutingEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,7 +555,7 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `EndpointNotFoundException` : The endpoint that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func removeCustomRoutingEndpoints(input: RemoveCustomRoutingEndpointsInput) async throws -> RemoveCustomRoutingEndpointsOutputResponse
+    func removeCustomRoutingEndpoints(input: RemoveCustomRoutingEndpointsInput) async throws -> RemoveCustomRoutingEndpointsOutput
     /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API operation. There are two advantages to using AddEndpoints to remove endpoints instead:
     ///
     /// * It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in the endpoint group except the ones that you want to remove from the group.
@@ -564,7 +564,7 @@ public protocol GlobalAcceleratorClientProtocol {
     ///
     /// - Parameter RemoveEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `RemoveEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -574,12 +574,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
-    func removeEndpoints(input: RemoveEndpointsInput) async throws -> RemoveEndpointsOutputResponse
+    func removeEndpoints(input: RemoveEndpointsInput) async throws -> RemoveEndpointsOutput
     /// Add tags to an accelerator resource. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,12 +587,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -600,7 +600,7 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update an accelerator to make changes, such as the following:
     ///
     /// * Change the name of the accelerator.
@@ -616,7 +616,7 @@ public protocol GlobalAcceleratorClientProtocol {
     ///
     /// - Parameter UpdateAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,12 +625,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func updateAccelerator(input: UpdateAcceleratorInput) async throws -> UpdateAcceleratorOutputResponse
+    func updateAccelerator(input: UpdateAcceleratorInput) async throws -> UpdateAcceleratorOutput
     /// Update the attributes for an accelerator.
     ///
     /// - Parameter UpdateAcceleratorAttributesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAcceleratorAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAcceleratorAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -639,12 +639,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutputResponse
+    func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutput
     /// Update a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCustomRoutingAcceleratorOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCustomRoutingAcceleratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,12 +652,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func updateCustomRoutingAccelerator(input: UpdateCustomRoutingAcceleratorInput) async throws -> UpdateCustomRoutingAcceleratorOutputResponse
+    func updateCustomRoutingAccelerator(input: UpdateCustomRoutingAcceleratorInput) async throws -> UpdateCustomRoutingAcceleratorOutput
     /// Update the attributes for a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorAttributesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCustomRoutingAcceleratorAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCustomRoutingAcceleratorAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,12 +666,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func updateCustomRoutingAcceleratorAttributes(input: UpdateCustomRoutingAcceleratorAttributesInput) async throws -> UpdateCustomRoutingAcceleratorAttributesOutputResponse
+    func updateCustomRoutingAcceleratorAttributes(input: UpdateCustomRoutingAcceleratorAttributesInput) async throws -> UpdateCustomRoutingAcceleratorAttributesOutput
     /// Update a listener for a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingListenerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCustomRoutingListenerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCustomRoutingListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -681,12 +681,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func updateCustomRoutingListener(input: UpdateCustomRoutingListenerInput) async throws -> UpdateCustomRoutingListenerOutputResponse
+    func updateCustomRoutingListener(input: UpdateCustomRoutingListenerInput) async throws -> UpdateCustomRoutingListenerOutput
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     ///
     /// - Parameter UpdateEndpointGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEndpointGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEndpointGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,12 +696,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
-    func updateEndpointGroup(input: UpdateEndpointGroupInput) async throws -> UpdateEndpointGroupOutputResponse
+    func updateEndpointGroup(input: UpdateEndpointGroupInput) async throws -> UpdateEndpointGroupOutput
     /// Update a listener.
     ///
     /// - Parameter UpdateListenerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateListenerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,12 +711,12 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
-    func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutputResponse
+    func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter WithdrawByoipCidrInput : [no documentation found]
     ///
-    /// - Returns: `WithdrawByoipCidrOutputResponse` : [no documentation found]
+    /// - Returns: `WithdrawByoipCidrOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,7 +726,7 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `IncorrectCidrStateException` : The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
-    func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutputResponse
+    func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutput
 }
 
 public enum GlobalAcceleratorClientTypes {}

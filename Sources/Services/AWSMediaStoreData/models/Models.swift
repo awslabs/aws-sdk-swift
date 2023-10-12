@@ -88,6 +88,16 @@ extension DeleteObjectInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteObjectOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteObjectOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -99,16 +109,6 @@ enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteObjectOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeObjectInput: ClientRuntime.URLPathProvider {
@@ -142,20 +142,7 @@ extension DescribeObjectInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ObjectNotFoundException": return try await ObjectNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeObjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeObjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             self.cacheControl = cacheControlHeaderValue
@@ -185,7 +172,7 @@ extension DescribeObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeObjectOutputResponse: Swift.Equatable {
+public struct DescribeObjectOutput: Swift.Equatable {
     /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at [https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9). Headers with a custom user-defined value are also accepted.
     public var cacheControl: Swift.String?
     /// The length of the object in bytes.
@@ -210,6 +197,19 @@ public struct DescribeObjectOutputResponse: Swift.Equatable {
         self.contentType = contentType
         self.eTag = eTag
         self.lastModified = lastModified
+    }
+}
+
+enum DescribeObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ObjectNotFoundException": return try await ObjectNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -258,21 +258,7 @@ extension GetObjectInputBody: Swift.Decodable {
     }
 }
 
-enum GetObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ObjectNotFoundException": return try await ObjectNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestedRangeNotSatisfiableException": return try await RequestedRangeNotSatisfiableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetObjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             self.cacheControl = cacheControlHeaderValue
@@ -316,7 +302,7 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetObjectOutputResponse: Swift.Equatable {
+public struct GetObjectOutput: Swift.Equatable {
     /// The bytes of the object.
     public var body: ClientRuntime.ByteStream?
     /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at [https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9). Headers with a custom user-defined value are also accepted.
@@ -357,12 +343,12 @@ public struct GetObjectOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetObjectOutputResponseBody: Swift.Equatable {
+struct GetObjectOutputBody: Swift.Equatable {
     let body: ClientRuntime.ByteStream?
     let statusCode: Swift.Int
 }
 
-extension GetObjectOutputResponseBody: Swift.Decodable {
+extension GetObjectOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"
         case statusCode = "StatusCode"
@@ -374,6 +360,20 @@ extension GetObjectOutputResponseBody: Swift.Decodable {
         body = bodyDecoded
         let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode) ?? 0
         statusCode = statusCodeDecoded
+    }
+}
+
+enum GetObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ObjectNotFoundException": return try await ObjectNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestedRangeNotSatisfiableException": return try await RequestedRangeNotSatisfiableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -605,23 +605,11 @@ extension ListItemsInputBody: Swift.Decodable {
     }
 }
 
-enum ListItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListItemsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListItemsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListItemsOutputBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
         } else {
@@ -631,7 +619,7 @@ extension ListItemsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListItemsOutputResponse: Swift.Equatable {
+public struct ListItemsOutput: Swift.Equatable {
     /// The metadata entries for the folders and objects at the requested path.
     public var items: [MediaStoreDataClientTypes.Item]?
     /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
@@ -647,12 +635,12 @@ public struct ListItemsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListItemsOutputResponseBody: Swift.Equatable {
+struct ListItemsOutputBody: Swift.Equatable {
     let items: [MediaStoreDataClientTypes.Item]?
     let nextToken: Swift.String?
 }
 
-extension ListItemsOutputResponseBody: Swift.Decodable {
+extension ListItemsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case items = "Items"
         case nextToken = "NextToken"
@@ -673,6 +661,18 @@ extension ListItemsOutputResponseBody: Swift.Decodable {
         items = itemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -738,7 +738,7 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -752,7 +752,7 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -847,23 +847,11 @@ extension PutObjectInputBody: Swift.Decodable {
     }
 }
 
-enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutObjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutObjectOutputBody = try responseDecoder.decode(responseBody: data)
             self.contentSHA256 = output.contentSHA256
             self.eTag = output.eTag
             self.storageClass = output.storageClass
@@ -875,7 +863,7 @@ extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutObjectOutputResponse: Swift.Equatable {
+public struct PutObjectOutput: Swift.Equatable {
     /// The SHA256 digest of the object that is persisted.
     public var contentSHA256: Swift.String?
     /// Unique identifier of the object in the container.
@@ -895,13 +883,13 @@ public struct PutObjectOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutObjectOutputResponseBody: Swift.Equatable {
+struct PutObjectOutputBody: Swift.Equatable {
     let contentSHA256: Swift.String?
     let eTag: Swift.String?
     let storageClass: MediaStoreDataClientTypes.StorageClass?
 }
 
-extension PutObjectOutputResponseBody: Swift.Decodable {
+extension PutObjectOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentSHA256 = "ContentSHA256"
         case eTag = "ETag"
@@ -916,6 +904,18 @@ extension PutObjectOutputResponseBody: Swift.Decodable {
         eTag = eTagDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(MediaStoreDataClientTypes.StorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
+    }
+}
+
+enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ContainerNotFoundException": return try await ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

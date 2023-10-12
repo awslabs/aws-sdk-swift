@@ -8,7 +8,7 @@ public protocol NimbleClientProtocol {
     ///
     /// - Parameter AcceptEulasInput : [no documentation found]
     ///
-    /// - Returns: `AcceptEulasOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptEulasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func acceptEulas(input: AcceptEulasInput) async throws -> AcceptEulasOutputResponse
+    func acceptEulas(input: AcceptEulasInput) async throws -> AcceptEulasOutput
     /// Create a launch profile.
     ///
     /// - Parameter CreateLaunchProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateLaunchProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLaunchProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createLaunchProfile(input: CreateLaunchProfileInput) async throws -> CreateLaunchProfileOutputResponse
+    func createLaunchProfile(input: CreateLaunchProfileInput) async throws -> CreateLaunchProfileOutput
     /// Creates a streaming image resource in a studio.
     ///
     /// - Parameter CreateStreamingImageInput : [no documentation found]
     ///
-    /// - Returns: `CreateStreamingImageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStreamingImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,12 +54,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createStreamingImage(input: CreateStreamingImageInput) async throws -> CreateStreamingImageOutputResponse
+    func createStreamingImage(input: CreateStreamingImageInput) async throws -> CreateStreamingImageOutput
     /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in the READY state.
     ///
     /// - Parameter CreateStreamingSessionInput : [no documentation found]
     ///
-    /// - Returns: `CreateStreamingSessionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStreamingSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,12 +71,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createStreamingSession(input: CreateStreamingSessionInput) async throws -> CreateStreamingSessionOutputResponse
+    func createStreamingSession(input: CreateStreamingSessionInput) async throws -> CreateStreamingSessionOutput
     /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in the READY state.
     ///
     /// - Parameter CreateStreamingSessionStreamInput : [no documentation found]
     ///
-    /// - Returns: `CreateStreamingSessionStreamOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStreamingSessionStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createStreamingSessionStream(input: CreateStreamingSessionStreamInput) async throws -> CreateStreamingSessionStreamOutputResponse
+    func createStreamingSessionStream(input: CreateStreamingSessionStreamInput) async throws -> CreateStreamingSessionStreamOutput
     /// Create a new studio. When creating a studio, two IAM roles must be provided: the admin role and the user role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The admin role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
     ///
     /// - Parameter CreateStudioInput : [no documentation found]
     ///
-    /// - Returns: `CreateStudioOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStudioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -105,12 +105,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutputResponse
+    func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutput
     /// Creates a studio component resource.
     ///
     /// - Parameter CreateStudioComponentInput : [no documentation found]
     ///
-    /// - Returns: `CreateStudioComponentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStudioComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -122,12 +122,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createStudioComponent(input: CreateStudioComponentInput) async throws -> CreateStudioComponentOutputResponse
+    func createStudioComponent(input: CreateStudioComponentInput) async throws -> CreateStudioComponentOutput
     /// Permanently delete a launch profile.
     ///
     /// - Parameter DeleteLaunchProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLaunchProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLaunchProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteLaunchProfile(input: DeleteLaunchProfileInput) async throws -> DeleteLaunchProfileOutputResponse
+    func deleteLaunchProfile(input: DeleteLaunchProfileInput) async throws -> DeleteLaunchProfileOutput
     /// Delete a user from launch profile membership.
     ///
     /// - Parameter DeleteLaunchProfileMemberInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLaunchProfileMemberOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLaunchProfileMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -156,12 +156,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteLaunchProfileMember(input: DeleteLaunchProfileMemberInput) async throws -> DeleteLaunchProfileMemberOutputResponse
+    func deleteLaunchProfileMember(input: DeleteLaunchProfileMemberInput) async throws -> DeleteLaunchProfileMemberOutput
     /// Delete streaming image.
     ///
     /// - Parameter DeleteStreamingImageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStreamingImageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStreamingImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteStreamingImage(input: DeleteStreamingImageInput) async throws -> DeleteStreamingImageOutputResponse
+    func deleteStreamingImage(input: DeleteStreamingImageInput) async throws -> DeleteStreamingImageOutput
     /// Deletes streaming session resource. After invoking this operation, use GetStreamingSession to poll the resource until it transitions to a DELETED state. A streaming session will count against your streaming session quota until it is marked DELETED.
     ///
     /// - Parameter DeleteStreamingSessionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStreamingSessionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStreamingSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -190,12 +190,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteStreamingSession(input: DeleteStreamingSessionInput) async throws -> DeleteStreamingSessionOutputResponse
+    func deleteStreamingSession(input: DeleteStreamingSessionInput) async throws -> DeleteStreamingSessionOutput
     /// Delete a studio resource.
     ///
     /// - Parameter DeleteStudioInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStudioOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStudioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -207,12 +207,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutputResponse
+    func deleteStudio(input: DeleteStudioInput) async throws -> DeleteStudioOutput
     /// Deletes a studio component resource.
     ///
     /// - Parameter DeleteStudioComponentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStudioComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStudioComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,12 +224,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteStudioComponent(input: DeleteStudioComponentInput) async throws -> DeleteStudioComponentOutputResponse
+    func deleteStudioComponent(input: DeleteStudioComponentInput) async throws -> DeleteStudioComponentOutput
     /// Delete a user from studio membership.
     ///
     /// - Parameter DeleteStudioMemberInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStudioMemberOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStudioMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteStudioMember(input: DeleteStudioMemberInput) async throws -> DeleteStudioMemberOutputResponse
+    func deleteStudioMember(input: DeleteStudioMemberInput) async throws -> DeleteStudioMemberOutput
     /// Get EULA.
     ///
     /// - Parameter GetEulaInput : [no documentation found]
     ///
-    /// - Returns: `GetEulaOutputResponse` : [no documentation found]
+    /// - Returns: `GetEulaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -258,12 +258,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getEula(input: GetEulaInput) async throws -> GetEulaOutputResponse
+    func getEula(input: GetEulaInput) async throws -> GetEulaOutput
     /// Get a launch profile.
     ///
     /// - Parameter GetLaunchProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetLaunchProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetLaunchProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -275,12 +275,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getLaunchProfile(input: GetLaunchProfileInput) async throws -> GetLaunchProfileOutputResponse
+    func getLaunchProfile(input: GetLaunchProfileInput) async throws -> GetLaunchProfileOutput
     /// Launch profile details include the launch profile resource and summary information of resources that are used by, or available to, the launch profile. This includes the name and description of all studio components used by the launch profiles, and the name and description of streaming images that can be used with this launch profile.
     ///
     /// - Parameter GetLaunchProfileDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetLaunchProfileDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetLaunchProfileDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -292,12 +292,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getLaunchProfileDetails(input: GetLaunchProfileDetailsInput) async throws -> GetLaunchProfileDetailsOutputResponse
+    func getLaunchProfileDetails(input: GetLaunchProfileDetailsInput) async throws -> GetLaunchProfileDetailsOutput
     /// Get a launch profile initialization.
     ///
     /// - Parameter GetLaunchProfileInitializationInput : [no documentation found]
     ///
-    /// - Returns: `GetLaunchProfileInitializationOutputResponse` : [no documentation found]
+    /// - Returns: `GetLaunchProfileInitializationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -309,12 +309,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getLaunchProfileInitialization(input: GetLaunchProfileInitializationInput) async throws -> GetLaunchProfileInitializationOutputResponse
+    func getLaunchProfileInitialization(input: GetLaunchProfileInitializationInput) async throws -> GetLaunchProfileInitializationOutput
     /// Get a user persona in launch profile membership.
     ///
     /// - Parameter GetLaunchProfileMemberInput : [no documentation found]
     ///
-    /// - Returns: `GetLaunchProfileMemberOutputResponse` : [no documentation found]
+    /// - Returns: `GetLaunchProfileMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -326,12 +326,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getLaunchProfileMember(input: GetLaunchProfileMemberInput) async throws -> GetLaunchProfileMemberOutputResponse
+    func getLaunchProfileMember(input: GetLaunchProfileMemberInput) async throws -> GetLaunchProfileMemberOutput
     /// Get streaming image.
     ///
     /// - Parameter GetStreamingImageInput : [no documentation found]
     ///
-    /// - Returns: `GetStreamingImageOutputResponse` : [no documentation found]
+    /// - Returns: `GetStreamingImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -343,12 +343,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStreamingImage(input: GetStreamingImageInput) async throws -> GetStreamingImageOutputResponse
+    func getStreamingImage(input: GetStreamingImageInput) async throws -> GetStreamingImageOutput
     /// Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
     ///
     /// - Parameter GetStreamingSessionInput : [no documentation found]
     ///
-    /// - Returns: `GetStreamingSessionOutputResponse` : [no documentation found]
+    /// - Returns: `GetStreamingSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -360,12 +360,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStreamingSession(input: GetStreamingSessionInput) async throws -> GetStreamingSessionOutputResponse
+    func getStreamingSession(input: GetStreamingSessionInput) async throws -> GetStreamingSessionOutput
     /// Gets StreamingSessionBackup resource. Invoke this operation to poll for a streaming session backup while stopping a streaming session.
     ///
     /// - Parameter GetStreamingSessionBackupInput : [no documentation found]
     ///
-    /// - Returns: `GetStreamingSessionBackupOutputResponse` : [no documentation found]
+    /// - Returns: `GetStreamingSessionBackupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -376,12 +376,12 @@ public protocol NimbleClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStreamingSessionBackup(input: GetStreamingSessionBackupInput) async throws -> GetStreamingSessionBackupOutputResponse
+    func getStreamingSessionBackup(input: GetStreamingSessionBackupInput) async throws -> GetStreamingSessionBackupOutput
     /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the READY state, the url property will contain a stream to be used with the DCV streaming client.
     ///
     /// - Parameter GetStreamingSessionStreamInput : [no documentation found]
     ///
-    /// - Returns: `GetStreamingSessionStreamOutputResponse` : [no documentation found]
+    /// - Returns: `GetStreamingSessionStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -393,12 +393,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStreamingSessionStream(input: GetStreamingSessionStreamInput) async throws -> GetStreamingSessionStreamOutputResponse
+    func getStreamingSessionStream(input: GetStreamingSessionStreamInput) async throws -> GetStreamingSessionStreamOutput
     /// Get a studio resource.
     ///
     /// - Parameter GetStudioInput : [no documentation found]
     ///
-    /// - Returns: `GetStudioOutputResponse` : [no documentation found]
+    /// - Returns: `GetStudioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStudio(input: GetStudioInput) async throws -> GetStudioOutputResponse
+    func getStudio(input: GetStudioInput) async throws -> GetStudioOutput
     /// Gets a studio component resource.
     ///
     /// - Parameter GetStudioComponentInput : [no documentation found]
     ///
-    /// - Returns: `GetStudioComponentOutputResponse` : [no documentation found]
+    /// - Returns: `GetStudioComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -427,12 +427,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStudioComponent(input: GetStudioComponentInput) async throws -> GetStudioComponentOutputResponse
+    func getStudioComponent(input: GetStudioComponentInput) async throws -> GetStudioComponentOutput
     /// Get a user's membership in a studio.
     ///
     /// - Parameter GetStudioMemberInput : [no documentation found]
     ///
-    /// - Returns: `GetStudioMemberOutputResponse` : [no documentation found]
+    /// - Returns: `GetStudioMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,12 +444,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStudioMember(input: GetStudioMemberInput) async throws -> GetStudioMemberOutputResponse
+    func getStudioMember(input: GetStudioMemberInput) async throws -> GetStudioMemberOutput
     /// List EULA acceptances.
     ///
     /// - Parameter ListEulaAcceptancesInput : [no documentation found]
     ///
-    /// - Returns: `ListEulaAcceptancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListEulaAcceptancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,12 +461,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listEulaAcceptances(input: ListEulaAcceptancesInput) async throws -> ListEulaAcceptancesOutputResponse
+    func listEulaAcceptances(input: ListEulaAcceptancesInput) async throws -> ListEulaAcceptancesOutput
     /// List EULAs.
     ///
     /// - Parameter ListEulasInput : [no documentation found]
     ///
-    /// - Returns: `ListEulasOutputResponse` : [no documentation found]
+    /// - Returns: `ListEulasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,12 +478,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listEulas(input: ListEulasInput) async throws -> ListEulasOutputResponse
+    func listEulas(input: ListEulasInput) async throws -> ListEulasOutput
     /// Get all users in a given launch profile membership.
     ///
     /// - Parameter ListLaunchProfileMembersInput : [no documentation found]
     ///
-    /// - Returns: `ListLaunchProfileMembersOutputResponse` : [no documentation found]
+    /// - Returns: `ListLaunchProfileMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -495,12 +495,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listLaunchProfileMembers(input: ListLaunchProfileMembersInput) async throws -> ListLaunchProfileMembersOutputResponse
+    func listLaunchProfileMembers(input: ListLaunchProfileMembersInput) async throws -> ListLaunchProfileMembersOutput
     /// List all the launch profiles a studio.
     ///
     /// - Parameter ListLaunchProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListLaunchProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListLaunchProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,12 +512,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listLaunchProfiles(input: ListLaunchProfilesInput) async throws -> ListLaunchProfilesOutputResponse
+    func listLaunchProfiles(input: ListLaunchProfilesInput) async throws -> ListLaunchProfilesOutput
     /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
     ///
     /// - Parameter ListStreamingImagesInput : [no documentation found]
     ///
-    /// - Returns: `ListStreamingImagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStreamingImagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -529,12 +529,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStreamingImages(input: ListStreamingImagesInput) async throws -> ListStreamingImagesOutputResponse
+    func listStreamingImages(input: ListStreamingImagesInput) async throws -> ListStreamingImagesOutput
     /// Lists the backups of a streaming session in a studio.
     ///
     /// - Parameter ListStreamingSessionBackupsInput : [no documentation found]
     ///
-    /// - Returns: `ListStreamingSessionBackupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStreamingSessionBackupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -545,12 +545,12 @@ public protocol NimbleClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStreamingSessionBackups(input: ListStreamingSessionBackupsInput) async throws -> ListStreamingSessionBackupsOutputResponse
+    func listStreamingSessionBackups(input: ListStreamingSessionBackupsInput) async throws -> ListStreamingSessionBackupsOutput
     /// Lists the streaming sessions in a studio.
     ///
     /// - Parameter ListStreamingSessionsInput : [no documentation found]
     ///
-    /// - Returns: `ListStreamingSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStreamingSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,12 +562,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStreamingSessions(input: ListStreamingSessionsInput) async throws -> ListStreamingSessionsOutputResponse
+    func listStreamingSessions(input: ListStreamingSessionsInput) async throws -> ListStreamingSessionsOutput
     /// Lists the StudioComponents in a studio.
     ///
     /// - Parameter ListStudioComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListStudioComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStudioComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,12 +579,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStudioComponents(input: ListStudioComponentsInput) async throws -> ListStudioComponentsOutputResponse
+    func listStudioComponents(input: ListStudioComponentsInput) async throws -> ListStudioComponentsOutput
     /// Get all users in a given studio membership. ListStudioMembers only returns admin members.
     ///
     /// - Parameter ListStudioMembersInput : [no documentation found]
     ///
-    /// - Returns: `ListStudioMembersOutputResponse` : [no documentation found]
+    /// - Returns: `ListStudioMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,12 +596,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStudioMembers(input: ListStudioMembersInput) async throws -> ListStudioMembersOutputResponse
+    func listStudioMembers(input: ListStudioMembersInput) async throws -> ListStudioMembersOutput
     /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
     ///
     /// - Parameter ListStudiosInput : [no documentation found]
     ///
-    /// - Returns: `ListStudiosOutputResponse` : [no documentation found]
+    /// - Returns: `ListStudiosOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,12 +613,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutputResponse
+    func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutput
     /// Gets the tags for a resource, given its Amazon Resource Names (ARN). This operation supports ARNs for all resource types in Nimble Studio that support tags, including studio, studio component, launch profile, streaming image, and streaming session. All resources that can be tagged will contain an ARN property, so you do not have to create this ARN yourself.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,12 +630,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Add/update users with given persona to launch profile membership.
     ///
     /// - Parameter PutLaunchProfileMembersInput : [no documentation found]
     ///
-    /// - Returns: `PutLaunchProfileMembersOutputResponse` : [no documentation found]
+    /// - Returns: `PutLaunchProfileMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,12 +647,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func putLaunchProfileMembers(input: PutLaunchProfileMembersInput) async throws -> PutLaunchProfileMembersOutputResponse
+    func putLaunchProfileMembers(input: PutLaunchProfileMembersInput) async throws -> PutLaunchProfileMembersOutput
     /// Add/update users with given persona to studio membership.
     ///
     /// - Parameter PutStudioMembersInput : [no documentation found]
     ///
-    /// - Returns: `PutStudioMembersOutputResponse` : [no documentation found]
+    /// - Returns: `PutStudioMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,12 +664,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func putStudioMembers(input: PutStudioMembersInput) async throws -> PutStudioMembersOutputResponse
+    func putStudioMembers(input: PutStudioMembersInput) async throws -> PutStudioMembersOutput
     /// Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS state is the intermediate state between the STOPPED and READY states.
     ///
     /// - Parameter StartStreamingSessionInput : [no documentation found]
     ///
-    /// - Returns: `StartStreamingSessionOutputResponse` : [no documentation found]
+    /// - Returns: `StartStreamingSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -681,12 +681,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func startStreamingSession(input: StartStreamingSessionInput) async throws -> StartStreamingSessionOutputResponse
+    func startStreamingSession(input: StartStreamingSessionInput) async throws -> StartStreamingSessionOutput
     /// Repairs the IAM Identity Center configuration for a given studio. If the studio has a valid IAM Identity Center configuration currently associated with it, this operation will fail with a validation error. If the studio does not have a valid IAM Identity Center configuration currently associated with it, then a new IAM Identity Center application is created for the studio and the studio is changed to the READY state. After the IAM Identity Center application is repaired, you must use the Amazon Nimble Studio console to add administrators and users to your studio.
     ///
     /// - Parameter StartStudioSSOConfigurationRepairInput : [no documentation found]
     ///
-    /// - Returns: `StartStudioSSOConfigurationRepairOutputResponse` : [no documentation found]
+    /// - Returns: `StartStudioSSOConfigurationRepairOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,12 +698,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func startStudioSSOConfigurationRepair(input: StartStudioSSOConfigurationRepairInput) async throws -> StartStudioSSOConfigurationRepairOutputResponse
+    func startStudioSSOConfigurationRepair(input: StartStudioSSOConfigurationRepairInput) async throws -> StartStudioSSOConfigurationRepairOutput
     /// Transitions sessions from the READY state into the STOPPED state. The STOP_IN_PROGRESS state is the intermediate state between the READY and STOPPED states.
     ///
     /// - Parameter StopStreamingSessionInput : [no documentation found]
     ///
-    /// - Returns: `StopStreamingSessionOutputResponse` : [no documentation found]
+    /// - Returns: `StopStreamingSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,12 +715,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func stopStreamingSession(input: StopStreamingSessionInput) async throws -> StopStreamingSessionOutputResponse
+    func stopStreamingSession(input: StopStreamingSessionInput) async throws -> StopStreamingSessionOutput
     /// Creates tags for a resource, given its ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,12 +732,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes the tags for a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,12 +749,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update a launch profile.
     ///
     /// - Parameter UpdateLaunchProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLaunchProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLaunchProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,12 +766,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateLaunchProfile(input: UpdateLaunchProfileInput) async throws -> UpdateLaunchProfileOutputResponse
+    func updateLaunchProfile(input: UpdateLaunchProfileInput) async throws -> UpdateLaunchProfileOutput
     /// Update a user persona in launch profile membership.
     ///
     /// - Parameter UpdateLaunchProfileMemberInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLaunchProfileMemberOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLaunchProfileMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,12 +783,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateLaunchProfileMember(input: UpdateLaunchProfileMemberInput) async throws -> UpdateLaunchProfileMemberOutputResponse
+    func updateLaunchProfileMember(input: UpdateLaunchProfileMemberInput) async throws -> UpdateLaunchProfileMemberOutput
     /// Update streaming image.
     ///
     /// - Parameter UpdateStreamingImageInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStreamingImageOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStreamingImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,12 +800,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateStreamingImage(input: UpdateStreamingImageInput) async throws -> UpdateStreamingImageOutputResponse
+    func updateStreamingImage(input: UpdateStreamingImageInput) async throws -> UpdateStreamingImageOutput
     /// Update a Studio resource. Currently, this operation only supports updating the displayName of your studio.
     ///
     /// - Parameter UpdateStudioInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStudioOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStudioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,12 +817,12 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutputResponse
+    func updateStudio(input: UpdateStudioInput) async throws -> UpdateStudioOutput
     /// Updates a studio component resource.
     ///
     /// - Parameter UpdateStudioComponentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStudioComponentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStudioComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,7 +834,7 @@ public protocol NimbleClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateStudioComponent(input: UpdateStudioComponentInput) async throws -> UpdateStudioComponentOutputResponse
+    func updateStudioComponent(input: UpdateStudioComponentInput) async throws -> UpdateStudioComponentOutput
 }
 
 public enum NimbleClientTypes {}

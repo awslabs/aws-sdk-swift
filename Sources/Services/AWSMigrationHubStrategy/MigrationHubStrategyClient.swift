@@ -71,7 +71,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetApplicationComponentDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationComponentDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationComponentDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,7 +79,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutputResponse
+    public func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -95,17 +95,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>(id: "getApplicationComponentDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>(id: "getApplicationComponentDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationComponentDetailsOutputResponse, GetApplicationComponentDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationComponentDetailsOutput, GetApplicationComponentDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -114,7 +114,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetApplicationComponentStrategiesInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationComponentStrategiesOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationComponentStrategiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -122,7 +122,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutputResponse
+    public func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -138,17 +138,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>(id: "getApplicationComponentStrategies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>(id: "getApplicationComponentStrategies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationComponentStrategiesOutputResponse, GetApplicationComponentStrategiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationComponentStrategiesOutput, GetApplicationComponentStrategiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -157,7 +157,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `GetAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `GetAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,7 +166,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutputResponse
+    public func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -182,17 +182,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAssessmentInput, GetAssessmentOutputResponse, GetAssessmentOutputError>(id: "getAssessment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentInput, GetAssessmentOutputResponse, GetAssessmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAssessmentInput, GetAssessmentOutput, GetAssessmentOutputError>(id: "getAssessment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentInput, GetAssessmentOutput, GetAssessmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAssessmentOutputResponse, GetAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAssessmentOutput, GetAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAssessmentOutputResponse, GetAssessmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAssessmentOutput, GetAssessmentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssessmentOutputResponse, GetAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssessmentOutputResponse, GetAssessmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssessmentOutputResponse, GetAssessmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssessmentOutput, GetAssessmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssessmentOutput, GetAssessmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssessmentOutput, GetAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -201,7 +201,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetImportFileTaskInput : [no documentation found]
     ///
-    /// - Returns: `GetImportFileTaskOutputResponse` : [no documentation found]
+    /// - Returns: `GetImportFileTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,7 +211,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutputResponse
+    public func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -227,17 +227,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetImportFileTaskInput, GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>(id: "getImportFileTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImportFileTaskInput, GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImportFileTaskInput, GetImportFileTaskOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetImportFileTaskInput, GetImportFileTaskOutput, GetImportFileTaskOutputError>(id: "getImportFileTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImportFileTaskInput, GetImportFileTaskOutput, GetImportFileTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImportFileTaskInput, GetImportFileTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImportFileTaskOutput, GetImportFileTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImportFileTaskOutput, GetImportFileTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetImportFileTaskOutputResponse, GetImportFileTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImportFileTaskOutput, GetImportFileTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImportFileTaskOutput, GetImportFileTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetImportFileTaskOutput, GetImportFileTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -246,7 +246,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetLatestAssessmentIdInput : [no documentation found]
     ///
-    /// - Returns: `GetLatestAssessmentIdOutputResponse` : [no documentation found]
+    /// - Returns: `GetLatestAssessmentIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -255,7 +255,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The request body isn't valid.
-    public func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutputResponse
+    public func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -271,17 +271,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>(id: "getLatestAssessmentId")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>(id: "getLatestAssessmentId")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLatestAssessmentIdOutputResponse, GetLatestAssessmentIdOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLatestAssessmentIdOutput, GetLatestAssessmentIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -290,7 +290,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetPortfolioPreferencesInput : [no documentation found]
     ///
-    /// - Returns: `GetPortfolioPreferencesOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortfolioPreferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -299,7 +299,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutputResponse
+    public func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -315,17 +315,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>(id: "getPortfolioPreferences")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>(id: "getPortfolioPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortfolioPreferencesOutputResponse, GetPortfolioPreferencesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortfolioPreferencesOutput, GetPortfolioPreferencesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -334,7 +334,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetPortfolioSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetPortfolioSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortfolioSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -342,7 +342,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutputResponse
+    public func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -358,17 +358,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPortfolioSummaryInput, GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>(id: "getPortfolioSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPortfolioSummaryInput, GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>(id: "getPortfolioSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortfolioSummaryOutputResponse, GetPortfolioSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortfolioSummaryOutput, GetPortfolioSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -377,7 +377,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetRecommendationReportDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetRecommendationReportDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetRecommendationReportDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -387,7 +387,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutputResponse
+    public func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -403,17 +403,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>(id: "getRecommendationReportDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>(id: "getRecommendationReportDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationReportDetailsOutputResponse, GetRecommendationReportDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationReportDetailsOutput, GetRecommendationReportDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -422,7 +422,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetServerDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetServerDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetServerDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -432,7 +432,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutputResponse
+    public func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -448,18 +448,18 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServerDetailsInput, GetServerDetailsOutputResponse, GetServerDetailsOutputError>(id: "getServerDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerDetailsInput, GetServerDetailsOutputResponse, GetServerDetailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServerDetailsInput, GetServerDetailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetServerDetailsInput, GetServerDetailsOutput, GetServerDetailsOutputError>(id: "getServerDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerDetailsInput, GetServerDetailsOutput, GetServerDetailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServerDetailsInput, GetServerDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServerDetailsOutputResponse, GetServerDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServerDetailsOutput, GetServerDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetServerDetailsInput, GetServerDetailsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerDetailsOutputResponse, GetServerDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetServerDetailsInput, GetServerDetailsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerDetailsOutput, GetServerDetailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerDetailsOutputResponse, GetServerDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerDetailsOutputResponse, GetServerDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerDetailsOutputResponse, GetServerDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerDetailsOutput, GetServerDetailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerDetailsOutput, GetServerDetailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerDetailsOutput, GetServerDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -468,7 +468,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetServerStrategiesInput : [no documentation found]
     ///
-    /// - Returns: `GetServerStrategiesOutputResponse` : [no documentation found]
+    /// - Returns: `GetServerStrategiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,7 +478,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutputResponse
+    public func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -494,17 +494,17 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServerStrategiesInput, GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>(id: "getServerStrategies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerStrategiesInput, GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServerStrategiesInput, GetServerStrategiesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetServerStrategiesInput, GetServerStrategiesOutput, GetServerStrategiesOutputError>(id: "getServerStrategies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerStrategiesInput, GetServerStrategiesOutput, GetServerStrategiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServerStrategiesInput, GetServerStrategiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServerStrategiesOutput, GetServerStrategiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerStrategiesOutput, GetServerStrategiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerStrategiesOutputResponse, GetServerStrategiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerStrategiesOutput, GetServerStrategiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerStrategiesOutput, GetServerStrategiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerStrategiesOutput, GetServerStrategiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -513,7 +513,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter ListApplicationComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,7 +522,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ServiceLinkedRoleLockClientException` : Exception to indicate that the service-linked role (SLR) is locked.
     /// - `ValidationException` : The request body isn't valid.
-    public func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutputResponse
+    public func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -538,20 +538,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListApplicationComponentsInput, ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>(id: "listApplicationComponents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListApplicationComponentsInput, ListApplicationComponentsOutput, ListApplicationComponentsOutputError>(id: "listApplicationComponents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput, ListApplicationComponentsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApplicationComponentsOutput, ListApplicationComponentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutputResponse>(xmlName: "ListApplicationComponentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>(xmlName: "ListApplicationComponentsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApplicationComponentsOutput, ListApplicationComponentsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationComponentsOutputResponse, ListApplicationComponentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationComponentsOutput, ListApplicationComponentsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationComponentsOutput, ListApplicationComponentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationComponentsOutput, ListApplicationComponentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -560,7 +560,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter ListCollectorsInput : [no documentation found]
     ///
-    /// - Returns: `ListCollectorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCollectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,7 +569,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutputResponse
+    public func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -585,18 +585,18 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListCollectorsInput, ListCollectorsOutputResponse, ListCollectorsOutputError>(id: "listCollectors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCollectorsInput, ListCollectorsOutputResponse, ListCollectorsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCollectorsInput, ListCollectorsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListCollectorsInput, ListCollectorsOutput, ListCollectorsOutputError>(id: "listCollectors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCollectorsInput, ListCollectorsOutput, ListCollectorsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCollectorsInput, ListCollectorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCollectorsOutputResponse, ListCollectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCollectorsOutput, ListCollectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCollectorsInput, ListCollectorsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCollectorsOutputResponse, ListCollectorsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCollectorsInput, ListCollectorsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCollectorsOutput, ListCollectorsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCollectorsOutputResponse, ListCollectorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCollectorsOutputResponse, ListCollectorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCollectorsOutputResponse, ListCollectorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCollectorsOutput, ListCollectorsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCollectorsOutput, ListCollectorsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCollectorsOutput, ListCollectorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -605,7 +605,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter ListImportFileTaskInput : [no documentation found]
     ///
-    /// - Returns: `ListImportFileTaskOutputResponse` : [no documentation found]
+    /// - Returns: `ListImportFileTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,7 +614,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutputResponse
+    public func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -630,18 +630,18 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListImportFileTaskInput, ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>(id: "listImportFileTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportFileTaskInput, ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportFileTaskInput, ListImportFileTaskOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListImportFileTaskInput, ListImportFileTaskOutput, ListImportFileTaskOutputError>(id: "listImportFileTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput, ListImportFileTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportFileTaskOutput, ListImportFileTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListImportFileTaskInput, ListImportFileTaskOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListImportFileTaskOutput, ListImportFileTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportFileTaskOutputResponse, ListImportFileTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportFileTaskOutput, ListImportFileTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportFileTaskOutput, ListImportFileTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportFileTaskOutput, ListImportFileTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -650,7 +650,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter ListServersInput : [no documentation found]
     ///
-    /// - Returns: `ListServersOutputResponse` : [no documentation found]
+    /// - Returns: `ListServersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,7 +659,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func listServers(input: ListServersInput) async throws -> ListServersOutputResponse
+    public func listServers(input: ListServersInput) async throws -> ListServersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -675,20 +675,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServersInput, ListServersOutputResponse, ListServersOutputError>(id: "listServers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServersInput, ListServersOutputResponse, ListServersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServersInput, ListServersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListServersInput, ListServersOutput, ListServersOutputError>(id: "listServers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServersInput, ListServersOutput, ListServersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServersInput, ListServersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServersOutputResponse, ListServersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServersOutput, ListServersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServersInput, ListServersOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServersInput, ListServersOutputResponse>(xmlName: "ListServersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServersInput, ListServersOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServersInput, ListServersOutput>(xmlName: "ListServersRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServersOutputResponse, ListServersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServersOutput, ListServersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServersOutputResponse, ListServersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServersOutputResponse, ListServersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServersOutputResponse, ListServersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServersOutput, ListServersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServersOutput, ListServersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServersOutput, ListServersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -697,7 +697,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter PutPortfolioPreferencesInput : [no documentation found]
     ///
-    /// - Returns: `PutPortfolioPreferencesOutputResponse` : [no documentation found]
+    /// - Returns: `PutPortfolioPreferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,7 +707,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutputResponse
+    public func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -723,20 +723,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>(id: "putPortfolioPreferences")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>(id: "putPortfolioPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutputResponse>(xmlName: "PutPortfolioPreferencesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>(xmlName: "PutPortfolioPreferencesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPortfolioPreferencesOutputResponse, PutPortfolioPreferencesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPortfolioPreferencesOutput, PutPortfolioPreferencesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -745,7 +745,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter StartAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `StartAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `StartAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -754,7 +754,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    public func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutputResponse
+    public func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -770,20 +770,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartAssessmentInput, StartAssessmentOutputResponse, StartAssessmentOutputError>(id: "startAssessment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAssessmentInput, StartAssessmentOutputResponse, StartAssessmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAssessmentInput, StartAssessmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartAssessmentInput, StartAssessmentOutput, StartAssessmentOutputError>(id: "startAssessment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAssessmentInput, StartAssessmentOutput, StartAssessmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAssessmentInput, StartAssessmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartAssessmentOutputResponse, StartAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartAssessmentOutput, StartAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartAssessmentInput, StartAssessmentOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartAssessmentInput, StartAssessmentOutputResponse>(xmlName: "StartAssessmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartAssessmentInput, StartAssessmentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartAssessmentInput, StartAssessmentOutput>(xmlName: "StartAssessmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartAssessmentOutputResponse, StartAssessmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartAssessmentOutput, StartAssessmentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAssessmentOutputResponse, StartAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAssessmentOutputResponse, StartAssessmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAssessmentOutputResponse, StartAssessmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAssessmentOutput, StartAssessmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAssessmentOutput, StartAssessmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAssessmentOutput, StartAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -792,7 +792,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter StartImportFileTaskInput : [no documentation found]
     ///
-    /// - Returns: `StartImportFileTaskOutputResponse` : [no documentation found]
+    /// - Returns: `StartImportFileTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,7 +802,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutputResponse
+    public func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -818,20 +818,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartImportFileTaskInput, StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>(id: "startImportFileTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImportFileTaskInput, StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportFileTaskInput, StartImportFileTaskOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartImportFileTaskInput, StartImportFileTaskOutput, StartImportFileTaskOutputError>(id: "startImportFileTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput, StartImportFileTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartImportFileTaskOutput, StartImportFileTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartImportFileTaskInput, StartImportFileTaskOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartImportFileTaskInput, StartImportFileTaskOutputResponse>(xmlName: "StartImportFileTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>(xmlName: "StartImportFileTaskRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartImportFileTaskOutput, StartImportFileTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImportFileTaskOutputResponse, StartImportFileTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImportFileTaskOutput, StartImportFileTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImportFileTaskOutput, StartImportFileTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImportFileTaskOutput, StartImportFileTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -840,7 +840,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter StartRecommendationReportGenerationInput : [no documentation found]
     ///
-    /// - Returns: `StartRecommendationReportGenerationOutputResponse` : [no documentation found]
+    /// - Returns: `StartRecommendationReportGenerationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,7 +850,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutputResponse
+    public func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -866,20 +866,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>(id: "startRecommendationReportGeneration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>(id: "startRecommendationReportGeneration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutputResponse>(xmlName: "StartRecommendationReportGenerationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>(xmlName: "StartRecommendationReportGenerationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRecommendationReportGenerationOutputResponse, StartRecommendationReportGenerationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRecommendationReportGenerationOutput, StartRecommendationReportGenerationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -888,7 +888,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter StopAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `StopAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `StopAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,7 +897,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutputResponse
+    public func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -913,20 +913,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopAssessmentInput, StopAssessmentOutputResponse, StopAssessmentOutputError>(id: "stopAssessment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopAssessmentInput, StopAssessmentOutputResponse, StopAssessmentOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopAssessmentInput, StopAssessmentOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopAssessmentInput, StopAssessmentOutput, StopAssessmentOutputError>(id: "stopAssessment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopAssessmentInput, StopAssessmentOutput, StopAssessmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopAssessmentInput, StopAssessmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopAssessmentOutputResponse, StopAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopAssessmentOutput, StopAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopAssessmentInput, StopAssessmentOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopAssessmentInput, StopAssessmentOutputResponse>(xmlName: "StopAssessmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopAssessmentInput, StopAssessmentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopAssessmentInput, StopAssessmentOutput>(xmlName: "StopAssessmentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopAssessmentOutputResponse, StopAssessmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopAssessmentOutput, StopAssessmentOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAssessmentOutputResponse, StopAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAssessmentOutputResponse, StopAssessmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopAssessmentOutputResponse, StopAssessmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAssessmentOutput, StopAssessmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAssessmentOutput, StopAssessmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopAssessmentOutput, StopAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -935,7 +935,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter UpdateApplicationComponentConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationComponentConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationComponentConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,7 +944,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutputResponse
+    public func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -960,20 +960,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>(id: "updateApplicationComponentConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>(id: "updateApplicationComponentConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutputResponse>(xmlName: "UpdateApplicationComponentConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>(xmlName: "UpdateApplicationComponentConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationComponentConfigOutputResponse, UpdateApplicationComponentConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationComponentConfigOutput, UpdateApplicationComponentConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -982,7 +982,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter UpdateServerConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServerConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServerConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,7 +991,7 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    public func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutputResponse
+    public func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1007,20 +1007,20 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
                       .withSigningName(value: "migrationhub-strategy")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateServerConfigInput, UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>(id: "updateServerConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServerConfigInput, UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServerConfigInput, UpdateServerConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateServerConfigInput, UpdateServerConfigOutput, UpdateServerConfigOutputError>(id: "updateServerConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput, UpdateServerConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServerConfigOutput, UpdateServerConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServerConfigInput, UpdateServerConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServerConfigInput, UpdateServerConfigOutputResponse>(xmlName: "UpdateServerConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>(xmlName: "UpdateServerConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServerConfigOutput, UpdateServerConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServerConfigOutputResponse, UpdateServerConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServerConfigOutput, UpdateServerConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerConfigOutput, UpdateServerConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServerConfigOutput, UpdateServerConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

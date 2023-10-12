@@ -290,22 +290,11 @@ extension GenerateDataSetInputBody: Swift.Decodable {
     }
 }
 
-enum GenerateDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "MarketplaceCommerceAnalyticsException": return try await MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GenerateDataSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GenerateDataSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GenerateDataSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GenerateDataSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.dataSetRequestId = output.dataSetRequestId
         } else {
             self.dataSetRequestId = nil
@@ -314,7 +303,7 @@ extension GenerateDataSetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the result of the GenerateDataSet operation.
-public struct GenerateDataSetOutputResponse: Swift.Equatable {
+public struct GenerateDataSetOutput: Swift.Equatable {
     /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
     public var dataSetRequestId: Swift.String?
 
@@ -326,11 +315,11 @@ public struct GenerateDataSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GenerateDataSetOutputResponseBody: Swift.Equatable {
+struct GenerateDataSetOutputBody: Swift.Equatable {
     let dataSetRequestId: Swift.String?
 }
 
-extension GenerateDataSetOutputResponseBody: Swift.Decodable {
+extension GenerateDataSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetRequestId
     }
@@ -339,6 +328,17 @@ extension GenerateDataSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSetRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetRequestId)
         dataSetRequestId = dataSetRequestIdDecoded
+    }
+}
+
+enum GenerateDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "MarketplaceCommerceAnalyticsException": return try await MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -539,22 +539,11 @@ extension StartSupportDataExportInputBody: Swift.Decodable {
     }
 }
 
-enum StartSupportDataExportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "MarketplaceCommerceAnalyticsException": return try await MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartSupportDataExportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartSupportDataExportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartSupportDataExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartSupportDataExportOutputBody = try responseDecoder.decode(responseBody: data)
             self.dataSetRequestId = output.dataSetRequestId
         } else {
             self.dataSetRequestId = nil
@@ -563,7 +552,7 @@ extension StartSupportDataExportOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Container for the result of the StartSupportDataExport operation.
-public struct StartSupportDataExportOutputResponse: Swift.Equatable {
+public struct StartSupportDataExportOutput: Swift.Equatable {
     /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
     public var dataSetRequestId: Swift.String?
 
@@ -575,11 +564,11 @@ public struct StartSupportDataExportOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartSupportDataExportOutputResponseBody: Swift.Equatable {
+struct StartSupportDataExportOutputBody: Swift.Equatable {
     let dataSetRequestId: Swift.String?
 }
 
-extension StartSupportDataExportOutputResponseBody: Swift.Decodable {
+extension StartSupportDataExportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetRequestId
     }
@@ -588,6 +577,17 @@ extension StartSupportDataExportOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSetRequestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetRequestId)
         dataSetRequestId = dataSetRequestIdDecoded
+    }
+}
+
+enum StartSupportDataExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "MarketplaceCommerceAnalyticsException": return try await MarketplaceCommerceAnalyticsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

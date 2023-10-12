@@ -128,21 +128,11 @@ extension BatchPutMetricsInputBody: Swift.Decodable {
     }
 }
 
-enum BatchPutMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchPutMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchPutMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchPutMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchPutMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
             self.errors = nil
@@ -150,7 +140,7 @@ extension BatchPutMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutMetricsOutputResponse: Swift.Equatable {
+public struct BatchPutMetricsOutput: Swift.Equatable {
     /// Lists any errors that occur when inserting metric data.
     public var errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 
@@ -162,11 +152,11 @@ public struct BatchPutMetricsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchPutMetricsOutputResponseBody: Swift.Equatable {
+struct BatchPutMetricsOutputBody: Swift.Equatable {
     let errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 }
 
-extension BatchPutMetricsOutputResponseBody: Swift.Decodable {
+extension BatchPutMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors = "Errors"
     }
@@ -184,6 +174,16 @@ extension BatchPutMetricsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchPutMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

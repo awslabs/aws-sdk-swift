@@ -19,7 +19,7 @@ public protocol MigrationHubConfigClientProtocol {
     ///
     /// - Parameter CreateHomeRegionControlInput : [no documentation found]
     ///
-    /// - Returns: `CreateHomeRegionControlOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHomeRegionControlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -30,12 +30,12 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutputResponse
+    func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutput
     /// This API permits filtering on the ControlId and HomeRegion fields.
     ///
     /// - Parameter DescribeHomeRegionControlsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHomeRegionControlsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHomeRegionControlsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -45,12 +45,12 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func describeHomeRegionControls(input: DescribeHomeRegionControlsInput) async throws -> DescribeHomeRegionControlsOutputResponse
+    func describeHomeRegionControls(input: DescribeHomeRegionControlsInput) async throws -> DescribeHomeRegionControlsOutput
     /// Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
     ///
     /// - Parameter GetHomeRegionInput : [no documentation found]
     ///
-    /// - Returns: `GetHomeRegionOutputResponse` : [no documentation found]
+    /// - Returns: `GetHomeRegionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -60,7 +60,7 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getHomeRegion(input: GetHomeRegionInput) async throws -> GetHomeRegionOutputResponse
+    func getHomeRegion(input: GetHomeRegionInput) async throws -> GetHomeRegionOutput
 }
 
 public enum MigrationHubConfigClientTypes {}

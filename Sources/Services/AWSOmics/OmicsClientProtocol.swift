@@ -8,7 +8,7 @@ public protocol OmicsClientProtocol {
     ///
     /// - Parameter AbortMultipartReadSetUploadInput : [no documentation found]
     ///
-    /// - Returns: `AbortMultipartReadSetUploadOutputResponse` : [no documentation found]
+    /// - Returns: `AbortMultipartReadSetUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21,12 +21,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutputResponse
+    func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutput
     /// Accepts a share for an analytics store.
     ///
     /// - Parameter AcceptShareInput : [no documentation found]
     ///
-    /// - Returns: `AcceptShareOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -38,12 +38,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutputResponse
+    func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutput
     /// Deletes one or more read sets.
     ///
     /// - Parameter BatchDeleteReadSetInput : [no documentation found]
     ///
-    /// - Returns: `BatchDeleteReadSetOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDeleteReadSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,12 +54,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutputResponse
+    func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutput
     /// Cancels an annotation import job.
     ///
     /// - Parameter CancelAnnotationImportJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelAnnotationImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelAnnotationImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutputResponse
+    func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutput
     /// Cancels a run.
     ///
     /// - Parameter CancelRunInput : [no documentation found]
     ///
-    /// - Returns: `CancelRunOutputResponse` : [no documentation found]
+    /// - Returns: `CancelRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -87,12 +87,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func cancelRun(input: CancelRunInput) async throws -> CancelRunOutputResponse
+    func cancelRun(input: CancelRunInput) async throws -> CancelRunOutput
     /// Cancels a variant import job.
     ///
     /// - Parameter CancelVariantImportJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelVariantImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelVariantImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutputResponse
+    func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutput
     /// Concludes a multipart upload once you have uploaded all the components.
     ///
     /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
     ///
-    /// - Returns: `CompleteMultipartReadSetUploadOutputResponse` : [no documentation found]
+    /// - Returns: `CompleteMultipartReadSetUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutputResponse
+    func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutput
     /// Creates an annotation store.
     ///
     /// - Parameter CreateAnnotationStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateAnnotationStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAnnotationStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -137,12 +137,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutputResponse
+    func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutput
     /// Creates a new version of an annotation store.
     ///
     /// - Parameter CreateAnnotationStoreVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateAnnotationStoreVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAnnotationStoreVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -154,12 +154,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutputResponse
+    func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutput
     /// Begins a multipart read set upload.
     ///
     /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
     ///
-    /// - Returns: `CreateMultipartReadSetUploadOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMultipartReadSetUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,12 +172,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutputResponse
+    func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutput
     /// Creates a reference store.
     ///
     /// - Parameter CreateReferenceStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateReferenceStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateReferenceStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutputResponse
+    func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutput
     /// Creates a run group.
     ///
     /// - Parameter CreateRunGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateRunGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRunGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,12 +206,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutputResponse
+    func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutput
     /// Creates a sequence store.
     ///
     /// - Parameter CreateSequenceStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateSequenceStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSequenceStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutputResponse
+    func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutput
     /// Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
     ///
     /// - Parameter CreateShareInput : [no documentation found]
     ///
-    /// - Returns: `CreateShareOutputResponse` : [no documentation found]
+    /// - Returns: `CreateShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -239,12 +239,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createShare(input: CreateShareInput) async throws -> CreateShareOutputResponse
+    func createShare(input: CreateShareInput) async throws -> CreateShareOutput
     /// Creates a variant store.
     ///
     /// - Parameter CreateVariantStoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateVariantStoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVariantStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutputResponse
+    func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutput
     /// Creates a workflow.
     ///
     /// - Parameter CreateWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,12 +274,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
+    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
     /// Deletes an annotation store.
     ///
     /// - Parameter DeleteAnnotationStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAnnotationStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnnotationStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -290,12 +290,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutputResponse
+    func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutput
     /// Deletes one or multiple versions of an annotation store.
     ///
     /// - Parameter DeleteAnnotationStoreVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAnnotationStoreVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnnotationStoreVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -306,12 +306,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutputResponse
+    func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutput
     /// Deletes a genome reference.
     ///
     /// - Parameter DeleteReferenceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteReferenceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteReferenceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutputResponse
+    func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutput
     /// Deletes a genome reference store.
     ///
     /// - Parameter DeleteReferenceStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteReferenceStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteReferenceStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -340,12 +340,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutputResponse
+    func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutput
     /// Deletes a workflow run.
     ///
     /// - Parameter DeleteRunInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRunOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -358,12 +358,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutputResponse
+    func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput
     /// Deletes a workflow run group.
     ///
     /// - Parameter DeleteRunGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRunGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRunGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -376,12 +376,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutputResponse
+    func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutput
     /// Deletes a sequence store.
     ///
     /// - Parameter DeleteSequenceStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSequenceStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSequenceStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -393,12 +393,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutputResponse
+    func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutput
     /// Deletes a share of an analytics store.
     ///
     /// - Parameter DeleteShareInput : [no documentation found]
     ///
-    /// - Returns: `DeleteShareOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutputResponse
+    func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutput
     /// Deletes a variant store.
     ///
     /// - Parameter DeleteVariantStoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVariantStoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVariantStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,12 +426,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutputResponse
+    func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutput
     /// Deletes a workflow.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,12 +444,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
+    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
     /// Gets information about an annotation import job.
     ///
     /// - Parameter GetAnnotationImportJobInput : [no documentation found]
     ///
-    /// - Returns: `GetAnnotationImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnnotationImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -459,12 +459,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutputResponse
+    func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutput
     /// Gets information about an annotation store.
     ///
     /// - Parameter GetAnnotationStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetAnnotationStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnnotationStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -474,12 +474,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutputResponse
+    func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutput
     /// Retrieves the metadata for an annotation store version.
     ///
     /// - Parameter GetAnnotationStoreVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetAnnotationStoreVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnnotationStoreVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,12 +489,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutputResponse
+    func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutput
     /// Gets a file from a read set.
     ///
     /// - Parameter GetReadSetInput : [no documentation found]
     ///
-    /// - Returns: `GetReadSetOutputResponse` : [no documentation found]
+    /// - Returns: `GetReadSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,12 +507,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutputResponse
+    func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutput
     /// Gets information about a read set activation job.
     ///
     /// - Parameter GetReadSetActivationJobInput : [no documentation found]
     ///
-    /// - Returns: `GetReadSetActivationJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetReadSetActivationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,12 +523,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutputResponse
+    func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutput
     /// Gets information about a read set export job.
     ///
     /// - Parameter GetReadSetExportJobInput : [no documentation found]
     ///
-    /// - Returns: `GetReadSetExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetReadSetExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -539,12 +539,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutputResponse
+    func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutput
     /// Gets information about a read set import job.
     ///
     /// - Parameter GetReadSetImportJobInput : [no documentation found]
     ///
-    /// - Returns: `GetReadSetImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetReadSetImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,12 +555,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutputResponse
+    func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutput
     /// Gets details about a read set.
     ///
     /// - Parameter GetReadSetMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetReadSetMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetReadSetMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,12 +571,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutputResponse
+    func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutput
     /// Gets a reference file.
     ///
     /// - Parameter GetReferenceInput : [no documentation found]
     ///
-    /// - Returns: `GetReferenceOutputResponse` : [no documentation found]
+    /// - Returns: `GetReferenceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,12 +588,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReference(input: GetReferenceInput) async throws -> GetReferenceOutputResponse
+    func getReference(input: GetReferenceInput) async throws -> GetReferenceOutput
     /// Gets information about a reference import job.
     ///
     /// - Parameter GetReferenceImportJobInput : [no documentation found]
     ///
-    /// - Returns: `GetReferenceImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetReferenceImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,12 +604,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutputResponse
+    func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutput
     /// Gets information about a genome reference's metadata.
     ///
     /// - Parameter GetReferenceMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetReferenceMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetReferenceMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,12 +620,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutputResponse
+    func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutput
     /// Gets information about a reference store.
     ///
     /// - Parameter GetReferenceStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetReferenceStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetReferenceStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,12 +636,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutputResponse
+    func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutput
     /// Gets information about a workflow run.
     ///
     /// - Parameter GetRunInput : [no documentation found]
     ///
-    /// - Returns: `GetRunOutputResponse` : [no documentation found]
+    /// - Returns: `GetRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,12 +654,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getRun(input: GetRunInput) async throws -> GetRunOutputResponse
+    func getRun(input: GetRunInput) async throws -> GetRunOutput
     /// Gets information about a workflow run group.
     ///
     /// - Parameter GetRunGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetRunGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetRunGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,12 +672,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutputResponse
+    func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutput
     /// Gets information about a workflow run task.
     ///
     /// - Parameter GetRunTaskInput : [no documentation found]
     ///
-    /// - Returns: `GetRunTaskOutputResponse` : [no documentation found]
+    /// - Returns: `GetRunTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,12 +690,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutputResponse
+    func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutput
     /// Gets information about a sequence store.
     ///
     /// - Parameter GetSequenceStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetSequenceStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetSequenceStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,12 +706,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutputResponse
+    func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutput
     /// Retrieves the metadata for a share.
     ///
     /// - Parameter GetShareInput : [no documentation found]
     ///
-    /// - Returns: `GetShareOutputResponse` : [no documentation found]
+    /// - Returns: `GetShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,12 +723,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getShare(input: GetShareInput) async throws -> GetShareOutputResponse
+    func getShare(input: GetShareInput) async throws -> GetShareOutput
     /// Gets information about a variant import job.
     ///
     /// - Parameter GetVariantImportJobInput : [no documentation found]
     ///
-    /// - Returns: `GetVariantImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetVariantImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,12 +738,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutputResponse
+    func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutput
     /// Gets information about a variant store.
     ///
     /// - Parameter GetVariantStoreInput : [no documentation found]
     ///
-    /// - Returns: `GetVariantStoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetVariantStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -753,12 +753,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutputResponse
+    func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutput
     /// Gets information about a workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,12 +771,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
+    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
     /// Retrieves a list of annotation import jobs.
     ///
     /// - Parameter ListAnnotationImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListAnnotationImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnnotationImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,12 +786,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutputResponse
+    func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutput
     /// Retrieves a list of annotation stores.
     ///
     /// - Parameter ListAnnotationStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListAnnotationStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnnotationStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -801,12 +801,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutputResponse
+    func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutput
     /// Lists the versions of an annotation store.
     ///
     /// - Parameter ListAnnotationStoreVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListAnnotationStoreVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnnotationStoreVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -816,12 +816,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutputResponse
+    func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutput
     /// Lists all multipart read set uploads and their statuses.
     ///
     /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
     ///
-    /// - Returns: `ListMultipartReadSetUploadsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMultipartReadSetUploadsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,12 +834,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutputResponse
+    func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutput
     /// Retrieves a list of read set activation jobs.
     ///
     /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListReadSetActivationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReadSetActivationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,12 +850,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutputResponse
+    func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutput
     /// Retrieves a list of read set export jobs.
     ///
     /// - Parameter ListReadSetExportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListReadSetExportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReadSetExportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,12 +866,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutputResponse
+    func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutput
     /// Retrieves a list of read set import jobs.
     ///
     /// - Parameter ListReadSetImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListReadSetImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReadSetImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,12 +882,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutputResponse
+    func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutput
     /// Retrieves a list of read sets.
     ///
     /// - Parameter ListReadSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListReadSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReadSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,12 +898,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutputResponse
+    func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutput
     /// This operation will list all parts in a requested multipart upload for a sequence store.
     ///
     /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
     ///
-    /// - Returns: `ListReadSetUploadPartsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReadSetUploadPartsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -916,12 +916,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutputResponse
+    func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutput
     /// Retrieves a list of reference import jobs.
     ///
     /// - Parameter ListReferenceImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListReferenceImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListReferenceImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,12 +932,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutputResponse
+    func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutput
     /// Retrieves a list of references.
     ///
     /// - Parameter ListReferencesInput : [no documentation found]
     ///
-    /// - Returns: `ListReferencesOutputResponse` : [no documentation found]
+    /// - Returns: `ListReferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,12 +948,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutputResponse
+    func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutput
     /// Retrieves a list of reference stores.
     ///
     /// - Parameter ListReferenceStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListReferenceStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListReferenceStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,12 +963,12 @@ public protocol OmicsClientProtocol {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutputResponse
+    func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutput
     /// Retrieves a list of run groups.
     ///
     /// - Parameter ListRunGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListRunGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRunGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,12 +981,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutputResponse
+    func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutput
     /// Retrieves a list of runs.
     ///
     /// - Parameter ListRunsInput : [no documentation found]
     ///
-    /// - Returns: `ListRunsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRunsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,12 +999,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listRuns(input: ListRunsInput) async throws -> ListRunsOutputResponse
+    func listRuns(input: ListRunsInput) async throws -> ListRunsOutput
     /// Retrieves a list of tasks for a run.
     ///
     /// - Parameter ListRunTasksInput : [no documentation found]
     ///
-    /// - Returns: `ListRunTasksOutputResponse` : [no documentation found]
+    /// - Returns: `ListRunTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1017,12 +1017,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutputResponse
+    func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutput
     /// Retrieves a list of sequence stores.
     ///
     /// - Parameter ListSequenceStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListSequenceStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListSequenceStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,12 +1032,12 @@ public protocol OmicsClientProtocol {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutputResponse
+    func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutput
     /// Lists all shares associated with an account.
     ///
     /// - Parameter ListSharesInput : [no documentation found]
     ///
-    /// - Returns: `ListSharesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSharesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1049,12 +1049,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listShares(input: ListSharesInput) async throws -> ListSharesOutputResponse
+    func listShares(input: ListSharesInput) async throws -> ListSharesOutput
     /// Retrieves a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1067,12 +1067,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Retrieves a list of variant import jobs.
     ///
     /// - Parameter ListVariantImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListVariantImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListVariantImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,12 +1082,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutputResponse
+    func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutput
     /// Retrieves a list of variant stores.
     ///
     /// - Parameter ListVariantStoresInput : [no documentation found]
     ///
-    /// - Returns: `ListVariantStoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListVariantStoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,12 +1097,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutputResponse
+    func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutput
     /// Retrieves a list of workflows.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,12 +1115,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
+    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
     /// Starts an annotation import job.
     ///
     /// - Parameter StartAnnotationImportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartAnnotationImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartAnnotationImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,12 +1131,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutputResponse
+    func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutput
     /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     ///
     /// - Parameter StartReadSetActivationJobInput : [no documentation found]
     ///
-    /// - Returns: `StartReadSetActivationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartReadSetActivationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,12 +1148,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutputResponse
+    func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutput
     /// Exports a read set to Amazon S3.
     ///
     /// - Parameter StartReadSetExportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartReadSetExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartReadSetExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,12 +1165,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutputResponse
+    func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutput
     /// Starts a read set import job.
     ///
     /// - Parameter StartReadSetImportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartReadSetImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartReadSetImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,12 +1182,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutputResponse
+    func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutput
     /// Starts a reference import job.
     ///
     /// - Parameter StartReferenceImportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartReferenceImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartReferenceImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1199,12 +1199,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutputResponse
+    func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutput
     /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
     ///
     /// - Parameter StartRunInput : [no documentation found]
     ///
-    /// - Returns: `StartRunOutputResponse` : [no documentation found]
+    /// - Returns: `StartRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,12 +1217,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startRun(input: StartRunInput) async throws -> StartRunOutputResponse
+    func startRun(input: StartRunInput) async throws -> StartRunOutput
     /// Starts a variant import job.
     ///
     /// - Parameter StartVariantImportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartVariantImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartVariantImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1233,12 +1233,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutputResponse
+    func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutput
     /// Tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1251,12 +1251,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,12 +1269,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an annotation store.
     ///
     /// - Parameter UpdateAnnotationStoreInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnnotationStoreOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnnotationStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,12 +1284,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutputResponse
+    func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutput
     /// Updates the description of an annotation store version.
     ///
     /// - Parameter UpdateAnnotationStoreVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnnotationStoreVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnnotationStoreVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1299,12 +1299,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutputResponse
+    func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutput
     /// Updates a run group.
     ///
     /// - Parameter UpdateRunGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRunGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRunGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,12 +1317,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutputResponse
+    func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutput
     /// Updates a variant store.
     ///
     /// - Parameter UpdateVariantStoreInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVariantStoreOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVariantStoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,12 +1332,12 @@ public protocol OmicsClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutputResponse
+    func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutput
     /// Updates a workflow.
     ///
     /// - Parameter UpdateWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,12 +1350,12 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
+    func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
     /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
     ///
     /// - Parameter UploadReadSetPartInput : [no documentation found]
     ///
-    /// - Returns: `UploadReadSetPartOutputResponse` : [no documentation found]
+    /// - Returns: `UploadReadSetPartOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1368,7 +1368,7 @@ public protocol OmicsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutputResponse
+    func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutput
 }
 
 public enum OmicsClientTypes {}

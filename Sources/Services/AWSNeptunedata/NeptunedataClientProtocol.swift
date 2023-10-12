@@ -8,7 +8,7 @@ public protocol NeptunedataClientProtocol {
     ///
     /// - Parameter CancelGremlinQueryInput : [no documentation found]
     ///
-    /// - Returns: `CancelGremlinQueryOutputResponse` : [no documentation found]
+    /// - Returns: `CancelGremlinQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -27,12 +27,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutputResponse
+    func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutput
     /// Cancels a specified load job. This is an HTTP DELETE request. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm) for more information.
     ///
     /// - Parameter CancelLoaderJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelLoaderJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelLoaderJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutputResponse
+    func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutput
     /// Cancels a Neptune ML data processing job. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html).
     ///
     /// - Parameter CancelMLDataProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelMLDataProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMLDataProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,12 +71,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutputResponse
+    func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutput
     /// Cancels a Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
     ///
     /// - Parameter CancelMLModelTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelMLModelTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMLModelTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -92,12 +92,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutputResponse
+    func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutput
     /// Cancels a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
     ///
     /// - Parameter CancelMLModelTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelMLModelTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMLModelTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutputResponse
+    func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutput
     /// Cancels a specified openCypher query. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html) for more information.
     ///
     /// - Parameter CancelOpenCypherQueryInput : [no documentation found]
     ///
-    /// - Returns: `CancelOpenCypherQueryOutputResponse` : [no documentation found]
+    /// - Returns: `CancelOpenCypherQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,12 +138,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutputResponse
+    func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutput
     /// Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
     ///
     /// - Parameter CreateMLEndpointInput : [no documentation found]
     ///
-    /// - Returns: `CreateMLEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMLEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -159,12 +159,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutputResponse
+    func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutput
     /// Cancels the creation of a Neptune ML inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
     ///
     /// - Parameter DeleteMLEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMLEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMLEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,12 +180,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutputResponse
+    func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutput
     /// Deletes statistics for Gremlin and openCypher (property graph) data.
     ///
     /// - Parameter DeletePropertygraphStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `DeletePropertygraphStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePropertygraphStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,12 +203,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutputResponse
+    func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutput
     /// Deletes SPARQL statistics
     ///
     /// - Parameter DeleteSparqlStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSparqlStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSparqlStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -226,12 +226,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutputResponse
+    func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutput
     /// The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of its data. Neptune fast reset is a two-step process. First you call ExecuteFastReset with action set to initiateDatabaseReset. This returns a UUID token which you then include when calling ExecuteFastReset again with action set to performDatabaseReset. See [Empty an Amazon Neptune DB cluster using the fast reset API](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-fast-reset.html).
     ///
     /// - Parameter ExecuteFastResetInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteFastResetOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteFastResetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -249,12 +249,12 @@ public protocol NeptunedataClientProtocol {
     /// - `ServerShutdownException` : Raised when the server shuts down while processing a request.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutputResponse
+    func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutput
     /// Executes a Gremlin Explain query. Amazon Neptune has added a Gremlin feature named explain that provides is a self-service tool for understanding the execution approach being taken by the Neptune engine for the query. You invoke it by adding an explain parameter to an HTTP call that submits a Gremlin query. The explain feature provides information about the logical structure of query execution plans. You can use this information to identify potential evaluation and execution bottlenecks and to tune your query, as explained in [Tuning Gremlin queries](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html). You can also use query hints to improve query execution plans.
     ///
     /// - Parameter ExecuteGremlinExplainQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteGremlinExplainQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteGremlinExplainQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -279,12 +279,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutputResponse
+    func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutput
     /// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html) for details.
     ///
     /// - Parameter ExecuteGremlinProfileQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteGremlinProfileQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteGremlinProfileQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -309,12 +309,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutputResponse
+    func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutput
     /// This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described under [The Graph](https://tinkerpop.apache.org/docs/current/reference/#graph) in the Apache TinkerPop3 documentation. More details can also be found in [Accessing a Neptune graph with Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin.html).
     ///
     /// - Parameter ExecuteGremlinQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteGremlinQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteGremlinQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -339,12 +339,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutputResponse
+    func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutput
     /// Executes an openCypher explain request. See [The openCypher explain feature](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-explain.html) for more information.
     ///
     /// - Parameter ExecuteOpenCypherExplainQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteOpenCypherExplainQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteOpenCypherExplainQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -370,12 +370,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutputResponse
+    func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutput
     /// Executes an openCypher query. See [Accessing the Neptune Graph with openCypher](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher.html) for more information. Neptune supports building graph applications using openCypher, which is currently one of the most popular query languages among developers working with graph databases. Developers, business analysts, and data scientists like openCypher's declarative, SQL-inspired syntax because it provides a familiar structure in which to querying property graphs. The openCypher language was originally developed by Neo4j, then open-sourced in 2015 and contributed to the [openCypher project](https://opencypher.org/) under an Apache 2 open-source license.
     ///
     /// - Parameter ExecuteOpenCypherQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteOpenCypherQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteOpenCypherQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -401,12 +401,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutputResponse
+    func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutput
     /// Check the status of the graph database on the host.
     ///
     /// - Parameter GetEngineStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetEngineStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetEngineStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutputResponse
+    func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutput
     /// Gets the status of a specified Gremlin query.
     ///
     /// - Parameter GetGremlinQueryStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetGremlinQueryStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetGremlinQueryStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,12 +445,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutputResponse
+    func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutput
     /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm) for more information.
     ///
     /// - Parameter GetLoaderJobStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetLoaderJobStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetLoaderJobStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -468,12 +468,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutputResponse
+    func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutput
     /// Retrieves information about a specified data processing job. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html).
     ///
     /// - Parameter GetMLDataProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMLDataProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLDataProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,12 +489,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutputResponse
+    func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutput
     /// Retrieves details about an inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
     ///
     /// - Parameter GetMLEndpointInput : [no documentation found]
     ///
-    /// - Returns: `GetMLEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,12 +510,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutputResponse
+    func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutput
     /// Retrieves information about a Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
     ///
     /// - Parameter GetMLModelTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMLModelTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLModelTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -531,12 +531,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutputResponse
+    func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutput
     /// Gets information about a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
     ///
     /// - Parameter GetMLModelTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMLModelTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLModelTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,12 +552,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutputResponse
+    func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutput
     /// Retrieves the status of a specified openCypher query.
     ///
     /// - Parameter GetOpenCypherQueryStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetOpenCypherQueryStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetOpenCypherQueryStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,12 +579,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutputResponse
+    func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutput
     /// Gets property graph statistics (Gremlin and openCypher).
     ///
     /// - Parameter GetPropertygraphStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `GetPropertygraphStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `GetPropertygraphStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -602,12 +602,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutputResponse
+    func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutput
     /// Gets a stream for a property graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetPropertygraphStream lets you collect these change-log entries for a property graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams) DB cluster parameter to 1. See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html).
     ///
     /// - Parameter GetPropertygraphStreamInput : [no documentation found]
     ///
-    /// - Returns: `GetPropertygraphStreamOutputResponse` : [no documentation found]
+    /// - Returns: `GetPropertygraphStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,12 +624,12 @@ public protocol NeptunedataClientProtocol {
     /// - `ThrottlingException` : Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutputResponse
+    func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutput
     /// Gets a graph summary for a property graph.
     ///
     /// - Parameter GetPropertygraphSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetPropertygraphSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetPropertygraphSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,12 +647,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutputResponse
+    func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutput
     /// Gets a graph summary for an RDF graph.
     ///
     /// - Parameter GetRDFGraphSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetRDFGraphSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetRDFGraphSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,12 +670,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutputResponse
+    func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutput
     /// Gets RDF statistics (SPARQL).
     ///
     /// - Parameter GetSparqlStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `GetSparqlStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSparqlStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,12 +693,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutputResponse
+    func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutput
     /// Gets a stream for an RDF graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetSparqlStream lets you collect these change-log entries for an RDF graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams) DB cluster parameter to 1. See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html).
     ///
     /// - Parameter GetSparqlStreamInput : [no documentation found]
     ///
-    /// - Returns: `GetSparqlStreamOutputResponse` : [no documentation found]
+    /// - Returns: `GetSparqlStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,12 +715,12 @@ public protocol NeptunedataClientProtocol {
     /// - `ThrottlingException` : Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutputResponse
+    func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutput
     /// Lists active Gremlin queries. See [Gremlin query status API](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html) for details about the output.
     ///
     /// - Parameter ListGremlinQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListGremlinQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListGremlinQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,12 +741,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutputResponse
+    func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutput
     /// Retrieves a list of the loadIds for all active loader jobs.
     ///
     /// - Parameter ListLoaderJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListLoaderJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLoaderJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,12 +763,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutputResponse
+    func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutput
     /// Returns a list of Neptune ML data processing jobs. See [Listing active data-processing jobs using the Neptune ML dataprocessing command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html#machine-learning-api-dataprocessing-list-jobs).
     ///
     /// - Parameter ListMLDataProcessingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLDataProcessingJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLDataProcessingJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,12 +784,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutputResponse
+    func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutput
     /// Lists existing inference endpoints. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
     ///
     /// - Parameter ListMLEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -805,12 +805,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutputResponse
+    func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutput
     /// Lists Neptune ML model-training jobs. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
     ///
     /// - Parameter ListMLModelTrainingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLModelTrainingJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLModelTrainingJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -826,12 +826,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutputResponse
+    func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutput
     /// Returns a list of model transform job IDs. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
     ///
     /// - Parameter ListMLModelTransformJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLModelTransformJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLModelTransformJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,12 +847,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutputResponse
+    func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutput
     /// Lists active openCypher queries. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html) for more information.
     ///
     /// - Parameter ListOpenCypherQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListOpenCypherQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListOpenCypherQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,12 +874,12 @@ public protocol NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutputResponse
+    func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutput
     /// Manages the generation and use of property graph statistics.
     ///
     /// - Parameter ManagePropertygraphStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ManagePropertygraphStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ManagePropertygraphStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,12 +897,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutputResponse
+    func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutput
     /// Manages the generation and use of RDF graph statistics.
     ///
     /// - Parameter ManageSparqlStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ManageSparqlStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ManageSparqlStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -920,12 +920,12 @@ public protocol NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutputResponse
+    func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutput
     /// Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See [Using the Amazon Neptune Bulk Loader to Ingest Data](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load.html).
     ///
     /// - Parameter StartLoaderJobInput : [no documentation found]
     ///
-    /// - Returns: `StartLoaderJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartLoaderJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,12 +944,12 @@ public protocol NeptunedataClientProtocol {
     /// - `S3Exception` : Raised when there is a problem accessing Amazon S3.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutputResponse
+    func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutput
     /// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html).
     ///
     /// - Parameter StartMLDataProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMLDataProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMLDataProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,12 +965,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutputResponse
+    func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutput
     /// Creates a new Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
     ///
     /// - Parameter StartMLModelTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMLModelTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMLModelTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,12 +986,12 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutputResponse
+    func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutput
     /// Creates a new model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
     ///
     /// - Parameter StartMLModelTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMLModelTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMLModelTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,7 +1007,7 @@ public protocol NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    func startMLModelTransformJob(input: StartMLModelTransformJobInput) async throws -> StartMLModelTransformJobOutputResponse
+    func startMLModelTransformJob(input: StartMLModelTransformJobInput) async throws -> StartMLModelTransformJobOutput
 }
 
 public enum NeptunedataClientTypes {}

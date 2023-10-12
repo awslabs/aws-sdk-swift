@@ -199,26 +199,12 @@ extension GetLatestConfigurationInputBody: Swift.Decodable {
     }
 }
 
-enum GetLatestConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLatestConfigurationOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetLatestConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetLatestConfigurationOutputResponse(contentType: \(Swift.String(describing: contentType)), nextPollConfigurationToken: \(Swift.String(describing: nextPollConfigurationToken)), nextPollIntervalInSeconds: \(Swift.String(describing: nextPollIntervalInSeconds)), versionLabel: \(Swift.String(describing: versionLabel)), configuration: \"CONTENT_REDACTED\")"}
+        "GetLatestConfigurationOutput(contentType: \(Swift.String(describing: contentType)), nextPollConfigurationToken: \(Swift.String(describing: nextPollConfigurationToken)), nextPollIntervalInSeconds: \(Swift.String(describing: nextPollIntervalInSeconds)), versionLabel: \(Swift.String(describing: versionLabel)), configuration: \"CONTENT_REDACTED\")"}
 }
 
-extension GetLatestConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLatestConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -251,7 +237,7 @@ extension GetLatestConfigurationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetLatestConfigurationOutputResponse: Swift.Equatable {
+public struct GetLatestConfigurationOutput: Swift.Equatable {
     /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
     public var configuration: ClientRuntime.Data?
     /// A standard MIME type describing the format of the configuration content.
@@ -279,11 +265,11 @@ public struct GetLatestConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLatestConfigurationOutputResponseBody: Swift.Equatable {
+struct GetLatestConfigurationOutputBody: Swift.Equatable {
     let configuration: ClientRuntime.Data?
 }
 
-extension GetLatestConfigurationOutputResponseBody: Swift.Decodable {
+extension GetLatestConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
     }
@@ -292,6 +278,20 @@ extension GetLatestConfigurationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .configuration)
         configuration = configurationDecoded
+    }
+}
+
+enum GetLatestConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -639,25 +639,11 @@ extension StartConfigurationSessionInputBody: Swift.Decodable {
     }
 }
 
-enum StartConfigurationSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartConfigurationSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartConfigurationSessionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartConfigurationSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartConfigurationSessionOutputBody = try responseDecoder.decode(responseBody: data)
             self.initialConfigurationToken = output.initialConfigurationToken
         } else {
             self.initialConfigurationToken = nil
@@ -665,7 +651,7 @@ extension StartConfigurationSessionOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct StartConfigurationSessionOutputResponse: Swift.Equatable {
+public struct StartConfigurationSessionOutput: Swift.Equatable {
     /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data. This token should only be used once in your first call to GetLatestConfiguration. You must use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration. The InitialConfigurationToken and NextPollConfigurationToken should only be used once. To support long poll use cases, the tokens are valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
     public var initialConfigurationToken: Swift.String?
 
@@ -677,11 +663,11 @@ public struct StartConfigurationSessionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartConfigurationSessionOutputResponseBody: Swift.Equatable {
+struct StartConfigurationSessionOutputBody: Swift.Equatable {
     let initialConfigurationToken: Swift.String?
 }
 
-extension StartConfigurationSessionOutputResponseBody: Swift.Decodable {
+extension StartConfigurationSessionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case initialConfigurationToken = "InitialConfigurationToken"
     }
@@ -690,6 +676,20 @@ extension StartConfigurationSessionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initialConfigurationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialConfigurationToken)
         initialConfigurationToken = initialConfigurationTokenDecoded
+    }
+}
+
+enum StartConfigurationSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

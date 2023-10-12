@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension IoTTwinMakerClient {
-    /// Paginate over `[ExecuteQueryOutputResponse]` results.
+    /// Paginate over `[ExecuteQueryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ExecuteQueryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ExecuteQueryOutputResponse`
-    public func executeQueryPaginated(input: ExecuteQueryInput) -> ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutputResponse>(input: input, inputKey: \ExecuteQueryInput.nextToken, outputKey: \ExecuteQueryOutputResponse.nextToken, paginationFunction: self.executeQuery(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ExecuteQueryOutput`
+    public func executeQueryPaginated(input: ExecuteQueryInput) -> ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutput> {
+        return ClientRuntime.PaginatorSequence<ExecuteQueryInput, ExecuteQueryOutput>(input: input, inputKey: \ExecuteQueryInput.nextToken, outputKey: \ExecuteQueryOutput.nextToken, paginationFunction: self.executeQuery(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ExecuteQueryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[GetPropertyValueOutputResponse]` results.
+    /// Paginate over `[GetPropertyValueOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetPropertyValueInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetPropertyValueOutputResponse`
-    public func getPropertyValuePaginated(input: GetPropertyValueInput) -> ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutputResponse>(input: input, inputKey: \GetPropertyValueInput.nextToken, outputKey: \GetPropertyValueOutputResponse.nextToken, paginationFunction: self.getPropertyValue(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPropertyValueOutput`
+    public func getPropertyValuePaginated(input: GetPropertyValueInput) -> ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutput> {
+        return ClientRuntime.PaginatorSequence<GetPropertyValueInput, GetPropertyValueOutput>(input: input, inputKey: \GetPropertyValueInput.nextToken, outputKey: \GetPropertyValueOutput.nextToken, paginationFunction: self.getPropertyValue(input:))
     }
 }
 
@@ -54,16 +54,16 @@ extension GetPropertyValueInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[GetPropertyValueHistoryOutputResponse]` results.
+    /// Paginate over `[GetPropertyValueHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetPropertyValueHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetPropertyValueHistoryOutputResponse`
-    public func getPropertyValueHistoryPaginated(input: GetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutputResponse>(input: input, inputKey: \GetPropertyValueHistoryInput.nextToken, outputKey: \GetPropertyValueHistoryOutputResponse.nextToken, paginationFunction: self.getPropertyValueHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPropertyValueHistoryOutput`
+    public func getPropertyValueHistoryPaginated(input: GetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput>(input: input, inputKey: \GetPropertyValueHistoryInput.nextToken, outputKey: \GetPropertyValueHistoryOutput.nextToken, paginationFunction: self.getPropertyValueHistory(input:))
     }
 }
 
@@ -87,16 +87,16 @@ extension GetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[ListComponentTypesOutputResponse]` results.
+    /// Paginate over `[ListComponentTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListComponentTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentTypesOutputResponse`
-    public func listComponentTypesPaginated(input: ListComponentTypesInput) -> ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutputResponse>(input: input, inputKey: \ListComponentTypesInput.nextToken, outputKey: \ListComponentTypesOutputResponse.nextToken, paginationFunction: self.listComponentTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentTypesOutput`
+    public func listComponentTypesPaginated(input: ListComponentTypesInput) -> ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListComponentTypesInput, ListComponentTypesOutput>(input: input, inputKey: \ListComponentTypesInput.nextToken, outputKey: \ListComponentTypesOutput.nextToken, paginationFunction: self.listComponentTypes(input:))
     }
 }
 
@@ -110,16 +110,16 @@ extension ListComponentTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[ListEntitiesOutputResponse]` results.
+    /// Paginate over `[ListEntitiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEntitiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesOutputResponse`
-    public func listEntitiesPaginated(input: ListEntitiesInput) -> ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutputResponse>(input: input, inputKey: \ListEntitiesInput.nextToken, outputKey: \ListEntitiesOutputResponse.nextToken, paginationFunction: self.listEntities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesOutput`
+    public func listEntitiesPaginated(input: ListEntitiesInput) -> ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput>(input: input, inputKey: \ListEntitiesInput.nextToken, outputKey: \ListEntitiesOutput.nextToken, paginationFunction: self.listEntities(input:))
     }
 }
 
@@ -133,16 +133,16 @@ extension ListEntitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[ListScenesOutputResponse]` results.
+    /// Paginate over `[ListScenesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListScenesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListScenesOutputResponse`
-    public func listScenesPaginated(input: ListScenesInput) -> ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutputResponse>(input: input, inputKey: \ListScenesInput.nextToken, outputKey: \ListScenesOutputResponse.nextToken, paginationFunction: self.listScenes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScenesOutput`
+    public func listScenesPaginated(input: ListScenesInput) -> ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutput> {
+        return ClientRuntime.PaginatorSequence<ListScenesInput, ListScenesOutput>(input: input, inputKey: \ListScenesInput.nextToken, outputKey: \ListScenesOutput.nextToken, paginationFunction: self.listScenes(input:))
     }
 }
 
@@ -155,16 +155,16 @@ extension ListScenesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[ListSyncJobsOutputResponse]` results.
+    /// Paginate over `[ListSyncJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSyncJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSyncJobsOutputResponse`
-    public func listSyncJobsPaginated(input: ListSyncJobsInput) -> ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutputResponse>(input: input, inputKey: \ListSyncJobsInput.nextToken, outputKey: \ListSyncJobsOutputResponse.nextToken, paginationFunction: self.listSyncJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSyncJobsOutput`
+    public func listSyncJobsPaginated(input: ListSyncJobsInput) -> ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutput>(input: input, inputKey: \ListSyncJobsInput.nextToken, outputKey: \ListSyncJobsOutput.nextToken, paginationFunction: self.listSyncJobs(input:))
     }
 }
 
@@ -177,16 +177,16 @@ extension ListSyncJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[ListSyncResourcesOutputResponse]` results.
+    /// Paginate over `[ListSyncResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSyncResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSyncResourcesOutputResponse`
-    public func listSyncResourcesPaginated(input: ListSyncResourcesInput) -> ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutputResponse>(input: input, inputKey: \ListSyncResourcesInput.nextToken, outputKey: \ListSyncResourcesOutputResponse.nextToken, paginationFunction: self.listSyncResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSyncResourcesOutput`
+    public func listSyncResourcesPaginated(input: ListSyncResourcesInput) -> ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutput>(input: input, inputKey: \ListSyncResourcesInput.nextToken, outputKey: \ListSyncResourcesOutput.nextToken, paginationFunction: self.listSyncResources(input:))
     }
 }
 
@@ -201,16 +201,16 @@ extension ListSyncResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTTwinMakerClient {
-    /// Paginate over `[ListWorkspacesOutputResponse]` results.
+    /// Paginate over `[ListWorkspacesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkspacesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkspacesOutputResponse`
-    public func listWorkspacesPaginated(input: ListWorkspacesInput) -> ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutputResponse>(input: input, inputKey: \ListWorkspacesInput.nextToken, outputKey: \ListWorkspacesOutputResponse.nextToken, paginationFunction: self.listWorkspaces(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkspacesOutput`
+    public func listWorkspacesPaginated(input: ListWorkspacesInput) -> ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkspacesInput, ListWorkspacesOutput>(input: input, inputKey: \ListWorkspacesInput.nextToken, outputKey: \ListWorkspacesOutput.nextToken, paginationFunction: self.listWorkspaces(input:))
     }
 }
 

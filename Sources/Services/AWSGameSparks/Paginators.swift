@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension GameSparksClient {
-    /// Paginate over `[ListExtensionsOutputResponse]` results.
+    /// Paginate over `[ListExtensionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExtensionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionsOutputResponse`
-    public func listExtensionsPaginated(input: ListExtensionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutputResponse>(input: input, inputKey: \ListExtensionsInput.nextToken, outputKey: \ListExtensionsOutputResponse.nextToken, paginationFunction: self.listExtensions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionsOutput`
+    public func listExtensionsPaginated(input: ListExtensionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExtensionsInput, ListExtensionsOutput>(input: input, inputKey: \ListExtensionsInput.nextToken, outputKey: \ListExtensionsOutput.nextToken, paginationFunction: self.listExtensions(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListExtensionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListExtensionsInput, Output == ListExtensionsOutputResponse {
+extension PaginatorSequence where Input == ListExtensionsInput, Output == ListExtensionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listExtensionsPaginated`
     /// to access the nested member `[GameSparksClientTypes.ExtensionDetails]`
     /// - Returns: `[GameSparksClientTypes.ExtensionDetails]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListExtensionsInput, Output == ListEx
     }
 }
 extension GameSparksClient {
-    /// Paginate over `[ListExtensionVersionsOutputResponse]` results.
+    /// Paginate over `[ListExtensionVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExtensionVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionVersionsOutputResponse`
-    public func listExtensionVersionsPaginated(input: ListExtensionVersionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionVersionsInput, ListExtensionVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExtensionVersionsInput, ListExtensionVersionsOutputResponse>(input: input, inputKey: \ListExtensionVersionsInput.nextToken, outputKey: \ListExtensionVersionsOutputResponse.nextToken, paginationFunction: self.listExtensionVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensionVersionsOutput`
+    public func listExtensionVersionsPaginated(input: ListExtensionVersionsInput) -> ClientRuntime.PaginatorSequence<ListExtensionVersionsInput, ListExtensionVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExtensionVersionsInput, ListExtensionVersionsOutput>(input: input, inputKey: \ListExtensionVersionsInput.nextToken, outputKey: \ListExtensionVersionsOutput.nextToken, paginationFunction: self.listExtensionVersions(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListExtensionVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListExtensionVersionsInput, Output == ListExtensionVersionsOutputResponse {
+extension PaginatorSequence where Input == ListExtensionVersionsInput, Output == ListExtensionVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listExtensionVersionsPaginated`
     /// to access the nested member `[GameSparksClientTypes.ExtensionVersionDetails]`
     /// - Returns: `[GameSparksClientTypes.ExtensionVersionDetails]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListExtensionVersionsInput, Output ==
     }
 }
 extension GameSparksClient {
-    /// Paginate over `[ListGamesOutputResponse]` results.
+    /// Paginate over `[ListGamesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGamesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGamesOutputResponse`
-    public func listGamesPaginated(input: ListGamesInput) -> ClientRuntime.PaginatorSequence<ListGamesInput, ListGamesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGamesInput, ListGamesOutputResponse>(input: input, inputKey: \ListGamesInput.nextToken, outputKey: \ListGamesOutputResponse.nextToken, paginationFunction: self.listGames(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGamesOutput`
+    public func listGamesPaginated(input: ListGamesInput) -> ClientRuntime.PaginatorSequence<ListGamesInput, ListGamesOutput> {
+        return ClientRuntime.PaginatorSequence<ListGamesInput, ListGamesOutput>(input: input, inputKey: \ListGamesInput.nextToken, outputKey: \ListGamesOutput.nextToken, paginationFunction: self.listGames(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension ListGamesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGamesInput, Output == ListGamesOutputResponse {
+extension PaginatorSequence where Input == ListGamesInput, Output == ListGamesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGamesPaginated`
     /// to access the nested member `[GameSparksClientTypes.GameSummary]`
     /// - Returns: `[GameSparksClientTypes.GameSummary]`
@@ -95,16 +95,16 @@ extension PaginatorSequence where Input == ListGamesInput, Output == ListGamesOu
     }
 }
 extension GameSparksClient {
-    /// Paginate over `[ListGeneratedCodeJobsOutputResponse]` results.
+    /// Paginate over `[ListGeneratedCodeJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGeneratedCodeJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGeneratedCodeJobsOutputResponse`
-    public func listGeneratedCodeJobsPaginated(input: ListGeneratedCodeJobsInput) -> ClientRuntime.PaginatorSequence<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutputResponse>(input: input, inputKey: \ListGeneratedCodeJobsInput.nextToken, outputKey: \ListGeneratedCodeJobsOutputResponse.nextToken, paginationFunction: self.listGeneratedCodeJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGeneratedCodeJobsOutput`
+    public func listGeneratedCodeJobsPaginated(input: ListGeneratedCodeJobsInput) -> ClientRuntime.PaginatorSequence<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutput>(input: input, inputKey: \ListGeneratedCodeJobsInput.nextToken, outputKey: \ListGeneratedCodeJobsOutput.nextToken, paginationFunction: self.listGeneratedCodeJobs(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListGeneratedCodeJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGeneratedCodeJobsInput, Output == ListGeneratedCodeJobsOutputResponse {
+extension PaginatorSequence where Input == ListGeneratedCodeJobsInput, Output == ListGeneratedCodeJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGeneratedCodeJobsPaginated`
     /// to access the nested member `[GameSparksClientTypes.GeneratedCodeJobDetails]`
     /// - Returns: `[GameSparksClientTypes.GeneratedCodeJobDetails]`
@@ -127,16 +127,16 @@ extension PaginatorSequence where Input == ListGeneratedCodeJobsInput, Output ==
     }
 }
 extension GameSparksClient {
-    /// Paginate over `[ListSnapshotsOutputResponse]` results.
+    /// Paginate over `[ListSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSnapshotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotsOutputResponse`
-    public func listSnapshotsPaginated(input: ListSnapshotsInput) -> ClientRuntime.PaginatorSequence<ListSnapshotsInput, ListSnapshotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSnapshotsInput, ListSnapshotsOutputResponse>(input: input, inputKey: \ListSnapshotsInput.nextToken, outputKey: \ListSnapshotsOutputResponse.nextToken, paginationFunction: self.listSnapshots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotsOutput`
+    public func listSnapshotsPaginated(input: ListSnapshotsInput) -> ClientRuntime.PaginatorSequence<ListSnapshotsInput, ListSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSnapshotsInput, ListSnapshotsOutput>(input: input, inputKey: \ListSnapshotsInput.nextToken, outputKey: \ListSnapshotsOutput.nextToken, paginationFunction: self.listSnapshots(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSnapshotsInput, Output == ListSnapshotsOutputResponse {
+extension PaginatorSequence where Input == ListSnapshotsInput, Output == ListSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSnapshotsPaginated`
     /// to access the nested member `[GameSparksClientTypes.SnapshotSummary]`
     /// - Returns: `[GameSparksClientTypes.SnapshotSummary]`
@@ -158,16 +158,16 @@ extension PaginatorSequence where Input == ListSnapshotsInput, Output == ListSna
     }
 }
 extension GameSparksClient {
-    /// Paginate over `[ListStageDeploymentsOutputResponse]` results.
+    /// Paginate over `[ListStageDeploymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStageDeploymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStageDeploymentsOutputResponse`
-    public func listStageDeploymentsPaginated(input: ListStageDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListStageDeploymentsInput, ListStageDeploymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStageDeploymentsInput, ListStageDeploymentsOutputResponse>(input: input, inputKey: \ListStageDeploymentsInput.nextToken, outputKey: \ListStageDeploymentsOutputResponse.nextToken, paginationFunction: self.listStageDeployments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStageDeploymentsOutput`
+    public func listStageDeploymentsPaginated(input: ListStageDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListStageDeploymentsInput, ListStageDeploymentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStageDeploymentsInput, ListStageDeploymentsOutput>(input: input, inputKey: \ListStageDeploymentsInput.nextToken, outputKey: \ListStageDeploymentsOutput.nextToken, paginationFunction: self.listStageDeployments(input:))
     }
 }
 
@@ -181,7 +181,7 @@ extension ListStageDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStageDeploymentsInput, Output == ListStageDeploymentsOutputResponse {
+extension PaginatorSequence where Input == ListStageDeploymentsInput, Output == ListStageDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStageDeploymentsPaginated`
     /// to access the nested member `[GameSparksClientTypes.StageDeploymentSummary]`
     /// - Returns: `[GameSparksClientTypes.StageDeploymentSummary]`
@@ -190,16 +190,16 @@ extension PaginatorSequence where Input == ListStageDeploymentsInput, Output == 
     }
 }
 extension GameSparksClient {
-    /// Paginate over `[ListStagesOutputResponse]` results.
+    /// Paginate over `[ListStagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStagesOutputResponse`
-    public func listStagesPaginated(input: ListStagesInput) -> ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutputResponse>(input: input, inputKey: \ListStagesInput.nextToken, outputKey: \ListStagesOutputResponse.nextToken, paginationFunction: self.listStages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStagesOutput`
+    public func listStagesPaginated(input: ListStagesInput) -> ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutput> {
+        return ClientRuntime.PaginatorSequence<ListStagesInput, ListStagesOutput>(input: input, inputKey: \ListStagesInput.nextToken, outputKey: \ListStagesOutput.nextToken, paginationFunction: self.listStages(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension ListStagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListStagesInput, Output == ListStagesOutputResponse {
+extension PaginatorSequence where Input == ListStagesInput, Output == ListStagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listStagesPaginated`
     /// to access the nested member `[GameSparksClientTypes.StageSummary]`
     /// - Returns: `[GameSparksClientTypes.StageSummary]`

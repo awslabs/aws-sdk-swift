@@ -637,6 +637,46 @@ extension CreateGatewayRouteInputBody: Swift.Decodable {
     }
 }
 
+extension CreateGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
+        } else {
+            self.gatewayRoute = nil
+        }
+    }
+}
+
+public struct CreateGatewayRouteOutput: Swift.Equatable {
+    /// The full description of your gateway route following the create call.
+    /// This member is required.
+    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+
+    public init(
+        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
+    )
+    {
+        self.gatewayRoute = gatewayRoute
+    }
+}
+
+struct CreateGatewayRouteOutputBody: Swift.Equatable {
+    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+}
+
+extension CreateGatewayRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayRoute
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
+        gatewayRoute = gatewayRouteDecoded
+    }
+}
+
 enum CreateGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -652,46 +692,6 @@ enum CreateGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-            self.gatewayRoute = output
-        } else {
-            self.gatewayRoute = nil
-        }
-    }
-}
-
-public struct CreateGatewayRouteOutputResponse: Swift.Equatable {
-    /// The full description of your gateway route following the create call.
-    /// This member is required.
-    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-
-    public init(
-        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
-        self.gatewayRoute = gatewayRoute
-    }
-}
-
-struct CreateGatewayRouteOutputResponseBody: Swift.Equatable {
-    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-}
-
-extension CreateGatewayRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gatewayRoute
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
-        gatewayRoute = gatewayRouteDecoded
     }
 }
 
@@ -792,6 +792,47 @@ extension CreateMeshInputBody: Swift.Decodable {
     }
 }
 
+extension CreateMeshOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
+        } else {
+            self.mesh = nil
+        }
+    }
+}
+
+///
+public struct CreateMeshOutput: Swift.Equatable {
+    /// The full description of your service mesh following the create call.
+    /// This member is required.
+    public var mesh: AppMeshClientTypes.MeshData?
+
+    public init(
+        mesh: AppMeshClientTypes.MeshData? = nil
+    )
+    {
+        self.mesh = mesh
+    }
+}
+
+struct CreateMeshOutputBody: Swift.Equatable {
+    let mesh: AppMeshClientTypes.MeshData?
+}
+
+extension CreateMeshOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mesh
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
+        mesh = meshDecoded
+    }
+}
+
 enum CreateMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -807,47 +848,6 @@ enum CreateMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateMeshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-            self.mesh = output
-        } else {
-            self.mesh = nil
-        }
-    }
-}
-
-///
-public struct CreateMeshOutputResponse: Swift.Equatable {
-    /// The full description of your service mesh following the create call.
-    /// This member is required.
-    public var mesh: AppMeshClientTypes.MeshData?
-
-    public init(
-        mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
-        self.mesh = mesh
-    }
-}
-
-struct CreateMeshOutputResponseBody: Swift.Equatable {
-    let mesh: AppMeshClientTypes.MeshData?
-}
-
-extension CreateMeshOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case mesh
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
-        mesh = meshDecoded
     }
 }
 
@@ -982,6 +982,47 @@ extension CreateRouteInputBody: Swift.Decodable {
     }
 }
 
+extension CreateRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
+        } else {
+            self.route = nil
+        }
+    }
+}
+
+///
+public struct CreateRouteOutput: Swift.Equatable {
+    /// The full description of your mesh following the create call.
+    /// This member is required.
+    public var route: AppMeshClientTypes.RouteData?
+
+    public init(
+        route: AppMeshClientTypes.RouteData? = nil
+    )
+    {
+        self.route = route
+    }
+}
+
+struct CreateRouteOutputBody: Swift.Equatable {
+    let route: AppMeshClientTypes.RouteData?
+}
+
+extension CreateRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case route
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
+        route = routeDecoded
+    }
+}
+
 enum CreateRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -997,47 +1038,6 @@ enum CreateRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-            self.route = output
-        } else {
-            self.route = nil
-        }
-    }
-}
-
-///
-public struct CreateRouteOutputResponse: Swift.Equatable {
-    /// The full description of your mesh following the create call.
-    /// This member is required.
-    public var route: AppMeshClientTypes.RouteData?
-
-    public init(
-        route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
-        self.route = route
-    }
-}
-
-struct CreateRouteOutputResponseBody: Swift.Equatable {
-    let route: AppMeshClientTypes.RouteData?
-}
-
-extension CreateRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case route
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
-        route = routeDecoded
     }
 }
 
@@ -1163,6 +1163,46 @@ extension CreateVirtualGatewayInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
+        } else {
+            self.virtualGateway = nil
+        }
+    }
+}
+
+public struct CreateVirtualGatewayOutput: Swift.Equatable {
+    /// The full description of your virtual gateway following the create call.
+    /// This member is required.
+    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+
+    public init(
+        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
+    )
+    {
+        self.virtualGateway = virtualGateway
+    }
+}
+
+struct CreateVirtualGatewayOutputBody: Swift.Equatable {
+    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+}
+
+extension CreateVirtualGatewayOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualGateway
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
+        virtualGateway = virtualGatewayDecoded
+    }
+}
+
 enum CreateVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1178,46 +1218,6 @@ enum CreateVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-            self.virtualGateway = output
-        } else {
-            self.virtualGateway = nil
-        }
-    }
-}
-
-public struct CreateVirtualGatewayOutputResponse: Swift.Equatable {
-    /// The full description of your virtual gateway following the create call.
-    /// This member is required.
-    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-
-    public init(
-        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
-        self.virtualGateway = virtualGateway
-    }
-}
-
-struct CreateVirtualGatewayOutputResponseBody: Swift.Equatable {
-    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-}
-
-extension CreateVirtualGatewayOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualGateway
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
-        virtualGateway = virtualGatewayDecoded
     }
 }
 
@@ -1344,6 +1344,47 @@ extension CreateVirtualNodeInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
+        } else {
+            self.virtualNode = nil
+        }
+    }
+}
+
+///
+public struct CreateVirtualNodeOutput: Swift.Equatable {
+    /// The full description of your virtual node following the create call.
+    /// This member is required.
+    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
+
+    public init(
+        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
+    )
+    {
+        self.virtualNode = virtualNode
+    }
+}
+
+struct CreateVirtualNodeOutputBody: Swift.Equatable {
+    let virtualNode: AppMeshClientTypes.VirtualNodeData?
+}
+
+extension CreateVirtualNodeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualNode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
+        virtualNode = virtualNodeDecoded
+    }
+}
+
 enum CreateVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1359,47 +1400,6 @@ enum CreateVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-            self.virtualNode = output
-        } else {
-            self.virtualNode = nil
-        }
-    }
-}
-
-///
-public struct CreateVirtualNodeOutputResponse: Swift.Equatable {
-    /// The full description of your virtual node following the create call.
-    /// This member is required.
-    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
-
-    public init(
-        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
-        self.virtualNode = virtualNode
-    }
-}
-
-struct CreateVirtualNodeOutputResponseBody: Swift.Equatable {
-    let virtualNode: AppMeshClientTypes.VirtualNodeData?
-}
-
-extension CreateVirtualNodeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualNode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
-        virtualNode = virtualNodeDecoded
     }
 }
 
@@ -1526,6 +1526,47 @@ extension CreateVirtualRouterInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
+        } else {
+            self.virtualRouter = nil
+        }
+    }
+}
+
+///
+public struct CreateVirtualRouterOutput: Swift.Equatable {
+    /// The full description of your virtual router following the create call.
+    /// This member is required.
+    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
+
+    public init(
+        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
+    )
+    {
+        self.virtualRouter = virtualRouter
+    }
+}
+
+struct CreateVirtualRouterOutputBody: Swift.Equatable {
+    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
+}
+
+extension CreateVirtualRouterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualRouter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
+        virtualRouter = virtualRouterDecoded
+    }
+}
+
 enum CreateVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1541,47 +1582,6 @@ enum CreateVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-            self.virtualRouter = output
-        } else {
-            self.virtualRouter = nil
-        }
-    }
-}
-
-///
-public struct CreateVirtualRouterOutputResponse: Swift.Equatable {
-    /// The full description of your virtual router following the create call.
-    /// This member is required.
-    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
-
-    public init(
-        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
-        self.virtualRouter = virtualRouter
-    }
-}
-
-struct CreateVirtualRouterOutputResponseBody: Swift.Equatable {
-    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
-}
-
-extension CreateVirtualRouterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualRouter
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
-        virtualRouter = virtualRouterDecoded
     }
 }
 
@@ -1708,6 +1708,47 @@ extension CreateVirtualServiceInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
+        } else {
+            self.virtualService = nil
+        }
+    }
+}
+
+///
+public struct CreateVirtualServiceOutput: Swift.Equatable {
+    /// The full description of your virtual service following the create call.
+    /// This member is required.
+    public var virtualService: AppMeshClientTypes.VirtualServiceData?
+
+    public init(
+        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
+    )
+    {
+        self.virtualService = virtualService
+    }
+}
+
+struct CreateVirtualServiceOutputBody: Swift.Equatable {
+    let virtualService: AppMeshClientTypes.VirtualServiceData?
+}
+
+extension CreateVirtualServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualService
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
+        virtualService = virtualServiceDecoded
+    }
+}
+
 enum CreateVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1723,47 +1764,6 @@ enum CreateVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-            self.virtualService = output
-        } else {
-            self.virtualService = nil
-        }
-    }
-}
-
-///
-public struct CreateVirtualServiceOutputResponse: Swift.Equatable {
-    /// The full description of your virtual service following the create call.
-    /// This member is required.
-    public var virtualService: AppMeshClientTypes.VirtualServiceData?
-
-    public init(
-        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
-        self.virtualService = virtualService
-    }
-}
-
-struct CreateVirtualServiceOutputResponseBody: Swift.Equatable {
-    let virtualService: AppMeshClientTypes.VirtualServiceData?
-}
-
-extension CreateVirtualServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualService
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
-        virtualService = virtualServiceDecoded
     }
 }
 
@@ -1863,6 +1863,46 @@ extension DeleteGatewayRouteInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
+        } else {
+            self.gatewayRoute = nil
+        }
+    }
+}
+
+public struct DeleteGatewayRouteOutput: Swift.Equatable {
+    /// The gateway route that was deleted.
+    /// This member is required.
+    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+
+    public init(
+        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
+    )
+    {
+        self.gatewayRoute = gatewayRoute
+    }
+}
+
+struct DeleteGatewayRouteOutputBody: Swift.Equatable {
+    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+}
+
+extension DeleteGatewayRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayRoute
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
+        gatewayRoute = gatewayRouteDecoded
+    }
+}
+
 enum DeleteGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1877,46 +1917,6 @@ enum DeleteGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-            self.gatewayRoute = output
-        } else {
-            self.gatewayRoute = nil
-        }
-    }
-}
-
-public struct DeleteGatewayRouteOutputResponse: Swift.Equatable {
-    /// The gateway route that was deleted.
-    /// This member is required.
-    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-
-    public init(
-        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
-        self.gatewayRoute = gatewayRoute
-    }
-}
-
-struct DeleteGatewayRouteOutputResponseBody: Swift.Equatable {
-    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-}
-
-extension DeleteGatewayRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gatewayRoute
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
-        gatewayRoute = gatewayRouteDecoded
     }
 }
 
@@ -1952,6 +1952,47 @@ extension DeleteMeshInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteMeshOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
+        } else {
+            self.mesh = nil
+        }
+    }
+}
+
+///
+public struct DeleteMeshOutput: Swift.Equatable {
+    /// The service mesh that was deleted.
+    /// This member is required.
+    public var mesh: AppMeshClientTypes.MeshData?
+
+    public init(
+        mesh: AppMeshClientTypes.MeshData? = nil
+    )
+    {
+        self.mesh = mesh
+    }
+}
+
+struct DeleteMeshOutputBody: Swift.Equatable {
+    let mesh: AppMeshClientTypes.MeshData?
+}
+
+extension DeleteMeshOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mesh
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
+        mesh = meshDecoded
+    }
+}
+
 enum DeleteMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1966,47 +2007,6 @@ enum DeleteMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteMeshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-            self.mesh = output
-        } else {
-            self.mesh = nil
-        }
-    }
-}
-
-///
-public struct DeleteMeshOutputResponse: Swift.Equatable {
-    /// The service mesh that was deleted.
-    /// This member is required.
-    public var mesh: AppMeshClientTypes.MeshData?
-
-    public init(
-        mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
-        self.mesh = mesh
-    }
-}
-
-struct DeleteMeshOutputResponseBody: Swift.Equatable {
-    let mesh: AppMeshClientTypes.MeshData?
-}
-
-extension DeleteMeshOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case mesh
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
-        mesh = meshDecoded
     }
 }
 
@@ -2075,6 +2075,47 @@ extension DeleteRouteInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
+        } else {
+            self.route = nil
+        }
+    }
+}
+
+///
+public struct DeleteRouteOutput: Swift.Equatable {
+    /// The route that was deleted.
+    /// This member is required.
+    public var route: AppMeshClientTypes.RouteData?
+
+    public init(
+        route: AppMeshClientTypes.RouteData? = nil
+    )
+    {
+        self.route = route
+    }
+}
+
+struct DeleteRouteOutputBody: Swift.Equatable {
+    let route: AppMeshClientTypes.RouteData?
+}
+
+extension DeleteRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case route
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
+        route = routeDecoded
+    }
+}
+
 enum DeleteRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2089,47 +2130,6 @@ enum DeleteRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-            self.route = output
-        } else {
-            self.route = nil
-        }
-    }
-}
-
-///
-public struct DeleteRouteOutputResponse: Swift.Equatable {
-    /// The route that was deleted.
-    /// This member is required.
-    public var route: AppMeshClientTypes.RouteData?
-
-    public init(
-        route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
-        self.route = route
-    }
-}
-
-struct DeleteRouteOutputResponseBody: Swift.Equatable {
-    let route: AppMeshClientTypes.RouteData?
-}
-
-extension DeleteRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case route
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
-        route = routeDecoded
     }
 }
 
@@ -2189,6 +2189,46 @@ extension DeleteVirtualGatewayInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
+        } else {
+            self.virtualGateway = nil
+        }
+    }
+}
+
+public struct DeleteVirtualGatewayOutput: Swift.Equatable {
+    /// The virtual gateway that was deleted.
+    /// This member is required.
+    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+
+    public init(
+        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
+    )
+    {
+        self.virtualGateway = virtualGateway
+    }
+}
+
+struct DeleteVirtualGatewayOutputBody: Swift.Equatable {
+    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+}
+
+extension DeleteVirtualGatewayOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualGateway
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
+        virtualGateway = virtualGatewayDecoded
+    }
+}
+
 enum DeleteVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2203,46 +2243,6 @@ enum DeleteVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-            self.virtualGateway = output
-        } else {
-            self.virtualGateway = nil
-        }
-    }
-}
-
-public struct DeleteVirtualGatewayOutputResponse: Swift.Equatable {
-    /// The virtual gateway that was deleted.
-    /// This member is required.
-    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-
-    public init(
-        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
-        self.virtualGateway = virtualGateway
-    }
-}
-
-struct DeleteVirtualGatewayOutputResponseBody: Swift.Equatable {
-    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-}
-
-extension DeleteVirtualGatewayOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualGateway
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
-        virtualGateway = virtualGatewayDecoded
     }
 }
 
@@ -2303,6 +2303,47 @@ extension DeleteVirtualNodeInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
+        } else {
+            self.virtualNode = nil
+        }
+    }
+}
+
+///
+public struct DeleteVirtualNodeOutput: Swift.Equatable {
+    /// The virtual node that was deleted.
+    /// This member is required.
+    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
+
+    public init(
+        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
+    )
+    {
+        self.virtualNode = virtualNode
+    }
+}
+
+struct DeleteVirtualNodeOutputBody: Swift.Equatable {
+    let virtualNode: AppMeshClientTypes.VirtualNodeData?
+}
+
+extension DeleteVirtualNodeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualNode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
+        virtualNode = virtualNodeDecoded
+    }
+}
+
 enum DeleteVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2317,47 +2358,6 @@ enum DeleteVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-            self.virtualNode = output
-        } else {
-            self.virtualNode = nil
-        }
-    }
-}
-
-///
-public struct DeleteVirtualNodeOutputResponse: Swift.Equatable {
-    /// The virtual node that was deleted.
-    /// This member is required.
-    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
-
-    public init(
-        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
-        self.virtualNode = virtualNode
-    }
-}
-
-struct DeleteVirtualNodeOutputResponseBody: Swift.Equatable {
-    let virtualNode: AppMeshClientTypes.VirtualNodeData?
-}
-
-extension DeleteVirtualNodeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualNode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
-        virtualNode = virtualNodeDecoded
     }
 }
 
@@ -2418,6 +2418,47 @@ extension DeleteVirtualRouterInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
+        } else {
+            self.virtualRouter = nil
+        }
+    }
+}
+
+///
+public struct DeleteVirtualRouterOutput: Swift.Equatable {
+    /// The virtual router that was deleted.
+    /// This member is required.
+    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
+
+    public init(
+        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
+    )
+    {
+        self.virtualRouter = virtualRouter
+    }
+}
+
+struct DeleteVirtualRouterOutputBody: Swift.Equatable {
+    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
+}
+
+extension DeleteVirtualRouterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualRouter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
+        virtualRouter = virtualRouterDecoded
+    }
+}
+
 enum DeleteVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2432,47 +2473,6 @@ enum DeleteVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-            self.virtualRouter = output
-        } else {
-            self.virtualRouter = nil
-        }
-    }
-}
-
-///
-public struct DeleteVirtualRouterOutputResponse: Swift.Equatable {
-    /// The virtual router that was deleted.
-    /// This member is required.
-    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
-
-    public init(
-        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
-        self.virtualRouter = virtualRouter
-    }
-}
-
-struct DeleteVirtualRouterOutputResponseBody: Swift.Equatable {
-    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
-}
-
-extension DeleteVirtualRouterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualRouter
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
-        virtualRouter = virtualRouterDecoded
     }
 }
 
@@ -2533,6 +2533,47 @@ extension DeleteVirtualServiceInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
+        } else {
+            self.virtualService = nil
+        }
+    }
+}
+
+///
+public struct DeleteVirtualServiceOutput: Swift.Equatable {
+    /// The virtual service that was deleted.
+    /// This member is required.
+    public var virtualService: AppMeshClientTypes.VirtualServiceData?
+
+    public init(
+        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
+    )
+    {
+        self.virtualService = virtualService
+    }
+}
+
+struct DeleteVirtualServiceOutputBody: Swift.Equatable {
+    let virtualService: AppMeshClientTypes.VirtualServiceData?
+}
+
+extension DeleteVirtualServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualService
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
+        virtualService = virtualServiceDecoded
+    }
+}
+
 enum DeleteVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2547,47 +2588,6 @@ enum DeleteVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-            self.virtualService = output
-        } else {
-            self.virtualService = nil
-        }
-    }
-}
-
-///
-public struct DeleteVirtualServiceOutputResponse: Swift.Equatable {
-    /// The virtual service that was deleted.
-    /// This member is required.
-    public var virtualService: AppMeshClientTypes.VirtualServiceData?
-
-    public init(
-        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
-        self.virtualService = virtualService
-    }
-}
-
-struct DeleteVirtualServiceOutputResponseBody: Swift.Equatable {
-    let virtualService: AppMeshClientTypes.VirtualServiceData?
-}
-
-extension DeleteVirtualServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualService
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
-        virtualService = virtualServiceDecoded
     }
 }
 
@@ -2655,6 +2655,46 @@ extension DescribeGatewayRouteInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
+        } else {
+            self.gatewayRoute = nil
+        }
+    }
+}
+
+public struct DescribeGatewayRouteOutput: Swift.Equatable {
+    /// The full description of your gateway route.
+    /// This member is required.
+    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+
+    public init(
+        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
+    )
+    {
+        self.gatewayRoute = gatewayRoute
+    }
+}
+
+struct DescribeGatewayRouteOutputBody: Swift.Equatable {
+    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+}
+
+extension DescribeGatewayRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayRoute
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
+        gatewayRoute = gatewayRouteDecoded
+    }
+}
+
 enum DescribeGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2668,46 +2708,6 @@ enum DescribeGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-            self.gatewayRoute = output
-        } else {
-            self.gatewayRoute = nil
-        }
-    }
-}
-
-public struct DescribeGatewayRouteOutputResponse: Swift.Equatable {
-    /// The full description of your gateway route.
-    /// This member is required.
-    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-
-    public init(
-        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
-        self.gatewayRoute = gatewayRoute
-    }
-}
-
-struct DescribeGatewayRouteOutputResponseBody: Swift.Equatable {
-    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-}
-
-extension DescribeGatewayRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gatewayRoute
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
-        gatewayRoute = gatewayRouteDecoded
     }
 }
 
@@ -2760,6 +2760,47 @@ extension DescribeMeshInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeMeshOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
+        } else {
+            self.mesh = nil
+        }
+    }
+}
+
+///
+public struct DescribeMeshOutput: Swift.Equatable {
+    /// The full description of your service mesh.
+    /// This member is required.
+    public var mesh: AppMeshClientTypes.MeshData?
+
+    public init(
+        mesh: AppMeshClientTypes.MeshData? = nil
+    )
+    {
+        self.mesh = mesh
+    }
+}
+
+struct DescribeMeshOutputBody: Swift.Equatable {
+    let mesh: AppMeshClientTypes.MeshData?
+}
+
+extension DescribeMeshOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mesh
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
+        mesh = meshDecoded
+    }
+}
+
 enum DescribeMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2773,47 +2814,6 @@ enum DescribeMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeMeshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-            self.mesh = output
-        } else {
-            self.mesh = nil
-        }
-    }
-}
-
-///
-public struct DescribeMeshOutputResponse: Swift.Equatable {
-    /// The full description of your service mesh.
-    /// This member is required.
-    public var mesh: AppMeshClientTypes.MeshData?
-
-    public init(
-        mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
-        self.mesh = mesh
-    }
-}
-
-struct DescribeMeshOutputResponseBody: Swift.Equatable {
-    let mesh: AppMeshClientTypes.MeshData?
-}
-
-extension DescribeMeshOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case mesh
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
-        mesh = meshDecoded
     }
 }
 
@@ -2882,6 +2882,47 @@ extension DescribeRouteInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
+        } else {
+            self.route = nil
+        }
+    }
+}
+
+///
+public struct DescribeRouteOutput: Swift.Equatable {
+    /// The full description of your route.
+    /// This member is required.
+    public var route: AppMeshClientTypes.RouteData?
+
+    public init(
+        route: AppMeshClientTypes.RouteData? = nil
+    )
+    {
+        self.route = route
+    }
+}
+
+struct DescribeRouteOutputBody: Swift.Equatable {
+    let route: AppMeshClientTypes.RouteData?
+}
+
+extension DescribeRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case route
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
+        route = routeDecoded
+    }
+}
+
 enum DescribeRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2895,47 +2936,6 @@ enum DescribeRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-            self.route = output
-        } else {
-            self.route = nil
-        }
-    }
-}
-
-///
-public struct DescribeRouteOutputResponse: Swift.Equatable {
-    /// The full description of your route.
-    /// This member is required.
-    public var route: AppMeshClientTypes.RouteData?
-
-    public init(
-        route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
-        self.route = route
-    }
-}
-
-struct DescribeRouteOutputResponseBody: Swift.Equatable {
-    let route: AppMeshClientTypes.RouteData?
-}
-
-extension DescribeRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case route
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
-        route = routeDecoded
     }
 }
 
@@ -2995,6 +2995,46 @@ extension DescribeVirtualGatewayInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
+        } else {
+            self.virtualGateway = nil
+        }
+    }
+}
+
+public struct DescribeVirtualGatewayOutput: Swift.Equatable {
+    /// The full description of your virtual gateway.
+    /// This member is required.
+    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+
+    public init(
+        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
+    )
+    {
+        self.virtualGateway = virtualGateway
+    }
+}
+
+struct DescribeVirtualGatewayOutputBody: Swift.Equatable {
+    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+}
+
+extension DescribeVirtualGatewayOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualGateway
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
+        virtualGateway = virtualGatewayDecoded
+    }
+}
+
 enum DescribeVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3008,46 +3048,6 @@ enum DescribeVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-            self.virtualGateway = output
-        } else {
-            self.virtualGateway = nil
-        }
-    }
-}
-
-public struct DescribeVirtualGatewayOutputResponse: Swift.Equatable {
-    /// The full description of your virtual gateway.
-    /// This member is required.
-    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-
-    public init(
-        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
-        self.virtualGateway = virtualGateway
-    }
-}
-
-struct DescribeVirtualGatewayOutputResponseBody: Swift.Equatable {
-    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-}
-
-extension DescribeVirtualGatewayOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualGateway
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
-        virtualGateway = virtualGatewayDecoded
     }
 }
 
@@ -3108,6 +3108,47 @@ extension DescribeVirtualNodeInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
+        } else {
+            self.virtualNode = nil
+        }
+    }
+}
+
+///
+public struct DescribeVirtualNodeOutput: Swift.Equatable {
+    /// The full description of your virtual node.
+    /// This member is required.
+    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
+
+    public init(
+        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
+    )
+    {
+        self.virtualNode = virtualNode
+    }
+}
+
+struct DescribeVirtualNodeOutputBody: Swift.Equatable {
+    let virtualNode: AppMeshClientTypes.VirtualNodeData?
+}
+
+extension DescribeVirtualNodeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualNode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
+        virtualNode = virtualNodeDecoded
+    }
+}
+
 enum DescribeVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3121,47 +3162,6 @@ enum DescribeVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-            self.virtualNode = output
-        } else {
-            self.virtualNode = nil
-        }
-    }
-}
-
-///
-public struct DescribeVirtualNodeOutputResponse: Swift.Equatable {
-    /// The full description of your virtual node.
-    /// This member is required.
-    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
-
-    public init(
-        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
-        self.virtualNode = virtualNode
-    }
-}
-
-struct DescribeVirtualNodeOutputResponseBody: Swift.Equatable {
-    let virtualNode: AppMeshClientTypes.VirtualNodeData?
-}
-
-extension DescribeVirtualNodeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualNode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
-        virtualNode = virtualNodeDecoded
     }
 }
 
@@ -3222,6 +3222,47 @@ extension DescribeVirtualRouterInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
+        } else {
+            self.virtualRouter = nil
+        }
+    }
+}
+
+///
+public struct DescribeVirtualRouterOutput: Swift.Equatable {
+    /// The full description of your virtual router.
+    /// This member is required.
+    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
+
+    public init(
+        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
+    )
+    {
+        self.virtualRouter = virtualRouter
+    }
+}
+
+struct DescribeVirtualRouterOutputBody: Swift.Equatable {
+    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
+}
+
+extension DescribeVirtualRouterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualRouter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
+        virtualRouter = virtualRouterDecoded
+    }
+}
+
 enum DescribeVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3235,47 +3276,6 @@ enum DescribeVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-            self.virtualRouter = output
-        } else {
-            self.virtualRouter = nil
-        }
-    }
-}
-
-///
-public struct DescribeVirtualRouterOutputResponse: Swift.Equatable {
-    /// The full description of your virtual router.
-    /// This member is required.
-    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
-
-    public init(
-        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
-        self.virtualRouter = virtualRouter
-    }
-}
-
-struct DescribeVirtualRouterOutputResponseBody: Swift.Equatable {
-    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
-}
-
-extension DescribeVirtualRouterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualRouter
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
-        virtualRouter = virtualRouterDecoded
     }
 }
 
@@ -3336,6 +3336,47 @@ extension DescribeVirtualServiceInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
+        } else {
+            self.virtualService = nil
+        }
+    }
+}
+
+///
+public struct DescribeVirtualServiceOutput: Swift.Equatable {
+    /// The full description of your virtual service.
+    /// This member is required.
+    public var virtualService: AppMeshClientTypes.VirtualServiceData?
+
+    public init(
+        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
+    )
+    {
+        self.virtualService = virtualService
+    }
+}
+
+struct DescribeVirtualServiceOutputBody: Swift.Equatable {
+    let virtualService: AppMeshClientTypes.VirtualServiceData?
+}
+
+extension DescribeVirtualServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualService
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
+        virtualService = virtualServiceDecoded
+    }
+}
+
 enum DescribeVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3349,47 +3390,6 @@ enum DescribeVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-            self.virtualService = output
-        } else {
-            self.virtualService = nil
-        }
-    }
-}
-
-///
-public struct DescribeVirtualServiceOutputResponse: Swift.Equatable {
-    /// The full description of your virtual service.
-    /// This member is required.
-    public var virtualService: AppMeshClientTypes.VirtualServiceData?
-
-    public init(
-        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
-        self.virtualService = virtualService
-    }
-}
-
-struct DescribeVirtualServiceOutputResponseBody: Swift.Equatable {
-    let virtualService: AppMeshClientTypes.VirtualServiceData?
-}
-
-extension DescribeVirtualServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualService
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
-        virtualService = virtualServiceDecoded
     }
 }
 
@@ -6567,27 +6567,11 @@ extension ListGatewayRoutesInputBody: Swift.Decodable {
     }
 }
 
-enum ListGatewayRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListGatewayRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGatewayRoutesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGatewayRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGatewayRoutesOutputBody = try responseDecoder.decode(responseBody: data)
             self.gatewayRoutes = output.gatewayRoutes
             self.nextToken = output.nextToken
         } else {
@@ -6597,7 +6581,7 @@ extension ListGatewayRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGatewayRoutesOutputResponse: Swift.Equatable {
+public struct ListGatewayRoutesOutput: Swift.Equatable {
     /// The list of existing gateway routes for the specified service mesh and virtual gateway.
     /// This member is required.
     public var gatewayRoutes: [AppMeshClientTypes.GatewayRouteRef]?
@@ -6614,12 +6598,12 @@ public struct ListGatewayRoutesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGatewayRoutesOutputResponseBody: Swift.Equatable {
+struct ListGatewayRoutesOutputBody: Swift.Equatable {
     let gatewayRoutes: [AppMeshClientTypes.GatewayRouteRef]?
     let nextToken: Swift.String?
 }
 
-extension ListGatewayRoutesOutputResponseBody: Swift.Decodable {
+extension ListGatewayRoutesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gatewayRoutes
         case nextToken
@@ -6640,6 +6624,22 @@ extension ListGatewayRoutesOutputResponseBody: Swift.Decodable {
         gatewayRoutes = gatewayRoutesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListGatewayRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6692,27 +6692,11 @@ extension ListMeshesInputBody: Swift.Decodable {
     }
 }
 
-enum ListMeshesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMeshesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMeshesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMeshesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMeshesOutputBody = try responseDecoder.decode(responseBody: data)
             self.meshes = output.meshes
             self.nextToken = output.nextToken
         } else {
@@ -6723,7 +6707,7 @@ extension ListMeshesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListMeshesOutputResponse: Swift.Equatable {
+public struct ListMeshesOutput: Swift.Equatable {
     /// The list of existing service meshes.
     /// This member is required.
     public var meshes: [AppMeshClientTypes.MeshRef]?
@@ -6740,12 +6724,12 @@ public struct ListMeshesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMeshesOutputResponseBody: Swift.Equatable {
+struct ListMeshesOutputBody: Swift.Equatable {
     let meshes: [AppMeshClientTypes.MeshRef]?
     let nextToken: Swift.String?
 }
 
-extension ListMeshesOutputResponseBody: Swift.Decodable {
+extension ListMeshesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case meshes
         case nextToken
@@ -6766,6 +6750,22 @@ extension ListMeshesOutputResponseBody: Swift.Decodable {
         meshes = meshesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMeshesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6842,27 +6842,11 @@ extension ListRoutesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRoutesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRoutesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.routes = output.routes
         } else {
@@ -6873,7 +6857,7 @@ extension ListRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListRoutesOutputResponse: Swift.Equatable {
+public struct ListRoutesOutput: Swift.Equatable {
     /// The nextToken value to include in a future ListRoutes request. When the results of a ListRoutes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing routes for the specified service mesh and virtual router.
@@ -6890,12 +6874,12 @@ public struct ListRoutesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRoutesOutputResponseBody: Swift.Equatable {
+struct ListRoutesOutputBody: Swift.Equatable {
     let routes: [AppMeshClientTypes.RouteRef]?
     let nextToken: Swift.String?
 }
 
-extension ListRoutesOutputResponseBody: Swift.Decodable {
+extension ListRoutesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case routes
@@ -6916,6 +6900,22 @@ extension ListRoutesOutputResponseBody: Swift.Decodable {
         routes = routesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6979,27 +6979,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -7010,7 +6994,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The nextToken value to include in a future ListTagsForResource request. When the results of a ListTagsForResource request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The tags for the resource.
@@ -7027,12 +7011,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [AppMeshClientTypes.TagRef]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case tags
@@ -7053,6 +7037,22 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7120,27 +7120,11 @@ extension ListVirtualGatewaysInputBody: Swift.Decodable {
     }
 }
 
-enum ListVirtualGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVirtualGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVirtualGatewaysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVirtualGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVirtualGatewaysOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualGateways = output.virtualGateways
         } else {
@@ -7150,7 +7134,7 @@ extension ListVirtualGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVirtualGatewaysOutputResponse: Swift.Equatable {
+public struct ListVirtualGatewaysOutput: Swift.Equatable {
     /// The nextToken value to include in a future ListVirtualGateways request. When the results of a ListVirtualGateways request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual gateways for the specified service mesh.
@@ -7167,12 +7151,12 @@ public struct ListVirtualGatewaysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVirtualGatewaysOutputResponseBody: Swift.Equatable {
+struct ListVirtualGatewaysOutputBody: Swift.Equatable {
     let virtualGateways: [AppMeshClientTypes.VirtualGatewayRef]?
     let nextToken: Swift.String?
 }
 
-extension ListVirtualGatewaysOutputResponseBody: Swift.Decodable {
+extension ListVirtualGatewaysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case virtualGateways
@@ -7193,6 +7177,22 @@ extension ListVirtualGatewaysOutputResponseBody: Swift.Decodable {
         virtualGateways = virtualGatewaysDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVirtualGatewaysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7261,27 +7261,11 @@ extension ListVirtualNodesInputBody: Swift.Decodable {
     }
 }
 
-enum ListVirtualNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVirtualNodesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVirtualNodesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVirtualNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVirtualNodesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualNodes = output.virtualNodes
         } else {
@@ -7292,7 +7276,7 @@ extension ListVirtualNodesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListVirtualNodesOutputResponse: Swift.Equatable {
+public struct ListVirtualNodesOutput: Swift.Equatable {
     /// The nextToken value to include in a future ListVirtualNodes request. When the results of a ListVirtualNodes request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual nodes for the specified service mesh.
@@ -7309,12 +7293,12 @@ public struct ListVirtualNodesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVirtualNodesOutputResponseBody: Swift.Equatable {
+struct ListVirtualNodesOutputBody: Swift.Equatable {
     let virtualNodes: [AppMeshClientTypes.VirtualNodeRef]?
     let nextToken: Swift.String?
 }
 
-extension ListVirtualNodesOutputResponseBody: Swift.Decodable {
+extension ListVirtualNodesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case virtualNodes
@@ -7335,6 +7319,22 @@ extension ListVirtualNodesOutputResponseBody: Swift.Decodable {
         virtualNodes = virtualNodesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVirtualNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7403,27 +7403,11 @@ extension ListVirtualRoutersInputBody: Swift.Decodable {
     }
 }
 
-enum ListVirtualRoutersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVirtualRoutersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVirtualRoutersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVirtualRoutersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVirtualRoutersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualRouters = output.virtualRouters
         } else {
@@ -7434,7 +7418,7 @@ extension ListVirtualRoutersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListVirtualRoutersOutputResponse: Swift.Equatable {
+public struct ListVirtualRoutersOutput: Swift.Equatable {
     /// The nextToken value to include in a future ListVirtualRouters request. When the results of a ListVirtualRouters request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual routers for the specified service mesh.
@@ -7451,12 +7435,12 @@ public struct ListVirtualRoutersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVirtualRoutersOutputResponseBody: Swift.Equatable {
+struct ListVirtualRoutersOutputBody: Swift.Equatable {
     let virtualRouters: [AppMeshClientTypes.VirtualRouterRef]?
     let nextToken: Swift.String?
 }
 
-extension ListVirtualRoutersOutputResponseBody: Swift.Decodable {
+extension ListVirtualRoutersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case virtualRouters
@@ -7477,6 +7461,22 @@ extension ListVirtualRoutersOutputResponseBody: Swift.Decodable {
         virtualRouters = virtualRoutersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVirtualRoutersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7545,27 +7545,11 @@ extension ListVirtualServicesInputBody: Swift.Decodable {
     }
 }
 
-enum ListVirtualServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVirtualServicesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVirtualServicesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVirtualServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVirtualServicesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualServices = output.virtualServices
         } else {
@@ -7576,7 +7560,7 @@ extension ListVirtualServicesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListVirtualServicesOutputResponse: Swift.Equatable {
+public struct ListVirtualServicesOutput: Swift.Equatable {
     /// The nextToken value to include in a future ListVirtualServices request. When the results of a ListVirtualServices request exceed limit, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The list of existing virtual services for the specified service mesh.
@@ -7593,12 +7577,12 @@ public struct ListVirtualServicesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVirtualServicesOutputResponseBody: Swift.Equatable {
+struct ListVirtualServicesOutputBody: Swift.Equatable {
     let virtualServices: [AppMeshClientTypes.VirtualServiceRef]?
     let nextToken: Swift.String?
 }
 
-extension ListVirtualServicesOutputResponseBody: Swift.Decodable {
+extension ListVirtualServicesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case virtualServices
@@ -7619,6 +7603,22 @@ extension ListVirtualServicesOutputResponseBody: Swift.Decodable {
         virtualServices = virtualServicesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVirtualServicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9680,6 +9680,17 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+///
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9695,17 +9706,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-///
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AppMeshClientTypes {
@@ -10325,6 +10325,17 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+///
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10339,17 +10350,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-///
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateGatewayRouteInput: Swift.Encodable {
@@ -10453,6 +10453,46 @@ extension UpdateGatewayRouteInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateGatewayRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
+            self.gatewayRoute = output
+        } else {
+            self.gatewayRoute = nil
+        }
+    }
+}
+
+public struct UpdateGatewayRouteOutput: Swift.Equatable {
+    /// A full description of the gateway route that was updated.
+    /// This member is required.
+    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+
+    public init(
+        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
+    )
+    {
+        self.gatewayRoute = gatewayRoute
+    }
+}
+
+struct UpdateGatewayRouteOutputBody: Swift.Equatable {
+    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
+}
+
+extension UpdateGatewayRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayRoute
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
+        gatewayRoute = gatewayRouteDecoded
+    }
+}
+
 enum UpdateGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10468,46 +10508,6 @@ enum UpdateGatewayRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateGatewayRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.GatewayRouteData = try responseDecoder.decode(responseBody: data)
-            self.gatewayRoute = output
-        } else {
-            self.gatewayRoute = nil
-        }
-    }
-}
-
-public struct UpdateGatewayRouteOutputResponse: Swift.Equatable {
-    /// A full description of the gateway route that was updated.
-    /// This member is required.
-    public var gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-
-    public init(
-        gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
-        self.gatewayRoute = gatewayRoute
-    }
-}
-
-struct UpdateGatewayRouteOutputResponseBody: Swift.Equatable {
-    let gatewayRoute: AppMeshClientTypes.GatewayRouteData?
-}
-
-extension UpdateGatewayRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gatewayRoute
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gatewayRouteDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.GatewayRouteData.self, forKey: .gatewayRoute)
-        gatewayRoute = gatewayRouteDecoded
     }
 }
 
@@ -10579,6 +10579,47 @@ extension UpdateMeshInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateMeshOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
+            self.mesh = output
+        } else {
+            self.mesh = nil
+        }
+    }
+}
+
+///
+public struct UpdateMeshOutput: Swift.Equatable {
+    /// An object that represents a service mesh returned by a describe operation.
+    /// This member is required.
+    public var mesh: AppMeshClientTypes.MeshData?
+
+    public init(
+        mesh: AppMeshClientTypes.MeshData? = nil
+    )
+    {
+        self.mesh = mesh
+    }
+}
+
+struct UpdateMeshOutputBody: Swift.Equatable {
+    let mesh: AppMeshClientTypes.MeshData?
+}
+
+extension UpdateMeshOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mesh
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
+        mesh = meshDecoded
+    }
+}
+
 enum UpdateMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10593,47 +10634,6 @@ enum UpdateMeshOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateMeshOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.MeshData = try responseDecoder.decode(responseBody: data)
-            self.mesh = output
-        } else {
-            self.mesh = nil
-        }
-    }
-}
-
-///
-public struct UpdateMeshOutputResponse: Swift.Equatable {
-    /// An object that represents a service mesh returned by a describe operation.
-    /// This member is required.
-    public var mesh: AppMeshClientTypes.MeshData?
-
-    public init(
-        mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
-        self.mesh = mesh
-    }
-}
-
-struct UpdateMeshOutputResponseBody: Swift.Equatable {
-    let mesh: AppMeshClientTypes.MeshData?
-}
-
-extension UpdateMeshOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case mesh
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meshDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.MeshData.self, forKey: .mesh)
-        mesh = meshDecoded
     }
 }
 
@@ -10739,6 +10739,47 @@ extension UpdateRouteInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRouteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
+            self.route = output
+        } else {
+            self.route = nil
+        }
+    }
+}
+
+///
+public struct UpdateRouteOutput: Swift.Equatable {
+    /// A full description of the route that was updated.
+    /// This member is required.
+    public var route: AppMeshClientTypes.RouteData?
+
+    public init(
+        route: AppMeshClientTypes.RouteData? = nil
+    )
+    {
+        self.route = route
+    }
+}
+
+struct UpdateRouteOutputBody: Swift.Equatable {
+    let route: AppMeshClientTypes.RouteData?
+}
+
+extension UpdateRouteOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case route
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
+        route = routeDecoded
+    }
+}
+
 enum UpdateRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10754,47 +10795,6 @@ enum UpdateRouteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRouteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.RouteData = try responseDecoder.decode(responseBody: data)
-            self.route = output
-        } else {
-            self.route = nil
-        }
-    }
-}
-
-///
-public struct UpdateRouteOutputResponse: Swift.Equatable {
-    /// A full description of the route that was updated.
-    /// This member is required.
-    public var route: AppMeshClientTypes.RouteData?
-
-    public init(
-        route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
-        self.route = route
-    }
-}
-
-struct UpdateRouteOutputResponseBody: Swift.Equatable {
-    let route: AppMeshClientTypes.RouteData?
-}
-
-extension UpdateRouteOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case route
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let routeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.RouteData.self, forKey: .route)
-        route = routeDecoded
     }
 }
 
@@ -10891,6 +10891,46 @@ extension UpdateVirtualGatewayInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVirtualGatewayOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
+            self.virtualGateway = output
+        } else {
+            self.virtualGateway = nil
+        }
+    }
+}
+
+public struct UpdateVirtualGatewayOutput: Swift.Equatable {
+    /// A full description of the virtual gateway that was updated.
+    /// This member is required.
+    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+
+    public init(
+        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
+    )
+    {
+        self.virtualGateway = virtualGateway
+    }
+}
+
+struct UpdateVirtualGatewayOutputBody: Swift.Equatable {
+    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
+}
+
+extension UpdateVirtualGatewayOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualGateway
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
+        virtualGateway = virtualGatewayDecoded
+    }
+}
+
 enum UpdateVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10906,46 +10946,6 @@ enum UpdateVirtualGatewayOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVirtualGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualGatewayData = try responseDecoder.decode(responseBody: data)
-            self.virtualGateway = output
-        } else {
-            self.virtualGateway = nil
-        }
-    }
-}
-
-public struct UpdateVirtualGatewayOutputResponse: Swift.Equatable {
-    /// A full description of the virtual gateway that was updated.
-    /// This member is required.
-    public var virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-
-    public init(
-        virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
-        self.virtualGateway = virtualGateway
-    }
-}
-
-struct UpdateVirtualGatewayOutputResponseBody: Swift.Equatable {
-    let virtualGateway: AppMeshClientTypes.VirtualGatewayData?
-}
-
-extension UpdateVirtualGatewayOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualGateway
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualGatewayDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualGatewayData.self, forKey: .virtualGateway)
-        virtualGateway = virtualGatewayDecoded
     }
 }
 
@@ -11043,6 +11043,47 @@ extension UpdateVirtualNodeInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVirtualNodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
+            self.virtualNode = output
+        } else {
+            self.virtualNode = nil
+        }
+    }
+}
+
+///
+public struct UpdateVirtualNodeOutput: Swift.Equatable {
+    /// A full description of the virtual node that was updated.
+    /// This member is required.
+    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
+
+    public init(
+        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
+    )
+    {
+        self.virtualNode = virtualNode
+    }
+}
+
+struct UpdateVirtualNodeOutputBody: Swift.Equatable {
+    let virtualNode: AppMeshClientTypes.VirtualNodeData?
+}
+
+extension UpdateVirtualNodeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualNode
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
+        virtualNode = virtualNodeDecoded
+    }
+}
+
 enum UpdateVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11058,47 +11099,6 @@ enum UpdateVirtualNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVirtualNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualNodeData = try responseDecoder.decode(responseBody: data)
-            self.virtualNode = output
-        } else {
-            self.virtualNode = nil
-        }
-    }
-}
-
-///
-public struct UpdateVirtualNodeOutputResponse: Swift.Equatable {
-    /// A full description of the virtual node that was updated.
-    /// This member is required.
-    public var virtualNode: AppMeshClientTypes.VirtualNodeData?
-
-    public init(
-        virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
-        self.virtualNode = virtualNode
-    }
-}
-
-struct UpdateVirtualNodeOutputResponseBody: Swift.Equatable {
-    let virtualNode: AppMeshClientTypes.VirtualNodeData?
-}
-
-extension UpdateVirtualNodeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualNode
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualNodeDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualNodeData.self, forKey: .virtualNode)
-        virtualNode = virtualNodeDecoded
     }
 }
 
@@ -11196,6 +11196,47 @@ extension UpdateVirtualRouterInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVirtualRouterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
+            self.virtualRouter = output
+        } else {
+            self.virtualRouter = nil
+        }
+    }
+}
+
+///
+public struct UpdateVirtualRouterOutput: Swift.Equatable {
+    /// A full description of the virtual router that was updated.
+    /// This member is required.
+    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
+
+    public init(
+        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
+    )
+    {
+        self.virtualRouter = virtualRouter
+    }
+}
+
+struct UpdateVirtualRouterOutputBody: Swift.Equatable {
+    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
+}
+
+extension UpdateVirtualRouterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualRouter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
+        virtualRouter = virtualRouterDecoded
+    }
+}
+
 enum UpdateVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11211,47 +11252,6 @@ enum UpdateVirtualRouterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVirtualRouterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualRouterData = try responseDecoder.decode(responseBody: data)
-            self.virtualRouter = output
-        } else {
-            self.virtualRouter = nil
-        }
-    }
-}
-
-///
-public struct UpdateVirtualRouterOutputResponse: Swift.Equatable {
-    /// A full description of the virtual router that was updated.
-    /// This member is required.
-    public var virtualRouter: AppMeshClientTypes.VirtualRouterData?
-
-    public init(
-        virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
-        self.virtualRouter = virtualRouter
-    }
-}
-
-struct UpdateVirtualRouterOutputResponseBody: Swift.Equatable {
-    let virtualRouter: AppMeshClientTypes.VirtualRouterData?
-}
-
-extension UpdateVirtualRouterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualRouter
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualRouterDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualRouterData.self, forKey: .virtualRouter)
-        virtualRouter = virtualRouterDecoded
     }
 }
 
@@ -11349,6 +11349,47 @@ extension UpdateVirtualServiceInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVirtualServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
+            self.virtualService = output
+        } else {
+            self.virtualService = nil
+        }
+    }
+}
+
+///
+public struct UpdateVirtualServiceOutput: Swift.Equatable {
+    /// A full description of the virtual service that was updated.
+    /// This member is required.
+    public var virtualService: AppMeshClientTypes.VirtualServiceData?
+
+    public init(
+        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
+    )
+    {
+        self.virtualService = virtualService
+    }
+}
+
+struct UpdateVirtualServiceOutputBody: Swift.Equatable {
+    let virtualService: AppMeshClientTypes.VirtualServiceData?
+}
+
+extension UpdateVirtualServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case virtualService
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
+        virtualService = virtualServiceDecoded
+    }
+}
+
 enum UpdateVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11364,47 +11405,6 @@ enum UpdateVirtualServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVirtualServiceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: AppMeshClientTypes.VirtualServiceData = try responseDecoder.decode(responseBody: data)
-            self.virtualService = output
-        } else {
-            self.virtualService = nil
-        }
-    }
-}
-
-///
-public struct UpdateVirtualServiceOutputResponse: Swift.Equatable {
-    /// A full description of the virtual service that was updated.
-    /// This member is required.
-    public var virtualService: AppMeshClientTypes.VirtualServiceData?
-
-    public init(
-        virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
-        self.virtualService = virtualService
-    }
-}
-
-struct UpdateVirtualServiceOutputResponseBody: Swift.Equatable {
-    let virtualService: AppMeshClientTypes.VirtualServiceData?
-}
-
-extension UpdateVirtualServiceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case virtualService
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let virtualServiceDecoded = try containerValues.decodeIfPresent(AppMeshClientTypes.VirtualServiceData.self, forKey: .virtualService)
-        virtualService = virtualServiceDecoded
     }
 }
 

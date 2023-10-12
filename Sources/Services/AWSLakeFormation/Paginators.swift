@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension LakeFormationClient {
-    /// Paginate over `[GetEffectivePermissionsForPathOutputResponse]` results.
+    /// Paginate over `[GetEffectivePermissionsForPathOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetEffectivePermissionsForPathInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetEffectivePermissionsForPathOutputResponse`
-    public func getEffectivePermissionsForPathPaginated(input: GetEffectivePermissionsForPathInput) -> ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutputResponse>(input: input, inputKey: \GetEffectivePermissionsForPathInput.nextToken, outputKey: \GetEffectivePermissionsForPathOutputResponse.nextToken, paginationFunction: self.getEffectivePermissionsForPath(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetEffectivePermissionsForPathOutput`
+    public func getEffectivePermissionsForPathPaginated(input: GetEffectivePermissionsForPathInput) -> ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput> {
+        return ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput>(input: input, inputKey: \GetEffectivePermissionsForPathInput.nextToken, outputKey: \GetEffectivePermissionsForPathOutput.nextToken, paginationFunction: self.getEffectivePermissionsForPath(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension GetEffectivePermissionsForPathInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[GetTableObjectsOutputResponse]` results.
+    /// Paginate over `[GetTableObjectsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetTableObjectsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetTableObjectsOutputResponse`
-    public func getTableObjectsPaginated(input: GetTableObjectsInput) -> ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutputResponse>(input: input, inputKey: \GetTableObjectsInput.nextToken, outputKey: \GetTableObjectsOutputResponse.nextToken, paginationFunction: self.getTableObjects(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTableObjectsOutput`
+    public func getTableObjectsPaginated(input: GetTableObjectsInput) -> ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutput> {
+        return ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutput>(input: input, inputKey: \GetTableObjectsInput.nextToken, outputKey: \GetTableObjectsOutput.nextToken, paginationFunction: self.getTableObjects(input:))
     }
 }
 
@@ -53,16 +53,16 @@ extension GetTableObjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[GetWorkUnitsOutputResponse]` results.
+    /// Paginate over `[GetWorkUnitsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetWorkUnitsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetWorkUnitsOutputResponse`
-    public func getWorkUnitsPaginated(input: GetWorkUnitsInput) -> ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutputResponse>(input: input, inputKey: \GetWorkUnitsInput.nextToken, outputKey: \GetWorkUnitsOutputResponse.nextToken, paginationFunction: self.getWorkUnits(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetWorkUnitsOutput`
+    public func getWorkUnitsPaginated(input: GetWorkUnitsInput) -> ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutput> {
+        return ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutput>(input: input, inputKey: \GetWorkUnitsInput.nextToken, outputKey: \GetWorkUnitsOutput.nextToken, paginationFunction: self.getWorkUnits(input:))
     }
 }
 
@@ -75,7 +75,7 @@ extension GetWorkUnitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetWorkUnitsInput, Output == GetWorkUnitsOutputResponse {
+extension PaginatorSequence where Input == GetWorkUnitsInput, Output == GetWorkUnitsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getWorkUnitsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.WorkUnitRange]`
     /// - Returns: `[LakeFormationClientTypes.WorkUnitRange]`
@@ -84,16 +84,16 @@ extension PaginatorSequence where Input == GetWorkUnitsInput, Output == GetWorkU
     }
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListDataCellsFilterOutputResponse]` results.
+    /// Paginate over `[ListDataCellsFilterOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataCellsFilterInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataCellsFilterOutputResponse`
-    public func listDataCellsFilterPaginated(input: ListDataCellsFilterInput) -> ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutputResponse>(input: input, inputKey: \ListDataCellsFilterInput.nextToken, outputKey: \ListDataCellsFilterOutputResponse.nextToken, paginationFunction: self.listDataCellsFilter(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataCellsFilterOutput`
+    public func listDataCellsFilterPaginated(input: ListDataCellsFilterInput) -> ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutput>(input: input, inputKey: \ListDataCellsFilterInput.nextToken, outputKey: \ListDataCellsFilterOutput.nextToken, paginationFunction: self.listDataCellsFilter(input:))
     }
 }
 
@@ -106,7 +106,7 @@ extension ListDataCellsFilterInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataCellsFilterInput, Output == ListDataCellsFilterOutputResponse {
+extension PaginatorSequence where Input == ListDataCellsFilterInput, Output == ListDataCellsFilterOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataCellsFilterPaginated`
     /// to access the nested member `[LakeFormationClientTypes.DataCellsFilter]`
     /// - Returns: `[LakeFormationClientTypes.DataCellsFilter]`
@@ -115,16 +115,16 @@ extension PaginatorSequence where Input == ListDataCellsFilterInput, Output == L
     }
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListLakeFormationOptInsOutputResponse]` results.
+    /// Paginate over `[ListLakeFormationOptInsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLakeFormationOptInsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLakeFormationOptInsOutputResponse`
-    public func listLakeFormationOptInsPaginated(input: ListLakeFormationOptInsInput) -> ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse>(input: input, inputKey: \ListLakeFormationOptInsInput.nextToken, outputKey: \ListLakeFormationOptInsOutputResponse.nextToken, paginationFunction: self.listLakeFormationOptIns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLakeFormationOptInsOutput`
+    public func listLakeFormationOptInsPaginated(input: ListLakeFormationOptInsInput) -> ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput>(input: input, inputKey: \ListLakeFormationOptInsInput.nextToken, outputKey: \ListLakeFormationOptInsOutput.nextToken, paginationFunction: self.listLakeFormationOptIns(input:))
     }
 }
 
@@ -138,16 +138,16 @@ extension ListLakeFormationOptInsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListLFTagsOutputResponse]` results.
+    /// Paginate over `[ListLFTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLFTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLFTagsOutputResponse`
-    public func listLFTagsPaginated(input: ListLFTagsInput) -> ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutputResponse>(input: input, inputKey: \ListLFTagsInput.nextToken, outputKey: \ListLFTagsOutputResponse.nextToken, paginationFunction: self.listLFTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLFTagsOutput`
+    public func listLFTagsPaginated(input: ListLFTagsInput) -> ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutput>(input: input, inputKey: \ListLFTagsInput.nextToken, outputKey: \ListLFTagsOutput.nextToken, paginationFunction: self.listLFTags(input:))
     }
 }
 
@@ -161,7 +161,7 @@ extension ListLFTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLFTagsInput, Output == ListLFTagsOutputResponse {
+extension PaginatorSequence where Input == ListLFTagsInput, Output == ListLFTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLFTagsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.LFTagPair]`
     /// - Returns: `[LakeFormationClientTypes.LFTagPair]`
@@ -170,16 +170,16 @@ extension PaginatorSequence where Input == ListLFTagsInput, Output == ListLFTags
     }
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListPermissionsOutputResponse]` results.
+    /// Paginate over `[ListPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutputResponse`
-    public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutputResponse>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutputResponse.nextToken, paginationFunction: self.listPermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutput`
+    public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutput.nextToken, paginationFunction: self.listPermissions(input:))
     }
 }
 
@@ -196,16 +196,16 @@ extension ListPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListResourcesOutputResponse]` results.
+    /// Paginate over `[ListResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutputResponse`
-    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutputResponse>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutputResponse.nextToken, paginationFunction: self.listResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
+    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutput.nextToken, paginationFunction: self.listResources(input:))
     }
 }
 
@@ -218,16 +218,16 @@ extension ListResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListTableStorageOptimizersOutputResponse]` results.
+    /// Paginate over `[ListTableStorageOptimizersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTableStorageOptimizersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTableStorageOptimizersOutputResponse`
-    public func listTableStorageOptimizersPaginated(input: ListTableStorageOptimizersInput) -> ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutputResponse>(input: input, inputKey: \ListTableStorageOptimizersInput.nextToken, outputKey: \ListTableStorageOptimizersOutputResponse.nextToken, paginationFunction: self.listTableStorageOptimizers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTableStorageOptimizersOutput`
+    public func listTableStorageOptimizersPaginated(input: ListTableStorageOptimizersInput) -> ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput> {
+        return ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput>(input: input, inputKey: \ListTableStorageOptimizersInput.nextToken, outputKey: \ListTableStorageOptimizersOutput.nextToken, paginationFunction: self.listTableStorageOptimizers(input:))
     }
 }
 
@@ -243,16 +243,16 @@ extension ListTableStorageOptimizersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[ListTransactionsOutputResponse]` results.
+    /// Paginate over `[ListTransactionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTransactionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTransactionsOutputResponse`
-    public func listTransactionsPaginated(input: ListTransactionsInput) -> ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutputResponse>(input: input, inputKey: \ListTransactionsInput.nextToken, outputKey: \ListTransactionsOutputResponse.nextToken, paginationFunction: self.listTransactions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTransactionsOutput`
+    public func listTransactionsPaginated(input: ListTransactionsInput) -> ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput>(input: input, inputKey: \ListTransactionsInput.nextToken, outputKey: \ListTransactionsOutput.nextToken, paginationFunction: self.listTransactions(input:))
     }
 }
 
@@ -266,16 +266,16 @@ extension ListTransactionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
-    /// Paginate over `[SearchDatabasesByLFTagsOutputResponse]` results.
+    /// Paginate over `[SearchDatabasesByLFTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchDatabasesByLFTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchDatabasesByLFTagsOutputResponse`
-    public func searchDatabasesByLFTagsPaginated(input: SearchDatabasesByLFTagsInput) -> ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutputResponse>(input: input, inputKey: \SearchDatabasesByLFTagsInput.nextToken, outputKey: \SearchDatabasesByLFTagsOutputResponse.nextToken, paginationFunction: self.searchDatabasesByLFTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchDatabasesByLFTagsOutput`
+    public func searchDatabasesByLFTagsPaginated(input: SearchDatabasesByLFTagsInput) -> ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput>(input: input, inputKey: \SearchDatabasesByLFTagsInput.nextToken, outputKey: \SearchDatabasesByLFTagsOutput.nextToken, paginationFunction: self.searchDatabasesByLFTags(input:))
     }
 }
 
@@ -289,7 +289,7 @@ extension SearchDatabasesByLFTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchDatabasesByLFTagsInput, Output == SearchDatabasesByLFTagsOutputResponse {
+extension PaginatorSequence where Input == SearchDatabasesByLFTagsInput, Output == SearchDatabasesByLFTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchDatabasesByLFTagsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.TaggedDatabase]`
     /// - Returns: `[LakeFormationClientTypes.TaggedDatabase]`
@@ -298,16 +298,16 @@ extension PaginatorSequence where Input == SearchDatabasesByLFTagsInput, Output 
     }
 }
 extension LakeFormationClient {
-    /// Paginate over `[SearchTablesByLFTagsOutputResponse]` results.
+    /// Paginate over `[SearchTablesByLFTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchTablesByLFTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchTablesByLFTagsOutputResponse`
-    public func searchTablesByLFTagsPaginated(input: SearchTablesByLFTagsInput) -> ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutputResponse>(input: input, inputKey: \SearchTablesByLFTagsInput.nextToken, outputKey: \SearchTablesByLFTagsOutputResponse.nextToken, paginationFunction: self.searchTablesByLFTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTablesByLFTagsOutput`
+    public func searchTablesByLFTagsPaginated(input: SearchTablesByLFTagsInput) -> ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput>(input: input, inputKey: \SearchTablesByLFTagsInput.nextToken, outputKey: \SearchTablesByLFTagsOutput.nextToken, paginationFunction: self.searchTablesByLFTags(input:))
     }
 }
 
@@ -321,7 +321,7 @@ extension SearchTablesByLFTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchTablesByLFTagsInput, Output == SearchTablesByLFTagsOutputResponse {
+extension PaginatorSequence where Input == SearchTablesByLFTagsInput, Output == SearchTablesByLFTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchTablesByLFTagsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.TaggedTable]`
     /// - Returns: `[LakeFormationClientTypes.TaggedTable]`

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeGuruProfilerClient {
-    /// Paginate over `[GetFindingsReportAccountSummaryOutputResponse]` results.
+    /// Paginate over `[GetFindingsReportAccountSummaryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetFindingsReportAccountSummaryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsReportAccountSummaryOutputResponse`
-    public func getFindingsReportAccountSummaryPaginated(input: GetFindingsReportAccountSummaryInput) -> ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutputResponse>(input: input, inputKey: \GetFindingsReportAccountSummaryInput.nextToken, outputKey: \GetFindingsReportAccountSummaryOutputResponse.nextToken, paginationFunction: self.getFindingsReportAccountSummary(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsReportAccountSummaryOutput`
+    public func getFindingsReportAccountSummaryPaginated(input: GetFindingsReportAccountSummaryInput) -> ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutput> {
+        return ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutput>(input: input, inputKey: \GetFindingsReportAccountSummaryInput.nextToken, outputKey: \GetFindingsReportAccountSummaryOutput.nextToken, paginationFunction: self.getFindingsReportAccountSummary(input:))
     }
 }
 

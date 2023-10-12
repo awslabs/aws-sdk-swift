@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension IoTWirelessClient {
-    /// Paginate over `[ListDestinationsOutputResponse]` results.
+    /// Paginate over `[ListDestinationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDestinationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDestinationsOutputResponse`
-    public func listDestinationsPaginated(input: ListDestinationsInput) -> ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutputResponse>(input: input, inputKey: \ListDestinationsInput.nextToken, outputKey: \ListDestinationsOutputResponse.nextToken, paginationFunction: self.listDestinations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDestinationsOutput`
+    public func listDestinationsPaginated(input: ListDestinationsInput) -> ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutput>(input: input, inputKey: \ListDestinationsInput.nextToken, outputKey: \ListDestinationsOutput.nextToken, paginationFunction: self.listDestinations(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListDestinationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListDeviceProfilesOutputResponse]` results.
+    /// Paginate over `[ListDeviceProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeviceProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceProfilesOutputResponse`
-    public func listDeviceProfilesPaginated(input: ListDeviceProfilesInput) -> ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutputResponse>(input: input, inputKey: \ListDeviceProfilesInput.nextToken, outputKey: \ListDeviceProfilesOutputResponse.nextToken, paginationFunction: self.listDeviceProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceProfilesOutput`
+    public func listDeviceProfilesPaginated(input: ListDeviceProfilesInput) -> ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutput>(input: input, inputKey: \ListDeviceProfilesInput.nextToken, outputKey: \ListDeviceProfilesOutput.nextToken, paginationFunction: self.listDeviceProfiles(input:))
     }
 }
 
@@ -46,16 +46,16 @@ extension ListDeviceProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListFuotaTasksOutputResponse]` results.
+    /// Paginate over `[ListFuotaTasksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFuotaTasksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFuotaTasksOutputResponse`
-    public func listFuotaTasksPaginated(input: ListFuotaTasksInput) -> ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutputResponse>(input: input, inputKey: \ListFuotaTasksInput.nextToken, outputKey: \ListFuotaTasksOutputResponse.nextToken, paginationFunction: self.listFuotaTasks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFuotaTasksOutput`
+    public func listFuotaTasksPaginated(input: ListFuotaTasksInput) -> ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutput>(input: input, inputKey: \ListFuotaTasksInput.nextToken, outputKey: \ListFuotaTasksOutput.nextToken, paginationFunction: self.listFuotaTasks(input:))
     }
 }
 
@@ -67,16 +67,16 @@ extension ListFuotaTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListMulticastGroupsOutputResponse]` results.
+    /// Paginate over `[ListMulticastGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMulticastGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMulticastGroupsOutputResponse`
-    public func listMulticastGroupsPaginated(input: ListMulticastGroupsInput) -> ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutputResponse>(input: input, inputKey: \ListMulticastGroupsInput.nextToken, outputKey: \ListMulticastGroupsOutputResponse.nextToken, paginationFunction: self.listMulticastGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMulticastGroupsOutput`
+    public func listMulticastGroupsPaginated(input: ListMulticastGroupsInput) -> ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutput>(input: input, inputKey: \ListMulticastGroupsInput.nextToken, outputKey: \ListMulticastGroupsOutput.nextToken, paginationFunction: self.listMulticastGroups(input:))
     }
 }
 
@@ -88,16 +88,16 @@ extension ListMulticastGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListMulticastGroupsByFuotaTaskOutputResponse]` results.
+    /// Paginate over `[ListMulticastGroupsByFuotaTaskOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMulticastGroupsByFuotaTaskInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMulticastGroupsByFuotaTaskOutputResponse`
-    public func listMulticastGroupsByFuotaTaskPaginated(input: ListMulticastGroupsByFuotaTaskInput) -> ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutputResponse>(input: input, inputKey: \ListMulticastGroupsByFuotaTaskInput.nextToken, outputKey: \ListMulticastGroupsByFuotaTaskOutputResponse.nextToken, paginationFunction: self.listMulticastGroupsByFuotaTask(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMulticastGroupsByFuotaTaskOutput`
+    public func listMulticastGroupsByFuotaTaskPaginated(input: ListMulticastGroupsByFuotaTaskInput) -> ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput> {
+        return ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>(input: input, inputKey: \ListMulticastGroupsByFuotaTaskInput.nextToken, outputKey: \ListMulticastGroupsByFuotaTaskOutput.nextToken, paginationFunction: self.listMulticastGroupsByFuotaTask(input:))
     }
 }
 
@@ -110,16 +110,16 @@ extension ListMulticastGroupsByFuotaTaskInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListNetworkAnalyzerConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListNetworkAnalyzerConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNetworkAnalyzerConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkAnalyzerConfigurationsOutputResponse`
-    public func listNetworkAnalyzerConfigurationsPaginated(input: ListNetworkAnalyzerConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutputResponse>(input: input, inputKey: \ListNetworkAnalyzerConfigurationsInput.nextToken, outputKey: \ListNetworkAnalyzerConfigurationsOutputResponse.nextToken, paginationFunction: self.listNetworkAnalyzerConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkAnalyzerConfigurationsOutput`
+    public func listNetworkAnalyzerConfigurationsPaginated(input: ListNetworkAnalyzerConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>(input: input, inputKey: \ListNetworkAnalyzerConfigurationsInput.nextToken, outputKey: \ListNetworkAnalyzerConfigurationsOutput.nextToken, paginationFunction: self.listNetworkAnalyzerConfigurations(input:))
     }
 }
 
@@ -131,16 +131,16 @@ extension ListNetworkAnalyzerConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListPositionConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListPositionConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPositionConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPositionConfigurationsOutputResponse`
-    public func listPositionConfigurationsPaginated(input: ListPositionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutputResponse>(input: input, inputKey: \ListPositionConfigurationsInput.nextToken, outputKey: \ListPositionConfigurationsOutputResponse.nextToken, paginationFunction: self.listPositionConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPositionConfigurationsOutput`
+    public func listPositionConfigurationsPaginated(input: ListPositionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>(input: input, inputKey: \ListPositionConfigurationsInput.nextToken, outputKey: \ListPositionConfigurationsOutput.nextToken, paginationFunction: self.listPositionConfigurations(input:))
     }
 }
 
@@ -153,16 +153,16 @@ extension ListPositionConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListQueuedMessagesOutputResponse]` results.
+    /// Paginate over `[ListQueuedMessagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListQueuedMessagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListQueuedMessagesOutputResponse`
-    public func listQueuedMessagesPaginated(input: ListQueuedMessagesInput) -> ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutputResponse>(input: input, inputKey: \ListQueuedMessagesInput.nextToken, outputKey: \ListQueuedMessagesOutputResponse.nextToken, paginationFunction: self.listQueuedMessages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQueuedMessagesOutput`
+    public func listQueuedMessagesPaginated(input: ListQueuedMessagesInput) -> ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutput> {
+        return ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutput>(input: input, inputKey: \ListQueuedMessagesInput.nextToken, outputKey: \ListQueuedMessagesOutput.nextToken, paginationFunction: self.listQueuedMessages(input:))
     }
 }
 
@@ -176,16 +176,16 @@ extension ListQueuedMessagesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListServiceProfilesOutputResponse]` results.
+    /// Paginate over `[ListServiceProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServiceProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceProfilesOutputResponse`
-    public func listServiceProfilesPaginated(input: ListServiceProfilesInput) -> ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutputResponse>(input: input, inputKey: \ListServiceProfilesInput.nextToken, outputKey: \ListServiceProfilesOutputResponse.nextToken, paginationFunction: self.listServiceProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceProfilesOutput`
+    public func listServiceProfilesPaginated(input: ListServiceProfilesInput) -> ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutput>(input: input, inputKey: \ListServiceProfilesInput.nextToken, outputKey: \ListServiceProfilesOutput.nextToken, paginationFunction: self.listServiceProfiles(input:))
     }
 }
 
@@ -197,16 +197,16 @@ extension ListServiceProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListWirelessDevicesOutputResponse]` results.
+    /// Paginate over `[ListWirelessDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWirelessDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWirelessDevicesOutputResponse`
-    public func listWirelessDevicesPaginated(input: ListWirelessDevicesInput) -> ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutputResponse>(input: input, inputKey: \ListWirelessDevicesInput.nextToken, outputKey: \ListWirelessDevicesOutputResponse.nextToken, paginationFunction: self.listWirelessDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWirelessDevicesOutput`
+    public func listWirelessDevicesPaginated(input: ListWirelessDevicesInput) -> ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutput>(input: input, inputKey: \ListWirelessDevicesInput.nextToken, outputKey: \ListWirelessDevicesOutput.nextToken, paginationFunction: self.listWirelessDevices(input:))
     }
 }
 
@@ -224,16 +224,16 @@ extension ListWirelessDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTWirelessClient {
-    /// Paginate over `[ListWirelessGatewaysOutputResponse]` results.
+    /// Paginate over `[ListWirelessGatewaysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWirelessGatewaysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWirelessGatewaysOutputResponse`
-    public func listWirelessGatewaysPaginated(input: ListWirelessGatewaysInput) -> ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutputResponse>(input: input, inputKey: \ListWirelessGatewaysInput.nextToken, outputKey: \ListWirelessGatewaysOutputResponse.nextToken, paginationFunction: self.listWirelessGateways(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWirelessGatewaysOutput`
+    public func listWirelessGatewaysPaginated(input: ListWirelessGatewaysInput) -> ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutput> {
+        return ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>(input: input, inputKey: \ListWirelessGatewaysInput.nextToken, outputKey: \ListWirelessGatewaysOutput.nextToken, paginationFunction: self.listWirelessGateways(input:))
     }
 }
 

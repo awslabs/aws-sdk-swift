@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension RekognitionClient {
-    /// Paginate over `[DescribeProjectsOutputResponse]` results.
+    /// Paginate over `[DescribeProjectsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeProjectsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeProjectsOutputResponse`
-    public func describeProjectsPaginated(input: DescribeProjectsInput) -> ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutputResponse>(input: input, inputKey: \DescribeProjectsInput.nextToken, outputKey: \DescribeProjectsOutputResponse.nextToken, paginationFunction: self.describeProjects(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeProjectsOutput`
+    public func describeProjectsPaginated(input: DescribeProjectsInput) -> ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeProjectsInput, DescribeProjectsOutput>(input: input, inputKey: \DescribeProjectsInput.nextToken, outputKey: \DescribeProjectsOutput.nextToken, paginationFunction: self.describeProjects(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeProjectsInput, Output == DescribeProjectsOutputResponse {
+extension PaginatorSequence where Input == DescribeProjectsInput, Output == DescribeProjectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeProjectsPaginated`
     /// to access the nested member `[RekognitionClientTypes.ProjectDescription]`
     /// - Returns: `[RekognitionClientTypes.ProjectDescription]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeProjectsInput, Output == Desc
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[DescribeProjectVersionsOutputResponse]` results.
+    /// Paginate over `[DescribeProjectVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeProjectVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeProjectVersionsOutputResponse`
-    public func describeProjectVersionsPaginated(input: DescribeProjectVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse>(input: input, inputKey: \DescribeProjectVersionsInput.nextToken, outputKey: \DescribeProjectVersionsOutputResponse.nextToken, paginationFunction: self.describeProjectVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeProjectVersionsOutput`
+    public func describeProjectVersionsPaginated(input: DescribeProjectVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(input: input, inputKey: \DescribeProjectVersionsInput.nextToken, outputKey: \DescribeProjectVersionsOutput.nextToken, paginationFunction: self.describeProjectVersions(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension DescribeProjectVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeProjectVersionsInput, Output == DescribeProjectVersionsOutputResponse {
+extension PaginatorSequence where Input == DescribeProjectVersionsInput, Output == DescribeProjectVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeProjectVersionsPaginated`
     /// to access the nested member `[RekognitionClientTypes.ProjectVersionDescription]`
     /// - Returns: `[RekognitionClientTypes.ProjectVersionDescription]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == DescribeProjectVersionsInput, Output 
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[GetCelebrityRecognitionOutputResponse]` results.
+    /// Paginate over `[GetCelebrityRecognitionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetCelebrityRecognitionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetCelebrityRecognitionOutputResponse`
-    public func getCelebrityRecognitionPaginated(input: GetCelebrityRecognitionInput) -> ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutputResponse>(input: input, inputKey: \GetCelebrityRecognitionInput.nextToken, outputKey: \GetCelebrityRecognitionOutputResponse.nextToken, paginationFunction: self.getCelebrityRecognition(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCelebrityRecognitionOutput`
+    public func getCelebrityRecognitionPaginated(input: GetCelebrityRecognitionInput) -> ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput> {
+        return ClientRuntime.PaginatorSequence<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(input: input, inputKey: \GetCelebrityRecognitionInput.nextToken, outputKey: \GetCelebrityRecognitionOutput.nextToken, paginationFunction: self.getCelebrityRecognition(input:))
     }
 }
 
@@ -89,16 +89,16 @@ extension GetCelebrityRecognitionInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetContentModerationOutputResponse]` results.
+    /// Paginate over `[GetContentModerationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetContentModerationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetContentModerationOutputResponse`
-    public func getContentModerationPaginated(input: GetContentModerationInput) -> ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutputResponse>(input: input, inputKey: \GetContentModerationInput.nextToken, outputKey: \GetContentModerationOutputResponse.nextToken, paginationFunction: self.getContentModeration(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetContentModerationOutput`
+    public func getContentModerationPaginated(input: GetContentModerationInput) -> ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutput> {
+        return ClientRuntime.PaginatorSequence<GetContentModerationInput, GetContentModerationOutput>(input: input, inputKey: \GetContentModerationInput.nextToken, outputKey: \GetContentModerationOutput.nextToken, paginationFunction: self.getContentModeration(input:))
     }
 }
 
@@ -113,16 +113,16 @@ extension GetContentModerationInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetFaceDetectionOutputResponse]` results.
+    /// Paginate over `[GetFaceDetectionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetFaceDetectionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetFaceDetectionOutputResponse`
-    public func getFaceDetectionPaginated(input: GetFaceDetectionInput) -> ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutputResponse>(input: input, inputKey: \GetFaceDetectionInput.nextToken, outputKey: \GetFaceDetectionOutputResponse.nextToken, paginationFunction: self.getFaceDetection(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFaceDetectionOutput`
+    public func getFaceDetectionPaginated(input: GetFaceDetectionInput) -> ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutput> {
+        return ClientRuntime.PaginatorSequence<GetFaceDetectionInput, GetFaceDetectionOutput>(input: input, inputKey: \GetFaceDetectionInput.nextToken, outputKey: \GetFaceDetectionOutput.nextToken, paginationFunction: self.getFaceDetection(input:))
     }
 }
 
@@ -135,16 +135,16 @@ extension GetFaceDetectionInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetFaceSearchOutputResponse]` results.
+    /// Paginate over `[GetFaceSearchOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetFaceSearchInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetFaceSearchOutputResponse`
-    public func getFaceSearchPaginated(input: GetFaceSearchInput) -> ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutputResponse>(input: input, inputKey: \GetFaceSearchInput.nextToken, outputKey: \GetFaceSearchOutputResponse.nextToken, paginationFunction: self.getFaceSearch(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFaceSearchOutput`
+    public func getFaceSearchPaginated(input: GetFaceSearchInput) -> ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutput> {
+        return ClientRuntime.PaginatorSequence<GetFaceSearchInput, GetFaceSearchOutput>(input: input, inputKey: \GetFaceSearchInput.nextToken, outputKey: \GetFaceSearchOutput.nextToken, paginationFunction: self.getFaceSearch(input:))
     }
 }
 
@@ -158,16 +158,16 @@ extension GetFaceSearchInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetLabelDetectionOutputResponse]` results.
+    /// Paginate over `[GetLabelDetectionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetLabelDetectionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetLabelDetectionOutputResponse`
-    public func getLabelDetectionPaginated(input: GetLabelDetectionInput) -> ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutputResponse>(input: input, inputKey: \GetLabelDetectionInput.nextToken, outputKey: \GetLabelDetectionOutputResponse.nextToken, paginationFunction: self.getLabelDetection(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetLabelDetectionOutput`
+    public func getLabelDetectionPaginated(input: GetLabelDetectionInput) -> ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutput> {
+        return ClientRuntime.PaginatorSequence<GetLabelDetectionInput, GetLabelDetectionOutput>(input: input, inputKey: \GetLabelDetectionInput.nextToken, outputKey: \GetLabelDetectionOutput.nextToken, paginationFunction: self.getLabelDetection(input:))
     }
 }
 
@@ -182,16 +182,16 @@ extension GetLabelDetectionInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetPersonTrackingOutputResponse]` results.
+    /// Paginate over `[GetPersonTrackingOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetPersonTrackingInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetPersonTrackingOutputResponse`
-    public func getPersonTrackingPaginated(input: GetPersonTrackingInput) -> ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutputResponse>(input: input, inputKey: \GetPersonTrackingInput.nextToken, outputKey: \GetPersonTrackingOutputResponse.nextToken, paginationFunction: self.getPersonTracking(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPersonTrackingOutput`
+    public func getPersonTrackingPaginated(input: GetPersonTrackingInput) -> ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutput> {
+        return ClientRuntime.PaginatorSequence<GetPersonTrackingInput, GetPersonTrackingOutput>(input: input, inputKey: \GetPersonTrackingInput.nextToken, outputKey: \GetPersonTrackingOutput.nextToken, paginationFunction: self.getPersonTracking(input:))
     }
 }
 
@@ -205,16 +205,16 @@ extension GetPersonTrackingInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetSegmentDetectionOutputResponse]` results.
+    /// Paginate over `[GetSegmentDetectionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetSegmentDetectionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetSegmentDetectionOutputResponse`
-    public func getSegmentDetectionPaginated(input: GetSegmentDetectionInput) -> ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutputResponse>(input: input, inputKey: \GetSegmentDetectionInput.nextToken, outputKey: \GetSegmentDetectionOutputResponse.nextToken, paginationFunction: self.getSegmentDetection(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSegmentDetectionOutput`
+    public func getSegmentDetectionPaginated(input: GetSegmentDetectionInput) -> ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutput> {
+        return ClientRuntime.PaginatorSequence<GetSegmentDetectionInput, GetSegmentDetectionOutput>(input: input, inputKey: \GetSegmentDetectionInput.nextToken, outputKey: \GetSegmentDetectionOutput.nextToken, paginationFunction: self.getSegmentDetection(input:))
     }
 }
 
@@ -227,16 +227,16 @@ extension GetSegmentDetectionInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[GetTextDetectionOutputResponse]` results.
+    /// Paginate over `[GetTextDetectionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetTextDetectionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetTextDetectionOutputResponse`
-    public func getTextDetectionPaginated(input: GetTextDetectionInput) -> ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutputResponse>(input: input, inputKey: \GetTextDetectionInput.nextToken, outputKey: \GetTextDetectionOutputResponse.nextToken, paginationFunction: self.getTextDetection(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTextDetectionOutput`
+    public func getTextDetectionPaginated(input: GetTextDetectionInput) -> ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutput> {
+        return ClientRuntime.PaginatorSequence<GetTextDetectionInput, GetTextDetectionOutput>(input: input, inputKey: \GetTextDetectionInput.nextToken, outputKey: \GetTextDetectionOutput.nextToken, paginationFunction: self.getTextDetection(input:))
     }
 }
 
@@ -249,16 +249,16 @@ extension GetTextDetectionInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[ListCollectionsOutputResponse]` results.
+    /// Paginate over `[ListCollectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCollectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCollectionsOutputResponse`
-    public func listCollectionsPaginated(input: ListCollectionsInput) -> ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutputResponse>(input: input, inputKey: \ListCollectionsInput.nextToken, outputKey: \ListCollectionsOutputResponse.nextToken, paginationFunction: self.listCollections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCollectionsOutput`
+    public func listCollectionsPaginated(input: ListCollectionsInput) -> ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCollectionsInput, ListCollectionsOutput>(input: input, inputKey: \ListCollectionsInput.nextToken, outputKey: \ListCollectionsOutput.nextToken, paginationFunction: self.listCollections(input:))
     }
 }
 
@@ -270,7 +270,7 @@ extension ListCollectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCollectionsInput, Output == ListCollectionsOutputResponse {
+extension PaginatorSequence where Input == ListCollectionsInput, Output == ListCollectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCollectionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -279,16 +279,16 @@ extension PaginatorSequence where Input == ListCollectionsInput, Output == ListC
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[ListDatasetEntriesOutputResponse]` results.
+    /// Paginate over `[ListDatasetEntriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetEntriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetEntriesOutputResponse`
-    public func listDatasetEntriesPaginated(input: ListDatasetEntriesInput) -> ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutputResponse>(input: input, inputKey: \ListDatasetEntriesInput.nextToken, outputKey: \ListDatasetEntriesOutputResponse.nextToken, paginationFunction: self.listDatasetEntries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetEntriesOutput`
+    public func listDatasetEntriesPaginated(input: ListDatasetEntriesInput) -> ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput>(input: input, inputKey: \ListDatasetEntriesInput.nextToken, outputKey: \ListDatasetEntriesOutput.nextToken, paginationFunction: self.listDatasetEntries(input:))
     }
 }
 
@@ -305,7 +305,7 @@ extension ListDatasetEntriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatasetEntriesInput, Output == ListDatasetEntriesOutputResponse {
+extension PaginatorSequence where Input == ListDatasetEntriesInput, Output == ListDatasetEntriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetEntriesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -314,16 +314,16 @@ extension PaginatorSequence where Input == ListDatasetEntriesInput, Output == Li
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[ListDatasetLabelsOutputResponse]` results.
+    /// Paginate over `[ListDatasetLabelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetLabelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetLabelsOutputResponse`
-    public func listDatasetLabelsPaginated(input: ListDatasetLabelsInput) -> ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutputResponse>(input: input, inputKey: \ListDatasetLabelsInput.nextToken, outputKey: \ListDatasetLabelsOutputResponse.nextToken, paginationFunction: self.listDatasetLabels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetLabelsOutput`
+    public func listDatasetLabelsPaginated(input: ListDatasetLabelsInput) -> ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetLabelsInput, ListDatasetLabelsOutput>(input: input, inputKey: \ListDatasetLabelsInput.nextToken, outputKey: \ListDatasetLabelsOutput.nextToken, paginationFunction: self.listDatasetLabels(input:))
     }
 }
 
@@ -336,7 +336,7 @@ extension ListDatasetLabelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatasetLabelsInput, Output == ListDatasetLabelsOutputResponse {
+extension PaginatorSequence where Input == ListDatasetLabelsInput, Output == ListDatasetLabelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetLabelsPaginated`
     /// to access the nested member `[RekognitionClientTypes.DatasetLabelDescription]`
     /// - Returns: `[RekognitionClientTypes.DatasetLabelDescription]`
@@ -345,16 +345,16 @@ extension PaginatorSequence where Input == ListDatasetLabelsInput, Output == Lis
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[ListFacesOutputResponse]` results.
+    /// Paginate over `[ListFacesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFacesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFacesOutputResponse`
-    public func listFacesPaginated(input: ListFacesInput) -> ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutputResponse>(input: input, inputKey: \ListFacesInput.nextToken, outputKey: \ListFacesOutputResponse.nextToken, paginationFunction: self.listFaces(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFacesOutput`
+    public func listFacesPaginated(input: ListFacesInput) -> ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFacesInput, ListFacesOutput>(input: input, inputKey: \ListFacesInput.nextToken, outputKey: \ListFacesOutput.nextToken, paginationFunction: self.listFaces(input:))
     }
 }
 
@@ -369,7 +369,7 @@ extension ListFacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFacesInput, Output == ListFacesOutputResponse {
+extension PaginatorSequence where Input == ListFacesInput, Output == ListFacesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFacesPaginated`
     /// to access the nested member `[RekognitionClientTypes.Face]`
     /// - Returns: `[RekognitionClientTypes.Face]`
@@ -378,16 +378,16 @@ extension PaginatorSequence where Input == ListFacesInput, Output == ListFacesOu
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[ListProjectPoliciesOutputResponse]` results.
+    /// Paginate over `[ListProjectPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProjectPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectPoliciesOutputResponse`
-    public func listProjectPoliciesPaginated(input: ListProjectPoliciesInput) -> ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutputResponse>(input: input, inputKey: \ListProjectPoliciesInput.nextToken, outputKey: \ListProjectPoliciesOutputResponse.nextToken, paginationFunction: self.listProjectPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectPoliciesOutput`
+    public func listProjectPoliciesPaginated(input: ListProjectPoliciesInput) -> ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProjectPoliciesInput, ListProjectPoliciesOutput>(input: input, inputKey: \ListProjectPoliciesInput.nextToken, outputKey: \ListProjectPoliciesOutput.nextToken, paginationFunction: self.listProjectPolicies(input:))
     }
 }
 
@@ -400,7 +400,7 @@ extension ListProjectPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProjectPoliciesInput, Output == ListProjectPoliciesOutputResponse {
+extension PaginatorSequence where Input == ListProjectPoliciesInput, Output == ListProjectPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProjectPoliciesPaginated`
     /// to access the nested member `[RekognitionClientTypes.ProjectPolicy]`
     /// - Returns: `[RekognitionClientTypes.ProjectPolicy]`
@@ -409,16 +409,16 @@ extension PaginatorSequence where Input == ListProjectPoliciesInput, Output == L
     }
 }
 extension RekognitionClient {
-    /// Paginate over `[ListStreamProcessorsOutputResponse]` results.
+    /// Paginate over `[ListStreamProcessorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStreamProcessorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamProcessorsOutputResponse`
-    public func listStreamProcessorsPaginated(input: ListStreamProcessorsInput) -> ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutputResponse>(input: input, inputKey: \ListStreamProcessorsInput.nextToken, outputKey: \ListStreamProcessorsOutputResponse.nextToken, paginationFunction: self.listStreamProcessors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamProcessorsOutput`
+    public func listStreamProcessorsPaginated(input: ListStreamProcessorsInput) -> ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStreamProcessorsInput, ListStreamProcessorsOutput>(input: input, inputKey: \ListStreamProcessorsInput.nextToken, outputKey: \ListStreamProcessorsOutput.nextToken, paginationFunction: self.listStreamProcessors(input:))
     }
 }
 
@@ -430,16 +430,16 @@ extension ListStreamProcessorsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RekognitionClient {
-    /// Paginate over `[ListUsersOutputResponse]` results.
+    /// Paginate over `[ListUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUsersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
-    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutputResponse.nextToken, paginationFunction: self.listUsers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
+    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
     }
 }
 
@@ -452,7 +452,7 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[RekognitionClientTypes.User]`
     /// - Returns: `[RekognitionClientTypes.User]`

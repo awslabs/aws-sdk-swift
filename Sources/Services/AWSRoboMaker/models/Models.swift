@@ -97,24 +97,11 @@ extension BatchDeleteWorldsInputBody: Swift.Decodable {
     }
 }
 
-enum BatchDeleteWorldsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchDeleteWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchDeleteWorldsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchDeleteWorldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchDeleteWorldsOutputBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedWorlds = output.unprocessedWorlds
         } else {
             self.unprocessedWorlds = nil
@@ -122,7 +109,7 @@ extension BatchDeleteWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteWorldsOutputResponse: Swift.Equatable {
+public struct BatchDeleteWorldsOutput: Swift.Equatable {
     /// A list of unprocessed worlds associated with the call. These worlds were not deleted.
     public var unprocessedWorlds: [Swift.String]?
 
@@ -134,11 +121,11 @@ public struct BatchDeleteWorldsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchDeleteWorldsOutputResponseBody: Swift.Equatable {
+struct BatchDeleteWorldsOutputBody: Swift.Equatable {
     let unprocessedWorlds: [Swift.String]?
 }
 
-extension BatchDeleteWorldsOutputResponseBody: Swift.Decodable {
+extension BatchDeleteWorldsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unprocessedWorlds
     }
@@ -156,6 +143,19 @@ extension BatchDeleteWorldsOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedWorlds = unprocessedWorldsDecoded0
+    }
+}
+
+enum BatchDeleteWorldsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -219,25 +219,11 @@ extension BatchDescribeSimulationJobInputBody: Swift.Decodable {
     }
 }
 
-enum BatchDescribeSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchDescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchDescribeSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchDescribeSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchDescribeSimulationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.unprocessedJobs = output.unprocessedJobs
         } else {
@@ -247,7 +233,7 @@ extension BatchDescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct BatchDescribeSimulationJobOutputResponse: Swift.Equatable {
+public struct BatchDescribeSimulationJobOutput: Swift.Equatable {
     /// A list of simulation jobs.
     public var jobs: [RoboMakerClientTypes.SimulationJob]?
     /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
@@ -263,12 +249,12 @@ public struct BatchDescribeSimulationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchDescribeSimulationJobOutputResponseBody: Swift.Equatable {
+struct BatchDescribeSimulationJobOutputBody: Swift.Equatable {
     let jobs: [RoboMakerClientTypes.SimulationJob]?
     let unprocessedJobs: [Swift.String]?
 }
 
-extension BatchDescribeSimulationJobOutputResponseBody: Swift.Decodable {
+extension BatchDescribeSimulationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobs
         case unprocessedJobs
@@ -298,6 +284,20 @@ extension BatchDescribeSimulationJobOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedJobs = unprocessedJobsDecoded0
+    }
+}
+
+enum BatchDescribeSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -395,6 +395,17 @@ extension CancelDeploymentJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+@available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+public struct CancelDeploymentJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CancelDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -407,17 +418,6 @@ enum CancelDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-@available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CancelDeploymentJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CancelSimulationJobBatchInput: Swift.Encodable {
@@ -468,6 +468,16 @@ extension CancelSimulationJobBatchInputBody: Swift.Decodable {
     }
 }
 
+extension CancelSimulationJobBatchOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelSimulationJobBatchOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CancelSimulationJobBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -480,16 +490,6 @@ enum CancelSimulationJobBatchOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelSimulationJobBatchOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CancelSimulationJobInput: Swift.Encodable {
@@ -540,6 +540,16 @@ extension CancelSimulationJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelSimulationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelSimulationJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CancelSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -552,16 +562,6 @@ enum CancelSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelSimulationJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CancelWorldExportJobInput: Swift.Encodable {
@@ -612,6 +612,16 @@ extension CancelWorldExportJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelWorldExportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelWorldExportJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CancelWorldExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -624,16 +634,6 @@ enum CancelWorldExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelWorldExportJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CancelWorldGenerationJobInput: Swift.Encodable {
@@ -684,6 +684,16 @@ extension CancelWorldGenerationJobInputBody: Swift.Decodable {
     }
 }
 
+extension CancelWorldGenerationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelWorldGenerationJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CancelWorldGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -696,16 +706,6 @@ enum CancelWorldGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelWorldGenerationJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RoboMakerClientTypes.Compute: Swift.Codable {
@@ -1028,28 +1028,11 @@ extension CreateDeploymentJobInputBody: Swift.Decodable {
     }
 }
 
-enum CreateDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentDeploymentException": return try await ConcurrentDeploymentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateDeploymentJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.deploymentApplicationConfigs = output.deploymentApplicationConfigs
@@ -1074,7 +1057,7 @@ extension CreateDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateDeploymentJobOutputResponse: Swift.Equatable {
+public struct CreateDeploymentJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the deployment job.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1118,7 +1101,7 @@ public struct CreateDeploymentJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentJobOutputResponseBody: Swift.Equatable {
+struct CreateDeploymentJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let fleet: Swift.String?
     let status: RoboMakerClientTypes.DeploymentStatus?
@@ -1130,7 +1113,7 @@ struct CreateDeploymentJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateDeploymentJobOutputResponseBody: Swift.Decodable {
+extension CreateDeploymentJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -1181,6 +1164,23 @@ extension CreateDeploymentJobOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentDeploymentException": return try await ConcurrentDeploymentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1257,25 +1257,11 @@ extension CreateFleetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateFleetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateFleetOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.name = output.name
@@ -1290,7 +1276,7 @@ extension CreateFleetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateFleetOutputResponse: Swift.Equatable {
+public struct CreateFleetOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1314,14 +1300,14 @@ public struct CreateFleetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputResponseBody: Swift.Equatable {
+struct CreateFleetOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let createdAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateFleetOutputResponseBody: Swift.Decodable {
+extension CreateFleetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -1348,6 +1334,20 @@ extension CreateFleetOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1472,27 +1472,11 @@ extension CreateRobotApplicationInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRobotApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -1516,7 +1500,7 @@ extension CreateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateRobotApplicationOutputResponse: Swift.Equatable {
+public struct CreateRobotApplicationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the robot application.
     public var arn: Swift.String?
     /// An object that contains the Docker image URI used to a create your robot application.
@@ -1560,7 +1544,7 @@ public struct CreateRobotApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRobotApplicationOutputResponseBody: Swift.Equatable {
+struct CreateRobotApplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -1572,7 +1556,7 @@ struct CreateRobotApplicationOutputResponseBody: Swift.Equatable {
     let environment: RoboMakerClientTypes.Environment?
 }
 
-extension CreateRobotApplicationOutputResponseBody: Swift.Decodable {
+extension CreateRobotApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -1623,6 +1607,22 @@ extension CreateRobotApplicationOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let environmentDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum CreateRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1722,26 +1722,11 @@ extension CreateRobotApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRobotApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRobotApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRobotApplicationVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRobotApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRobotApplicationVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -1763,7 +1748,7 @@ extension CreateRobotApplicationVersionOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct CreateRobotApplicationVersionOutputResponse: Swift.Equatable {
+public struct CreateRobotApplicationVersionOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the robot application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create your robot application.
@@ -1803,7 +1788,7 @@ public struct CreateRobotApplicationVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRobotApplicationVersionOutputResponseBody: Swift.Equatable {
+struct CreateRobotApplicationVersionOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -1814,7 +1799,7 @@ struct CreateRobotApplicationVersionOutputResponseBody: Swift.Equatable {
     let environment: RoboMakerClientTypes.Environment?
 }
 
-extension CreateRobotApplicationVersionOutputResponseBody: Swift.Decodable {
+extension CreateRobotApplicationVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -1853,6 +1838,21 @@ extension CreateRobotApplicationVersionOutputResponseBody: Swift.Decodable {
         revisionId = revisionIdDecoded
         let environmentDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum CreateRobotApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1955,26 +1955,11 @@ extension CreateRobotInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRobotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRobotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRobotOutputBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -1993,7 +1978,7 @@ extension CreateRobotOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateRobotOutputResponse: Swift.Equatable {
+public struct CreateRobotOutput: Swift.Equatable {
     /// The target architecture of the robot.
     public var architecture: RoboMakerClientTypes.Architecture?
     /// The Amazon Resource Name (ARN) of the robot.
@@ -2025,7 +2010,7 @@ public struct CreateRobotOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRobotOutputResponseBody: Swift.Equatable {
+struct CreateRobotOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -2034,7 +2019,7 @@ struct CreateRobotOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateRobotOutputResponseBody: Swift.Decodable {
+extension CreateRobotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case architecture
         case arn
@@ -2067,6 +2052,21 @@ extension CreateRobotOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2216,27 +2216,11 @@ extension CreateSimulationApplicationInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSimulationApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -2264,7 +2248,7 @@ extension CreateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateSimulationApplicationOutputResponse: Swift.Equatable {
+public struct CreateSimulationApplicationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI that you used to create your simulation application.
@@ -2316,7 +2300,7 @@ public struct CreateSimulationApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSimulationApplicationOutputResponseBody: Swift.Equatable {
+struct CreateSimulationApplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -2330,7 +2314,7 @@ struct CreateSimulationApplicationOutputResponseBody: Swift.Equatable {
     let environment: RoboMakerClientTypes.Environment?
 }
 
-extension CreateSimulationApplicationOutputResponseBody: Swift.Decodable {
+extension CreateSimulationApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -2387,6 +2371,22 @@ extension CreateSimulationApplicationOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let environmentDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum CreateSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2486,26 +2486,11 @@ extension CreateSimulationApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSimulationApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSimulationApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSimulationApplicationVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSimulationApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSimulationApplicationVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -2531,7 +2516,7 @@ extension CreateSimulationApplicationVersionOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct CreateSimulationApplicationVersionOutputResponse: Swift.Equatable {
+public struct CreateSimulationApplicationVersionOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create the simulation application.
@@ -2579,7 +2564,7 @@ public struct CreateSimulationApplicationVersionOutputResponse: Swift.Equatable 
     }
 }
 
-struct CreateSimulationApplicationVersionOutputResponseBody: Swift.Equatable {
+struct CreateSimulationApplicationVersionOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -2592,7 +2577,7 @@ struct CreateSimulationApplicationVersionOutputResponseBody: Swift.Equatable {
     let environment: RoboMakerClientTypes.Environment?
 }
 
-extension CreateSimulationApplicationVersionOutputResponseBody: Swift.Decodable {
+extension CreateSimulationApplicationVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -2637,6 +2622,21 @@ extension CreateSimulationApplicationVersionOutputResponseBody: Swift.Decodable 
         revisionId = revisionIdDecoded
         let environmentDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum CreateSimulationApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2869,28 +2869,11 @@ extension CreateSimulationJobInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSimulationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.compute = output.compute
@@ -2932,7 +2915,7 @@ extension CreateSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSimulationJobOutputResponse: Swift.Equatable {
+public struct CreateSimulationJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the simulation job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3012,7 +2995,7 @@ public struct CreateSimulationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSimulationJobOutputResponseBody: Swift.Equatable {
+struct CreateSimulationJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobStatus?
     let lastStartedAt: ClientRuntime.Date?
@@ -3033,7 +3016,7 @@ struct CreateSimulationJobOutputResponseBody: Swift.Equatable {
     let compute: RoboMakerClientTypes.ComputeResponse?
 }
 
-extension CreateSimulationJobOutputResponseBody: Swift.Decodable {
+extension CreateSimulationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -3129,6 +3112,23 @@ extension CreateSimulationJobOutputResponseBody: Swift.Decodable {
         vpcConfig = vpcConfigDecoded
         let computeDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.ComputeResponse.self, forKey: .compute)
         compute = computeDecoded
+    }
+}
+
+enum CreateSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3254,27 +3254,11 @@ extension CreateWorldExportJobInputBody: Swift.Decodable {
     }
 }
 
-enum CreateWorldExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateWorldExportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateWorldExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateWorldExportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.createdAt = output.createdAt
@@ -3296,7 +3280,7 @@ extension CreateWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateWorldExportJobOutputResponse: Swift.Equatable {
+public struct CreateWorldExportJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the world export job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3336,7 +3320,7 @@ public struct CreateWorldExportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateWorldExportJobOutputResponseBody: Swift.Equatable {
+struct CreateWorldExportJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldExportJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -3347,7 +3331,7 @@ struct CreateWorldExportJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateWorldExportJobOutputResponseBody: Swift.Decodable {
+extension CreateWorldExportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -3386,6 +3370,22 @@ extension CreateWorldExportJobOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateWorldExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3510,28 +3510,11 @@ extension CreateWorldGenerationJobInputBody: Swift.Decodable {
     }
 }
 
-enum CreateWorldGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateWorldGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateWorldGenerationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateWorldGenerationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.createdAt = output.createdAt
@@ -3555,7 +3538,7 @@ extension CreateWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateWorldGenerationJobOutputResponse: Swift.Equatable {
+public struct CreateWorldGenerationJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the world generator job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3599,7 +3582,7 @@ public struct CreateWorldGenerationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateWorldGenerationJobOutputResponseBody: Swift.Equatable {
+struct CreateWorldGenerationJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldGenerationJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -3611,7 +3594,7 @@ struct CreateWorldGenerationJobOutputResponseBody: Swift.Equatable {
     let worldTags: [Swift.String:Swift.String]?
 }
 
-extension CreateWorldGenerationJobOutputResponseBody: Swift.Decodable {
+extension CreateWorldGenerationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -3662,6 +3645,23 @@ extension CreateWorldGenerationJobOutputResponseBody: Swift.Decodable {
             }
         }
         worldTags = worldTagsDecoded0
+    }
+}
+
+enum CreateWorldGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3772,27 +3772,11 @@ extension CreateWorldTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum CreateWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateWorldTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.createdAt = output.createdAt
@@ -3808,7 +3792,7 @@ extension CreateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorldTemplateOutputResponse: Swift.Equatable {
+public struct CreateWorldTemplateOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the world template.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3836,7 +3820,7 @@ public struct CreateWorldTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateWorldTemplateOutputResponseBody: Swift.Equatable {
+struct CreateWorldTemplateOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let clientRequestToken: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -3844,7 +3828,7 @@ struct CreateWorldTemplateOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateWorldTemplateOutputResponseBody: Swift.Decodable {
+extension CreateWorldTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -3874,6 +3858,22 @@ extension CreateWorldTemplateOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4138,6 +4138,17 @@ extension DeleteFleetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+@available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+public struct DeleteFleetOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4149,17 +4160,6 @@ enum DeleteFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteFleetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-@available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeleteFleetOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRobotApplicationInput: Swift.Encodable {
@@ -4222,6 +4222,16 @@ extension DeleteRobotApplicationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRobotApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4233,16 +4243,6 @@ enum DeleteRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRobotApplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRobotInput: Swift.Encodable {
@@ -4294,6 +4294,17 @@ extension DeleteRobotInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRobotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+@available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
+public struct DeleteRobotOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4305,17 +4316,6 @@ enum DeleteRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRobotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-@available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeleteRobotOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSimulationApplicationInput: Swift.Encodable {
@@ -4378,6 +4378,16 @@ extension DeleteSimulationApplicationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSimulationApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4389,16 +4399,6 @@ enum DeleteSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSimulationApplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteWorldTemplateInput: Swift.Encodable {
@@ -4449,6 +4449,16 @@ extension DeleteWorldTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteWorldTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4461,16 +4471,6 @@ enum DeleteWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteWorldTemplateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RoboMakerClientTypes.DeploymentApplicationConfig: Swift.Codable {
@@ -5006,25 +5006,11 @@ extension DeregisterRobotInputBody: Swift.Decodable {
     }
 }
 
-enum DeregisterRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeregisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeregisterRobotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeregisterRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeregisterRobotOutputBody = try responseDecoder.decode(responseBody: data)
             self.fleet = output.fleet
             self.robot = output.robot
         } else {
@@ -5035,7 +5021,7 @@ extension DeregisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeregisterRobotOutputResponse: Swift.Equatable {
+public struct DeregisterRobotOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var fleet: Swift.String?
     /// The Amazon Resource Name (ARN) of the robot.
@@ -5051,12 +5037,12 @@ public struct DeregisterRobotOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeregisterRobotOutputResponseBody: Swift.Equatable {
+struct DeregisterRobotOutputBody: Swift.Equatable {
     let fleet: Swift.String?
     let robot: Swift.String?
 }
 
-extension DeregisterRobotOutputResponseBody: Swift.Decodable {
+extension DeregisterRobotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fleet
         case robot
@@ -5068,6 +5054,20 @@ extension DeregisterRobotOutputResponseBody: Swift.Decodable {
         fleet = fleetDecoded
         let robotDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .robot)
         robot = robotDecoded
+    }
+}
+
+enum DeregisterRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5120,25 +5120,11 @@ extension DescribeDeploymentJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDeploymentJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.deploymentApplicationConfigs = output.deploymentApplicationConfigs
@@ -5165,7 +5151,7 @@ extension DescribeDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeDeploymentJobOutputResponse: Swift.Equatable {
+public struct DescribeDeploymentJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the deployment job.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -5213,7 +5199,7 @@ public struct DescribeDeploymentJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDeploymentJobOutputResponseBody: Swift.Equatable {
+struct DescribeDeploymentJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let fleet: Swift.String?
     let status: RoboMakerClientTypes.DeploymentStatus?
@@ -5226,7 +5212,7 @@ struct DescribeDeploymentJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeDeploymentJobOutputResponseBody: Swift.Decodable {
+extension DescribeDeploymentJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -5292,6 +5278,20 @@ extension DescribeDeploymentJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeFleetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fleet
@@ -5341,25 +5341,11 @@ extension DescribeFleetInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFleetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFleetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFleetOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.lastDeploymentJob = output.lastDeploymentJob
@@ -5382,7 +5368,7 @@ extension DescribeFleetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeFleetOutputResponse: Swift.Equatable {
+public struct DescribeFleetOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -5422,7 +5408,7 @@ public struct DescribeFleetOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFleetOutputResponseBody: Swift.Equatable {
+struct DescribeFleetOutputBody: Swift.Equatable {
     let name: Swift.String?
     let arn: Swift.String?
     let robots: [RoboMakerClientTypes.Robot]?
@@ -5433,7 +5419,7 @@ struct DescribeFleetOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeFleetOutputResponseBody: Swift.Decodable {
+extension DescribeFleetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -5481,6 +5467,20 @@ extension DescribeFleetOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum DescribeFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5544,25 +5544,11 @@ extension DescribeRobotApplicationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRobotApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.imageDigest = output.imageDigest
@@ -5588,7 +5574,7 @@ extension DescribeRobotApplicationOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeRobotApplicationOutputResponse: Swift.Equatable {
+public struct DescribeRobotApplicationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the robot application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create the robot application.
@@ -5636,7 +5622,7 @@ public struct DescribeRobotApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRobotApplicationOutputResponseBody: Swift.Equatable {
+struct DescribeRobotApplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -5649,7 +5635,7 @@ struct DescribeRobotApplicationOutputResponseBody: Swift.Equatable {
     let imageDigest: Swift.String?
 }
 
-extension DescribeRobotApplicationOutputResponseBody: Swift.Decodable {
+extension DescribeRobotApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -5706,6 +5692,20 @@ extension DescribeRobotApplicationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeRobotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case robot
@@ -5755,25 +5755,11 @@ extension DescribeRobotInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRobotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRobotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRobotOutputBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -5800,7 +5786,7 @@ extension DescribeRobotOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeRobotOutputResponse: Swift.Equatable {
+public struct DescribeRobotOutput: Swift.Equatable {
     /// The target architecture of the robot application.
     public var architecture: RoboMakerClientTypes.Architecture?
     /// The Amazon Resource Name (ARN) of the robot.
@@ -5848,7 +5834,7 @@ public struct DescribeRobotOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRobotOutputResponseBody: Swift.Equatable {
+struct DescribeRobotOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let fleetArn: Swift.String?
@@ -5861,7 +5847,7 @@ struct DescribeRobotOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeRobotOutputResponseBody: Swift.Decodable {
+extension DescribeRobotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case architecture
         case arn
@@ -5906,6 +5892,20 @@ extension DescribeRobotOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum DescribeRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5969,25 +5969,11 @@ extension DescribeSimulationApplicationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSimulationApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.imageDigest = output.imageDigest
@@ -6017,7 +6003,7 @@ extension DescribeSimulationApplicationOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeSimulationApplicationOutputResponse: Swift.Equatable {
+public struct DescribeSimulationApplicationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the robot simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create the simulation application.
@@ -6073,7 +6059,7 @@ public struct DescribeSimulationApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationApplicationOutputResponseBody: Swift.Equatable {
+struct DescribeSimulationApplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -6088,7 +6074,7 @@ struct DescribeSimulationApplicationOutputResponseBody: Swift.Equatable {
     let imageDigest: Swift.String?
 }
 
-extension DescribeSimulationApplicationOutputResponseBody: Swift.Decodable {
+extension DescribeSimulationApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -6151,6 +6137,20 @@ extension DescribeSimulationApplicationOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeSimulationJobBatchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batch
@@ -6199,24 +6199,11 @@ extension DescribeSimulationJobBatchInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSimulationJobBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSimulationJobBatchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSimulationJobBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSimulationJobBatchOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.batchPolicy = output.batchPolicy
             self.clientRequestToken = output.clientRequestToken
@@ -6246,7 +6233,7 @@ extension DescribeSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeSimulationJobBatchOutputResponse: Swift.Equatable {
+public struct DescribeSimulationJobBatchOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the batch.
     public var arn: Swift.String?
     /// The batch policy.
@@ -6302,7 +6289,7 @@ public struct DescribeSimulationJobBatchOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationJobBatchOutputResponseBody: Swift.Equatable {
+struct DescribeSimulationJobBatchOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobBatchStatus?
     let lastUpdatedAt: ClientRuntime.Date?
@@ -6317,7 +6304,7 @@ struct DescribeSimulationJobBatchOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeSimulationJobBatchOutputResponseBody: Swift.Decodable {
+extension DescribeSimulationJobBatchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case batchPolicy
@@ -6398,6 +6385,19 @@ extension DescribeSimulationJobBatchOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeSimulationJobBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeSimulationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case job
@@ -6446,25 +6446,11 @@ extension DescribeSimulationJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSimulationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.compute = output.compute
@@ -6512,7 +6498,7 @@ extension DescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeSimulationJobOutputResponse: Swift.Equatable {
+public struct DescribeSimulationJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the simulation job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -6604,7 +6590,7 @@ public struct DescribeSimulationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationJobOutputResponseBody: Swift.Equatable {
+struct DescribeSimulationJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobStatus?
@@ -6628,7 +6614,7 @@ struct DescribeSimulationJobOutputResponseBody: Swift.Equatable {
     let compute: RoboMakerClientTypes.ComputeResponse?
 }
 
-extension DescribeSimulationJobOutputResponseBody: Swift.Decodable {
+extension DescribeSimulationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -6736,6 +6722,20 @@ extension DescribeSimulationJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeWorldExportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case job
@@ -6784,25 +6784,11 @@ extension DescribeWorldExportJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeWorldExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeWorldExportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeWorldExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeWorldExportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.createdAt = output.createdAt
@@ -6828,7 +6814,7 @@ extension DescribeWorldExportJobOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeWorldExportJobOutputResponse: Swift.Equatable {
+public struct DescribeWorldExportJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the world export job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -6876,7 +6862,7 @@ public struct DescribeWorldExportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeWorldExportJobOutputResponseBody: Swift.Equatable {
+struct DescribeWorldExportJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldExportJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -6889,7 +6875,7 @@ struct DescribeWorldExportJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension DescribeWorldExportJobOutputResponseBody: Swift.Decodable {
+extension DescribeWorldExportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -6946,6 +6932,20 @@ extension DescribeWorldExportJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeWorldExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeWorldGenerationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case job
@@ -6994,25 +6994,11 @@ extension DescribeWorldGenerationJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeWorldGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeWorldGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeWorldGenerationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeWorldGenerationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.createdAt = output.createdAt
@@ -7040,7 +7026,7 @@ extension DescribeWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeWorldGenerationJobOutputResponse: Swift.Equatable {
+public struct DescribeWorldGenerationJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the world generation job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -7092,7 +7078,7 @@ public struct DescribeWorldGenerationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeWorldGenerationJobOutputResponseBody: Swift.Equatable {
+struct DescribeWorldGenerationJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldGenerationJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -7106,7 +7092,7 @@ struct DescribeWorldGenerationJobOutputResponseBody: Swift.Equatable {
     let worldTags: [Swift.String:Swift.String]?
 }
 
-extension DescribeWorldGenerationJobOutputResponseBody: Swift.Decodable {
+extension DescribeWorldGenerationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -7166,6 +7152,20 @@ extension DescribeWorldGenerationJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DescribeWorldGenerationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeWorldInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case world
@@ -7214,25 +7214,11 @@ extension DescribeWorldInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeWorldOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeWorldOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeWorldOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeWorldOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeWorldOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.generationJob = output.generationJob
@@ -7250,7 +7236,7 @@ extension DescribeWorldOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorldOutputResponse: Swift.Equatable {
+public struct DescribeWorldOutput: Swift.Equatable {
     /// The Amazon Resource Name (arn) of the world.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the world was created.
@@ -7282,7 +7268,7 @@ public struct DescribeWorldOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeWorldOutputResponseBody: Swift.Equatable {
+struct DescribeWorldOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let generationJob: Swift.String?
     let template: Swift.String?
@@ -7291,7 +7277,7 @@ struct DescribeWorldOutputResponseBody: Swift.Equatable {
     let worldDescriptionBody: Swift.String?
 }
 
-extension DescribeWorldOutputResponseBody: Swift.Decodable {
+extension DescribeWorldOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -7324,6 +7310,20 @@ extension DescribeWorldOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let worldDescriptionBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .worldDescriptionBody)
         worldDescriptionBody = worldDescriptionBodyDecoded
+    }
+}
+
+enum DescribeWorldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7375,25 +7375,11 @@ extension DescribeWorldTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeWorldTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
             self.createdAt = output.createdAt
@@ -7413,7 +7399,7 @@ extension DescribeWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeWorldTemplateOutputResponse: Swift.Equatable {
+public struct DescribeWorldTemplateOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the world template.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -7449,7 +7435,7 @@ public struct DescribeWorldTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeWorldTemplateOutputResponseBody: Swift.Equatable {
+struct DescribeWorldTemplateOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let clientRequestToken: Swift.String?
     let name: Swift.String?
@@ -7459,7 +7445,7 @@ struct DescribeWorldTemplateOutputResponseBody: Swift.Equatable {
     let version: Swift.String?
 }
 
-extension DescribeWorldTemplateOutputResponseBody: Swift.Decodable {
+extension DescribeWorldTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case clientRequestToken
@@ -7495,6 +7481,20 @@ extension DescribeWorldTemplateOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
+    }
+}
+
+enum DescribeWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7987,25 +7987,11 @@ extension GetWorldTemplateBodyInputBody: Swift.Decodable {
     }
 }
 
-enum GetWorldTemplateBodyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetWorldTemplateBodyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetWorldTemplateBodyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetWorldTemplateBodyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetWorldTemplateBodyOutputBody = try responseDecoder.decode(responseBody: data)
             self.templateBody = output.templateBody
         } else {
             self.templateBody = nil
@@ -8013,7 +7999,7 @@ extension GetWorldTemplateBodyOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetWorldTemplateBodyOutputResponse: Swift.Equatable {
+public struct GetWorldTemplateBodyOutput: Swift.Equatable {
     /// The world template body.
     public var templateBody: Swift.String?
 
@@ -8025,11 +8011,11 @@ public struct GetWorldTemplateBodyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetWorldTemplateBodyOutputResponseBody: Swift.Equatable {
+struct GetWorldTemplateBodyOutputBody: Swift.Equatable {
     let templateBody: Swift.String?
 }
 
-extension GetWorldTemplateBodyOutputResponseBody: Swift.Decodable {
+extension GetWorldTemplateBodyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateBody
     }
@@ -8038,6 +8024,20 @@ extension GetWorldTemplateBodyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
         templateBody = templateBodyDecoded
+    }
+}
+
+enum GetWorldTemplateBodyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8454,25 +8454,11 @@ extension ListDeploymentJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListDeploymentJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListDeploymentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListDeploymentJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListDeploymentJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListDeploymentJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deploymentJobs = output.deploymentJobs
             self.nextToken = output.nextToken
         } else {
@@ -8483,7 +8469,7 @@ extension ListDeploymentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListDeploymentJobsOutputResponse: Swift.Equatable {
+public struct ListDeploymentJobsOutput: Swift.Equatable {
     /// A list of deployment jobs that meet the criteria of the request.
     public var deploymentJobs: [RoboMakerClientTypes.DeploymentJob]?
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -8499,12 +8485,12 @@ public struct ListDeploymentJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListDeploymentJobsOutputResponseBody: Swift.Equatable {
+struct ListDeploymentJobsOutputBody: Swift.Equatable {
     let deploymentJobs: [RoboMakerClientTypes.DeploymentJob]?
     let nextToken: Swift.String?
 }
 
-extension ListDeploymentJobsOutputResponseBody: Swift.Decodable {
+extension ListDeploymentJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deploymentJobs
         case nextToken
@@ -8525,6 +8511,20 @@ extension ListDeploymentJobsOutputResponseBody: Swift.Decodable {
         deploymentJobs = deploymentJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDeploymentJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8612,25 +8612,11 @@ extension ListFleetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFleetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFleetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.fleetDetails = output.fleetDetails
             self.nextToken = output.nextToken
         } else {
@@ -8641,7 +8627,7 @@ extension ListFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListFleetsOutputResponse: Swift.Equatable {
+public struct ListFleetsOutput: Swift.Equatable {
     /// A list of fleet details meeting the request criteria.
     public var fleetDetails: [RoboMakerClientTypes.Fleet]?
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -8657,12 +8643,12 @@ public struct ListFleetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFleetsOutputResponseBody: Swift.Equatable {
+struct ListFleetsOutputBody: Swift.Equatable {
     let fleetDetails: [RoboMakerClientTypes.Fleet]?
     let nextToken: Swift.String?
 }
 
-extension ListFleetsOutputResponseBody: Swift.Decodable {
+extension ListFleetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fleetDetails
         case nextToken
@@ -8683,6 +8669,20 @@ extension ListFleetsOutputResponseBody: Swift.Decodable {
         fleetDetails = fleetDetailsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8781,24 +8781,11 @@ extension ListRobotApplicationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRobotApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRobotApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRobotApplicationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRobotApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRobotApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.robotApplicationSummaries = output.robotApplicationSummaries
         } else {
@@ -8808,7 +8795,7 @@ extension ListRobotApplicationsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListRobotApplicationsOutputResponse: Swift.Equatable {
+public struct ListRobotApplicationsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of robot application summaries that meet the criteria of the request.
@@ -8824,12 +8811,12 @@ public struct ListRobotApplicationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRobotApplicationsOutputResponseBody: Swift.Equatable {
+struct ListRobotApplicationsOutputBody: Swift.Equatable {
     let robotApplicationSummaries: [RoboMakerClientTypes.RobotApplicationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListRobotApplicationsOutputResponseBody: Swift.Decodable {
+extension ListRobotApplicationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case robotApplicationSummaries
@@ -8850,6 +8837,19 @@ extension ListRobotApplicationsOutputResponseBody: Swift.Decodable {
         robotApplicationSummaries = robotApplicationSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRobotApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8937,25 +8937,11 @@ extension ListRobotsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRobotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRobotsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRobotsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRobotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRobotsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.robots = output.robots
         } else {
@@ -8966,7 +8952,7 @@ extension ListRobotsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListRobotsOutputResponse: Swift.Equatable {
+public struct ListRobotsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of robots that meet the criteria of the request.
@@ -8982,12 +8968,12 @@ public struct ListRobotsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRobotsOutputResponseBody: Swift.Equatable {
+struct ListRobotsOutputBody: Swift.Equatable {
     let robots: [RoboMakerClientTypes.Robot]?
     let nextToken: Swift.String?
 }
 
-extension ListRobotsOutputResponseBody: Swift.Decodable {
+extension ListRobotsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case robots
@@ -9008,6 +8994,20 @@ extension ListRobotsOutputResponseBody: Swift.Decodable {
         robots = robotsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRobotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9106,24 +9106,11 @@ extension ListSimulationApplicationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSimulationApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSimulationApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSimulationApplicationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSimulationApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSimulationApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationApplicationSummaries = output.simulationApplicationSummaries
         } else {
@@ -9133,7 +9120,7 @@ extension ListSimulationApplicationsOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListSimulationApplicationsOutputResponse: Swift.Equatable {
+public struct ListSimulationApplicationsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of simulation application summaries that meet the criteria of the request.
@@ -9149,12 +9136,12 @@ public struct ListSimulationApplicationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSimulationApplicationsOutputResponseBody: Swift.Equatable {
+struct ListSimulationApplicationsOutputBody: Swift.Equatable {
     let simulationApplicationSummaries: [RoboMakerClientTypes.SimulationApplicationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListSimulationApplicationsOutputResponseBody: Swift.Decodable {
+extension ListSimulationApplicationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case simulationApplicationSummaries
@@ -9175,6 +9162,19 @@ extension ListSimulationApplicationsOutputResponseBody: Swift.Decodable {
         simulationApplicationSummaries = simulationApplicationSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSimulationApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9261,23 +9261,11 @@ extension ListSimulationJobBatchesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSimulationJobBatchesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSimulationJobBatchesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSimulationJobBatchesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSimulationJobBatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSimulationJobBatchesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationJobBatchSummaries = output.simulationJobBatchSummaries
         } else {
@@ -9287,7 +9275,7 @@ extension ListSimulationJobBatchesOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListSimulationJobBatchesOutputResponse: Swift.Equatable {
+public struct ListSimulationJobBatchesOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of simulation job batch summaries.
@@ -9303,12 +9291,12 @@ public struct ListSimulationJobBatchesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSimulationJobBatchesOutputResponseBody: Swift.Equatable {
+struct ListSimulationJobBatchesOutputBody: Swift.Equatable {
     let simulationJobBatchSummaries: [RoboMakerClientTypes.SimulationJobBatchSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListSimulationJobBatchesOutputResponseBody: Swift.Decodable {
+extension ListSimulationJobBatchesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case simulationJobBatchSummaries
@@ -9329,6 +9317,18 @@ extension ListSimulationJobBatchesOutputResponseBody: Swift.Decodable {
         simulationJobBatchSummaries = simulationJobBatchSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSimulationJobBatchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9415,24 +9415,11 @@ extension ListSimulationJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSimulationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSimulationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSimulationJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSimulationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSimulationJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationJobSummaries = output.simulationJobSummaries
         } else {
@@ -9442,7 +9429,7 @@ extension ListSimulationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSimulationJobsOutputResponse: Swift.Equatable {
+public struct ListSimulationJobsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of simulation job summaries that meet the criteria of the request.
@@ -9459,12 +9446,12 @@ public struct ListSimulationJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSimulationJobsOutputResponseBody: Swift.Equatable {
+struct ListSimulationJobsOutputBody: Swift.Equatable {
     let simulationJobSummaries: [RoboMakerClientTypes.SimulationJobSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListSimulationJobsOutputResponseBody: Swift.Decodable {
+extension ListSimulationJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case simulationJobSummaries
@@ -9485,6 +9472,19 @@ extension ListSimulationJobsOutputResponseBody: Swift.Decodable {
         simulationJobSummaries = simulationJobSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSimulationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9519,25 +9519,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -9545,7 +9531,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The list of all tags added to the specified resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -9557,11 +9543,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -9579,6 +9565,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9665,24 +9665,11 @@ extension ListWorldExportJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListWorldExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorldExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorldExportJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorldExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorldExportJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldExportJobSummaries = output.worldExportJobSummaries
         } else {
@@ -9692,7 +9679,7 @@ extension ListWorldExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldExportJobsOutputResponse: Swift.Equatable {
+public struct ListWorldExportJobsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for world export jobs.
@@ -9709,12 +9696,12 @@ public struct ListWorldExportJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorldExportJobsOutputResponseBody: Swift.Equatable {
+struct ListWorldExportJobsOutputBody: Swift.Equatable {
     let worldExportJobSummaries: [RoboMakerClientTypes.WorldExportJobSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorldExportJobsOutputResponseBody: Swift.Decodable {
+extension ListWorldExportJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case worldExportJobSummaries
@@ -9735,6 +9722,19 @@ extension ListWorldExportJobsOutputResponseBody: Swift.Decodable {
         worldExportJobSummaries = worldExportJobSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorldExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9821,24 +9821,11 @@ extension ListWorldGenerationJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListWorldGenerationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorldGenerationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorldGenerationJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorldGenerationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorldGenerationJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldGenerationJobSummaries = output.worldGenerationJobSummaries
         } else {
@@ -9848,7 +9835,7 @@ extension ListWorldGenerationJobsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListWorldGenerationJobsOutputResponse: Swift.Equatable {
+public struct ListWorldGenerationJobsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGeneratorJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for world generator jobs.
@@ -9865,12 +9852,12 @@ public struct ListWorldGenerationJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorldGenerationJobsOutputResponseBody: Swift.Equatable {
+struct ListWorldGenerationJobsOutputBody: Swift.Equatable {
     let worldGenerationJobSummaries: [RoboMakerClientTypes.WorldGenerationJobSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorldGenerationJobsOutputResponseBody: Swift.Decodable {
+extension ListWorldGenerationJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case worldGenerationJobSummaries
@@ -9891,6 +9878,19 @@ extension ListWorldGenerationJobsOutputResponseBody: Swift.Decodable {
         worldGenerationJobSummaries = worldGenerationJobSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorldGenerationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9953,24 +9953,11 @@ extension ListWorldTemplatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListWorldTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorldTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorldTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorldTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorldTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templateSummaries = output.templateSummaries
         } else {
@@ -9980,7 +9967,7 @@ extension ListWorldTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldTemplatesOutputResponse: Swift.Equatable {
+public struct ListWorldTemplatesOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for templates.
@@ -9996,12 +9983,12 @@ public struct ListWorldTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorldTemplatesOutputResponseBody: Swift.Equatable {
+struct ListWorldTemplatesOutputBody: Swift.Equatable {
     let templateSummaries: [RoboMakerClientTypes.TemplateSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorldTemplatesOutputResponseBody: Swift.Decodable {
+extension ListWorldTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case templateSummaries
@@ -10022,6 +10009,19 @@ extension ListWorldTemplatesOutputResponseBody: Swift.Decodable {
         templateSummaries = templateSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorldTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10108,24 +10108,11 @@ extension ListWorldsInputBody: Swift.Decodable {
     }
 }
 
-enum ListWorldsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorldsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorldsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldSummaries = output.worldSummaries
         } else {
@@ -10135,7 +10122,7 @@ extension ListWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldsOutputResponse: Swift.Equatable {
+public struct ListWorldsOutput: Swift.Equatable {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for worlds.
@@ -10151,12 +10138,12 @@ public struct ListWorldsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorldsOutputResponseBody: Swift.Equatable {
+struct ListWorldsOutputBody: Swift.Equatable {
     let worldSummaries: [RoboMakerClientTypes.WorldSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorldsOutputResponseBody: Swift.Decodable {
+extension ListWorldsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case worldSummaries
@@ -10177,6 +10164,19 @@ extension ListWorldsOutputResponseBody: Swift.Decodable {
         worldSummaries = worldSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorldsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10547,26 +10547,11 @@ extension RegisterRobotInputBody: Swift.Decodable {
     }
 }
 
-enum RegisterRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RegisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RegisterRobotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RegisterRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RegisterRobotOutputBody = try responseDecoder.decode(responseBody: data)
             self.fleet = output.fleet
             self.robot = output.robot
         } else {
@@ -10577,7 +10562,7 @@ extension RegisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct RegisterRobotOutputResponse: Swift.Equatable {
+public struct RegisterRobotOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
     public var fleet: Swift.String?
     /// Information about the robot registration.
@@ -10593,12 +10578,12 @@ public struct RegisterRobotOutputResponse: Swift.Equatable {
     }
 }
 
-struct RegisterRobotOutputResponseBody: Swift.Equatable {
+struct RegisterRobotOutputBody: Swift.Equatable {
     let fleet: Swift.String?
     let robot: Swift.String?
 }
 
-extension RegisterRobotOutputResponseBody: Swift.Decodable {
+extension RegisterRobotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fleet
         case robot
@@ -10610,6 +10595,21 @@ extension RegisterRobotOutputResponseBody: Swift.Decodable {
         fleet = fleetDecoded
         let robotDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .robot)
         robot = robotDecoded
+    }
+}
+
+enum RegisterRobotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10845,6 +10845,16 @@ extension RestartSimulationJobInputBody: Swift.Decodable {
     }
 }
 
+extension RestartSimulationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RestartSimulationJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RestartSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10858,16 +10868,6 @@ enum RestartSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RestartSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RestartSimulationJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RoboMakerClientTypes.Robot: Swift.Codable {
@@ -13155,26 +13155,11 @@ extension StartSimulationJobBatchInputBody: Swift.Decodable {
     }
 }
 
-enum StartSimulationJobBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartSimulationJobBatchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartSimulationJobBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartSimulationJobBatchOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.batchPolicy = output.batchPolicy
             self.clientRequestToken = output.clientRequestToken
@@ -13202,7 +13187,7 @@ extension StartSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct StartSimulationJobBatchOutputResponse: Swift.Equatable {
+public struct StartSimulationJobBatchOutput: Swift.Equatable {
     /// The Amazon Resource Name (arn) of the batch.
     public var arn: Swift.String?
     /// The batch policy.
@@ -13254,7 +13239,7 @@ public struct StartSimulationJobBatchOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartSimulationJobBatchOutputResponseBody: Swift.Equatable {
+struct StartSimulationJobBatchOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobBatchStatus?
     let createdAt: ClientRuntime.Date?
@@ -13268,7 +13253,7 @@ struct StartSimulationJobBatchOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension StartSimulationJobBatchOutputResponseBody: Swift.Decodable {
+extension StartSimulationJobBatchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case batchPolicy
@@ -13346,6 +13331,21 @@ extension StartSimulationJobBatchOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum StartSimulationJobBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension SyncDeploymentJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
@@ -13408,28 +13408,11 @@ extension SyncDeploymentJobInputBody: Swift.Decodable {
     }
 }
 
-enum SyncDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentDeploymentException": return try await ConcurrentDeploymentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SyncDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SyncDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SyncDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SyncDeploymentJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.deploymentApplicationConfigs = output.deploymentApplicationConfigs
@@ -13452,7 +13435,7 @@ extension SyncDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct SyncDeploymentJobOutputResponse: Swift.Equatable {
+public struct SyncDeploymentJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the synchronization request.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -13492,7 +13475,7 @@ public struct SyncDeploymentJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct SyncDeploymentJobOutputResponseBody: Swift.Equatable {
+struct SyncDeploymentJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let fleet: Swift.String?
     let status: RoboMakerClientTypes.DeploymentStatus?
@@ -13503,7 +13486,7 @@ struct SyncDeploymentJobOutputResponseBody: Swift.Equatable {
     let createdAt: ClientRuntime.Date?
 }
 
-extension SyncDeploymentJobOutputResponseBody: Swift.Decodable {
+extension SyncDeploymentJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -13542,6 +13525,23 @@ extension SyncDeploymentJobOutputResponseBody: Swift.Decodable {
         failureCode = failureCodeDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+    }
+}
+
+enum SyncDeploymentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentDeploymentException": return try await ConcurrentDeploymentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13613,6 +13613,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13625,16 +13635,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RoboMakerClientTypes.TemplateLocation: Swift.Codable {
@@ -13944,6 +13944,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13956,16 +13966,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateRobotApplicationInput: Swift.Encodable {
@@ -14077,26 +14077,11 @@ extension UpdateRobotApplicationInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateRobotApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -14118,7 +14103,7 @@ extension UpdateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateRobotApplicationOutputResponse: Swift.Equatable {
+public struct UpdateRobotApplicationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the updated robot application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI for your robot application.
@@ -14158,7 +14143,7 @@ public struct UpdateRobotApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateRobotApplicationOutputResponseBody: Swift.Equatable {
+struct UpdateRobotApplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -14169,7 +14154,7 @@ struct UpdateRobotApplicationOutputResponseBody: Swift.Equatable {
     let environment: RoboMakerClientTypes.Environment?
 }
 
-extension UpdateRobotApplicationOutputResponseBody: Swift.Decodable {
+extension UpdateRobotApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -14208,6 +14193,21 @@ extension UpdateRobotApplicationOutputResponseBody: Swift.Decodable {
         revisionId = revisionIdDecoded
         let environmentDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum UpdateRobotApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14345,26 +14345,11 @@ extension UpdateSimulationApplicationInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSimulationApplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -14390,7 +14375,7 @@ extension UpdateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateSimulationApplicationOutputResponse: Swift.Equatable {
+public struct UpdateSimulationApplicationOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the updated simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used for your simulation application.
@@ -14438,7 +14423,7 @@ public struct UpdateSimulationApplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSimulationApplicationOutputResponseBody: Swift.Equatable {
+struct UpdateSimulationApplicationOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -14451,7 +14436,7 @@ struct UpdateSimulationApplicationOutputResponseBody: Swift.Equatable {
     let environment: RoboMakerClientTypes.Environment?
 }
 
-extension UpdateSimulationApplicationOutputResponseBody: Swift.Decodable {
+extension UpdateSimulationApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case environment
@@ -14496,6 +14481,21 @@ extension UpdateSimulationApplicationOutputResponseBody: Swift.Decodable {
         revisionId = revisionIdDecoded
         let environmentDecoded = try containerValues.decodeIfPresent(RoboMakerClientTypes.Environment.self, forKey: .environment)
         environment = environmentDecoded
+    }
+}
+
+enum UpdateSimulationApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14583,25 +14583,11 @@ extension UpdateWorldTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateWorldTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
             self.lastUpdatedAt = output.lastUpdatedAt
@@ -14615,7 +14601,7 @@ extension UpdateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorldTemplateOutputResponse: Swift.Equatable {
+public struct UpdateWorldTemplateOutput: Swift.Equatable {
     /// The Amazon Resource Name (arn) of the world template.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the world template was created.
@@ -14639,14 +14625,14 @@ public struct UpdateWorldTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateWorldTemplateOutputResponseBody: Swift.Equatable {
+struct UpdateWorldTemplateOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let createdAt: ClientRuntime.Date?
     let lastUpdatedAt: ClientRuntime.Date?
 }
 
-extension UpdateWorldTemplateOutputResponseBody: Swift.Decodable {
+extension UpdateWorldTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdAt
@@ -14664,6 +14650,20 @@ extension UpdateWorldTemplateOutputResponseBody: Swift.Decodable {
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
+    }
+}
+
+enum UpdateWorldTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -71,7 +71,7 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
     ///
     /// - Parameter InvokeModelInput : [no documentation found]
     ///
-    /// - Returns: `InvokeModelOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,7 +85,7 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutputResponse
+    public func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -101,21 +101,21 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
                       .withSigningName(value: "bedrock")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InvokeModelInput, InvokeModelOutputResponse, InvokeModelOutputError>(id: "invokeModel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeModelInput, InvokeModelOutputResponse, InvokeModelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeModelInput, InvokeModelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InvokeModelInput, InvokeModelOutput, InvokeModelOutputError>(id: "invokeModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeModelInput, InvokeModelOutput, InvokeModelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeModelInput, InvokeModelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeModelOutputResponse, InvokeModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeModelOutput, InvokeModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeModelInput, InvokeModelOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeModelInput, InvokeModelOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeModelInput, InvokeModelOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeModelInput, InvokeModelOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: InvokeModelInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeModelOutputResponse, InvokeModelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeModelOutput, InvokeModelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeModelOutputResponse, InvokeModelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeModelOutputResponse, InvokeModelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeModelOutputResponse, InvokeModelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeModelOutput, InvokeModelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeModelOutput, InvokeModelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeModelOutput, InvokeModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -124,7 +124,7 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
     ///
     /// - Parameter InvokeModelWithResponseStreamInput : [no documentation found]
     ///
-    /// - Returns: `InvokeModelWithResponseStreamOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeModelWithResponseStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,7 +139,7 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    public func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutputResponse
+    public func invokeModelWithResponseStream(input: InvokeModelWithResponseStreamInput) async throws -> InvokeModelWithResponseStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -155,21 +155,21 @@ extension BedrockRuntimeClient: BedrockRuntimeClientProtocol {
                       .withSigningName(value: "bedrock")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>(id: "invokeModelWithResponseStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>(id: "invokeModelWithResponseStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: InvokeModelWithResponseStreamInputBodyMiddleware())
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeModelWithResponseStreamOutputResponse, InvokeModelWithResponseStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeModelWithResponseStreamOutput, InvokeModelWithResponseStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

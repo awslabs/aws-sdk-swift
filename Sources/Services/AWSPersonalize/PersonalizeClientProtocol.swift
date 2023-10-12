@@ -8,7 +8,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateBatchInferenceJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateBatchInferenceJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBatchInferenceJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createBatchInferenceJob(input: CreateBatchInferenceJobInput) async throws -> CreateBatchInferenceJobOutputResponse
+    func createBatchInferenceJob(input: CreateBatchInferenceJobInput) async throws -> CreateBatchInferenceJobOutput
     /// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see [Getting batch recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/recommendations-batch.html).
     ///
     /// - Parameter CreateBatchSegmentJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateBatchSegmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBatchSegmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,7 +35,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createBatchSegmentJob(input: CreateBatchSegmentJobInput) async throws -> CreateBatchSegmentJobOutputResponse
+    func createBatchSegmentJob(input: CreateBatchSegmentJobInput) async throws -> CreateBatchSegmentJobOutput
     /// Creates a campaign that deploys a solution version. When a client calls the [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) and [GetPersonalizedRanking](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetPersonalizedRanking.html) APIs, a campaign is specified in the request. Minimum Provisioned TPS and Auto-Scaling A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary. A transaction is a single GetRecommendations or GetPersonalizedRanking call. Transactions per second (TPS) is the throughput and unit of billing for Amazon Personalize. The minimum provisioned TPS (minProvisionedTPS) specifies the baseline throughput provisioned by Amazon Personalize, and thus, the minimum billing charge. If your TPS increases beyond minProvisionedTPS, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minProvisionedTPS. There's a short time delay while the capacity is increased that might cause loss of transactions. The actual TPS used is calculated as the average requests/second within a 5-minute window. You pay for maximum of either the minimum provisioned TPS or the actual TPS. We recommend starting with a low minProvisionedTPS, track your usage using Amazon CloudWatch metrics, and then increase the minProvisionedTPS as necessary. Status A campaign can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -55,7 +55,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateCampaignInput : [no documentation found]
     ///
-    /// - Returns: `CreateCampaignOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCampaignOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,7 +66,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutputResponse
+    func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
     /// Creates an empty dataset and adds it to the specified dataset group. Use [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html) to import your training data to a dataset. There are three types of datasets:
     ///
     /// * Interactions
@@ -95,7 +95,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateDatasetInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,7 +106,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
+    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
     /// Creates a job that exports data from your dataset to an Amazon S3 bucket. To allow Amazon Personalize to export the training data, you must specify an service-linked IAM role that gives Amazon Personalize PutObject permissions for your Amazon S3 bucket. For information, see [Exporting a dataset](https://docs.aws.amazon.com/personalize/latest/dg/export-data.html) in the Amazon Personalize developer guide. Status A dataset export job can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -116,7 +116,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateDatasetExportJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatasetExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatasetExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createDatasetExportJob(input: CreateDatasetExportJobInput) async throws -> CreateDatasetExportJobOutputResponse
+    func createDatasetExportJob(input: CreateDatasetExportJobInput) async throws -> CreateDatasetExportJobOutput
     /// Creates an empty dataset group. A dataset group is a container for Amazon Personalize resources. A dataset group can contain at most three datasets, one for each type of dataset:
     ///
     /// * Interactions
@@ -163,7 +163,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateDatasetGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatasetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatasetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,7 +172,7 @@ public protocol PersonalizeClientProtocol {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutputResponse
+    func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput
     /// Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you must specify an IAM service role that has permission to read from the data source, as Amazon Personalize makes a copy of your data and processes it internally. For information on granting access to your Amazon S3 bucket, see [Giving Amazon Personalize Access to Amazon S3 Resources](https://docs.aws.amazon.com/personalize/latest/dg/granting-personalize-s3-access.html). By default, a dataset import job replaces any existing data in the dataset that you imported in bulk. To add new records without replacing existing data, specify INCREMENTAL for the import mode in the CreateDatasetImportJob operation. Status A dataset import job can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -186,7 +186,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateDatasetImportJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatasetImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatasetImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -197,7 +197,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutputResponse
+    func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput
     /// Creates an event tracker that you use when adding event data to a specified dataset group using the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) API. Only one event tracker can be associated with a dataset group. You will get an error if you call CreateEventTracker using the same dataset group as an existing event tracker. When you create an event tracker, the response includes a tracking ID, which you pass as a parameter when you use the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) operation. Amazon Personalize then appends the event data to the Interactions dataset of the dataset group you specify in your event tracker. The event tracker can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -215,7 +215,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateEventTrackerInput : [no documentation found]
     ///
-    /// - Returns: `CreateEventTrackerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEventTrackerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -226,12 +226,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createEventTracker(input: CreateEventTrackerInput) async throws -> CreateEventTrackerOutputResponse
+    func createEventTracker(input: CreateEventTrackerInput) async throws -> CreateEventTrackerOutput
     /// Creates a recommendation filter. For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
     ///
     /// - Parameter CreateFilterInput : [no documentation found]
     ///
-    /// - Returns: `CreateFilterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
+    func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput
     /// Creates a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
     ///
     /// - Parameter CreateMetricAttributionInput : [no documentation found]
     ///
-    /// - Returns: `CreateMetricAttributionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMetricAttributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,7 +256,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func createMetricAttribution(input: CreateMetricAttributionInput) async throws -> CreateMetricAttributionOutputResponse
+    func createMetricAttribution(input: CreateMetricAttributionInput) async throws -> CreateMetricAttributionOutput
     /// Creates a recommender with the recipe (a Domain dataset group use case) you specify. You create recommenders for a Domain dataset group and specify the recommender's Amazon Resource Name (ARN) when you make a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request. Minimum recommendation requests per second A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as necessary. When you create a recommender, you can configure the recommender's minimum recommendation requests per second. The minimum recommendation requests per second (minRecommendationRequestsPerSecond) specifies the baseline recommendation request throughput provisioned by Amazon Personalize. The default minRecommendationRequestsPerSecond is 1. A recommendation request is a single GetRecommendations operation. Request throughput is measured in requests per second and Amazon Personalize uses your requests per second to derive your requests per hour and the price of your recommender usage. If your requests per second increases beyond minRecommendationRequestsPerSecond, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minRecommendationRequestsPerSecond. There's a short time delay while the capacity is increased that might cause loss of requests. Your bill is the greater of either the minimum requests per hour (based on minRecommendationRequestsPerSecond) or the actual number of requests. The actual request throughput used is calculated as the average requests/second within a one-hour window. We recommend starting with the default minRecommendationRequestsPerSecond, track your usage using Amazon CloudWatch metrics, and then increase the minRecommendationRequestsPerSecond as necessary. Status A recommender can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -278,7 +278,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateRecommenderInput : [no documentation found]
     ///
-    /// - Returns: `CreateRecommenderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRecommenderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,7 +289,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createRecommender(input: CreateRecommenderInput) async throws -> CreateRecommenderOutputResponse
+    func createRecommender(input: CreateRecommenderInput) async throws -> CreateRecommenderOutput
     /// Creates an Amazon Personalize schema from the specified schema string. The schema you create must be in Avro JSON format. Amazon Personalize recognizes three schema variants. Each schema is associated with a dataset type and has a set of required field and keywords. If you are creating a schema for a dataset in a Domain dataset group, you provide the domain of the Domain dataset group. You specify a schema when you call [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html). Related APIs
     ///
     /// * [ListSchemas](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSchemas.html)
@@ -300,7 +300,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateSchemaInput : [no documentation found]
     ///
-    /// - Returns: `CreateSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -308,7 +308,7 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
-    func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
+    func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
     /// Creates the configuration for training a model. A trained model is known as a solution version. After the configuration is created, you train the model (create a solution version) by calling the [CreateSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolutionVersion.html) operation. Every time you call CreateSolutionVersion, a new version of the solution is created. After creating a solution version, you check its accuracy by calling [GetSolutionMetrics](https://docs.aws.amazon.com/personalize/latest/dg/API_GetSolutionMetrics.html). When you are satisfied with the version, you deploy it using [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html). The campaign provides recommendations to a client through the [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) API. To train a model, Amazon Personalize requires training data and a recipe. The training data comes from the dataset group that you provide in the request. A recipe specifies the training algorithm and a feature transformation. You can specify one of the predefined recipes provided by Amazon Personalize. Amazon Personalize doesn't support configuring the hpoObjective for solution hyperparameter optimization at this time. Status A solution can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -335,7 +335,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateSolutionInput : [no documentation found]
     ///
-    /// - Returns: `CreateSolutionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSolutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -346,7 +346,7 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createSolution(input: CreateSolutionInput) async throws -> CreateSolutionOutputResponse
+    func createSolution(input: CreateSolutionInput) async throws -> CreateSolutionOutput
     /// Trains or retrains an active solution in a Custom dataset group. A solution is created using the [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html) operation and must be in the ACTIVE state before calling CreateSolutionVersion. A new version of the solution is created every time you call this operation. Status A solution version can be in one of the following states:
     ///
     /// * CREATE PENDING
@@ -378,7 +378,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter CreateSolutionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateSolutionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSolutionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -389,12 +389,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func createSolutionVersion(input: CreateSolutionVersionInput) async throws -> CreateSolutionVersionOutputResponse
+    func createSolutionVersion(input: CreateSolutionVersionInput) async throws -> CreateSolutionVersionOutput
     /// Removes a campaign by deleting the solution deployment. The solution that the campaign is based on is not deleted and can be redeployed when needed. A deleted campaign can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request. For information on creating campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
     /// - Parameter DeleteCampaignInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCampaignOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -402,12 +402,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutputResponse
+    func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
     /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +415,7 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutputResponse
+    func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
     /// Deletes a dataset group. Before you delete a dataset group, you must delete the following:
     ///
     /// * All associated event trackers.
@@ -426,7 +426,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter DeleteDatasetGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDatasetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDatasetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutputResponse
+    func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput
     /// Deletes the event tracker. Does not delete the event-interactions dataset from the associated dataset group. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
     /// - Parameter DeleteEventTrackerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventTrackerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventTrackerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,12 +447,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteEventTracker(input: DeleteEventTrackerInput) async throws -> DeleteEventTrackerOutputResponse
+    func deleteEventTracker(input: DeleteEventTrackerInput) async throws -> DeleteEventTrackerOutput
     /// Deletes a filter.
     ///
     /// - Parameter DeleteFilterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFilterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,12 +460,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
+    func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput
     /// Deletes a metric attribution.
     ///
     /// - Parameter DeleteMetricAttributionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMetricAttributionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMetricAttributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -473,12 +473,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteMetricAttribution(input: DeleteMetricAttributionInput) async throws -> DeleteMetricAttributionOutputResponse
+    func deleteMetricAttribution(input: DeleteMetricAttributionInput) async throws -> DeleteMetricAttributionOutput
     /// Deactivates and removes a recommender. A deleted recommender can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request.
     ///
     /// - Parameter DeleteRecommenderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRecommenderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRecommenderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,12 +486,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteRecommender(input: DeleteRecommenderInput) async throws -> DeleteRecommenderOutputResponse
+    func deleteRecommender(input: DeleteRecommenderInput) async throws -> DeleteRecommenderOutput
     /// Deletes a schema. Before deleting a schema, you must delete all datasets referencing the schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
     /// - Parameter DeleteSchemaInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -499,12 +499,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
+    func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
     /// Deletes all versions of a solution and the Solution object itself. Before deleting a solution, you must delete all campaigns based on the solution. To determine what campaigns are using the solution, call [ListCampaigns](https://docs.aws.amazon.com/personalize/latest/dg/API_ListCampaigns.html) and supply the Amazon Resource Name (ARN) of the solution. You can't delete a solution if an associated SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
     /// - Parameter DeleteSolutionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSolutionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSolutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,43 +512,43 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func deleteSolution(input: DeleteSolutionInput) async throws -> DeleteSolutionOutputResponse
+    func deleteSolution(input: DeleteSolutionInput) async throws -> DeleteSolutionOutput
     /// Describes the given algorithm.
     ///
     /// - Parameter DescribeAlgorithmInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAlgorithmOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAlgorithmOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutputResponse
+    func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput
     /// Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations.
     ///
     /// - Parameter DescribeBatchInferenceJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeBatchInferenceJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeBatchInferenceJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeBatchInferenceJob(input: DescribeBatchInferenceJobInput) async throws -> DescribeBatchInferenceJobOutputResponse
+    func describeBatchInferenceJob(input: DescribeBatchInferenceJobInput) async throws -> DescribeBatchInferenceJobOutput
     /// Gets the properties of a batch segment job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate segments.
     ///
     /// - Parameter DescribeBatchSegmentJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeBatchSegmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeBatchSegmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeBatchSegmentJob(input: DescribeBatchSegmentJobInput) async throws -> DescribeBatchSegmentJobOutputResponse
+    func describeBatchSegmentJob(input: DescribeBatchSegmentJobInput) async throws -> DescribeBatchSegmentJobOutput
     /// Describes the given campaign, including its status. A campaign can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -560,110 +560,110 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter DescribeCampaignInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCampaignOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCampaignOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutputResponse
+    func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput
     /// Describes the given dataset. For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
     /// - Parameter DescribeDatasetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutputResponse
+    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
     /// Describes the dataset export job created by [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html), including the export job status.
     ///
     /// - Parameter DescribeDatasetExportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDatasetExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDatasetExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeDatasetExportJob(input: DescribeDatasetExportJobInput) async throws -> DescribeDatasetExportJobOutputResponse
+    func describeDatasetExportJob(input: DescribeDatasetExportJobInput) async throws -> DescribeDatasetExportJobOutput
     /// Describes the given dataset group. For more information on dataset groups, see [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
     ///
     /// - Parameter DescribeDatasetGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDatasetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDatasetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutputResponse
+    func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput
     /// Describes the dataset import job created by [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html), including the import job status.
     ///
     /// - Parameter DescribeDatasetImportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDatasetImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDatasetImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutputResponse
+    func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput
     /// Describes an event tracker. The response includes the trackingId and status of the event tracker. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
     /// - Parameter DescribeEventTrackerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventTrackerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventTrackerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeEventTracker(input: DescribeEventTrackerInput) async throws -> DescribeEventTrackerOutputResponse
+    func describeEventTracker(input: DescribeEventTrackerInput) async throws -> DescribeEventTrackerOutput
     /// Describes the given feature transformation.
     ///
     /// - Parameter DescribeFeatureTransformationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFeatureTransformationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFeatureTransformationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeFeatureTransformation(input: DescribeFeatureTransformationInput) async throws -> DescribeFeatureTransformationOutputResponse
+    func describeFeatureTransformation(input: DescribeFeatureTransformationInput) async throws -> DescribeFeatureTransformationOutput
     /// Describes a filter's properties.
     ///
     /// - Parameter DescribeFilterInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFilterOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeFilter(input: DescribeFilterInput) async throws -> DescribeFilterOutputResponse
+    func describeFilter(input: DescribeFilterInput) async throws -> DescribeFilterOutput
     /// Describes a metric attribution.
     ///
     /// - Parameter DescribeMetricAttributionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetricAttributionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetricAttributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeMetricAttribution(input: DescribeMetricAttributionInput) async throws -> DescribeMetricAttributionOutputResponse
+    func describeMetricAttribution(input: DescribeMetricAttributionInput) async throws -> DescribeMetricAttributionOutput
     /// Describes a recipe. A recipe contains three items:
     ///
     /// * An algorithm that trains a model.
@@ -677,14 +677,14 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter DescribeRecipeInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecipeOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecipeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutputResponse
+    func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput
     /// Describes the given recommender, including its status. A recommender can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
@@ -698,55 +698,55 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter DescribeRecommenderInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecommenderOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecommenderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeRecommender(input: DescribeRecommenderInput) async throws -> DescribeRecommenderOutputResponse
+    func describeRecommender(input: DescribeRecommenderInput) async throws -> DescribeRecommenderOutput
     /// Describes a schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
     /// - Parameter DescribeSchemaInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutputResponse
+    func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput
     /// Describes a solution. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
     /// - Parameter DescribeSolutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSolutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSolutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeSolution(input: DescribeSolutionInput) async throws -> DescribeSolutionOutputResponse
+    func describeSolution(input: DescribeSolutionInput) async throws -> DescribeSolutionOutput
     /// Describes a specific version of a solution. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)
     ///
     /// - Parameter DescribeSolutionVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSolutionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSolutionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func describeSolutionVersion(input: DescribeSolutionVersionInput) async throws -> DescribeSolutionVersionOutputResponse
+    func describeSolutionVersion(input: DescribeSolutionVersionInput) async throws -> DescribeSolutionVersionOutput
     /// Gets the metrics for the specified solution version.
     ///
     /// - Parameter GetSolutionMetricsInput : [no documentation found]
     ///
-    /// - Returns: `GetSolutionMetricsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSolutionMetricsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -754,190 +754,190 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func getSolutionMetrics(input: GetSolutionMetricsInput) async throws -> GetSolutionMetricsOutputResponse
+    func getSolutionMetrics(input: GetSolutionMetricsInput) async throws -> GetSolutionMetricsOutput
     /// Gets a list of the batch inference jobs that have been performed off of a solution version.
     ///
     /// - Parameter ListBatchInferenceJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListBatchInferenceJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBatchInferenceJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listBatchInferenceJobs(input: ListBatchInferenceJobsInput) async throws -> ListBatchInferenceJobsOutputResponse
+    func listBatchInferenceJobs(input: ListBatchInferenceJobsInput) async throws -> ListBatchInferenceJobsOutput
     /// Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
     ///
     /// - Parameter ListBatchSegmentJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListBatchSegmentJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBatchSegmentJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listBatchSegmentJobs(input: ListBatchSegmentJobsInput) async throws -> ListBatchSegmentJobsOutputResponse
+    func listBatchSegmentJobs(input: ListBatchSegmentJobsInput) async throws -> ListBatchSegmentJobsOutput
     /// Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
     /// - Parameter ListCampaignsInput : [no documentation found]
     ///
-    /// - Returns: `ListCampaignsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCampaignsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutputResponse
+    func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput
     /// Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
     /// - Parameter ListDatasetExportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasetExportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasetExportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listDatasetExportJobs(input: ListDatasetExportJobsInput) async throws -> ListDatasetExportJobsOutputResponse
+    func listDatasetExportJobs(input: ListDatasetExportJobsInput) async throws -> ListDatasetExportJobsOutput
     /// Returns a list of dataset groups. The response provides the properties for each dataset group, including the Amazon Resource Name (ARN). For more information on dataset groups, see [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
     ///
     /// - Parameter ListDatasetGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasetGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasetGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutputResponse
+    func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput
     /// Returns a list of dataset import jobs that use the given dataset. When a dataset is not specified, all the dataset import jobs associated with the account are listed. The response provides the properties for each dataset import job, including the Amazon Resource Name (ARN). For more information on dataset import jobs, see [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
     /// - Parameter ListDatasetImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasetImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasetImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutputResponse
+    func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput
     /// Returns the list of datasets contained in the given dataset group. The response provides the properties for each dataset, including the Amazon Resource Name (ARN). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
     /// - Parameter ListDatasetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
+    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
     /// Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
     /// - Parameter ListEventTrackersInput : [no documentation found]
     ///
-    /// - Returns: `ListEventTrackersOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventTrackersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listEventTrackers(input: ListEventTrackersInput) async throws -> ListEventTrackersOutputResponse
+    func listEventTrackers(input: ListEventTrackersInput) async throws -> ListEventTrackersOutput
     /// Lists all filters that belong to a given dataset group.
     ///
     /// - Parameter ListFiltersInput : [no documentation found]
     ///
-    /// - Returns: `ListFiltersOutputResponse` : [no documentation found]
+    /// - Returns: `ListFiltersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutputResponse
+    func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput
     /// Lists the metrics for the metric attribution.
     ///
     /// - Parameter ListMetricAttributionMetricsInput : [no documentation found]
     ///
-    /// - Returns: `ListMetricAttributionMetricsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMetricAttributionMetricsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listMetricAttributionMetrics(input: ListMetricAttributionMetricsInput) async throws -> ListMetricAttributionMetricsOutputResponse
+    func listMetricAttributionMetrics(input: ListMetricAttributionMetricsInput) async throws -> ListMetricAttributionMetricsOutput
     /// Lists metric attributions.
     ///
     /// - Parameter ListMetricAttributionsInput : [no documentation found]
     ///
-    /// - Returns: `ListMetricAttributionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMetricAttributionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listMetricAttributions(input: ListMetricAttributionsInput) async throws -> ListMetricAttributionsOutputResponse
+    func listMetricAttributions(input: ListMetricAttributionsInput) async throws -> ListMetricAttributionsOutput
     /// Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     ///
     /// - Parameter ListRecipesInput : [no documentation found]
     ///
-    /// - Returns: `ListRecipesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecipesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutputResponse
+    func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput
     /// Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see [CreateRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateRecommender.html).
     ///
     /// - Parameter ListRecommendersInput : [no documentation found]
     ///
-    /// - Returns: `ListRecommendersOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecommendersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listRecommenders(input: ListRecommendersInput) async throws -> ListRecommendersOutputResponse
+    func listRecommenders(input: ListRecommendersInput) async throws -> ListRecommendersOutput
     /// Returns the list of schemas associated with the account. The response provides the properties for each schema, including the Amazon Resource Name (ARN). For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
     /// - Parameter ListSchemasInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
+    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
     /// Returns a list of solutions that use the given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
     /// - Parameter ListSolutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSolutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSolutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
-    func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutputResponse
+    func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutput
     /// Returns a list of solution versions for the given solution. When a solution is not specified, all the solution versions associated with the account are listed. The response provides the properties for each solution version, including the Amazon Resource Name (ARN).
     ///
     /// - Parameter ListSolutionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSolutionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSolutionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,12 +945,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func listSolutionVersions(input: ListSolutionVersionsInput) async throws -> ListSolutionVersionsOutputResponse
+    func listSolutionVersions(input: ListSolutionVersionsInput) async throws -> ListSolutionVersionsOutput
     /// Get a list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) attached to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,12 +958,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts a recommender that is INACTIVE. Starting a recommender does not create any new models, but resumes billing and automatic retraining for the recommender.
     ///
     /// - Parameter StartRecommenderInput : [no documentation found]
     ///
-    /// - Returns: `StartRecommenderOutputResponse` : [no documentation found]
+    /// - Returns: `StartRecommenderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,12 +971,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func startRecommender(input: StartRecommenderInput) async throws -> StartRecommenderOutputResponse
+    func startRecommender(input: StartRecommenderInput) async throws -> StartRecommenderOutput
     /// Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
     ///
     /// - Parameter StopRecommenderInput : [no documentation found]
     ///
-    /// - Returns: `StopRecommenderOutputResponse` : [no documentation found]
+    /// - Returns: `StopRecommenderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,7 +984,7 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func stopRecommender(input: StopRecommenderInput) async throws -> StopRecommenderOutputResponse
+    func stopRecommender(input: StopRecommenderInput) async throws -> StopRecommenderOutput
     /// Stops creating a solution version that is in a state of CREATE_PENDING or CREATE IN_PROGRESS. Depending on the current state of the solution version, the solution version state changes as follows:
     ///
     /// * CREATE_PENDING > CREATE_STOPPED or
@@ -996,7 +996,7 @@ public protocol PersonalizeClientProtocol {
     ///
     /// - Parameter StopSolutionVersionCreationInput : [no documentation found]
     ///
-    /// - Returns: `StopSolutionVersionCreationOutputResponse` : [no documentation found]
+    /// - Returns: `StopSolutionVersionCreationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,12 +1004,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func stopSolutionVersionCreation(input: StopSolutionVersionCreationInput) async throws -> StopSolutionVersionCreationOutputResponse
+    func stopSolutionVersionCreation(input: StopSolutionVersionCreationInput) async throws -> StopSolutionVersionCreationOutput
     /// Add a list of tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,12 +1019,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) that are attached to a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,12 +1033,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagKeysException` : The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a campaign by either deploying a new solution or changing the value of the campaign's minProvisionedTPS parameter. To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) operation. You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active. For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
     /// - Parameter UpdateCampaignInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCampaignOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCampaignOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,12 +1046,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutputResponse
+    func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput
     /// Update a dataset to replace its schema with a new or existing one. For more information, see [Replacing a dataset's schema](https://docs.aws.amazon.com/personalize/latest/dg/updating-dataset-schema.html).
     ///
     /// - Parameter UpdateDatasetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1059,12 +1059,12 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutputResponse
+    func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
     /// Updates a metric attribution.
     ///
     /// - Parameter UpdateMetricAttributionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMetricAttributionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMetricAttributionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,12 +1073,12 @@ public protocol PersonalizeClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func updateMetricAttribution(input: UpdateMetricAttributionInput) async throws -> UpdateMetricAttributionOutputResponse
+    func updateMetricAttribution(input: UpdateMetricAttributionInput) async throws -> UpdateMetricAttributionOutput
     /// Updates the recommender to modify the recommender configuration. If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of the models backing your recommender. While the update completes, you can still get recommendations from the recommender. The recommender uses the previous configuration until the update completes. To track the status of this update, use the latestRecommenderUpdate returned in the [DescribeRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html) operation.
     ///
     /// - Parameter UpdateRecommenderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRecommenderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRecommenderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,7 +1086,7 @@ public protocol PersonalizeClientProtocol {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
-    func updateRecommender(input: UpdateRecommenderInput) async throws -> UpdateRecommenderOutputResponse
+    func updateRecommender(input: UpdateRecommenderInput) async throws -> UpdateRecommenderOutput
 }
 
 public enum PersonalizeClientTypes {}

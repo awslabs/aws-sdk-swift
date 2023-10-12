@@ -148,23 +148,11 @@ extension GetPersonalizedRankingInputBody: Swift.Decodable {
     }
 }
 
-enum GetPersonalizedRankingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPersonalizedRankingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPersonalizedRankingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPersonalizedRankingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPersonalizedRankingOutputBody = try responseDecoder.decode(responseBody: data)
             self.personalizedRanking = output.personalizedRanking
             self.recommendationId = output.recommendationId
         } else {
@@ -174,7 +162,7 @@ extension GetPersonalizedRankingOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetPersonalizedRankingOutputResponse: Swift.Equatable {
+public struct GetPersonalizedRankingOutput: Swift.Equatable {
     /// A list of items in order of most likely interest to the user. The maximum is 500.
     public var personalizedRanking: [PersonalizeRuntimeClientTypes.PredictedItem]?
     /// The ID of the recommendation.
@@ -190,12 +178,12 @@ public struct GetPersonalizedRankingOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPersonalizedRankingOutputResponseBody: Swift.Equatable {
+struct GetPersonalizedRankingOutputBody: Swift.Equatable {
     let personalizedRanking: [PersonalizeRuntimeClientTypes.PredictedItem]?
     let recommendationId: Swift.String?
 }
 
-extension GetPersonalizedRankingOutputResponseBody: Swift.Decodable {
+extension GetPersonalizedRankingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case personalizedRanking
         case recommendationId
@@ -216,6 +204,18 @@ extension GetPersonalizedRankingOutputResponseBody: Swift.Decodable {
         personalizedRanking = personalizedRankingDecoded0
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
+    }
+}
+
+enum GetPersonalizedRankingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -398,23 +398,11 @@ extension GetRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.itemList = output.itemList
             self.recommendationId = output.recommendationId
         } else {
@@ -424,7 +412,7 @@ extension GetRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationsOutputResponse: Swift.Equatable {
+public struct GetRecommendationsOutput: Swift.Equatable {
     /// A list of recommendations sorted in descending order by prediction score. There can be a maximum of 500 items in the list.
     public var itemList: [PersonalizeRuntimeClientTypes.PredictedItem]?
     /// The ID of the recommendation.
@@ -440,12 +428,12 @@ public struct GetRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetRecommendationsOutputBody: Swift.Equatable {
     let itemList: [PersonalizeRuntimeClientTypes.PredictedItem]?
     let recommendationId: Swift.String?
 }
 
-extension GetRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case itemList
         case recommendationId
@@ -466,6 +454,18 @@ extension GetRecommendationsOutputResponseBody: Swift.Decodable {
         itemList = itemListDecoded0
         let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
         recommendationId = recommendationIdDecoded
+    }
+}
+
+enum GetRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

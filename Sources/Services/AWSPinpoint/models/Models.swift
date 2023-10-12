@@ -5238,7 +5238,7 @@ public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateAppInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateAppOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateAppOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5265,7 +5265,7 @@ public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateAppInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateAppOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateAppOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5317,6 +5317,46 @@ extension CreateAppInputBody: Swift.Decodable {
     }
 }
 
+extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationResponse = output
+        } else {
+            self.applicationResponse = nil
+        }
+    }
+}
+
+public struct CreateAppOutput: Swift.Equatable {
+    /// Provides information about an application.
+    /// This member is required.
+    public var applicationResponse: PinpointClientTypes.ApplicationResponse?
+
+    public init(
+        applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
+    )
+    {
+        self.applicationResponse = applicationResponse
+    }
+}
+
+struct CreateAppOutputBody: Swift.Equatable {
+    let applicationResponse: PinpointClientTypes.ApplicationResponse?
+}
+
+extension CreateAppOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationResponse = "ApplicationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationResponse.self, forKey: .applicationResponse)
+        applicationResponse = applicationResponseDecoded
+    }
+}
+
 enum CreateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5331,46 +5371,6 @@ enum CreateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
-            self.applicationResponse = output
-        } else {
-            self.applicationResponse = nil
-        }
-    }
-}
-
-public struct CreateAppOutputResponse: Swift.Equatable {
-    /// Provides information about an application.
-    /// This member is required.
-    public var applicationResponse: PinpointClientTypes.ApplicationResponse?
-
-    public init(
-        applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
-    )
-    {
-        self.applicationResponse = applicationResponse
-    }
-}
-
-struct CreateAppOutputResponseBody: Swift.Equatable {
-    let applicationResponse: PinpointClientTypes.ApplicationResponse?
-}
-
-extension CreateAppOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationResponse = "ApplicationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationResponse.self, forKey: .applicationResponse)
-        applicationResponse = applicationResponseDecoded
     }
 }
 
@@ -5439,7 +5439,7 @@ public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateCampaignInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCampaignOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateCampaignOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5466,7 +5466,7 @@ public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateCampaignInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateCampaignOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateCampaignOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5526,6 +5526,46 @@ extension CreateCampaignInputBody: Swift.Decodable {
     }
 }
 
+extension CreateCampaignOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
+        } else {
+            self.campaignResponse = nil
+        }
+    }
+}
+
+public struct CreateCampaignOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a campaign.
+    /// This member is required.
+    public var campaignResponse: PinpointClientTypes.CampaignResponse?
+
+    public init(
+        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
+    )
+    {
+        self.campaignResponse = campaignResponse
+    }
+}
+
+struct CreateCampaignOutputBody: Swift.Equatable {
+    let campaignResponse: PinpointClientTypes.CampaignResponse?
+}
+
+extension CreateCampaignOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignResponse = "CampaignResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
+        campaignResponse = campaignResponseDecoded
+    }
+}
+
 enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5543,46 +5583,6 @@ enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignResponse = output
-        } else {
-            self.campaignResponse = nil
-        }
-    }
-}
-
-public struct CreateCampaignOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a campaign.
-    /// This member is required.
-    public var campaignResponse: PinpointClientTypes.CampaignResponse?
-
-    public init(
-        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
-        self.campaignResponse = campaignResponse
-    }
-}
-
-struct CreateCampaignOutputResponseBody: Swift.Equatable {
-    let campaignResponse: PinpointClientTypes.CampaignResponse?
-}
-
-extension CreateCampaignOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignResponse = "CampaignResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
-        campaignResponse = campaignResponseDecoded
-    }
-}
-
 public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateEmailTemplateInputBodyMiddleware"
 
@@ -5590,7 +5590,7 @@ public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateEmailTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateEmailTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateEmailTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5617,7 +5617,7 @@ public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateEmailTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateEmailTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateEmailTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5677,6 +5677,46 @@ extension CreateEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.createTemplateMessageBody = output
+        } else {
+            self.createTemplateMessageBody = nil
+        }
+    }
+}
+
+public struct CreateEmailTemplateOutput: Swift.Equatable {
+    /// Provides information about a request to create a message template.
+    /// This member is required.
+    public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
+
+    public init(
+        createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
+    )
+    {
+        self.createTemplateMessageBody = createTemplateMessageBody
+    }
+}
+
+struct CreateEmailTemplateOutputBody: Swift.Equatable {
+    let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
+}
+
+extension CreateEmailTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTemplateMessageBody = "CreateTemplateMessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createTemplateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CreateTemplateMessageBody.self, forKey: .createTemplateMessageBody)
+        createTemplateMessageBody = createTemplateMessageBodyDecoded
+    }
+}
+
 enum CreateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5692,46 +5732,6 @@ enum CreateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
-            self.createTemplateMessageBody = output
-        } else {
-            self.createTemplateMessageBody = nil
-        }
-    }
-}
-
-public struct CreateEmailTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about a request to create a message template.
-    /// This member is required.
-    public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
-
-    public init(
-        createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
-    )
-    {
-        self.createTemplateMessageBody = createTemplateMessageBody
-    }
-}
-
-struct CreateEmailTemplateOutputResponseBody: Swift.Equatable {
-    let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
-}
-
-extension CreateEmailTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createTemplateMessageBody = "CreateTemplateMessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createTemplateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CreateTemplateMessageBody.self, forKey: .createTemplateMessageBody)
-        createTemplateMessageBody = createTemplateMessageBodyDecoded
-    }
-}
-
 public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateExportJobInputBodyMiddleware"
 
@@ -5739,7 +5739,7 @@ public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateExportJobInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateExportJobOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateExportJobOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5766,7 +5766,7 @@ public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateExportJobInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateExportJobOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateExportJobOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5826,6 +5826,46 @@ extension CreateExportJobInputBody: Swift.Decodable {
     }
 }
 
+extension CreateExportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobResponse = output
+        } else {
+            self.exportJobResponse = nil
+        }
+    }
+}
+
+public struct CreateExportJobOutput: Swift.Equatable {
+    /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
+    /// This member is required.
+    public var exportJobResponse: PinpointClientTypes.ExportJobResponse?
+
+    public init(
+        exportJobResponse: PinpointClientTypes.ExportJobResponse? = nil
+    )
+    {
+        self.exportJobResponse = exportJobResponse
+    }
+}
+
+struct CreateExportJobOutputBody: Swift.Equatable {
+    let exportJobResponse: PinpointClientTypes.ExportJobResponse?
+}
+
+extension CreateExportJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportJobResponse = "ExportJobResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobResponse.self, forKey: .exportJobResponse)
+        exportJobResponse = exportJobResponseDecoded
+    }
+}
+
 enum CreateExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5843,46 +5883,6 @@ enum CreateExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
-            self.exportJobResponse = output
-        } else {
-            self.exportJobResponse = nil
-        }
-    }
-}
-
-public struct CreateExportJobOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
-    /// This member is required.
-    public var exportJobResponse: PinpointClientTypes.ExportJobResponse?
-
-    public init(
-        exportJobResponse: PinpointClientTypes.ExportJobResponse? = nil
-    )
-    {
-        self.exportJobResponse = exportJobResponse
-    }
-}
-
-struct CreateExportJobOutputResponseBody: Swift.Equatable {
-    let exportJobResponse: PinpointClientTypes.ExportJobResponse?
-}
-
-extension CreateExportJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportJobResponse = "ExportJobResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exportJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobResponse.self, forKey: .exportJobResponse)
-        exportJobResponse = exportJobResponseDecoded
-    }
-}
-
 public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateImportJobInputBodyMiddleware"
 
@@ -5890,7 +5890,7 @@ public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateImportJobInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateImportJobOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateImportJobOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5917,7 +5917,7 @@ public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateImportJobInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateImportJobOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateImportJobOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5977,6 +5977,46 @@ extension CreateImportJobInputBody: Swift.Decodable {
     }
 }
 
+extension CreateImportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobResponse = output
+        } else {
+            self.importJobResponse = nil
+        }
+    }
+}
+
+public struct CreateImportJobOutput: Swift.Equatable {
+    /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
+    /// This member is required.
+    public var importJobResponse: PinpointClientTypes.ImportJobResponse?
+
+    public init(
+        importJobResponse: PinpointClientTypes.ImportJobResponse? = nil
+    )
+    {
+        self.importJobResponse = importJobResponse
+    }
+}
+
+struct CreateImportJobOutputBody: Swift.Equatable {
+    let importJobResponse: PinpointClientTypes.ImportJobResponse?
+}
+
+extension CreateImportJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJobResponse = "ImportJobResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobResponse.self, forKey: .importJobResponse)
+        importJobResponse = importJobResponseDecoded
+    }
+}
+
 enum CreateImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5994,46 +6034,6 @@ enum CreateImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
-            self.importJobResponse = output
-        } else {
-            self.importJobResponse = nil
-        }
-    }
-}
-
-public struct CreateImportJobOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
-    /// This member is required.
-    public var importJobResponse: PinpointClientTypes.ImportJobResponse?
-
-    public init(
-        importJobResponse: PinpointClientTypes.ImportJobResponse? = nil
-    )
-    {
-        self.importJobResponse = importJobResponse
-    }
-}
-
-struct CreateImportJobOutputResponseBody: Swift.Equatable {
-    let importJobResponse: PinpointClientTypes.ImportJobResponse?
-}
-
-extension CreateImportJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case importJobResponse = "ImportJobResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let importJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobResponse.self, forKey: .importJobResponse)
-        importJobResponse = importJobResponseDecoded
-    }
-}
-
 public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateInAppTemplateInputBodyMiddleware"
 
@@ -6041,7 +6041,7 @@ public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateInAppTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateInAppTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateInAppTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6068,7 +6068,7 @@ public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateInAppTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateInAppTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateInAppTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6128,6 +6128,46 @@ extension CreateInAppTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension CreateInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.TemplateCreateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.templateCreateMessageBody = output
+        } else {
+            self.templateCreateMessageBody = nil
+        }
+    }
+}
+
+public struct CreateInAppTemplateOutput: Swift.Equatable {
+    /// Provides information about a request to create a message template.
+    /// This member is required.
+    public var templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody?
+
+    public init(
+        templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody? = nil
+    )
+    {
+        self.templateCreateMessageBody = templateCreateMessageBody
+    }
+}
+
+struct CreateInAppTemplateOutputBody: Swift.Equatable {
+    let templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody?
+}
+
+extension CreateInAppTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateCreateMessageBody = "TemplateCreateMessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateCreateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.TemplateCreateMessageBody.self, forKey: .templateCreateMessageBody)
+        templateCreateMessageBody = templateCreateMessageBodyDecoded
+    }
+}
+
 enum CreateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6143,46 +6183,6 @@ enum CreateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.TemplateCreateMessageBody = try responseDecoder.decode(responseBody: data)
-            self.templateCreateMessageBody = output
-        } else {
-            self.templateCreateMessageBody = nil
-        }
-    }
-}
-
-public struct CreateInAppTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about a request to create a message template.
-    /// This member is required.
-    public var templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody?
-
-    public init(
-        templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody? = nil
-    )
-    {
-        self.templateCreateMessageBody = templateCreateMessageBody
-    }
-}
-
-struct CreateInAppTemplateOutputResponseBody: Swift.Equatable {
-    let templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody?
-}
-
-extension CreateInAppTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case templateCreateMessageBody = "TemplateCreateMessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let templateCreateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.TemplateCreateMessageBody.self, forKey: .templateCreateMessageBody)
-        templateCreateMessageBody = templateCreateMessageBodyDecoded
-    }
-}
-
 public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateJourneyInputBodyMiddleware"
 
@@ -6190,7 +6190,7 @@ public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateJourneyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateJourneyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateJourneyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6217,7 +6217,7 @@ public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateJourneyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateJourneyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateJourneyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6277,6 +6277,46 @@ extension CreateJourneyInputBody: Swift.Decodable {
     }
 }
 
+extension CreateJourneyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
+        } else {
+            self.journeyResponse = nil
+        }
+    }
+}
+
+public struct CreateJourneyOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a journey.
+    /// This member is required.
+    public var journeyResponse: PinpointClientTypes.JourneyResponse?
+
+    public init(
+        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
+    )
+    {
+        self.journeyResponse = journeyResponse
+    }
+}
+
+struct CreateJourneyOutputBody: Swift.Equatable {
+    let journeyResponse: PinpointClientTypes.JourneyResponse?
+}
+
+extension CreateJourneyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyResponse = "JourneyResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
+        journeyResponse = journeyResponseDecoded
+    }
+}
+
 enum CreateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6294,46 +6334,6 @@ enum CreateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyResponse = output
-        } else {
-            self.journeyResponse = nil
-        }
-    }
-}
-
-public struct CreateJourneyOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a journey.
-    /// This member is required.
-    public var journeyResponse: PinpointClientTypes.JourneyResponse?
-
-    public init(
-        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
-        self.journeyResponse = journeyResponse
-    }
-}
-
-struct CreateJourneyOutputResponseBody: Swift.Equatable {
-    let journeyResponse: PinpointClientTypes.JourneyResponse?
-}
-
-extension CreateJourneyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyResponse = "JourneyResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
-        journeyResponse = journeyResponseDecoded
-    }
-}
-
 public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreatePushTemplateInputBodyMiddleware"
 
@@ -6341,7 +6341,7 @@ public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreatePushTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreatePushTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreatePushTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6368,7 +6368,7 @@ public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreatePushTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreatePushTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreatePushTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6428,6 +6428,46 @@ extension CreatePushTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension CreatePushTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
+            self.createTemplateMessageBody = output
+        } else {
+            self.createTemplateMessageBody = nil
+        }
+    }
+}
+
+public struct CreatePushTemplateOutput: Swift.Equatable {
+    /// Provides information about a request to create a message template.
+    /// This member is required.
+    public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
+
+    public init(
+        createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
+    )
+    {
+        self.createTemplateMessageBody = createTemplateMessageBody
+    }
+}
+
+struct CreatePushTemplateOutputBody: Swift.Equatable {
+    let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
+}
+
+extension CreatePushTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTemplateMessageBody = "CreateTemplateMessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createTemplateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CreateTemplateMessageBody.self, forKey: .createTemplateMessageBody)
+        createTemplateMessageBody = createTemplateMessageBodyDecoded
+    }
+}
+
 enum CreatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6443,46 +6483,6 @@ enum CreatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreatePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
-            self.createTemplateMessageBody = output
-        } else {
-            self.createTemplateMessageBody = nil
-        }
-    }
-}
-
-public struct CreatePushTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about a request to create a message template.
-    /// This member is required.
-    public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
-
-    public init(
-        createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
-    )
-    {
-        self.createTemplateMessageBody = createTemplateMessageBody
-    }
-}
-
-struct CreatePushTemplateOutputResponseBody: Swift.Equatable {
-    let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
-}
-
-extension CreatePushTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createTemplateMessageBody = "CreateTemplateMessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createTemplateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CreateTemplateMessageBody.self, forKey: .createTemplateMessageBody)
-        createTemplateMessageBody = createTemplateMessageBodyDecoded
-    }
-}
-
 public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateRecommenderConfigurationInputBodyMiddleware"
 
@@ -6490,7 +6490,7 @@ public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateRecommenderConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateRecommenderConfigurationOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateRecommenderConfigurationOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6517,7 +6517,7 @@ public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateRecommenderConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateRecommenderConfigurationOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateRecommenderConfigurationOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6569,6 +6569,46 @@ extension CreateRecommenderConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension CreateRecommenderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
+        } else {
+            self.recommenderConfigurationResponse = nil
+        }
+    }
+}
+
+public struct CreateRecommenderConfigurationOutput: Swift.Equatable {
+    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
+    /// This member is required.
+    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+
+    public init(
+        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
+    )
+    {
+        self.recommenderConfigurationResponse = recommenderConfigurationResponse
+    }
+}
+
+struct CreateRecommenderConfigurationOutputBody: Swift.Equatable {
+    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+}
+
+extension CreateRecommenderConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
+        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
+    }
+}
+
 enum CreateRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6583,46 +6623,6 @@ enum CreateRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorB
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-            self.recommenderConfigurationResponse = output
-        } else {
-            self.recommenderConfigurationResponse = nil
-        }
-    }
-}
-
-public struct CreateRecommenderConfigurationOutputResponse: Swift.Equatable {
-    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
-    /// This member is required.
-    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-
-    public init(
-        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
-        self.recommenderConfigurationResponse = recommenderConfigurationResponse
-    }
-}
-
-struct CreateRecommenderConfigurationOutputResponseBody: Swift.Equatable {
-    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-}
-
-extension CreateRecommenderConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
-        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
     }
 }
 
@@ -6773,7 +6773,7 @@ public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateSegmentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateSegmentOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateSegmentOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6800,7 +6800,7 @@ public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateSegmentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateSegmentOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateSegmentOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6860,6 +6860,46 @@ extension CreateSegmentInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSegmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
+        } else {
+            self.segmentResponse = nil
+        }
+    }
+}
+
+public struct CreateSegmentOutput: Swift.Equatable {
+    /// Provides information about the configuration, dimension, and other settings for a segment.
+    /// This member is required.
+    public var segmentResponse: PinpointClientTypes.SegmentResponse?
+
+    public init(
+        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
+    )
+    {
+        self.segmentResponse = segmentResponse
+    }
+}
+
+struct CreateSegmentOutputBody: Swift.Equatable {
+    let segmentResponse: PinpointClientTypes.SegmentResponse?
+}
+
+extension CreateSegmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentResponse = "SegmentResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
+        segmentResponse = segmentResponseDecoded
+    }
+}
+
 enum CreateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6877,46 +6917,6 @@ enum CreateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentResponse = output
-        } else {
-            self.segmentResponse = nil
-        }
-    }
-}
-
-public struct CreateSegmentOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration, dimension, and other settings for a segment.
-    /// This member is required.
-    public var segmentResponse: PinpointClientTypes.SegmentResponse?
-
-    public init(
-        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
-        self.segmentResponse = segmentResponse
-    }
-}
-
-struct CreateSegmentOutputResponseBody: Swift.Equatable {
-    let segmentResponse: PinpointClientTypes.SegmentResponse?
-}
-
-extension CreateSegmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentResponse = "SegmentResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
-        segmentResponse = segmentResponseDecoded
-    }
-}
-
 public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateSmsTemplateInputBodyMiddleware"
 
@@ -6924,7 +6924,7 @@ public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateSmsTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateSmsTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateSmsTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6951,7 +6951,7 @@ public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateSmsTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateSmsTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateSmsTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -7011,22 +7011,7 @@ extension CreateSmsTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
@@ -7037,7 +7022,7 @@ extension CreateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSmsTemplateOutputResponse: Swift.Equatable {
+public struct CreateSmsTemplateOutput: Swift.Equatable {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
@@ -7050,11 +7035,11 @@ public struct CreateSmsTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSmsTemplateOutputResponseBody: Swift.Equatable {
+struct CreateSmsTemplateOutputBody: Swift.Equatable {
     let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
 }
 
-extension CreateSmsTemplateOutputResponseBody: Swift.Decodable {
+extension CreateSmsTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTemplateMessageBody = "CreateTemplateMessageBody"
     }
@@ -7063,6 +7048,21 @@ extension CreateSmsTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createTemplateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CreateTemplateMessageBody.self, forKey: .createTemplateMessageBody)
         createTemplateMessageBody = createTemplateMessageBodyDecoded
+    }
+}
+
+enum CreateSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7128,7 +7128,7 @@ public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateVoiceTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateVoiceTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateVoiceTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -7155,7 +7155,7 @@ public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateVoiceTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateVoiceTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateVoiceTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -7215,22 +7215,7 @@ extension CreateVoiceTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum CreateVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
@@ -7241,7 +7226,7 @@ extension CreateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVoiceTemplateOutputResponse: Swift.Equatable {
+public struct CreateVoiceTemplateOutput: Swift.Equatable {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
@@ -7254,11 +7239,11 @@ public struct CreateVoiceTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateVoiceTemplateOutputResponseBody: Swift.Equatable {
+struct CreateVoiceTemplateOutputBody: Swift.Equatable {
     let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
 }
 
-extension CreateVoiceTemplateOutputResponseBody: Swift.Decodable {
+extension CreateVoiceTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTemplateMessageBody = "CreateTemplateMessageBody"
     }
@@ -7267,6 +7252,21 @@ extension CreateVoiceTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let createTemplateMessageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CreateTemplateMessageBody.self, forKey: .createTemplateMessageBody)
         createTemplateMessageBody = createTemplateMessageBodyDecoded
+    }
+}
+
+enum CreateVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7881,6 +7881,46 @@ extension DeleteAdmChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAdmChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.admChannelResponse = output
+        } else {
+            self.admChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteAdmChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
+    /// This member is required.
+    public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
+
+    public init(
+        admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
+    )
+    {
+        self.admChannelResponse = admChannelResponse
+    }
+}
+
+struct DeleteAdmChannelOutputBody: Swift.Equatable {
+    let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
+}
+
+extension DeleteAdmChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case admChannelResponse = "ADMChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let admChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ADMChannelResponse.self, forKey: .admChannelResponse)
+        admChannelResponse = admChannelResponseDecoded
+    }
+}
+
 enum DeleteAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7895,46 +7935,6 @@ enum DeleteAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.admChannelResponse = output
-        } else {
-            self.admChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteAdmChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
-    /// This member is required.
-    public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
-
-    public init(
-        admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
-    )
-    {
-        self.admChannelResponse = admChannelResponse
-    }
-}
-
-struct DeleteAdmChannelOutputResponseBody: Swift.Equatable {
-    let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
-}
-
-extension DeleteAdmChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case admChannelResponse = "ADMChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let admChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ADMChannelResponse.self, forKey: .admChannelResponse)
-        admChannelResponse = admChannelResponseDecoded
     }
 }
 
@@ -7969,6 +7969,46 @@ extension DeleteApnsChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteApnsChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsChannelResponse = output
+        } else {
+            self.apnsChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteApnsChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
+    /// This member is required.
+    public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
+
+    public init(
+        apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
+    )
+    {
+        self.apnsChannelResponse = apnsChannelResponse
+    }
+}
+
+struct DeleteApnsChannelOutputBody: Swift.Equatable {
+    let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
+}
+
+extension DeleteApnsChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsChannelResponse = "APNSChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSChannelResponse.self, forKey: .apnsChannelResponse)
+        apnsChannelResponse = apnsChannelResponseDecoded
+    }
+}
+
 enum DeleteApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7983,46 +8023,6 @@ enum DeleteApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsChannelResponse = output
-        } else {
-            self.apnsChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteApnsChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
-    /// This member is required.
-    public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
-
-    public init(
-        apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
-    )
-    {
-        self.apnsChannelResponse = apnsChannelResponse
-    }
-}
-
-struct DeleteApnsChannelOutputResponseBody: Swift.Equatable {
-    let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
-}
-
-extension DeleteApnsChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsChannelResponse = "APNSChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSChannelResponse.self, forKey: .apnsChannelResponse)
-        apnsChannelResponse = apnsChannelResponseDecoded
     }
 }
 
@@ -8057,6 +8057,46 @@ extension DeleteApnsSandboxChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteApnsSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsSandboxChannelResponse = output
+        } else {
+            self.apnsSandboxChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteApnsSandboxChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
+    /// This member is required.
+    public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
+
+    public init(
+        apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
+    )
+    {
+        self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
+    }
+}
+
+struct DeleteApnsSandboxChannelOutputBody: Swift.Equatable {
+    let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
+}
+
+extension DeleteApnsSandboxChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSSandboxChannelResponse.self, forKey: .apnsSandboxChannelResponse)
+        apnsSandboxChannelResponse = apnsSandboxChannelResponseDecoded
+    }
+}
+
 enum DeleteApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8071,46 +8111,6 @@ enum DeleteApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsSandboxChannelResponse = output
-        } else {
-            self.apnsSandboxChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteApnsSandboxChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
-    /// This member is required.
-    public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
-
-    public init(
-        apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
-    )
-    {
-        self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
-    }
-}
-
-struct DeleteApnsSandboxChannelOutputResponseBody: Swift.Equatable {
-    let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
-}
-
-extension DeleteApnsSandboxChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSSandboxChannelResponse.self, forKey: .apnsSandboxChannelResponse)
-        apnsSandboxChannelResponse = apnsSandboxChannelResponseDecoded
     }
 }
 
@@ -8145,6 +8145,46 @@ extension DeleteApnsVoipChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteApnsVoipChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipChannelResponse = output
+        } else {
+            self.apnsVoipChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteApnsVoipChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
+    /// This member is required.
+    public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
+
+    public init(
+        apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
+    )
+    {
+        self.apnsVoipChannelResponse = apnsVoipChannelResponse
+    }
+}
+
+struct DeleteApnsVoipChannelOutputBody: Swift.Equatable {
+    let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
+}
+
+extension DeleteApnsVoipChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsVoipChannelResponse = "APNSVoipChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsVoipChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipChannelResponse.self, forKey: .apnsVoipChannelResponse)
+        apnsVoipChannelResponse = apnsVoipChannelResponseDecoded
+    }
+}
+
 enum DeleteApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8159,46 +8199,6 @@ enum DeleteApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsVoipChannelResponse = output
-        } else {
-            self.apnsVoipChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteApnsVoipChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
-    /// This member is required.
-    public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
-
-    public init(
-        apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
-    )
-    {
-        self.apnsVoipChannelResponse = apnsVoipChannelResponse
-    }
-}
-
-struct DeleteApnsVoipChannelOutputResponseBody: Swift.Equatable {
-    let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
-}
-
-extension DeleteApnsVoipChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsVoipChannelResponse = "APNSVoipChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsVoipChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipChannelResponse.self, forKey: .apnsVoipChannelResponse)
-        apnsVoipChannelResponse = apnsVoipChannelResponseDecoded
     }
 }
 
@@ -8233,6 +8233,46 @@ extension DeleteApnsVoipSandboxChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteApnsVoipSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipSandboxChannelResponse = output
+        } else {
+            self.apnsVoipSandboxChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteApnsVoipSandboxChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
+    /// This member is required.
+    public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
+
+    public init(
+        apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
+    )
+    {
+        self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
+    }
+}
+
+struct DeleteApnsVoipSandboxChannelOutputBody: Swift.Equatable {
+    let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
+}
+
+extension DeleteApnsVoipSandboxChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsVoipSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipSandboxChannelResponse.self, forKey: .apnsVoipSandboxChannelResponse)
+        apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponseDecoded
+    }
+}
+
 enum DeleteApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8247,46 +8287,6 @@ enum DeleteApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBin
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsVoipSandboxChannelResponse = output
-        } else {
-            self.apnsVoipSandboxChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteApnsVoipSandboxChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
-    /// This member is required.
-    public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
-
-    public init(
-        apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
-    )
-    {
-        self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
-    }
-}
-
-struct DeleteApnsVoipSandboxChannelOutputResponseBody: Swift.Equatable {
-    let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
-}
-
-extension DeleteApnsVoipSandboxChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsVoipSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipSandboxChannelResponse.self, forKey: .apnsVoipSandboxChannelResponse)
-        apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponseDecoded
     }
 }
 
@@ -8321,6 +8321,46 @@ extension DeleteAppInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationResponse = output
+        } else {
+            self.applicationResponse = nil
+        }
+    }
+}
+
+public struct DeleteAppOutput: Swift.Equatable {
+    /// Provides information about an application.
+    /// This member is required.
+    public var applicationResponse: PinpointClientTypes.ApplicationResponse?
+
+    public init(
+        applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
+    )
+    {
+        self.applicationResponse = applicationResponse
+    }
+}
+
+struct DeleteAppOutputBody: Swift.Equatable {
+    let applicationResponse: PinpointClientTypes.ApplicationResponse?
+}
+
+extension DeleteAppOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationResponse = "ApplicationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationResponse.self, forKey: .applicationResponse)
+        applicationResponse = applicationResponseDecoded
+    }
+}
+
 enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8335,46 +8375,6 @@ enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
-            self.applicationResponse = output
-        } else {
-            self.applicationResponse = nil
-        }
-    }
-}
-
-public struct DeleteAppOutputResponse: Swift.Equatable {
-    /// Provides information about an application.
-    /// This member is required.
-    public var applicationResponse: PinpointClientTypes.ApplicationResponse?
-
-    public init(
-        applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
-    )
-    {
-        self.applicationResponse = applicationResponse
-    }
-}
-
-struct DeleteAppOutputResponseBody: Swift.Equatable {
-    let applicationResponse: PinpointClientTypes.ApplicationResponse?
-}
-
-extension DeleteAppOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationResponse = "ApplicationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationResponse.self, forKey: .applicationResponse)
-        applicationResponse = applicationResponseDecoded
     }
 }
 
@@ -8409,6 +8409,46 @@ extension DeleteBaiduChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBaiduChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.baiduChannelResponse = output
+        } else {
+            self.baiduChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteBaiduChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
+    /// This member is required.
+    public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
+
+    public init(
+        baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
+    )
+    {
+        self.baiduChannelResponse = baiduChannelResponse
+    }
+}
+
+struct DeleteBaiduChannelOutputBody: Swift.Equatable {
+    let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
+}
+
+extension DeleteBaiduChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baiduChannelResponse = "BaiduChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baiduChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.BaiduChannelResponse.self, forKey: .baiduChannelResponse)
+        baiduChannelResponse = baiduChannelResponseDecoded
+    }
+}
+
 enum DeleteBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8423,46 +8463,6 @@ enum DeleteBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.baiduChannelResponse = output
-        } else {
-            self.baiduChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteBaiduChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
-    /// This member is required.
-    public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
-
-    public init(
-        baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
-    )
-    {
-        self.baiduChannelResponse = baiduChannelResponse
-    }
-}
-
-struct DeleteBaiduChannelOutputResponseBody: Swift.Equatable {
-    let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
-}
-
-extension DeleteBaiduChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case baiduChannelResponse = "BaiduChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let baiduChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.BaiduChannelResponse.self, forKey: .baiduChannelResponse)
-        baiduChannelResponse = baiduChannelResponseDecoded
     }
 }
 
@@ -8505,6 +8505,46 @@ extension DeleteCampaignInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCampaignOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
+        } else {
+            self.campaignResponse = nil
+        }
+    }
+}
+
+public struct DeleteCampaignOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a campaign.
+    /// This member is required.
+    public var campaignResponse: PinpointClientTypes.CampaignResponse?
+
+    public init(
+        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
+    )
+    {
+        self.campaignResponse = campaignResponse
+    }
+}
+
+struct DeleteCampaignOutputBody: Swift.Equatable {
+    let campaignResponse: PinpointClientTypes.CampaignResponse?
+}
+
+extension DeleteCampaignOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignResponse = "CampaignResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
+        campaignResponse = campaignResponseDecoded
+    }
+}
+
 enum DeleteCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8519,46 +8559,6 @@ enum DeleteCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignResponse = output
-        } else {
-            self.campaignResponse = nil
-        }
-    }
-}
-
-public struct DeleteCampaignOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a campaign.
-    /// This member is required.
-    public var campaignResponse: PinpointClientTypes.CampaignResponse?
-
-    public init(
-        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
-        self.campaignResponse = campaignResponse
-    }
-}
-
-struct DeleteCampaignOutputResponseBody: Swift.Equatable {
-    let campaignResponse: PinpointClientTypes.CampaignResponse?
-}
-
-extension DeleteCampaignOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignResponse = "CampaignResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
-        campaignResponse = campaignResponseDecoded
     }
 }
 
@@ -8593,6 +8593,46 @@ extension DeleteEmailChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEmailChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.emailChannelResponse = output
+        } else {
+            self.emailChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteEmailChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the email channel for an application.
+    /// This member is required.
+    public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
+
+    public init(
+        emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
+    )
+    {
+        self.emailChannelResponse = emailChannelResponse
+    }
+}
+
+struct DeleteEmailChannelOutputBody: Swift.Equatable {
+    let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
+}
+
+extension DeleteEmailChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emailChannelResponse = "EmailChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emailChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailChannelResponse.self, forKey: .emailChannelResponse)
+        emailChannelResponse = emailChannelResponseDecoded
+    }
+}
+
 enum DeleteEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8607,46 +8647,6 @@ enum DeleteEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.emailChannelResponse = output
-        } else {
-            self.emailChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteEmailChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the email channel for an application.
-    /// This member is required.
-    public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
-
-    public init(
-        emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
-    )
-    {
-        self.emailChannelResponse = emailChannelResponse
-    }
-}
-
-struct DeleteEmailChannelOutputResponseBody: Swift.Equatable {
-    let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
-}
-
-extension DeleteEmailChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case emailChannelResponse = "EmailChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emailChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailChannelResponse.self, forKey: .emailChannelResponse)
-        emailChannelResponse = emailChannelResponseDecoded
     }
 }
 
@@ -8704,6 +8704,46 @@ extension DeleteEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct DeleteEmailTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct DeleteEmailTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension DeleteEmailTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum DeleteEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8718,46 +8758,6 @@ enum DeleteEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct DeleteEmailTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct DeleteEmailTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension DeleteEmailTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
     }
 }
 
@@ -8800,6 +8800,46 @@ extension DeleteEndpointInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEndpointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointResponse = output
+        } else {
+            self.endpointResponse = nil
+        }
+    }
+}
+
+public struct DeleteEndpointOutput: Swift.Equatable {
+    /// Provides information about the channel type and other settings for an endpoint.
+    /// This member is required.
+    public var endpointResponse: PinpointClientTypes.EndpointResponse?
+
+    public init(
+        endpointResponse: PinpointClientTypes.EndpointResponse? = nil
+    )
+    {
+        self.endpointResponse = endpointResponse
+    }
+}
+
+struct DeleteEndpointOutputBody: Swift.Equatable {
+    let endpointResponse: PinpointClientTypes.EndpointResponse?
+}
+
+extension DeleteEndpointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointResponse = "EndpointResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointResponse.self, forKey: .endpointResponse)
+        endpointResponse = endpointResponseDecoded
+    }
+}
+
 enum DeleteEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8814,46 +8854,6 @@ enum DeleteEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
-            self.endpointResponse = output
-        } else {
-            self.endpointResponse = nil
-        }
-    }
-}
-
-public struct DeleteEndpointOutputResponse: Swift.Equatable {
-    /// Provides information about the channel type and other settings for an endpoint.
-    /// This member is required.
-    public var endpointResponse: PinpointClientTypes.EndpointResponse?
-
-    public init(
-        endpointResponse: PinpointClientTypes.EndpointResponse? = nil
-    )
-    {
-        self.endpointResponse = endpointResponse
-    }
-}
-
-struct DeleteEndpointOutputResponseBody: Swift.Equatable {
-    let endpointResponse: PinpointClientTypes.EndpointResponse?
-}
-
-extension DeleteEndpointOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointResponse = "EndpointResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointResponse.self, forKey: .endpointResponse)
-        endpointResponse = endpointResponseDecoded
     }
 }
 
@@ -8888,6 +8888,46 @@ extension DeleteEventStreamInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEventStreamOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
+            self.eventStream = output
+        } else {
+            self.eventStream = nil
+        }
+    }
+}
+
+public struct DeleteEventStreamOutput: Swift.Equatable {
+    /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
+    /// This member is required.
+    public var eventStream: PinpointClientTypes.EventStream?
+
+    public init(
+        eventStream: PinpointClientTypes.EventStream? = nil
+    )
+    {
+        self.eventStream = eventStream
+    }
+}
+
+struct DeleteEventStreamOutputBody: Swift.Equatable {
+    let eventStream: PinpointClientTypes.EventStream?
+}
+
+extension DeleteEventStreamOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventStream = "EventStream"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventStreamDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventStream.self, forKey: .eventStream)
+        eventStream = eventStreamDecoded
+    }
+}
+
 enum DeleteEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8902,46 +8942,6 @@ enum DeleteEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
-            self.eventStream = output
-        } else {
-            self.eventStream = nil
-        }
-    }
-}
-
-public struct DeleteEventStreamOutputResponse: Swift.Equatable {
-    /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
-    /// This member is required.
-    public var eventStream: PinpointClientTypes.EventStream?
-
-    public init(
-        eventStream: PinpointClientTypes.EventStream? = nil
-    )
-    {
-        self.eventStream = eventStream
-    }
-}
-
-struct DeleteEventStreamOutputResponseBody: Swift.Equatable {
-    let eventStream: PinpointClientTypes.EventStream?
-}
-
-extension DeleteEventStreamOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventStream = "EventStream"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eventStreamDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventStream.self, forKey: .eventStream)
-        eventStream = eventStreamDecoded
     }
 }
 
@@ -8976,6 +8976,46 @@ extension DeleteGcmChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteGcmChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.gcmChannelResponse = output
+        } else {
+            self.gcmChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteGcmChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
+    /// This member is required.
+    public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
+
+    public init(
+        gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
+    )
+    {
+        self.gcmChannelResponse = gcmChannelResponse
+    }
+}
+
+struct DeleteGcmChannelOutputBody: Swift.Equatable {
+    let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
+}
+
+extension DeleteGcmChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gcmChannelResponse = "GCMChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gcmChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.GCMChannelResponse.self, forKey: .gcmChannelResponse)
+        gcmChannelResponse = gcmChannelResponseDecoded
+    }
+}
+
 enum DeleteGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8990,46 +9030,6 @@ enum DeleteGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.gcmChannelResponse = output
-        } else {
-            self.gcmChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteGcmChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
-    /// This member is required.
-    public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
-
-    public init(
-        gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
-    )
-    {
-        self.gcmChannelResponse = gcmChannelResponse
-    }
-}
-
-struct DeleteGcmChannelOutputResponseBody: Swift.Equatable {
-    let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
-}
-
-extension DeleteGcmChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gcmChannelResponse = "GCMChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gcmChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.GCMChannelResponse.self, forKey: .gcmChannelResponse)
-        gcmChannelResponse = gcmChannelResponseDecoded
     }
 }
 
@@ -9087,6 +9087,46 @@ extension DeleteInAppTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct DeleteInAppTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct DeleteInAppTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension DeleteInAppTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum DeleteInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9101,46 +9141,6 @@ enum DeleteInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct DeleteInAppTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct DeleteInAppTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension DeleteInAppTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
     }
 }
 
@@ -9183,6 +9183,46 @@ extension DeleteJourneyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteJourneyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
+        } else {
+            self.journeyResponse = nil
+        }
+    }
+}
+
+public struct DeleteJourneyOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a journey.
+    /// This member is required.
+    public var journeyResponse: PinpointClientTypes.JourneyResponse?
+
+    public init(
+        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
+    )
+    {
+        self.journeyResponse = journeyResponse
+    }
+}
+
+struct DeleteJourneyOutputBody: Swift.Equatable {
+    let journeyResponse: PinpointClientTypes.JourneyResponse?
+}
+
+extension DeleteJourneyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyResponse = "JourneyResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
+        journeyResponse = journeyResponseDecoded
+    }
+}
+
 enum DeleteJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9197,46 +9237,6 @@ enum DeleteJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyResponse = output
-        } else {
-            self.journeyResponse = nil
-        }
-    }
-}
-
-public struct DeleteJourneyOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a journey.
-    /// This member is required.
-    public var journeyResponse: PinpointClientTypes.JourneyResponse?
-
-    public init(
-        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
-        self.journeyResponse = journeyResponse
-    }
-}
-
-struct DeleteJourneyOutputResponseBody: Swift.Equatable {
-    let journeyResponse: PinpointClientTypes.JourneyResponse?
-}
-
-extension DeleteJourneyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyResponse = "JourneyResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
-        journeyResponse = journeyResponseDecoded
     }
 }
 
@@ -9294,6 +9294,46 @@ extension DeletePushTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePushTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct DeletePushTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct DeletePushTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension DeletePushTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum DeletePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9308,46 +9348,6 @@ enum DeletePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeletePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct DeletePushTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct DeletePushTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension DeletePushTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
     }
 }
 
@@ -9382,6 +9382,46 @@ extension DeleteRecommenderConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRecommenderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
+        } else {
+            self.recommenderConfigurationResponse = nil
+        }
+    }
+}
+
+public struct DeleteRecommenderConfigurationOutput: Swift.Equatable {
+    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
+    /// This member is required.
+    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+
+    public init(
+        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
+    )
+    {
+        self.recommenderConfigurationResponse = recommenderConfigurationResponse
+    }
+}
+
+struct DeleteRecommenderConfigurationOutputBody: Swift.Equatable {
+    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+}
+
+extension DeleteRecommenderConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
+        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
+    }
+}
+
 enum DeleteRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9396,46 +9436,6 @@ enum DeleteRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorB
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-            self.recommenderConfigurationResponse = output
-        } else {
-            self.recommenderConfigurationResponse = nil
-        }
-    }
-}
-
-public struct DeleteRecommenderConfigurationOutputResponse: Swift.Equatable {
-    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
-    /// This member is required.
-    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-
-    public init(
-        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
-        self.recommenderConfigurationResponse = recommenderConfigurationResponse
-    }
-}
-
-struct DeleteRecommenderConfigurationOutputResponseBody: Swift.Equatable {
-    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-}
-
-extension DeleteRecommenderConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
-        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
     }
 }
 
@@ -9478,6 +9478,46 @@ extension DeleteSegmentInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSegmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
+        } else {
+            self.segmentResponse = nil
+        }
+    }
+}
+
+public struct DeleteSegmentOutput: Swift.Equatable {
+    /// Provides information about the configuration, dimension, and other settings for a segment.
+    /// This member is required.
+    public var segmentResponse: PinpointClientTypes.SegmentResponse?
+
+    public init(
+        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
+    )
+    {
+        self.segmentResponse = segmentResponse
+    }
+}
+
+struct DeleteSegmentOutputBody: Swift.Equatable {
+    let segmentResponse: PinpointClientTypes.SegmentResponse?
+}
+
+extension DeleteSegmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentResponse = "SegmentResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
+        segmentResponse = segmentResponseDecoded
+    }
+}
+
 enum DeleteSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9492,46 +9532,6 @@ enum DeleteSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentResponse = output
-        } else {
-            self.segmentResponse = nil
-        }
-    }
-}
-
-public struct DeleteSegmentOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration, dimension, and other settings for a segment.
-    /// This member is required.
-    public var segmentResponse: PinpointClientTypes.SegmentResponse?
-
-    public init(
-        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
-        self.segmentResponse = segmentResponse
-    }
-}
-
-struct DeleteSegmentOutputResponseBody: Swift.Equatable {
-    let segmentResponse: PinpointClientTypes.SegmentResponse?
-}
-
-extension DeleteSegmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentResponse = "SegmentResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
-        segmentResponse = segmentResponseDecoded
     }
 }
 
@@ -9566,6 +9566,46 @@ extension DeleteSmsChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSmsChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.smsChannelResponse = output
+        } else {
+            self.smsChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteSmsChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the SMS channel for an application.
+    /// This member is required.
+    public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
+
+    public init(
+        smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
+    )
+    {
+        self.smsChannelResponse = smsChannelResponse
+    }
+}
+
+struct DeleteSmsChannelOutputBody: Swift.Equatable {
+    let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
+}
+
+extension DeleteSmsChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case smsChannelResponse = "SMSChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let smsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSChannelResponse.self, forKey: .smsChannelResponse)
+        smsChannelResponse = smsChannelResponseDecoded
+    }
+}
+
 enum DeleteSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9580,46 +9620,6 @@ enum DeleteSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.smsChannelResponse = output
-        } else {
-            self.smsChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteSmsChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the SMS channel for an application.
-    /// This member is required.
-    public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
-
-    public init(
-        smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
-    )
-    {
-        self.smsChannelResponse = smsChannelResponse
-    }
-}
-
-struct DeleteSmsChannelOutputResponseBody: Swift.Equatable {
-    let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
-}
-
-extension DeleteSmsChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case smsChannelResponse = "SMSChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let smsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSChannelResponse.self, forKey: .smsChannelResponse)
-        smsChannelResponse = smsChannelResponseDecoded
     }
 }
 
@@ -9677,6 +9677,46 @@ extension DeleteSmsTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct DeleteSmsTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct DeleteSmsTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension DeleteSmsTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum DeleteSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9691,46 +9731,6 @@ enum DeleteSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct DeleteSmsTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct DeleteSmsTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension DeleteSmsTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
     }
 }
 
@@ -9773,6 +9773,46 @@ extension DeleteUserEndpointsInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteUserEndpointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointsResponse = output
+        } else {
+            self.endpointsResponse = nil
+        }
+    }
+}
+
+public struct DeleteUserEndpointsOutput: Swift.Equatable {
+    /// Provides information about all the endpoints that are associated with a user ID.
+    /// This member is required.
+    public var endpointsResponse: PinpointClientTypes.EndpointsResponse?
+
+    public init(
+        endpointsResponse: PinpointClientTypes.EndpointsResponse? = nil
+    )
+    {
+        self.endpointsResponse = endpointsResponse
+    }
+}
+
+struct DeleteUserEndpointsOutputBody: Swift.Equatable {
+    let endpointsResponse: PinpointClientTypes.EndpointsResponse?
+}
+
+extension DeleteUserEndpointsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointsResponse = "EndpointsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointsResponse.self, forKey: .endpointsResponse)
+        endpointsResponse = endpointsResponseDecoded
+    }
+}
+
 enum DeleteUserEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9787,46 +9827,6 @@ enum DeleteUserEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
-            self.endpointsResponse = output
-        } else {
-            self.endpointsResponse = nil
-        }
-    }
-}
-
-public struct DeleteUserEndpointsOutputResponse: Swift.Equatable {
-    /// Provides information about all the endpoints that are associated with a user ID.
-    /// This member is required.
-    public var endpointsResponse: PinpointClientTypes.EndpointsResponse?
-
-    public init(
-        endpointsResponse: PinpointClientTypes.EndpointsResponse? = nil
-    )
-    {
-        self.endpointsResponse = endpointsResponse
-    }
-}
-
-struct DeleteUserEndpointsOutputResponseBody: Swift.Equatable {
-    let endpointsResponse: PinpointClientTypes.EndpointsResponse?
-}
-
-extension DeleteUserEndpointsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointsResponse = "EndpointsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointsResponse.self, forKey: .endpointsResponse)
-        endpointsResponse = endpointsResponseDecoded
     }
 }
 
@@ -9861,6 +9861,46 @@ extension DeleteVoiceChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceChannelResponse = output
+        } else {
+            self.voiceChannelResponse = nil
+        }
+    }
+}
+
+public struct DeleteVoiceChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the voice channel for an application.
+    /// This member is required.
+    public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
+
+    public init(
+        voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
+    )
+    {
+        self.voiceChannelResponse = voiceChannelResponse
+    }
+}
+
+struct DeleteVoiceChannelOutputBody: Swift.Equatable {
+    let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
+}
+
+extension DeleteVoiceChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceChannelResponse = "VoiceChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceChannelResponse.self, forKey: .voiceChannelResponse)
+        voiceChannelResponse = voiceChannelResponseDecoded
+    }
+}
+
 enum DeleteVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9875,46 +9915,6 @@ enum DeleteVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.voiceChannelResponse = output
-        } else {
-            self.voiceChannelResponse = nil
-        }
-    }
-}
-
-public struct DeleteVoiceChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the voice channel for an application.
-    /// This member is required.
-    public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
-
-    public init(
-        voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
-    )
-    {
-        self.voiceChannelResponse = voiceChannelResponse
-    }
-}
-
-struct DeleteVoiceChannelOutputResponseBody: Swift.Equatable {
-    let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
-}
-
-extension DeleteVoiceChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceChannelResponse = "VoiceChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceChannelResponse.self, forKey: .voiceChannelResponse)
-        voiceChannelResponse = voiceChannelResponseDecoded
     }
 }
 
@@ -9972,6 +9972,46 @@ extension DeleteVoiceTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct DeleteVoiceTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct DeleteVoiceTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension DeleteVoiceTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum DeleteVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9986,46 +10026,6 @@ enum DeleteVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct DeleteVoiceTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct DeleteVoiceTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension DeleteVoiceTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
     }
 }
 
@@ -13940,6 +13940,46 @@ extension GetAdmChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetAdmChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.admChannelResponse = output
+        } else {
+            self.admChannelResponse = nil
+        }
+    }
+}
+
+public struct GetAdmChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
+    /// This member is required.
+    public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
+
+    public init(
+        admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
+    )
+    {
+        self.admChannelResponse = admChannelResponse
+    }
+}
+
+struct GetAdmChannelOutputBody: Swift.Equatable {
+    let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
+}
+
+extension GetAdmChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case admChannelResponse = "ADMChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let admChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ADMChannelResponse.self, forKey: .admChannelResponse)
+        admChannelResponse = admChannelResponseDecoded
+    }
+}
+
 enum GetAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13954,46 +13994,6 @@ enum GetAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.admChannelResponse = output
-        } else {
-            self.admChannelResponse = nil
-        }
-    }
-}
-
-public struct GetAdmChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
-    /// This member is required.
-    public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
-
-    public init(
-        admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
-    )
-    {
-        self.admChannelResponse = admChannelResponse
-    }
-}
-
-struct GetAdmChannelOutputResponseBody: Swift.Equatable {
-    let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
-}
-
-extension GetAdmChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case admChannelResponse = "ADMChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let admChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ADMChannelResponse.self, forKey: .admChannelResponse)
-        admChannelResponse = admChannelResponseDecoded
     }
 }
 
@@ -14028,6 +14028,46 @@ extension GetApnsChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetApnsChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsChannelResponse = output
+        } else {
+            self.apnsChannelResponse = nil
+        }
+    }
+}
+
+public struct GetApnsChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
+    /// This member is required.
+    public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
+
+    public init(
+        apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
+    )
+    {
+        self.apnsChannelResponse = apnsChannelResponse
+    }
+}
+
+struct GetApnsChannelOutputBody: Swift.Equatable {
+    let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
+}
+
+extension GetApnsChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsChannelResponse = "APNSChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSChannelResponse.self, forKey: .apnsChannelResponse)
+        apnsChannelResponse = apnsChannelResponseDecoded
+    }
+}
+
 enum GetApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14042,46 +14082,6 @@ enum GetApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsChannelResponse = output
-        } else {
-            self.apnsChannelResponse = nil
-        }
-    }
-}
-
-public struct GetApnsChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
-    /// This member is required.
-    public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
-
-    public init(
-        apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
-    )
-    {
-        self.apnsChannelResponse = apnsChannelResponse
-    }
-}
-
-struct GetApnsChannelOutputResponseBody: Swift.Equatable {
-    let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
-}
-
-extension GetApnsChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsChannelResponse = "APNSChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSChannelResponse.self, forKey: .apnsChannelResponse)
-        apnsChannelResponse = apnsChannelResponseDecoded
     }
 }
 
@@ -14116,6 +14116,46 @@ extension GetApnsSandboxChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetApnsSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsSandboxChannelResponse = output
+        } else {
+            self.apnsSandboxChannelResponse = nil
+        }
+    }
+}
+
+public struct GetApnsSandboxChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
+    /// This member is required.
+    public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
+
+    public init(
+        apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
+    )
+    {
+        self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
+    }
+}
+
+struct GetApnsSandboxChannelOutputBody: Swift.Equatable {
+    let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
+}
+
+extension GetApnsSandboxChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSSandboxChannelResponse.self, forKey: .apnsSandboxChannelResponse)
+        apnsSandboxChannelResponse = apnsSandboxChannelResponseDecoded
+    }
+}
+
 enum GetApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14130,46 +14170,6 @@ enum GetApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsSandboxChannelResponse = output
-        } else {
-            self.apnsSandboxChannelResponse = nil
-        }
-    }
-}
-
-public struct GetApnsSandboxChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
-    /// This member is required.
-    public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
-
-    public init(
-        apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
-    )
-    {
-        self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
-    }
-}
-
-struct GetApnsSandboxChannelOutputResponseBody: Swift.Equatable {
-    let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
-}
-
-extension GetApnsSandboxChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSSandboxChannelResponse.self, forKey: .apnsSandboxChannelResponse)
-        apnsSandboxChannelResponse = apnsSandboxChannelResponseDecoded
     }
 }
 
@@ -14204,6 +14204,46 @@ extension GetApnsVoipChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetApnsVoipChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipChannelResponse = output
+        } else {
+            self.apnsVoipChannelResponse = nil
+        }
+    }
+}
+
+public struct GetApnsVoipChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
+    /// This member is required.
+    public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
+
+    public init(
+        apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
+    )
+    {
+        self.apnsVoipChannelResponse = apnsVoipChannelResponse
+    }
+}
+
+struct GetApnsVoipChannelOutputBody: Swift.Equatable {
+    let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
+}
+
+extension GetApnsVoipChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsVoipChannelResponse = "APNSVoipChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsVoipChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipChannelResponse.self, forKey: .apnsVoipChannelResponse)
+        apnsVoipChannelResponse = apnsVoipChannelResponseDecoded
+    }
+}
+
 enum GetApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14218,46 +14258,6 @@ enum GetApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsVoipChannelResponse = output
-        } else {
-            self.apnsVoipChannelResponse = nil
-        }
-    }
-}
-
-public struct GetApnsVoipChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
-    /// This member is required.
-    public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
-
-    public init(
-        apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
-    )
-    {
-        self.apnsVoipChannelResponse = apnsVoipChannelResponse
-    }
-}
-
-struct GetApnsVoipChannelOutputResponseBody: Swift.Equatable {
-    let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
-}
-
-extension GetApnsVoipChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsVoipChannelResponse = "APNSVoipChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsVoipChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipChannelResponse.self, forKey: .apnsVoipChannelResponse)
-        apnsVoipChannelResponse = apnsVoipChannelResponseDecoded
     }
 }
 
@@ -14292,6 +14292,46 @@ extension GetApnsVoipSandboxChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetApnsVoipSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipSandboxChannelResponse = output
+        } else {
+            self.apnsVoipSandboxChannelResponse = nil
+        }
+    }
+}
+
+public struct GetApnsVoipSandboxChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
+    /// This member is required.
+    public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
+
+    public init(
+        apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
+    )
+    {
+        self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
+    }
+}
+
+struct GetApnsVoipSandboxChannelOutputBody: Swift.Equatable {
+    let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
+}
+
+extension GetApnsVoipSandboxChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsVoipSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipSandboxChannelResponse.self, forKey: .apnsVoipSandboxChannelResponse)
+        apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponseDecoded
+    }
+}
+
 enum GetApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14306,46 +14346,6 @@ enum GetApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsVoipSandboxChannelResponse = output
-        } else {
-            self.apnsVoipSandboxChannelResponse = nil
-        }
-    }
-}
-
-public struct GetApnsVoipSandboxChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
-    /// This member is required.
-    public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
-
-    public init(
-        apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
-    )
-    {
-        self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
-    }
-}
-
-struct GetApnsVoipSandboxChannelOutputResponseBody: Swift.Equatable {
-    let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
-}
-
-extension GetApnsVoipSandboxChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsVoipSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipSandboxChannelResponse.self, forKey: .apnsVoipSandboxChannelResponse)
-        apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponseDecoded
     }
 }
 
@@ -14380,6 +14380,46 @@ extension GetAppInputBody: Swift.Decodable {
     }
 }
 
+extension GetAppOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationResponse = output
+        } else {
+            self.applicationResponse = nil
+        }
+    }
+}
+
+public struct GetAppOutput: Swift.Equatable {
+    /// Provides information about an application.
+    /// This member is required.
+    public var applicationResponse: PinpointClientTypes.ApplicationResponse?
+
+    public init(
+        applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
+    )
+    {
+        self.applicationResponse = applicationResponse
+    }
+}
+
+struct GetAppOutputBody: Swift.Equatable {
+    let applicationResponse: PinpointClientTypes.ApplicationResponse?
+}
+
+extension GetAppOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationResponse = "ApplicationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationResponse.self, forKey: .applicationResponse)
+        applicationResponse = applicationResponseDecoded
+    }
+}
+
 enum GetAppOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14394,46 +14434,6 @@ enum GetAppOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAppOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
-            self.applicationResponse = output
-        } else {
-            self.applicationResponse = nil
-        }
-    }
-}
-
-public struct GetAppOutputResponse: Swift.Equatable {
-    /// Provides information about an application.
-    /// This member is required.
-    public var applicationResponse: PinpointClientTypes.ApplicationResponse?
-
-    public init(
-        applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
-    )
-    {
-        self.applicationResponse = applicationResponse
-    }
-}
-
-struct GetAppOutputResponseBody: Swift.Equatable {
-    let applicationResponse: PinpointClientTypes.ApplicationResponse?
-}
-
-extension GetAppOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationResponse = "ApplicationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationResponse.self, forKey: .applicationResponse)
-        applicationResponse = applicationResponseDecoded
     }
 }
 
@@ -14517,6 +14517,46 @@ extension GetApplicationDateRangeKpiInputBody: Swift.Decodable {
     }
 }
 
+extension GetApplicationDateRangeKpiOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationDateRangeKpiResponse = output
+        } else {
+            self.applicationDateRangeKpiResponse = nil
+        }
+    }
+}
+
+public struct GetApplicationDateRangeKpiOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard metric that applies to an application, and provides information about that query.
+    /// This member is required.
+    public var applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse?
+
+    public init(
+        applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse? = nil
+    )
+    {
+        self.applicationDateRangeKpiResponse = applicationDateRangeKpiResponse
+    }
+}
+
+struct GetApplicationDateRangeKpiOutputBody: Swift.Equatable {
+    let applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse?
+}
+
+extension GetApplicationDateRangeKpiOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationDateRangeKpiResponse = "ApplicationDateRangeKpiResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationDateRangeKpiResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationDateRangeKpiResponse.self, forKey: .applicationDateRangeKpiResponse)
+        applicationDateRangeKpiResponse = applicationDateRangeKpiResponseDecoded
+    }
+}
+
 enum GetApplicationDateRangeKpiOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14531,46 +14571,6 @@ enum GetApplicationDateRangeKpiOutputError: ClientRuntime.HttpResponseErrorBindi
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetApplicationDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
-            self.applicationDateRangeKpiResponse = output
-        } else {
-            self.applicationDateRangeKpiResponse = nil
-        }
-    }
-}
-
-public struct GetApplicationDateRangeKpiOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard metric that applies to an application, and provides information about that query.
-    /// This member is required.
-    public var applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse?
-
-    public init(
-        applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse? = nil
-    )
-    {
-        self.applicationDateRangeKpiResponse = applicationDateRangeKpiResponse
-    }
-}
-
-struct GetApplicationDateRangeKpiOutputResponseBody: Swift.Equatable {
-    let applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse?
-}
-
-extension GetApplicationDateRangeKpiOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationDateRangeKpiResponse = "ApplicationDateRangeKpiResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationDateRangeKpiResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationDateRangeKpiResponse.self, forKey: .applicationDateRangeKpiResponse)
-        applicationDateRangeKpiResponse = applicationDateRangeKpiResponseDecoded
     }
 }
 
@@ -14605,6 +14605,46 @@ extension GetApplicationSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension GetApplicationSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
+            self.applicationSettingsResource = output
+        } else {
+            self.applicationSettingsResource = nil
+        }
+    }
+}
+
+public struct GetApplicationSettingsOutput: Swift.Equatable {
+    /// Provides information about an application, including the default settings for an application.
+    /// This member is required.
+    public var applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
+
+    public init(
+        applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource? = nil
+    )
+    {
+        self.applicationSettingsResource = applicationSettingsResource
+    }
+}
+
+struct GetApplicationSettingsOutputBody: Swift.Equatable {
+    let applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
+}
+
+extension GetApplicationSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationSettingsResource = "ApplicationSettingsResource"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationSettingsResourceDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationSettingsResource.self, forKey: .applicationSettingsResource)
+        applicationSettingsResource = applicationSettingsResourceDecoded
+    }
+}
+
 enum GetApplicationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14619,46 +14659,6 @@ enum GetApplicationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
-            self.applicationSettingsResource = output
-        } else {
-            self.applicationSettingsResource = nil
-        }
-    }
-}
-
-public struct GetApplicationSettingsOutputResponse: Swift.Equatable {
-    /// Provides information about an application, including the default settings for an application.
-    /// This member is required.
-    public var applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
-
-    public init(
-        applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource? = nil
-    )
-    {
-        self.applicationSettingsResource = applicationSettingsResource
-    }
-}
-
-struct GetApplicationSettingsOutputResponseBody: Swift.Equatable {
-    let applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
-}
-
-extension GetApplicationSettingsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationSettingsResource = "ApplicationSettingsResource"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationSettingsResourceDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationSettingsResource.self, forKey: .applicationSettingsResource)
-        applicationSettingsResource = applicationSettingsResourceDecoded
     }
 }
 
@@ -14710,6 +14710,46 @@ extension GetAppsInputBody: Swift.Decodable {
     }
 }
 
+extension GetAppsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationsResponse = try responseDecoder.decode(responseBody: data)
+            self.applicationsResponse = output
+        } else {
+            self.applicationsResponse = nil
+        }
+    }
+}
+
+public struct GetAppsOutput: Swift.Equatable {
+    /// Provides information about all of your applications.
+    /// This member is required.
+    public var applicationsResponse: PinpointClientTypes.ApplicationsResponse?
+
+    public init(
+        applicationsResponse: PinpointClientTypes.ApplicationsResponse? = nil
+    )
+    {
+        self.applicationsResponse = applicationsResponse
+    }
+}
+
+struct GetAppsOutputBody: Swift.Equatable {
+    let applicationsResponse: PinpointClientTypes.ApplicationsResponse?
+}
+
+extension GetAppsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationsResponse = "ApplicationsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationsResponse.self, forKey: .applicationsResponse)
+        applicationsResponse = applicationsResponseDecoded
+    }
+}
+
 enum GetAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14724,46 +14764,6 @@ enum GetAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAppsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationsResponse = try responseDecoder.decode(responseBody: data)
-            self.applicationsResponse = output
-        } else {
-            self.applicationsResponse = nil
-        }
-    }
-}
-
-public struct GetAppsOutputResponse: Swift.Equatable {
-    /// Provides information about all of your applications.
-    /// This member is required.
-    public var applicationsResponse: PinpointClientTypes.ApplicationsResponse?
-
-    public init(
-        applicationsResponse: PinpointClientTypes.ApplicationsResponse? = nil
-    )
-    {
-        self.applicationsResponse = applicationsResponse
-    }
-}
-
-struct GetAppsOutputResponseBody: Swift.Equatable {
-    let applicationsResponse: PinpointClientTypes.ApplicationsResponse?
-}
-
-extension GetAppsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationsResponse = "ApplicationsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationsResponse.self, forKey: .applicationsResponse)
-        applicationsResponse = applicationsResponseDecoded
     }
 }
 
@@ -14798,6 +14798,46 @@ extension GetBaiduChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetBaiduChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.baiduChannelResponse = output
+        } else {
+            self.baiduChannelResponse = nil
+        }
+    }
+}
+
+public struct GetBaiduChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
+    /// This member is required.
+    public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
+
+    public init(
+        baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
+    )
+    {
+        self.baiduChannelResponse = baiduChannelResponse
+    }
+}
+
+struct GetBaiduChannelOutputBody: Swift.Equatable {
+    let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
+}
+
+extension GetBaiduChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baiduChannelResponse = "BaiduChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baiduChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.BaiduChannelResponse.self, forKey: .baiduChannelResponse)
+        baiduChannelResponse = baiduChannelResponseDecoded
+    }
+}
+
 enum GetBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14812,46 +14852,6 @@ enum GetBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.baiduChannelResponse = output
-        } else {
-            self.baiduChannelResponse = nil
-        }
-    }
-}
-
-public struct GetBaiduChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
-    /// This member is required.
-    public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
-
-    public init(
-        baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
-    )
-    {
-        self.baiduChannelResponse = baiduChannelResponse
-    }
-}
-
-struct GetBaiduChannelOutputResponseBody: Swift.Equatable {
-    let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
-}
-
-extension GetBaiduChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case baiduChannelResponse = "BaiduChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let baiduChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.BaiduChannelResponse.self, forKey: .baiduChannelResponse)
-        baiduChannelResponse = baiduChannelResponseDecoded
     }
 }
 
@@ -14919,6 +14919,46 @@ extension GetCampaignActivitiesInputBody: Swift.Decodable {
     }
 }
 
+extension GetCampaignActivitiesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ActivitiesResponse = try responseDecoder.decode(responseBody: data)
+            self.activitiesResponse = output
+        } else {
+            self.activitiesResponse = nil
+        }
+    }
+}
+
+public struct GetCampaignActivitiesOutput: Swift.Equatable {
+    /// Provides information about the activities that were performed by a campaign.
+    /// This member is required.
+    public var activitiesResponse: PinpointClientTypes.ActivitiesResponse?
+
+    public init(
+        activitiesResponse: PinpointClientTypes.ActivitiesResponse? = nil
+    )
+    {
+        self.activitiesResponse = activitiesResponse
+    }
+}
+
+struct GetCampaignActivitiesOutputBody: Swift.Equatable {
+    let activitiesResponse: PinpointClientTypes.ActivitiesResponse?
+}
+
+extension GetCampaignActivitiesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activitiesResponse = "ActivitiesResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activitiesResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ActivitiesResponse.self, forKey: .activitiesResponse)
+        activitiesResponse = activitiesResponseDecoded
+    }
+}
+
 enum GetCampaignActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14933,46 +14973,6 @@ enum GetCampaignActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCampaignActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ActivitiesResponse = try responseDecoder.decode(responseBody: data)
-            self.activitiesResponse = output
-        } else {
-            self.activitiesResponse = nil
-        }
-    }
-}
-
-public struct GetCampaignActivitiesOutputResponse: Swift.Equatable {
-    /// Provides information about the activities that were performed by a campaign.
-    /// This member is required.
-    public var activitiesResponse: PinpointClientTypes.ActivitiesResponse?
-
-    public init(
-        activitiesResponse: PinpointClientTypes.ActivitiesResponse? = nil
-    )
-    {
-        self.activitiesResponse = activitiesResponse
-    }
-}
-
-struct GetCampaignActivitiesOutputResponseBody: Swift.Equatable {
-    let activitiesResponse: PinpointClientTypes.ActivitiesResponse?
-}
-
-extension GetCampaignActivitiesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case activitiesResponse = "ActivitiesResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let activitiesResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ActivitiesResponse.self, forKey: .activitiesResponse)
-        activitiesResponse = activitiesResponseDecoded
     }
 }
 
@@ -15064,6 +15064,46 @@ extension GetCampaignDateRangeKpiInputBody: Swift.Decodable {
     }
 }
 
+extension GetCampaignDateRangeKpiOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignDateRangeKpiResponse = output
+        } else {
+            self.campaignDateRangeKpiResponse = nil
+        }
+    }
+}
+
+public struct GetCampaignDateRangeKpiOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard metric that applies to a campaign, and provides information about that query.
+    /// This member is required.
+    public var campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse?
+
+    public init(
+        campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse? = nil
+    )
+    {
+        self.campaignDateRangeKpiResponse = campaignDateRangeKpiResponse
+    }
+}
+
+struct GetCampaignDateRangeKpiOutputBody: Swift.Equatable {
+    let campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse?
+}
+
+extension GetCampaignDateRangeKpiOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignDateRangeKpiResponse = "CampaignDateRangeKpiResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignDateRangeKpiResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignDateRangeKpiResponse.self, forKey: .campaignDateRangeKpiResponse)
+        campaignDateRangeKpiResponse = campaignDateRangeKpiResponseDecoded
+    }
+}
+
 enum GetCampaignDateRangeKpiOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15078,46 +15118,6 @@ enum GetCampaignDateRangeKpiOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCampaignDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignDateRangeKpiResponse = output
-        } else {
-            self.campaignDateRangeKpiResponse = nil
-        }
-    }
-}
-
-public struct GetCampaignDateRangeKpiOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard metric that applies to a campaign, and provides information about that query.
-    /// This member is required.
-    public var campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse?
-
-    public init(
-        campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse? = nil
-    )
-    {
-        self.campaignDateRangeKpiResponse = campaignDateRangeKpiResponse
-    }
-}
-
-struct GetCampaignDateRangeKpiOutputResponseBody: Swift.Equatable {
-    let campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse?
-}
-
-extension GetCampaignDateRangeKpiOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignDateRangeKpiResponse = "CampaignDateRangeKpiResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignDateRangeKpiResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignDateRangeKpiResponse.self, forKey: .campaignDateRangeKpiResponse)
-        campaignDateRangeKpiResponse = campaignDateRangeKpiResponseDecoded
     }
 }
 
@@ -15160,6 +15160,46 @@ extension GetCampaignInputBody: Swift.Decodable {
     }
 }
 
+extension GetCampaignOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
+        } else {
+            self.campaignResponse = nil
+        }
+    }
+}
+
+public struct GetCampaignOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a campaign.
+    /// This member is required.
+    public var campaignResponse: PinpointClientTypes.CampaignResponse?
+
+    public init(
+        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
+    )
+    {
+        self.campaignResponse = campaignResponse
+    }
+}
+
+struct GetCampaignOutputBody: Swift.Equatable {
+    let campaignResponse: PinpointClientTypes.CampaignResponse?
+}
+
+extension GetCampaignOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignResponse = "CampaignResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
+        campaignResponse = campaignResponseDecoded
+    }
+}
+
 enum GetCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15174,46 +15214,6 @@ enum GetCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignResponse = output
-        } else {
-            self.campaignResponse = nil
-        }
-    }
-}
-
-public struct GetCampaignOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a campaign.
-    /// This member is required.
-    public var campaignResponse: PinpointClientTypes.CampaignResponse?
-
-    public init(
-        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
-        self.campaignResponse = campaignResponse
-    }
-}
-
-struct GetCampaignOutputResponseBody: Swift.Equatable {
-    let campaignResponse: PinpointClientTypes.CampaignResponse?
-}
-
-extension GetCampaignOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignResponse = "CampaignResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
-        campaignResponse = campaignResponseDecoded
     }
 }
 
@@ -15264,6 +15264,46 @@ extension GetCampaignVersionInputBody: Swift.Decodable {
     }
 }
 
+extension GetCampaignVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
+        } else {
+            self.campaignResponse = nil
+        }
+    }
+}
+
+public struct GetCampaignVersionOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a campaign.
+    /// This member is required.
+    public var campaignResponse: PinpointClientTypes.CampaignResponse?
+
+    public init(
+        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
+    )
+    {
+        self.campaignResponse = campaignResponse
+    }
+}
+
+struct GetCampaignVersionOutputBody: Swift.Equatable {
+    let campaignResponse: PinpointClientTypes.CampaignResponse?
+}
+
+extension GetCampaignVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignResponse = "CampaignResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
+        campaignResponse = campaignResponseDecoded
+    }
+}
+
 enum GetCampaignVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15278,46 +15318,6 @@ enum GetCampaignVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCampaignVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignResponse = output
-        } else {
-            self.campaignResponse = nil
-        }
-    }
-}
-
-public struct GetCampaignVersionOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a campaign.
-    /// This member is required.
-    public var campaignResponse: PinpointClientTypes.CampaignResponse?
-
-    public init(
-        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
-        self.campaignResponse = campaignResponse
-    }
-}
-
-struct GetCampaignVersionOutputResponseBody: Swift.Equatable {
-    let campaignResponse: PinpointClientTypes.CampaignResponse?
-}
-
-extension GetCampaignVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignResponse = "CampaignResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
-        campaignResponse = campaignResponseDecoded
     }
 }
 
@@ -15385,6 +15385,46 @@ extension GetCampaignVersionsInputBody: Swift.Decodable {
     }
 }
 
+extension GetCampaignVersionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignsResponse = output
+        } else {
+            self.campaignsResponse = nil
+        }
+    }
+}
+
+public struct GetCampaignVersionsOutput: Swift.Equatable {
+    /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
+    /// This member is required.
+    public var campaignsResponse: PinpointClientTypes.CampaignsResponse?
+
+    public init(
+        campaignsResponse: PinpointClientTypes.CampaignsResponse? = nil
+    )
+    {
+        self.campaignsResponse = campaignsResponse
+    }
+}
+
+struct GetCampaignVersionsOutputBody: Swift.Equatable {
+    let campaignsResponse: PinpointClientTypes.CampaignsResponse?
+}
+
+extension GetCampaignVersionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignsResponse = "CampaignsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignsResponse.self, forKey: .campaignsResponse)
+        campaignsResponse = campaignsResponseDecoded
+    }
+}
+
 enum GetCampaignVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15399,46 +15439,6 @@ enum GetCampaignVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCampaignVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignsResponse = output
-        } else {
-            self.campaignsResponse = nil
-        }
-    }
-}
-
-public struct GetCampaignVersionsOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
-    /// This member is required.
-    public var campaignsResponse: PinpointClientTypes.CampaignsResponse?
-
-    public init(
-        campaignsResponse: PinpointClientTypes.CampaignsResponse? = nil
-    )
-    {
-        self.campaignsResponse = campaignsResponse
-    }
-}
-
-struct GetCampaignVersionsOutputResponseBody: Swift.Equatable {
-    let campaignsResponse: PinpointClientTypes.CampaignsResponse?
-}
-
-extension GetCampaignVersionsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignsResponse = "CampaignsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignsResponse.self, forKey: .campaignsResponse)
-        campaignsResponse = campaignsResponseDecoded
     }
 }
 
@@ -15498,6 +15498,46 @@ extension GetCampaignsInputBody: Swift.Decodable {
     }
 }
 
+extension GetCampaignsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignsResponse = output
+        } else {
+            self.campaignsResponse = nil
+        }
+    }
+}
+
+public struct GetCampaignsOutput: Swift.Equatable {
+    /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
+    /// This member is required.
+    public var campaignsResponse: PinpointClientTypes.CampaignsResponse?
+
+    public init(
+        campaignsResponse: PinpointClientTypes.CampaignsResponse? = nil
+    )
+    {
+        self.campaignsResponse = campaignsResponse
+    }
+}
+
+struct GetCampaignsOutputBody: Swift.Equatable {
+    let campaignsResponse: PinpointClientTypes.CampaignsResponse?
+}
+
+extension GetCampaignsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignsResponse = "CampaignsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignsResponse.self, forKey: .campaignsResponse)
+        campaignsResponse = campaignsResponseDecoded
+    }
+}
+
 enum GetCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15512,46 +15552,6 @@ enum GetCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCampaignsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignsResponse = output
-        } else {
-            self.campaignsResponse = nil
-        }
-    }
-}
-
-public struct GetCampaignsOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
-    /// This member is required.
-    public var campaignsResponse: PinpointClientTypes.CampaignsResponse?
-
-    public init(
-        campaignsResponse: PinpointClientTypes.CampaignsResponse? = nil
-    )
-    {
-        self.campaignsResponse = campaignsResponse
-    }
-}
-
-struct GetCampaignsOutputResponseBody: Swift.Equatable {
-    let campaignsResponse: PinpointClientTypes.CampaignsResponse?
-}
-
-extension GetCampaignsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignsResponse = "CampaignsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignsResponse.self, forKey: .campaignsResponse)
-        campaignsResponse = campaignsResponseDecoded
     }
 }
 
@@ -15586,6 +15586,46 @@ extension GetChannelsInputBody: Swift.Decodable {
     }
 }
 
+extension GetChannelsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ChannelsResponse = try responseDecoder.decode(responseBody: data)
+            self.channelsResponse = output
+        } else {
+            self.channelsResponse = nil
+        }
+    }
+}
+
+public struct GetChannelsOutput: Swift.Equatable {
+    /// Provides information about the general settings and status of all channels for an application, including channels that aren't enabled for the application.
+    /// This member is required.
+    public var channelsResponse: PinpointClientTypes.ChannelsResponse?
+
+    public init(
+        channelsResponse: PinpointClientTypes.ChannelsResponse? = nil
+    )
+    {
+        self.channelsResponse = channelsResponse
+    }
+}
+
+struct GetChannelsOutputBody: Swift.Equatable {
+    let channelsResponse: PinpointClientTypes.ChannelsResponse?
+}
+
+extension GetChannelsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelsResponse = "ChannelsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ChannelsResponse.self, forKey: .channelsResponse)
+        channelsResponse = channelsResponseDecoded
+    }
+}
+
 enum GetChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15600,46 +15640,6 @@ enum GetChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ChannelsResponse = try responseDecoder.decode(responseBody: data)
-            self.channelsResponse = output
-        } else {
-            self.channelsResponse = nil
-        }
-    }
-}
-
-public struct GetChannelsOutputResponse: Swift.Equatable {
-    /// Provides information about the general settings and status of all channels for an application, including channels that aren't enabled for the application.
-    /// This member is required.
-    public var channelsResponse: PinpointClientTypes.ChannelsResponse?
-
-    public init(
-        channelsResponse: PinpointClientTypes.ChannelsResponse? = nil
-    )
-    {
-        self.channelsResponse = channelsResponse
-    }
-}
-
-struct GetChannelsOutputResponseBody: Swift.Equatable {
-    let channelsResponse: PinpointClientTypes.ChannelsResponse?
-}
-
-extension GetChannelsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case channelsResponse = "ChannelsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let channelsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ChannelsResponse.self, forKey: .channelsResponse)
-        channelsResponse = channelsResponseDecoded
     }
 }
 
@@ -15674,6 +15674,46 @@ extension GetEmailChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetEmailChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.emailChannelResponse = output
+        } else {
+            self.emailChannelResponse = nil
+        }
+    }
+}
+
+public struct GetEmailChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the email channel for an application.
+    /// This member is required.
+    public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
+
+    public init(
+        emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
+    )
+    {
+        self.emailChannelResponse = emailChannelResponse
+    }
+}
+
+struct GetEmailChannelOutputBody: Swift.Equatable {
+    let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
+}
+
+extension GetEmailChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emailChannelResponse = "EmailChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emailChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailChannelResponse.self, forKey: .emailChannelResponse)
+        emailChannelResponse = emailChannelResponseDecoded
+    }
+}
+
 enum GetEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15688,46 +15728,6 @@ enum GetEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.emailChannelResponse = output
-        } else {
-            self.emailChannelResponse = nil
-        }
-    }
-}
-
-public struct GetEmailChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the email channel for an application.
-    /// This member is required.
-    public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
-
-    public init(
-        emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
-    )
-    {
-        self.emailChannelResponse = emailChannelResponse
-    }
-}
-
-struct GetEmailChannelOutputResponseBody: Swift.Equatable {
-    let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
-}
-
-extension GetEmailChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case emailChannelResponse = "EmailChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emailChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailChannelResponse.self, forKey: .emailChannelResponse)
-        emailChannelResponse = emailChannelResponseDecoded
     }
 }
 
@@ -15785,6 +15785,46 @@ extension GetEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.emailTemplateResponse = output
+        } else {
+            self.emailTemplateResponse = nil
+        }
+    }
+}
+
+public struct GetEmailTemplateOutput: Swift.Equatable {
+    /// Provides information about the content and settings for a message template that can be used in messages that are sent through the email channel.
+    /// This member is required.
+    public var emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse?
+
+    public init(
+        emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse? = nil
+    )
+    {
+        self.emailTemplateResponse = emailTemplateResponse
+    }
+}
+
+struct GetEmailTemplateOutputBody: Swift.Equatable {
+    let emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse?
+}
+
+extension GetEmailTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emailTemplateResponse = "EmailTemplateResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emailTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailTemplateResponse.self, forKey: .emailTemplateResponse)
+        emailTemplateResponse = emailTemplateResponseDecoded
+    }
+}
+
 enum GetEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15799,46 +15839,6 @@ enum GetEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EmailTemplateResponse = try responseDecoder.decode(responseBody: data)
-            self.emailTemplateResponse = output
-        } else {
-            self.emailTemplateResponse = nil
-        }
-    }
-}
-
-public struct GetEmailTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about the content and settings for a message template that can be used in messages that are sent through the email channel.
-    /// This member is required.
-    public var emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse?
-
-    public init(
-        emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse? = nil
-    )
-    {
-        self.emailTemplateResponse = emailTemplateResponse
-    }
-}
-
-struct GetEmailTemplateOutputResponseBody: Swift.Equatable {
-    let emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse?
-}
-
-extension GetEmailTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case emailTemplateResponse = "EmailTemplateResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emailTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailTemplateResponse.self, forKey: .emailTemplateResponse)
-        emailTemplateResponse = emailTemplateResponseDecoded
     }
 }
 
@@ -15881,6 +15881,46 @@ extension GetEndpointInputBody: Swift.Decodable {
     }
 }
 
+extension GetEndpointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointResponse = output
+        } else {
+            self.endpointResponse = nil
+        }
+    }
+}
+
+public struct GetEndpointOutput: Swift.Equatable {
+    /// Provides information about the channel type and other settings for an endpoint.
+    /// This member is required.
+    public var endpointResponse: PinpointClientTypes.EndpointResponse?
+
+    public init(
+        endpointResponse: PinpointClientTypes.EndpointResponse? = nil
+    )
+    {
+        self.endpointResponse = endpointResponse
+    }
+}
+
+struct GetEndpointOutputBody: Swift.Equatable {
+    let endpointResponse: PinpointClientTypes.EndpointResponse?
+}
+
+extension GetEndpointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointResponse = "EndpointResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointResponse.self, forKey: .endpointResponse)
+        endpointResponse = endpointResponseDecoded
+    }
+}
+
 enum GetEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15895,46 +15935,6 @@ enum GetEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
-            self.endpointResponse = output
-        } else {
-            self.endpointResponse = nil
-        }
-    }
-}
-
-public struct GetEndpointOutputResponse: Swift.Equatable {
-    /// Provides information about the channel type and other settings for an endpoint.
-    /// This member is required.
-    public var endpointResponse: PinpointClientTypes.EndpointResponse?
-
-    public init(
-        endpointResponse: PinpointClientTypes.EndpointResponse? = nil
-    )
-    {
-        self.endpointResponse = endpointResponse
-    }
-}
-
-struct GetEndpointOutputResponseBody: Swift.Equatable {
-    let endpointResponse: PinpointClientTypes.EndpointResponse?
-}
-
-extension GetEndpointOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointResponse = "EndpointResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointResponse.self, forKey: .endpointResponse)
-        endpointResponse = endpointResponseDecoded
     }
 }
 
@@ -15969,6 +15969,46 @@ extension GetEventStreamInputBody: Swift.Decodable {
     }
 }
 
+extension GetEventStreamOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
+            self.eventStream = output
+        } else {
+            self.eventStream = nil
+        }
+    }
+}
+
+public struct GetEventStreamOutput: Swift.Equatable {
+    /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
+    /// This member is required.
+    public var eventStream: PinpointClientTypes.EventStream?
+
+    public init(
+        eventStream: PinpointClientTypes.EventStream? = nil
+    )
+    {
+        self.eventStream = eventStream
+    }
+}
+
+struct GetEventStreamOutputBody: Swift.Equatable {
+    let eventStream: PinpointClientTypes.EventStream?
+}
+
+extension GetEventStreamOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventStream = "EventStream"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventStreamDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventStream.self, forKey: .eventStream)
+        eventStream = eventStreamDecoded
+    }
+}
+
 enum GetEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -15983,46 +16023,6 @@ enum GetEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
-            self.eventStream = output
-        } else {
-            self.eventStream = nil
-        }
-    }
-}
-
-public struct GetEventStreamOutputResponse: Swift.Equatable {
-    /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
-    /// This member is required.
-    public var eventStream: PinpointClientTypes.EventStream?
-
-    public init(
-        eventStream: PinpointClientTypes.EventStream? = nil
-    )
-    {
-        self.eventStream = eventStream
-    }
-}
-
-struct GetEventStreamOutputResponseBody: Swift.Equatable {
-    let eventStream: PinpointClientTypes.EventStream?
-}
-
-extension GetEventStreamOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventStream = "EventStream"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eventStreamDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventStream.self, forKey: .eventStream)
-        eventStream = eventStreamDecoded
     }
 }
 
@@ -16065,6 +16065,46 @@ extension GetExportJobInputBody: Swift.Decodable {
     }
 }
 
+extension GetExportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobResponse = output
+        } else {
+            self.exportJobResponse = nil
+        }
+    }
+}
+
+public struct GetExportJobOutput: Swift.Equatable {
+    /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
+    /// This member is required.
+    public var exportJobResponse: PinpointClientTypes.ExportJobResponse?
+
+    public init(
+        exportJobResponse: PinpointClientTypes.ExportJobResponse? = nil
+    )
+    {
+        self.exportJobResponse = exportJobResponse
+    }
+}
+
+struct GetExportJobOutputBody: Swift.Equatable {
+    let exportJobResponse: PinpointClientTypes.ExportJobResponse?
+}
+
+extension GetExportJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportJobResponse = "ExportJobResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobResponse.self, forKey: .exportJobResponse)
+        exportJobResponse = exportJobResponseDecoded
+    }
+}
+
 enum GetExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16079,46 +16119,6 @@ enum GetExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
-            self.exportJobResponse = output
-        } else {
-            self.exportJobResponse = nil
-        }
-    }
-}
-
-public struct GetExportJobOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
-    /// This member is required.
-    public var exportJobResponse: PinpointClientTypes.ExportJobResponse?
-
-    public init(
-        exportJobResponse: PinpointClientTypes.ExportJobResponse? = nil
-    )
-    {
-        self.exportJobResponse = exportJobResponse
-    }
-}
-
-struct GetExportJobOutputResponseBody: Swift.Equatable {
-    let exportJobResponse: PinpointClientTypes.ExportJobResponse?
-}
-
-extension GetExportJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportJobResponse = "ExportJobResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exportJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobResponse.self, forKey: .exportJobResponse)
-        exportJobResponse = exportJobResponseDecoded
     }
 }
 
@@ -16178,6 +16178,46 @@ extension GetExportJobsInputBody: Swift.Decodable {
     }
 }
 
+extension GetExportJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobsResponse = output
+        } else {
+            self.exportJobsResponse = nil
+        }
+    }
+}
+
+public struct GetExportJobsOutput: Swift.Equatable {
+    /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
+    /// This member is required.
+    public var exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
+
+    public init(
+        exportJobsResponse: PinpointClientTypes.ExportJobsResponse? = nil
+    )
+    {
+        self.exportJobsResponse = exportJobsResponse
+    }
+}
+
+struct GetExportJobsOutputBody: Swift.Equatable {
+    let exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
+}
+
+extension GetExportJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportJobsResponse = "ExportJobsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobsResponse.self, forKey: .exportJobsResponse)
+        exportJobsResponse = exportJobsResponseDecoded
+    }
+}
+
 enum GetExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16192,46 +16232,6 @@ enum GetExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
-            self.exportJobsResponse = output
-        } else {
-            self.exportJobsResponse = nil
-        }
-    }
-}
-
-public struct GetExportJobsOutputResponse: Swift.Equatable {
-    /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
-    /// This member is required.
-    public var exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
-
-    public init(
-        exportJobsResponse: PinpointClientTypes.ExportJobsResponse? = nil
-    )
-    {
-        self.exportJobsResponse = exportJobsResponse
-    }
-}
-
-struct GetExportJobsOutputResponseBody: Swift.Equatable {
-    let exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
-}
-
-extension GetExportJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportJobsResponse = "ExportJobsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exportJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobsResponse.self, forKey: .exportJobsResponse)
-        exportJobsResponse = exportJobsResponseDecoded
     }
 }
 
@@ -16266,6 +16266,46 @@ extension GetGcmChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetGcmChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.gcmChannelResponse = output
+        } else {
+            self.gcmChannelResponse = nil
+        }
+    }
+}
+
+public struct GetGcmChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
+    /// This member is required.
+    public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
+
+    public init(
+        gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
+    )
+    {
+        self.gcmChannelResponse = gcmChannelResponse
+    }
+}
+
+struct GetGcmChannelOutputBody: Swift.Equatable {
+    let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
+}
+
+extension GetGcmChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gcmChannelResponse = "GCMChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gcmChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.GCMChannelResponse.self, forKey: .gcmChannelResponse)
+        gcmChannelResponse = gcmChannelResponseDecoded
+    }
+}
+
 enum GetGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16280,46 +16320,6 @@ enum GetGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.gcmChannelResponse = output
-        } else {
-            self.gcmChannelResponse = nil
-        }
-    }
-}
-
-public struct GetGcmChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
-    /// This member is required.
-    public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
-
-    public init(
-        gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
-    )
-    {
-        self.gcmChannelResponse = gcmChannelResponse
-    }
-}
-
-struct GetGcmChannelOutputResponseBody: Swift.Equatable {
-    let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
-}
-
-extension GetGcmChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gcmChannelResponse = "GCMChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gcmChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.GCMChannelResponse.self, forKey: .gcmChannelResponse)
-        gcmChannelResponse = gcmChannelResponseDecoded
     }
 }
 
@@ -16362,6 +16362,46 @@ extension GetImportJobInputBody: Swift.Decodable {
     }
 }
 
+extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobResponse = output
+        } else {
+            self.importJobResponse = nil
+        }
+    }
+}
+
+public struct GetImportJobOutput: Swift.Equatable {
+    /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
+    /// This member is required.
+    public var importJobResponse: PinpointClientTypes.ImportJobResponse?
+
+    public init(
+        importJobResponse: PinpointClientTypes.ImportJobResponse? = nil
+    )
+    {
+        self.importJobResponse = importJobResponse
+    }
+}
+
+struct GetImportJobOutputBody: Swift.Equatable {
+    let importJobResponse: PinpointClientTypes.ImportJobResponse?
+}
+
+extension GetImportJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJobResponse = "ImportJobResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobResponse.self, forKey: .importJobResponse)
+        importJobResponse = importJobResponseDecoded
+    }
+}
+
 enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16376,46 +16416,6 @@ enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
-            self.importJobResponse = output
-        } else {
-            self.importJobResponse = nil
-        }
-    }
-}
-
-public struct GetImportJobOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
-    /// This member is required.
-    public var importJobResponse: PinpointClientTypes.ImportJobResponse?
-
-    public init(
-        importJobResponse: PinpointClientTypes.ImportJobResponse? = nil
-    )
-    {
-        self.importJobResponse = importJobResponse
-    }
-}
-
-struct GetImportJobOutputResponseBody: Swift.Equatable {
-    let importJobResponse: PinpointClientTypes.ImportJobResponse?
-}
-
-extension GetImportJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case importJobResponse = "ImportJobResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let importJobResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobResponse.self, forKey: .importJobResponse)
-        importJobResponse = importJobResponseDecoded
     }
 }
 
@@ -16475,6 +16475,46 @@ extension GetImportJobsInputBody: Swift.Decodable {
     }
 }
 
+extension GetImportJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobsResponse = output
+        } else {
+            self.importJobsResponse = nil
+        }
+    }
+}
+
+public struct GetImportJobsOutput: Swift.Equatable {
+    /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
+    /// This member is required.
+    public var importJobsResponse: PinpointClientTypes.ImportJobsResponse?
+
+    public init(
+        importJobsResponse: PinpointClientTypes.ImportJobsResponse? = nil
+    )
+    {
+        self.importJobsResponse = importJobsResponse
+    }
+}
+
+struct GetImportJobsOutputBody: Swift.Equatable {
+    let importJobsResponse: PinpointClientTypes.ImportJobsResponse?
+}
+
+extension GetImportJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJobsResponse = "ImportJobsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobsResponse.self, forKey: .importJobsResponse)
+        importJobsResponse = importJobsResponseDecoded
+    }
+}
+
 enum GetImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16489,46 +16529,6 @@ enum GetImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
-            self.importJobsResponse = output
-        } else {
-            self.importJobsResponse = nil
-        }
-    }
-}
-
-public struct GetImportJobsOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
-    /// This member is required.
-    public var importJobsResponse: PinpointClientTypes.ImportJobsResponse?
-
-    public init(
-        importJobsResponse: PinpointClientTypes.ImportJobsResponse? = nil
-    )
-    {
-        self.importJobsResponse = importJobsResponse
-    }
-}
-
-struct GetImportJobsOutputResponseBody: Swift.Equatable {
-    let importJobsResponse: PinpointClientTypes.ImportJobsResponse?
-}
-
-extension GetImportJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case importJobsResponse = "ImportJobsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let importJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobsResponse.self, forKey: .importJobsResponse)
-        importJobsResponse = importJobsResponseDecoded
     }
 }
 
@@ -16571,6 +16571,46 @@ extension GetInAppMessagesInputBody: Swift.Decodable {
     }
 }
 
+extension GetInAppMessagesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.InAppMessagesResponse = try responseDecoder.decode(responseBody: data)
+            self.inAppMessagesResponse = output
+        } else {
+            self.inAppMessagesResponse = nil
+        }
+    }
+}
+
+public struct GetInAppMessagesOutput: Swift.Equatable {
+    /// Get in-app messages response object.
+    /// This member is required.
+    public var inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse?
+
+    public init(
+        inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse? = nil
+    )
+    {
+        self.inAppMessagesResponse = inAppMessagesResponse
+    }
+}
+
+struct GetInAppMessagesOutputBody: Swift.Equatable {
+    let inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse?
+}
+
+extension GetInAppMessagesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inAppMessagesResponse = "InAppMessagesResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inAppMessagesResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.InAppMessagesResponse.self, forKey: .inAppMessagesResponse)
+        inAppMessagesResponse = inAppMessagesResponseDecoded
+    }
+}
+
 enum GetInAppMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16585,46 +16625,6 @@ enum GetInAppMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetInAppMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.InAppMessagesResponse = try responseDecoder.decode(responseBody: data)
-            self.inAppMessagesResponse = output
-        } else {
-            self.inAppMessagesResponse = nil
-        }
-    }
-}
-
-public struct GetInAppMessagesOutputResponse: Swift.Equatable {
-    /// Get in-app messages response object.
-    /// This member is required.
-    public var inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse?
-
-    public init(
-        inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse? = nil
-    )
-    {
-        self.inAppMessagesResponse = inAppMessagesResponse
-    }
-}
-
-struct GetInAppMessagesOutputResponseBody: Swift.Equatable {
-    let inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse?
-}
-
-extension GetInAppMessagesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case inAppMessagesResponse = "InAppMessagesResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inAppMessagesResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.InAppMessagesResponse.self, forKey: .inAppMessagesResponse)
-        inAppMessagesResponse = inAppMessagesResponseDecoded
     }
 }
 
@@ -16682,6 +16682,46 @@ extension GetInAppTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.InAppTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.inAppTemplateResponse = output
+        } else {
+            self.inAppTemplateResponse = nil
+        }
+    }
+}
+
+public struct GetInAppTemplateOutput: Swift.Equatable {
+    /// In-App Template Response.
+    /// This member is required.
+    public var inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse?
+
+    public init(
+        inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse? = nil
+    )
+    {
+        self.inAppTemplateResponse = inAppTemplateResponse
+    }
+}
+
+struct GetInAppTemplateOutputBody: Swift.Equatable {
+    let inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse?
+}
+
+extension GetInAppTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inAppTemplateResponse = "InAppTemplateResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inAppTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.InAppTemplateResponse.self, forKey: .inAppTemplateResponse)
+        inAppTemplateResponse = inAppTemplateResponseDecoded
+    }
+}
+
 enum GetInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16696,46 +16736,6 @@ enum GetInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.InAppTemplateResponse = try responseDecoder.decode(responseBody: data)
-            self.inAppTemplateResponse = output
-        } else {
-            self.inAppTemplateResponse = nil
-        }
-    }
-}
-
-public struct GetInAppTemplateOutputResponse: Swift.Equatable {
-    /// In-App Template Response.
-    /// This member is required.
-    public var inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse?
-
-    public init(
-        inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse? = nil
-    )
-    {
-        self.inAppTemplateResponse = inAppTemplateResponse
-    }
-}
-
-struct GetInAppTemplateOutputResponseBody: Swift.Equatable {
-    let inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse?
-}
-
-extension GetInAppTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case inAppTemplateResponse = "InAppTemplateResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inAppTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.InAppTemplateResponse.self, forKey: .inAppTemplateResponse)
-        inAppTemplateResponse = inAppTemplateResponseDecoded
     }
 }
 
@@ -16827,6 +16827,46 @@ extension GetJourneyDateRangeKpiInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyDateRangeKpiOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyDateRangeKpiResponse = output
+        } else {
+            self.journeyDateRangeKpiResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyDateRangeKpiOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard engagement metric that applies to a journey, and provides information about that query.
+    /// This member is required.
+    public var journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse?
+
+    public init(
+        journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse? = nil
+    )
+    {
+        self.journeyDateRangeKpiResponse = journeyDateRangeKpiResponse
+    }
+}
+
+struct GetJourneyDateRangeKpiOutputBody: Swift.Equatable {
+    let journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse?
+}
+
+extension GetJourneyDateRangeKpiOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyDateRangeKpiResponse = "JourneyDateRangeKpiResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyDateRangeKpiResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyDateRangeKpiResponse.self, forKey: .journeyDateRangeKpiResponse)
+        journeyDateRangeKpiResponse = journeyDateRangeKpiResponseDecoded
+    }
+}
+
 enum GetJourneyDateRangeKpiOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16841,46 +16881,6 @@ enum GetJourneyDateRangeKpiOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyDateRangeKpiResponse = output
-        } else {
-            self.journeyDateRangeKpiResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyDateRangeKpiOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard engagement metric that applies to a journey, and provides information about that query.
-    /// This member is required.
-    public var journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse?
-
-    public init(
-        journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse? = nil
-    )
-    {
-        self.journeyDateRangeKpiResponse = journeyDateRangeKpiResponse
-    }
-}
-
-struct GetJourneyDateRangeKpiOutputResponseBody: Swift.Equatable {
-    let journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse?
-}
-
-extension GetJourneyDateRangeKpiOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyDateRangeKpiResponse = "JourneyDateRangeKpiResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyDateRangeKpiResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyDateRangeKpiResponse.self, forKey: .journeyDateRangeKpiResponse)
-        journeyDateRangeKpiResponse = journeyDateRangeKpiResponseDecoded
     }
 }
 
@@ -16956,6 +16956,46 @@ extension GetJourneyExecutionActivityMetricsInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyExecutionActivityMetricsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyExecutionActivityMetricsResponse = output
+        } else {
+            self.journeyExecutionActivityMetricsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyExecutionActivityMetricsOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity, and provides information about that query.
+    /// This member is required.
+    public var journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?
+
+    public init(
+        journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse? = nil
+    )
+    {
+        self.journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponse
+    }
+}
+
+struct GetJourneyExecutionActivityMetricsOutputBody: Swift.Equatable {
+    let journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?
+}
+
+extension GetJourneyExecutionActivityMetricsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyExecutionActivityMetricsResponse = "JourneyExecutionActivityMetricsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyExecutionActivityMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyExecutionActivityMetricsResponse.self, forKey: .journeyExecutionActivityMetricsResponse)
+        journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponseDecoded
+    }
+}
+
 enum GetJourneyExecutionActivityMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16970,46 +17010,6 @@ enum GetJourneyExecutionActivityMetricsOutputError: ClientRuntime.HttpResponseEr
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyExecutionActivityMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyExecutionActivityMetricsResponse = output
-        } else {
-            self.journeyExecutionActivityMetricsResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyExecutionActivityMetricsOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity, and provides information about that query.
-    /// This member is required.
-    public var journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?
-
-    public init(
-        journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse? = nil
-    )
-    {
-        self.journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponse
-    }
-}
-
-struct GetJourneyExecutionActivityMetricsOutputResponseBody: Swift.Equatable {
-    let journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?
-}
-
-extension GetJourneyExecutionActivityMetricsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyExecutionActivityMetricsResponse = "JourneyExecutionActivityMetricsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyExecutionActivityMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyExecutionActivityMetricsResponse.self, forKey: .journeyExecutionActivityMetricsResponse)
-        journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponseDecoded
     }
 }
 
@@ -17077,6 +17077,46 @@ extension GetJourneyExecutionMetricsInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyExecutionMetricsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyExecutionMetricsResponse = output
+        } else {
+            self.journeyExecutionMetricsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyExecutionMetricsOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey, and provides information about that query.
+    /// This member is required.
+    public var journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse?
+
+    public init(
+        journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse? = nil
+    )
+    {
+        self.journeyExecutionMetricsResponse = journeyExecutionMetricsResponse
+    }
+}
+
+struct GetJourneyExecutionMetricsOutputBody: Swift.Equatable {
+    let journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse?
+}
+
+extension GetJourneyExecutionMetricsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyExecutionMetricsResponse = "JourneyExecutionMetricsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyExecutionMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyExecutionMetricsResponse.self, forKey: .journeyExecutionMetricsResponse)
+        journeyExecutionMetricsResponse = journeyExecutionMetricsResponseDecoded
+    }
+}
+
 enum GetJourneyExecutionMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17091,46 +17131,6 @@ enum GetJourneyExecutionMetricsOutputError: ClientRuntime.HttpResponseErrorBindi
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyExecutionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyExecutionMetricsResponse = output
-        } else {
-            self.journeyExecutionMetricsResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyExecutionMetricsOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey, and provides information about that query.
-    /// This member is required.
-    public var journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse?
-
-    public init(
-        journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse? = nil
-    )
-    {
-        self.journeyExecutionMetricsResponse = journeyExecutionMetricsResponse
-    }
-}
-
-struct GetJourneyExecutionMetricsOutputResponseBody: Swift.Equatable {
-    let journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse?
-}
-
-extension GetJourneyExecutionMetricsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyExecutionMetricsResponse = "JourneyExecutionMetricsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyExecutionMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyExecutionMetricsResponse.self, forKey: .journeyExecutionMetricsResponse)
-        journeyExecutionMetricsResponse = journeyExecutionMetricsResponseDecoded
     }
 }
 
@@ -17173,6 +17173,46 @@ extension GetJourneyInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
+        } else {
+            self.journeyResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a journey.
+    /// This member is required.
+    public var journeyResponse: PinpointClientTypes.JourneyResponse?
+
+    public init(
+        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
+    )
+    {
+        self.journeyResponse = journeyResponse
+    }
+}
+
+struct GetJourneyOutputBody: Swift.Equatable {
+    let journeyResponse: PinpointClientTypes.JourneyResponse?
+}
+
+extension GetJourneyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyResponse = "JourneyResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
+        journeyResponse = journeyResponseDecoded
+    }
+}
+
 enum GetJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17187,46 +17227,6 @@ enum GetJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyResponse = output
-        } else {
-            self.journeyResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a journey.
-    /// This member is required.
-    public var journeyResponse: PinpointClientTypes.JourneyResponse?
-
-    public init(
-        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
-        self.journeyResponse = journeyResponse
-    }
-}
-
-struct GetJourneyOutputResponseBody: Swift.Equatable {
-    let journeyResponse: PinpointClientTypes.JourneyResponse?
-}
-
-extension GetJourneyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyResponse = "JourneyResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
-        journeyResponse = journeyResponseDecoded
     }
 }
 
@@ -17310,6 +17310,46 @@ extension GetJourneyRunExecutionActivityMetricsInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyRunExecutionActivityMetricsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyRunExecutionActivityMetricsResponse = output
+        } else {
+            self.journeyRunExecutionActivityMetricsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyRunExecutionActivityMetricsOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity for a particular journey run, and provides information about that query.
+    /// This member is required.
+    public var journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
+
+    public init(
+        journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse? = nil
+    )
+    {
+        self.journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponse
+    }
+}
+
+struct GetJourneyRunExecutionActivityMetricsOutputBody: Swift.Equatable {
+    let journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
+}
+
+extension GetJourneyRunExecutionActivityMetricsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyRunExecutionActivityMetricsResponse = "JourneyRunExecutionActivityMetricsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyRunExecutionActivityMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse.self, forKey: .journeyRunExecutionActivityMetricsResponse)
+        journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponseDecoded
+    }
+}
+
 enum GetJourneyRunExecutionActivityMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17324,46 +17364,6 @@ enum GetJourneyRunExecutionActivityMetricsOutputError: ClientRuntime.HttpRespons
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyRunExecutionActivityMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyRunExecutionActivityMetricsResponse = output
-        } else {
-            self.journeyRunExecutionActivityMetricsResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyRunExecutionActivityMetricsOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity for a particular journey run, and provides information about that query.
-    /// This member is required.
-    public var journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
-
-    public init(
-        journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse? = nil
-    )
-    {
-        self.journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponse
-    }
-}
-
-struct GetJourneyRunExecutionActivityMetricsOutputResponseBody: Swift.Equatable {
-    let journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
-}
-
-extension GetJourneyRunExecutionActivityMetricsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyRunExecutionActivityMetricsResponse = "JourneyRunExecutionActivityMetricsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyRunExecutionActivityMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse.self, forKey: .journeyRunExecutionActivityMetricsResponse)
-        journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponseDecoded
     }
 }
 
@@ -17439,6 +17439,46 @@ extension GetJourneyRunExecutionMetricsInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyRunExecutionMetricsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyRunExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyRunExecutionMetricsResponse = output
+        } else {
+            self.journeyRunExecutionMetricsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyRunExecutionMetricsOutput: Swift.Equatable {
+    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey run, and provides information about that query.
+    /// This member is required.
+    public var journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
+
+    public init(
+        journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse? = nil
+    )
+    {
+        self.journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponse
+    }
+}
+
+struct GetJourneyRunExecutionMetricsOutputBody: Swift.Equatable {
+    let journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
+}
+
+extension GetJourneyRunExecutionMetricsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyRunExecutionMetricsResponse = "JourneyRunExecutionMetricsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyRunExecutionMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunExecutionMetricsResponse.self, forKey: .journeyRunExecutionMetricsResponse)
+        journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponseDecoded
+    }
+}
+
 enum GetJourneyRunExecutionMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17453,46 +17493,6 @@ enum GetJourneyRunExecutionMetricsOutputError: ClientRuntime.HttpResponseErrorBi
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyRunExecutionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyRunExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyRunExecutionMetricsResponse = output
-        } else {
-            self.journeyRunExecutionMetricsResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyRunExecutionMetricsOutputResponse: Swift.Equatable {
-    /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey run, and provides information about that query.
-    /// This member is required.
-    public var journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
-
-    public init(
-        journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse? = nil
-    )
-    {
-        self.journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponse
-    }
-}
-
-struct GetJourneyRunExecutionMetricsOutputResponseBody: Swift.Equatable {
-    let journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
-}
-
-extension GetJourneyRunExecutionMetricsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyRunExecutionMetricsResponse = "JourneyRunExecutionMetricsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyRunExecutionMetricsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunExecutionMetricsResponse.self, forKey: .journeyRunExecutionMetricsResponse)
-        journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponseDecoded
     }
 }
 
@@ -17560,6 +17560,46 @@ extension GetJourneyRunsInputBody: Swift.Decodable {
     }
 }
 
+extension GetJourneyRunsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyRunsResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyRunsResponse = output
+        } else {
+            self.journeyRunsResponse = nil
+        }
+    }
+}
+
+public struct GetJourneyRunsOutput: Swift.Equatable {
+    /// Provides information from all runs of a journey.
+    /// This member is required.
+    public var journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
+
+    public init(
+        journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse? = nil
+    )
+    {
+        self.journeyRunsResponse = journeyRunsResponse
+    }
+}
+
+struct GetJourneyRunsOutputBody: Swift.Equatable {
+    let journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
+}
+
+extension GetJourneyRunsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyRunsResponse = "JourneyRunsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyRunsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunsResponse.self, forKey: .journeyRunsResponse)
+        journeyRunsResponse = journeyRunsResponseDecoded
+    }
+}
+
 enum GetJourneyRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17574,46 +17614,6 @@ enum GetJourneyRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetJourneyRunsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyRunsResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyRunsResponse = output
-        } else {
-            self.journeyRunsResponse = nil
-        }
-    }
-}
-
-public struct GetJourneyRunsOutputResponse: Swift.Equatable {
-    /// Provides information from all runs of a journey.
-    /// This member is required.
-    public var journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
-
-    public init(
-        journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse? = nil
-    )
-    {
-        self.journeyRunsResponse = journeyRunsResponse
-    }
-}
-
-struct GetJourneyRunsOutputResponseBody: Swift.Equatable {
-    let journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
-}
-
-extension GetJourneyRunsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyRunsResponse = "JourneyRunsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyRunsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyRunsResponse.self, forKey: .journeyRunsResponse)
-        journeyRunsResponse = journeyRunsResponseDecoded
     }
 }
 
@@ -17671,6 +17671,46 @@ extension GetPushTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetPushTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.PushNotificationTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.pushNotificationTemplateResponse = output
+        } else {
+            self.pushNotificationTemplateResponse = nil
+        }
+    }
+}
+
+public struct GetPushTemplateOutput: Swift.Equatable {
+    /// Provides information about the content and settings for a message template that can be used in messages that are sent through a push notification channel.
+    /// This member is required.
+    public var pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse?
+
+    public init(
+        pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse? = nil
+    )
+    {
+        self.pushNotificationTemplateResponse = pushNotificationTemplateResponse
+    }
+}
+
+struct GetPushTemplateOutputBody: Swift.Equatable {
+    let pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse?
+}
+
+extension GetPushTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pushNotificationTemplateResponse = "PushNotificationTemplateResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pushNotificationTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.PushNotificationTemplateResponse.self, forKey: .pushNotificationTemplateResponse)
+        pushNotificationTemplateResponse = pushNotificationTemplateResponseDecoded
+    }
+}
+
 enum GetPushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17685,46 +17725,6 @@ enum GetPushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetPushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.PushNotificationTemplateResponse = try responseDecoder.decode(responseBody: data)
-            self.pushNotificationTemplateResponse = output
-        } else {
-            self.pushNotificationTemplateResponse = nil
-        }
-    }
-}
-
-public struct GetPushTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about the content and settings for a message template that can be used in messages that are sent through a push notification channel.
-    /// This member is required.
-    public var pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse?
-
-    public init(
-        pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse? = nil
-    )
-    {
-        self.pushNotificationTemplateResponse = pushNotificationTemplateResponse
-    }
-}
-
-struct GetPushTemplateOutputResponseBody: Swift.Equatable {
-    let pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse?
-}
-
-extension GetPushTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pushNotificationTemplateResponse = "PushNotificationTemplateResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pushNotificationTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.PushNotificationTemplateResponse.self, forKey: .pushNotificationTemplateResponse)
-        pushNotificationTemplateResponse = pushNotificationTemplateResponseDecoded
     }
 }
 
@@ -17759,6 +17759,46 @@ extension GetRecommenderConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension GetRecommenderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
+        } else {
+            self.recommenderConfigurationResponse = nil
+        }
+    }
+}
+
+public struct GetRecommenderConfigurationOutput: Swift.Equatable {
+    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
+    /// This member is required.
+    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+
+    public init(
+        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
+    )
+    {
+        self.recommenderConfigurationResponse = recommenderConfigurationResponse
+    }
+}
+
+struct GetRecommenderConfigurationOutputBody: Swift.Equatable {
+    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+}
+
+extension GetRecommenderConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
+        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
+    }
+}
+
 enum GetRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17773,46 +17813,6 @@ enum GetRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorBind
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-            self.recommenderConfigurationResponse = output
-        } else {
-            self.recommenderConfigurationResponse = nil
-        }
-    }
-}
-
-public struct GetRecommenderConfigurationOutputResponse: Swift.Equatable {
-    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
-    /// This member is required.
-    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-
-    public init(
-        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
-        self.recommenderConfigurationResponse = recommenderConfigurationResponse
-    }
-}
-
-struct GetRecommenderConfigurationOutputResponseBody: Swift.Equatable {
-    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-}
-
-extension GetRecommenderConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
-        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
     }
 }
 
@@ -17864,6 +17864,46 @@ extension GetRecommenderConfigurationsInputBody: Swift.Decodable {
     }
 }
 
+extension GetRecommenderConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ListRecommenderConfigurationsResponse = try responseDecoder.decode(responseBody: data)
+            self.listRecommenderConfigurationsResponse = output
+        } else {
+            self.listRecommenderConfigurationsResponse = nil
+        }
+    }
+}
+
+public struct GetRecommenderConfigurationsOutput: Swift.Equatable {
+    /// Provides information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
+    /// This member is required.
+    public var listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse?
+
+    public init(
+        listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse? = nil
+    )
+    {
+        self.listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponse
+    }
+}
+
+struct GetRecommenderConfigurationsOutputBody: Swift.Equatable {
+    let listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse?
+}
+
+extension GetRecommenderConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case listRecommenderConfigurationsResponse = "ListRecommenderConfigurationsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listRecommenderConfigurationsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ListRecommenderConfigurationsResponse.self, forKey: .listRecommenderConfigurationsResponse)
+        listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponseDecoded
+    }
+}
+
 enum GetRecommenderConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17878,46 +17918,6 @@ enum GetRecommenderConfigurationsOutputError: ClientRuntime.HttpResponseErrorBin
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetRecommenderConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ListRecommenderConfigurationsResponse = try responseDecoder.decode(responseBody: data)
-            self.listRecommenderConfigurationsResponse = output
-        } else {
-            self.listRecommenderConfigurationsResponse = nil
-        }
-    }
-}
-
-public struct GetRecommenderConfigurationsOutputResponse: Swift.Equatable {
-    /// Provides information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
-    /// This member is required.
-    public var listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse?
-
-    public init(
-        listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse? = nil
-    )
-    {
-        self.listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponse
-    }
-}
-
-struct GetRecommenderConfigurationsOutputResponseBody: Swift.Equatable {
-    let listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse?
-}
-
-extension GetRecommenderConfigurationsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case listRecommenderConfigurationsResponse = "ListRecommenderConfigurationsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let listRecommenderConfigurationsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ListRecommenderConfigurationsResponse.self, forKey: .listRecommenderConfigurationsResponse)
-        listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponseDecoded
     }
 }
 
@@ -17985,6 +17985,46 @@ extension GetSegmentExportJobsInputBody: Swift.Decodable {
     }
 }
 
+extension GetSegmentExportJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.exportJobsResponse = output
+        } else {
+            self.exportJobsResponse = nil
+        }
+    }
+}
+
+public struct GetSegmentExportJobsOutput: Swift.Equatable {
+    /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
+    /// This member is required.
+    public var exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
+
+    public init(
+        exportJobsResponse: PinpointClientTypes.ExportJobsResponse? = nil
+    )
+    {
+        self.exportJobsResponse = exportJobsResponse
+    }
+}
+
+struct GetSegmentExportJobsOutputBody: Swift.Equatable {
+    let exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
+}
+
+extension GetSegmentExportJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportJobsResponse = "ExportJobsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobsResponse.self, forKey: .exportJobsResponse)
+        exportJobsResponse = exportJobsResponseDecoded
+    }
+}
+
 enum GetSegmentExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17999,46 +18039,6 @@ enum GetSegmentExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSegmentExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
-            self.exportJobsResponse = output
-        } else {
-            self.exportJobsResponse = nil
-        }
-    }
-}
-
-public struct GetSegmentExportJobsOutputResponse: Swift.Equatable {
-    /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
-    /// This member is required.
-    public var exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
-
-    public init(
-        exportJobsResponse: PinpointClientTypes.ExportJobsResponse? = nil
-    )
-    {
-        self.exportJobsResponse = exportJobsResponse
-    }
-}
-
-struct GetSegmentExportJobsOutputResponseBody: Swift.Equatable {
-    let exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
-}
-
-extension GetSegmentExportJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportJobsResponse = "ExportJobsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exportJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ExportJobsResponse.self, forKey: .exportJobsResponse)
-        exportJobsResponse = exportJobsResponseDecoded
     }
 }
 
@@ -18106,6 +18106,46 @@ extension GetSegmentImportJobsInputBody: Swift.Decodable {
     }
 }
 
+extension GetSegmentImportJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
+            self.importJobsResponse = output
+        } else {
+            self.importJobsResponse = nil
+        }
+    }
+}
+
+public struct GetSegmentImportJobsOutput: Swift.Equatable {
+    /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
+    /// This member is required.
+    public var importJobsResponse: PinpointClientTypes.ImportJobsResponse?
+
+    public init(
+        importJobsResponse: PinpointClientTypes.ImportJobsResponse? = nil
+    )
+    {
+        self.importJobsResponse = importJobsResponse
+    }
+}
+
+struct GetSegmentImportJobsOutputBody: Swift.Equatable {
+    let importJobsResponse: PinpointClientTypes.ImportJobsResponse?
+}
+
+extension GetSegmentImportJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJobsResponse = "ImportJobsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobsResponse.self, forKey: .importJobsResponse)
+        importJobsResponse = importJobsResponseDecoded
+    }
+}
+
 enum GetSegmentImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18120,46 +18160,6 @@ enum GetSegmentImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSegmentImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
-            self.importJobsResponse = output
-        } else {
-            self.importJobsResponse = nil
-        }
-    }
-}
-
-public struct GetSegmentImportJobsOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
-    /// This member is required.
-    public var importJobsResponse: PinpointClientTypes.ImportJobsResponse?
-
-    public init(
-        importJobsResponse: PinpointClientTypes.ImportJobsResponse? = nil
-    )
-    {
-        self.importJobsResponse = importJobsResponse
-    }
-}
-
-struct GetSegmentImportJobsOutputResponseBody: Swift.Equatable {
-    let importJobsResponse: PinpointClientTypes.ImportJobsResponse?
-}
-
-extension GetSegmentImportJobsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case importJobsResponse = "ImportJobsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let importJobsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ImportJobsResponse.self, forKey: .importJobsResponse)
-        importJobsResponse = importJobsResponseDecoded
     }
 }
 
@@ -18202,6 +18202,46 @@ extension GetSegmentInputBody: Swift.Decodable {
     }
 }
 
+extension GetSegmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
+        } else {
+            self.segmentResponse = nil
+        }
+    }
+}
+
+public struct GetSegmentOutput: Swift.Equatable {
+    /// Provides information about the configuration, dimension, and other settings for a segment.
+    /// This member is required.
+    public var segmentResponse: PinpointClientTypes.SegmentResponse?
+
+    public init(
+        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
+    )
+    {
+        self.segmentResponse = segmentResponse
+    }
+}
+
+struct GetSegmentOutputBody: Swift.Equatable {
+    let segmentResponse: PinpointClientTypes.SegmentResponse?
+}
+
+extension GetSegmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentResponse = "SegmentResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
+        segmentResponse = segmentResponseDecoded
+    }
+}
+
 enum GetSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18216,46 +18256,6 @@ enum GetSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentResponse = output
-        } else {
-            self.segmentResponse = nil
-        }
-    }
-}
-
-public struct GetSegmentOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration, dimension, and other settings for a segment.
-    /// This member is required.
-    public var segmentResponse: PinpointClientTypes.SegmentResponse?
-
-    public init(
-        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
-        self.segmentResponse = segmentResponse
-    }
-}
-
-struct GetSegmentOutputResponseBody: Swift.Equatable {
-    let segmentResponse: PinpointClientTypes.SegmentResponse?
-}
-
-extension GetSegmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentResponse = "SegmentResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
-        segmentResponse = segmentResponseDecoded
     }
 }
 
@@ -18306,6 +18306,46 @@ extension GetSegmentVersionInputBody: Swift.Decodable {
     }
 }
 
+extension GetSegmentVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
+        } else {
+            self.segmentResponse = nil
+        }
+    }
+}
+
+public struct GetSegmentVersionOutput: Swift.Equatable {
+    /// Provides information about the configuration, dimension, and other settings for a segment.
+    /// This member is required.
+    public var segmentResponse: PinpointClientTypes.SegmentResponse?
+
+    public init(
+        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
+    )
+    {
+        self.segmentResponse = segmentResponse
+    }
+}
+
+struct GetSegmentVersionOutputBody: Swift.Equatable {
+    let segmentResponse: PinpointClientTypes.SegmentResponse?
+}
+
+extension GetSegmentVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentResponse = "SegmentResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
+        segmentResponse = segmentResponseDecoded
+    }
+}
+
 enum GetSegmentVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18320,46 +18360,6 @@ enum GetSegmentVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSegmentVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentResponse = output
-        } else {
-            self.segmentResponse = nil
-        }
-    }
-}
-
-public struct GetSegmentVersionOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration, dimension, and other settings for a segment.
-    /// This member is required.
-    public var segmentResponse: PinpointClientTypes.SegmentResponse?
-
-    public init(
-        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
-        self.segmentResponse = segmentResponse
-    }
-}
-
-struct GetSegmentVersionOutputResponseBody: Swift.Equatable {
-    let segmentResponse: PinpointClientTypes.SegmentResponse?
-}
-
-extension GetSegmentVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentResponse = "SegmentResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
-        segmentResponse = segmentResponseDecoded
     }
 }
 
@@ -18427,6 +18427,46 @@ extension GetSegmentVersionsInputBody: Swift.Decodable {
     }
 }
 
+extension GetSegmentVersionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentsResponse = output
+        } else {
+            self.segmentsResponse = nil
+        }
+    }
+}
+
+public struct GetSegmentVersionsOutput: Swift.Equatable {
+    /// Provides information about all the segments that are associated with an application.
+    /// This member is required.
+    public var segmentsResponse: PinpointClientTypes.SegmentsResponse?
+
+    public init(
+        segmentsResponse: PinpointClientTypes.SegmentsResponse? = nil
+    )
+    {
+        self.segmentsResponse = segmentsResponse
+    }
+}
+
+struct GetSegmentVersionsOutputBody: Swift.Equatable {
+    let segmentsResponse: PinpointClientTypes.SegmentsResponse?
+}
+
+extension GetSegmentVersionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentsResponse = "SegmentsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentsResponse.self, forKey: .segmentsResponse)
+        segmentsResponse = segmentsResponseDecoded
+    }
+}
+
 enum GetSegmentVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18441,46 +18481,6 @@ enum GetSegmentVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSegmentVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentsResponse = output
-        } else {
-            self.segmentsResponse = nil
-        }
-    }
-}
-
-public struct GetSegmentVersionsOutputResponse: Swift.Equatable {
-    /// Provides information about all the segments that are associated with an application.
-    /// This member is required.
-    public var segmentsResponse: PinpointClientTypes.SegmentsResponse?
-
-    public init(
-        segmentsResponse: PinpointClientTypes.SegmentsResponse? = nil
-    )
-    {
-        self.segmentsResponse = segmentsResponse
-    }
-}
-
-struct GetSegmentVersionsOutputResponseBody: Swift.Equatable {
-    let segmentsResponse: PinpointClientTypes.SegmentsResponse?
-}
-
-extension GetSegmentVersionsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentsResponse = "SegmentsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentsResponse.self, forKey: .segmentsResponse)
-        segmentsResponse = segmentsResponseDecoded
     }
 }
 
@@ -18540,6 +18540,46 @@ extension GetSegmentsInputBody: Swift.Decodable {
     }
 }
 
+extension GetSegmentsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentsResponse = output
+        } else {
+            self.segmentsResponse = nil
+        }
+    }
+}
+
+public struct GetSegmentsOutput: Swift.Equatable {
+    /// Provides information about all the segments that are associated with an application.
+    /// This member is required.
+    public var segmentsResponse: PinpointClientTypes.SegmentsResponse?
+
+    public init(
+        segmentsResponse: PinpointClientTypes.SegmentsResponse? = nil
+    )
+    {
+        self.segmentsResponse = segmentsResponse
+    }
+}
+
+struct GetSegmentsOutputBody: Swift.Equatable {
+    let segmentsResponse: PinpointClientTypes.SegmentsResponse?
+}
+
+extension GetSegmentsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentsResponse = "SegmentsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentsResponse.self, forKey: .segmentsResponse)
+        segmentsResponse = segmentsResponseDecoded
+    }
+}
+
 enum GetSegmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18554,46 +18594,6 @@ enum GetSegmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSegmentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentsResponse = output
-        } else {
-            self.segmentsResponse = nil
-        }
-    }
-}
-
-public struct GetSegmentsOutputResponse: Swift.Equatable {
-    /// Provides information about all the segments that are associated with an application.
-    /// This member is required.
-    public var segmentsResponse: PinpointClientTypes.SegmentsResponse?
-
-    public init(
-        segmentsResponse: PinpointClientTypes.SegmentsResponse? = nil
-    )
-    {
-        self.segmentsResponse = segmentsResponse
-    }
-}
-
-struct GetSegmentsOutputResponseBody: Swift.Equatable {
-    let segmentsResponse: PinpointClientTypes.SegmentsResponse?
-}
-
-extension GetSegmentsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentsResponse = "SegmentsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentsResponse.self, forKey: .segmentsResponse)
-        segmentsResponse = segmentsResponseDecoded
     }
 }
 
@@ -18628,6 +18628,46 @@ extension GetSmsChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetSmsChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.smsChannelResponse = output
+        } else {
+            self.smsChannelResponse = nil
+        }
+    }
+}
+
+public struct GetSmsChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the SMS channel for an application.
+    /// This member is required.
+    public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
+
+    public init(
+        smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
+    )
+    {
+        self.smsChannelResponse = smsChannelResponse
+    }
+}
+
+struct GetSmsChannelOutputBody: Swift.Equatable {
+    let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
+}
+
+extension GetSmsChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case smsChannelResponse = "SMSChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let smsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSChannelResponse.self, forKey: .smsChannelResponse)
+        smsChannelResponse = smsChannelResponseDecoded
+    }
+}
+
 enum GetSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18642,46 +18682,6 @@ enum GetSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.smsChannelResponse = output
-        } else {
-            self.smsChannelResponse = nil
-        }
-    }
-}
-
-public struct GetSmsChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the SMS channel for an application.
-    /// This member is required.
-    public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
-
-    public init(
-        smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
-    )
-    {
-        self.smsChannelResponse = smsChannelResponse
-    }
-}
-
-struct GetSmsChannelOutputResponseBody: Swift.Equatable {
-    let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
-}
-
-extension GetSmsChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case smsChannelResponse = "SMSChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let smsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSChannelResponse.self, forKey: .smsChannelResponse)
-        smsChannelResponse = smsChannelResponseDecoded
     }
 }
 
@@ -18739,6 +18739,46 @@ extension GetSmsTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.smsTemplateResponse = output
+        } else {
+            self.smsTemplateResponse = nil
+        }
+    }
+}
+
+public struct GetSmsTemplateOutput: Swift.Equatable {
+    /// Provides information about the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
+    /// This member is required.
+    public var smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse?
+
+    public init(
+        smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse? = nil
+    )
+    {
+        self.smsTemplateResponse = smsTemplateResponse
+    }
+}
+
+struct GetSmsTemplateOutputBody: Swift.Equatable {
+    let smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse?
+}
+
+extension GetSmsTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case smsTemplateResponse = "SMSTemplateResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let smsTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSTemplateResponse.self, forKey: .smsTemplateResponse)
+        smsTemplateResponse = smsTemplateResponseDecoded
+    }
+}
+
 enum GetSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18753,46 +18793,6 @@ enum GetSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SMSTemplateResponse = try responseDecoder.decode(responseBody: data)
-            self.smsTemplateResponse = output
-        } else {
-            self.smsTemplateResponse = nil
-        }
-    }
-}
-
-public struct GetSmsTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
-    /// This member is required.
-    public var smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse?
-
-    public init(
-        smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse? = nil
-    )
-    {
-        self.smsTemplateResponse = smsTemplateResponse
-    }
-}
-
-struct GetSmsTemplateOutputResponseBody: Swift.Equatable {
-    let smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse?
-}
-
-extension GetSmsTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case smsTemplateResponse = "SMSTemplateResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let smsTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSTemplateResponse.self, forKey: .smsTemplateResponse)
-        smsTemplateResponse = smsTemplateResponseDecoded
     }
 }
 
@@ -18835,6 +18835,46 @@ extension GetUserEndpointsInputBody: Swift.Decodable {
     }
 }
 
+extension GetUserEndpointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
+            self.endpointsResponse = output
+        } else {
+            self.endpointsResponse = nil
+        }
+    }
+}
+
+public struct GetUserEndpointsOutput: Swift.Equatable {
+    /// Provides information about all the endpoints that are associated with a user ID.
+    /// This member is required.
+    public var endpointsResponse: PinpointClientTypes.EndpointsResponse?
+
+    public init(
+        endpointsResponse: PinpointClientTypes.EndpointsResponse? = nil
+    )
+    {
+        self.endpointsResponse = endpointsResponse
+    }
+}
+
+struct GetUserEndpointsOutputBody: Swift.Equatable {
+    let endpointsResponse: PinpointClientTypes.EndpointsResponse?
+}
+
+extension GetUserEndpointsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointsResponse = "EndpointsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointsResponse.self, forKey: .endpointsResponse)
+        endpointsResponse = endpointsResponseDecoded
+    }
+}
+
 enum GetUserEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18849,46 +18889,6 @@ enum GetUserEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
-            self.endpointsResponse = output
-        } else {
-            self.endpointsResponse = nil
-        }
-    }
-}
-
-public struct GetUserEndpointsOutputResponse: Swift.Equatable {
-    /// Provides information about all the endpoints that are associated with a user ID.
-    /// This member is required.
-    public var endpointsResponse: PinpointClientTypes.EndpointsResponse?
-
-    public init(
-        endpointsResponse: PinpointClientTypes.EndpointsResponse? = nil
-    )
-    {
-        self.endpointsResponse = endpointsResponse
-    }
-}
-
-struct GetUserEndpointsOutputResponseBody: Swift.Equatable {
-    let endpointsResponse: PinpointClientTypes.EndpointsResponse?
-}
-
-extension GetUserEndpointsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointsResponse = "EndpointsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EndpointsResponse.self, forKey: .endpointsResponse)
-        endpointsResponse = endpointsResponseDecoded
     }
 }
 
@@ -18923,6 +18923,46 @@ extension GetVoiceChannelInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceChannelResponse = output
+        } else {
+            self.voiceChannelResponse = nil
+        }
+    }
+}
+
+public struct GetVoiceChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the voice channel for an application.
+    /// This member is required.
+    public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
+
+    public init(
+        voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
+    )
+    {
+        self.voiceChannelResponse = voiceChannelResponse
+    }
+}
+
+struct GetVoiceChannelOutputBody: Swift.Equatable {
+    let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
+}
+
+extension GetVoiceChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceChannelResponse = "VoiceChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceChannelResponse.self, forKey: .voiceChannelResponse)
+        voiceChannelResponse = voiceChannelResponseDecoded
+    }
+}
+
 enum GetVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18937,46 +18977,6 @@ enum GetVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.voiceChannelResponse = output
-        } else {
-            self.voiceChannelResponse = nil
-        }
-    }
-}
-
-public struct GetVoiceChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the voice channel for an application.
-    /// This member is required.
-    public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
-
-    public init(
-        voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
-    )
-    {
-        self.voiceChannelResponse = voiceChannelResponse
-    }
-}
-
-struct GetVoiceChannelOutputResponseBody: Swift.Equatable {
-    let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
-}
-
-extension GetVoiceChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceChannelResponse = "VoiceChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceChannelResponse.self, forKey: .voiceChannelResponse)
-        voiceChannelResponse = voiceChannelResponseDecoded
     }
 }
 
@@ -19034,6 +19034,46 @@ extension GetVoiceTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceTemplateResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceTemplateResponse = output
+        } else {
+            self.voiceTemplateResponse = nil
+        }
+    }
+}
+
+public struct GetVoiceTemplateOutput: Swift.Equatable {
+    /// Provides information about the content and settings for a message template that can be used in messages that are sent through the voice channel.
+    /// This member is required.
+    public var voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse?
+
+    public init(
+        voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse? = nil
+    )
+    {
+        self.voiceTemplateResponse = voiceTemplateResponse
+    }
+}
+
+struct GetVoiceTemplateOutputBody: Swift.Equatable {
+    let voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse?
+}
+
+extension GetVoiceTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceTemplateResponse = "VoiceTemplateResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceTemplateResponse.self, forKey: .voiceTemplateResponse)
+        voiceTemplateResponse = voiceTemplateResponseDecoded
+    }
+}
+
 enum GetVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -19048,46 +19088,6 @@ enum GetVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.VoiceTemplateResponse = try responseDecoder.decode(responseBody: data)
-            self.voiceTemplateResponse = output
-        } else {
-            self.voiceTemplateResponse = nil
-        }
-    }
-}
-
-public struct GetVoiceTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about the content and settings for a message template that can be used in messages that are sent through the voice channel.
-    /// This member is required.
-    public var voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse?
-
-    public init(
-        voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse? = nil
-    )
-    {
-        self.voiceTemplateResponse = voiceTemplateResponse
-    }
-}
-
-struct GetVoiceTemplateOutputResponseBody: Swift.Equatable {
-    let voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse?
-}
-
-extension GetVoiceTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceTemplateResponse = "VoiceTemplateResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceTemplateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceTemplateResponse.self, forKey: .voiceTemplateResponse)
-        voiceTemplateResponse = voiceTemplateResponseDecoded
     }
 }
 
@@ -22223,6 +22223,46 @@ extension ListJourneysInputBody: Swift.Decodable {
     }
 }
 
+extension ListJourneysOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneysResponse = try responseDecoder.decode(responseBody: data)
+            self.journeysResponse = output
+        } else {
+            self.journeysResponse = nil
+        }
+    }
+}
+
+public struct ListJourneysOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for all the journeys that are associated with an application.
+    /// This member is required.
+    public var journeysResponse: PinpointClientTypes.JourneysResponse?
+
+    public init(
+        journeysResponse: PinpointClientTypes.JourneysResponse? = nil
+    )
+    {
+        self.journeysResponse = journeysResponse
+    }
+}
+
+struct ListJourneysOutputBody: Swift.Equatable {
+    let journeysResponse: PinpointClientTypes.JourneysResponse?
+}
+
+extension ListJourneysOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeysResponse = "JourneysResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeysResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneysResponse.self, forKey: .journeysResponse)
+        journeysResponse = journeysResponseDecoded
+    }
+}
+
 enum ListJourneysOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -22237,46 +22277,6 @@ enum ListJourneysOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListJourneysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneysResponse = try responseDecoder.decode(responseBody: data)
-            self.journeysResponse = output
-        } else {
-            self.journeysResponse = nil
-        }
-    }
-}
-
-public struct ListJourneysOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for all the journeys that are associated with an application.
-    /// This member is required.
-    public var journeysResponse: PinpointClientTypes.JourneysResponse?
-
-    public init(
-        journeysResponse: PinpointClientTypes.JourneysResponse? = nil
-    )
-    {
-        self.journeysResponse = journeysResponse
-    }
-}
-
-struct ListJourneysOutputResponseBody: Swift.Equatable {
-    let journeysResponse: PinpointClientTypes.JourneysResponse?
-}
-
-extension ListJourneysOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeysResponse = "JourneysResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeysResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneysResponse.self, forKey: .journeysResponse)
-        journeysResponse = journeysResponseDecoded
     }
 }
 
@@ -22369,17 +22369,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: PinpointClientTypes.TagsModel = try responseDecoder.decode(responseBody: data)
@@ -22390,7 +22380,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Specifies the tags (keys and values) for an application, campaign, message template, or segment.
     /// This member is required.
     public var tagsModel: PinpointClientTypes.TagsModel?
@@ -22403,11 +22393,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tagsModel: PinpointClientTypes.TagsModel?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagsModel = "TagsModel"
     }
@@ -22416,6 +22406,16 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsModelDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.TagsModel.self, forKey: .tagsModel)
         tagsModel = tagsModelDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -22483,6 +22483,46 @@ extension ListTemplateVersionsInputBody: Swift.Decodable {
     }
 }
 
+extension ListTemplateVersionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.TemplateVersionsResponse = try responseDecoder.decode(responseBody: data)
+            self.templateVersionsResponse = output
+        } else {
+            self.templateVersionsResponse = nil
+        }
+    }
+}
+
+public struct ListTemplateVersionsOutput: Swift.Equatable {
+    /// Provides information about all the versions of a specific message template.
+    /// This member is required.
+    public var templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse?
+
+    public init(
+        templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse? = nil
+    )
+    {
+        self.templateVersionsResponse = templateVersionsResponse
+    }
+}
+
+struct ListTemplateVersionsOutputBody: Swift.Equatable {
+    let templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse?
+}
+
+extension ListTemplateVersionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateVersionsResponse = "TemplateVersionsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateVersionsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.TemplateVersionsResponse.self, forKey: .templateVersionsResponse)
+        templateVersionsResponse = templateVersionsResponseDecoded
+    }
+}
+
 enum ListTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -22497,46 +22537,6 @@ enum ListTemplateVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListTemplateVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.TemplateVersionsResponse = try responseDecoder.decode(responseBody: data)
-            self.templateVersionsResponse = output
-        } else {
-            self.templateVersionsResponse = nil
-        }
-    }
-}
-
-public struct ListTemplateVersionsOutputResponse: Swift.Equatable {
-    /// Provides information about all the versions of a specific message template.
-    /// This member is required.
-    public var templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse?
-
-    public init(
-        templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse? = nil
-    )
-    {
-        self.templateVersionsResponse = templateVersionsResponse
-    }
-}
-
-struct ListTemplateVersionsOutputResponseBody: Swift.Equatable {
-    let templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse?
-}
-
-extension ListTemplateVersionsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case templateVersionsResponse = "TemplateVersionsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let templateVersionsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.TemplateVersionsResponse.self, forKey: .templateVersionsResponse)
-        templateVersionsResponse = templateVersionsResponseDecoded
     }
 }
 
@@ -22604,22 +22604,7 @@ extension ListTemplatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: PinpointClientTypes.TemplatesResponse = try responseDecoder.decode(responseBody: data)
@@ -22630,7 +22615,7 @@ extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplatesOutputResponse: Swift.Equatable {
+public struct ListTemplatesOutput: Swift.Equatable {
     /// Provides information about all the message templates that are associated with your Amazon Pinpoint account.
     /// This member is required.
     public var templatesResponse: PinpointClientTypes.TemplatesResponse?
@@ -22643,11 +22628,11 @@ public struct ListTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTemplatesOutputResponseBody: Swift.Equatable {
+struct ListTemplatesOutputBody: Swift.Equatable {
     let templatesResponse: PinpointClientTypes.TemplatesResponse?
 }
 
-extension ListTemplatesOutputResponseBody: Swift.Decodable {
+extension ListTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templatesResponse = "TemplatesResponse"
     }
@@ -22656,6 +22641,21 @@ extension ListTemplatesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let templatesResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.TemplatesResponse.self, forKey: .templatesResponse)
         templatesResponse = templatesResponseDecoded
+    }
+}
+
+enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MethodNotAllowedException": return try await MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -24221,7 +24221,7 @@ public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PhoneNumberValidateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PhoneNumberValidateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PhoneNumberValidateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -24248,7 +24248,7 @@ public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PhoneNumberValidateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PhoneNumberValidateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PhoneNumberValidateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -24300,6 +24300,46 @@ extension PhoneNumberValidateInputBody: Swift.Decodable {
     }
 }
 
+extension PhoneNumberValidateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.NumberValidateResponse = try responseDecoder.decode(responseBody: data)
+            self.numberValidateResponse = output
+        } else {
+            self.numberValidateResponse = nil
+        }
+    }
+}
+
+public struct PhoneNumberValidateOutput: Swift.Equatable {
+    /// Provides information about a phone number.
+    /// This member is required.
+    public var numberValidateResponse: PinpointClientTypes.NumberValidateResponse?
+
+    public init(
+        numberValidateResponse: PinpointClientTypes.NumberValidateResponse? = nil
+    )
+    {
+        self.numberValidateResponse = numberValidateResponse
+    }
+}
+
+struct PhoneNumberValidateOutputBody: Swift.Equatable {
+    let numberValidateResponse: PinpointClientTypes.NumberValidateResponse?
+}
+
+extension PhoneNumberValidateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case numberValidateResponse = "NumberValidateResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let numberValidateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.NumberValidateResponse.self, forKey: .numberValidateResponse)
+        numberValidateResponse = numberValidateResponseDecoded
+    }
+}
+
 enum PhoneNumberValidateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -24314,46 +24354,6 @@ enum PhoneNumberValidateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PhoneNumberValidateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.NumberValidateResponse = try responseDecoder.decode(responseBody: data)
-            self.numberValidateResponse = output
-        } else {
-            self.numberValidateResponse = nil
-        }
-    }
-}
-
-public struct PhoneNumberValidateOutputResponse: Swift.Equatable {
-    /// Provides information about a phone number.
-    /// This member is required.
-    public var numberValidateResponse: PinpointClientTypes.NumberValidateResponse?
-
-    public init(
-        numberValidateResponse: PinpointClientTypes.NumberValidateResponse? = nil
-    )
-    {
-        self.numberValidateResponse = numberValidateResponse
-    }
-}
-
-struct PhoneNumberValidateOutputResponseBody: Swift.Equatable {
-    let numberValidateResponse: PinpointClientTypes.NumberValidateResponse?
-}
-
-extension PhoneNumberValidateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case numberValidateResponse = "NumberValidateResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let numberValidateResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.NumberValidateResponse.self, forKey: .numberValidateResponse)
-        numberValidateResponse = numberValidateResponseDecoded
     }
 }
 
@@ -24916,7 +24916,7 @@ public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutEventStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutEventStreamOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutEventStreamOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -24943,7 +24943,7 @@ public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutEventStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutEventStreamOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutEventStreamOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -25003,6 +25003,46 @@ extension PutEventStreamInputBody: Swift.Decodable {
     }
 }
 
+extension PutEventStreamOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
+            self.eventStream = output
+        } else {
+            self.eventStream = nil
+        }
+    }
+}
+
+public struct PutEventStreamOutput: Swift.Equatable {
+    /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
+    /// This member is required.
+    public var eventStream: PinpointClientTypes.EventStream?
+
+    public init(
+        eventStream: PinpointClientTypes.EventStream? = nil
+    )
+    {
+        self.eventStream = eventStream
+    }
+}
+
+struct PutEventStreamOutputBody: Swift.Equatable {
+    let eventStream: PinpointClientTypes.EventStream?
+}
+
+extension PutEventStreamOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventStream = "EventStream"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventStreamDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventStream.self, forKey: .eventStream)
+        eventStream = eventStreamDecoded
+    }
+}
+
 enum PutEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -25020,46 +25060,6 @@ enum PutEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
-            self.eventStream = output
-        } else {
-            self.eventStream = nil
-        }
-    }
-}
-
-public struct PutEventStreamOutputResponse: Swift.Equatable {
-    /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
-    /// This member is required.
-    public var eventStream: PinpointClientTypes.EventStream?
-
-    public init(
-        eventStream: PinpointClientTypes.EventStream? = nil
-    )
-    {
-        self.eventStream = eventStream
-    }
-}
-
-struct PutEventStreamOutputResponseBody: Swift.Equatable {
-    let eventStream: PinpointClientTypes.EventStream?
-}
-
-extension PutEventStreamOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventStream = "EventStream"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eventStreamDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventStream.self, forKey: .eventStream)
-        eventStream = eventStreamDecoded
-    }
-}
-
 public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutEventsInputBodyMiddleware"
 
@@ -25067,7 +25067,7 @@ public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutEventsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutEventsOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutEventsOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -25094,7 +25094,7 @@ public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutEventsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutEventsOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutEventsOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -25154,6 +25154,46 @@ extension PutEventsInputBody: Swift.Decodable {
     }
 }
 
+extension PutEventsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EventsResponse = try responseDecoder.decode(responseBody: data)
+            self.eventsResponse = output
+        } else {
+            self.eventsResponse = nil
+        }
+    }
+}
+
+public struct PutEventsOutput: Swift.Equatable {
+    /// Provides information about endpoints and the events that they're associated with.
+    /// This member is required.
+    public var eventsResponse: PinpointClientTypes.EventsResponse?
+
+    public init(
+        eventsResponse: PinpointClientTypes.EventsResponse? = nil
+    )
+    {
+        self.eventsResponse = eventsResponse
+    }
+}
+
+struct PutEventsOutputBody: Swift.Equatable {
+    let eventsResponse: PinpointClientTypes.EventsResponse?
+}
+
+extension PutEventsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventsResponse = "EventsResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventsResponse.self, forKey: .eventsResponse)
+        eventsResponse = eventsResponseDecoded
+    }
+}
+
 enum PutEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -25168,46 +25208,6 @@ enum PutEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EventsResponse = try responseDecoder.decode(responseBody: data)
-            self.eventsResponse = output
-        } else {
-            self.eventsResponse = nil
-        }
-    }
-}
-
-public struct PutEventsOutputResponse: Swift.Equatable {
-    /// Provides information about endpoints and the events that they're associated with.
-    /// This member is required.
-    public var eventsResponse: PinpointClientTypes.EventsResponse?
-
-    public init(
-        eventsResponse: PinpointClientTypes.EventsResponse? = nil
-    )
-    {
-        self.eventsResponse = eventsResponse
-    }
-}
-
-struct PutEventsOutputResponseBody: Swift.Equatable {
-    let eventsResponse: PinpointClientTypes.EventsResponse?
-}
-
-extension PutEventsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventsResponse = "EventsResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eventsResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EventsResponse.self, forKey: .eventsResponse)
-        eventsResponse = eventsResponseDecoded
     }
 }
 
@@ -25635,7 +25635,7 @@ public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<RemoveAttributesInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<RemoveAttributesOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<RemoveAttributesOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -25662,7 +25662,7 @@ public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<RemoveAttributesInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<RemoveAttributesOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<RemoveAttributesOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -25736,6 +25736,46 @@ extension RemoveAttributesInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveAttributesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.AttributesResource = try responseDecoder.decode(responseBody: data)
+            self.attributesResource = output
+        } else {
+            self.attributesResource = nil
+        }
+    }
+}
+
+public struct RemoveAttributesOutput: Swift.Equatable {
+    /// Provides information about the type and the names of attributes that were removed from all the endpoints that are associated with an application.
+    /// This member is required.
+    public var attributesResource: PinpointClientTypes.AttributesResource?
+
+    public init(
+        attributesResource: PinpointClientTypes.AttributesResource? = nil
+    )
+    {
+        self.attributesResource = attributesResource
+    }
+}
+
+struct RemoveAttributesOutputBody: Swift.Equatable {
+    let attributesResource: PinpointClientTypes.AttributesResource?
+}
+
+extension RemoveAttributesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributesResource = "AttributesResource"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributesResourceDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.AttributesResource.self, forKey: .attributesResource)
+        attributesResource = attributesResourceDecoded
+    }
+}
+
 enum RemoveAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -25750,46 +25790,6 @@ enum RemoveAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RemoveAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.AttributesResource = try responseDecoder.decode(responseBody: data)
-            self.attributesResource = output
-        } else {
-            self.attributesResource = nil
-        }
-    }
-}
-
-public struct RemoveAttributesOutputResponse: Swift.Equatable {
-    /// Provides information about the type and the names of attributes that were removed from all the endpoints that are associated with an application.
-    /// This member is required.
-    public var attributesResource: PinpointClientTypes.AttributesResource?
-
-    public init(
-        attributesResource: PinpointClientTypes.AttributesResource? = nil
-    )
-    {
-        self.attributesResource = attributesResource
-    }
-}
-
-struct RemoveAttributesOutputResponseBody: Swift.Equatable {
-    let attributesResource: PinpointClientTypes.AttributesResource?
-}
-
-extension RemoveAttributesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributesResource = "AttributesResource"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attributesResourceDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.AttributesResource.self, forKey: .attributesResource)
-        attributesResource = attributesResourceDecoded
     }
 }
 
@@ -27567,7 +27567,7 @@ public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<SendMessagesInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SendMessagesOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<SendMessagesOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -27594,7 +27594,7 @@ public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<SendMessagesInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SendMessagesOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<SendMessagesOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -27654,6 +27654,46 @@ extension SendMessagesInputBody: Swift.Decodable {
     }
 }
 
+extension SendMessagesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
+            self.messageResponse = output
+        } else {
+            self.messageResponse = nil
+        }
+    }
+}
+
+public struct SendMessagesOutput: Swift.Equatable {
+    /// Provides information about the results of a request to send a message to an endpoint address.
+    /// This member is required.
+    public var messageResponse: PinpointClientTypes.MessageResponse?
+
+    public init(
+        messageResponse: PinpointClientTypes.MessageResponse? = nil
+    )
+    {
+        self.messageResponse = messageResponse
+    }
+}
+
+struct SendMessagesOutputBody: Swift.Equatable {
+    let messageResponse: PinpointClientTypes.MessageResponse?
+}
+
+extension SendMessagesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageResponse = "MessageResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageResponse.self, forKey: .messageResponse)
+        messageResponse = messageResponseDecoded
+    }
+}
+
 enum SendMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -27671,46 +27711,6 @@ enum SendMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension SendMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
-            self.messageResponse = output
-        } else {
-            self.messageResponse = nil
-        }
-    }
-}
-
-public struct SendMessagesOutputResponse: Swift.Equatable {
-    /// Provides information about the results of a request to send a message to an endpoint address.
-    /// This member is required.
-    public var messageResponse: PinpointClientTypes.MessageResponse?
-
-    public init(
-        messageResponse: PinpointClientTypes.MessageResponse? = nil
-    )
-    {
-        self.messageResponse = messageResponse
-    }
-}
-
-struct SendMessagesOutputResponseBody: Swift.Equatable {
-    let messageResponse: PinpointClientTypes.MessageResponse?
-}
-
-extension SendMessagesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageResponse = "MessageResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageResponse.self, forKey: .messageResponse)
-        messageResponse = messageResponseDecoded
-    }
-}
-
 public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SendOTPMessageInputBodyMiddleware"
 
@@ -27718,7 +27718,7 @@ public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<SendOTPMessageInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SendOTPMessageOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<SendOTPMessageOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -27745,7 +27745,7 @@ public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<SendOTPMessageInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SendOTPMessageOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<SendOTPMessageOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -27805,6 +27805,46 @@ extension SendOTPMessageInputBody: Swift.Decodable {
     }
 }
 
+extension SendOTPMessageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
+            self.messageResponse = output
+        } else {
+            self.messageResponse = nil
+        }
+    }
+}
+
+public struct SendOTPMessageOutput: Swift.Equatable {
+    /// Provides information about the results of a request to send a message to an endpoint address.
+    /// This member is required.
+    public var messageResponse: PinpointClientTypes.MessageResponse?
+
+    public init(
+        messageResponse: PinpointClientTypes.MessageResponse? = nil
+    )
+    {
+        self.messageResponse = messageResponse
+    }
+}
+
+struct SendOTPMessageOutputBody: Swift.Equatable {
+    let messageResponse: PinpointClientTypes.MessageResponse?
+}
+
+extension SendOTPMessageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageResponse = "MessageResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageResponse.self, forKey: .messageResponse)
+        messageResponse = messageResponseDecoded
+    }
+}
+
 enum SendOTPMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -27819,46 +27859,6 @@ enum SendOTPMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension SendOTPMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
-            self.messageResponse = output
-        } else {
-            self.messageResponse = nil
-        }
-    }
-}
-
-public struct SendOTPMessageOutputResponse: Swift.Equatable {
-    /// Provides information about the results of a request to send a message to an endpoint address.
-    /// This member is required.
-    public var messageResponse: PinpointClientTypes.MessageResponse?
-
-    public init(
-        messageResponse: PinpointClientTypes.MessageResponse? = nil
-    )
-    {
-        self.messageResponse = messageResponse
-    }
-}
-
-struct SendOTPMessageOutputResponseBody: Swift.Equatable {
-    let messageResponse: PinpointClientTypes.MessageResponse?
-}
-
-extension SendOTPMessageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageResponse = "MessageResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageResponse.self, forKey: .messageResponse)
-        messageResponse = messageResponseDecoded
     }
 }
 
@@ -28188,7 +28188,7 @@ public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<SendUsersMessagesInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SendUsersMessagesOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<SendUsersMessagesOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -28215,7 +28215,7 @@ public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<SendUsersMessagesInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SendUsersMessagesOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<SendUsersMessagesOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -28275,6 +28275,46 @@ extension SendUsersMessagesInputBody: Swift.Decodable {
     }
 }
 
+extension SendUsersMessagesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SendUsersMessageResponse = try responseDecoder.decode(responseBody: data)
+            self.sendUsersMessageResponse = output
+        } else {
+            self.sendUsersMessageResponse = nil
+        }
+    }
+}
+
+public struct SendUsersMessagesOutput: Swift.Equatable {
+    /// Provides information about which users and endpoints a message was sent to.
+    /// This member is required.
+    public var sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse?
+
+    public init(
+        sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse? = nil
+    )
+    {
+        self.sendUsersMessageResponse = sendUsersMessageResponse
+    }
+}
+
+struct SendUsersMessagesOutputBody: Swift.Equatable {
+    let sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse?
+}
+
+extension SendUsersMessagesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sendUsersMessageResponse = "SendUsersMessageResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sendUsersMessageResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SendUsersMessageResponse.self, forKey: .sendUsersMessageResponse)
+        sendUsersMessageResponse = sendUsersMessageResponseDecoded
+    }
+}
+
 enum SendUsersMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -28289,46 +28329,6 @@ enum SendUsersMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension SendUsersMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SendUsersMessageResponse = try responseDecoder.decode(responseBody: data)
-            self.sendUsersMessageResponse = output
-        } else {
-            self.sendUsersMessageResponse = nil
-        }
-    }
-}
-
-public struct SendUsersMessagesOutputResponse: Swift.Equatable {
-    /// Provides information about which users and endpoints a message was sent to.
-    /// This member is required.
-    public var sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse?
-
-    public init(
-        sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse? = nil
-    )
-    {
-        self.sendUsersMessageResponse = sendUsersMessageResponse
-    }
-}
-
-struct SendUsersMessagesOutputResponseBody: Swift.Equatable {
-    let sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse?
-}
-
-extension SendUsersMessagesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sendUsersMessageResponse = "SendUsersMessageResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sendUsersMessageResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SendUsersMessageResponse.self, forKey: .sendUsersMessageResponse)
-        sendUsersMessageResponse = sendUsersMessageResponseDecoded
     }
 }
 
@@ -28753,7 +28753,7 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<TagResourceInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<TagResourceOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<TagResourceOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -28780,7 +28780,7 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<TagResourceInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<TagResourceOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<TagResourceOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -28840,6 +28840,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -28848,16 +28858,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PinpointClientTypes.TagsModel: Swift.Codable {
@@ -29796,6 +29796,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -29806,16 +29816,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateAdmChannelInputBodyMiddleware"
 
@@ -29823,7 +29823,7 @@ public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateAdmChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateAdmChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateAdmChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -29850,7 +29850,7 @@ public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateAdmChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateAdmChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateAdmChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -29910,6 +29910,46 @@ extension UpdateAdmChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAdmChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.admChannelResponse = output
+        } else {
+            self.admChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateAdmChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
+    /// This member is required.
+    public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
+
+    public init(
+        admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
+    )
+    {
+        self.admChannelResponse = admChannelResponse
+    }
+}
+
+struct UpdateAdmChannelOutputBody: Swift.Equatable {
+    let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
+}
+
+extension UpdateAdmChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case admChannelResponse = "ADMChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let admChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ADMChannelResponse.self, forKey: .admChannelResponse)
+        admChannelResponse = admChannelResponseDecoded
+    }
+}
+
 enum UpdateAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -29927,46 +29967,6 @@ enum UpdateAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.admChannelResponse = output
-        } else {
-            self.admChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateAdmChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
-    /// This member is required.
-    public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
-
-    public init(
-        admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
-    )
-    {
-        self.admChannelResponse = admChannelResponse
-    }
-}
-
-struct UpdateAdmChannelOutputResponseBody: Swift.Equatable {
-    let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
-}
-
-extension UpdateAdmChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case admChannelResponse = "ADMChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let admChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ADMChannelResponse.self, forKey: .admChannelResponse)
-        admChannelResponse = admChannelResponseDecoded
-    }
-}
-
 public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsChannelInputBodyMiddleware"
 
@@ -29974,7 +29974,7 @@ public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateApnsChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30001,7 +30001,7 @@ public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -30061,6 +30061,46 @@ extension UpdateApnsChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateApnsChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsChannelResponse = output
+        } else {
+            self.apnsChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateApnsChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
+    /// This member is required.
+    public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
+
+    public init(
+        apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
+    )
+    {
+        self.apnsChannelResponse = apnsChannelResponse
+    }
+}
+
+struct UpdateApnsChannelOutputBody: Swift.Equatable {
+    let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
+}
+
+extension UpdateApnsChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsChannelResponse = "APNSChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSChannelResponse.self, forKey: .apnsChannelResponse)
+        apnsChannelResponse = apnsChannelResponseDecoded
+    }
+}
+
 enum UpdateApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -30078,46 +30118,6 @@ enum UpdateApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsChannelResponse = output
-        } else {
-            self.apnsChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateApnsChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
-    /// This member is required.
-    public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
-
-    public init(
-        apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
-    )
-    {
-        self.apnsChannelResponse = apnsChannelResponse
-    }
-}
-
-struct UpdateApnsChannelOutputResponseBody: Swift.Equatable {
-    let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
-}
-
-extension UpdateApnsChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsChannelResponse = "APNSChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSChannelResponse.self, forKey: .apnsChannelResponse)
-        apnsChannelResponse = apnsChannelResponseDecoded
-    }
-}
-
 public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsSandboxChannelInputBodyMiddleware"
 
@@ -30125,7 +30125,7 @@ public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middlew
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateApnsSandboxChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsSandboxChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsSandboxChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30152,7 +30152,7 @@ public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middlew
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsSandboxChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsSandboxChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsSandboxChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -30212,6 +30212,46 @@ extension UpdateApnsSandboxChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateApnsSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsSandboxChannelResponse = output
+        } else {
+            self.apnsSandboxChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateApnsSandboxChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
+    /// This member is required.
+    public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
+
+    public init(
+        apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
+    )
+    {
+        self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
+    }
+}
+
+struct UpdateApnsSandboxChannelOutputBody: Swift.Equatable {
+    let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
+}
+
+extension UpdateApnsSandboxChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSSandboxChannelResponse.self, forKey: .apnsSandboxChannelResponse)
+        apnsSandboxChannelResponse = apnsSandboxChannelResponseDecoded
+    }
+}
+
 enum UpdateApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -30229,46 +30269,6 @@ enum UpdateApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension UpdateApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsSandboxChannelResponse = output
-        } else {
-            self.apnsSandboxChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateApnsSandboxChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
-    /// This member is required.
-    public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
-
-    public init(
-        apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
-    )
-    {
-        self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
-    }
-}
-
-struct UpdateApnsSandboxChannelOutputResponseBody: Swift.Equatable {
-    let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
-}
-
-extension UpdateApnsSandboxChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSSandboxChannelResponse.self, forKey: .apnsSandboxChannelResponse)
-        apnsSandboxChannelResponse = apnsSandboxChannelResponseDecoded
-    }
-}
-
 public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsVoipChannelInputBodyMiddleware"
 
@@ -30276,7 +30276,7 @@ public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateApnsVoipChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsVoipChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsVoipChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30303,7 +30303,7 @@ public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsVoipChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsVoipChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsVoipChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -30363,6 +30363,46 @@ extension UpdateApnsVoipChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateApnsVoipChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipChannelResponse = output
+        } else {
+            self.apnsVoipChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateApnsVoipChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
+    /// This member is required.
+    public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
+
+    public init(
+        apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
+    )
+    {
+        self.apnsVoipChannelResponse = apnsVoipChannelResponse
+    }
+}
+
+struct UpdateApnsVoipChannelOutputBody: Swift.Equatable {
+    let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
+}
+
+extension UpdateApnsVoipChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsVoipChannelResponse = "APNSVoipChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsVoipChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipChannelResponse.self, forKey: .apnsVoipChannelResponse)
+        apnsVoipChannelResponse = apnsVoipChannelResponseDecoded
+    }
+}
+
 enum UpdateApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -30380,46 +30420,6 @@ enum UpdateApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsVoipChannelResponse = output
-        } else {
-            self.apnsVoipChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateApnsVoipChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
-    /// This member is required.
-    public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
-
-    public init(
-        apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
-    )
-    {
-        self.apnsVoipChannelResponse = apnsVoipChannelResponse
-    }
-}
-
-struct UpdateApnsVoipChannelOutputResponseBody: Swift.Equatable {
-    let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
-}
-
-extension UpdateApnsVoipChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsVoipChannelResponse = "APNSVoipChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsVoipChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipChannelResponse.self, forKey: .apnsVoipChannelResponse)
-        apnsVoipChannelResponse = apnsVoipChannelResponseDecoded
-    }
-}
-
 public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsVoipSandboxChannelInputBodyMiddleware"
 
@@ -30427,7 +30427,7 @@ public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Mid
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateApnsVoipSandboxChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsVoipSandboxChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApnsVoipSandboxChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30454,7 +30454,7 @@ public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Mid
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApnsVoipSandboxChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsVoipSandboxChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApnsVoipSandboxChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -30514,6 +30514,46 @@ extension UpdateApnsVoipSandboxChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateApnsVoipSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.apnsVoipSandboxChannelResponse = output
+        } else {
+            self.apnsVoipSandboxChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateApnsVoipSandboxChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
+    /// This member is required.
+    public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
+
+    public init(
+        apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
+    )
+    {
+        self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
+    }
+}
+
+struct UpdateApnsVoipSandboxChannelOutputBody: Swift.Equatable {
+    let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
+}
+
+extension UpdateApnsVoipSandboxChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let apnsVoipSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipSandboxChannelResponse.self, forKey: .apnsVoipSandboxChannelResponse)
+        apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponseDecoded
+    }
+}
+
 enum UpdateApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -30531,46 +30571,6 @@ enum UpdateApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension UpdateApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.apnsVoipSandboxChannelResponse = output
-        } else {
-            self.apnsVoipSandboxChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateApnsVoipSandboxChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
-    /// This member is required.
-    public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
-
-    public init(
-        apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
-    )
-    {
-        self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
-    }
-}
-
-struct UpdateApnsVoipSandboxChannelOutputResponseBody: Swift.Equatable {
-    let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
-}
-
-extension UpdateApnsVoipSandboxChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let apnsVoipSandboxChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.APNSVoipSandboxChannelResponse.self, forKey: .apnsVoipSandboxChannelResponse)
-        apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponseDecoded
-    }
-}
-
 public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApplicationSettingsInputBodyMiddleware"
 
@@ -30578,7 +30578,7 @@ public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middle
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateApplicationSettingsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApplicationSettingsOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateApplicationSettingsOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30605,7 +30605,7 @@ public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middle
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateApplicationSettingsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApplicationSettingsOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateApplicationSettingsOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -30665,6 +30665,46 @@ extension UpdateApplicationSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateApplicationSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
+            self.applicationSettingsResource = output
+        } else {
+            self.applicationSettingsResource = nil
+        }
+    }
+}
+
+public struct UpdateApplicationSettingsOutput: Swift.Equatable {
+    /// Provides information about an application, including the default settings for an application.
+    /// This member is required.
+    public var applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
+
+    public init(
+        applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource? = nil
+    )
+    {
+        self.applicationSettingsResource = applicationSettingsResource
+    }
+}
+
+struct UpdateApplicationSettingsOutputBody: Swift.Equatable {
+    let applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
+}
+
+extension UpdateApplicationSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationSettingsResource = "ApplicationSettingsResource"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationSettingsResourceDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationSettingsResource.self, forKey: .applicationSettingsResource)
+        applicationSettingsResource = applicationSettingsResourceDecoded
+    }
+}
+
 enum UpdateApplicationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -30679,46 +30719,6 @@ enum UpdateApplicationSettingsOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
-            self.applicationSettingsResource = output
-        } else {
-            self.applicationSettingsResource = nil
-        }
-    }
-}
-
-public struct UpdateApplicationSettingsOutputResponse: Swift.Equatable {
-    /// Provides information about an application, including the default settings for an application.
-    /// This member is required.
-    public var applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
-
-    public init(
-        applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource? = nil
-    )
-    {
-        self.applicationSettingsResource = applicationSettingsResource
-    }
-}
-
-struct UpdateApplicationSettingsOutputResponseBody: Swift.Equatable {
-    let applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
-}
-
-extension UpdateApplicationSettingsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case applicationSettingsResource = "ApplicationSettingsResource"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let applicationSettingsResourceDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.ApplicationSettingsResource.self, forKey: .applicationSettingsResource)
-        applicationSettingsResource = applicationSettingsResourceDecoded
     }
 }
 
@@ -30776,7 +30776,7 @@ public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateBaiduChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateBaiduChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateBaiduChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30803,7 +30803,7 @@ public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateBaiduChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateBaiduChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateBaiduChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -30863,6 +30863,46 @@ extension UpdateBaiduChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateBaiduChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.baiduChannelResponse = output
+        } else {
+            self.baiduChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateBaiduChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
+    /// This member is required.
+    public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
+
+    public init(
+        baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
+    )
+    {
+        self.baiduChannelResponse = baiduChannelResponse
+    }
+}
+
+struct UpdateBaiduChannelOutputBody: Swift.Equatable {
+    let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
+}
+
+extension UpdateBaiduChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baiduChannelResponse = "BaiduChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baiduChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.BaiduChannelResponse.self, forKey: .baiduChannelResponse)
+        baiduChannelResponse = baiduChannelResponseDecoded
+    }
+}
+
 enum UpdateBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -30880,46 +30920,6 @@ enum UpdateBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.baiduChannelResponse = output
-        } else {
-            self.baiduChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateBaiduChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
-    /// This member is required.
-    public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
-
-    public init(
-        baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
-    )
-    {
-        self.baiduChannelResponse = baiduChannelResponse
-    }
-}
-
-struct UpdateBaiduChannelOutputResponseBody: Swift.Equatable {
-    let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
-}
-
-extension UpdateBaiduChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case baiduChannelResponse = "BaiduChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let baiduChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.BaiduChannelResponse.self, forKey: .baiduChannelResponse)
-        baiduChannelResponse = baiduChannelResponseDecoded
-    }
-}
-
 public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateCampaignInputBodyMiddleware"
 
@@ -30927,7 +30927,7 @@ public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateCampaignInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCampaignOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateCampaignOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -30954,7 +30954,7 @@ public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateCampaignInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCampaignOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateCampaignOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31022,6 +31022,46 @@ extension UpdateCampaignInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateCampaignOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
+            self.campaignResponse = output
+        } else {
+            self.campaignResponse = nil
+        }
+    }
+}
+
+public struct UpdateCampaignOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a campaign.
+    /// This member is required.
+    public var campaignResponse: PinpointClientTypes.CampaignResponse?
+
+    public init(
+        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
+    )
+    {
+        self.campaignResponse = campaignResponse
+    }
+}
+
+struct UpdateCampaignOutputBody: Swift.Equatable {
+    let campaignResponse: PinpointClientTypes.CampaignResponse?
+}
+
+extension UpdateCampaignOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignResponse = "CampaignResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
+        campaignResponse = campaignResponseDecoded
+    }
+}
+
 enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -31039,46 +31079,6 @@ enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
-            self.campaignResponse = output
-        } else {
-            self.campaignResponse = nil
-        }
-    }
-}
-
-public struct UpdateCampaignOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a campaign.
-    /// This member is required.
-    public var campaignResponse: PinpointClientTypes.CampaignResponse?
-
-    public init(
-        campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
-        self.campaignResponse = campaignResponse
-    }
-}
-
-struct UpdateCampaignOutputResponseBody: Swift.Equatable {
-    let campaignResponse: PinpointClientTypes.CampaignResponse?
-}
-
-extension UpdateCampaignOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case campaignResponse = "CampaignResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let campaignResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.CampaignResponse.self, forKey: .campaignResponse)
-        campaignResponse = campaignResponseDecoded
-    }
-}
-
 public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEmailChannelInputBodyMiddleware"
 
@@ -31086,7 +31086,7 @@ public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateEmailChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEmailChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEmailChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -31113,7 +31113,7 @@ public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEmailChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEmailChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEmailChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31173,6 +31173,46 @@ extension UpdateEmailChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEmailChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.emailChannelResponse = output
+        } else {
+            self.emailChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateEmailChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the email channel for an application.
+    /// This member is required.
+    public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
+
+    public init(
+        emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
+    )
+    {
+        self.emailChannelResponse = emailChannelResponse
+    }
+}
+
+struct UpdateEmailChannelOutputBody: Swift.Equatable {
+    let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
+}
+
+extension UpdateEmailChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emailChannelResponse = "EmailChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emailChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailChannelResponse.self, forKey: .emailChannelResponse)
+        emailChannelResponse = emailChannelResponseDecoded
+    }
+}
+
 enum UpdateEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -31190,46 +31230,6 @@ enum UpdateEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.emailChannelResponse = output
-        } else {
-            self.emailChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateEmailChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the email channel for an application.
-    /// This member is required.
-    public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
-
-    public init(
-        emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
-    )
-    {
-        self.emailChannelResponse = emailChannelResponse
-    }
-}
-
-struct UpdateEmailChannelOutputResponseBody: Swift.Equatable {
-    let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
-}
-
-extension UpdateEmailChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case emailChannelResponse = "EmailChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emailChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.EmailChannelResponse.self, forKey: .emailChannelResponse)
-        emailChannelResponse = emailChannelResponseDecoded
-    }
-}
-
 public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEmailTemplateInputBodyMiddleware"
 
@@ -31237,7 +31237,7 @@ public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateEmailTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEmailTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEmailTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -31264,7 +31264,7 @@ public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEmailTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEmailTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEmailTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31355,6 +31355,46 @@ extension UpdateEmailTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateEmailTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateEmailTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateEmailTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -31372,46 +31412,6 @@ enum UpdateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateEmailTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateEmailTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateEmailTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEndpointInputBodyMiddleware"
 
@@ -31419,7 +31419,7 @@ public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateEndpointInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEndpointOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEndpointOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -31446,7 +31446,7 @@ public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEndpointInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEndpointOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEndpointOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31514,6 +31514,46 @@ extension UpdateEndpointInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEndpointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateEndpointOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateEndpointOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateEndpointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -31531,46 +31571,6 @@ enum UpdateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateEndpointOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateEndpointOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateEndpointOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEndpointsBatchInputBodyMiddleware"
 
@@ -31578,7 +31578,7 @@ public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware 
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateEndpointsBatchInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEndpointsBatchOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateEndpointsBatchOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -31605,7 +31605,7 @@ public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware 
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateEndpointsBatchInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEndpointsBatchOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateEndpointsBatchOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31665,6 +31665,46 @@ extension UpdateEndpointsBatchInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEndpointsBatchOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateEndpointsBatchOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateEndpointsBatchOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateEndpointsBatchOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateEndpointsBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -31682,46 +31722,6 @@ enum UpdateEndpointsBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateEndpointsBatchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateEndpointsBatchOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateEndpointsBatchOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateEndpointsBatchOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateGcmChannelInputBodyMiddleware"
 
@@ -31729,7 +31729,7 @@ public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateGcmChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateGcmChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateGcmChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -31756,7 +31756,7 @@ public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateGcmChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateGcmChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateGcmChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31816,6 +31816,46 @@ extension UpdateGcmChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateGcmChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.gcmChannelResponse = output
+        } else {
+            self.gcmChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateGcmChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
+    /// This member is required.
+    public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
+
+    public init(
+        gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
+    )
+    {
+        self.gcmChannelResponse = gcmChannelResponse
+    }
+}
+
+struct UpdateGcmChannelOutputBody: Swift.Equatable {
+    let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
+}
+
+extension UpdateGcmChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gcmChannelResponse = "GCMChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gcmChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.GCMChannelResponse.self, forKey: .gcmChannelResponse)
+        gcmChannelResponse = gcmChannelResponseDecoded
+    }
+}
+
 enum UpdateGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -31833,46 +31873,6 @@ enum UpdateGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.gcmChannelResponse = output
-        } else {
-            self.gcmChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateGcmChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
-    /// This member is required.
-    public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
-
-    public init(
-        gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
-    )
-    {
-        self.gcmChannelResponse = gcmChannelResponse
-    }
-}
-
-struct UpdateGcmChannelOutputResponseBody: Swift.Equatable {
-    let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
-}
-
-extension UpdateGcmChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gcmChannelResponse = "GCMChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gcmChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.GCMChannelResponse.self, forKey: .gcmChannelResponse)
-        gcmChannelResponse = gcmChannelResponseDecoded
-    }
-}
-
 public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateInAppTemplateInputBodyMiddleware"
 
@@ -31880,7 +31880,7 @@ public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateInAppTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateInAppTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateInAppTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -31907,7 +31907,7 @@ public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateInAppTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateInAppTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateInAppTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -31998,6 +31998,46 @@ extension UpdateInAppTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateInAppTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateInAppTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateInAppTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -32015,46 +32055,6 @@ enum UpdateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateInAppTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateInAppTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateInAppTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateJourneyInputBodyMiddleware"
 
@@ -32062,7 +32062,7 @@ public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateJourneyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateJourneyOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateJourneyOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -32089,7 +32089,7 @@ public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateJourneyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateJourneyOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateJourneyOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -32157,6 +32157,46 @@ extension UpdateJourneyInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateJourneyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
+        } else {
+            self.journeyResponse = nil
+        }
+    }
+}
+
+public struct UpdateJourneyOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a journey.
+    /// This member is required.
+    public var journeyResponse: PinpointClientTypes.JourneyResponse?
+
+    public init(
+        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
+    )
+    {
+        self.journeyResponse = journeyResponse
+    }
+}
+
+struct UpdateJourneyOutputBody: Swift.Equatable {
+    let journeyResponse: PinpointClientTypes.JourneyResponse?
+}
+
+extension UpdateJourneyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyResponse = "JourneyResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
+        journeyResponse = journeyResponseDecoded
+    }
+}
+
 enum UpdateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -32175,46 +32215,6 @@ enum UpdateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyResponse = output
-        } else {
-            self.journeyResponse = nil
-        }
-    }
-}
-
-public struct UpdateJourneyOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a journey.
-    /// This member is required.
-    public var journeyResponse: PinpointClientTypes.JourneyResponse?
-
-    public init(
-        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
-        self.journeyResponse = journeyResponse
-    }
-}
-
-struct UpdateJourneyOutputResponseBody: Swift.Equatable {
-    let journeyResponse: PinpointClientTypes.JourneyResponse?
-}
-
-extension UpdateJourneyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyResponse = "JourneyResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
-        journeyResponse = journeyResponseDecoded
-    }
-}
-
 public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateJourneyStateInputBodyMiddleware"
 
@@ -32222,7 +32222,7 @@ public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateJourneyStateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateJourneyStateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateJourneyStateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -32249,7 +32249,7 @@ public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateJourneyStateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateJourneyStateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateJourneyStateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -32317,6 +32317,46 @@ extension UpdateJourneyStateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateJourneyStateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
+            self.journeyResponse = output
+        } else {
+            self.journeyResponse = nil
+        }
+    }
+}
+
+public struct UpdateJourneyStateOutput: Swift.Equatable {
+    /// Provides information about the status, configuration, and other settings for a journey.
+    /// This member is required.
+    public var journeyResponse: PinpointClientTypes.JourneyResponse?
+
+    public init(
+        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
+    )
+    {
+        self.journeyResponse = journeyResponse
+    }
+}
+
+struct UpdateJourneyStateOutputBody: Swift.Equatable {
+    let journeyResponse: PinpointClientTypes.JourneyResponse?
+}
+
+extension UpdateJourneyStateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case journeyResponse = "JourneyResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
+        journeyResponse = journeyResponseDecoded
+    }
+}
+
 enum UpdateJourneyStateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -32334,46 +32374,6 @@ enum UpdateJourneyStateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateJourneyStateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
-            self.journeyResponse = output
-        } else {
-            self.journeyResponse = nil
-        }
-    }
-}
-
-public struct UpdateJourneyStateOutputResponse: Swift.Equatable {
-    /// Provides information about the status, configuration, and other settings for a journey.
-    /// This member is required.
-    public var journeyResponse: PinpointClientTypes.JourneyResponse?
-
-    public init(
-        journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
-        self.journeyResponse = journeyResponse
-    }
-}
-
-struct UpdateJourneyStateOutputResponseBody: Swift.Equatable {
-    let journeyResponse: PinpointClientTypes.JourneyResponse?
-}
-
-extension UpdateJourneyStateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case journeyResponse = "JourneyResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let journeyResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.JourneyResponse.self, forKey: .journeyResponse)
-        journeyResponse = journeyResponseDecoded
-    }
-}
-
 public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdatePushTemplateInputBodyMiddleware"
 
@@ -32381,7 +32381,7 @@ public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdatePushTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdatePushTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdatePushTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -32408,7 +32408,7 @@ public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdatePushTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdatePushTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdatePushTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -32499,6 +32499,46 @@ extension UpdatePushTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePushTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdatePushTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdatePushTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdatePushTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -32516,46 +32556,6 @@ enum UpdatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdatePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdatePushTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdatePushTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdatePushTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateRecommenderConfigurationInputBodyMiddleware"
 
@@ -32563,7 +32563,7 @@ public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateRecommenderConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateRecommenderConfigurationOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateRecommenderConfigurationOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -32590,7 +32590,7 @@ public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateRecommenderConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateRecommenderConfigurationOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateRecommenderConfigurationOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -32650,6 +32650,46 @@ extension UpdateRecommenderConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRecommenderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
+            self.recommenderConfigurationResponse = output
+        } else {
+            self.recommenderConfigurationResponse = nil
+        }
+    }
+}
+
+public struct UpdateRecommenderConfigurationOutput: Swift.Equatable {
+    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
+    /// This member is required.
+    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+
+    public init(
+        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
+    )
+    {
+        self.recommenderConfigurationResponse = recommenderConfigurationResponse
+    }
+}
+
+struct UpdateRecommenderConfigurationOutputBody: Swift.Equatable {
+    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
+}
+
+extension UpdateRecommenderConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
+        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
+    }
+}
+
 enum UpdateRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -32664,46 +32704,6 @@ enum UpdateRecommenderConfigurationOutputError: ClientRuntime.HttpResponseErrorB
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
-            self.recommenderConfigurationResponse = output
-        } else {
-            self.recommenderConfigurationResponse = nil
-        }
-    }
-}
-
-public struct UpdateRecommenderConfigurationOutputResponse: Swift.Equatable {
-    /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
-    /// This member is required.
-    public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-
-    public init(
-        recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
-        self.recommenderConfigurationResponse = recommenderConfigurationResponse
-    }
-}
-
-struct UpdateRecommenderConfigurationOutputResponseBody: Swift.Equatable {
-    let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
-}
-
-extension UpdateRecommenderConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recommenderConfigurationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.RecommenderConfigurationResponse.self, forKey: .recommenderConfigurationResponse)
-        recommenderConfigurationResponse = recommenderConfigurationResponseDecoded
     }
 }
 
@@ -32854,7 +32854,7 @@ public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateSegmentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSegmentOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSegmentOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -32881,7 +32881,7 @@ public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateSegmentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSegmentOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSegmentOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -32949,6 +32949,46 @@ extension UpdateSegmentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSegmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
+            self.segmentResponse = output
+        } else {
+            self.segmentResponse = nil
+        }
+    }
+}
+
+public struct UpdateSegmentOutput: Swift.Equatable {
+    /// Provides information about the configuration, dimension, and other settings for a segment.
+    /// This member is required.
+    public var segmentResponse: PinpointClientTypes.SegmentResponse?
+
+    public init(
+        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
+    )
+    {
+        self.segmentResponse = segmentResponse
+    }
+}
+
+struct UpdateSegmentOutputBody: Swift.Equatable {
+    let segmentResponse: PinpointClientTypes.SegmentResponse?
+}
+
+extension UpdateSegmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case segmentResponse = "SegmentResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
+        segmentResponse = segmentResponseDecoded
+    }
+}
+
 enum UpdateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -32966,46 +33006,6 @@ enum UpdateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
-            self.segmentResponse = output
-        } else {
-            self.segmentResponse = nil
-        }
-    }
-}
-
-public struct UpdateSegmentOutputResponse: Swift.Equatable {
-    /// Provides information about the configuration, dimension, and other settings for a segment.
-    /// This member is required.
-    public var segmentResponse: PinpointClientTypes.SegmentResponse?
-
-    public init(
-        segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
-        self.segmentResponse = segmentResponse
-    }
-}
-
-struct UpdateSegmentOutputResponseBody: Swift.Equatable {
-    let segmentResponse: PinpointClientTypes.SegmentResponse?
-}
-
-extension UpdateSegmentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case segmentResponse = "SegmentResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let segmentResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SegmentResponse.self, forKey: .segmentResponse)
-        segmentResponse = segmentResponseDecoded
-    }
-}
-
 public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateSmsChannelInputBodyMiddleware"
 
@@ -33013,7 +33013,7 @@ public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateSmsChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSmsChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSmsChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33040,7 +33040,7 @@ public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateSmsChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSmsChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSmsChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33100,6 +33100,46 @@ extension UpdateSmsChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSmsChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.smsChannelResponse = output
+        } else {
+            self.smsChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateSmsChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the SMS channel for an application.
+    /// This member is required.
+    public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
+
+    public init(
+        smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
+    )
+    {
+        self.smsChannelResponse = smsChannelResponse
+    }
+}
+
+struct UpdateSmsChannelOutputBody: Swift.Equatable {
+    let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
+}
+
+extension UpdateSmsChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case smsChannelResponse = "SMSChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let smsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSChannelResponse.self, forKey: .smsChannelResponse)
+        smsChannelResponse = smsChannelResponseDecoded
+    }
+}
+
 enum UpdateSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -33117,46 +33157,6 @@ enum UpdateSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.smsChannelResponse = output
-        } else {
-            self.smsChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateSmsChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the SMS channel for an application.
-    /// This member is required.
-    public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
-
-    public init(
-        smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
-    )
-    {
-        self.smsChannelResponse = smsChannelResponse
-    }
-}
-
-struct UpdateSmsChannelOutputResponseBody: Swift.Equatable {
-    let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
-}
-
-extension UpdateSmsChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case smsChannelResponse = "SMSChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let smsChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.SMSChannelResponse.self, forKey: .smsChannelResponse)
-        smsChannelResponse = smsChannelResponseDecoded
-    }
-}
-
 public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateSmsTemplateInputBodyMiddleware"
 
@@ -33164,7 +33164,7 @@ public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateSmsTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSmsTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateSmsTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33191,7 +33191,7 @@ public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateSmsTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSmsTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateSmsTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33282,6 +33282,46 @@ extension UpdateSmsTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateSmsTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateSmsTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateSmsTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -33299,46 +33339,6 @@ enum UpdateSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateSmsTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateSmsTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateSmsTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateTemplateActiveVersionInputBodyMiddleware"
 
@@ -33346,7 +33346,7 @@ public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Midd
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateTemplateActiveVersionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateTemplateActiveVersionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateTemplateActiveVersionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33373,7 +33373,7 @@ public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Midd
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateTemplateActiveVersionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateTemplateActiveVersionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateTemplateActiveVersionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33441,6 +33441,46 @@ extension UpdateTemplateActiveVersionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateTemplateActiveVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateTemplateActiveVersionOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateTemplateActiveVersionOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateTemplateActiveVersionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateTemplateActiveVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -33458,46 +33498,6 @@ enum UpdateTemplateActiveVersionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension UpdateTemplateActiveVersionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateTemplateActiveVersionOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateTemplateActiveVersionOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateTemplateActiveVersionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
-    }
-}
-
 public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateVoiceChannelInputBodyMiddleware"
 
@@ -33505,7 +33505,7 @@ public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateVoiceChannelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateVoiceChannelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateVoiceChannelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33532,7 +33532,7 @@ public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateVoiceChannelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateVoiceChannelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateVoiceChannelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33592,6 +33592,46 @@ extension UpdateVoiceChannelInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVoiceChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
+            self.voiceChannelResponse = output
+        } else {
+            self.voiceChannelResponse = nil
+        }
+    }
+}
+
+public struct UpdateVoiceChannelOutput: Swift.Equatable {
+    /// Provides information about the status and settings of the voice channel for an application.
+    /// This member is required.
+    public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
+
+    public init(
+        voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
+    )
+    {
+        self.voiceChannelResponse = voiceChannelResponse
+    }
+}
+
+struct UpdateVoiceChannelOutputBody: Swift.Equatable {
+    let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
+}
+
+extension UpdateVoiceChannelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceChannelResponse = "VoiceChannelResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceChannelResponse.self, forKey: .voiceChannelResponse)
+        voiceChannelResponse = voiceChannelResponseDecoded
+    }
+}
+
 enum UpdateVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -33609,46 +33649,6 @@ enum UpdateVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
-            self.voiceChannelResponse = output
-        } else {
-            self.voiceChannelResponse = nil
-        }
-    }
-}
-
-public struct UpdateVoiceChannelOutputResponse: Swift.Equatable {
-    /// Provides information about the status and settings of the voice channel for an application.
-    /// This member is required.
-    public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
-
-    public init(
-        voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
-    )
-    {
-        self.voiceChannelResponse = voiceChannelResponse
-    }
-}
-
-struct UpdateVoiceChannelOutputResponseBody: Swift.Equatable {
-    let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
-}
-
-extension UpdateVoiceChannelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceChannelResponse = "VoiceChannelResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceChannelResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VoiceChannelResponse.self, forKey: .voiceChannelResponse)
-        voiceChannelResponse = voiceChannelResponseDecoded
-    }
-}
-
 public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateVoiceTemplateInputBodyMiddleware"
 
@@ -33656,7 +33656,7 @@ public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UpdateVoiceTemplateInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateVoiceTemplateOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateVoiceTemplateOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33683,7 +33683,7 @@ public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UpdateVoiceTemplateInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateVoiceTemplateOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UpdateVoiceTemplateOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33774,6 +33774,46 @@ extension UpdateVoiceTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
+            self.messageBody = output
+        } else {
+            self.messageBody = nil
+        }
+    }
+}
+
+public struct UpdateVoiceTemplateOutput: Swift.Equatable {
+    /// Provides information about an API request or response.
+    /// This member is required.
+    public var messageBody: PinpointClientTypes.MessageBody?
+
+    public init(
+        messageBody: PinpointClientTypes.MessageBody? = nil
+    )
+    {
+        self.messageBody = messageBody
+    }
+}
+
+struct UpdateVoiceTemplateOutputBody: Swift.Equatable {
+    let messageBody: PinpointClientTypes.MessageBody?
+}
+
+extension UpdateVoiceTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageBody = "MessageBody"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
+        messageBody = messageBodyDecoded
+    }
+}
+
 enum UpdateVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -33788,46 +33828,6 @@ enum UpdateVoiceTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
-            self.messageBody = output
-        } else {
-            self.messageBody = nil
-        }
-    }
-}
-
-public struct UpdateVoiceTemplateOutputResponse: Swift.Equatable {
-    /// Provides information about an API request or response.
-    /// This member is required.
-    public var messageBody: PinpointClientTypes.MessageBody?
-
-    public init(
-        messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
-        self.messageBody = messageBody
-    }
-}
-
-struct UpdateVoiceTemplateOutputResponseBody: Swift.Equatable {
-    let messageBody: PinpointClientTypes.MessageBody?
-}
-
-extension UpdateVoiceTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messageBody = "MessageBody"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageBodyDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.MessageBody.self, forKey: .messageBody)
-        messageBody = messageBodyDecoded
     }
 }
 
@@ -33873,7 +33873,7 @@ public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<VerifyOTPMessageInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<VerifyOTPMessageOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<VerifyOTPMessageOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -33900,7 +33900,7 @@ public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<VerifyOTPMessageInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<VerifyOTPMessageOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<VerifyOTPMessageOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -33960,6 +33960,46 @@ extension VerifyOTPMessageInputBody: Swift.Decodable {
     }
 }
 
+extension VerifyOTPMessageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: PinpointClientTypes.VerificationResponse = try responseDecoder.decode(responseBody: data)
+            self.verificationResponse = output
+        } else {
+            self.verificationResponse = nil
+        }
+    }
+}
+
+public struct VerifyOTPMessageOutput: Swift.Equatable {
+    /// Verify OTP Message Response.
+    /// This member is required.
+    public var verificationResponse: PinpointClientTypes.VerificationResponse?
+
+    public init(
+        verificationResponse: PinpointClientTypes.VerificationResponse? = nil
+    )
+    {
+        self.verificationResponse = verificationResponse
+    }
+}
+
+struct VerifyOTPMessageOutputBody: Swift.Equatable {
+    let verificationResponse: PinpointClientTypes.VerificationResponse?
+}
+
+extension VerifyOTPMessageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case verificationResponse = "VerificationResponse"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verificationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VerificationResponse.self, forKey: .verificationResponse)
+        verificationResponse = verificationResponseDecoded
+    }
+}
+
 enum VerifyOTPMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -33974,46 +34014,6 @@ enum VerifyOTPMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension VerifyOTPMessageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: PinpointClientTypes.VerificationResponse = try responseDecoder.decode(responseBody: data)
-            self.verificationResponse = output
-        } else {
-            self.verificationResponse = nil
-        }
-    }
-}
-
-public struct VerifyOTPMessageOutputResponse: Swift.Equatable {
-    /// Verify OTP Message Response.
-    /// This member is required.
-    public var verificationResponse: PinpointClientTypes.VerificationResponse?
-
-    public init(
-        verificationResponse: PinpointClientTypes.VerificationResponse? = nil
-    )
-    {
-        self.verificationResponse = verificationResponse
-    }
-}
-
-struct VerifyOTPMessageOutputResponseBody: Swift.Equatable {
-    let verificationResponse: PinpointClientTypes.VerificationResponse?
-}
-
-extension VerifyOTPMessageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case verificationResponse = "VerificationResponse"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let verificationResponseDecoded = try containerValues.decodeIfPresent(PinpointClientTypes.VerificationResponse.self, forKey: .verificationResponse)
-        verificationResponse = verificationResponseDecoded
     }
 }
 

@@ -8,7 +8,7 @@ public protocol TransferClientProtocol {
     ///
     /// - Parameter CreateAccessInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutputResponse
+    func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutput
     /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.
     ///
     /// - Parameter CreateAgreementInput : [no documentation found]
     ///
-    /// - Returns: `CreateAgreementOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAgreementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func createAgreement(input: CreateAgreementInput) async throws -> CreateAgreementOutputResponse
+    func createAgreement(input: CreateAgreementInput) async throws -> CreateAgreementOutput
     /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see [Create AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/create-b2b-server.html#configure-as2-connector) and [Create SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-sftp-connector.html). You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     ///
     /// - Parameter CreateConnectorInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutputResponse
+    func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
     /// Creates the local or partner profile to use for AS2 transfers.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
+    func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
     /// Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated ServerId property that is assigned to the newly created server.
     ///
     /// - Parameter CreateServerInput : [no documentation found]
     ///
-    /// - Returns: `CreateServerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func createServer(input: CreateServerInput) async throws -> CreateServerOutputResponse
+    func createServer(input: CreateServerInput) async throws -> CreateServerOutput
     /// Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED. Using parameters for CreateUser, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     /// Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the workflow-details field in CreateServer and UpdateServer operations.
     ///
     /// - Parameter CreateWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
+    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
     /// Allows you to delete the access specified in the ServerID and ExternalID parameters.
     ///
     /// - Parameter DeleteAccessInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,12 +127,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteAccess(input: DeleteAccessInput) async throws -> DeleteAccessOutputResponse
+    func deleteAccess(input: DeleteAccessInput) async throws -> DeleteAccessOutput
     /// Delete the agreement that's specified in the provided AgreementId.
     ///
     /// - Parameter DeleteAgreementInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAgreementOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAgreementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteAgreement(input: DeleteAgreementInput) async throws -> DeleteAgreementOutputResponse
+    func deleteAgreement(input: DeleteAgreementInput) async throws -> DeleteAgreementOutput
     /// Deletes the certificate that's specified in the CertificateId parameter.
     ///
     /// - Parameter DeleteCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutputResponse
+    func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
     /// Deletes the connector that's specified in the provided ConnectorId.
     ///
     /// - Parameter DeleteConnectorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -169,12 +169,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutputResponse
+    func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
     /// Deletes the host key that's specified in the HostKeyId parameter.
     ///
     /// - Parameter DeleteHostKeyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHostKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHostKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func deleteHostKey(input: DeleteHostKeyInput) async throws -> DeleteHostKeyOutputResponse
+    func deleteHostKey(input: DeleteHostKeyInput) async throws -> DeleteHostKeyOutput
     /// Deletes the profile that's specified in the ProfileId parameter.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
+    func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
     /// Deletes the file transfer protocol-enabled server that you specify. No response returns from this operation.
     ///
     /// - Parameter DeleteServerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -213,12 +213,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutputResponse
+    func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutput
     /// Deletes a user's Secure Shell (SSH) public key.
     ///
     /// - Parameter DeleteSshPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSshPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSshPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -228,12 +228,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func deleteSshPublicKey(input: DeleteSshPublicKeyInput) async throws -> DeleteSshPublicKeyOutputResponse
+    func deleteSshPublicKey(input: DeleteSshPublicKeyInput) async throws -> DeleteSshPublicKeyOutput
     /// Deletes the user belonging to a file transfer protocol-enabled server you specify. No response returns from this operation. When you delete a user from a server, the user's information is lost.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -242,12 +242,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Deletes the specified workflow.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -257,12 +257,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
+    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
     /// Describes the access that is assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property and its ExternalId. The response from this call returns the properties of the access that is associated with the ServerId value that was specified.
     ///
     /// - Parameter DescribeAccessInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -271,12 +271,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeAccess(input: DescribeAccessInput) async throws -> DescribeAccessOutputResponse
+    func describeAccess(input: DescribeAccessInput) async throws -> DescribeAccessOutput
     /// Describes the agreement that's identified by the AgreementId.
     ///
     /// - Parameter DescribeAgreementInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAgreementOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAgreementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -285,12 +285,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutputResponse
+    func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput
     /// Describes the certificate that's identified by the CertificateId.
     ///
     /// - Parameter DescribeCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -299,12 +299,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutputResponse
+    func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
     /// Describes the connector that's identified by the ConnectorId.
     ///
     /// - Parameter DescribeConnectorInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutputResponse
+    func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput
     /// You can use DescribeExecution to check the details of the execution of the specified workflow. This API call only returns details for in-progress workflows. If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a ResourceNotFound exception.
     ///
     /// - Parameter DescribeExecutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,12 +327,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutputResponse
+    func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput
     /// Returns the details of the host key that's specified by the HostKeyId and ServerId.
     ///
     /// - Parameter DescribeHostKeyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHostKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHostKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -341,12 +341,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeHostKey(input: DescribeHostKeyInput) async throws -> DescribeHostKeyOutputResponse
+    func describeHostKey(input: DescribeHostKeyInput) async throws -> DescribeHostKeyOutput
     /// Returns the details of the profile that's specified by the ProfileId.
     ///
     /// - Parameter DescribeProfileInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeProfile(input: DescribeProfileInput) async throws -> DescribeProfileOutputResponse
+    func describeProfile(input: DescribeProfileInput) async throws -> DescribeProfileOutput
     /// Describes the security policy that is attached to your file transfer protocol-enabled server. The response contains a description of the security policy's properties. For more information about security policies, see [Working with security policies](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html).
     ///
     /// - Parameter DescribeSecurityPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSecurityPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSecurityPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -369,12 +369,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeSecurityPolicy(input: DescribeSecurityPolicyInput) async throws -> DescribeSecurityPolicyOutputResponse
+    func describeSecurityPolicy(input: DescribeSecurityPolicyInput) async throws -> DescribeSecurityPolicyOutput
     /// Describes a file transfer protocol-enabled server that you specify by passing the ServerId parameter. The response contains a description of a server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
     ///
     /// - Parameter DescribeServerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -383,12 +383,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeServer(input: DescribeServerInput) async throws -> DescribeServerOutputResponse
+    func describeServer(input: DescribeServerInput) async throws -> DescribeServerOutput
     /// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -397,12 +397,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
+    func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
     /// Describes the specified workflow.
     ///
     /// - Parameter DescribeWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `DescribeWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,12 +411,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func describeWorkflow(input: DescribeWorkflowInput) async throws -> DescribeWorkflowOutputResponse
+    func describeWorkflow(input: DescribeWorkflowInput) async throws -> DescribeWorkflowOutput
     /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles.
     ///
     /// - Parameter ImportCertificateInput : [no documentation found]
     ///
-    /// - Returns: `ImportCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `ImportCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,12 +425,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutputResponse
+    func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput
     /// Adds a host key to the server that's specified by the ServerId parameter.
     ///
     /// - Parameter ImportHostKeyInput : [no documentation found]
     ///
-    /// - Returns: `ImportHostKeyOutputResponse` : [no documentation found]
+    /// - Returns: `ImportHostKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,12 +441,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func importHostKey(input: ImportHostKeyInput) async throws -> ImportHostKeyOutputResponse
+    func importHostKey(input: ImportHostKeyInput) async throws -> ImportHostKeyOutput
     /// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
     ///
     /// - Parameter ImportSshPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `ImportSshPublicKeyOutputResponse` : Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with.
+    /// - Returns: `ImportSshPublicKeyOutput` : Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,12 +457,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func importSshPublicKey(input: ImportSshPublicKeyInput) async throws -> ImportSshPublicKeyOutputResponse
+    func importSshPublicKey(input: ImportSshPublicKeyInput) async throws -> ImportSshPublicKeyOutput
     /// Lists the details for all the accesses you have on your server.
     ///
     /// - Parameter ListAccessesInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccessesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,12 +472,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listAccesses(input: ListAccessesInput) async throws -> ListAccessesOutputResponse
+    func listAccesses(input: ListAccessesInput) async throws -> ListAccessesOutput
     /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
     ///
     /// - Parameter ListAgreementsInput : [no documentation found]
     ///
-    /// - Returns: `ListAgreementsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAgreementsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,12 +487,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listAgreements(input: ListAgreementsInput) async throws -> ListAgreementsOutputResponse
+    func listAgreements(input: ListAgreementsInput) async throws -> ListAgreementsOutput
     /// Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
     ///
     /// - Parameter ListCertificatesInput : [no documentation found]
     ///
-    /// - Returns: `ListCertificatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCertificatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,12 +502,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutputResponse
+    func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
     /// Lists the connectors for the specified Region.
     ///
     /// - Parameter ListConnectorsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,12 +517,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutputResponse
+    func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
     /// Lists all in-progress executions for the specified workflow. If the specified workflow ID cannot be found, ListExecutions returns a ResourceNotFound exception.
     ///
     /// - Parameter ListExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,12 +532,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutputResponse
+    func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput
     /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     ///
     /// - Parameter ListHostKeysInput : [no documentation found]
     ///
-    /// - Returns: `ListHostKeysOutputResponse` : [no documentation found]
+    /// - Returns: `ListHostKeysOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,12 +547,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listHostKeys(input: ListHostKeysInput) async throws -> ListHostKeysOutputResponse
+    func listHostKeys(input: ListHostKeysInput) async throws -> ListHostKeysOutput
     /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
     ///
     /// - Parameter ListProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,12 +562,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutputResponse
+    func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput
     /// Lists the security policies that are attached to your file transfer protocol-enabled servers.
     ///
     /// - Parameter ListSecurityPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListSecurityPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSecurityPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -576,12 +576,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutputResponse
+    func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutput
     /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     ///
     /// - Parameter ListServersInput : [no documentation found]
     ///
-    /// - Returns: `ListServersOutputResponse` : [no documentation found]
+    /// - Returns: `ListServersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,12 +590,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listServers(input: ListServersInput) async throws -> ListServersOutputResponse
+    func listServers(input: ListServersInput) async throws -> ListServersOutput
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,12 +604,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
     ///
-    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    /// - Returns: `ListUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,12 +619,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
     /// Lists all workflows associated with your Amazon Web Services account for your current region.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,12 +633,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
+    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
     /// Sends a callback for asynchronous custom steps. The ExecutionId, WorkflowId, and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
     ///
     /// - Parameter SendWorkflowStepStateInput : [no documentation found]
     ///
-    /// - Returns: `SendWorkflowStepStateOutputResponse` : [no documentation found]
+    /// - Returns: `SendWorkflowStepStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -649,7 +649,7 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func sendWorkflowStepState(input: SendWorkflowStepStateInput) async throws -> SendWorkflowStepStateOutputResponse
+    func sendWorkflowStepState(input: SendWorkflowStepStateInput) async throws -> SendWorkflowStepStateOutput
     /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server.
     ///
     /// * For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths to identify the files you want to transfer.
@@ -662,7 +662,7 @@ public protocol TransferClientProtocol {
     ///
     /// - Parameter StartFileTransferInput : [no documentation found]
     ///
-    /// - Returns: `StartFileTransferOutputResponse` : [no documentation found]
+    /// - Returns: `StartFileTransferOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,12 +672,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func startFileTransfer(input: StartFileTransferInput) async throws -> StartFileTransferOutputResponse
+    func startFileTransfer(input: StartFileTransferInput) async throws -> StartFileTransferOutput
     /// Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE. It has no impact on a server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition. No response is returned from this call.
     ///
     /// - Parameter StartServerInput : [no documentation found]
     ///
-    /// - Returns: `StartServerOutputResponse` : [no documentation found]
+    /// - Returns: `StartServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,12 +687,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func startServer(input: StartServerInput) async throws -> StartServerOutputResponse
+    func startServer(input: StartServerInput) async throws -> StartServerOutput
     /// Changes the state of a file transfer protocol-enabled server from ONLINE to OFFLINE. An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server, such as server and user properties, are not affected by stopping your server. Stopping the server does not reduce or impact your file transfer protocol endpoint billing; you must delete the server to stop being billed. The state of STOPPING indicates that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of STOP_FAILED can indicate an error condition. No response is returned from this call.
     ///
     /// - Parameter StopServerInput : [no documentation found]
     ///
-    /// - Returns: `StopServerOutputResponse` : [no documentation found]
+    /// - Returns: `StopServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,12 +702,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func stopServer(input: StopServerInput) async throws -> StopServerOutputResponse
+    func stopServer(input: StopServerInput) async throws -> StopServerOutput
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,12 +716,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
     ///
     /// - Parameter TestConnectionInput : [no documentation found]
     ///
-    /// - Returns: `TestConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `TestConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,7 +730,7 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutputResponse
+    func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput
     /// If the IdentityProviderType of a file transfer protocol-enabled server is AWS_DIRECTORY_SERVICE or API_Gateway, tests whether your identity provider is set up successfully. We highly recommend that you call this operation to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the identity provider integration to ensure that your users can successfully use the service. The ServerId and UserName parameters are required. The ServerProtocol, SourceIp, and UserPassword are all optional. Note the following:
     ///
     /// * You cannot use TestIdentityProvider if the IdentityProviderType of your server is SERVICE_MANAGED.
@@ -747,7 +747,7 @@ public protocol TransferClientProtocol {
     ///
     /// - Parameter TestIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `TestIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `TestIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,12 +756,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func testIdentityProvider(input: TestIdentityProviderInput) async throws -> TestIdentityProviderOutputResponse
+    func testIdentityProvider(input: TestIdentityProviderInput) async throws -> TestIdentityProviderOutput
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,12 +770,12 @@ public protocol TransferClientProtocol {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Allows you to update parameters for the access specified in the ServerID and ExternalID parameters.
     ///
     /// - Parameter UpdateAccessInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccessOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,12 +786,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateAccess(input: UpdateAccessInput) async throws -> UpdateAccessOutputResponse
+    func updateAccess(input: UpdateAccessInput) async throws -> UpdateAccessOutput
     /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update.
     ///
     /// - Parameter UpdateAgreementInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAgreementOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAgreementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,12 +802,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateAgreement(input: UpdateAgreementInput) async throws -> UpdateAgreementOutputResponse
+    func updateAgreement(input: UpdateAgreementInput) async throws -> UpdateAgreementOutput
     /// Updates the active and inactive dates for a certificate.
     ///
     /// - Parameter UpdateCertificateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,12 +817,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutputResponse
+    func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput
     /// Updates some of the parameters for an existing connector. Provide the ConnectorId for the connector that you want to update, along with the new values for the parameters to update.
     ///
     /// - Parameter UpdateConnectorInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -833,12 +833,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutputResponse
+    func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput
     /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
     ///
     /// - Parameter UpdateHostKeyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateHostKeyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateHostKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,12 +848,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateHostKey(input: UpdateHostKeyInput) async throws -> UpdateHostKeyOutputResponse
+    func updateHostKey(input: UpdateHostKeyInput) async throws -> UpdateHostKeyOutput
     /// Updates some of the parameters for an existing profile. Provide the ProfileId for the profile that you want to update, along with the new values for the parameters to update.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,12 +863,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
+    func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
     /// Updates the file transfer protocol-enabled server's properties after that server has been created. The UpdateServer call returns the ServerId of the server you updated.
     ///
     /// - Parameter UpdateServerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,12 +881,12 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutputResponse
+    func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutput
     /// Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserOutputResponse` : UpdateUserResponse returns the user name and identifier for the request to update a user's properties.
+    /// - Returns: `UpdateUserOutput` : UpdateUserResponse returns the user name and identifier for the request to update a user's properties.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -896,7 +896,7 @@ public protocol TransferClientProtocol {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
+    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
 }
 
 public enum TransferClientTypes {}

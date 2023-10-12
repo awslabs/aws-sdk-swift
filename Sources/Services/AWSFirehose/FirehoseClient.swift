@@ -80,7 +80,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter CreateDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,7 +89,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
-    public func createDeliveryStream(input: CreateDeliveryStreamInput) async throws -> CreateDeliveryStreamOutputResponse
+    public func createDeliveryStream(input: CreateDeliveryStreamInput) async throws -> CreateDeliveryStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -105,21 +105,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(id: "createDeliveryStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDeliveryStreamInput, CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>(id: "createDeliveryStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse>(xAmzTarget: "Firehose_20150804.CreateDeliveryStream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse>(xmlName: "CreateDeliveryStreamInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput>(xAmzTarget: "Firehose_20150804.CreateDeliveryStream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput>(xmlName: "CreateDeliveryStreamInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeliveryStreamOutput, CreateDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -128,14 +128,14 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter DeleteDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func deleteDeliveryStream(input: DeleteDeliveryStreamInput) async throws -> DeleteDeliveryStreamOutputResponse
+    public func deleteDeliveryStream(input: DeleteDeliveryStreamInput) async throws -> DeleteDeliveryStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -151,21 +151,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(id: "deleteDeliveryStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>(id: "deleteDeliveryStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse>(xAmzTarget: "Firehose_20150804.DeleteDeliveryStream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse>(xmlName: "DeleteDeliveryStreamInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput>(xAmzTarget: "Firehose_20150804.DeleteDeliveryStream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput>(xmlName: "DeleteDeliveryStreamInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeliveryStreamOutput, DeleteDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -174,13 +174,13 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter DescribeDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func describeDeliveryStream(input: DescribeDeliveryStreamInput) async throws -> DescribeDeliveryStreamOutputResponse
+    public func describeDeliveryStream(input: DescribeDeliveryStreamInput) async throws -> DescribeDeliveryStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -196,21 +196,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(id: "describeDeliveryStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>(id: "describeDeliveryStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse>(xAmzTarget: "Firehose_20150804.DescribeDeliveryStream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse>(xmlName: "DescribeDeliveryStreamInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput>(xAmzTarget: "Firehose_20150804.DescribeDeliveryStream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput>(xmlName: "DescribeDeliveryStreamInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryStreamOutput, DescribeDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -219,8 +219,8 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter ListDeliveryStreamsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeliveryStreamsOutputResponse` : [no documentation found]
-    public func listDeliveryStreams(input: ListDeliveryStreamsInput) async throws -> ListDeliveryStreamsOutputResponse
+    /// - Returns: `ListDeliveryStreamsOutput` : [no documentation found]
+    public func listDeliveryStreams(input: ListDeliveryStreamsInput) async throws -> ListDeliveryStreamsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -236,21 +236,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(id: "listDeliveryStreams")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDeliveryStreamsInput, ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>(id: "listDeliveryStreams")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse>(xAmzTarget: "Firehose_20150804.ListDeliveryStreams"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse>(xmlName: "ListDeliveryStreamsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput>(xAmzTarget: "Firehose_20150804.ListDeliveryStreams"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput>(xmlName: "ListDeliveryStreamsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeliveryStreamsOutput, ListDeliveryStreamsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -259,7 +259,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter ListTagsForDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,7 +267,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter has a value that is not valid.
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func listTagsForDeliveryStream(input: ListTagsForDeliveryStreamInput) async throws -> ListTagsForDeliveryStreamOutputResponse
+    public func listTagsForDeliveryStream(input: ListTagsForDeliveryStreamInput) async throws -> ListTagsForDeliveryStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -283,21 +283,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(id: "listTagsForDeliveryStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>(id: "listTagsForDeliveryStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse>(xAmzTarget: "Firehose_20150804.ListTagsForDeliveryStream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse>(xmlName: "ListTagsForDeliveryStreamInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput>(xAmzTarget: "Firehose_20150804.ListTagsForDeliveryStream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput>(xmlName: "ListTagsForDeliveryStreamInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForDeliveryStreamOutput, ListTagsForDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -306,7 +306,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter PutRecordInput : [no documentation found]
     ///
-    /// - Returns: `PutRecordOutputResponse` : [no documentation found]
+    /// - Returns: `PutRecordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -315,7 +315,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutputResponse
+    public func putRecord(input: PutRecordInput) async throws -> PutRecordOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -331,21 +331,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRecordInput, PutRecordOutputResponse, PutRecordOutputError>(id: "putRecord")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordInput, PutRecordOutputResponse, PutRecordOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordInput, PutRecordOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRecordInput, PutRecordOutput, PutRecordOutputError>(id: "putRecord")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordInput, PutRecordOutput, PutRecordOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordInput, PutRecordOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRecordOutputResponse, PutRecordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRecordOutput, PutRecordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRecordInput, PutRecordOutputResponse>(xAmzTarget: "Firehose_20150804.PutRecord"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRecordInput, PutRecordOutputResponse>(xmlName: "PutRecordInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRecordInput, PutRecordOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRecordInput, PutRecordOutput>(xAmzTarget: "Firehose_20150804.PutRecord"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRecordInput, PutRecordOutput>(xmlName: "PutRecordInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRecordInput, PutRecordOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRecordOutputResponse, PutRecordOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRecordOutput, PutRecordOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordOutputResponse, PutRecordOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordOutputResponse, PutRecordOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecordOutputResponse, PutRecordOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordOutput, PutRecordOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordOutput, PutRecordOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecordOutput, PutRecordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -354,7 +354,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter PutRecordBatchInput : [no documentation found]
     ///
-    /// - Returns: `PutRecordBatchOutputResponse` : [no documentation found]
+    /// - Returns: `PutRecordBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -363,7 +363,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidKMSResourceException` : Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Kinesis Data Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-    public func putRecordBatch(input: PutRecordBatchInput) async throws -> PutRecordBatchOutputResponse
+    public func putRecordBatch(input: PutRecordBatchInput) async throws -> PutRecordBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -379,21 +379,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRecordBatchInput, PutRecordBatchOutputResponse, PutRecordBatchOutputError>(id: "putRecordBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse, PutRecordBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutRecordBatchInput, PutRecordBatchOutput, PutRecordBatchOutputError>(id: "putRecordBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordBatchInput, PutRecordBatchOutput, PutRecordBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordBatchInput, PutRecordBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRecordBatchOutput, PutRecordBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse>(xAmzTarget: "Firehose_20150804.PutRecordBatch"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse>(xmlName: "PutRecordBatchInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRecordBatchInput, PutRecordBatchOutput>(xAmzTarget: "Firehose_20150804.PutRecordBatch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRecordBatchInput, PutRecordBatchOutput>(xmlName: "PutRecordBatchInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRecordBatchInput, PutRecordBatchOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRecordBatchOutputResponse, PutRecordBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRecordBatchOutput, PutRecordBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordBatchOutput, PutRecordBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordBatchOutput, PutRecordBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecordBatchOutput, PutRecordBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -402,7 +402,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter StartDeliveryStreamEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `StartDeliveryStreamEncryptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartDeliveryStreamEncryptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,7 +412,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func startDeliveryStreamEncryption(input: StartDeliveryStreamEncryptionInput) async throws -> StartDeliveryStreamEncryptionOutputResponse
+    public func startDeliveryStreamEncryption(input: StartDeliveryStreamEncryptionInput) async throws -> StartDeliveryStreamEncryptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -428,21 +428,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(id: "startDeliveryStreamEncryption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>(id: "startDeliveryStreamEncryption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse>(xAmzTarget: "Firehose_20150804.StartDeliveryStreamEncryption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse>(xmlName: "StartDeliveryStreamEncryptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput>(xAmzTarget: "Firehose_20150804.StartDeliveryStreamEncryption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput>(xmlName: "StartDeliveryStreamEncryptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDeliveryStreamEncryptionOutput, StartDeliveryStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -451,7 +451,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter StopDeliveryStreamEncryptionInput : [no documentation found]
     ///
-    /// - Returns: `StopDeliveryStreamEncryptionOutputResponse` : [no documentation found]
+    /// - Returns: `StopDeliveryStreamEncryptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,7 +460,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func stopDeliveryStreamEncryption(input: StopDeliveryStreamEncryptionInput) async throws -> StopDeliveryStreamEncryptionOutputResponse
+    public func stopDeliveryStreamEncryption(input: StopDeliveryStreamEncryptionInput) async throws -> StopDeliveryStreamEncryptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -476,21 +476,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(id: "stopDeliveryStreamEncryption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>(id: "stopDeliveryStreamEncryption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse>(xAmzTarget: "Firehose_20150804.StopDeliveryStreamEncryption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse>(xmlName: "StopDeliveryStreamEncryptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput>(xAmzTarget: "Firehose_20150804.StopDeliveryStreamEncryption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput>(xmlName: "StopDeliveryStreamEncryptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDeliveryStreamEncryptionOutput, StopDeliveryStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -499,7 +499,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter TagDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `TagDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `TagDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -508,7 +508,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func tagDeliveryStream(input: TagDeliveryStreamInput) async throws -> TagDeliveryStreamOutputResponse
+    public func tagDeliveryStream(input: TagDeliveryStreamInput) async throws -> TagDeliveryStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -524,21 +524,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(id: "tagDeliveryStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagDeliveryStreamInput, TagDeliveryStreamOutput, TagDeliveryStreamOutputError>(id: "tagDeliveryStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput, TagDeliveryStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagDeliveryStreamOutput, TagDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse>(xAmzTarget: "Firehose_20150804.TagDeliveryStream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse>(xmlName: "TagDeliveryStreamInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput>(xAmzTarget: "Firehose_20150804.TagDeliveryStream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput>(xmlName: "TagDeliveryStreamInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagDeliveryStreamOutput, TagDeliveryStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagDeliveryStreamOutput, TagDeliveryStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagDeliveryStreamOutput, TagDeliveryStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagDeliveryStreamOutput, TagDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -547,7 +547,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter UntagDeliveryStreamInput : [no documentation found]
     ///
-    /// - Returns: `UntagDeliveryStreamOutputResponse` : [no documentation found]
+    /// - Returns: `UntagDeliveryStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,7 +556,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `LimitExceededException` : You have already reached the limit for a requested resource.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func untagDeliveryStream(input: UntagDeliveryStreamInput) async throws -> UntagDeliveryStreamOutputResponse
+    public func untagDeliveryStream(input: UntagDeliveryStreamInput) async throws -> UntagDeliveryStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -572,21 +572,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(id: "untagDeliveryStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagDeliveryStreamInput, UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>(id: "untagDeliveryStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse>(xAmzTarget: "Firehose_20150804.UntagDeliveryStream"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse>(xmlName: "UntagDeliveryStreamInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput>(xAmzTarget: "Firehose_20150804.UntagDeliveryStream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput>(xmlName: "UntagDeliveryStreamInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagDeliveryStreamOutput, UntagDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -595,7 +595,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     ///
     /// - Parameter UpdateDestinationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,7 +604,7 @@ extension FirehoseClient: FirehoseClientProtocol {
     /// - `InvalidArgumentException` : The specified input parameter has a value that is not valid.
     /// - `ResourceInUseException` : The resource is already in use and not available for this operation.
     /// - `ResourceNotFoundException` : The specified resource could not be found.
-    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
+    public func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -620,21 +620,21 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDestinationInput, UpdateDestinationOutputResponse, UpdateDestinationOutputError>(id: "updateDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse, UpdateDestinationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDestinationInput, UpdateDestinationOutput, UpdateDestinationOutputError>(id: "updateDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDestinationInput, UpdateDestinationOutput, UpdateDestinationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDestinationInput, UpdateDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDestinationOutput, UpdateDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse>(xAmzTarget: "Firehose_20150804.UpdateDestination"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse>(xmlName: "UpdateDestinationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(xAmzTarget: "Firehose_20150804.UpdateDestination"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(xmlName: "UpdateDestinationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDestinationOutputResponse, UpdateDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDestinationOutput, UpdateDestinationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDestinationOutput, UpdateDestinationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDestinationOutput, UpdateDestinationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDestinationOutput, UpdateDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

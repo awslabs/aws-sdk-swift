@@ -12,14 +12,14 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter BatchGetAggregateResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetAggregateResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetAggregateResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutputResponse
+    func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutput
     /// Returns the BaseConfigurationItem for one or more requested resources. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceKeys list.
     ///
     /// * The API does not return results for deleted resources.
@@ -28,30 +28,30 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter BatchGetResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutputResponse
+    func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutput
     /// Deletes the authorization granted to the specified configuration aggregator account in a specified region.
     ///
     /// - Parameter DeleteAggregationAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAggregationAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAggregationAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func deleteAggregationAuthorization(input: DeleteAggregationAuthorizationInput) async throws -> DeleteAggregationAuthorizationOutputResponse
+    func deleteAggregationAuthorization(input: DeleteAggregationAuthorizationInput) async throws -> DeleteAggregationAuthorizationOutput
     /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request.
     ///
     /// - Parameter DeleteConfigRuleInput :
     ///
-    /// - Returns: `DeleteConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -72,34 +72,34 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func deleteConfigRule(input: DeleteConfigRuleInput) async throws -> DeleteConfigRuleOutputResponse
+    func deleteConfigRule(input: DeleteConfigRuleInput) async throws -> DeleteConfigRuleOutput
     /// Deletes the specified configuration aggregator and the aggregated data associated with the aggregator.
     ///
     /// - Parameter DeleteConfigurationAggregatorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConfigurationAggregatorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigurationAggregatorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    func deleteConfigurationAggregator(input: DeleteConfigurationAggregatorInput) async throws -> DeleteConfigurationAggregatorOutputResponse
+    func deleteConfigurationAggregator(input: DeleteConfigurationAggregatorInput) async throws -> DeleteConfigurationAggregatorOutput
     /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will not record resource configuration changes until you create a new configuration recorder. This action does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the GetResourceConfigHistory action, but you will not be able to access this information in the Config console until you create a new configuration recorder.
     ///
     /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder action.
     ///
-    /// - Returns: `DeleteConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    func deleteConfigurationRecorder(input: DeleteConfigurationRecorderInput) async throws -> DeleteConfigurationRecorderOutputResponse
+    func deleteConfigurationRecorder(input: DeleteConfigurationRecorderInput) async throws -> DeleteConfigurationRecorderOutput
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
     ///
     /// - Parameter DeleteConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,24 +120,24 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func deleteConformancePack(input: DeleteConformancePackInput) async throws -> DeleteConformancePackOutputResponse
+    func deleteConformancePack(input: DeleteConformancePackInput) async throws -> DeleteConformancePackOutput
     /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the configuration recorder by using the [StopConfigurationRecorder] action.
     ///
     /// - Parameter DeleteDeliveryChannelInput : The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format.
     ///
-    /// - Returns: `DeleteDeliveryChannelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeliveryChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LastDeliveryChannelDeleteFailedException` : You cannot delete the delivery channel you specified because the configuration recorder is running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    func deleteDeliveryChannel(input: DeleteDeliveryChannelInput) async throws -> DeleteDeliveryChannelOutputResponse
+    func deleteDeliveryChannel(input: DeleteDeliveryChannelInput) async throws -> DeleteDeliveryChannelOutput
     /// Deletes the evaluation results for the specified Config rule. You can specify one Config rule per request. After you delete the evaluation results, you can call the [StartConfigRulesEvaluation] API to start evaluating your Amazon Web Services resources against the rule.
     ///
     /// - Parameter DeleteEvaluationResultsInput :
     ///
-    /// - Returns: `DeleteEvaluationResultsOutputResponse` : The output when you delete the evaluation results for the specified Config rule.
+    /// - Returns: `DeleteEvaluationResultsOutput` : The output when you delete the evaluation results for the specified Config rule.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -158,12 +158,12 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func deleteEvaluationResults(input: DeleteEvaluationResultsInput) async throws -> DeleteEvaluationResultsOutputResponse
+    func deleteEvaluationResults(input: DeleteEvaluationResultsInput) async throws -> DeleteEvaluationResultsOutput
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this state.
     ///
     /// - Parameter DeleteOrganizationConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOrganizationConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOrganizationConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -196,12 +196,12 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func deleteOrganizationConfigRule(input: DeleteOrganizationConfigRuleInput) async throws -> DeleteOrganizationConfigRuleOutputResponse
+    func deleteOrganizationConfigRule(input: DeleteOrganizationConfigRuleInput) async throws -> DeleteOrganizationConfigRuleOutput
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from all member accounts in that organization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
     ///
     /// - Parameter DeleteOrganizationConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOrganizationConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOrganizationConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -234,23 +234,23 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func deleteOrganizationConformancePack(input: DeleteOrganizationConformancePackInput) async throws -> DeleteOrganizationConformancePackOutputResponse
+    func deleteOrganizationConformancePack(input: DeleteOrganizationConformancePackInput) async throws -> DeleteOrganizationConformancePackOutput
     /// Deletes pending authorization requests for a specified aggregator account in a specified region.
     ///
     /// - Parameter DeletePendingAggregationRequestInput : [no documentation found]
     ///
-    /// - Returns: `DeletePendingAggregationRequestOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePendingAggregationRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func deletePendingAggregationRequest(input: DeletePendingAggregationRequestInput) async throws -> DeletePendingAggregationRequestOutputResponse
+    func deletePendingAggregationRequest(input: DeletePendingAggregationRequestInput) async throws -> DeletePendingAggregationRequestOutput
     /// Deletes the remediation configuration.
     ///
     /// - Parameter DeleteRemediationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRemediationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRemediationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -271,54 +271,54 @@ public protocol ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     /// - `RemediationInProgressException` : Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
-    func deleteRemediationConfiguration(input: DeleteRemediationConfigurationInput) async throws -> DeleteRemediationConfigurationOutputResponse
+    func deleteRemediationConfiguration(input: DeleteRemediationConfigurationInput) async throws -> DeleteRemediationConfigurationOutput
     /// Deletes one or more remediation exceptions mentioned in the resource keys. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared.
     ///
     /// - Parameter DeleteRemediationExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRemediationExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRemediationExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchRemediationExceptionException` : You tried to delete a remediation exception that does not exist.
-    func deleteRemediationExceptions(input: DeleteRemediationExceptionsInput) async throws -> DeleteRemediationExceptionsOutputResponse
+    func deleteRemediationExceptions(input: DeleteRemediationExceptionsInput) async throws -> DeleteRemediationExceptionsOutput
     /// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
     ///
     /// - Parameter DeleteResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutputResponse
+    func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutput
     /// Deletes the retention configuration.
     ///
     /// - Parameter DeleteRetentionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRetentionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRetentionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRetentionConfigurationException` : You have specified a retention configuration that does not exist.
-    func deleteRetentionConfiguration(input: DeleteRetentionConfigurationInput) async throws -> DeleteRetentionConfigurationOutputResponse
+    func deleteRetentionConfiguration(input: DeleteRetentionConfigurationInput) async throws -> DeleteRetentionConfigurationOutput
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
     ///
     /// - Parameter DeleteStoredQueryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStoredQueryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStoredQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutputResponse
+    func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutput
     /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Config sends the following notifications using an Amazon SNS topic that you have specified.
     ///
     /// * Notification of the start of the delivery.
@@ -329,7 +329,7 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter DeliverConfigSnapshotInput : The input for the [DeliverConfigSnapshot] action.
     ///
-    /// - Returns: `DeliverConfigSnapshotOutputResponse` : The output for the [DeliverConfigSnapshot] action, in JSON format.
+    /// - Returns: `DeliverConfigSnapshotOutput` : The output for the [DeliverConfigSnapshot] action, in JSON format.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -337,12 +337,12 @@ public protocol ConfigClientProtocol {
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    func deliverConfigSnapshot(input: DeliverConfigSnapshotInput) async throws -> DeliverConfigSnapshotOutputResponse
+    func deliverConfigSnapshot(input: DeliverConfigSnapshotInput) async throws -> DeliverConfigSnapshotOutput
     /// Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter DescribeAggregateComplianceByConfigRulesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAggregateComplianceByConfigRulesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAggregateComplianceByConfigRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -351,12 +351,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutputResponse
+    func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutput
     /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter DescribeAggregateComplianceByConformancePacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAggregateComplianceByConformancePacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAggregateComplianceByConformancePacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -365,12 +365,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutputResponse
+    func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutput
     /// Returns a list of authorizations granted to various aggregator accounts and regions.
     ///
     /// - Parameter DescribeAggregationAuthorizationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAggregationAuthorizationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAggregationAuthorizationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -378,7 +378,7 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func describeAggregationAuthorizations(input: DescribeAggregationAuthorizationsInput) async throws -> DescribeAggregationAuthorizationsOutputResponse
+    func describeAggregationAuthorizations(input: DescribeAggregationAuthorizationsInput) async throws -> DescribeAggregationAuthorizationsOutput
     /// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this action returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:
     ///
     /// * Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.
@@ -389,7 +389,7 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter DescribeComplianceByConfigRuleInput :
     ///
-    /// - Returns: `DescribeComplianceByConfigRuleOutputResponse` :
+    /// - Returns: `DescribeComplianceByConfigRuleOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -397,7 +397,7 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func describeComplianceByConfigRule(input: DescribeComplianceByConfigRuleInput) async throws -> DescribeComplianceByConfigRuleOutputResponse
+    func describeComplianceByConfigRule(input: DescribeComplianceByConfigRuleInput) async throws -> DescribeComplianceByConfigRuleOutput
     /// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this action returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:
     ///
     /// * Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.
@@ -408,19 +408,19 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter DescribeComplianceByResourceInput :
     ///
-    /// - Returns: `DescribeComplianceByResourceOutputResponse` :
+    /// - Returns: `DescribeComplianceByResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func describeComplianceByResource(input: DescribeComplianceByResourceInput) async throws -> DescribeComplianceByResourceOutputResponse
+    func describeComplianceByResource(input: DescribeComplianceByResourceInput) async throws -> DescribeComplianceByResourceOutput
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke the rule, and the related error for the last failure.
     ///
     /// - Parameter DescribeConfigRuleEvaluationStatusInput :
     ///
-    /// - Returns: `DescribeConfigRuleEvaluationStatusOutputResponse` :
+    /// - Returns: `DescribeConfigRuleEvaluationStatusOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -428,12 +428,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func describeConfigRuleEvaluationStatus(input: DescribeConfigRuleEvaluationStatusInput) async throws -> DescribeConfigRuleEvaluationStatusOutputResponse
+    func describeConfigRuleEvaluationStatus(input: DescribeConfigRuleEvaluationStatusInput) async throws -> DescribeConfigRuleEvaluationStatusOutput
     /// Returns details about your Config rules.
     ///
     /// - Parameter DescribeConfigRulesInput :
     ///
-    /// - Returns: `DescribeConfigRulesOutputResponse` :
+    /// - Returns: `DescribeConfigRulesOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,12 +441,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func describeConfigRules(input: DescribeConfigRulesInput) async throws -> DescribeConfigRulesOutputResponse
+    func describeConfigRules(input: DescribeConfigRulesInput) async throws -> DescribeConfigRulesOutput
     /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this action returns the details for all the configuration aggregators associated with the account.
     ///
     /// - Parameter DescribeConfigurationAggregatorsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConfigurationAggregatorsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConfigurationAggregatorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,12 +455,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    func describeConfigurationAggregators(input: DescribeConfigurationAggregatorsInput) async throws -> DescribeConfigurationAggregatorsOutputResponse
+    func describeConfigurationAggregators(input: DescribeConfigurationAggregatorsInput) async throws -> DescribeConfigurationAggregatorsOutput
     /// Returns status information for sources within an aggregator. The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
     ///
     /// - Parameter DescribeConfigurationAggregatorSourcesStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConfigurationAggregatorSourcesStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConfigurationAggregatorSourcesStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,34 +469,34 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    func describeConfigurationAggregatorSourcesStatus(input: DescribeConfigurationAggregatorSourcesStatusInput) async throws -> DescribeConfigurationAggregatorSourcesStatusOutputResponse
+    func describeConfigurationAggregatorSourcesStatus(input: DescribeConfigurationAggregatorSourcesStatusInput) async throws -> DescribeConfigurationAggregatorSourcesStatusOutput
     /// Returns the details for the specified configuration recorders. If the configuration recorder is not specified, this action returns the details for all configuration recorders associated with the account. You can specify only one configuration recorder for each Amazon Web Services Region for each account.
     ///
     /// - Parameter DescribeConfigurationRecordersInput : The input for the [DescribeConfigurationRecorders] action.
     ///
-    /// - Returns: `DescribeConfigurationRecordersOutputResponse` : The output for the [DescribeConfigurationRecorders] action.
+    /// - Returns: `DescribeConfigurationRecordersOutput` : The output for the [DescribeConfigurationRecorders] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutputResponse
+    func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutput
     /// Returns the current status of the specified configuration recorder as well as the status of the last recording event for the recorder. If a configuration recorder is not specified, this action returns the status of all configuration recorders associated with the account. >You can specify only one configuration recorder for each Amazon Web Services Region for each account. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
     ///
     /// - Parameter DescribeConfigurationRecorderStatusInput : The input for the [DescribeConfigurationRecorderStatus] action.
     ///
-    /// - Returns: `DescribeConfigurationRecorderStatusOutputResponse` : The output for the [DescribeConfigurationRecorderStatus] action, in JSON format.
+    /// - Returns: `DescribeConfigurationRecorderStatusOutput` : The output for the [DescribeConfigurationRecorderStatus] action, in JSON format.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutputResponse
+    func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutput
     /// Returns compliance details for each rule in that conformance pack. You must provide exact rule names.
     ///
     /// - Parameter DescribeConformancePackComplianceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConformancePackComplianceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConformancePackComplianceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -506,12 +506,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleInConformancePackException` : Config rule that you passed in the filter does not exist.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    func describeConformancePackCompliance(input: DescribeConformancePackComplianceInput) async throws -> DescribeConformancePackComplianceOutputResponse
+    func describeConformancePackCompliance(input: DescribeConformancePackComplianceInput) async throws -> DescribeConformancePackComplianceOutput
     /// Returns a list of one or more conformance packs.
     ///
     /// - Parameter DescribeConformancePacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConformancePacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConformancePacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,12 +520,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    func describeConformancePacks(input: DescribeConformancePacksInput) async throws -> DescribeConformancePacksOutputResponse
+    func describeConformancePacks(input: DescribeConformancePacksInput) async throws -> DescribeConformancePacksOutput
     /// Provides one or more conformance packs deployment status. If there are no conformance packs then you will see an empty result.
     ///
     /// - Parameter DescribeConformancePackStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConformancePackStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConformancePackStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,34 +533,34 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func describeConformancePackStatus(input: DescribeConformancePackStatusInput) async throws -> DescribeConformancePackStatusOutputResponse
+    func describeConformancePackStatus(input: DescribeConformancePackStatusInput) async throws -> DescribeConformancePackStatusOutput
     /// Returns details about the specified delivery channel. If a delivery channel is not specified, this action returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
     /// - Parameter DescribeDeliveryChannelsInput : The input for the [DescribeDeliveryChannels] action.
     ///
-    /// - Returns: `DescribeDeliveryChannelsOutputResponse` : The output for the [DescribeDeliveryChannels] action.
+    /// - Returns: `DescribeDeliveryChannelsOutput` : The output for the [DescribeDeliveryChannels] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    func describeDeliveryChannels(input: DescribeDeliveryChannelsInput) async throws -> DescribeDeliveryChannelsOutputResponse
+    func describeDeliveryChannels(input: DescribeDeliveryChannelsInput) async throws -> DescribeDeliveryChannelsOutput
     /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this action returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
     /// - Parameter DescribeDeliveryChannelStatusInput : The input for the [DeliveryChannelStatus] action.
     ///
-    /// - Returns: `DescribeDeliveryChannelStatusOutputResponse` : The output for the [DescribeDeliveryChannelStatus] action.
+    /// - Returns: `DescribeDeliveryChannelStatusOutput` : The output for the [DescribeDeliveryChannelStatus] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
-    func describeDeliveryChannelStatus(input: DescribeDeliveryChannelStatusInput) async throws -> DescribeDeliveryChannelStatusOutputResponse
+    func describeDeliveryChannelStatus(input: DescribeDeliveryChannelStatusInput) async throws -> DescribeDeliveryChannelStatusOutput
     /// Returns a list of organization Config rules. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules. For accounts within an organzation If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
     /// - Parameter DescribeOrganizationConfigRulesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConfigRulesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConfigRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -580,12 +580,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func describeOrganizationConfigRules(input: DescribeOrganizationConfigRulesInput) async throws -> DescribeOrganizationConfigRulesOutputResponse
+    func describeOrganizationConfigRules(input: DescribeOrganizationConfigRulesInput) async throws -> DescribeOrganizationConfigRulesOutput
     /// Provides organization Config rule deployment status for an organization. The status is not considered successful until organization Config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules.
     ///
     /// - Parameter DescribeOrganizationConfigRuleStatusesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConfigRuleStatusesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConfigRuleStatusesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -605,12 +605,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func describeOrganizationConfigRuleStatuses(input: DescribeOrganizationConfigRuleStatusesInput) async throws -> DescribeOrganizationConfigRuleStatusesOutputResponse
+    func describeOrganizationConfigRuleStatuses(input: DescribeOrganizationConfigRuleStatusesInput) async throws -> DescribeOrganizationConfigRuleStatusesOutput
     /// Returns a list of organization conformance packs. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs. For accounts within an organzation If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
     /// - Parameter DescribeOrganizationConformancePacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConformancePacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConformancePacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,12 +630,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func describeOrganizationConformancePacks(input: DescribeOrganizationConformancePacksInput) async throws -> DescribeOrganizationConformancePacksOutputResponse
+    func describeOrganizationConformancePacks(input: DescribeOrganizationConformancePacksInput) async throws -> DescribeOrganizationConformancePacksOutput
     /// Provides organization conformance pack deployment status for an organization. The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs.
     ///
     /// - Parameter DescribeOrganizationConformancePackStatusesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConformancePackStatusesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConformancePackStatusesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,12 +655,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func describeOrganizationConformancePackStatuses(input: DescribeOrganizationConformancePackStatusesInput) async throws -> DescribeOrganizationConformancePackStatusesOutputResponse
+    func describeOrganizationConformancePackStatuses(input: DescribeOrganizationConformancePackStatusesInput) async throws -> DescribeOrganizationConformancePackStatusesOutput
     /// Returns a list of all pending aggregation requests.
     ///
     /// - Parameter DescribePendingAggregationRequestsInput : [no documentation found]
     ///
-    /// - Returns: `DescribePendingAggregationRequestsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePendingAggregationRequestsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -668,30 +668,30 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func describePendingAggregationRequests(input: DescribePendingAggregationRequestsInput) async throws -> DescribePendingAggregationRequestsOutputResponse
+    func describePendingAggregationRequests(input: DescribePendingAggregationRequestsInput) async throws -> DescribePendingAggregationRequestsOutput
     /// Returns the details of one or more remediation configurations.
     ///
     /// - Parameter DescribeRemediationConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRemediationConfigurationsOutputResponse` : [no documentation found]
-    func describeRemediationConfigurations(input: DescribeRemediationConfigurationsInput) async throws -> DescribeRemediationConfigurationsOutputResponse
+    /// - Returns: `DescribeRemediationConfigurationsOutput` : [no documentation found]
+    func describeRemediationConfigurations(input: DescribeRemediationConfigurationsInput) async throws -> DescribeRemediationConfigurationsOutput
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
     ///
     /// - Parameter DescribeRemediationExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRemediationExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRemediationExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func describeRemediationExceptions(input: DescribeRemediationExceptionsInput) async throws -> DescribeRemediationExceptionsOutputResponse
+    func describeRemediationExceptions(input: DescribeRemediationExceptionsInput) async throws -> DescribeRemediationExceptionsOutput
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
     ///
     /// - Parameter DescribeRemediationExecutionStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRemediationExecutionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRemediationExecutionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,12 +699,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
-    func describeRemediationExecutionStatus(input: DescribeRemediationExecutionStatusInput) async throws -> DescribeRemediationExecutionStatusOutputResponse
+    func describeRemediationExecutionStatus(input: DescribeRemediationExecutionStatusInput) async throws -> DescribeRemediationExecutionStatusOutput
     /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this action returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
     ///
     /// - Parameter DescribeRetentionConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRetentionConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRetentionConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -712,12 +712,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRetentionConfigurationException` : You have specified a retention configuration that does not exist.
-    func describeRetentionConfigurations(input: DescribeRetentionConfigurationsInput) async throws -> DescribeRetentionConfigurationsOutputResponse
+    func describeRetentionConfigurations(input: DescribeRetentionConfigurationsInput) async throws -> DescribeRetentionConfigurationsOutput
     /// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter GetAggregateComplianceDetailsByConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateComplianceDetailsByConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateComplianceDetailsByConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,12 +726,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutputResponse
+    func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutput
     /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter GetAggregateConfigRuleComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateConfigRuleComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateConfigRuleComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,12 +740,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutputResponse
+    func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutput
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter GetAggregateConformancePackComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateConformancePackComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateConformancePackComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -754,12 +754,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutputResponse
+    func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutput
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1. If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
     ///
     /// - Parameter GetAggregateDiscoveredResourceCountsInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateDiscoveredResourceCountsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateDiscoveredResourceCountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,12 +768,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutputResponse
+    func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutput
     /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
     ///
     /// - Parameter GetAggregateResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetAggregateResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetAggregateResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,12 +782,12 @@ public protocol ConfigClientProtocol {
     /// - `OversizedConfigurationItemException` : The configuration item size is outside the allowable range.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutputResponse
+    func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutput
     /// Returns the evaluation results for the specified Config rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
     ///
     /// - Parameter GetComplianceDetailsByConfigRuleInput :
     ///
-    /// - Returns: `GetComplianceDetailsByConfigRuleOutputResponse` :
+    /// - Returns: `GetComplianceDetailsByConfigRuleOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -795,40 +795,40 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func getComplianceDetailsByConfigRule(input: GetComplianceDetailsByConfigRuleInput) async throws -> GetComplianceDetailsByConfigRuleOutputResponse
+    func getComplianceDetailsByConfigRule(input: GetComplianceDetailsByConfigRuleInput) async throws -> GetComplianceDetailsByConfigRuleOutput
     /// Returns the evaluation results for the specified Amazon Web Services resource. The results indicate which Config rules were used to evaluate the resource, when each rule was last invoked, and whether the resource complies with each rule.
     ///
     /// - Parameter GetComplianceDetailsByResourceInput :
     ///
-    /// - Returns: `GetComplianceDetailsByResourceOutputResponse` :
+    /// - Returns: `GetComplianceDetailsByResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func getComplianceDetailsByResource(input: GetComplianceDetailsByResourceInput) async throws -> GetComplianceDetailsByResourceOutputResponse
+    func getComplianceDetailsByResource(input: GetComplianceDetailsByResourceInput) async throws -> GetComplianceDetailsByResourceOutput
     /// Returns the number of Config rules that are compliant and noncompliant, up to a maximum of 25 for each.
     ///
     /// - Parameter GetComplianceSummaryByConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetComplianceSummaryByConfigRuleOutputResponse` :
-    func getComplianceSummaryByConfigRule(input: GetComplianceSummaryByConfigRuleInput) async throws -> GetComplianceSummaryByConfigRuleOutputResponse
+    /// - Returns: `GetComplianceSummaryByConfigRuleOutput` :
+    func getComplianceSummaryByConfigRule(input: GetComplianceSummaryByConfigRuleInput) async throws -> GetComplianceSummaryByConfigRuleOutput
     /// Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
     ///
     /// - Parameter GetComplianceSummaryByResourceTypeInput :
     ///
-    /// - Returns: `GetComplianceSummaryByResourceTypeOutputResponse` :
+    /// - Returns: `GetComplianceSummaryByResourceTypeOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func getComplianceSummaryByResourceType(input: GetComplianceSummaryByResourceTypeInput) async throws -> GetComplianceSummaryByResourceTypeOutputResponse
+    func getComplianceSummaryByResourceType(input: GetComplianceSummaryByResourceTypeInput) async throws -> GetComplianceSummaryByResourceTypeOutput
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
     ///
     /// - Parameter GetConformancePackComplianceDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetConformancePackComplianceDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetConformancePackComplianceDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,12 +838,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleInConformancePackException` : Config rule that you passed in the filter does not exist.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    func getConformancePackComplianceDetails(input: GetConformancePackComplianceDetailsInput) async throws -> GetConformancePackComplianceDetailsOutputResponse
+    func getConformancePackComplianceDetails(input: GetConformancePackComplianceDetailsInput) async throws -> GetConformancePackComplianceDetailsOutput
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
     ///
     /// - Parameter GetConformancePackComplianceSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetConformancePackComplianceSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetConformancePackComplianceSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,18 +851,18 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConformancePackException` : You specified one or more conformance packs that do not exist.
-    func getConformancePackComplianceSummary(input: GetConformancePackComplianceSummaryInput) async throws -> GetConformancePackComplianceSummaryOutputResponse
+    func getConformancePackComplianceSummary(input: GetConformancePackComplianceSummaryInput) async throws -> GetConformancePackComplianceSummaryOutput
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
     ///
     /// - Parameter GetCustomRulePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetCustomRulePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetCustomRulePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func getCustomRulePolicy(input: GetCustomRulePolicyInput) async throws -> GetCustomRulePolicyOutputResponse
+    func getCustomRulePolicy(input: GetCustomRulePolicyInput) async throws -> GetCustomRulePolicyOutput
     /// Returns the resource types, the number of each resource type, and the total number of resources that Config is recording in this region for your Amazon Web Services account. Example
     ///
     /// * Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.
@@ -892,7 +892,7 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter GetDiscoveredResourceCountsInput : [no documentation found]
     ///
-    /// - Returns: `GetDiscoveredResourceCountsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDiscoveredResourceCountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -900,12 +900,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutputResponse
+    func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutput
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
     ///
     /// - Parameter GetOrganizationConfigRuleDetailedStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetOrganizationConfigRuleDetailedStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrganizationConfigRuleDetailedStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,12 +925,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func getOrganizationConfigRuleDetailedStatus(input: GetOrganizationConfigRuleDetailedStatusInput) async throws -> GetOrganizationConfigRuleDetailedStatusOutputResponse
+    func getOrganizationConfigRuleDetailedStatus(input: GetOrganizationConfigRuleDetailedStatusInput) async throws -> GetOrganizationConfigRuleDetailedStatusOutput
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
     ///
     /// - Parameter GetOrganizationConformancePackDetailedStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetOrganizationConformancePackDetailedStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrganizationConformancePackDetailedStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -950,12 +950,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func getOrganizationConformancePackDetailedStatus(input: GetOrganizationConformancePackDetailedStatusInput) async throws -> GetOrganizationConformancePackDetailedStatusOutputResponse
+    func getOrganizationConformancePackDetailedStatus(input: GetOrganizationConformancePackDetailedStatusInput) async throws -> GetOrganizationConformancePackDetailedStatusOutput
     /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
     ///
     /// - Parameter GetOrganizationCustomRulePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetOrganizationCustomRulePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrganizationCustomRulePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,12 +973,12 @@ public protocol ConfigClientProtocol {
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-    func getOrganizationCustomRulePolicy(input: GetOrganizationCustomRulePolicyInput) async throws -> GetOrganizationCustomRulePolicyOutputResponse
+    func getOrganizationCustomRulePolicy(input: GetOrganizationCustomRulePolicyInput) async throws -> GetOrganizationCustomRulePolicyOutput
     /// Returns a list of ConfigurationItems for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), Config returns the ConfigurationItems for the specified retention period. The response is paginated. By default, Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter. Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
     ///
     /// - Parameter GetResourceConfigHistoryInput : The input for the [GetResourceConfigHistory] action.
     ///
-    /// - Returns: `GetResourceConfigHistoryOutputResponse` : The output for the [GetResourceConfigHistory] action.
+    /// - Returns: `GetResourceConfigHistoryOutput` : The output for the [GetResourceConfigHistory] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,35 +989,35 @@ public protocol ConfigClientProtocol {
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutputResponse
+    func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutput
     /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the [GetComplianceDetailsByResource](https://docs.aws.amazon.com/config/latest/APIReference/API_GetComplianceDetailsByResource.html) API. For more information, see the [Examples](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceEvaluationSummary.html#API_GetResourceEvaluationSummary_Examples) section.
     ///
     /// - Parameter GetResourceEvaluationSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceEvaluationSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceEvaluationSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    func getResourceEvaluationSummary(input: GetResourceEvaluationSummaryInput) async throws -> GetResourceEvaluationSummaryOutputResponse
+    func getResourceEvaluationSummary(input: GetResourceEvaluationSummaryInput) async throws -> GetResourceEvaluationSummaryOutput
     /// Returns the details of a specific stored query.
     ///
     /// - Parameter GetStoredQueryInput : [no documentation found]
     ///
-    /// - Returns: `GetStoredQueryOutputResponse` : [no documentation found]
+    /// - Returns: `GetStoredQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutputResponse
+    func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutput
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions. A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region. You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
     ///
     /// - Parameter ListAggregateDiscoveredResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListAggregateDiscoveredResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAggregateDiscoveredResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,12 +1026,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutputResponse
+    func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutput
     /// Returns a list of conformance pack compliance scores. A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack. This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand the level of compliance in your conformance packs. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
     ///
     /// - Parameter ListConformancePackComplianceScoresInput : [no documentation found]
     ///
-    /// - Returns: `ListConformancePackComplianceScoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListConformancePackComplianceScoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1039,12 +1039,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func listConformancePackComplianceScores(input: ListConformancePackComplianceScoresInput) async throws -> ListConformancePackComplianceScoresOutputResponse
+    func listConformancePackComplianceScores(input: ListConformancePackComplianceScoresInput) async throws -> ListConformancePackComplianceScoresOutput
     /// Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that Config has discovered, including those that Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name. You can specify either resource IDs or a resource name, but not both, in the same request. The response is paginated. By default, Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.
     ///
     /// - Parameter ListDiscoveredResourcesInput :
     ///
-    /// - Returns: `ListDiscoveredResourcesOutputResponse` :
+    /// - Returns: `ListDiscoveredResourcesOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,12 +1053,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutputResponse
+    func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
     /// Returns a list of proactive resource evaluations.
     ///
     /// - Parameter ListResourceEvaluationsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceEvaluationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourceEvaluationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1066,24 +1066,24 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `InvalidTimeRangeException` : The specified time range is not valid. The earlier time is not chronologically before the later time.
-    func listResourceEvaluations(input: ListResourceEvaluationsInput) async throws -> ListResourceEvaluationsOutputResponse
+    func listResourceEvaluations(input: ListResourceEvaluationsInput) async throws -> ListResourceEvaluationsOutput
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
     ///
     /// - Parameter ListStoredQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListStoredQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStoredQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutputResponse
+    func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutput
     /// List the tags for Config resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1092,23 +1092,23 @@ public protocol ConfigClientProtocol {
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Authorizes the aggregator account and region to collect data from the source account and region. PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter PutAggregationAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `PutAggregationAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `PutAggregationAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func putAggregationAuthorization(input: PutAggregationAuthorizationInput) async throws -> PutAggregationAuthorizationOutputResponse
+    func putAggregationAuthorization(input: PutAggregationAuthorizationInput) async throws -> PutAggregationAuthorizationOutput
     /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter PutConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `PutConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,12 +1144,12 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func putConfigRule(input: PutConfigRuleInput) async throws -> PutConfigRuleOutputResponse
+    func putConfigRule(input: PutConfigRuleInput) async throws -> PutConfigRuleOutput
     /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter PutConfigurationAggregatorInput : [no documentation found]
     ///
-    /// - Returns: `PutConfigurationAggregatorOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigurationAggregatorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1171,12 +1171,12 @@ public protocol ConfigClientProtocol {
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
     /// - `OrganizationAllFeaturesNotEnabledException` : Config resource cannot be created because your organization does not have all features enabled.
-    func putConfigurationAggregator(input: PutConfigurationAggregatorInput) async throws -> PutConfigurationAggregatorOutputResponse
+    func putConfigurationAggregator(input: PutConfigurationAggregatorInput) async throws -> PutConfigurationAggregatorOutput
     /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN or the recordingGroup of an existing recorder. For more information, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. You can specify only one configuration recorder for each Amazon Web Services Region for each account. If the configuration recorder does not have the recordingGroup field specified, the default is to record all supported resource types.
     ///
     /// - Parameter PutConfigurationRecorderInput : The input for the [PutConfigurationRecorder] action.
     ///
-    /// - Returns: `PutConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,12 +1200,12 @@ public protocol ConfigClientProtocol {
     /// * You have provided resource types or a recording strategy that are not valid.
     /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
     /// - `MaxNumberOfConfigurationRecordersExceededException` : You have reached the limit of the number of configuration recorders you can create.
-    func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutputResponse
+    func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutput
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many conformance packs you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account. The service-linked role is created only when the role does not exist in your account. You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     ///
     /// - Parameter PutConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `PutConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `PutConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1241,12 +1241,12 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func putConformancePack(input: PutConformancePackInput) async throws -> PutConformancePackOutputResponse
+    func putConformancePack(input: PutConformancePackInput) async throws -> PutConformancePackOutput
     /// Creates a delivery channel object to deliver configuration information to an Amazon S3 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed. You can have only one delivery channel per region in your account.
     ///
     /// - Parameter PutDeliveryChannelInput : The input for the [PutDeliveryChannel] action.
     ///
-    /// - Returns: `PutDeliveryChannelOutputResponse` : [no documentation found]
+    /// - Returns: `PutDeliveryChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,12 +1259,12 @@ public protocol ConfigClientProtocol {
     /// - `MaxNumberOfDeliveryChannelsExceededException` : You have reached the limit of the number of delivery channels you can create.
     /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
     /// - `NoSuchBucketException` : The specified Amazon S3 bucket does not exist.
-    func putDeliveryChannel(input: PutDeliveryChannelInput) async throws -> PutDeliveryChannelOutputResponse
+    func putDeliveryChannel(input: PutDeliveryChannelInput) async throws -> PutDeliveryChannelOutput
     /// Used by an Lambda function to deliver evaluation results to Config. This action is required in every Lambda function that is invoked by an Config rule.
     ///
     /// - Parameter PutEvaluationsInput :
     ///
-    /// - Returns: `PutEvaluationsOutputResponse` :
+    /// - Returns: `PutEvaluationsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,24 +1272,24 @@ public protocol ConfigClientProtocol {
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `InvalidResultTokenException` : The specified ResultToken is not valid.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func putEvaluations(input: PutEvaluationsInput) async throws -> PutEvaluationsOutputResponse
+    func putEvaluations(input: PutEvaluationsInput) async throws -> PutEvaluationsOutput
     /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is provided.
     ///
     /// - Parameter PutExternalEvaluationInput : [no documentation found]
     ///
-    /// - Returns: `PutExternalEvaluationOutputResponse` : [no documentation found]
+    /// - Returns: `PutExternalEvaluationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-    func putExternalEvaluation(input: PutExternalEvaluationInput) async throws -> PutExternalEvaluationOutputResponse
+    func putExternalEvaluation(input: PutExternalEvaluationInput) async throws -> PutExternalEvaluationOutput
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many organization Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can create or update an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. Config verifies the existence of role with GetRole action. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegated-administrator for config-multiaccountsetup.amazonaws.com. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutOrganizationConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the RuleIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function in the management account or a delegated administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function. When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
     ///
     /// - Parameter PutOrganizationConfigRuleInput : [no documentation found]
     ///
-    /// - Returns: `PutOrganizationConfigRuleOutputResponse` : [no documentation found]
+    /// - Returns: `PutOrganizationConfigRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1339,12 +1339,12 @@ public protocol ConfigClientProtocol {
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutputResponse
+    func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutput
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access for config-multiaccountsetup.amazonaws.com through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegate-admin for config-multiaccountsetup.amazonaws.com. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update a conformance pack while it is in this state.
     ///
     /// - Parameter PutOrganizationConformancePackInput : [no documentation found]
     ///
-    /// - Returns: `PutOrganizationConformancePackOutputResponse` : [no documentation found]
+    /// - Returns: `PutOrganizationConformancePackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,12 +1394,12 @@ public protocol ConfigClientProtocol {
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutputResponse
+    func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutput
     /// Adds or updates the remediation configuration with a specific Config rule with the selected target or action. The API creates the RemediationConfiguration object for the Config rule. The Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. If you make backward incompatible changes to the SSM document, you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules, the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub. For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources.
     ///
     /// - Parameter PutRemediationConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `PutRemediationConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `PutRemediationConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,12 +1418,12 @@ public protocol ConfigClientProtocol {
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutputResponse
+    func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutput
     /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide.
     ///
     /// - Parameter PutRemediationExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `PutRemediationExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `PutRemediationExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1442,12 +1442,12 @@ public protocol ConfigClientProtocol {
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutputResponse
+    func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutput
     /// Records the configuration state for the resource provided in the request. The configuration state of a resource is represented in Config as Configuration Items. Once this API records the configuration item, you can retrieve the list of configuration items for the custom resource type using existing Config APIs. The custom resource type must be registered with CloudFormation. This API accepts the configuration item registered with CloudFormation. When you call this API, Config only stores configuration state of the resource provided in the request. This API does not change or remediate the configuration of the resource. Write-only schema properites are not recorded as part of the published configuration item.
     ///
     /// - Parameter PutResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `PutResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,24 +1468,24 @@ public protocol ConfigClientProtocol {
     /// - `MaxActiveResourcesExceededException` : You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutputResponse
+    func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutput
     /// Creates and updates the retention configuration with details about retention period (number of days) that Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object. Currently, Config supports only one retention configuration per region in your account.
     ///
     /// - Parameter PutRetentionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutRetentionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutRetentionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfRetentionConfigurationsExceededException` : Failed to add the retention configuration because a retention configuration with that name already exists.
-    func putRetentionConfiguration(input: PutRetentionConfigurationInput) async throws -> PutRetentionConfigurationOutputResponse
+    func putRetentionConfiguration(input: PutRetentionConfigurationInput) async throws -> PutRetentionConfigurationOutput
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter PutStoredQueryInput : [no documentation found]
     ///
-    /// - Returns: `PutStoredQueryOutputResponse` : [no documentation found]
+    /// - Returns: `PutStoredQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1493,12 +1493,12 @@ public protocol ConfigClientProtocol {
     /// - `ResourceConcurrentModificationException` : Two users are trying to modify the same query at the same time. Wait for a moment and try again.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutputResponse
+    func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutput
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide. If you run an aggregation query (i.e., using GROUP BY or using aggregate functions such as COUNT; e.g., SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId) and do not specify the MaxResults or the Limit query parameters, the default page size is set to 500. If you run a non-aggregation query (i.e., not using GROUP BY or aggregate function; e.g., SELECT * WHERE resourceType = 'AWS::IAM::Role') and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
     ///
     /// - Parameter SelectAggregateResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `SelectAggregateResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `SelectAggregateResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,12 +1507,12 @@ public protocol ConfigClientProtocol {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    func selectAggregateResourceConfig(input: SelectAggregateResourceConfigInput) async throws -> SelectAggregateResourceConfigOutputResponse
+    func selectAggregateResourceConfig(input: SelectAggregateResourceConfigInput) async throws -> SelectAggregateResourceConfigOutput
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide.
     ///
     /// - Parameter SelectResourceConfigInput : [no documentation found]
     ///
-    /// - Returns: `SelectResourceConfigOutputResponse` : [no documentation found]
+    /// - Returns: `SelectResourceConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1520,7 +1520,7 @@ public protocol ConfigClientProtocol {
     /// - `InvalidExpressionException` : The syntax of the query is incorrect.
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    func selectResourceConfig(input: SelectResourceConfigInput) async throws -> SelectResourceConfigOutputResponse
+    func selectResourceConfig(input: SelectResourceConfigInput) async throws -> SelectResourceConfigOutput
     /// Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources. It re-runs an evaluation against the last known state of your resources. You can specify up to 25 Config rules per request. An existing StartConfigRulesEvaluation call for the specified rules must complete before you can call the API again. If you chose to have Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts. You don't need to call the StartConfigRulesEvaluation API to run an evaluation for a new rule. When you create a rule, Config evaluates your resources against the rule automatically. The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:
     ///
     /// * You have a custom rule that evaluates your IAM resources every 24 hours.
@@ -1535,7 +1535,7 @@ public protocol ConfigClientProtocol {
     ///
     /// - Parameter StartConfigRulesEvaluationInput :
     ///
-    /// - Returns: `StartConfigRulesEvaluationOutputResponse` : The output when you start the evaluation for the specified Config rule.
+    /// - Returns: `StartConfigRulesEvaluationOutput` : The output when you start the evaluation for the specified Config rule.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,24 +1558,24 @@ public protocol ConfigClientProtocol {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    func startConfigRulesEvaluation(input: StartConfigRulesEvaluationInput) async throws -> StartConfigRulesEvaluationOutputResponse
+    func startConfigRulesEvaluation(input: StartConfigRulesEvaluationInput) async throws -> StartConfigRulesEvaluationOutput
     /// Starts recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account. You must have created at least one delivery channel to successfully start the configuration recorder.
     ///
     /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] action.
     ///
-    /// - Returns: `StartConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `StartConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoAvailableDeliveryChannelException` : There is no delivery channel available to record configurations.
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    func startConfigurationRecorder(input: StartConfigurationRecorderInput) async throws -> StartConfigurationRecorderOutputResponse
+    func startConfigurationRecorder(input: StartConfigurationRecorderInput) async throws -> StartConfigurationRecorderOutput
     /// Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
     ///
     /// - Parameter StartRemediationExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartRemediationExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartRemediationExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,35 +1595,35 @@ public protocol ConfigClientProtocol {
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
-    func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutputResponse
+    func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutput
     /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the specified proactive mode and resource type. Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema. You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in "Amazon Web Services public extensions" within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE. For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view) and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
     ///
     /// - Parameter StartResourceEvaluationInput : [no documentation found]
     ///
-    /// - Returns: `StartResourceEvaluationOutputResponse` : [no documentation found]
+    /// - Returns: `StartResourceEvaluationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `IdempotentParameterMismatch` : Using the same client token with one or more different parameters. Specify a new client token with the parameter changes and try again.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    func startResourceEvaluation(input: StartResourceEvaluationInput) async throws -> StartResourceEvaluationOutputResponse
+    func startResourceEvaluation(input: StartResourceEvaluationInput) async throws -> StartResourceEvaluationOutput
     /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
     ///
     /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] action.
     ///
-    /// - Returns: `StopConfigurationRecorderOutputResponse` : [no documentation found]
+    /// - Returns: `StopConfigurationRecorderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
-    func stopConfigurationRecorder(input: StopConfigurationRecorderInput) async throws -> StopConfigurationRecorderOutputResponse
+    func stopConfigurationRecorder(input: StopConfigurationRecorderInput) async throws -> StopConfigurationRecorderOutput
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1631,19 +1631,19 @@ public protocol ConfigClientProtocol {
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum ConfigClientTypes {}

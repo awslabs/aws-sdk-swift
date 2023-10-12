@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CloudWatchLogsClient {
-    /// Paginate over `[DescribeDestinationsOutputResponse]` results.
+    /// Paginate over `[DescribeDestinationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDestinationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDestinationsOutputResponse`
-    public func describeDestinationsPaginated(input: DescribeDestinationsInput) -> ClientRuntime.PaginatorSequence<DescribeDestinationsInput, DescribeDestinationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDestinationsInput, DescribeDestinationsOutputResponse>(input: input, inputKey: \DescribeDestinationsInput.nextToken, outputKey: \DescribeDestinationsOutputResponse.nextToken, paginationFunction: self.describeDestinations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDestinationsOutput`
+    public func describeDestinationsPaginated(input: DescribeDestinationsInput) -> ClientRuntime.PaginatorSequence<DescribeDestinationsInput, DescribeDestinationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDestinationsInput, DescribeDestinationsOutput>(input: input, inputKey: \DescribeDestinationsInput.nextToken, outputKey: \DescribeDestinationsOutput.nextToken, paginationFunction: self.describeDestinations(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeDestinationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDestinationsInput, Output == DescribeDestinationsOutputResponse {
+extension PaginatorSequence where Input == DescribeDestinationsInput, Output == DescribeDestinationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDestinationsPaginated`
     /// to access the nested member `[CloudWatchLogsClientTypes.Destination]`
     /// - Returns: `[CloudWatchLogsClientTypes.Destination]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeDestinationsInput, Output == 
     }
 }
 extension CloudWatchLogsClient {
-    /// Paginate over `[DescribeLogGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeLogGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeLogGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLogGroupsOutputResponse`
-    public func describeLogGroupsPaginated(input: DescribeLogGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeLogGroupsInput, DescribeLogGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeLogGroupsInput, DescribeLogGroupsOutputResponse>(input: input, inputKey: \DescribeLogGroupsInput.nextToken, outputKey: \DescribeLogGroupsOutputResponse.nextToken, paginationFunction: self.describeLogGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLogGroupsOutput`
+    public func describeLogGroupsPaginated(input: DescribeLogGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeLogGroupsInput, DescribeLogGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeLogGroupsInput, DescribeLogGroupsOutput>(input: input, inputKey: \DescribeLogGroupsInput.nextToken, outputKey: \DescribeLogGroupsOutput.nextToken, paginationFunction: self.describeLogGroups(input:))
     }
 }
 
@@ -59,7 +59,7 @@ extension DescribeLogGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeLogGroupsInput, Output == DescribeLogGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeLogGroupsInput, Output == DescribeLogGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeLogGroupsPaginated`
     /// to access the nested member `[CloudWatchLogsClientTypes.LogGroup]`
     /// - Returns: `[CloudWatchLogsClientTypes.LogGroup]`
@@ -68,16 +68,16 @@ extension PaginatorSequence where Input == DescribeLogGroupsInput, Output == Des
     }
 }
 extension CloudWatchLogsClient {
-    /// Paginate over `[DescribeLogStreamsOutputResponse]` results.
+    /// Paginate over `[DescribeLogStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeLogStreamsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLogStreamsOutputResponse`
-    public func describeLogStreamsPaginated(input: DescribeLogStreamsInput) -> ClientRuntime.PaginatorSequence<DescribeLogStreamsInput, DescribeLogStreamsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeLogStreamsInput, DescribeLogStreamsOutputResponse>(input: input, inputKey: \DescribeLogStreamsInput.nextToken, outputKey: \DescribeLogStreamsOutputResponse.nextToken, paginationFunction: self.describeLogStreams(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLogStreamsOutput`
+    public func describeLogStreamsPaginated(input: DescribeLogStreamsInput) -> ClientRuntime.PaginatorSequence<DescribeLogStreamsInput, DescribeLogStreamsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeLogStreamsInput, DescribeLogStreamsOutput>(input: input, inputKey: \DescribeLogStreamsInput.nextToken, outputKey: \DescribeLogStreamsOutput.nextToken, paginationFunction: self.describeLogStreams(input:))
     }
 }
 
@@ -94,7 +94,7 @@ extension DescribeLogStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeLogStreamsInput, Output == DescribeLogStreamsOutputResponse {
+extension PaginatorSequence where Input == DescribeLogStreamsInput, Output == DescribeLogStreamsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeLogStreamsPaginated`
     /// to access the nested member `[CloudWatchLogsClientTypes.LogStream]`
     /// - Returns: `[CloudWatchLogsClientTypes.LogStream]`
@@ -103,16 +103,16 @@ extension PaginatorSequence where Input == DescribeLogStreamsInput, Output == De
     }
 }
 extension CloudWatchLogsClient {
-    /// Paginate over `[DescribeMetricFiltersOutputResponse]` results.
+    /// Paginate over `[DescribeMetricFiltersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeMetricFiltersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetricFiltersOutputResponse`
-    public func describeMetricFiltersPaginated(input: DescribeMetricFiltersInput) -> ClientRuntime.PaginatorSequence<DescribeMetricFiltersInput, DescribeMetricFiltersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeMetricFiltersInput, DescribeMetricFiltersOutputResponse>(input: input, inputKey: \DescribeMetricFiltersInput.nextToken, outputKey: \DescribeMetricFiltersOutputResponse.nextToken, paginationFunction: self.describeMetricFilters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetricFiltersOutput`
+    public func describeMetricFiltersPaginated(input: DescribeMetricFiltersInput) -> ClientRuntime.PaginatorSequence<DescribeMetricFiltersInput, DescribeMetricFiltersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>(input: input, inputKey: \DescribeMetricFiltersInput.nextToken, outputKey: \DescribeMetricFiltersOutput.nextToken, paginationFunction: self.describeMetricFilters(input:))
     }
 }
 
@@ -128,7 +128,7 @@ extension DescribeMetricFiltersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeMetricFiltersInput, Output == DescribeMetricFiltersOutputResponse {
+extension PaginatorSequence where Input == DescribeMetricFiltersInput, Output == DescribeMetricFiltersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeMetricFiltersPaginated`
     /// to access the nested member `[CloudWatchLogsClientTypes.MetricFilter]`
     /// - Returns: `[CloudWatchLogsClientTypes.MetricFilter]`
@@ -137,16 +137,16 @@ extension PaginatorSequence where Input == DescribeMetricFiltersInput, Output ==
     }
 }
 extension CloudWatchLogsClient {
-    /// Paginate over `[DescribeSubscriptionFiltersOutputResponse]` results.
+    /// Paginate over `[DescribeSubscriptionFiltersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeSubscriptionFiltersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubscriptionFiltersOutputResponse`
-    public func describeSubscriptionFiltersPaginated(input: DescribeSubscriptionFiltersInput) -> ClientRuntime.PaginatorSequence<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutputResponse>(input: input, inputKey: \DescribeSubscriptionFiltersInput.nextToken, outputKey: \DescribeSubscriptionFiltersOutputResponse.nextToken, paginationFunction: self.describeSubscriptionFilters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubscriptionFiltersOutput`
+    public func describeSubscriptionFiltersPaginated(input: DescribeSubscriptionFiltersInput) -> ClientRuntime.PaginatorSequence<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>(input: input, inputKey: \DescribeSubscriptionFiltersInput.nextToken, outputKey: \DescribeSubscriptionFiltersOutput.nextToken, paginationFunction: self.describeSubscriptionFilters(input:))
     }
 }
 
@@ -160,7 +160,7 @@ extension DescribeSubscriptionFiltersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSubscriptionFiltersInput, Output == DescribeSubscriptionFiltersOutputResponse {
+extension PaginatorSequence where Input == DescribeSubscriptionFiltersInput, Output == DescribeSubscriptionFiltersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSubscriptionFiltersPaginated`
     /// to access the nested member `[CloudWatchLogsClientTypes.SubscriptionFilter]`
     /// - Returns: `[CloudWatchLogsClientTypes.SubscriptionFilter]`
@@ -169,16 +169,16 @@ extension PaginatorSequence where Input == DescribeSubscriptionFiltersInput, Out
     }
 }
 extension CloudWatchLogsClient {
-    /// Paginate over `[FilterLogEventsOutputResponse]` results.
+    /// Paginate over `[FilterLogEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[FilterLogEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `FilterLogEventsOutputResponse`
-    public func filterLogEventsPaginated(input: FilterLogEventsInput) -> ClientRuntime.PaginatorSequence<FilterLogEventsInput, FilterLogEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<FilterLogEventsInput, FilterLogEventsOutputResponse>(input: input, inputKey: \FilterLogEventsInput.nextToken, outputKey: \FilterLogEventsOutputResponse.nextToken, paginationFunction: self.filterLogEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `FilterLogEventsOutput`
+    public func filterLogEventsPaginated(input: FilterLogEventsInput) -> ClientRuntime.PaginatorSequence<FilterLogEventsInput, FilterLogEventsOutput> {
+        return ClientRuntime.PaginatorSequence<FilterLogEventsInput, FilterLogEventsOutput>(input: input, inputKey: \FilterLogEventsInput.nextToken, outputKey: \FilterLogEventsOutput.nextToken, paginationFunction: self.filterLogEvents(input:))
     }
 }
 
@@ -199,16 +199,16 @@ extension FilterLogEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudWatchLogsClient {
-    /// Paginate over `[GetLogEventsOutputResponse]` results.
+    /// Paginate over `[GetLogEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetLogEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetLogEventsOutputResponse`
-    public func getLogEventsPaginated(input: GetLogEventsInput) -> ClientRuntime.PaginatorSequence<GetLogEventsInput, GetLogEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetLogEventsInput, GetLogEventsOutputResponse>(input: input, inputKey: \GetLogEventsInput.nextToken, outputKey: \GetLogEventsOutputResponse.nextForwardToken, paginationFunction: self.getLogEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetLogEventsOutput`
+    public func getLogEventsPaginated(input: GetLogEventsInput) -> ClientRuntime.PaginatorSequence<GetLogEventsInput, GetLogEventsOutput> {
+        return ClientRuntime.PaginatorSequence<GetLogEventsInput, GetLogEventsOutput>(input: input, inputKey: \GetLogEventsInput.nextToken, outputKey: \GetLogEventsOutput.nextForwardToken, paginationFunction: self.getLogEvents(input:))
     }
 }
 
@@ -227,7 +227,7 @@ extension GetLogEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetLogEventsInput, Output == GetLogEventsOutputResponse {
+extension PaginatorSequence where Input == GetLogEventsInput, Output == GetLogEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getLogEventsPaginated`
     /// to access the nested member `[CloudWatchLogsClientTypes.OutputLogEvent]`
     /// - Returns: `[CloudWatchLogsClientTypes.OutputLogEvent]`

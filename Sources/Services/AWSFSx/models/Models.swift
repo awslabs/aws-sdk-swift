@@ -388,6 +388,7 @@ extension FSxClientTypes {
         case fileSystemAliasDisassociation
         case fileSystemUpdate
         case iopsOptimization
+        case misconfiguredStateRecovery
         case releaseNfsV3Locks
         case snapshotUpdate
         case storageOptimization
@@ -403,6 +404,7 @@ extension FSxClientTypes {
                 .fileSystemAliasDisassociation,
                 .fileSystemUpdate,
                 .iopsOptimization,
+                .misconfiguredStateRecovery,
                 .releaseNfsV3Locks,
                 .snapshotUpdate,
                 .storageOptimization,
@@ -423,6 +425,7 @@ extension FSxClientTypes {
             case .fileSystemAliasDisassociation: return "FILE_SYSTEM_ALIAS_DISASSOCIATION"
             case .fileSystemUpdate: return "FILE_SYSTEM_UPDATE"
             case .iopsOptimization: return "IOPS_OPTIMIZATION"
+            case .misconfiguredStateRecovery: return "MISCONFIGURED_STATE_RECOVERY"
             case .releaseNfsV3Locks: return "RELEASE_NFS_V3_LOCKS"
             case .snapshotUpdate: return "SNAPSHOT_UPDATE"
             case .storageOptimization: return "STORAGE_OPTIMIZATION"
@@ -645,24 +648,11 @@ extension AssociateFileSystemAliasesInputBody: Swift.Decodable {
     }
 }
 
-enum AssociateFileSystemAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AssociateFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssociateFileSystemAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssociateFileSystemAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssociateFileSystemAliasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
         } else {
             self.aliases = nil
@@ -671,7 +661,7 @@ extension AssociateFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system. It can take up to 2.5 minutes for the alias status to change from CREATING to AVAILABLE.
-public struct AssociateFileSystemAliasesOutputResponse: Swift.Equatable {
+public struct AssociateFileSystemAliasesOutput: Swift.Equatable {
     /// An array of the DNS aliases that Amazon FSx is associating with the file system.
     public var aliases: [FSxClientTypes.Alias]?
 
@@ -683,11 +673,11 @@ public struct AssociateFileSystemAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssociateFileSystemAliasesOutputResponseBody: Swift.Equatable {
+struct AssociateFileSystemAliasesOutputBody: Swift.Equatable {
     let aliases: [FSxClientTypes.Alias]?
 }
 
-extension AssociateFileSystemAliasesOutputResponseBody: Swift.Decodable {
+extension AssociateFileSystemAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aliases = "Aliases"
     }
@@ -705,6 +695,19 @@ extension AssociateFileSystemAliasesOutputResponseBody: Swift.Decodable {
             }
         }
         aliases = aliasesDecoded0
+    }
+}
+
+enum AssociateFileSystemAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1656,26 +1659,11 @@ extension CancelDataRepositoryTaskInputBody: Swift.Decodable {
     }
 }
 
-enum CancelDataRepositoryTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DataRepositoryTaskEnded": return try await DataRepositoryTaskEnded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DataRepositoryTaskNotFound": return try await DataRepositoryTaskNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CancelDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CancelDataRepositoryTaskOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CancelDataRepositoryTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CancelDataRepositoryTaskOutputBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.taskId = output.taskId
         } else {
@@ -1685,7 +1673,7 @@ extension CancelDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CancelDataRepositoryTaskOutputResponse: Swift.Equatable {
+public struct CancelDataRepositoryTaskOutput: Swift.Equatable {
     /// The lifecycle status of the data repository task, as follows:
     ///
     /// * PENDING - Amazon FSx has not started the task.
@@ -1713,12 +1701,12 @@ public struct CancelDataRepositoryTaskOutputResponse: Swift.Equatable {
     }
 }
 
-struct CancelDataRepositoryTaskOutputResponseBody: Swift.Equatable {
+struct CancelDataRepositoryTaskOutputBody: Swift.Equatable {
     let lifecycle: FSxClientTypes.DataRepositoryTaskLifecycle?
     let taskId: Swift.String?
 }
 
-extension CancelDataRepositoryTaskOutputResponseBody: Swift.Decodable {
+extension CancelDataRepositoryTaskOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycle = "Lifecycle"
         case taskId = "TaskId"
@@ -1730,6 +1718,21 @@ extension CancelDataRepositoryTaskOutputResponseBody: Swift.Decodable {
         lifecycle = lifecycleDecoded
         let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
         taskId = taskIdDecoded
+    }
+}
+
+enum CancelDataRepositoryTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataRepositoryTaskEnded": return try await DataRepositoryTaskEnded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataRepositoryTaskNotFound": return try await DataRepositoryTaskNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1930,6 +1933,46 @@ extension CopyBackupInputBody: Swift.Decodable {
     }
 }
 
+extension CopyBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopyBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backup = output.backup
+        } else {
+            self.backup = nil
+        }
+    }
+}
+
+public struct CopyBackupOutput: Swift.Equatable {
+    /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system.
+    public var backup: FSxClientTypes.Backup?
+
+    public init(
+        backup: FSxClientTypes.Backup? = nil
+    )
+    {
+        self.backup = backup
+    }
+}
+
+struct CopyBackupOutputBody: Swift.Equatable {
+    let backup: FSxClientTypes.Backup?
+}
+
+extension CopyBackupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backup = "Backup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Backup.self, forKey: .backup)
+        backup = backupDecoded
+    }
+}
+
 enum CopyBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1948,46 +1991,6 @@ enum CopyBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CopyBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CopyBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.backup = output.backup
-        } else {
-            self.backup = nil
-        }
-    }
-}
-
-public struct CopyBackupOutputResponse: Swift.Equatable {
-    /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system.
-    public var backup: FSxClientTypes.Backup?
-
-    public init(
-        backup: FSxClientTypes.Backup? = nil
-    )
-    {
-        self.backup = backup
-    }
-}
-
-struct CopyBackupOutputResponseBody: Swift.Equatable {
-    let backup: FSxClientTypes.Backup?
-}
-
-extension CopyBackupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backup = "Backup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backupDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Backup.self, forKey: .backup)
-        backup = backupDecoded
     }
 }
 
@@ -2087,6 +2090,47 @@ extension CreateBackupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backup = output.backup
+        } else {
+            self.backup = nil
+        }
+    }
+}
+
+/// The response object for the CreateBackup operation.
+public struct CreateBackupOutput: Swift.Equatable {
+    /// A description of the backup.
+    public var backup: FSxClientTypes.Backup?
+
+    public init(
+        backup: FSxClientTypes.Backup? = nil
+    )
+    {
+        self.backup = backup
+    }
+}
+
+struct CreateBackupOutputBody: Swift.Equatable {
+    let backup: FSxClientTypes.Backup?
+}
+
+extension CreateBackupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backup = "Backup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Backup.self, forKey: .backup)
+        backup = backupDecoded
+    }
+}
+
 enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2102,47 +2146,6 @@ enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.backup = output.backup
-        } else {
-            self.backup = nil
-        }
-    }
-}
-
-/// The response object for the CreateBackup operation.
-public struct CreateBackupOutputResponse: Swift.Equatable {
-    /// A description of the backup.
-    public var backup: FSxClientTypes.Backup?
-
-    public init(
-        backup: FSxClientTypes.Backup? = nil
-    )
-    {
-        self.backup = backup
-    }
-}
-
-struct CreateBackupOutputResponseBody: Swift.Equatable {
-    let backup: FSxClientTypes.Backup?
-}
-
-extension CreateBackupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backup = "Backup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backupDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Backup.self, forKey: .backup)
-        backup = backupDecoded
     }
 }
 
@@ -2291,6 +2294,46 @@ extension CreateDataRepositoryAssociationInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDataRepositoryAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDataRepositoryAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.association = output.association
+        } else {
+            self.association = nil
+        }
+    }
+}
+
+public struct CreateDataRepositoryAssociationOutput: Swift.Equatable {
+    /// The response object returned after the data repository association is created.
+    public var association: FSxClientTypes.DataRepositoryAssociation?
+
+    public init(
+        association: FSxClientTypes.DataRepositoryAssociation? = nil
+    )
+    {
+        self.association = association
+    }
+}
+
+struct CreateDataRepositoryAssociationOutputBody: Swift.Equatable {
+    let association: FSxClientTypes.DataRepositoryAssociation?
+}
+
+extension CreateDataRepositoryAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case association = "Association"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DataRepositoryAssociation.self, forKey: .association)
+        association = associationDecoded
+    }
+}
+
 enum CreateDataRepositoryAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2304,46 +2347,6 @@ enum CreateDataRepositoryAssociationOutputError: ClientRuntime.HttpResponseError
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateDataRepositoryAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDataRepositoryAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.association = output.association
-        } else {
-            self.association = nil
-        }
-    }
-}
-
-public struct CreateDataRepositoryAssociationOutputResponse: Swift.Equatable {
-    /// The response object returned after the data repository association is created.
-    public var association: FSxClientTypes.DataRepositoryAssociation?
-
-    public init(
-        association: FSxClientTypes.DataRepositoryAssociation? = nil
-    )
-    {
-        self.association = association
-    }
-}
-
-struct CreateDataRepositoryAssociationOutputResponseBody: Swift.Equatable {
-    let association: FSxClientTypes.DataRepositoryAssociation?
-}
-
-extension CreateDataRepositoryAssociationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case association = "Association"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let associationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DataRepositoryAssociation.self, forKey: .association)
-        association = associationDecoded
     }
 }
 
@@ -2519,6 +2522,46 @@ extension CreateDataRepositoryTaskInputBody: Swift.Decodable {
     }
 }
 
+extension CreateDataRepositoryTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDataRepositoryTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataRepositoryTask = output.dataRepositoryTask
+        } else {
+            self.dataRepositoryTask = nil
+        }
+    }
+}
+
+public struct CreateDataRepositoryTaskOutput: Swift.Equatable {
+    /// The description of the data repository task that you just created.
+    public var dataRepositoryTask: FSxClientTypes.DataRepositoryTask?
+
+    public init(
+        dataRepositoryTask: FSxClientTypes.DataRepositoryTask? = nil
+    )
+    {
+        self.dataRepositoryTask = dataRepositoryTask
+    }
+}
+
+struct CreateDataRepositoryTaskOutputBody: Swift.Equatable {
+    let dataRepositoryTask: FSxClientTypes.DataRepositoryTask?
+}
+
+extension CreateDataRepositoryTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataRepositoryTask = "DataRepositoryTask"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataRepositoryTaskDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DataRepositoryTask.self, forKey: .dataRepositoryTask)
+        dataRepositoryTask = dataRepositoryTaskDecoded
+    }
+}
+
 enum CreateDataRepositoryTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2533,46 +2576,6 @@ enum CreateDataRepositoryTaskOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDataRepositoryTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.dataRepositoryTask = output.dataRepositoryTask
-        } else {
-            self.dataRepositoryTask = nil
-        }
-    }
-}
-
-public struct CreateDataRepositoryTaskOutputResponse: Swift.Equatable {
-    /// The description of the data repository task that you just created.
-    public var dataRepositoryTask: FSxClientTypes.DataRepositoryTask?
-
-    public init(
-        dataRepositoryTask: FSxClientTypes.DataRepositoryTask? = nil
-    )
-    {
-        self.dataRepositoryTask = dataRepositoryTask
-    }
-}
-
-struct CreateDataRepositoryTaskOutputResponseBody: Swift.Equatable {
-    let dataRepositoryTask: FSxClientTypes.DataRepositoryTask?
-}
-
-extension CreateDataRepositoryTaskOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dataRepositoryTask = "DataRepositoryTask"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dataRepositoryTaskDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DataRepositoryTask.self, forKey: .dataRepositoryTask)
-        dataRepositoryTask = dataRepositoryTaskDecoded
     }
 }
 
@@ -2870,6 +2873,46 @@ extension FSxClientTypes {
 
 }
 
+extension CreateFileCacheOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateFileCacheOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileCache = output.fileCache
+        } else {
+            self.fileCache = nil
+        }
+    }
+}
+
+public struct CreateFileCacheOutput: Swift.Equatable {
+    /// A description of the cache that was created.
+    public var fileCache: FSxClientTypes.FileCacheCreating?
+
+    public init(
+        fileCache: FSxClientTypes.FileCacheCreating? = nil
+    )
+    {
+        self.fileCache = fileCache
+    }
+}
+
+struct CreateFileCacheOutputBody: Swift.Equatable {
+    let fileCache: FSxClientTypes.FileCacheCreating?
+}
+
+extension CreateFileCacheOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileCache = "FileCache"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileCacheDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileCacheCreating.self, forKey: .fileCache)
+        fileCache = fileCacheDecoded
+    }
+}
+
 enum CreateFileCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2884,46 +2927,6 @@ enum CreateFileCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateFileCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.fileCache = output.fileCache
-        } else {
-            self.fileCache = nil
-        }
-    }
-}
-
-public struct CreateFileCacheOutputResponse: Swift.Equatable {
-    /// A description of the cache that was created.
-    public var fileCache: FSxClientTypes.FileCacheCreating?
-
-    public init(
-        fileCache: FSxClientTypes.FileCacheCreating? = nil
-    )
-    {
-        self.fileCache = fileCache
-    }
-}
-
-struct CreateFileCacheOutputResponseBody: Swift.Equatable {
-    let fileCache: FSxClientTypes.FileCacheCreating?
-}
-
-extension CreateFileCacheOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fileCache = "FileCache"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fileCacheDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileCacheCreating.self, forKey: .fileCache)
-        fileCache = fileCacheDecoded
     }
 }
 
@@ -3027,7 +3030,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Equatable {
     ///
     /// * ExportPath
     ///
-    /// * ImportedChunkSize
+    /// * ImportedFileChunkSize
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
@@ -3171,6 +3174,47 @@ extension CreateFileSystemFromBackupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateFileSystemFromBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateFileSystemFromBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileSystem = output.fileSystem
+        } else {
+            self.fileSystem = nil
+        }
+    }
+}
+
+/// The response object for the CreateFileSystemFromBackup operation.
+public struct CreateFileSystemFromBackupOutput: Swift.Equatable {
+    /// A description of the file system.
+    public var fileSystem: FSxClientTypes.FileSystem?
+
+    public init(
+        fileSystem: FSxClientTypes.FileSystem? = nil
+    )
+    {
+        self.fileSystem = fileSystem
+    }
+}
+
+struct CreateFileSystemFromBackupOutputBody: Swift.Equatable {
+    let fileSystem: FSxClientTypes.FileSystem?
+}
+
+extension CreateFileSystemFromBackupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileSystem = "FileSystem"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
+        fileSystem = fileSystemDecoded
+    }
+}
+
 enum CreateFileSystemFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3187,47 +3231,6 @@ enum CreateFileSystemFromBackupOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateFileSystemFromBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateFileSystemFromBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.fileSystem = output.fileSystem
-        } else {
-            self.fileSystem = nil
-        }
-    }
-}
-
-/// The response object for the CreateFileSystemFromBackup operation.
-public struct CreateFileSystemFromBackupOutputResponse: Swift.Equatable {
-    /// A description of the file system.
-    public var fileSystem: FSxClientTypes.FileSystem?
-
-    public init(
-        fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
-        self.fileSystem = fileSystem
-    }
-}
-
-struct CreateFileSystemFromBackupOutputResponseBody: Swift.Equatable {
-    let fileSystem: FSxClientTypes.FileSystem?
-}
-
-extension CreateFileSystemFromBackupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fileSystem = "FileSystem"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
-        fileSystem = fileSystemDecoded
     }
 }
 
@@ -3342,7 +3345,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     ///
     /// * ExportPath
     ///
-    /// * ImportedChunkSize
+    /// * ImportedFileChunkSize
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
@@ -3612,7 +3615,7 @@ extension FSxClientTypes {
     ///
     /// * ExportPath
     ///
-    /// * ImportedChunkSize
+    /// * ImportedFileChunkSize
     ///
     /// * ImportPath
     public struct CreateFileSystemLustreConfiguration: Swift.Equatable {
@@ -4031,6 +4034,47 @@ extension FSxClientTypes {
 
 }
 
+extension CreateFileSystemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateFileSystemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileSystem = output.fileSystem
+        } else {
+            self.fileSystem = nil
+        }
+    }
+}
+
+/// The response object returned after the file system is created.
+public struct CreateFileSystemOutput: Swift.Equatable {
+    /// The configuration of the file system that was created.
+    public var fileSystem: FSxClientTypes.FileSystem?
+
+    public init(
+        fileSystem: FSxClientTypes.FileSystem? = nil
+    )
+    {
+        self.fileSystem = fileSystem
+    }
+}
+
+struct CreateFileSystemOutputBody: Swift.Equatable {
+    let fileSystem: FSxClientTypes.FileSystem?
+}
+
+extension CreateFileSystemOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileSystem = "FileSystem"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
+        fileSystem = fileSystemDecoded
+    }
+}
+
 enum CreateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4048,47 +4092,6 @@ enum CreateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.fileSystem = output.fileSystem
-        } else {
-            self.fileSystem = nil
-        }
-    }
-}
-
-/// The response object returned after the file system is created.
-public struct CreateFileSystemOutputResponse: Swift.Equatable {
-    /// The configuration of the file system that was created.
-    public var fileSystem: FSxClientTypes.FileSystem?
-
-    public init(
-        fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
-        self.fileSystem = fileSystem
-    }
-}
-
-struct CreateFileSystemOutputResponseBody: Swift.Equatable {
-    let fileSystem: FSxClientTypes.FileSystem?
-}
-
-extension CreateFileSystemOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fileSystem = "FileSystem"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
-        fileSystem = fileSystemDecoded
     }
 }
 
@@ -4833,25 +4836,11 @@ extension CreateSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
             self.snapshot = nil
@@ -4859,7 +4848,7 @@ extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSnapshotOutputResponse: Swift.Equatable {
+public struct CreateSnapshotOutput: Swift.Equatable {
     /// A description of the snapshot.
     public var snapshot: FSxClientTypes.Snapshot?
 
@@ -4871,11 +4860,11 @@ public struct CreateSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotOutputResponseBody: Swift.Equatable {
+struct CreateSnapshotOutputBody: Swift.Equatable {
     let snapshot: FSxClientTypes.Snapshot?
 }
 
-extension CreateSnapshotOutputResponseBody: Swift.Decodable {
+extension CreateSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case snapshot = "Snapshot"
     }
@@ -4884,6 +4873,20 @@ extension CreateSnapshotOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Snapshot.self, forKey: .snapshot)
         snapshot = snapshotDecoded
+    }
+}
+
+enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5031,6 +5034,46 @@ extension CreateStorageVirtualMachineInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStorageVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStorageVirtualMachineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.storageVirtualMachine = output.storageVirtualMachine
+        } else {
+            self.storageVirtualMachine = nil
+        }
+    }
+}
+
+public struct CreateStorageVirtualMachineOutput: Swift.Equatable {
+    /// Returned after a successful CreateStorageVirtualMachine operation; describes the SVM just created.
+    public var storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
+
+    public init(
+        storageVirtualMachine: FSxClientTypes.StorageVirtualMachine? = nil
+    )
+    {
+        self.storageVirtualMachine = storageVirtualMachine
+    }
+}
+
+struct CreateStorageVirtualMachineOutputBody: Swift.Equatable {
+    let storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
+}
+
+extension CreateStorageVirtualMachineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageVirtualMachine = "StorageVirtualMachine"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageVirtualMachineDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageVirtualMachine.self, forKey: .storageVirtualMachine)
+        storageVirtualMachine = storageVirtualMachineDecoded
+    }
+}
+
 enum CreateStorageVirtualMachineOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5045,46 +5088,6 @@ enum CreateStorageVirtualMachineOutputError: ClientRuntime.HttpResponseErrorBind
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateStorageVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.storageVirtualMachine = output.storageVirtualMachine
-        } else {
-            self.storageVirtualMachine = nil
-        }
-    }
-}
-
-public struct CreateStorageVirtualMachineOutputResponse: Swift.Equatable {
-    /// Returned after a successful CreateStorageVirtualMachine operation; describes the SVM just created.
-    public var storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
-
-    public init(
-        storageVirtualMachine: FSxClientTypes.StorageVirtualMachine? = nil
-    )
-    {
-        self.storageVirtualMachine = storageVirtualMachine
-    }
-}
-
-struct CreateStorageVirtualMachineOutputResponseBody: Swift.Equatable {
-    let storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
-}
-
-extension CreateStorageVirtualMachineOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case storageVirtualMachine = "StorageVirtualMachine"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let storageVirtualMachineDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageVirtualMachine.self, forKey: .storageVirtualMachine)
-        storageVirtualMachine = storageVirtualMachineDecoded
     }
 }
 
@@ -5243,6 +5246,46 @@ extension CreateVolumeFromBackupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVolumeFromBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVolumeFromBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.volume = output.volume
+        } else {
+            self.volume = nil
+        }
+    }
+}
+
+public struct CreateVolumeFromBackupOutput: Swift.Equatable {
+    /// Returned after a successful CreateVolumeFromBackup API operation, describing the volume just created.
+    public var volume: FSxClientTypes.Volume?
+
+    public init(
+        volume: FSxClientTypes.Volume? = nil
+    )
+    {
+        self.volume = volume
+    }
+}
+
+struct CreateVolumeFromBackupOutputBody: Swift.Equatable {
+    let volume: FSxClientTypes.Volume?
+}
+
+extension CreateVolumeFromBackupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case volume = "Volume"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Volume.self, forKey: .volume)
+        volume = volumeDecoded
+    }
+}
+
 enum CreateVolumeFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5258,46 +5301,6 @@ enum CreateVolumeFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StorageVirtualMachineNotFound": return try await StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVolumeFromBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateVolumeFromBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.volume = output.volume
-        } else {
-            self.volume = nil
-        }
-    }
-}
-
-public struct CreateVolumeFromBackupOutputResponse: Swift.Equatable {
-    /// Returned after a successful CreateVolumeFromBackup API operation, describing the volume just created.
-    public var volume: FSxClientTypes.Volume?
-
-    public init(
-        volume: FSxClientTypes.Volume? = nil
-    )
-    {
-        self.volume = volume
-    }
-}
-
-struct CreateVolumeFromBackupOutputResponseBody: Swift.Equatable {
-    let volume: FSxClientTypes.Volume?
-}
-
-extension CreateVolumeFromBackupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case volume = "Volume"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let volumeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Volume.self, forKey: .volume)
-        volume = volumeDecoded
     }
 }
 
@@ -5422,6 +5425,46 @@ extension CreateVolumeInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVolumeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.volume = output.volume
+        } else {
+            self.volume = nil
+        }
+    }
+}
+
+public struct CreateVolumeOutput: Swift.Equatable {
+    /// Returned after a successful CreateVolume API operation, describing the volume just created.
+    public var volume: FSxClientTypes.Volume?
+
+    public init(
+        volume: FSxClientTypes.Volume? = nil
+    )
+    {
+        self.volume = volume
+    }
+}
+
+struct CreateVolumeOutputBody: Swift.Equatable {
+    let volume: FSxClientTypes.Volume?
+}
+
+extension CreateVolumeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case volume = "Volume"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Volume.self, forKey: .volume)
+        volume = volumeDecoded
+    }
+}
+
 enum CreateVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5437,46 +5480,6 @@ enum CreateVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.volume = output.volume
-        } else {
-            self.volume = nil
-        }
-    }
-}
-
-public struct CreateVolumeOutputResponse: Swift.Equatable {
-    /// Returned after a successful CreateVolume API operation, describing the volume just created.
-    public var volume: FSxClientTypes.Volume?
-
-    public init(
-        volume: FSxClientTypes.Volume? = nil
-    )
-    {
-        self.volume = volume
-    }
-}
-
-struct CreateVolumeOutputResponseBody: Swift.Equatable {
-    let volume: FSxClientTypes.Volume?
-}
-
-extension CreateVolumeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case volume = "Volume"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let volumeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Volume.self, forKey: .volume)
-        volume = volumeDecoded
     }
 }
 
@@ -6758,28 +6761,11 @@ extension DeleteBackupInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BackupBeingCopied": return try await BackupBeingCopied(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BackupInProgress": return try await BackupInProgress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BackupNotFound": return try await BackupNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BackupRestoring": return try await BackupRestoring(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteBackupOutputBody = try responseDecoder.decode(responseBody: data)
             self.backupId = output.backupId
             self.lifecycle = output.lifecycle
         } else {
@@ -6790,7 +6776,7 @@ extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the DeleteBackup operation.
-public struct DeleteBackupOutputResponse: Swift.Equatable {
+public struct DeleteBackupOutput: Swift.Equatable {
     /// The ID of the backup that was deleted.
     public var backupId: Swift.String?
     /// The lifecycle status of the backup. If the DeleteBackup operation is successful, the status is DELETED.
@@ -6806,12 +6792,12 @@ public struct DeleteBackupOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteBackupOutputResponseBody: Swift.Equatable {
+struct DeleteBackupOutputBody: Swift.Equatable {
     let backupId: Swift.String?
     let lifecycle: FSxClientTypes.BackupLifecycle?
 }
 
-extension DeleteBackupOutputResponseBody: Swift.Decodable {
+extension DeleteBackupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupId = "BackupId"
         case lifecycle = "Lifecycle"
@@ -6823,6 +6809,23 @@ extension DeleteBackupOutputResponseBody: Swift.Decodable {
         backupId = backupIdDecoded
         let lifecycleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.BackupLifecycle.self, forKey: .lifecycle)
         lifecycle = lifecycleDecoded
+    }
+}
+
+enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupBeingCopied": return try await BackupBeingCopied(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BackupInProgress": return try await BackupInProgress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BackupNotFound": return try await BackupNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BackupRestoring": return try await BackupRestoring(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6898,26 +6901,11 @@ extension DeleteDataRepositoryAssociationInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteDataRepositoryAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DataRepositoryAssociationNotFound": return try await DataRepositoryAssociationNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteDataRepositoryAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteDataRepositoryAssociationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteDataRepositoryAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteDataRepositoryAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.associationId = output.associationId
             self.deleteDataInFileSystem = output.deleteDataInFileSystem
             self.lifecycle = output.lifecycle
@@ -6929,7 +6917,7 @@ extension DeleteDataRepositoryAssociationOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct DeleteDataRepositoryAssociationOutputResponse: Swift.Equatable {
+public struct DeleteDataRepositoryAssociationOutput: Swift.Equatable {
     /// The ID of the data repository association being deleted.
     public var associationId: Swift.String?
     /// Indicates whether data in the file system that corresponds to the data repository association is being deleted. Default is false.
@@ -6949,13 +6937,13 @@ public struct DeleteDataRepositoryAssociationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteDataRepositoryAssociationOutputResponseBody: Swift.Equatable {
+struct DeleteDataRepositoryAssociationOutputBody: Swift.Equatable {
     let associationId: Swift.String?
     let lifecycle: FSxClientTypes.DataRepositoryLifecycle?
     let deleteDataInFileSystem: Swift.Bool?
 }
 
-extension DeleteDataRepositoryAssociationOutputResponseBody: Swift.Decodable {
+extension DeleteDataRepositoryAssociationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associationId = "AssociationId"
         case deleteDataInFileSystem = "DeleteDataInFileSystem"
@@ -6970,6 +6958,21 @@ extension DeleteDataRepositoryAssociationOutputResponseBody: Swift.Decodable {
         lifecycle = lifecycleDecoded
         let deleteDataInFileSystemDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteDataInFileSystem)
         deleteDataInFileSystem = deleteDataInFileSystemDecoded
+    }
+}
+
+enum DeleteDataRepositoryAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataRepositoryAssociationNotFound": return try await DataRepositoryAssociationNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7033,26 +7036,11 @@ extension DeleteFileCacheInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteFileCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileCacheNotFound": return try await FileCacheNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteFileCacheOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteFileCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteFileCacheOutputBody = try responseDecoder.decode(responseBody: data)
             self.fileCacheId = output.fileCacheId
             self.lifecycle = output.lifecycle
         } else {
@@ -7062,7 +7050,7 @@ extension DeleteFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFileCacheOutputResponse: Swift.Equatable {
+public struct DeleteFileCacheOutput: Swift.Equatable {
     /// The ID of the cache that's being deleted.
     public var fileCacheId: Swift.String?
     /// The cache lifecycle for the deletion request. If the DeleteFileCache operation is successful, this status is DELETING.
@@ -7078,12 +7066,12 @@ public struct DeleteFileCacheOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteFileCacheOutputResponseBody: Swift.Equatable {
+struct DeleteFileCacheOutputBody: Swift.Equatable {
     let fileCacheId: Swift.String?
     let lifecycle: FSxClientTypes.FileCacheLifecycle?
 }
 
-extension DeleteFileCacheOutputResponseBody: Swift.Decodable {
+extension DeleteFileCacheOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileCacheId = "FileCacheId"
         case lifecycle = "Lifecycle"
@@ -7095,6 +7083,21 @@ extension DeleteFileCacheOutputResponseBody: Swift.Decodable {
         fileCacheId = fileCacheIdDecoded
         let lifecycleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileCacheLifecycle.self, forKey: .lifecycle)
         lifecycle = lifecycleDecoded
+    }
+}
+
+enum DeleteFileCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileCacheNotFound": return try await FileCacheNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7474,26 +7477,11 @@ extension FSxClientTypes {
 
 }
 
-enum DeleteFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteFileSystemOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteFileSystemOutputBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemId = output.fileSystemId
             self.lifecycle = output.lifecycle
             self.lustreResponse = output.lustreResponse
@@ -7510,7 +7498,7 @@ extension DeleteFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the DeleteFileSystem operation.
-public struct DeleteFileSystemOutputResponse: Swift.Equatable {
+public struct DeleteFileSystemOutput: Swift.Equatable {
     /// The ID of the file system that's being deleted.
     public var fileSystemId: Swift.String?
     /// The file system lifecycle for the deletion request. If the DeleteFileSystem operation is successful, this status is DELETING.
@@ -7538,7 +7526,7 @@ public struct DeleteFileSystemOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteFileSystemOutputResponseBody: Swift.Equatable {
+struct DeleteFileSystemOutputBody: Swift.Equatable {
     let fileSystemId: Swift.String?
     let lifecycle: FSxClientTypes.FileSystemLifecycle?
     let windowsResponse: FSxClientTypes.DeleteFileSystemWindowsResponse?
@@ -7546,7 +7534,7 @@ struct DeleteFileSystemOutputResponseBody: Swift.Equatable {
     let openZFSResponse: FSxClientTypes.DeleteFileSystemOpenZFSResponse?
 }
 
-extension DeleteFileSystemOutputResponseBody: Swift.Decodable {
+extension DeleteFileSystemOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileSystemId = "FileSystemId"
         case lifecycle = "Lifecycle"
@@ -7567,6 +7555,21 @@ extension DeleteFileSystemOutputResponseBody: Swift.Decodable {
         lustreResponse = lustreResponseDecoded
         let openZFSResponseDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DeleteFileSystemOpenZFSResponse.self, forKey: .openZFSResponse)
         openZFSResponse = openZFSResponseDecoded
+    }
+}
+
+enum DeleteFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7773,24 +7776,11 @@ extension DeleteSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SnapshotNotFound": return try await SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.snapshotId = output.snapshotId
         } else {
@@ -7800,7 +7790,7 @@ extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSnapshotOutputResponse: Swift.Equatable {
+public struct DeleteSnapshotOutput: Swift.Equatable {
     /// The lifecycle status of the snapshot. If the DeleteSnapshot operation is successful, this status is DELETING.
     public var lifecycle: FSxClientTypes.SnapshotLifecycle?
     /// The ID of the deleted snapshot.
@@ -7816,12 +7806,12 @@ public struct DeleteSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotOutputResponseBody: Swift.Equatable {
+struct DeleteSnapshotOutputBody: Swift.Equatable {
     let snapshotId: Swift.String?
     let lifecycle: FSxClientTypes.SnapshotLifecycle?
 }
 
-extension DeleteSnapshotOutputResponseBody: Swift.Decodable {
+extension DeleteSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycle = "Lifecycle"
         case snapshotId = "SnapshotId"
@@ -7833,6 +7823,19 @@ extension DeleteSnapshotOutputResponseBody: Swift.Decodable {
         snapshotId = snapshotIdDecoded
         let lifecycleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.SnapshotLifecycle.self, forKey: .lifecycle)
         lifecycle = lifecycleDecoded
+    }
+}
+
+enum DeleteSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SnapshotNotFound": return try await SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7896,25 +7899,11 @@ extension DeleteStorageVirtualMachineInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteStorageVirtualMachineOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StorageVirtualMachineNotFound": return try await StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteStorageVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteStorageVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteStorageVirtualMachineOutputBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.storageVirtualMachineId = output.storageVirtualMachineId
         } else {
@@ -7924,7 +7913,7 @@ extension DeleteStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DeleteStorageVirtualMachineOutputResponse: Swift.Equatable {
+public struct DeleteStorageVirtualMachineOutput: Swift.Equatable {
     /// Describes the lifecycle state of the SVM being deleted.
     public var lifecycle: FSxClientTypes.StorageVirtualMachineLifecycle?
     /// The ID of the SVM Amazon FSx is deleting.
@@ -7940,12 +7929,12 @@ public struct DeleteStorageVirtualMachineOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteStorageVirtualMachineOutputResponseBody: Swift.Equatable {
+struct DeleteStorageVirtualMachineOutputBody: Swift.Equatable {
     let storageVirtualMachineId: Swift.String?
     let lifecycle: FSxClientTypes.StorageVirtualMachineLifecycle?
 }
 
-extension DeleteStorageVirtualMachineOutputResponseBody: Swift.Decodable {
+extension DeleteStorageVirtualMachineOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycle = "Lifecycle"
         case storageVirtualMachineId = "StorageVirtualMachineId"
@@ -7957,6 +7946,20 @@ extension DeleteStorageVirtualMachineOutputResponseBody: Swift.Decodable {
         storageVirtualMachineId = storageVirtualMachineIdDecoded
         let lifecycleDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageVirtualMachineLifecycle.self, forKey: .lifecycle)
         lifecycle = lifecycleDecoded
+    }
+}
+
+enum DeleteStorageVirtualMachineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StorageVirtualMachineNotFound": return try await StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8215,26 +8218,11 @@ extension FSxClientTypes {
 
 }
 
-enum DeleteVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteVolumeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteVolumeOutputBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.ontapResponse = output.ontapResponse
             self.volumeId = output.volumeId
@@ -8246,7 +8234,7 @@ extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVolumeOutputResponse: Swift.Equatable {
+public struct DeleteVolumeOutput: Swift.Equatable {
     /// The lifecycle state of the volume being deleted. If the DeleteVolume operation is successful, this value is DELETING.
     public var lifecycle: FSxClientTypes.VolumeLifecycle?
     /// Returned after a DeleteVolume request, showing the status of the delete request.
@@ -8266,13 +8254,13 @@ public struct DeleteVolumeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteVolumeOutputResponseBody: Swift.Equatable {
+struct DeleteVolumeOutputBody: Swift.Equatable {
     let volumeId: Swift.String?
     let lifecycle: FSxClientTypes.VolumeLifecycle?
     let ontapResponse: FSxClientTypes.DeleteVolumeOntapResponse?
 }
 
-extension DeleteVolumeOutputResponseBody: Swift.Decodable {
+extension DeleteVolumeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycle = "Lifecycle"
         case ontapResponse = "OntapResponse"
@@ -8287,6 +8275,21 @@ extension DeleteVolumeOutputResponseBody: Swift.Decodable {
         lifecycle = lifecycleDecoded
         let ontapResponseDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DeleteVolumeOntapResponse.self, forKey: .ontapResponse)
         ontapResponse = ontapResponseDecoded
+    }
+}
+
+enum DeleteVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IncompatibleParameterError": return try await IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8398,26 +8401,11 @@ extension DescribeBackupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BackupNotFound": return try await BackupNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeBackupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeBackupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backups = output.backups
             self.nextToken = output.nextToken
         } else {
@@ -8428,7 +8416,7 @@ extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response object for the DescribeBackups operation.
-public struct DescribeBackupsOutputResponse: Swift.Equatable {
+public struct DescribeBackupsOutput: Swift.Equatable {
     /// An array of backups.
     public var backups: [FSxClientTypes.Backup]?
     /// A NextToken value is present if there are more backups than returned in the response. You can use the NextToken value in the subsequent request to fetch the backups.
@@ -8444,12 +8432,12 @@ public struct DescribeBackupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsOutputResponseBody: Swift.Equatable {
+struct DescribeBackupsOutputBody: Swift.Equatable {
     let backups: [FSxClientTypes.Backup]?
     let nextToken: Swift.String?
 }
 
-extension DescribeBackupsOutputResponseBody: Swift.Decodable {
+extension DescribeBackupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backups = "Backups"
         case nextToken = "NextToken"
@@ -8470,6 +8458,21 @@ extension DescribeBackupsOutputResponseBody: Swift.Decodable {
         backups = backupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupNotFound": return try await BackupNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8580,26 +8583,11 @@ extension DescribeDataRepositoryAssociationsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDataRepositoryAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DataRepositoryAssociationNotFound": return try await DataRepositoryAssociationNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDataRepositoryType": return try await InvalidDataRepositoryType(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDataRepositoryAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDataRepositoryAssociationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDataRepositoryAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDataRepositoryAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.associations = output.associations
             self.nextToken = output.nextToken
         } else {
@@ -8609,7 +8597,7 @@ extension DescribeDataRepositoryAssociationsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct DescribeDataRepositoryAssociationsOutputResponse: Swift.Equatable {
+public struct DescribeDataRepositoryAssociationsOutput: Swift.Equatable {
     /// An array of one or more data repository association descriptions.
     public var associations: [FSxClientTypes.DataRepositoryAssociation]?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -8625,12 +8613,12 @@ public struct DescribeDataRepositoryAssociationsOutputResponse: Swift.Equatable 
     }
 }
 
-struct DescribeDataRepositoryAssociationsOutputResponseBody: Swift.Equatable {
+struct DescribeDataRepositoryAssociationsOutputBody: Swift.Equatable {
     let associations: [FSxClientTypes.DataRepositoryAssociation]?
     let nextToken: Swift.String?
 }
 
-extension DescribeDataRepositoryAssociationsOutputResponseBody: Swift.Decodable {
+extension DescribeDataRepositoryAssociationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associations = "Associations"
         case nextToken = "NextToken"
@@ -8651,6 +8639,21 @@ extension DescribeDataRepositoryAssociationsOutputResponseBody: Swift.Decodable 
         associations = associationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeDataRepositoryAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataRepositoryAssociationNotFound": return try await DataRepositoryAssociationNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDataRepositoryType": return try await InvalidDataRepositoryType(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8761,25 +8764,11 @@ extension DescribeDataRepositoryTasksInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDataRepositoryTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DataRepositoryTaskNotFound": return try await DataRepositoryTaskNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDataRepositoryTasksOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDataRepositoryTasksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDataRepositoryTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDataRepositoryTasksOutputBody = try responseDecoder.decode(responseBody: data)
             self.dataRepositoryTasks = output.dataRepositoryTasks
             self.nextToken = output.nextToken
         } else {
@@ -8789,7 +8778,7 @@ extension DescribeDataRepositoryTasksOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeDataRepositoryTasksOutputResponse: Swift.Equatable {
+public struct DescribeDataRepositoryTasksOutput: Swift.Equatable {
     /// The collection of data repository task descriptions returned.
     public var dataRepositoryTasks: [FSxClientTypes.DataRepositoryTask]?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -8805,12 +8794,12 @@ public struct DescribeDataRepositoryTasksOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDataRepositoryTasksOutputResponseBody: Swift.Equatable {
+struct DescribeDataRepositoryTasksOutputBody: Swift.Equatable {
     let dataRepositoryTasks: [FSxClientTypes.DataRepositoryTask]?
     let nextToken: Swift.String?
 }
 
-extension DescribeDataRepositoryTasksOutputResponseBody: Swift.Decodable {
+extension DescribeDataRepositoryTasksOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataRepositoryTasks = "DataRepositoryTasks"
         case nextToken = "NextToken"
@@ -8831,6 +8820,20 @@ extension DescribeDataRepositoryTasksOutputResponseBody: Swift.Decodable {
         dataRepositoryTasks = dataRepositoryTasksDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeDataRepositoryTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DataRepositoryTaskNotFound": return try await DataRepositoryTaskNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8917,24 +8920,11 @@ extension DescribeFileCachesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFileCachesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileCacheNotFound": return try await FileCacheNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFileCachesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFileCachesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFileCachesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFileCachesOutputBody = try responseDecoder.decode(responseBody: data)
             self.fileCaches = output.fileCaches
             self.nextToken = output.nextToken
         } else {
@@ -8944,7 +8934,7 @@ extension DescribeFileCachesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFileCachesOutputResponse: Swift.Equatable {
+public struct DescribeFileCachesOutput: Swift.Equatable {
     /// The response object for the DescribeFileCaches operation.
     public var fileCaches: [FSxClientTypes.FileCache]?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -8960,12 +8950,12 @@ public struct DescribeFileCachesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFileCachesOutputResponseBody: Swift.Equatable {
+struct DescribeFileCachesOutputBody: Swift.Equatable {
     let fileCaches: [FSxClientTypes.FileCache]?
     let nextToken: Swift.String?
 }
 
-extension DescribeFileCachesOutputResponseBody: Swift.Decodable {
+extension DescribeFileCachesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileCaches = "FileCaches"
         case nextToken = "NextToken"
@@ -8986,6 +8976,19 @@ extension DescribeFileCachesOutputResponseBody: Swift.Decodable {
         fileCaches = fileCachesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeFileCachesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileCacheNotFound": return try await FileCacheNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9074,24 +9077,11 @@ extension DescribeFileSystemAliasesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFileSystemAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFileSystemAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFileSystemAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFileSystemAliasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
             self.nextToken = output.nextToken
         } else {
@@ -9102,7 +9092,7 @@ extension DescribeFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// The response object for DescribeFileSystemAliases operation.
-public struct DescribeFileSystemAliasesOutputResponse: Swift.Equatable {
+public struct DescribeFileSystemAliasesOutput: Swift.Equatable {
     /// An array of one or more DNS aliases currently associated with the specified file system.
     public var aliases: [FSxClientTypes.Alias]?
     /// Present if there are more DNS aliases than returned in the response (String). You can use the NextToken value in a later request to fetch additional descriptions.
@@ -9118,12 +9108,12 @@ public struct DescribeFileSystemAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemAliasesOutputResponseBody: Swift.Equatable {
+struct DescribeFileSystemAliasesOutputBody: Swift.Equatable {
     let aliases: [FSxClientTypes.Alias]?
     let nextToken: Swift.String?
 }
 
-extension DescribeFileSystemAliasesOutputResponseBody: Swift.Decodable {
+extension DescribeFileSystemAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aliases = "Aliases"
         case nextToken = "NextToken"
@@ -9144,6 +9134,19 @@ extension DescribeFileSystemAliasesOutputResponseBody: Swift.Decodable {
         aliases = aliasesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeFileSystemAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9231,24 +9234,11 @@ extension DescribeFileSystemsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFileSystemsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFileSystemsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFileSystemsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFileSystemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFileSystemsOutputBody = try responseDecoder.decode(responseBody: data)
             self.fileSystems = output.fileSystems
             self.nextToken = output.nextToken
         } else {
@@ -9259,7 +9249,7 @@ extension DescribeFileSystemsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for DescribeFileSystems operation.
-public struct DescribeFileSystemsOutputResponse: Swift.Equatable {
+public struct DescribeFileSystemsOutput: Swift.Equatable {
     /// An array of file system descriptions.
     public var fileSystems: [FSxClientTypes.FileSystem]?
     /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions.
@@ -9275,12 +9265,12 @@ public struct DescribeFileSystemsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemsOutputResponseBody: Swift.Equatable {
+struct DescribeFileSystemsOutputBody: Swift.Equatable {
     let fileSystems: [FSxClientTypes.FileSystem]?
     let nextToken: Swift.String?
 }
 
-extension DescribeFileSystemsOutputResponseBody: Swift.Decodable {
+extension DescribeFileSystemsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileSystems = "FileSystems"
         case nextToken = "NextToken"
@@ -9301,6 +9291,19 @@ extension DescribeFileSystemsOutputResponseBody: Swift.Decodable {
         fileSystems = fileSystemsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeFileSystemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9411,24 +9414,11 @@ extension DescribeSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SnapshotNotFound": return try await SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSnapshotsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.snapshots = output.snapshots
         } else {
@@ -9438,7 +9428,7 @@ extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSnapshotsOutputResponse: Swift.Equatable {
+public struct DescribeSnapshotsOutput: Swift.Equatable {
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
     /// An array of snapshots.
@@ -9454,12 +9444,12 @@ public struct DescribeSnapshotsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSnapshotsOutputResponseBody: Swift.Equatable {
+struct DescribeSnapshotsOutputBody: Swift.Equatable {
     let snapshots: [FSxClientTypes.Snapshot]?
     let nextToken: Swift.String?
 }
 
-extension DescribeSnapshotsOutputResponseBody: Swift.Decodable {
+extension DescribeSnapshotsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case snapshots = "Snapshots"
@@ -9480,6 +9470,19 @@ extension DescribeSnapshotsOutputResponseBody: Swift.Decodable {
         snapshots = snapshotsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SnapshotNotFound": return try await SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9590,24 +9593,11 @@ extension DescribeStorageVirtualMachinesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeStorageVirtualMachinesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StorageVirtualMachineNotFound": return try await StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeStorageVirtualMachinesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeStorageVirtualMachinesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeStorageVirtualMachinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeStorageVirtualMachinesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.storageVirtualMachines = output.storageVirtualMachines
         } else {
@@ -9617,7 +9607,7 @@ extension DescribeStorageVirtualMachinesOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct DescribeStorageVirtualMachinesOutputResponse: Swift.Equatable {
+public struct DescribeStorageVirtualMachinesOutput: Swift.Equatable {
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
     /// Returned after a successful DescribeStorageVirtualMachines operation, describing each SVM.
@@ -9633,12 +9623,12 @@ public struct DescribeStorageVirtualMachinesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeStorageVirtualMachinesOutputResponseBody: Swift.Equatable {
+struct DescribeStorageVirtualMachinesOutputBody: Swift.Equatable {
     let storageVirtualMachines: [FSxClientTypes.StorageVirtualMachine]?
     let nextToken: Swift.String?
 }
 
-extension DescribeStorageVirtualMachinesOutputResponseBody: Swift.Decodable {
+extension DescribeStorageVirtualMachinesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case storageVirtualMachines = "StorageVirtualMachines"
@@ -9659,6 +9649,19 @@ extension DescribeStorageVirtualMachinesOutputResponseBody: Swift.Decodable {
         storageVirtualMachines = storageVirtualMachinesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeStorageVirtualMachinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StorageVirtualMachineNotFound": return try await StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9769,24 +9772,11 @@ extension DescribeVolumesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeVolumesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeVolumesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.volumes = output.volumes
         } else {
@@ -9796,7 +9786,7 @@ extension DescribeVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVolumesOutputResponse: Swift.Equatable {
+public struct DescribeVolumesOutput: Swift.Equatable {
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
     /// Returned after a successful DescribeVolumes operation, describing each volume.
@@ -9812,12 +9802,12 @@ public struct DescribeVolumesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeVolumesOutputResponseBody: Swift.Equatable {
+struct DescribeVolumesOutputBody: Swift.Equatable {
     let volumes: [FSxClientTypes.Volume]?
     let nextToken: Swift.String?
 }
 
-extension DescribeVolumesOutputResponseBody: Swift.Decodable {
+extension DescribeVolumesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case volumes = "Volumes"
@@ -9838,6 +9828,19 @@ extension DescribeVolumesOutputResponseBody: Swift.Decodable {
         volumes = volumesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9927,24 +9930,11 @@ extension DisassociateFileSystemAliasesInputBody: Swift.Decodable {
     }
 }
 
-enum DisassociateFileSystemAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociateFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociateFileSystemAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociateFileSystemAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociateFileSystemAliasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
         } else {
             self.aliases = nil
@@ -9953,7 +9943,7 @@ extension DisassociateFileSystemAliasesOutputResponse: ClientRuntime.HttpRespons
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to monitor the status of the aliases Amazon FSx is removing from the file system.
-public struct DisassociateFileSystemAliasesOutputResponse: Swift.Equatable {
+public struct DisassociateFileSystemAliasesOutput: Swift.Equatable {
     /// An array of one or more DNS aliases that Amazon FSx is attempting to disassociate from the file system.
     public var aliases: [FSxClientTypes.Alias]?
 
@@ -9965,11 +9955,11 @@ public struct DisassociateFileSystemAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DisassociateFileSystemAliasesOutputResponseBody: Swift.Equatable {
+struct DisassociateFileSystemAliasesOutputBody: Swift.Equatable {
     let aliases: [FSxClientTypes.Alias]?
 }
 
-extension DisassociateFileSystemAliasesOutputResponseBody: Swift.Decodable {
+extension DisassociateFileSystemAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aliases = "Aliases"
     }
@@ -9987,6 +9977,19 @@ extension DisassociateFileSystemAliasesOutputResponseBody: Swift.Decodable {
             }
         }
         aliases = aliasesDecoded0
+    }
+}
+
+enum DisassociateFileSystemAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12687,26 +12690,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotServiceResourceError": return try await NotServiceResourceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceDoesNotSupportTagging": return try await ResourceDoesNotSupportTagging(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -12717,7 +12705,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for ListTagsForResource operation.
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// This is present if there are more tags than returned in the response (String). You can use the NextToken value in the later request to fetch the tags.
     public var nextToken: Swift.String?
     /// A list of tags on the resource.
@@ -12733,12 +12721,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [FSxClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -12759,6 +12747,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotServiceResourceError": return try await NotServiceResourceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceDoesNotSupportTagging": return try await ResourceDoesNotSupportTagging(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14878,6 +14881,46 @@ extension ReleaseFileSystemNfsV3LocksInputBody: Swift.Decodable {
     }
 }
 
+extension ReleaseFileSystemNfsV3LocksOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ReleaseFileSystemNfsV3LocksOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileSystem = output.fileSystem
+        } else {
+            self.fileSystem = nil
+        }
+    }
+}
+
+public struct ReleaseFileSystemNfsV3LocksOutput: Swift.Equatable {
+    /// A description of a specific Amazon FSx file system.
+    public var fileSystem: FSxClientTypes.FileSystem?
+
+    public init(
+        fileSystem: FSxClientTypes.FileSystem? = nil
+    )
+    {
+        self.fileSystem = fileSystem
+    }
+}
+
+struct ReleaseFileSystemNfsV3LocksOutputBody: Swift.Equatable {
+    let fileSystem: FSxClientTypes.FileSystem?
+}
+
+extension ReleaseFileSystemNfsV3LocksOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileSystem = "FileSystem"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
+        fileSystem = fileSystemDecoded
+    }
+}
+
 enum ReleaseFileSystemNfsV3LocksOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14890,46 +14933,6 @@ enum ReleaseFileSystemNfsV3LocksOutputError: ClientRuntime.HttpResponseErrorBind
             case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ReleaseFileSystemNfsV3LocksOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ReleaseFileSystemNfsV3LocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.fileSystem = output.fileSystem
-        } else {
-            self.fileSystem = nil
-        }
-    }
-}
-
-public struct ReleaseFileSystemNfsV3LocksOutputResponse: Swift.Equatable {
-    /// A description of a specific Amazon FSx file system.
-    public var fileSystem: FSxClientTypes.FileSystem?
-
-    public init(
-        fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
-        self.fileSystem = fileSystem
-    }
-}
-
-struct ReleaseFileSystemNfsV3LocksOutputResponseBody: Swift.Equatable {
-    let fileSystem: FSxClientTypes.FileSystem?
-}
-
-extension ReleaseFileSystemNfsV3LocksOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fileSystem = "FileSystem"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
-        fileSystem = fileSystemDecoded
     }
 }
 
@@ -15290,24 +15293,11 @@ extension RestoreVolumeFromSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum RestoreVolumeFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RestoreVolumeFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RestoreVolumeFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RestoreVolumeFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RestoreVolumeFromSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.administrativeActions = output.administrativeActions
             self.lifecycle = output.lifecycle
             self.volumeId = output.volumeId
@@ -15319,7 +15309,7 @@ extension RestoreVolumeFromSnapshotOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct RestoreVolumeFromSnapshotOutputResponse: Swift.Equatable {
+public struct RestoreVolumeFromSnapshotOutput: Swift.Equatable {
     /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system.
     public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
     /// The lifecycle state of the volume being restored.
@@ -15339,13 +15329,13 @@ public struct RestoreVolumeFromSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct RestoreVolumeFromSnapshotOutputResponseBody: Swift.Equatable {
+struct RestoreVolumeFromSnapshotOutputBody: Swift.Equatable {
     let volumeId: Swift.String?
     let lifecycle: FSxClientTypes.VolumeLifecycle?
     let administrativeActions: [FSxClientTypes.AdministrativeAction]?
 }
 
-extension RestoreVolumeFromSnapshotOutputResponseBody: Swift.Decodable {
+extension RestoreVolumeFromSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case administrativeActions = "AdministrativeActions"
         case lifecycle = "Lifecycle"
@@ -15369,6 +15359,19 @@ extension RestoreVolumeFromSnapshotOutputResponseBody: Swift.Decodable {
             }
         }
         administrativeActions = administrativeActionsDecoded0
+    }
+}
+
+enum RestoreVolumeFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16554,6 +16557,119 @@ extension SourceBackupUnavailableBody: Swift.Decodable {
     }
 }
 
+extension StartMisconfiguredStateRecoveryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case fileSystemId = "FileSystemId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let fileSystemId = self.fileSystemId {
+            try encodeContainer.encode(fileSystemId, forKey: .fileSystemId)
+        }
+    }
+}
+
+extension StartMisconfiguredStateRecoveryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMisconfiguredStateRecoveryInput: Swift.Equatable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The globally unique ID of the file system, assigned by Amazon FSx.
+    /// This member is required.
+    public var fileSystemId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        fileSystemId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.fileSystemId = fileSystemId
+    }
+}
+
+struct StartMisconfiguredStateRecoveryInputBody: Swift.Equatable {
+    let clientRequestToken: Swift.String?
+    let fileSystemId: Swift.String?
+}
+
+extension StartMisconfiguredStateRecoveryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case fileSystemId = "FileSystemId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let fileSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemId)
+        fileSystemId = fileSystemIdDecoded
+    }
+}
+
+extension StartMisconfiguredStateRecoveryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMisconfiguredStateRecoveryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileSystem = output.fileSystem
+        } else {
+            self.fileSystem = nil
+        }
+    }
+}
+
+public struct StartMisconfiguredStateRecoveryOutput: Swift.Equatable {
+    /// A description of a specific Amazon FSx file system.
+    public var fileSystem: FSxClientTypes.FileSystem?
+
+    public init(
+        fileSystem: FSxClientTypes.FileSystem? = nil
+    )
+    {
+        self.fileSystem = fileSystem
+    }
+}
+
+struct StartMisconfiguredStateRecoveryOutputBody: Swift.Equatable {
+    let fileSystem: FSxClientTypes.FileSystem?
+}
+
+extension StartMisconfiguredStateRecoveryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileSystem = "FileSystem"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
+        fileSystem = fileSystemDecoded
+    }
+}
+
+enum StartMisconfiguredStateRecoveryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension FSxClientTypes {
     public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed
@@ -17354,6 +17470,17 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// The response object for the TagResource operation.
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17367,17 +17494,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// The response object for the TagResource operation.
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension FSxClientTypes.TieringPolicy: Swift.Codable {
@@ -17647,6 +17763,17 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// The response object for UntagResource action.
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17660,17 +17787,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// The response object for UntagResource action.
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateDataRepositoryAssociationInput: Swift.Encodable {
@@ -17757,6 +17873,46 @@ extension UpdateDataRepositoryAssociationInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateDataRepositoryAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDataRepositoryAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.association = output.association
+        } else {
+            self.association = nil
+        }
+    }
+}
+
+public struct UpdateDataRepositoryAssociationOutput: Swift.Equatable {
+    /// The response object returned after the data repository association is updated.
+    public var association: FSxClientTypes.DataRepositoryAssociation?
+
+    public init(
+        association: FSxClientTypes.DataRepositoryAssociation? = nil
+    )
+    {
+        self.association = association
+    }
+}
+
+struct UpdateDataRepositoryAssociationOutputBody: Swift.Equatable {
+    let association: FSxClientTypes.DataRepositoryAssociation?
+}
+
+extension UpdateDataRepositoryAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case association = "Association"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DataRepositoryAssociation.self, forKey: .association)
+        association = associationDecoded
+    }
+}
+
 enum UpdateDataRepositoryAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17769,46 +17925,6 @@ enum UpdateDataRepositoryAssociationOutputError: ClientRuntime.HttpResponseError
             case "ServiceLimitExceeded": return try await ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateDataRepositoryAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateDataRepositoryAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.association = output.association
-        } else {
-            self.association = nil
-        }
-    }
-}
-
-public struct UpdateDataRepositoryAssociationOutputResponse: Swift.Equatable {
-    /// The response object returned after the data repository association is updated.
-    public var association: FSxClientTypes.DataRepositoryAssociation?
-
-    public init(
-        association: FSxClientTypes.DataRepositoryAssociation? = nil
-    )
-    {
-        self.association = association
-    }
-}
-
-struct UpdateDataRepositoryAssociationOutputResponseBody: Swift.Equatable {
-    let association: FSxClientTypes.DataRepositoryAssociation?
-}
-
-extension UpdateDataRepositoryAssociationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case association = "Association"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let associationDecoded = try containerValues.decodeIfPresent(FSxClientTypes.DataRepositoryAssociation.self, forKey: .association)
-        association = associationDecoded
     }
 }
 
@@ -17919,6 +18035,46 @@ extension FSxClientTypes {
 
 }
 
+extension UpdateFileCacheOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateFileCacheOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileCache = output.fileCache
+        } else {
+            self.fileCache = nil
+        }
+    }
+}
+
+public struct UpdateFileCacheOutput: Swift.Equatable {
+    /// A description of the cache that was updated.
+    public var fileCache: FSxClientTypes.FileCache?
+
+    public init(
+        fileCache: FSxClientTypes.FileCache? = nil
+    )
+    {
+        self.fileCache = fileCache
+    }
+}
+
+struct UpdateFileCacheOutputBody: Swift.Equatable {
+    let fileCache: FSxClientTypes.FileCache?
+}
+
+extension UpdateFileCacheOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileCache = "FileCache"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileCacheDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileCache.self, forKey: .fileCache)
+        fileCache = fileCacheDecoded
+    }
+}
+
 enum UpdateFileCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17933,46 +18089,6 @@ enum UpdateFileCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateFileCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.fileCache = output.fileCache
-        } else {
-            self.fileCache = nil
-        }
-    }
-}
-
-public struct UpdateFileCacheOutputResponse: Swift.Equatable {
-    /// A description of the cache that was updated.
-    public var fileCache: FSxClientTypes.FileCache?
-
-    public init(
-        fileCache: FSxClientTypes.FileCache? = nil
-    )
-    {
-        self.fileCache = fileCache
-    }
-}
-
-struct UpdateFileCacheOutputResponseBody: Swift.Equatable {
-    let fileCache: FSxClientTypes.FileCache?
-}
-
-extension UpdateFileCacheOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fileCache = "FileCache"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fileCacheDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileCache.self, forKey: .fileCache)
-        fileCache = fileCacheDecoded
     }
 }
 
@@ -18508,6 +18624,47 @@ extension FSxClientTypes {
 
 }
 
+extension UpdateFileSystemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateFileSystemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.fileSystem = output.fileSystem
+        } else {
+            self.fileSystem = nil
+        }
+    }
+}
+
+/// The response object for the UpdateFileSystem operation.
+public struct UpdateFileSystemOutput: Swift.Equatable {
+    /// A description of the file system that was updated.
+    public var fileSystem: FSxClientTypes.FileSystem?
+
+    public init(
+        fileSystem: FSxClientTypes.FileSystem? = nil
+    )
+    {
+        self.fileSystem = fileSystem
+    }
+}
+
+struct UpdateFileSystemOutputBody: Swift.Equatable {
+    let fileSystem: FSxClientTypes.FileSystem?
+}
+
+extension UpdateFileSystemOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileSystem = "FileSystem"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
+        fileSystem = fileSystemDecoded
+    }
+}
+
 enum UpdateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18523,47 +18680,6 @@ enum UpdateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.fileSystem = output.fileSystem
-        } else {
-            self.fileSystem = nil
-        }
-    }
-}
-
-/// The response object for the UpdateFileSystem operation.
-public struct UpdateFileSystemOutputResponse: Swift.Equatable {
-    /// A description of the file system that was updated.
-    public var fileSystem: FSxClientTypes.FileSystem?
-
-    public init(
-        fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
-        self.fileSystem = fileSystem
-    }
-}
-
-struct UpdateFileSystemOutputResponseBody: Swift.Equatable {
-    let fileSystem: FSxClientTypes.FileSystem?
-}
-
-extension UpdateFileSystemOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case fileSystem = "FileSystem"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fileSystemDecoded = try containerValues.decodeIfPresent(FSxClientTypes.FileSystem.self, forKey: .fileSystem)
-        fileSystem = fileSystemDecoded
     }
 }
 
@@ -19049,24 +19165,11 @@ extension UpdateSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SnapshotNotFound": return try await SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
             self.snapshot = nil
@@ -19074,7 +19177,7 @@ extension UpdateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSnapshotOutputResponse: Swift.Equatable {
+public struct UpdateSnapshotOutput: Swift.Equatable {
     /// Returned after a successful UpdateSnapshot operation, describing the snapshot that you updated.
     public var snapshot: FSxClientTypes.Snapshot?
 
@@ -19086,11 +19189,11 @@ public struct UpdateSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotOutputResponseBody: Swift.Equatable {
+struct UpdateSnapshotOutputBody: Swift.Equatable {
     let snapshot: FSxClientTypes.Snapshot?
 }
 
-extension UpdateSnapshotOutputResponseBody: Swift.Decodable {
+extension UpdateSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case snapshot = "Snapshot"
     }
@@ -19099,6 +19202,19 @@ extension UpdateSnapshotOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Snapshot.self, forKey: .snapshot)
         snapshot = snapshotDecoded
+    }
+}
+
+enum UpdateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SnapshotNotFound": return try await SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -19191,6 +19307,46 @@ extension UpdateStorageVirtualMachineInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateStorageVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateStorageVirtualMachineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.storageVirtualMachine = output.storageVirtualMachine
+        } else {
+            self.storageVirtualMachine = nil
+        }
+    }
+}
+
+public struct UpdateStorageVirtualMachineOutput: Swift.Equatable {
+    /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM) configuration.
+    public var storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
+
+    public init(
+        storageVirtualMachine: FSxClientTypes.StorageVirtualMachine? = nil
+    )
+    {
+        self.storageVirtualMachine = storageVirtualMachine
+    }
+}
+
+struct UpdateStorageVirtualMachineOutputBody: Swift.Equatable {
+    let storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
+}
+
+extension UpdateStorageVirtualMachineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageVirtualMachine = "StorageVirtualMachine"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageVirtualMachineDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageVirtualMachine.self, forKey: .storageVirtualMachine)
+        storageVirtualMachine = storageVirtualMachineDecoded
+    }
+}
+
 enum UpdateStorageVirtualMachineOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -19203,46 +19359,6 @@ enum UpdateStorageVirtualMachineOutputError: ClientRuntime.HttpResponseErrorBind
             case "UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateStorageVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.storageVirtualMachine = output.storageVirtualMachine
-        } else {
-            self.storageVirtualMachine = nil
-        }
-    }
-}
-
-public struct UpdateStorageVirtualMachineOutputResponse: Swift.Equatable {
-    /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM) configuration.
-    public var storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
-
-    public init(
-        storageVirtualMachine: FSxClientTypes.StorageVirtualMachine? = nil
-    )
-    {
-        self.storageVirtualMachine = storageVirtualMachine
-    }
-}
-
-struct UpdateStorageVirtualMachineOutputResponseBody: Swift.Equatable {
-    let storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
-}
-
-extension UpdateStorageVirtualMachineOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case storageVirtualMachine = "StorageVirtualMachine"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let storageVirtualMachineDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageVirtualMachine.self, forKey: .storageVirtualMachine)
-        storageVirtualMachine = storageVirtualMachineDecoded
     }
 }
 
@@ -19387,6 +19503,46 @@ extension UpdateVolumeInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateVolumeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.volume = output.volume
+        } else {
+            self.volume = nil
+        }
+    }
+}
+
+public struct UpdateVolumeOutput: Swift.Equatable {
+    /// A description of the volume just updated. Returned after a successful UpdateVolume API operation.
+    public var volume: FSxClientTypes.Volume?
+
+    public init(
+        volume: FSxClientTypes.Volume? = nil
+    )
+    {
+        self.volume = volume
+    }
+}
+
+struct UpdateVolumeOutputBody: Swift.Equatable {
+    let volume: FSxClientTypes.Volume?
+}
+
+extension UpdateVolumeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case volume = "Volume"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Volume.self, forKey: .volume)
+        volume = volumeDecoded
+    }
+}
+
 enum UpdateVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -19399,46 +19555,6 @@ enum UpdateVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "VolumeNotFound": return try await VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.volume = output.volume
-        } else {
-            self.volume = nil
-        }
-    }
-}
-
-public struct UpdateVolumeOutputResponse: Swift.Equatable {
-    /// A description of the volume just updated. Returned after a successful UpdateVolume API operation.
-    public var volume: FSxClientTypes.Volume?
-
-    public init(
-        volume: FSxClientTypes.Volume? = nil
-    )
-    {
-        self.volume = volume
-    }
-}
-
-struct UpdateVolumeOutputResponseBody: Swift.Equatable {
-    let volume: FSxClientTypes.Volume?
-}
-
-extension UpdateVolumeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case volume = "Volume"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let volumeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.Volume.self, forKey: .volume)
-        volume = volumeDecoded
     }
 }
 

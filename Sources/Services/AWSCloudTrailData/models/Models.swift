@@ -469,27 +469,11 @@ extension PutAuditEventsInputBody: Swift.Decodable {
     }
 }
 
-enum PutAuditEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ChannelInsufficientPermission": return try await ChannelInsufficientPermission(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChannelNotFound": return try await ChannelNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChannelUnsupportedSchema": return try await ChannelUnsupportedSchema(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DuplicatedAuditEventId": return try await DuplicatedAuditEventId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidChannelARN": return try await InvalidChannelARN(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutAuditEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutAuditEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutAuditEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutAuditEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.failed = output.failed
             self.successful = output.successful
         } else {
@@ -499,7 +483,7 @@ extension PutAuditEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAuditEventsOutputResponse: Swift.Equatable {
+public struct PutAuditEventsOutput: Swift.Equatable {
     /// Lists events in the provided event payload that could not be ingested into CloudTrail, and includes the error code and error message returned for events that could not be ingested.
     /// This member is required.
     public var failed: [CloudTrailDataClientTypes.ResultErrorEntry]?
@@ -517,12 +501,12 @@ public struct PutAuditEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutAuditEventsOutputResponseBody: Swift.Equatable {
+struct PutAuditEventsOutputBody: Swift.Equatable {
     let successful: [CloudTrailDataClientTypes.AuditEventResultEntry]?
     let failed: [CloudTrailDataClientTypes.ResultErrorEntry]?
 }
 
-extension PutAuditEventsOutputResponseBody: Swift.Decodable {
+extension PutAuditEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failed
         case successful
@@ -552,6 +536,22 @@ extension PutAuditEventsOutputResponseBody: Swift.Decodable {
             }
         }
         failed = failedDecoded0
+    }
+}
+
+enum PutAuditEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelInsufficientPermission": return try await ChannelInsufficientPermission(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelUnsupportedSchema": return try await ChannelUnsupportedSchema(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicatedAuditEventId": return try await DuplicatedAuditEventId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidChannelARN": return try await InvalidChannelARN(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

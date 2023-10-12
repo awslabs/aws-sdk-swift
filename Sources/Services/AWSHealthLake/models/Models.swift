@@ -308,25 +308,11 @@ extension CreateFHIRDatastoreInputBody: Swift.Decodable {
     }
 }
 
-enum CreateFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateFHIRDatastoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateFHIRDatastoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.datastoreArn = output.datastoreArn
             self.datastoreEndpoint = output.datastoreEndpoint
             self.datastoreId = output.datastoreId
@@ -340,7 +326,7 @@ extension CreateFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFHIRDatastoreOutputResponse: Swift.Equatable {
+public struct CreateFHIRDatastoreOutput: Swift.Equatable {
     /// The data store ARN is generated during the creation of the data store and can be found in the output from the initial data store creation call.
     /// This member is required.
     public var datastoreArn: Swift.String?
@@ -368,14 +354,14 @@ public struct CreateFHIRDatastoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateFHIRDatastoreOutputResponseBody: Swift.Equatable {
+struct CreateFHIRDatastoreOutputBody: Swift.Equatable {
     let datastoreId: Swift.String?
     let datastoreArn: Swift.String?
     let datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
     let datastoreEndpoint: Swift.String?
 }
 
-extension CreateFHIRDatastoreOutputResponseBody: Swift.Decodable {
+extension CreateFHIRDatastoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastoreArn = "DatastoreArn"
         case datastoreEndpoint = "DatastoreEndpoint"
@@ -393,6 +379,20 @@ extension CreateFHIRDatastoreOutputResponseBody: Swift.Decodable {
         datastoreStatus = datastoreStatusDecoded
         let datastoreEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreEndpoint)
         datastoreEndpoint = datastoreEndpointDecoded
+    }
+}
+
+enum CreateFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -677,27 +677,11 @@ extension DeleteFHIRDatastoreInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteFHIRDatastoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteFHIRDatastoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.datastoreArn = output.datastoreArn
             self.datastoreEndpoint = output.datastoreEndpoint
             self.datastoreId = output.datastoreId
@@ -711,7 +695,7 @@ extension DeleteFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFHIRDatastoreOutputResponse: Swift.Equatable {
+public struct DeleteFHIRDatastoreOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
     /// This member is required.
     public var datastoreArn: Swift.String?
@@ -739,14 +723,14 @@ public struct DeleteFHIRDatastoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteFHIRDatastoreOutputResponseBody: Swift.Equatable {
+struct DeleteFHIRDatastoreOutputBody: Swift.Equatable {
     let datastoreId: Swift.String?
     let datastoreArn: Swift.String?
     let datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
     let datastoreEndpoint: Swift.String?
 }
 
-extension DeleteFHIRDatastoreOutputResponseBody: Swift.Decodable {
+extension DeleteFHIRDatastoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastoreArn = "DatastoreArn"
         case datastoreEndpoint = "DatastoreEndpoint"
@@ -764,6 +748,22 @@ extension DeleteFHIRDatastoreOutputResponseBody: Swift.Decodable {
         datastoreStatus = datastoreStatusDecoded
         let datastoreEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreEndpoint)
         datastoreEndpoint = datastoreEndpointDecoded
+    }
+}
+
+enum DeleteFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -815,25 +815,11 @@ extension DescribeFHIRDatastoreInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFHIRDatastoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFHIRDatastoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFHIRDatastoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.datastoreProperties = output.datastoreProperties
         } else {
             self.datastoreProperties = nil
@@ -841,7 +827,7 @@ extension DescribeFHIRDatastoreOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeFHIRDatastoreOutputResponse: Swift.Equatable {
+public struct DescribeFHIRDatastoreOutput: Swift.Equatable {
     /// All properties associated with a data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
     /// This member is required.
     public var datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
@@ -854,11 +840,11 @@ public struct DescribeFHIRDatastoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRDatastoreOutputResponseBody: Swift.Equatable {
+struct DescribeFHIRDatastoreOutputBody: Swift.Equatable {
     let datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
 }
 
-extension DescribeFHIRDatastoreOutputResponseBody: Swift.Decodable {
+extension DescribeFHIRDatastoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastoreProperties = "DatastoreProperties"
     }
@@ -867,6 +853,20 @@ extension DescribeFHIRDatastoreOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let datastorePropertiesDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.DatastoreProperties.self, forKey: .datastoreProperties)
         datastoreProperties = datastorePropertiesDecoded
+    }
+}
+
+enum DescribeFHIRDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -931,25 +931,11 @@ extension DescribeFHIRExportJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFHIRExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFHIRExportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFHIRExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFHIRExportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.exportJobProperties = output.exportJobProperties
         } else {
             self.exportJobProperties = nil
@@ -957,7 +943,7 @@ extension DescribeFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeFHIRExportJobOutputResponse: Swift.Equatable {
+public struct DescribeFHIRExportJobOutput: Swift.Equatable {
     /// Displays the properties of the export job, including the ID, Arn, Name, and the status of the job.
     /// This member is required.
     public var exportJobProperties: HealthLakeClientTypes.ExportJobProperties?
@@ -970,11 +956,11 @@ public struct DescribeFHIRExportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRExportJobOutputResponseBody: Swift.Equatable {
+struct DescribeFHIRExportJobOutputBody: Swift.Equatable {
     let exportJobProperties: HealthLakeClientTypes.ExportJobProperties?
 }
 
-extension DescribeFHIRExportJobOutputResponseBody: Swift.Decodable {
+extension DescribeFHIRExportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportJobProperties = "ExportJobProperties"
     }
@@ -983,6 +969,20 @@ extension DescribeFHIRExportJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportJobPropertiesDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.ExportJobProperties.self, forKey: .exportJobProperties)
         exportJobProperties = exportJobPropertiesDecoded
+    }
+}
+
+enum DescribeFHIRExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1047,25 +1047,11 @@ extension DescribeFHIRImportJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeFHIRImportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeFHIRImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeFHIRImportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.importJobProperties = output.importJobProperties
         } else {
             self.importJobProperties = nil
@@ -1073,7 +1059,7 @@ extension DescribeFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeFHIRImportJobOutputResponse: Swift.Equatable {
+public struct DescribeFHIRImportJobOutput: Swift.Equatable {
     /// The properties of the Import job request, including the ID, ARN, name, and the status of the job.
     /// This member is required.
     public var importJobProperties: HealthLakeClientTypes.ImportJobProperties?
@@ -1086,11 +1072,11 @@ public struct DescribeFHIRImportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeFHIRImportJobOutputResponseBody: Swift.Equatable {
+struct DescribeFHIRImportJobOutputBody: Swift.Equatable {
     let importJobProperties: HealthLakeClientTypes.ImportJobProperties?
 }
 
-extension DescribeFHIRImportJobOutputResponseBody: Swift.Decodable {
+extension DescribeFHIRImportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importJobProperties = "ImportJobProperties"
     }
@@ -1099,6 +1085,20 @@ extension DescribeFHIRImportJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importJobPropertiesDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.ImportJobProperties.self, forKey: .importJobProperties)
         importJobProperties = importJobPropertiesDecoded
+    }
+}
+
+enum DescribeFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1709,24 +1709,11 @@ extension ListFHIRDatastoresInputBody: Swift.Decodable {
     }
 }
 
-enum ListFHIRDatastoresOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFHIRDatastoresOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFHIRDatastoresOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFHIRDatastoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFHIRDatastoresOutputBody = try responseDecoder.decode(responseBody: data)
             self.datastorePropertiesList = output.datastorePropertiesList
             self.nextToken = output.nextToken
         } else {
@@ -1736,7 +1723,7 @@ extension ListFHIRDatastoresOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFHIRDatastoresOutputResponse: Swift.Equatable {
+public struct ListFHIRDatastoresOutput: Swift.Equatable {
     /// All properties associated with the listed data stores.
     /// This member is required.
     public var datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]?
@@ -1753,12 +1740,12 @@ public struct ListFHIRDatastoresOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFHIRDatastoresOutputResponseBody: Swift.Equatable {
+struct ListFHIRDatastoresOutputBody: Swift.Equatable {
     let datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]?
     let nextToken: Swift.String?
 }
 
-extension ListFHIRDatastoresOutputResponseBody: Swift.Decodable {
+extension ListFHIRDatastoresOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastorePropertiesList = "DatastorePropertiesList"
         case nextToken = "NextToken"
@@ -1779,6 +1766,19 @@ extension ListFHIRDatastoresOutputResponseBody: Swift.Decodable {
         datastorePropertiesList = datastorePropertiesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFHIRDatastoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1902,26 +1902,11 @@ extension ListFHIRExportJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListFHIRExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFHIRExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFHIRExportJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFHIRExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFHIRExportJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.exportJobPropertiesList = output.exportJobPropertiesList
             self.nextToken = output.nextToken
         } else {
@@ -1931,7 +1916,7 @@ extension ListFHIRExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFHIRExportJobsOutputResponse: Swift.Equatable {
+public struct ListFHIRExportJobsOutput: Swift.Equatable {
     /// The properties of listed FHIR export jobs, including the ID, ARN, name, and the status of the job.
     /// This member is required.
     public var exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]?
@@ -1948,12 +1933,12 @@ public struct ListFHIRExportJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFHIRExportJobsOutputResponseBody: Swift.Equatable {
+struct ListFHIRExportJobsOutputBody: Swift.Equatable {
     let exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]?
     let nextToken: Swift.String?
 }
 
-extension ListFHIRExportJobsOutputResponseBody: Swift.Decodable {
+extension ListFHIRExportJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportJobPropertiesList = "ExportJobPropertiesList"
         case nextToken = "NextToken"
@@ -1974,6 +1959,21 @@ extension ListFHIRExportJobsOutputResponseBody: Swift.Decodable {
         exportJobPropertiesList = exportJobPropertiesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFHIRExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2097,26 +2097,11 @@ extension ListFHIRImportJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListFHIRImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListFHIRImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListFHIRImportJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListFHIRImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListFHIRImportJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.importJobPropertiesList = output.importJobPropertiesList
             self.nextToken = output.nextToken
         } else {
@@ -2126,7 +2111,7 @@ extension ListFHIRImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFHIRImportJobsOutputResponse: Swift.Equatable {
+public struct ListFHIRImportJobsOutput: Swift.Equatable {
     /// The properties of a listed FHIR import jobs, including the ID, ARN, name, and the status of the job.
     /// This member is required.
     public var importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]?
@@ -2143,12 +2128,12 @@ public struct ListFHIRImportJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListFHIRImportJobsOutputResponseBody: Swift.Equatable {
+struct ListFHIRImportJobsOutputBody: Swift.Equatable {
     let importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]?
     let nextToken: Swift.String?
 }
 
-extension ListFHIRImportJobsOutputResponseBody: Swift.Decodable {
+extension ListFHIRImportJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importJobPropertiesList = "ImportJobPropertiesList"
         case nextToken = "NextToken"
@@ -2169,6 +2154,21 @@ extension ListFHIRImportJobsOutputResponseBody: Swift.Decodable {
         importJobPropertiesList = importJobPropertiesListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFHIRImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2220,23 +2220,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2244,7 +2232,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Returns a list of tags associated with a data store.
     public var tags: [HealthLakeClientTypes.Tag]?
 
@@ -2256,11 +2244,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [HealthLakeClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2278,6 +2266,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2620,26 +2620,11 @@ extension StartFHIRExportJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartFHIRExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartFHIRExportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartFHIRExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartFHIRExportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.datastoreId = output.datastoreId
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -2651,7 +2636,7 @@ extension StartFHIRExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFHIRExportJobOutputResponse: Swift.Equatable {
+public struct StartFHIRExportJobOutput: Swift.Equatable {
     /// The AWS generated ID for the data store from which files are being exported for an export job.
     public var datastoreId: Swift.String?
     /// The AWS generated ID for an export job.
@@ -2673,13 +2658,13 @@ public struct StartFHIRExportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartFHIRExportJobOutputResponseBody: Swift.Equatable {
+struct StartFHIRExportJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobStatus: HealthLakeClientTypes.JobStatus?
     let datastoreId: Swift.String?
 }
 
-extension StartFHIRExportJobOutputResponseBody: Swift.Decodable {
+extension StartFHIRExportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastoreId = "DatastoreId"
         case jobId = "JobId"
@@ -2694,6 +2679,21 @@ extension StartFHIRExportJobOutputResponseBody: Swift.Decodable {
         jobStatus = jobStatusDecoded
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
+    }
+}
+
+enum StartFHIRExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2809,26 +2809,11 @@ extension StartFHIRImportJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartFHIRImportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartFHIRImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartFHIRImportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.datastoreId = output.datastoreId
             self.jobId = output.jobId
             self.jobStatus = output.jobStatus
@@ -2840,7 +2825,7 @@ extension StartFHIRImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFHIRImportJobOutputResponse: Swift.Equatable {
+public struct StartFHIRImportJobOutput: Swift.Equatable {
     /// The AWS-generated data store ID.
     public var datastoreId: Swift.String?
     /// The AWS-generated job ID.
@@ -2862,13 +2847,13 @@ public struct StartFHIRImportJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartFHIRImportJobOutputResponseBody: Swift.Equatable {
+struct StartFHIRImportJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let jobStatus: HealthLakeClientTypes.JobStatus?
     let datastoreId: Swift.String?
 }
 
-extension StartFHIRImportJobOutputResponseBody: Swift.Decodable {
+extension StartFHIRImportJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastoreId = "DatastoreId"
         case jobId = "JobId"
@@ -2883,6 +2868,21 @@ extension StartFHIRImportJobOutputResponseBody: Swift.Decodable {
         jobStatus = jobStatusDecoded
         let datastoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datastoreId)
         datastoreId = datastoreIdDecoded
+    }
+}
+
+enum StartFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3006,6 +3006,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3016,16 +3026,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -3156,6 +3156,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3166,16 +3176,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ValidationException {

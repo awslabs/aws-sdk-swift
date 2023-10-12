@@ -10,7 +10,7 @@ public protocol AlexaForBusinessClientProtocol {
     ///
     /// - Parameter ApproveSkillInput : [no documentation found]
     ///
-    /// - Returns: `ApproveSkillOutputResponse` : [no documentation found]
+    /// - Returns: `ApproveSkillOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,25 +18,25 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutputResponse
+    func approveSkill(input: ApproveSkillInput) async throws -> ApproveSkillOutput
     /// Associates a contact with a given address book.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter AssociateContactWithAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `AssociateContactWithAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateContactWithAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutputResponse
+    func associateContactWithAddressBook(input: AssociateContactWithAddressBookInput) async throws -> AssociateContactWithAddressBookOutput
     /// Associates a device with the specified network profile.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter AssociateDeviceWithNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDeviceWithNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDeviceWithNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,13 +44,13 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `NotFoundException` : The resource is not found.
-    func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutputResponse
+    func associateDeviceWithNetworkProfile(input: AssociateDeviceWithNetworkProfileInput) async throws -> AssociateDeviceWithNetworkProfileOutput
     /// Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter AssociateDeviceWithRoomInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDeviceWithRoomOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDeviceWithRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,25 +58,25 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutputResponse
+    func associateDeviceWithRoom(input: AssociateDeviceWithRoomInput) async throws -> AssociateDeviceWithRoomOutput
     /// Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter AssociateSkillGroupWithRoomInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSkillGroupWithRoomOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSkillGroupWithRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutputResponse
+    func associateSkillGroupWithRoom(input: AssociateSkillGroupWithRoomInput) async throws -> AssociateSkillGroupWithRoomOutput
     /// Associates a skill with a skill group.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter AssociateSkillWithSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSkillWithSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSkillWithSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,89 +84,89 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
     /// - `SkillNotLinkedException` : The skill must be linked to a third-party account.
-    func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutputResponse
+    func associateSkillWithSkillGroup(input: AssociateSkillWithSkillGroupInput) async throws -> AssociateSkillWithSkillGroupOutput
     /// Makes a private skill available for enrolled users to enable on their devices.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter AssociateSkillWithUsersInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSkillWithUsersOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSkillWithUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutputResponse
+    func associateSkillWithUsers(input: AssociateSkillWithUsersInput) async throws -> AssociateSkillWithUsersOutput
     /// Creates an address book with the specified details.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `CreateAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutputResponse
+    func createAddressBook(input: CreateAddressBookInput) async throws -> CreateAddressBookOutput
     /// Creates a recurring schedule for usage reports to deliver to the specified S3 location with a specified daily or weekly interval.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateBusinessReportScheduleInput : [no documentation found]
     ///
-    /// - Returns: `CreateBusinessReportScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBusinessReportScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
-    func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutputResponse
+    func createBusinessReportSchedule(input: CreateBusinessReportScheduleInput) async throws -> CreateBusinessReportScheduleOutput
     /// Adds a new conference provider under the user's AWS account.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `CreateConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
-    func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutputResponse
+    func createConferenceProvider(input: CreateConferenceProviderInput) async throws -> CreateConferenceProviderOutput
     /// Creates a contact with the specified details.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateContactInput : [no documentation found]
     ///
-    /// - Returns: `CreateContactOutputResponse` : [no documentation found]
+    /// - Returns: `CreateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createContact(input: CreateContactInput) async throws -> CreateContactOutputResponse
+    func createContact(input: CreateContactInput) async throws -> CreateContactOutput
     /// Creates a gateway group with the specified details.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutputResponse
+    func createGatewayGroup(input: CreateGatewayGroupInput) async throws -> CreateGatewayGroupOutput
     /// Creates a network profile with the specified details.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,13 +176,13 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `InvalidCertificateAuthorityException` : The Certificate Authority can't issue or revoke a certificate.
     /// - `InvalidServiceLinkedRoleStateException` : The service linked role is locked for deletion.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutputResponse
+    func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput
     /// Creates a new room profile with the specified details.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -190,26 +190,26 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
+    func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
     /// Creates a room with the specified details.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateRoomInput : [no documentation found]
     ///
-    /// - Returns: `CreateRoomOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutputResponse
+    func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput
     /// Creates a skill group with a specified name and description.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,13 +217,13 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutputResponse
+    func createSkillGroup(input: CreateSkillGroupInput) async throws -> CreateSkillGroupOutput
     /// Creates a user.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,64 +231,64 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `ResourceInUseException` : The resource in the request is already in use.
-    func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     /// Deletes an address book by the address book ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutputResponse
+    func deleteAddressBook(input: DeleteAddressBookInput) async throws -> DeleteAddressBookOutput
     /// Deletes the recurring report delivery schedule with the specified schedule ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteBusinessReportScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBusinessReportScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBusinessReportScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutputResponse
+    func deleteBusinessReportSchedule(input: DeleteBusinessReportScheduleInput) async throws -> DeleteBusinessReportScheduleOutput
     /// Deletes a conference provider.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutputResponse
+    func deleteConferenceProvider(input: DeleteConferenceProviderInput) async throws -> DeleteConferenceProviderOutput
     /// Deletes a contact by the contact ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteContactInput : [no documentation found]
     ///
-    /// - Returns: `DeleteContactOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutputResponse
+    func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
     /// Removes a device from Alexa For Business.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -296,13 +296,13 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `InvalidCertificateAuthorityException` : The Certificate Authority can't issue or revoke a certificate.
     /// - `NotFoundException` : The resource is not found.
-    func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutputResponse
+    func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
     /// When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteDeviceUsageDataInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceUsageDataOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceUsageDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -310,25 +310,25 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutputResponse
+    func deleteDeviceUsageData(input: DeleteDeviceUsageDataInput) async throws -> DeleteDeviceUsageDataOutput
     /// Deletes a gateway group.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceAssociatedException` : Another resource is associated with the resource in the request.
-    func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutputResponse
+    func deleteGatewayGroup(input: DeleteGatewayGroupInput) async throws -> DeleteGatewayGroupOutput
     /// Deletes a network profile by the network profile ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -336,452 +336,452 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
     /// - `ResourceInUseException` : The resource in the request is already in use.
-    func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutputResponse
+    func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput
     /// Deletes a room profile by the profile ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
+    func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
     /// Deletes a room by the room ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteRoomInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRoomOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutputResponse
+    func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput
     /// Deletes room skill parameter details by room, skill, and parameter key ID.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteRoomSkillParameterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRoomSkillParameterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRoomSkillParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutputResponse
+    func deleteRoomSkillParameter(input: DeleteRoomSkillParameterInput) async throws -> DeleteRoomSkillParameterOutput
     /// Unlinks a third-party account from a skill.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteSkillAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSkillAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSkillAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutputResponse
+    func deleteSkillAuthorization(input: DeleteSkillAuthorizationInput) async throws -> DeleteSkillAuthorizationOutput
     /// Deletes a skill group by skill group ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutputResponse
+    func deleteSkillGroup(input: DeleteSkillGroupInput) async throws -> DeleteSkillGroupOutput
     /// Deletes a specified user by user ARN and enrollment ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Disassociates a contact from a given address book.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DisassociateContactFromAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateContactFromAddressBookOutputResponse` : [no documentation found]
-    func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutputResponse
+    /// - Returns: `DisassociateContactFromAddressBookOutput` : [no documentation found]
+    func disassociateContactFromAddressBook(input: DisassociateContactFromAddressBookInput) async throws -> DisassociateContactFromAddressBookOutput
     /// Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DisassociateDeviceFromRoomInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateDeviceFromRoomOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateDeviceFromRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
-    func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutputResponse
+    func disassociateDeviceFromRoom(input: DisassociateDeviceFromRoomInput) async throws -> DisassociateDeviceFromRoomOutput
     /// Disassociates a skill from a skill group.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DisassociateSkillFromSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSkillFromSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSkillFromSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutputResponse
+    func disassociateSkillFromSkillGroup(input: DisassociateSkillFromSkillGroupInput) async throws -> DisassociateSkillFromSkillGroupOutput
     /// Makes a private skill unavailable for enrolled users and prevents them from enabling it on their devices.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DisassociateSkillFromUsersInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSkillFromUsersOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSkillFromUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutputResponse
+    func disassociateSkillFromUsers(input: DisassociateSkillFromUsersInput) async throws -> DisassociateSkillFromUsersOutput
     /// Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter DisassociateSkillGroupFromRoomInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSkillGroupFromRoomOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSkillGroupFromRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutputResponse
+    func disassociateSkillGroupFromRoom(input: DisassociateSkillGroupFromRoomInput) async throws -> DisassociateSkillGroupFromRoomOutput
     /// Forgets smart home appliances associated to a room.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ForgetSmartHomeAppliancesInput : [no documentation found]
     ///
-    /// - Returns: `ForgetSmartHomeAppliancesOutputResponse` : [no documentation found]
+    /// - Returns: `ForgetSmartHomeAppliancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutputResponse
+    func forgetSmartHomeAppliances(input: ForgetSmartHomeAppliancesInput) async throws -> ForgetSmartHomeAppliancesOutput
     /// Gets address the book details by the address book ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `GetAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `GetAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutputResponse
+    func getAddressBook(input: GetAddressBookInput) async throws -> GetAddressBookOutput
     /// Retrieves the existing conference preferences.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetConferencePreferenceInput : [no documentation found]
     ///
-    /// - Returns: `GetConferencePreferenceOutputResponse` : [no documentation found]
+    /// - Returns: `GetConferencePreferenceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutputResponse
+    func getConferencePreference(input: GetConferencePreferenceInput) async throws -> GetConferencePreferenceOutput
     /// Gets details about a specific conference provider.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `GetConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `GetConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutputResponse
+    func getConferenceProvider(input: GetConferenceProviderInput) async throws -> GetConferenceProviderOutput
     /// Gets the contact details by the contact ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetContactInput : [no documentation found]
     ///
-    /// - Returns: `GetContactOutputResponse` : [no documentation found]
+    /// - Returns: `GetContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getContact(input: GetContactInput) async throws -> GetContactOutputResponse
+    func getContact(input: GetContactInput) async throws -> GetContactOutput
     /// Gets the details of a device by device ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetDeviceInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutputResponse
+    func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
     /// Retrieves the details of a gateway.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetGatewayInput : [no documentation found]
     ///
-    /// - Returns: `GetGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `GetGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutputResponse
+    func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput
     /// Retrieves the details of a gateway group.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutputResponse
+    func getGatewayGroup(input: GetGatewayGroupInput) async throws -> GetGatewayGroupOutput
     /// Retrieves the configured values for the user enrollment invitation email template.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetInvitationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetInvitationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetInvitationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutputResponse
+    func getInvitationConfiguration(input: GetInvitationConfigurationInput) async throws -> GetInvitationConfigurationOutput
     /// Gets the network profile details by the network profile ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidSecretsManagerResourceException` : A password in SecretsManager is in an invalid state.
     /// - `NotFoundException` : The resource is not found.
-    func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutputResponse
+    func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput
     /// Gets the details of a room profile by profile ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getProfile(input: GetProfileInput) async throws -> GetProfileOutputResponse
+    func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
     /// Gets room details by room ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetRoomInput : [no documentation found]
     ///
-    /// - Returns: `GetRoomOutputResponse` : [no documentation found]
+    /// - Returns: `GetRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getRoom(input: GetRoomInput) async throws -> GetRoomOutputResponse
+    func getRoom(input: GetRoomInput) async throws -> GetRoomOutput
     /// Gets room skill parameter details by room, skill, and parameter key ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetRoomSkillParameterInput : [no documentation found]
     ///
-    /// - Returns: `GetRoomSkillParameterOutputResponse` : [no documentation found]
+    /// - Returns: `GetRoomSkillParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutputResponse
+    func getRoomSkillParameter(input: GetRoomSkillParameterInput) async throws -> GetRoomSkillParameterOutput
     /// Gets skill group details by skill group ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter GetSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutputResponse
+    func getSkillGroup(input: GetSkillGroupInput) async throws -> GetSkillGroupOutput
     /// Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListBusinessReportSchedulesInput : [no documentation found]
     ///
-    /// - Returns: `ListBusinessReportSchedulesOutputResponse` : [no documentation found]
-    func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutputResponse
+    /// - Returns: `ListBusinessReportSchedulesOutput` : [no documentation found]
+    func listBusinessReportSchedules(input: ListBusinessReportSchedulesInput) async throws -> ListBusinessReportSchedulesOutput
     /// Lists conference providers under a specific AWS account.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListConferenceProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListConferenceProvidersOutputResponse` : [no documentation found]
-    func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutputResponse
+    /// - Returns: `ListConferenceProvidersOutput` : [no documentation found]
+    func listConferenceProviders(input: ListConferenceProvidersInput) async throws -> ListConferenceProvidersOutput
     /// Lists the device event history, including device connection status, for up to 30 days.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListDeviceEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeviceEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutputResponse
+    func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput
     /// Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListGatewayGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGatewayGroupsOutputResponse` : [no documentation found]
-    func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutputResponse
+    /// - Returns: `ListGatewayGroupsOutput` : [no documentation found]
+    func listGatewayGroups(input: ListGatewayGroupsInput) async throws -> ListGatewayGroupsOutput
     /// Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
     ///
-    /// - Returns: `ListGatewaysOutputResponse` : [no documentation found]
-    func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
+    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
     /// Lists all enabled skills in a specific skill group.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListSkillsInput : [no documentation found]
     ///
-    /// - Returns: `ListSkillsOutputResponse` : [no documentation found]
-    func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutputResponse
+    /// - Returns: `ListSkillsOutput` : [no documentation found]
+    func listSkills(input: ListSkillsInput) async throws -> ListSkillsOutput
     /// Lists all categories in the Alexa skill store.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListSkillsStoreCategoriesInput : [no documentation found]
     ///
-    /// - Returns: `ListSkillsStoreCategoriesOutputResponse` : [no documentation found]
-    func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutputResponse
+    /// - Returns: `ListSkillsStoreCategoriesOutput` : [no documentation found]
+    func listSkillsStoreCategories(input: ListSkillsStoreCategoriesInput) async throws -> ListSkillsStoreCategoriesOutput
     /// Lists all skills in the Alexa skill store by category.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListSkillsStoreSkillsByCategoryInput : [no documentation found]
     ///
-    /// - Returns: `ListSkillsStoreSkillsByCategoryOutputResponse` : [no documentation found]
-    func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutputResponse
+    /// - Returns: `ListSkillsStoreSkillsByCategoryOutput` : [no documentation found]
+    func listSkillsStoreSkillsByCategory(input: ListSkillsStoreSkillsByCategoryInput) async throws -> ListSkillsStoreSkillsByCategoryOutput
     /// Lists all of the smart home appliances associated with a room.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListSmartHomeAppliancesInput : [no documentation found]
     ///
-    /// - Returns: `ListSmartHomeAppliancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSmartHomeAppliancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutputResponse
+    func listSmartHomeAppliances(input: ListSmartHomeAppliancesInput) async throws -> ListSmartHomeAppliancesOutput
     /// Lists all tags for the specified resource.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     /// Sets the conference preferences on a specific conference provider at the account level.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter PutConferencePreferenceInput : [no documentation found]
     ///
-    /// - Returns: `PutConferencePreferenceOutputResponse` : [no documentation found]
+    /// - Returns: `PutConferencePreferenceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutputResponse
+    func putConferencePreference(input: PutConferencePreferenceInput) async throws -> PutConferencePreferenceOutput
     /// Configures the email template for the user enrollment invitation with the specified attributes.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter PutInvitationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutInvitationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutInvitationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutputResponse
+    func putInvitationConfiguration(input: PutInvitationConfigurationInput) async throws -> PutInvitationConfigurationOutput
     /// Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter PutRoomSkillParameterInput : [no documentation found]
     ///
-    /// - Returns: `PutRoomSkillParameterOutputResponse` : [no documentation found]
+    /// - Returns: `PutRoomSkillParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
-    func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutputResponse
+    func putRoomSkillParameter(input: PutRoomSkillParameterInput) async throws -> PutRoomSkillParameterOutput
     /// Links a user's account to a third-party skill provider. If this API operation is called by an assumed IAM role, the skill being linked must be a private skill. Also, the skill must be owned by the AWS account that assumed the IAM role.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter PutSkillAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `PutSkillAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `PutSkillAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `UnauthorizedException` : The caller has no permissions to operate on the resource involved in the API call.
-    func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutputResponse
+    func putSkillAuthorization(input: PutSkillAuthorizationInput) async throws -> PutSkillAuthorizationOutput
     /// Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using Alexa Voice Service (AVS).
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter RegisterAVSDeviceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterAVSDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterAVSDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,119 +790,119 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `InvalidDeviceException` : The device is in an invalid state.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
     /// - `NotFoundException` : The resource is not found.
-    func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutputResponse
+    func registerAVSDevice(input: RegisterAVSDeviceInput) async throws -> RegisterAVSDeviceOutput
     /// Disassociates a skill from the organization under a user's AWS account. If the skill is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is rejected can be added later by calling the ApproveSkill API.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter RejectSkillInput : [no documentation found]
     ///
-    /// - Returns: `RejectSkillOutputResponse` : [no documentation found]
+    /// - Returns: `RejectSkillOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutputResponse
+    func rejectSkill(input: RejectSkillInput) async throws -> RejectSkillOutput
     /// Determines the details for the room from which a skill request was invoked. This operation is used by skill developers. To query ResolveRoom from an Alexa skill, the skill ID needs to be authorized. When the skill is using an AWS Lambda function, the skill is automatically authorized when you publish your skill as a private skill to your AWS account. Skills that are hosted using a custom web service must be manually authorized. To get your skill authorized, contact AWS Support with your AWS account ID that queries the ResolveRoom API and skill ID.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter ResolveRoomInput : [no documentation found]
     ///
-    /// - Returns: `ResolveRoomOutputResponse` : [no documentation found]
+    /// - Returns: `ResolveRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutputResponse
+    func resolveRoom(input: ResolveRoomInput) async throws -> ResolveRoomOutput
     /// Revokes an invitation and invalidates the enrollment URL.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter RevokeInvitationInput : [no documentation found]
     ///
-    /// - Returns: `RevokeInvitationOutputResponse` : [no documentation found]
+    /// - Returns: `RevokeInvitationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutputResponse
+    func revokeInvitation(input: RevokeInvitationInput) async throws -> RevokeInvitationOutput
     /// Searches address books and lists the ones that meet a set of filter and sort criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchAddressBooksInput : [no documentation found]
     ///
-    /// - Returns: `SearchAddressBooksOutputResponse` : [no documentation found]
-    func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutputResponse
+    /// - Returns: `SearchAddressBooksOutput` : [no documentation found]
+    func searchAddressBooks(input: SearchAddressBooksInput) async throws -> SearchAddressBooksOutput
     /// Searches contacts and lists the ones that meet a set of filter and sort criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchContactsInput : [no documentation found]
     ///
-    /// - Returns: `SearchContactsOutputResponse` : [no documentation found]
-    func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutputResponse
+    /// - Returns: `SearchContactsOutput` : [no documentation found]
+    func searchContacts(input: SearchContactsInput) async throws -> SearchContactsOutput
     /// Searches devices and lists the ones that meet a set of filter criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchDevicesInput : [no documentation found]
     ///
-    /// - Returns: `SearchDevicesOutputResponse` : [no documentation found]
-    func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutputResponse
+    /// - Returns: `SearchDevicesOutput` : [no documentation found]
+    func searchDevices(input: SearchDevicesInput) async throws -> SearchDevicesOutput
     /// Searches network profiles and lists the ones that meet a set of filter and sort criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchNetworkProfilesInput : [no documentation found]
     ///
-    /// - Returns: `SearchNetworkProfilesOutputResponse` : [no documentation found]
-    func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutputResponse
+    /// - Returns: `SearchNetworkProfilesOutput` : [no documentation found]
+    func searchNetworkProfiles(input: SearchNetworkProfilesInput) async throws -> SearchNetworkProfilesOutput
     /// Searches room profiles and lists the ones that meet a set of filter criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchProfilesInput : [no documentation found]
     ///
-    /// - Returns: `SearchProfilesOutputResponse` : [no documentation found]
-    func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutputResponse
+    /// - Returns: `SearchProfilesOutput` : [no documentation found]
+    func searchProfiles(input: SearchProfilesInput) async throws -> SearchProfilesOutput
     /// Searches rooms and lists the ones that meet a set of filter and sort criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchRoomsInput : [no documentation found]
     ///
-    /// - Returns: `SearchRoomsOutputResponse` : [no documentation found]
-    func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutputResponse
+    /// - Returns: `SearchRoomsOutput` : [no documentation found]
+    func searchRooms(input: SearchRoomsInput) async throws -> SearchRoomsOutput
     /// Searches skill groups and lists the ones that meet a set of filter and sort criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchSkillGroupsInput : [no documentation found]
     ///
-    /// - Returns: `SearchSkillGroupsOutputResponse` : [no documentation found]
-    func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutputResponse
+    /// - Returns: `SearchSkillGroupsOutput` : [no documentation found]
+    func searchSkillGroups(input: SearchSkillGroupsInput) async throws -> SearchSkillGroupsOutput
     /// Searches users and lists the ones that meet a set of filter and sort criteria.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SearchUsersInput : [no documentation found]
     ///
-    /// - Returns: `SearchUsersOutputResponse` : [no documentation found]
-    func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutputResponse
+    /// - Returns: `SearchUsersOutput` : [no documentation found]
+    func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput
     /// Triggers an asynchronous flow to send text, SSML, or audio announcements to rooms that are identified by a search or filter.
     ///
     /// - Parameter SendAnnouncementInput : [no documentation found]
     ///
-    /// - Returns: `SendAnnouncementOutputResponse` : [no documentation found]
+    /// - Returns: `SendAnnouncementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : The resource being created already exists.
     /// - `LimitExceededException` : You are performing an action that would put you beyond your account's limits.
-    func sendAnnouncement(input: SendAnnouncementInput) async throws -> SendAnnouncementOutputResponse
+    func sendAnnouncement(input: SendAnnouncementInput) async throws -> SendAnnouncementOutput
     /// Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter SendInvitationInput : [no documentation found]
     ///
-    /// - Returns: `SendInvitationOutputResponse` : [no documentation found]
+    /// - Returns: `SendInvitationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,7 +910,7 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `InvalidUserStatusException` : The attempt to update a user is invalid due to the user's current status.
     /// - `NotFoundException` : The resource is not found.
-    func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutputResponse
+    func sendInvitation(input: SendInvitationInput) async throws -> SendInvitationOutput
     /// Resets a device and its account to the known default settings. This clears all information and settings set by previous users in the following ways:
     ///
     /// * Bluetooth - This unpairs all bluetooth devices paired with your echo device.
@@ -926,55 +926,55 @@ public protocol AlexaForBusinessClientProtocol {
     ///
     /// - Parameter StartDeviceSyncInput : [no documentation found]
     ///
-    /// - Returns: `StartDeviceSyncOutputResponse` : [no documentation found]
+    /// - Returns: `StartDeviceSyncOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
-    func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutputResponse
+    func startDeviceSync(input: StartDeviceSyncInput) async throws -> StartDeviceSyncOutput
     /// Initiates the discovery of any smart home appliances associated with the room.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter StartSmartHomeApplianceDiscoveryInput : [no documentation found]
     ///
-    /// - Returns: `StartSmartHomeApplianceDiscoveryOutputResponse` : [no documentation found]
+    /// - Returns: `StartSmartHomeApplianceDiscoveryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutputResponse
+    func startSmartHomeApplianceDiscovery(input: StartSmartHomeApplianceDiscoveryInput) async throws -> StartSmartHomeApplianceDiscoveryOutput
     /// Adds metadata tags to a specified resource.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes metadata tags from a specified resource.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates address book details by the address book ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateAddressBookInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAddressBookOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAddressBookOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,51 +982,51 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutputResponse
+    func updateAddressBook(input: UpdateAddressBookInput) async throws -> UpdateAddressBookOutput
     /// Updates the configuration of the report delivery schedule with the specified schedule ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateBusinessReportScheduleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateBusinessReportScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBusinessReportScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutputResponse
+    func updateBusinessReportSchedule(input: UpdateBusinessReportScheduleInput) async throws -> UpdateBusinessReportScheduleOutput
     /// Updates an existing conference provider's settings.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateConferenceProviderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConferenceProviderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConferenceProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource is not found.
-    func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutputResponse
+    func updateConferenceProvider(input: UpdateConferenceProviderInput) async throws -> UpdateConferenceProviderOutput
     /// Updates the contact details by the contact ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateContactInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContactOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NotFoundException` : The resource is not found.
-    func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
+    func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
     /// Updates the device name by device ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateDeviceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,39 +1034,39 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `DeviceNotRegisteredException` : The request failed because this device is no longer registered and therefore no longer managed by this account.
     /// - `NotFoundException` : The resource is not found.
-    func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutputResponse
+    func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutput
     /// Updates the details of a gateway. If any optional field is not provided, the existing corresponding value is left unmodified.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateGatewayInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGatewayOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutputResponse
+    func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutput
     /// Updates the details of a gateway group. If any optional field is not provided, the existing corresponding value is left unmodified.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateGatewayGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGatewayGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGatewayGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutputResponse
+    func updateGatewayGroup(input: UpdateGatewayGroupInput) async throws -> UpdateGatewayGroupOutput
     /// Updates a network profile by the network profile ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,13 +1076,13 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `InvalidSecretsManagerResourceException` : A password in SecretsManager is in an invalid state.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutputResponse
+    func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput
     /// Updates an existing room profile by room profile ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,26 +1090,26 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
+    func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
     /// Updates room details by room ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateRoomInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRoomOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRoomOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutputResponse
+    func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput
     /// Updates skill group details by skill group ARN.
     @available(*, deprecated, message: "Alexa For Business is no longer supported")
     ///
     /// - Parameter UpdateSkillGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSkillGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSkillGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1117,7 +1117,7 @@ public protocol AlexaForBusinessClientProtocol {
     /// - `ConcurrentModificationException` : There is a concurrent modification of resources.
     /// - `NameInUseException` : The name sent in the request is already in use.
     /// - `NotFoundException` : The resource is not found.
-    func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutputResponse
+    func updateSkillGroup(input: UpdateSkillGroupInput) async throws -> UpdateSkillGroupOutput
 }
 
 public enum AlexaForBusinessClientTypes {}

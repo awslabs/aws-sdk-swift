@@ -8,7 +8,7 @@ public protocol GameSparksClientProtocol {
     ///
     /// - Parameter CreateGameInput : [no documentation found]
     ///
-    /// - Returns: `CreateGameOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol GameSparksClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would result in exceeding service quota.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createGame(input: CreateGameInput) async throws -> CreateGameOutputResponse
+    func createGame(input: CreateGameInput) async throws -> CreateGameOutput
     /// Creates a snapshot of the game configuration.
     ///
     /// - Parameter CreateSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `CreateSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
+    func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
     /// Creates a new stage for stage-by-stage game development and deployment.
     ///
     /// - Parameter CreateStageInput : [no documentation found]
     ///
-    /// - Returns: `CreateStageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func createStage(input: CreateStageInput) async throws -> CreateStageOutputResponse
+    func createStage(input: CreateStageInput) async throws -> CreateStageOutput
     /// Deletes a game.
     ///
     /// - Parameter DeleteGameInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGameOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol GameSparksClientProtocol {
     /// - `InternalServerException` : The service encountered an internal error.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteGame(input: DeleteGameInput) async throws -> DeleteGameOutputResponse
+    func deleteGame(input: DeleteGameInput) async throws -> DeleteGameOutput
     /// Deletes a stage from a game, along with the associated game runtime.
     ///
     /// - Parameter DeleteStageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutputResponse
+    func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
     /// Disconnects a player from the game runtime. If a player has multiple connections, this operation attempts to close all of them.
     ///
     /// - Parameter DisconnectPlayerInput : [no documentation found]
     ///
-    /// - Returns: `DisconnectPlayerOutputResponse` : [no documentation found]
+    /// - Returns: `DisconnectPlayerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func disconnectPlayer(input: DisconnectPlayerInput) async throws -> DisconnectPlayerOutputResponse
+    func disconnectPlayer(input: DisconnectPlayerInput) async throws -> DisconnectPlayerOutput
     /// Exports a game configuration snapshot.
     ///
     /// - Parameter ExportSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `ExportSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `ExportSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -112,12 +112,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutputResponse
+    func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput
     /// Gets details about a specified extension.
     ///
     /// - Parameter GetExtensionInput : [no documentation found]
     ///
-    /// - Returns: `GetExtensionOutputResponse` : [no documentation found]
+    /// - Returns: `GetExtensionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,12 +127,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getExtension(input: GetExtensionInput) async throws -> GetExtensionOutputResponse
+    func getExtension(input: GetExtensionInput) async throws -> GetExtensionOutput
     /// Gets details about a specified extension version.
     ///
     /// - Parameter GetExtensionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetExtensionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetExtensionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -142,12 +142,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getExtensionVersion(input: GetExtensionVersionInput) async throws -> GetExtensionVersionOutputResponse
+    func getExtensionVersion(input: GetExtensionVersionInput) async throws -> GetExtensionVersionOutput
     /// Gets details about a game.
     ///
     /// - Parameter GetGameInput : [no documentation found]
     ///
-    /// - Returns: `GetGameOutputResponse` : [no documentation found]
+    /// - Returns: `GetGameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -157,12 +157,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getGame(input: GetGameInput) async throws -> GetGameOutputResponse
+    func getGame(input: GetGameInput) async throws -> GetGameOutput
     /// Gets the configuration of the game.
     ///
     /// - Parameter GetGameConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetGameConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetGameConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,12 +172,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getGameConfiguration(input: GetGameConfigurationInput) async throws -> GetGameConfigurationOutputResponse
+    func getGameConfiguration(input: GetGameConfigurationInput) async throws -> GetGameConfigurationOutput
     /// Gets details about a job that is generating code for a snapshot.
     ///
     /// - Parameter GetGeneratedCodeJobInput : [no documentation found]
     ///
-    /// - Returns: `GetGeneratedCodeJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetGeneratedCodeJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -187,12 +187,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getGeneratedCodeJob(input: GetGeneratedCodeJobInput) async throws -> GetGeneratedCodeJobOutputResponse
+    func getGeneratedCodeJob(input: GetGeneratedCodeJobInput) async throws -> GetGeneratedCodeJobOutput
     /// Gets the status of a player's connection to the game runtime. It's possible for a single player to have multiple connections to the game runtime. If a player is not connected, this operation returns an empty list.
     ///
     /// - Parameter GetPlayerConnectionStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetPlayerConnectionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetPlayerConnectionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -202,12 +202,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getPlayerConnectionStatus(input: GetPlayerConnectionStatusInput) async throws -> GetPlayerConnectionStatusOutputResponse
+    func getPlayerConnectionStatus(input: GetPlayerConnectionStatusInput) async throws -> GetPlayerConnectionStatusOutput
     /// Gets a copy of the game configuration in a snapshot.
     ///
     /// - Parameter GetSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `GetSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `GetSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutputResponse
+    func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutput
     /// Gets information about a stage.
     ///
     /// - Parameter GetStageInput : [no documentation found]
     ///
-    /// - Returns: `GetStageOutputResponse` : [no documentation found]
+    /// - Returns: `GetStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -232,12 +232,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStage(input: GetStageInput) async throws -> GetStageOutputResponse
+    func getStage(input: GetStageInput) async throws -> GetStageOutput
     /// Gets information about a stage deployment.
     ///
     /// - Parameter GetStageDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `GetStageDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `GetStageDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,12 +247,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func getStageDeployment(input: GetStageDeploymentInput) async throws -> GetStageDeploymentOutputResponse
+    func getStageDeployment(input: GetStageDeploymentInput) async throws -> GetStageDeploymentOutput
     /// Imports a game configuration. This operation replaces the current configuration of the game with the provided input. This is not a reversible operation. If you want to preserve the previous configuration, use CreateSnapshot to make a new snapshot before importing.
     ///
     /// - Parameter ImportGameConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `ImportGameConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `ImportGameConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,12 +263,12 @@ public protocol GameSparksClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would result in exceeding service quota.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func importGameConfiguration(input: ImportGameConfigurationInput) async throws -> ImportGameConfigurationOutputResponse
+    func importGameConfiguration(input: ImportGameConfigurationInput) async throws -> ImportGameConfigurationOutput
     /// Gets a paginated list of available extensions. Extensions provide features that games can use from scripts.
     ///
     /// - Parameter ListExtensionsInput : [no documentation found]
     ///
-    /// - Returns: `ListExtensionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListExtensionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -277,12 +277,12 @@ public protocol GameSparksClientProtocol {
     /// - `InternalServerException` : The service encountered an internal error.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listExtensions(input: ListExtensionsInput) async throws -> ListExtensionsOutputResponse
+    func listExtensions(input: ListExtensionsInput) async throws -> ListExtensionsOutput
     /// Gets a paginated list of available versions for the extension. Each time an API change is made to an extension, the version is incremented. The list retrieved by this operation shows the versions that are currently available.
     ///
     /// - Parameter ListExtensionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListExtensionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListExtensionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -292,12 +292,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listExtensionVersions(input: ListExtensionVersionsInput) async throws -> ListExtensionVersionsOutputResponse
+    func listExtensionVersions(input: ListExtensionVersionsInput) async throws -> ListExtensionVersionsOutput
     /// Gets a paginated list of games.
     ///
     /// - Parameter ListGamesInput : [no documentation found]
     ///
-    /// - Returns: `ListGamesOutputResponse` : [no documentation found]
+    /// - Returns: `ListGamesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -306,12 +306,12 @@ public protocol GameSparksClientProtocol {
     /// - `InternalServerException` : The service encountered an internal error.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listGames(input: ListGamesInput) async throws -> ListGamesOutputResponse
+    func listGames(input: ListGamesInput) async throws -> ListGamesOutput
     /// Gets a paginated list of code generation jobs for a snapshot.
     ///
     /// - Parameter ListGeneratedCodeJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListGeneratedCodeJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGeneratedCodeJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -321,12 +321,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listGeneratedCodeJobs(input: ListGeneratedCodeJobsInput) async throws -> ListGeneratedCodeJobsOutputResponse
+    func listGeneratedCodeJobs(input: ListGeneratedCodeJobsInput) async throws -> ListGeneratedCodeJobsOutput
     /// Gets a paginated list of snapshot summaries from the game.
     ///
     /// - Parameter ListSnapshotsInput : [no documentation found]
     ///
-    /// - Returns: `ListSnapshotsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSnapshotsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -336,12 +336,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutputResponse
+    func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput
     /// Gets a paginated list of stage deployment summaries from the game.
     ///
     /// - Parameter ListStageDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListStageDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStageDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -351,12 +351,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStageDeployments(input: ListStageDeploymentsInput) async throws -> ListStageDeploymentsOutputResponse
+    func listStageDeployments(input: ListStageDeploymentsInput) async throws -> ListStageDeploymentsOutput
     /// Gets a paginated list of stage summaries from the game.
     ///
     /// - Parameter ListStagesInput : [no documentation found]
     ///
-    /// - Returns: `ListStagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -366,12 +366,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listStages(input: ListStagesInput) async throws -> ListStagesOutputResponse
+    func listStages(input: ListStagesInput) async throws -> ListStagesOutput
     /// Lists the tags associated with a GameSparks resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -379,12 +379,12 @@ public protocol GameSparksClientProtocol {
     /// - `InternalServerException` : The service encountered an internal error.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts an asynchronous process that generates client code for system-defined and custom messages. The resulting code is collected as a .zip file and uploaded to a pre-signed Amazon S3 URL.
     ///
     /// - Parameter StartGeneratedCodeJobInput : [no documentation found]
     ///
-    /// - Returns: `StartGeneratedCodeJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartGeneratedCodeJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -394,12 +394,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func startGeneratedCodeJob(input: StartGeneratedCodeJobInput) async throws -> StartGeneratedCodeJobOutputResponse
+    func startGeneratedCodeJob(input: StartGeneratedCodeJobInput) async throws -> StartGeneratedCodeJobOutput
     /// Deploys a snapshot to the stage and creates a new game runtime. After you call this operation, you can check the deployment status by using GetStageDeployment. If there are any players connected to the previous game runtime, then both runtimes persist. Existing connections to the previous runtime are maintained. When players disconnect and reconnect, they connect to the new runtime. After there are no connections to the previous game runtime, it is deleted.
     ///
     /// - Parameter StartStageDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `StartStageDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `StartStageDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,12 +410,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func startStageDeployment(input: StartStageDeploymentInput) async throws -> StartStageDeploymentOutputResponse
+    func startStageDeployment(input: StartStageDeploymentInput) async throws -> StartStageDeploymentOutput
     /// Adds tags to a GameSparks resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,12 +423,12 @@ public protocol GameSparksClientProtocol {
     /// - `InternalServerException` : The service encountered an internal error.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a GameSparks resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -436,12 +436,12 @@ public protocol GameSparksClientProtocol {
     /// - `InternalServerException` : The service encountered an internal error.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates details of the game.
     ///
     /// - Parameter UpdateGameInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGameOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -451,12 +451,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateGame(input: UpdateGameInput) async throws -> UpdateGameOutputResponse
+    func updateGame(input: UpdateGameInput) async throws -> UpdateGameOutput
     /// Updates one or more sections of the game configuration.
     ///
     /// - Parameter UpdateGameConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGameConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGameConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -467,12 +467,12 @@ public protocol GameSparksClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would result in exceeding service quota.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateGameConfiguration(input: UpdateGameConfigurationInput) async throws -> UpdateGameConfigurationOutputResponse
+    func updateGameConfiguration(input: UpdateGameConfigurationInput) async throws -> UpdateGameConfigurationOutput
     /// Updates the metadata of a GameSparks snapshot.
     ///
     /// - Parameter UpdateSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,12 +482,12 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutputResponse
+    func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput
     /// Updates the metadata of a stage.
     ///
     /// - Parameter UpdateStageInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStageOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,7 +497,7 @@ public protocol GameSparksClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : One of the parameters in the request is invalid.
-    func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutputResponse
+    func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
 }
 
 public enum GameSparksClientTypes {}

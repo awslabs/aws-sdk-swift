@@ -19,7 +19,7 @@ public protocol SSOOIDCClientProtocol {
     ///
     /// - Parameter CreateTokenInput : [no documentation found]
     ///
-    /// - Returns: `CreateTokenOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol SSOOIDCClientProtocol {
     /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
-    func createToken(input: CreateTokenInput) async throws -> CreateTokenOutputResponse
+    func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
     /// Registers a client with IAM Identity Center. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
     ///
     /// - Parameter RegisterClientInput : [no documentation found]
     ///
-    /// - Returns: `RegisterClientOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterClientOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol SSOOIDCClientProtocol {
     /// - `InvalidClientMetadataException` : Indicates that the client information sent in the request during registration is invalid.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
-    func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutputResponse
+    func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service.
     ///
     /// - Parameter StartDeviceAuthorizationInput : [no documentation found]
     ///
-    /// - Returns: `StartDeviceAuthorizationOutputResponse` : [no documentation found]
+    /// - Returns: `StartDeviceAuthorizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,7 +64,7 @@ public protocol SSOOIDCClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
-    func startDeviceAuthorization(input: StartDeviceAuthorizationInput) async throws -> StartDeviceAuthorizationOutputResponse
+    func startDeviceAuthorization(input: StartDeviceAuthorizationInput) async throws -> StartDeviceAuthorizationOutput
 }
 
 public enum SSOOIDCClientTypes {}

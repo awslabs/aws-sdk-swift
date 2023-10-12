@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MediaTailorClient {
-    /// Paginate over `[ListAlertsOutputResponse]` results.
+    /// Paginate over `[ListAlertsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAlertsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAlertsOutputResponse`
-    public func listAlertsPaginated(input: ListAlertsInput) -> ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutputResponse>(input: input, inputKey: \ListAlertsInput.nextToken, outputKey: \ListAlertsOutputResponse.nextToken, paginationFunction: self.listAlerts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAlertsOutput`
+    public func listAlertsPaginated(input: ListAlertsInput) -> ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput>(input: input, inputKey: \ListAlertsInput.nextToken, outputKey: \ListAlertsOutput.nextToken, paginationFunction: self.listAlerts(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAlertsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAlertsInput, Output == ListAlertsOutputResponse {
+extension PaginatorSequence where Input == ListAlertsInput, Output == ListAlertsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAlertsPaginated`
     /// to access the nested member `[MediaTailorClientTypes.Alert]`
     /// - Returns: `[MediaTailorClientTypes.Alert]`

@@ -8,7 +8,7 @@ public protocol RDSDataClientProtocol {
     ///
     /// - Parameter BatchExecuteStatementInput : The request parameters represent the input of a SQL statement over an array of data.
     ///
-    /// - Returns: `BatchExecuteStatementOutputResponse` : The response elements represent the output of a SQL statement over an array of data.
+    /// - Returns: `BatchExecuteStatementOutput` : The response elements represent the output of a SQL statement over an array of data.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol RDSDataClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
-    func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutputResponse
+    func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
     /// Starts a SQL transaction. A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     ///
     /// - Parameter BeginTransactionInput : The request parameters represent the input of a request to start a SQL transaction.
     ///
-    /// - Returns: `BeginTransactionOutputResponse` : The response elements represent the output of a request to start a SQL transaction.
+    /// - Returns: `BeginTransactionOutput` : The response elements represent the output of a request to start a SQL transaction.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol RDSDataClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
-    func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutputResponse
+    func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutput
     /// Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
     ///
     /// - Parameter CommitTransactionInput : The request parameters represent the input of a commit transaction request.
     ///
-    /// - Returns: `CommitTransactionOutputResponse` : The response elements represent the output of a commit transaction request.
+    /// - Returns: `CommitTransactionOutput` : The response elements represent the output of a commit transaction request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,13 +52,13 @@ public protocol RDSDataClientProtocol {
     /// - `NotFoundException` : The resourceArn, secretArn, or transactionId value can't be found.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
-    func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutputResponse
+    func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
     /// Runs one or more SQL statements. This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API. API deprecated since 2019-03-21")
     ///
     /// - Parameter ExecuteSqlInput : The request parameters represent the input of a request to run one or more SQL statements.
     ///
-    /// - Returns: `ExecuteSqlOutputResponse` : The response elements represent the output of a request to run one or more SQL statements.
+    /// - Returns: `ExecuteSqlOutput` : The response elements represent the output of a request to run one or more SQL statements.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol RDSDataClientProtocol {
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `InternalServerErrorException` : An internal error occurred.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
-    func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutputResponse
+    func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput
     /// Runs a SQL statement against a database. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated.
     ///
     /// - Parameter ExecuteStatementInput : The request parameters represent the input of a request to run a SQL statement against a database.
     ///
-    /// - Returns: `ExecuteStatementOutputResponse` : The response elements represent the output of a request to run a SQL statement against a database.
+    /// - Returns: `ExecuteStatementOutput` : The response elements represent the output of a request to run a SQL statement against a database.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,12 +84,12 @@ public protocol RDSDataClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
-    func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutputResponse
+    func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
     /// Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
     ///
     /// - Parameter RollbackTransactionInput : The request parameters represent the input of a request to perform a rollback of a transaction.
     ///
-    /// - Returns: `RollbackTransactionOutputResponse` : The response elements represent the output of a request to perform a rollback of a transaction.
+    /// - Returns: `RollbackTransactionOutput` : The response elements represent the output of a request to perform a rollback of a transaction.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,7 +101,7 @@ public protocol RDSDataClientProtocol {
     /// - `NotFoundException` : The resourceArn, secretArn, or transactionId value can't be found.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
-    func rollbackTransaction(input: RollbackTransactionInput) async throws -> RollbackTransactionOutputResponse
+    func rollbackTransaction(input: RollbackTransactionInput) async throws -> RollbackTransactionOutput
 }
 
 public enum RDSDataClientTypes {}

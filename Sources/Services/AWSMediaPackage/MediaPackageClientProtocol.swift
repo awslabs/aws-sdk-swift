@@ -8,7 +8,7 @@ public protocol MediaPackageClientProtocol {
     ///
     /// - Parameter ConfigureLogsInput : the option to configure log subscription.
     ///
-    /// - Returns: `ConfigureLogsOutputResponse` : [no documentation found]
+    /// - Returns: `ConfigureLogsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutputResponse
+    func configureLogs(input: ConfigureLogsInput) async throws -> ConfigureLogsOutput
     /// Creates a new Channel.
     ///
     /// - Parameter CreateChannelInput : A new Channel configuration.
     ///
-    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
+    func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
     /// Creates a new HarvestJob record.
     ///
     /// - Parameter CreateHarvestJobInput : Configuration parameters used to create a new HarvestJob.
     ///
-    /// - Returns: `CreateHarvestJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHarvestJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func createHarvestJob(input: CreateHarvestJobInput) async throws -> CreateHarvestJobOutputResponse
+    func createHarvestJob(input: CreateHarvestJobInput) async throws -> CreateHarvestJobOutput
     /// Creates a new OriginEndpoint record.
     ///
     /// - Parameter CreateOriginEndpointInput : Configuration parameters used to create a new OriginEndpoint.
     ///
-    /// - Returns: `CreateOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,12 +67,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutputResponse
+    func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutput
     /// Deletes an existing Channel.
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
+    func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
     /// Deletes an existing OriginEndpoint.
     ///
     /// - Parameter DeleteOriginEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutputResponse
+    func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutput
     /// Gets details about a Channel.
     ///
     /// - Parameter DescribeChannelInput : [no documentation found]
     ///
-    /// - Returns: `DescribeChannelOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
+    func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
     /// Gets details about an existing HarvestJob.
     ///
     /// - Parameter DescribeHarvestJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHarvestJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHarvestJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func describeHarvestJob(input: DescribeHarvestJobInput) async throws -> DescribeHarvestJobOutputResponse
+    func describeHarvestJob(input: DescribeHarvestJobInput) async throws -> DescribeHarvestJobOutput
     /// Gets details about an existing OriginEndpoint.
     ///
     /// - Parameter DescribeOriginEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func describeOriginEndpoint(input: DescribeOriginEndpointInput) async throws -> DescribeOriginEndpointOutputResponse
+    func describeOriginEndpoint(input: DescribeOriginEndpointInput) async throws -> DescribeOriginEndpointOutput
     /// Returns a collection of Channels.
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
     ///
-    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListChannelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
+    func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
     /// Returns a collection of HarvestJob records.
     ///
     /// - Parameter ListHarvestJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListHarvestJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHarvestJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func listHarvestJobs(input: ListHarvestJobsInput) async throws -> ListHarvestJobsOutputResponse
+    func listHarvestJobs(input: ListHarvestJobsInput) async throws -> ListHarvestJobsOutput
     /// Returns a collection of OriginEndpoint records.
     ///
     /// - Parameter ListOriginEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListOriginEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOriginEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,18 +195,18 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutputResponse
+    func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutput
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     @available(*, deprecated, message: "This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     ///
     /// - Parameter RotateChannelCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `RotateChannelCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `RotateChannelCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func rotateChannelCredentials(input: RotateChannelCredentialsInput) async throws -> RotateChannelCredentialsOutputResponse
+    func rotateChannelCredentials(input: RotateChannelCredentialsInput) async throws -> RotateChannelCredentialsOutput
     /// Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
     ///
     /// - Parameter RotateIngestEndpointCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `RotateIngestEndpointCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `RotateIngestEndpointCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -233,22 +233,22 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func rotateIngestEndpointCredentials(input: RotateIngestEndpointCredentialsInput) async throws -> RotateIngestEndpointCredentialsOutputResponse
+    func rotateIngestEndpointCredentials(input: RotateIngestEndpointCredentialsInput) async throws -> RotateIngestEndpointCredentialsOutput
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an existing Channel.
     ///
     /// - Parameter UpdateChannelInput : Configuration parameters used to update the Channel.
     ///
-    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateChannelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
+    func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
     /// Updates an existing OriginEndpoint.
     ///
     /// - Parameter UpdateOriginEndpointInput : Configuration parameters used to update an existing OriginEndpoint.
     ///
-    /// - Returns: `UpdateOriginEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOriginEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -275,7 +275,7 @@ public protocol MediaPackageClientProtocol {
     /// - `ServiceUnavailableException` : An unexpected error occurred.
     /// - `TooManyRequestsException` : The client has exceeded their resource or throttling limits.
     /// - `UnprocessableEntityException` : The parameters sent in the request are not valid.
-    func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutputResponse
+    func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutput
 }
 
 public enum MediaPackageClientTypes {}

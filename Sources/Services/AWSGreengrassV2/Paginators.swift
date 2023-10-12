@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension GreengrassV2Client {
-    /// Paginate over `[ListClientDevicesAssociatedWithCoreDeviceOutputResponse]` results.
+    /// Paginate over `[ListClientDevicesAssociatedWithCoreDeviceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClientDevicesAssociatedWithCoreDeviceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClientDevicesAssociatedWithCoreDeviceOutputResponse`
-    public func listClientDevicesAssociatedWithCoreDevicePaginated(input: ListClientDevicesAssociatedWithCoreDeviceInput) -> ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutputResponse>(input: input, inputKey: \ListClientDevicesAssociatedWithCoreDeviceInput.nextToken, outputKey: \ListClientDevicesAssociatedWithCoreDeviceOutputResponse.nextToken, paginationFunction: self.listClientDevicesAssociatedWithCoreDevice(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClientDevicesAssociatedWithCoreDeviceOutput`
+    public func listClientDevicesAssociatedWithCoreDevicePaginated(input: ListClientDevicesAssociatedWithCoreDeviceInput) -> ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput> {
+        return ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput>(input: input, inputKey: \ListClientDevicesAssociatedWithCoreDeviceInput.nextToken, outputKey: \ListClientDevicesAssociatedWithCoreDeviceOutput.nextToken, paginationFunction: self.listClientDevicesAssociatedWithCoreDevice(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListClientDevicesAssociatedWithCoreDeviceInput: ClientRuntime.Paginate
         )}
 }
 
-extension PaginatorSequence where Input == ListClientDevicesAssociatedWithCoreDeviceInput, Output == ListClientDevicesAssociatedWithCoreDeviceOutputResponse {
+extension PaginatorSequence where Input == ListClientDevicesAssociatedWithCoreDeviceInput, Output == ListClientDevicesAssociatedWithCoreDeviceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClientDevicesAssociatedWithCoreDevicePaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.AssociatedClientDevice]`
     /// - Returns: `[GreengrassV2ClientTypes.AssociatedClientDevice]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListClientDevicesAssociatedWithCoreDe
     }
 }
 extension GreengrassV2Client {
-    /// Paginate over `[ListComponentsOutputResponse]` results.
+    /// Paginate over `[ListComponentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListComponentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutputResponse`
-    public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutputResponse>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutputResponse.nextToken, paginationFunction: self.listComponents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutput`
+    public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutput.nextToken, paginationFunction: self.listComponents(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension ListComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutputResponse {
+extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.Component]`
     /// - Returns: `[GreengrassV2ClientTypes.Component]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == ListComponentsInput, Output == ListCo
     }
 }
 extension GreengrassV2Client {
-    /// Paginate over `[ListComponentVersionsOutputResponse]` results.
+    /// Paginate over `[ListComponentVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListComponentVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentVersionsOutputResponse`
-    public func listComponentVersionsPaginated(input: ListComponentVersionsInput) -> ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutputResponse>(input: input, inputKey: \ListComponentVersionsInput.nextToken, outputKey: \ListComponentVersionsOutputResponse.nextToken, paginationFunction: self.listComponentVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentVersionsOutput`
+    public func listComponentVersionsPaginated(input: ListComponentVersionsInput) -> ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutput>(input: input, inputKey: \ListComponentVersionsInput.nextToken, outputKey: \ListComponentVersionsOutput.nextToken, paginationFunction: self.listComponentVersions(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListComponentVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListComponentVersionsInput, Output == ListComponentVersionsOutputResponse {
+extension PaginatorSequence where Input == ListComponentVersionsInput, Output == ListComponentVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listComponentVersionsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.ComponentVersionListItem]`
     /// - Returns: `[GreengrassV2ClientTypes.ComponentVersionListItem]`
@@ -96,16 +96,16 @@ extension PaginatorSequence where Input == ListComponentVersionsInput, Output ==
     }
 }
 extension GreengrassV2Client {
-    /// Paginate over `[ListCoreDevicesOutputResponse]` results.
+    /// Paginate over `[ListCoreDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCoreDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCoreDevicesOutputResponse`
-    public func listCoreDevicesPaginated(input: ListCoreDevicesInput) -> ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutputResponse>(input: input, inputKey: \ListCoreDevicesInput.nextToken, outputKey: \ListCoreDevicesOutputResponse.nextToken, paginationFunction: self.listCoreDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCoreDevicesOutput`
+    public func listCoreDevicesPaginated(input: ListCoreDevicesInput) -> ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutput>(input: input, inputKey: \ListCoreDevicesInput.nextToken, outputKey: \ListCoreDevicesOutput.nextToken, paginationFunction: self.listCoreDevices(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListCoreDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCoreDevicesInput, Output == ListCoreDevicesOutputResponse {
+extension PaginatorSequence where Input == ListCoreDevicesInput, Output == ListCoreDevicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCoreDevicesPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.CoreDevice]`
     /// - Returns: `[GreengrassV2ClientTypes.CoreDevice]`
@@ -128,16 +128,16 @@ extension PaginatorSequence where Input == ListCoreDevicesInput, Output == ListC
     }
 }
 extension GreengrassV2Client {
-    /// Paginate over `[ListDeploymentsOutputResponse]` results.
+    /// Paginate over `[ListDeploymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutputResponse`
-    public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutputResponse>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutputResponse.nextToken, paginationFunction: self.listDeployments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutput`
+    public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutput.nextToken, paginationFunction: self.listDeployments(input:))
     }
 }
 
@@ -152,7 +152,7 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutputResponse {
+extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.Deployment]`
     /// - Returns: `[GreengrassV2ClientTypes.Deployment]`
@@ -161,16 +161,16 @@ extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListD
     }
 }
 extension GreengrassV2Client {
-    /// Paginate over `[ListEffectiveDeploymentsOutputResponse]` results.
+    /// Paginate over `[ListEffectiveDeploymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEffectiveDeploymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEffectiveDeploymentsOutputResponse`
-    public func listEffectiveDeploymentsPaginated(input: ListEffectiveDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutputResponse>(input: input, inputKey: \ListEffectiveDeploymentsInput.nextToken, outputKey: \ListEffectiveDeploymentsOutputResponse.nextToken, paginationFunction: self.listEffectiveDeployments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEffectiveDeploymentsOutput`
+    public func listEffectiveDeploymentsPaginated(input: ListEffectiveDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput>(input: input, inputKey: \ListEffectiveDeploymentsInput.nextToken, outputKey: \ListEffectiveDeploymentsOutput.nextToken, paginationFunction: self.listEffectiveDeployments(input:))
     }
 }
 
@@ -183,7 +183,7 @@ extension ListEffectiveDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEffectiveDeploymentsInput, Output == ListEffectiveDeploymentsOutputResponse {
+extension PaginatorSequence where Input == ListEffectiveDeploymentsInput, Output == ListEffectiveDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEffectiveDeploymentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.EffectiveDeployment]`
     /// - Returns: `[GreengrassV2ClientTypes.EffectiveDeployment]`
@@ -192,16 +192,16 @@ extension PaginatorSequence where Input == ListEffectiveDeploymentsInput, Output
     }
 }
 extension GreengrassV2Client {
-    /// Paginate over `[ListInstalledComponentsOutputResponse]` results.
+    /// Paginate over `[ListInstalledComponentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstalledComponentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstalledComponentsOutputResponse`
-    public func listInstalledComponentsPaginated(input: ListInstalledComponentsInput) -> ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutputResponse>(input: input, inputKey: \ListInstalledComponentsInput.nextToken, outputKey: \ListInstalledComponentsOutputResponse.nextToken, paginationFunction: self.listInstalledComponents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstalledComponentsOutput`
+    public func listInstalledComponentsPaginated(input: ListInstalledComponentsInput) -> ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutput>(input: input, inputKey: \ListInstalledComponentsInput.nextToken, outputKey: \ListInstalledComponentsOutput.nextToken, paginationFunction: self.listInstalledComponents(input:))
     }
 }
 
@@ -215,7 +215,7 @@ extension ListInstalledComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstalledComponentsInput, Output == ListInstalledComponentsOutputResponse {
+extension PaginatorSequence where Input == ListInstalledComponentsInput, Output == ListInstalledComponentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstalledComponentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.InstalledComponent]`
     /// - Returns: `[GreengrassV2ClientTypes.InstalledComponent]`

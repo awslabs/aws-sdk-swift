@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeGuruSecurityClient {
-    /// Paginate over `[GetFindingsOutputResponse]` results.
+    /// Paginate over `[GetFindingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetFindingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsOutputResponse`
-    public func getFindingsPaginated(input: GetFindingsInput) -> ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutputResponse>(input: input, inputKey: \GetFindingsInput.nextToken, outputKey: \GetFindingsOutputResponse.nextToken, paginationFunction: self.getFindings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsOutput`
+    public func getFindingsPaginated(input: GetFindingsInput) -> ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput> {
+        return ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput>(input: input, inputKey: \GetFindingsInput.nextToken, outputKey: \GetFindingsOutput.nextToken, paginationFunction: self.getFindings(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension GetFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetFindingsInput, Output == GetFindingsOutputResponse {
+extension PaginatorSequence where Input == GetFindingsInput, Output == GetFindingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getFindingsPaginated`
     /// to access the nested member `[CodeGuruSecurityClientTypes.Finding]`
     /// - Returns: `[CodeGuruSecurityClientTypes.Finding]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == GetFindingsInput, Output == GetFindin
     }
 }
 extension CodeGuruSecurityClient {
-    /// Paginate over `[ListFindingsMetricsOutputResponse]` results.
+    /// Paginate over `[ListFindingsMetricsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFindingsMetricsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsMetricsOutputResponse`
-    public func listFindingsMetricsPaginated(input: ListFindingsMetricsInput) -> ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutputResponse>(input: input, inputKey: \ListFindingsMetricsInput.nextToken, outputKey: \ListFindingsMetricsOutputResponse.nextToken, paginationFunction: self.listFindingsMetrics(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsMetricsOutput`
+    public func listFindingsMetricsPaginated(input: ListFindingsMetricsInput) -> ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutput>(input: input, inputKey: \ListFindingsMetricsInput.nextToken, outputKey: \ListFindingsMetricsOutput.nextToken, paginationFunction: self.listFindingsMetrics(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListFindingsMetricsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFindingsMetricsInput, Output == ListFindingsMetricsOutputResponse {
+extension PaginatorSequence where Input == ListFindingsMetricsInput, Output == ListFindingsMetricsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsMetricsPaginated`
     /// to access the nested member `[CodeGuruSecurityClientTypes.AccountFindingsMetric]`
     /// - Returns: `[CodeGuruSecurityClientTypes.AccountFindingsMetric]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == ListFindingsMetricsInput, Output == L
     }
 }
 extension CodeGuruSecurityClient {
-    /// Paginate over `[ListScansOutputResponse]` results.
+    /// Paginate over `[ListScansOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListScansInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListScansOutputResponse`
-    public func listScansPaginated(input: ListScansInput) -> ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutputResponse>(input: input, inputKey: \ListScansInput.nextToken, outputKey: \ListScansOutputResponse.nextToken, paginationFunction: self.listScans(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScansOutput`
+    public func listScansPaginated(input: ListScansInput) -> ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutput> {
+        return ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutput>(input: input, inputKey: \ListScansInput.nextToken, outputKey: \ListScansOutput.nextToken, paginationFunction: self.listScans(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListScansInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListScansInput, Output == ListScansOutputResponse {
+extension PaginatorSequence where Input == ListScansInput, Output == ListScansOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listScansPaginated`
     /// to access the nested member `[CodeGuruSecurityClientTypes.ScanSummary]`
     /// - Returns: `[CodeGuruSecurityClientTypes.ScanSummary]`

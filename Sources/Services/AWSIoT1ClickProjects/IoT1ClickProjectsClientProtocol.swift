@@ -8,7 +8,7 @@ public protocol IoT1ClickProjectsClientProtocol {
     ///
     /// - Parameter AssociateDeviceWithPlacementInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDeviceWithPlacementOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDeviceWithPlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
     /// - `ResourceNotFoundException` :
-    func associateDeviceWithPlacement(input: AssociateDeviceWithPlacementInput) async throws -> AssociateDeviceWithPlacementOutputResponse
+    func associateDeviceWithPlacement(input: AssociateDeviceWithPlacementInput) async throws -> AssociateDeviceWithPlacementOutput
     /// Creates an empty placement.
     ///
     /// - Parameter CreatePlacementInput : [no documentation found]
     ///
-    /// - Returns: `CreatePlacementOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -31,12 +31,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
     /// - `ResourceNotFoundException` :
-    func createPlacement(input: CreatePlacementInput) async throws -> CreatePlacementOutputResponse
+    func createPlacement(input: CreatePlacementInput) async throws -> CreatePlacementOutput
     /// Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,12 +44,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
-    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     /// Deletes a placement. To delete a placement, it must not have any devices associated with it. When you delete a placement, all associated data becomes irretrievable.
     ///
     /// - Parameter DeletePlacementInput : [no documentation found]
     ///
-    /// - Returns: `DeletePlacementOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,12 +58,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    func deletePlacement(input: DeletePlacementInput) async throws -> DeletePlacementOutputResponse
+    func deletePlacement(input: DeletePlacementInput) async throws -> DeletePlacementOutput
     /// Deletes a project. To delete a project, it must not have any placements associated with it. When you delete a project, all associated data becomes irretrievable.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -72,12 +72,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     /// Describes a placement in a project.
     ///
     /// - Parameter DescribePlacementInput : [no documentation found]
     ///
-    /// - Returns: `DescribePlacementOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,12 +85,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func describePlacement(input: DescribePlacementInput) async throws -> DescribePlacementOutputResponse
+    func describePlacement(input: DescribePlacementInput) async throws -> DescribePlacementOutput
     /// Returns an object describing a project.
     ///
     /// - Parameter DescribeProjectInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -98,12 +98,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutputResponse
+    func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
     /// Removes a physical device from a placement.
     ///
     /// - Parameter DisassociateDeviceFromPlacementInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateDeviceFromPlacementOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateDeviceFromPlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -112,12 +112,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    func disassociateDeviceFromPlacement(input: DisassociateDeviceFromPlacementInput) async throws -> DisassociateDeviceFromPlacementOutputResponse
+    func disassociateDeviceFromPlacement(input: DisassociateDeviceFromPlacementInput) async throws -> DisassociateDeviceFromPlacementOutput
     /// Returns an object enumerating the devices in a placement.
     ///
     /// - Parameter GetDevicesInPlacementInput : [no documentation found]
     ///
-    /// - Returns: `GetDevicesInPlacementOutputResponse` : [no documentation found]
+    /// - Returns: `GetDevicesInPlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,12 +125,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func getDevicesInPlacement(input: GetDevicesInPlacementInput) async throws -> GetDevicesInPlacementOutputResponse
+    func getDevicesInPlacement(input: GetDevicesInPlacementInput) async throws -> GetDevicesInPlacementOutput
     /// Lists the placement(s) of a project.
     ///
     /// - Parameter ListPlacementsInput : [no documentation found]
     ///
-    /// - Returns: `ListPlacementsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPlacementsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,24 +138,24 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func listPlacements(input: ListPlacementsInput) async throws -> ListPlacementsOutputResponse
+    func listPlacements(input: ListPlacementsInput) async throws -> ListPlacementsOutput
     /// Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
-    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     /// Lists the tags (metadata key/value pairs) which you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,12 +176,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags (metadata key/value pairs) from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -189,12 +189,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
     ///
     /// - Parameter UpdatePlacementInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePlacementOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePlacementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,12 +203,12 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    func updatePlacement(input: UpdatePlacementInput) async throws -> UpdatePlacementOutputResponse
+    func updatePlacement(input: UpdatePlacementInput) async throws -> UpdatePlacementOutput
     /// Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,7 +217,7 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
-    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
 }
 
 public enum IoT1ClickProjectsClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension DocDBElasticClient {
-    /// Paginate over `[ListClustersOutputResponse]` results.
+    /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutputResponse`
-    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutputResponse.nextToken, paginationFunction: self.listClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
+    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutput.nextToken, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutputResponse {
+extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[DocDBElasticClientTypes.ClusterInList]`
     /// - Returns: `[DocDBElasticClientTypes.ClusterInList]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListClustersInput, Output == ListClus
     }
 }
 extension DocDBElasticClient {
-    /// Paginate over `[ListClusterSnapshotsOutputResponse]` results.
+    /// Paginate over `[ListClusterSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClusterSnapshotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterSnapshotsOutputResponse`
-    public func listClusterSnapshotsPaginated(input: ListClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<ListClusterSnapshotsInput, ListClusterSnapshotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClusterSnapshotsInput, ListClusterSnapshotsOutputResponse>(input: input, inputKey: \ListClusterSnapshotsInput.nextToken, outputKey: \ListClusterSnapshotsOutputResponse.nextToken, paginationFunction: self.listClusterSnapshots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterSnapshotsOutput`
+    public func listClusterSnapshotsPaginated(input: ListClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<ListClusterSnapshotsInput, ListClusterSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(input: input, inputKey: \ListClusterSnapshotsInput.nextToken, outputKey: \ListClusterSnapshotsOutput.nextToken, paginationFunction: self.listClusterSnapshots(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClusterSnapshotsInput, Output == ListClusterSnapshotsOutputResponse {
+extension PaginatorSequence where Input == ListClusterSnapshotsInput, Output == ListClusterSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClusterSnapshotsPaginated`
     /// to access the nested member `[DocDBElasticClientTypes.ClusterSnapshotInList]`
     /// - Returns: `[DocDBElasticClientTypes.ClusterSnapshotInList]`

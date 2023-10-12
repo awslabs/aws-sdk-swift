@@ -8,7 +8,7 @@ public protocol IoT1ClickDevicesClientProtocol {
     ///
     /// - Parameter ClaimDevicesByClaimCodeInput : [no documentation found]
     ///
-    /// - Returns: `ClaimDevicesByClaimCodeOutputResponse` : [no documentation found]
+    /// - Returns: `ClaimDevicesByClaimCodeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16,12 +16,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `ForbiddenException` : [no documentation found]
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
-    func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput) async throws -> ClaimDevicesByClaimCodeOutputResponse
+    func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput) async throws -> ClaimDevicesByClaimCodeOutput
     /// Given a device ID, returns a DescribeDeviceResponse object describing the details of the device.
     ///
     /// - Parameter DescribeDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -29,12 +29,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutputResponse
+    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
     /// Given a device ID, finalizes the claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
     ///
     /// - Parameter FinalizeDeviceClaimInput : [no documentation found]
     ///
-    /// - Returns: `FinalizeDeviceClaimOutputResponse` : [no documentation found]
+    /// - Returns: `FinalizeDeviceClaimOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,12 +44,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `PreconditionFailedException` : [no documentation found]
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func finalizeDeviceClaim(input: FinalizeDeviceClaimInput) async throws -> FinalizeDeviceClaimOutputResponse
+    func finalizeDeviceClaim(input: FinalizeDeviceClaimInput) async throws -> FinalizeDeviceClaimOutput
     /// Given a device ID, returns the invokable methods associated with the device.
     ///
     /// - Parameter GetDeviceMethodsInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceMethodsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceMethodsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -57,12 +57,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func getDeviceMethods(input: GetDeviceMethodsInput) async throws -> GetDeviceMethodsOutputResponse
+    func getDeviceMethods(input: GetDeviceMethodsInput) async throws -> GetDeviceMethodsOutput
     /// Given a device ID, initiates a claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
     ///
     /// - Parameter InitiateDeviceClaimInput : [no documentation found]
     ///
-    /// - Returns: `InitiateDeviceClaimOutputResponse` : [no documentation found]
+    /// - Returns: `InitiateDeviceClaimOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,12 +71,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func initiateDeviceClaim(input: InitiateDeviceClaimInput) async throws -> InitiateDeviceClaimOutputResponse
+    func initiateDeviceClaim(input: InitiateDeviceClaimInput) async throws -> InitiateDeviceClaimOutput
     /// Given a device ID, issues a request to invoke a named device method (with possible parameters). See the "Example POST" code snippet below.
     ///
     /// - Parameter InvokeDeviceMethodInput : [no documentation found]
     ///
-    /// - Returns: `InvokeDeviceMethodOutputResponse` : [no documentation found]
+    /// - Returns: `InvokeDeviceMethodOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -87,12 +87,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `RangeNotSatisfiableException` : [no documentation found]
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func invokeDeviceMethod(input: InvokeDeviceMethodInput) async throws -> InvokeDeviceMethodOutputResponse
+    func invokeDeviceMethod(input: InvokeDeviceMethodInput) async throws -> InvokeDeviceMethodOutput
     /// Using a device ID, returns a DeviceEventsResponse object containing an array of events for the device.
     ///
     /// - Parameter ListDeviceEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeviceEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,12 +101,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `RangeNotSatisfiableException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutputResponse
+    func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput
     /// Lists the 1-Click compatible devices associated with your AWS account.
     ///
     /// - Parameter ListDevicesInput : [no documentation found]
     ///
-    /// - Returns: `ListDevicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDevicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -114,24 +114,24 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `RangeNotSatisfiableException` : [no documentation found]
-    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
+    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
     /// Lists the tags associated with the specified resource ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalFailureException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds or updates the tags associated with the resource ARN. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits) for the maximum number of tags allowed per resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Disassociates a device from your AWS account using its device ID.
     ///
     /// - Parameter UnclaimDeviceInput : [no documentation found]
     ///
-    /// - Returns: `UnclaimDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `UnclaimDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -152,12 +152,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func unclaimDevice(input: UnclaimDeviceInput) async throws -> UnclaimDeviceOutputResponse
+    func unclaimDevice(input: UnclaimDeviceInput) async throws -> UnclaimDeviceOutput
     /// Using tag keys, deletes the tags (key/value pairs) associated with the specified resource ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Using a Boolean value (true or false), this operation enables or disables the device given a device ID.
     ///
     /// - Parameter UpdateDeviceStateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceStateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,7 +178,7 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
-    func updateDeviceState(input: UpdateDeviceStateInput) async throws -> UpdateDeviceStateOutputResponse
+    func updateDeviceState(input: UpdateDeviceStateInput) async throws -> UpdateDeviceStateOutput
 }
 
 public enum IoT1ClickDevicesClientTypes {}

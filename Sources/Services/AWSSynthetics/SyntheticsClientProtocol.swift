@@ -8,7 +8,7 @@ public protocol SyntheticsClientProtocol {
     ///
     /// - Parameter AssociateResourceInput : [no documentation found]
     ///
-    /// - Returns: `AssociateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol SyntheticsClientProtocol {
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ServiceQuotaExceededException` : The request exceeded a service quota value.
     /// - `ValidationException` : A parameter could not be validated.
-    func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutputResponse
+    func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutput
     /// Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the outside-in. Canaries help you check the availability and latency of your web services and troubleshoot anomalies by investigating load time data, screenshots of the UI, logs, and metrics. You can set up a canary to run continuously or just once. Do not use CreateCanary to modify an existing canary. Use [UpdateCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_UpdateCanary.html) instead. To create canaries, you must have the CloudWatchSyntheticsFullAccess policy. If you are creating a new IAM role for the canary, you also need the iam:CreateRole, iam:CreatePolicy and iam:AttachRolePolicy permissions. For more information, see [Necessary Roles and Permissions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Roles). Do not include secrets or proprietary information in your canary names. The canary name makes up part of the Amazon Resource Name (ARN) for the canary, and the ARN is included in outbound calls over the internet. For more information, see [Security Considerations for Synthetics Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html).
     ///
     /// - Parameter CreateCanaryInput : [no documentation found]
     ///
-    /// - Returns: `CreateCanaryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCanaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -31,12 +31,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `RequestEntityTooLargeException` : One of the input resources is larger than is allowed.
     /// - `ValidationException` : A parameter could not be validated.
-    func createCanary(input: CreateCanaryInput) async throws -> CreateCanaryOutputResponse
+    func createCanary(input: CreateCanaryInput) async throws -> CreateCanaryOutput
     /// Creates a group which you can use to associate canaries with each other, including cross-Region canaries. Using groups can help you with managing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. Groups are global resources. When you create a group, it is replicated across Amazon Web Services Regions, and you can view it and add canaries to it from any Region. Although the group ARN format reflects the Region name where it was created, a group is not constrained to any Region. This means that you can put canaries from multiple Regions into the same group, and then use that group to view and manage all of those canaries in a single view. Groups are supported in all Regions except the Regions that are disabled by default. For more information about these Regions, see [Enabling a Region](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable). Each group can contain as many as 10 canaries. You can have as many as 20 groups in your account. Any single canary can be a member of up to 10 groups.
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -45,7 +45,7 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ServiceQuotaExceededException` : The request exceeded a service quota value.
     /// - `ValidationException` : A parameter could not be validated.
-    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
+    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
     /// Permanently deletes the specified canary. If you specify DeleteLambda to true, CloudWatch Synthetics also deletes the Lambda functions and layers that are used by the canary. Other resources used and created by the canary are not automatically deleted. After you delete a canary that you do not intend to use again, you should also delete the following:
     ///
     /// * The CloudWatch alarms created for this canary. These alarms have a name of Synthetics-SharpDrop-Alarm-MyCanaryName .
@@ -61,7 +61,7 @@ public protocol SyntheticsClientProtocol {
     ///
     /// - Parameter DeleteCanaryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCanaryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCanaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func deleteCanary(input: DeleteCanaryInput) async throws -> DeleteCanaryOutputResponse
+    func deleteCanary(input: DeleteCanaryInput) async throws -> DeleteCanaryOutput
     /// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the request to delete a group must be made from its home Region. You can find the home Region of a group within its ARN.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,48 +84,48 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
     /// This operation returns a list of the canaries in your account, along with full details about each canary. This operation supports resource-level authorization using an IAM policy and the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
     ///
     /// - Parameter DescribeCanariesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCanariesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCanariesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    func describeCanaries(input: DescribeCanariesInput) async throws -> DescribeCanariesOutputResponse
+    func describeCanaries(input: DescribeCanariesInput) async throws -> DescribeCanariesOutput
     /// Use this operation to see information from the most recent run of each canary that you have created. This operation supports resource-level authorization using an IAM policy and the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
     ///
     /// - Parameter DescribeCanariesLastRunInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCanariesLastRunOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCanariesLastRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    func describeCanariesLastRun(input: DescribeCanariesLastRunInput) async throws -> DescribeCanariesLastRunOutputResponse
+    func describeCanariesLastRun(input: DescribeCanariesLastRunInput) async throws -> DescribeCanariesLastRunOutput
     /// Returns a list of Synthetics canary runtime versions. For more information, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
     ///
     /// - Parameter DescribeRuntimeVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRuntimeVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRuntimeVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    func describeRuntimeVersions(input: DescribeRuntimeVersionsInput) async throws -> DescribeRuntimeVersionsOutputResponse
+    func describeRuntimeVersions(input: DescribeRuntimeVersionsInput) async throws -> DescribeRuntimeVersionsOutput
     /// Removes a canary from a group. You must run this operation in the Region where the canary exists.
     ///
     /// - Parameter DisassociateResourceInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,24 +134,24 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutputResponse
+    func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutput
     /// Retrieves complete information about one canary. You must specify the name of the canary that you want. To get a list of canaries and their names, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     ///
     /// - Parameter GetCanaryInput : [no documentation found]
     ///
-    /// - Returns: `GetCanaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetCanaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    func getCanary(input: GetCanaryInput) async throws -> GetCanaryOutputResponse
+    func getCanary(input: GetCanaryInput) async throws -> GetCanaryOutput
     /// Retrieves a list of runs for a specified canary.
     ///
     /// - Parameter GetCanaryRunsInput : [no documentation found]
     ///
-    /// - Returns: `GetCanaryRunsOutputResponse` : [no documentation found]
+    /// - Returns: `GetCanaryRunsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -159,12 +159,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func getCanaryRuns(input: GetCanaryRunsInput) async throws -> GetCanaryRunsOutputResponse
+    func getCanaryRuns(input: GetCanaryRunsInput) async throws -> GetCanaryRunsOutput
     /// Returns information about one group. Groups are a global resource, so you can use this operation from any Region.
     ///
     /// - Parameter GetGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func getGroup(input: GetGroupInput) async throws -> GetGroupOutputResponse
+    func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
     /// Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region.
     ///
     /// - Parameter ListAssociatedGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociatedGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssociatedGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -186,12 +186,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func listAssociatedGroups(input: ListAssociatedGroupsInput) async throws -> ListAssociatedGroupsOutputResponse
+    func listAssociatedGroups(input: ListAssociatedGroupsInput) async throws -> ListAssociatedGroupsOutput
     /// This operation returns a list of the ARNs of the canaries that are associated with the specified group.
     ///
     /// - Parameter ListGroupResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -200,24 +200,24 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutputResponse
+    func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput
     /// Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups from all Regions are returned.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ValidationException` : A parameter could not be validated.
-    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
+    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
     /// Displays the tags associated with a canary or group.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -227,12 +227,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalFailureException` : An internal failure occurred. Try the operation again.
     /// - `NotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : There were too many simultaneous requests. Try the operation again.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Use this operation to run a canary that has already been created. The frequency of the canary runs is determined by the value of the canary's Schedule. To see a canary's schedule, use [GetCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanary.html).
     ///
     /// - Parameter StartCanaryInput : [no documentation found]
     ///
-    /// - Returns: `StartCanaryOutputResponse` : [no documentation found]
+    /// - Returns: `StartCanaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func startCanary(input: StartCanaryInput) async throws -> StartCanaryOutputResponse
+    func startCanary(input: StartCanaryInput) async throws -> StartCanaryOutput
     /// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canary’s current schedule at any point in the future.
     ///
     /// - Parameter StopCanaryInput : [no documentation found]
     ///
-    /// - Returns: `StopCanaryOutputResponse` : [no documentation found]
+    /// - Returns: `StopCanaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -255,12 +255,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func stopCanary(input: StopCanaryInput) async throws -> StopCanaryOutputResponse
+    func stopCanary(input: StopCanaryInput) async throws -> StopCanaryOutput
     /// Assigns one or more tags (key-value pairs) to the specified canary or group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a canary or group.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -270,12 +270,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalFailureException` : An internal failure occurred. Try the operation again.
     /// - `NotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : There were too many simultaneous requests. Try the operation again.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -285,12 +285,12 @@ public protocol SyntheticsClientProtocol {
     /// - `InternalFailureException` : An internal failure occurred. Try the operation again.
     /// - `NotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : There were too many simultaneous requests. Try the operation again.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the configuration of a canary that has already been created. You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
     ///
     /// - Parameter UpdateCanaryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCanaryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCanaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,7 +300,7 @@ public protocol SyntheticsClientProtocol {
     /// - `RequestEntityTooLargeException` : One of the input resources is larger than is allowed.
     /// - `ResourceNotFoundException` : One of the specified resources was not found.
     /// - `ValidationException` : A parameter could not be validated.
-    func updateCanary(input: UpdateCanaryInput) async throws -> UpdateCanaryOutputResponse
+    func updateCanary(input: UpdateCanaryInput) async throws -> UpdateCanaryOutput
 }
 
 public enum SyntheticsClientTypes {}

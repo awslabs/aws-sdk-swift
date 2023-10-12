@@ -263,6 +263,76 @@ extension ManagedBlockchainQueryClientTypes {
 
 }
 
+extension BatchGetTokenBalanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetTokenBalanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.tokenBalances = output.tokenBalances
+        } else {
+            self.errors = nil
+            self.tokenBalances = nil
+        }
+    }
+}
+
+public struct BatchGetTokenBalanceOutput: Swift.Equatable {
+    /// An array of BatchGetTokenBalanceErrorItem objects returned from the request.
+    /// This member is required.
+    public var errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]?
+    /// An array of BatchGetTokenBalanceOutputItem objects returned by the response.
+    /// This member is required.
+    public var tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]?
+
+    public init(
+        errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]? = nil,
+        tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]? = nil
+    )
+    {
+        self.errors = errors
+        self.tokenBalances = tokenBalances
+    }
+}
+
+struct BatchGetTokenBalanceOutputBody: Swift.Equatable {
+    let tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]?
+    let errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]?
+}
+
+extension BatchGetTokenBalanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+        case tokenBalances
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tokenBalancesContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem?].self, forKey: .tokenBalances)
+        var tokenBalancesDecoded0:[ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]? = nil
+        if let tokenBalancesContainer = tokenBalancesContainer {
+            tokenBalancesDecoded0 = [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]()
+            for structure0 in tokenBalancesContainer {
+                if let structure0 = structure0 {
+                    tokenBalancesDecoded0?.append(structure0)
+                }
+            }
+        }
+        tokenBalances = tokenBalancesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem?].self, forKey: .errors)
+        var errorsDecoded0:[ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
 enum BatchGetTokenBalanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -354,76 +424,6 @@ extension ManagedBlockchainQueryClientTypes {
         }
     }
 
-}
-
-extension BatchGetTokenBalanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: BatchGetTokenBalanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.errors = output.errors
-            self.tokenBalances = output.tokenBalances
-        } else {
-            self.errors = nil
-            self.tokenBalances = nil
-        }
-    }
-}
-
-public struct BatchGetTokenBalanceOutputResponse: Swift.Equatable {
-    /// An array of BatchGetTokenBalanceErrorItem objects returned from the request.
-    /// This member is required.
-    public var errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]?
-    /// An array of BatchGetTokenBalanceOutputItem objects returned by the response.
-    /// This member is required.
-    public var tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]?
-
-    public init(
-        errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]? = nil,
-        tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]? = nil
-    )
-    {
-        self.errors = errors
-        self.tokenBalances = tokenBalances
-    }
-}
-
-struct BatchGetTokenBalanceOutputResponseBody: Swift.Equatable {
-    let tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]?
-    let errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]?
-}
-
-extension BatchGetTokenBalanceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case errors
-        case tokenBalances
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tokenBalancesContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem?].self, forKey: .tokenBalances)
-        var tokenBalancesDecoded0:[ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]? = nil
-        if let tokenBalancesContainer = tokenBalancesContainer {
-            tokenBalancesDecoded0 = [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]()
-            for structure0 in tokenBalancesContainer {
-                if let structure0 = structure0 {
-                    tokenBalancesDecoded0?.append(structure0)
-                }
-            }
-        }
-        tokenBalances = tokenBalancesDecoded0
-        let errorsContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem?].self, forKey: .errors)
-        var errorsDecoded0:[ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]? = nil
-        if let errorsContainer = errorsContainer {
-            errorsDecoded0 = [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]()
-            for structure0 in errorsContainer {
-                if let structure0 = structure0 {
-                    errorsDecoded0?.append(structure0)
-                }
-            }
-        }
-        errors = errorsDecoded0
-    }
 }
 
 extension ManagedBlockchainQueryClientTypes.BlockchainInstant: Swift.Codable {
@@ -568,27 +568,11 @@ extension GetTokenBalanceInputBody: Swift.Decodable {
     }
 }
 
-enum GetTokenBalanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetTokenBalanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTokenBalanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetTokenBalanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetTokenBalanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.atBlockchainInstant = output.atBlockchainInstant
             self.balance = output.balance
             self.lastUpdatedTime = output.lastUpdatedTime
@@ -604,7 +588,7 @@ extension GetTokenBalanceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTokenBalanceOutputResponse: Swift.Equatable {
+public struct GetTokenBalanceOutput: Swift.Equatable {
     /// The container for time.
     /// This member is required.
     public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -634,7 +618,7 @@ public struct GetTokenBalanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTokenBalanceOutputResponseBody: Swift.Equatable {
+struct GetTokenBalanceOutputBody: Swift.Equatable {
     let ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
     let tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
     let balance: Swift.String?
@@ -642,7 +626,7 @@ struct GetTokenBalanceOutputResponseBody: Swift.Equatable {
     let lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant?
 }
 
-extension GetTokenBalanceOutputResponseBody: Swift.Decodable {
+extension GetTokenBalanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case atBlockchainInstant
         case balance
@@ -663,6 +647,22 @@ extension GetTokenBalanceOutputResponseBody: Swift.Decodable {
         atBlockchainInstant = atBlockchainInstantDecoded
         let lastUpdatedTimeDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.BlockchainInstant.self, forKey: .lastUpdatedTime)
         lastUpdatedTime = lastUpdatedTimeDecoded
+    }
+}
+
+enum GetTokenBalanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -727,6 +727,47 @@ extension GetTransactionInputBody: Swift.Decodable {
     }
 }
 
+extension GetTransactionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTransactionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.transaction = output.transaction
+        } else {
+            self.transaction = nil
+        }
+    }
+}
+
+public struct GetTransactionOutput: Swift.Equatable {
+    /// Contains the details of the transaction.
+    /// This member is required.
+    public var transaction: ManagedBlockchainQueryClientTypes.Transaction?
+
+    public init(
+        transaction: ManagedBlockchainQueryClientTypes.Transaction? = nil
+    )
+    {
+        self.transaction = transaction
+    }
+}
+
+struct GetTransactionOutputBody: Swift.Equatable {
+    let transaction: ManagedBlockchainQueryClientTypes.Transaction?
+}
+
+extension GetTransactionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case transaction
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.Transaction.self, forKey: .transaction)
+        transaction = transactionDecoded
+    }
+}
+
 enum GetTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -740,47 +781,6 @@ enum GetTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetTransactionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetTransactionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.transaction = output.transaction
-        } else {
-            self.transaction = nil
-        }
-    }
-}
-
-public struct GetTransactionOutputResponse: Swift.Equatable {
-    /// Contains the details of the transaction.
-    /// This member is required.
-    public var transaction: ManagedBlockchainQueryClientTypes.Transaction?
-
-    public init(
-        transaction: ManagedBlockchainQueryClientTypes.Transaction? = nil
-    )
-    {
-        self.transaction = transaction
-    }
-}
-
-struct GetTransactionOutputResponseBody: Swift.Equatable {
-    let transaction: ManagedBlockchainQueryClientTypes.Transaction?
-}
-
-extension GetTransactionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case transaction
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transactionDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.Transaction.self, forKey: .transaction)
-        transaction = transactionDecoded
     }
 }
 
@@ -934,26 +934,11 @@ extension ListTokenBalancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListTokenBalancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTokenBalancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTokenBalancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTokenBalancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTokenBalancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tokenBalances = output.tokenBalances
         } else {
@@ -963,7 +948,7 @@ extension ListTokenBalancesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTokenBalancesOutputResponse: Swift.Equatable {
+public struct ListTokenBalancesOutput: Swift.Equatable {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// An array of TokenBalance objects. Each object contains details about the token balance.
@@ -980,12 +965,12 @@ public struct ListTokenBalancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTokenBalancesOutputResponseBody: Swift.Equatable {
+struct ListTokenBalancesOutputBody: Swift.Equatable {
     let tokenBalances: [ManagedBlockchainQueryClientTypes.TokenBalance]?
     let nextToken: Swift.String?
 }
 
-extension ListTokenBalancesOutputResponseBody: Swift.Decodable {
+extension ListTokenBalancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case tokenBalances
@@ -1006,6 +991,21 @@ extension ListTokenBalancesOutputResponseBody: Swift.Decodable {
         tokenBalances = tokenBalancesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTokenBalancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1094,26 +1094,11 @@ extension ListTransactionEventsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTransactionEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTransactionEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTransactionEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTransactionEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTransactionEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
         } else {
@@ -1123,7 +1108,7 @@ extension ListTransactionEventsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListTransactionEventsOutputResponse: Swift.Equatable {
+public struct ListTransactionEventsOutput: Swift.Equatable {
     /// An array of TransactionEvent objects. Each object contains details about the transaction events.
     /// This member is required.
     public var events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
@@ -1140,12 +1125,12 @@ public struct ListTransactionEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTransactionEventsOutputResponseBody: Swift.Equatable {
+struct ListTransactionEventsOutputBody: Swift.Equatable {
     let events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
     let nextToken: Swift.String?
 }
 
-extension ListTransactionEventsOutputResponseBody: Swift.Decodable {
+extension ListTransactionEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events
         case nextToken
@@ -1166,6 +1151,21 @@ extension ListTransactionEventsOutputResponseBody: Swift.Decodable {
         events = eventsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTransactionEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1290,26 +1290,11 @@ extension ListTransactionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTransactionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTransactionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTransactionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTransactionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTransactionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.transactions = output.transactions
         } else {
@@ -1319,7 +1304,7 @@ extension ListTransactionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTransactionsOutputResponse: Swift.Equatable {
+public struct ListTransactionsOutput: Swift.Equatable {
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
     /// The array of transactions returned by the request.
@@ -1336,12 +1321,12 @@ public struct ListTransactionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTransactionsOutputResponseBody: Swift.Equatable {
+struct ListTransactionsOutputBody: Swift.Equatable {
     let transactions: [ManagedBlockchainQueryClientTypes.TransactionOutputItem]?
     let nextToken: Swift.String?
 }
 
-extension ListTransactionsOutputResponseBody: Swift.Decodable {
+extension ListTransactionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case transactions
@@ -1362,6 +1347,21 @@ extension ListTransactionsOutputResponseBody: Swift.Decodable {
         transactions = transactionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTransactionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

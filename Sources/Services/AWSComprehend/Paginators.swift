@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ComprehendClient {
-    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    /// Paginate over `[ListDatasetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
-    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
+    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListDocumentClassificationJobsOutputResponse]` results.
+    /// Paginate over `[ListDocumentClassificationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDocumentClassificationJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassificationJobsOutputResponse`
-    public func listDocumentClassificationJobsPaginated(input: ListDocumentClassificationJobsInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutputResponse>(input: input, inputKey: \ListDocumentClassificationJobsInput.nextToken, outputKey: \ListDocumentClassificationJobsOutputResponse.nextToken, paginationFunction: self.listDocumentClassificationJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassificationJobsOutput`
+    public func listDocumentClassificationJobsPaginated(input: ListDocumentClassificationJobsInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(input: input, inputKey: \ListDocumentClassificationJobsInput.nextToken, outputKey: \ListDocumentClassificationJobsOutput.nextToken, paginationFunction: self.listDocumentClassificationJobs(input:))
     }
 }
 
@@ -48,16 +48,16 @@ extension ListDocumentClassificationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListDocumentClassifiersOutputResponse]` results.
+    /// Paginate over `[ListDocumentClassifiersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDocumentClassifiersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassifiersOutputResponse`
-    public func listDocumentClassifiersPaginated(input: ListDocumentClassifiersInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutputResponse>(input: input, inputKey: \ListDocumentClassifiersInput.nextToken, outputKey: \ListDocumentClassifiersOutputResponse.nextToken, paginationFunction: self.listDocumentClassifiers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassifiersOutput`
+    public func listDocumentClassifiersPaginated(input: ListDocumentClassifiersInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutput> {
+        return ClientRuntime.PaginatorSequence<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(input: input, inputKey: \ListDocumentClassifiersInput.nextToken, outputKey: \ListDocumentClassifiersOutput.nextToken, paginationFunction: self.listDocumentClassifiers(input:))
     }
 }
 
@@ -70,16 +70,16 @@ extension ListDocumentClassifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListDocumentClassifierSummariesOutputResponse]` results.
+    /// Paginate over `[ListDocumentClassifierSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDocumentClassifierSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassifierSummariesOutputResponse`
-    public func listDocumentClassifierSummariesPaginated(input: ListDocumentClassifierSummariesInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutputResponse>(input: input, inputKey: \ListDocumentClassifierSummariesInput.nextToken, outputKey: \ListDocumentClassifierSummariesOutputResponse.nextToken, paginationFunction: self.listDocumentClassifierSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentClassifierSummariesOutput`
+    public func listDocumentClassifierSummariesPaginated(input: ListDocumentClassifierSummariesInput) -> ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(input: input, inputKey: \ListDocumentClassifierSummariesInput.nextToken, outputKey: \ListDocumentClassifierSummariesOutput.nextToken, paginationFunction: self.listDocumentClassifierSummaries(input:))
     }
 }
 
@@ -91,16 +91,16 @@ extension ListDocumentClassifierSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListDominantLanguageDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListDominantLanguageDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDominantLanguageDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDominantLanguageDetectionJobsOutputResponse`
-    public func listDominantLanguageDetectionJobsPaginated(input: ListDominantLanguageDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutputResponse>(input: input, inputKey: \ListDominantLanguageDetectionJobsInput.nextToken, outputKey: \ListDominantLanguageDetectionJobsOutputResponse.nextToken, paginationFunction: self.listDominantLanguageDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDominantLanguageDetectionJobsOutput`
+    public func listDominantLanguageDetectionJobsPaginated(input: ListDominantLanguageDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(input: input, inputKey: \ListDominantLanguageDetectionJobsInput.nextToken, outputKey: \ListDominantLanguageDetectionJobsOutput.nextToken, paginationFunction: self.listDominantLanguageDetectionJobs(input:))
     }
 }
 
@@ -113,16 +113,16 @@ extension ListDominantLanguageDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListEndpointsOutputResponse]` results.
+    /// Paginate over `[ListEndpointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEndpointsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointsOutputResponse`
-    public func listEndpointsPaginated(input: ListEndpointsInput) -> ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutputResponse>(input: input, inputKey: \ListEndpointsInput.nextToken, outputKey: \ListEndpointsOutputResponse.nextToken, paginationFunction: self.listEndpoints(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointsOutput`
+    public func listEndpointsPaginated(input: ListEndpointsInput) -> ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \ListEndpointsInput.nextToken, outputKey: \ListEndpointsOutput.nextToken, paginationFunction: self.listEndpoints(input:))
     }
 }
 
@@ -135,7 +135,7 @@ extension ListEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEndpointsOutputResponse {
+extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEndpointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointsPaginated`
     /// to access the nested member `[ComprehendClientTypes.EndpointProperties]`
     /// - Returns: `[ComprehendClientTypes.EndpointProperties]`
@@ -144,16 +144,16 @@ extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEnd
     }
 }
 extension ComprehendClient {
-    /// Paginate over `[ListEntitiesDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListEntitiesDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEntitiesDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesDetectionJobsOutputResponse`
-    public func listEntitiesDetectionJobsPaginated(input: ListEntitiesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutputResponse>(input: input, inputKey: \ListEntitiesDetectionJobsInput.nextToken, outputKey: \ListEntitiesDetectionJobsOutputResponse.nextToken, paginationFunction: self.listEntitiesDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesDetectionJobsOutput`
+    public func listEntitiesDetectionJobsPaginated(input: ListEntitiesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(input: input, inputKey: \ListEntitiesDetectionJobsInput.nextToken, outputKey: \ListEntitiesDetectionJobsOutput.nextToken, paginationFunction: self.listEntitiesDetectionJobs(input:))
     }
 }
 
@@ -166,16 +166,16 @@ extension ListEntitiesDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListEntityRecognizersOutputResponse]` results.
+    /// Paginate over `[ListEntityRecognizersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEntityRecognizersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityRecognizersOutputResponse`
-    public func listEntityRecognizersPaginated(input: ListEntityRecognizersInput) -> ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutputResponse>(input: input, inputKey: \ListEntityRecognizersInput.nextToken, outputKey: \ListEntityRecognizersOutputResponse.nextToken, paginationFunction: self.listEntityRecognizers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityRecognizersOutput`
+    public func listEntityRecognizersPaginated(input: ListEntityRecognizersInput) -> ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntityRecognizersInput, ListEntityRecognizersOutput>(input: input, inputKey: \ListEntityRecognizersInput.nextToken, outputKey: \ListEntityRecognizersOutput.nextToken, paginationFunction: self.listEntityRecognizers(input:))
     }
 }
 
@@ -188,16 +188,16 @@ extension ListEntityRecognizersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListEntityRecognizerSummariesOutputResponse]` results.
+    /// Paginate over `[ListEntityRecognizerSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEntityRecognizerSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityRecognizerSummariesOutputResponse`
-    public func listEntityRecognizerSummariesPaginated(input: ListEntityRecognizerSummariesInput) -> ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutputResponse>(input: input, inputKey: \ListEntityRecognizerSummariesInput.nextToken, outputKey: \ListEntityRecognizerSummariesOutputResponse.nextToken, paginationFunction: self.listEntityRecognizerSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityRecognizerSummariesOutput`
+    public func listEntityRecognizerSummariesPaginated(input: ListEntityRecognizerSummariesInput) -> ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(input: input, inputKey: \ListEntityRecognizerSummariesInput.nextToken, outputKey: \ListEntityRecognizerSummariesOutput.nextToken, paginationFunction: self.listEntityRecognizerSummaries(input:))
     }
 }
 
@@ -209,16 +209,16 @@ extension ListEntityRecognizerSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListEventsDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListEventsDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEventsDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEventsDetectionJobsOutputResponse`
-    public func listEventsDetectionJobsPaginated(input: ListEventsDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutputResponse>(input: input, inputKey: \ListEventsDetectionJobsInput.nextToken, outputKey: \ListEventsDetectionJobsOutputResponse.nextToken, paginationFunction: self.listEventsDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventsDetectionJobsOutput`
+    public func listEventsDetectionJobsPaginated(input: ListEventsDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(input: input, inputKey: \ListEventsDetectionJobsInput.nextToken, outputKey: \ListEventsDetectionJobsOutput.nextToken, paginationFunction: self.listEventsDetectionJobs(input:))
     }
 }
 
@@ -231,16 +231,16 @@ extension ListEventsDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListFlywheelIterationHistoryOutputResponse]` results.
+    /// Paginate over `[ListFlywheelIterationHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFlywheelIterationHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelIterationHistoryOutputResponse`
-    public func listFlywheelIterationHistoryPaginated(input: ListFlywheelIterationHistoryInput) -> ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutputResponse>(input: input, inputKey: \ListFlywheelIterationHistoryInput.nextToken, outputKey: \ListFlywheelIterationHistoryOutputResponse.nextToken, paginationFunction: self.listFlywheelIterationHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelIterationHistoryOutput`
+    public func listFlywheelIterationHistoryPaginated(input: ListFlywheelIterationHistoryInput) -> ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(input: input, inputKey: \ListFlywheelIterationHistoryInput.nextToken, outputKey: \ListFlywheelIterationHistoryOutput.nextToken, paginationFunction: self.listFlywheelIterationHistory(input:))
     }
 }
 
@@ -254,16 +254,16 @@ extension ListFlywheelIterationHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListFlywheelsOutputResponse]` results.
+    /// Paginate over `[ListFlywheelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFlywheelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelsOutputResponse`
-    public func listFlywheelsPaginated(input: ListFlywheelsInput) -> ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutputResponse>(input: input, inputKey: \ListFlywheelsInput.nextToken, outputKey: \ListFlywheelsOutputResponse.nextToken, paginationFunction: self.listFlywheels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlywheelsOutput`
+    public func listFlywheelsPaginated(input: ListFlywheelsInput) -> ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFlywheelsInput, ListFlywheelsOutput>(input: input, inputKey: \ListFlywheelsInput.nextToken, outputKey: \ListFlywheelsOutput.nextToken, paginationFunction: self.listFlywheels(input:))
     }
 }
 
@@ -276,16 +276,16 @@ extension ListFlywheelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListKeyPhrasesDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListKeyPhrasesDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKeyPhrasesDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyPhrasesDetectionJobsOutputResponse`
-    public func listKeyPhrasesDetectionJobsPaginated(input: ListKeyPhrasesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutputResponse>(input: input, inputKey: \ListKeyPhrasesDetectionJobsInput.nextToken, outputKey: \ListKeyPhrasesDetectionJobsOutputResponse.nextToken, paginationFunction: self.listKeyPhrasesDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyPhrasesDetectionJobsOutput`
+    public func listKeyPhrasesDetectionJobsPaginated(input: ListKeyPhrasesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(input: input, inputKey: \ListKeyPhrasesDetectionJobsInput.nextToken, outputKey: \ListKeyPhrasesDetectionJobsOutput.nextToken, paginationFunction: self.listKeyPhrasesDetectionJobs(input:))
     }
 }
 
@@ -298,16 +298,16 @@ extension ListKeyPhrasesDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListPiiEntitiesDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListPiiEntitiesDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPiiEntitiesDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPiiEntitiesDetectionJobsOutputResponse`
-    public func listPiiEntitiesDetectionJobsPaginated(input: ListPiiEntitiesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutputResponse>(input: input, inputKey: \ListPiiEntitiesDetectionJobsInput.nextToken, outputKey: \ListPiiEntitiesDetectionJobsOutputResponse.nextToken, paginationFunction: self.listPiiEntitiesDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPiiEntitiesDetectionJobsOutput`
+    public func listPiiEntitiesDetectionJobsPaginated(input: ListPiiEntitiesDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(input: input, inputKey: \ListPiiEntitiesDetectionJobsInput.nextToken, outputKey: \ListPiiEntitiesDetectionJobsOutput.nextToken, paginationFunction: self.listPiiEntitiesDetectionJobs(input:))
     }
 }
 
@@ -320,7 +320,7 @@ extension ListPiiEntitiesDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPiiEntitiesDetectionJobsInput, Output == ListPiiEntitiesDetectionJobsOutputResponse {
+extension PaginatorSequence where Input == ListPiiEntitiesDetectionJobsInput, Output == ListPiiEntitiesDetectionJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPiiEntitiesDetectionJobsPaginated`
     /// to access the nested member `[ComprehendClientTypes.PiiEntitiesDetectionJobProperties]`
     /// - Returns: `[ComprehendClientTypes.PiiEntitiesDetectionJobProperties]`
@@ -329,16 +329,16 @@ extension PaginatorSequence where Input == ListPiiEntitiesDetectionJobsInput, Ou
     }
 }
 extension ComprehendClient {
-    /// Paginate over `[ListSentimentDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListSentimentDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSentimentDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSentimentDetectionJobsOutputResponse`
-    public func listSentimentDetectionJobsPaginated(input: ListSentimentDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutputResponse>(input: input, inputKey: \ListSentimentDetectionJobsInput.nextToken, outputKey: \ListSentimentDetectionJobsOutputResponse.nextToken, paginationFunction: self.listSentimentDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSentimentDetectionJobsOutput`
+    public func listSentimentDetectionJobsPaginated(input: ListSentimentDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(input: input, inputKey: \ListSentimentDetectionJobsInput.nextToken, outputKey: \ListSentimentDetectionJobsOutput.nextToken, paginationFunction: self.listSentimentDetectionJobs(input:))
     }
 }
 
@@ -351,16 +351,16 @@ extension ListSentimentDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListTargetedSentimentDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListTargetedSentimentDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTargetedSentimentDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTargetedSentimentDetectionJobsOutputResponse`
-    public func listTargetedSentimentDetectionJobsPaginated(input: ListTargetedSentimentDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutputResponse>(input: input, inputKey: \ListTargetedSentimentDetectionJobsInput.nextToken, outputKey: \ListTargetedSentimentDetectionJobsOutputResponse.nextToken, paginationFunction: self.listTargetedSentimentDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTargetedSentimentDetectionJobsOutput`
+    public func listTargetedSentimentDetectionJobsPaginated(input: ListTargetedSentimentDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(input: input, inputKey: \ListTargetedSentimentDetectionJobsInput.nextToken, outputKey: \ListTargetedSentimentDetectionJobsOutput.nextToken, paginationFunction: self.listTargetedSentimentDetectionJobs(input:))
     }
 }
 
@@ -373,16 +373,16 @@ extension ListTargetedSentimentDetectionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ComprehendClient {
-    /// Paginate over `[ListTopicsDetectionJobsOutputResponse]` results.
+    /// Paginate over `[ListTopicsDetectionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTopicsDetectionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsDetectionJobsOutputResponse`
-    public func listTopicsDetectionJobsPaginated(input: ListTopicsDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutputResponse>(input: input, inputKey: \ListTopicsDetectionJobsInput.nextToken, outputKey: \ListTopicsDetectionJobsOutputResponse.nextToken, paginationFunction: self.listTopicsDetectionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsDetectionJobsOutput`
+    public func listTopicsDetectionJobsPaginated(input: ListTopicsDetectionJobsInput) -> ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(input: input, inputKey: \ListTopicsDetectionJobsInput.nextToken, outputKey: \ListTopicsDetectionJobsOutput.nextToken, paginationFunction: self.listTopicsDetectionJobs(input:))
     }
 }
 

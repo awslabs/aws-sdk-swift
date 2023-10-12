@@ -178,6 +178,47 @@ extension AssociateUserInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssociateUserOutputBody = try responseDecoder.decode(responseBody: data)
+            self.instanceUserSummary = output.instanceUserSummary
+        } else {
+            self.instanceUserSummary = nil
+        }
+    }
+}
+
+public struct AssociateUserOutput: Swift.Equatable {
+    /// Metadata that describes the associate user operation.
+    /// This member is required.
+    public var instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
+
+    public init(
+        instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary? = nil
+    )
+    {
+        self.instanceUserSummary = instanceUserSummary
+    }
+}
+
+struct AssociateUserOutputBody: Swift.Equatable {
+    let instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
+}
+
+extension AssociateUserOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceUserSummary = "InstanceUserSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary.self, forKey: .instanceUserSummary)
+        instanceUserSummary = instanceUserSummaryDecoded
+    }
+}
+
 enum AssociateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -192,47 +233,6 @@ enum AssociateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension AssociateUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AssociateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.instanceUserSummary = output.instanceUserSummary
-        } else {
-            self.instanceUserSummary = nil
-        }
-    }
-}
-
-public struct AssociateUserOutputResponse: Swift.Equatable {
-    /// Metadata that describes the associate user operation.
-    /// This member is required.
-    public var instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
-
-    public init(
-        instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary? = nil
-    )
-    {
-        self.instanceUserSummary = instanceUserSummary
-    }
-}
-
-struct AssociateUserOutputResponseBody: Swift.Equatable {
-    let instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
-}
-
-extension AssociateUserOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case instanceUserSummary = "InstanceUserSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instanceUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary.self, forKey: .instanceUserSummary)
-        instanceUserSummary = instanceUserSummaryDecoded
     }
 }
 
@@ -352,6 +352,47 @@ extension DeregisterIdentityProviderInputBody: Swift.Decodable {
     }
 }
 
+extension DeregisterIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeregisterIdentityProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.identityProviderSummary = output.identityProviderSummary
+        } else {
+            self.identityProviderSummary = nil
+        }
+    }
+}
+
+public struct DeregisterIdentityProviderOutput: Swift.Equatable {
+    /// Metadata that describes the results of an identity provider operation.
+    /// This member is required.
+    public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
+
+    public init(
+        identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
+    )
+    {
+        self.identityProviderSummary = identityProviderSummary
+    }
+}
+
+struct DeregisterIdentityProviderOutputBody: Swift.Equatable {
+    let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
+}
+
+extension DeregisterIdentityProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identityProviderSummary = "IdentityProviderSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identityProviderSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.self, forKey: .identityProviderSummary)
+        identityProviderSummary = identityProviderSummaryDecoded
+    }
+}
+
 enum DeregisterIdentityProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -366,47 +407,6 @@ enum DeregisterIdentityProviderOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeregisterIdentityProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeregisterIdentityProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.identityProviderSummary = output.identityProviderSummary
-        } else {
-            self.identityProviderSummary = nil
-        }
-    }
-}
-
-public struct DeregisterIdentityProviderOutputResponse: Swift.Equatable {
-    /// Metadata that describes the results of an identity provider operation.
-    /// This member is required.
-    public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
-
-    public init(
-        identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
-    )
-    {
-        self.identityProviderSummary = identityProviderSummary
-    }
-}
-
-struct DeregisterIdentityProviderOutputResponseBody: Swift.Equatable {
-    let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
-}
-
-extension DeregisterIdentityProviderOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case identityProviderSummary = "IdentityProviderSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let identityProviderSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.self, forKey: .identityProviderSummary)
-        identityProviderSummary = identityProviderSummaryDecoded
     }
 }
 
@@ -496,6 +496,47 @@ extension DisassociateUserInputBody: Swift.Decodable {
     }
 }
 
+extension DisassociateUserOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisassociateUserOutputBody = try responseDecoder.decode(responseBody: data)
+            self.instanceUserSummary = output.instanceUserSummary
+        } else {
+            self.instanceUserSummary = nil
+        }
+    }
+}
+
+public struct DisassociateUserOutput: Swift.Equatable {
+    /// Metadata that describes the associate user operation.
+    /// This member is required.
+    public var instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
+
+    public init(
+        instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary? = nil
+    )
+    {
+        self.instanceUserSummary = instanceUserSummary
+    }
+}
+
+struct DisassociateUserOutputBody: Swift.Equatable {
+    let instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
+}
+
+extension DisassociateUserOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceUserSummary = "InstanceUserSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary.self, forKey: .instanceUserSummary)
+        instanceUserSummary = instanceUserSummaryDecoded
+    }
+}
+
 enum DisassociateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -510,47 +551,6 @@ enum DisassociateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DisassociateUserOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisassociateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.instanceUserSummary = output.instanceUserSummary
-        } else {
-            self.instanceUserSummary = nil
-        }
-    }
-}
-
-public struct DisassociateUserOutputResponse: Swift.Equatable {
-    /// Metadata that describes the associate user operation.
-    /// This member is required.
-    public var instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
-
-    public init(
-        instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary? = nil
-    )
-    {
-        self.instanceUserSummary = instanceUserSummary
-    }
-}
-
-struct DisassociateUserOutputResponseBody: Swift.Equatable {
-    let instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
-}
-
-extension DisassociateUserOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case instanceUserSummary = "InstanceUserSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instanceUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary.self, forKey: .instanceUserSummary)
-        instanceUserSummary = instanceUserSummaryDecoded
     }
 }
 
@@ -1038,28 +1038,11 @@ extension ListIdentityProvidersInputBody: Swift.Decodable {
     }
 }
 
-enum ListIdentityProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListIdentityProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListIdentityProvidersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListIdentityProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListIdentityProvidersOutputBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderSummaries = output.identityProviderSummaries
             self.nextToken = output.nextToken
         } else {
@@ -1069,7 +1052,7 @@ extension ListIdentityProvidersOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListIdentityProvidersOutputResponse: Swift.Equatable {
+public struct ListIdentityProvidersOutput: Swift.Equatable {
     /// Metadata that describes the list identity providers operation.
     /// This member is required.
     public var identityProviderSummaries: [LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]?
@@ -1086,12 +1069,12 @@ public struct ListIdentityProvidersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListIdentityProvidersOutputResponseBody: Swift.Equatable {
+struct ListIdentityProvidersOutputBody: Swift.Equatable {
     let identityProviderSummaries: [LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListIdentityProvidersOutputResponseBody: Swift.Decodable {
+extension ListIdentityProvidersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identityProviderSummaries = "IdentityProviderSummaries"
         case nextToken = "NextToken"
@@ -1112,6 +1095,23 @@ extension ListIdentityProvidersOutputResponseBody: Swift.Decodable {
         identityProviderSummaries = identityProviderSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListIdentityProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1198,28 +1198,11 @@ extension ListInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceSummaries = output.instanceSummaries
             self.nextToken = output.nextToken
         } else {
@@ -1229,7 +1212,7 @@ extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstancesOutputResponse: Swift.Equatable {
+public struct ListInstancesOutput: Swift.Equatable {
     /// Metadata that describes the list instances operation.
     public var instanceSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]?
     /// Token for the next set of results.
@@ -1245,12 +1228,12 @@ public struct ListInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListInstancesOutputResponseBody: Swift.Equatable {
+struct ListInstancesOutputBody: Swift.Equatable {
     let instanceSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListInstancesOutputResponseBody: Swift.Decodable {
+extension ListInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceSummaries = "InstanceSummaries"
         case nextToken = "NextToken"
@@ -1271,6 +1254,23 @@ extension ListInstancesOutputResponseBody: Swift.Decodable {
         instanceSummaries = instanceSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1383,28 +1383,11 @@ extension ListProductSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListProductSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProductSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProductSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProductSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProductSubscriptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.productUserSummaries = output.productUserSummaries
         } else {
@@ -1414,7 +1397,7 @@ extension ListProductSubscriptionsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListProductSubscriptionsOutputResponse: Swift.Equatable {
+public struct ListProductSubscriptionsOutput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// Metadata that describes the list product subscriptions operation.
@@ -1430,12 +1413,12 @@ public struct ListProductSubscriptionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProductSubscriptionsOutputResponseBody: Swift.Equatable {
+struct ListProductSubscriptionsOutputBody: Swift.Equatable {
     let productUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListProductSubscriptionsOutputResponseBody: Swift.Decodable {
+extension ListProductSubscriptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case productUserSummaries = "ProductUserSummaries"
@@ -1456,6 +1439,23 @@ extension ListProductSubscriptionsOutputResponseBody: Swift.Decodable {
         productUserSummaries = productUserSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProductSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1568,28 +1568,11 @@ extension ListUserAssociationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListUserAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListUserAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListUserAssociationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListUserAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListUserAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.instanceUserSummaries = output.instanceUserSummaries
             self.nextToken = output.nextToken
         } else {
@@ -1599,7 +1582,7 @@ extension ListUserAssociationsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListUserAssociationsOutputResponse: Swift.Equatable {
+public struct ListUserAssociationsOutput: Swift.Equatable {
     /// Metadata that describes the list user association operation.
     public var instanceUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]?
     /// Token for the next set of results.
@@ -1615,12 +1598,12 @@ public struct ListUserAssociationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListUserAssociationsOutputResponseBody: Swift.Equatable {
+struct ListUserAssociationsOutputBody: Swift.Equatable {
     let instanceUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListUserAssociationsOutputResponseBody: Swift.Decodable {
+extension ListUserAssociationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceUserSummaries = "InstanceUserSummaries"
         case nextToken = "NextToken"
@@ -1641,6 +1624,23 @@ extension ListUserAssociationsOutputResponseBody: Swift.Decodable {
         instanceUserSummaries = instanceUserSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListUserAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1826,6 +1826,47 @@ extension RegisterIdentityProviderInputBody: Swift.Decodable {
     }
 }
 
+extension RegisterIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RegisterIdentityProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.identityProviderSummary = output.identityProviderSummary
+        } else {
+            self.identityProviderSummary = nil
+        }
+    }
+}
+
+public struct RegisterIdentityProviderOutput: Swift.Equatable {
+    /// Metadata that describes the results of an identity provider operation.
+    /// This member is required.
+    public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
+
+    public init(
+        identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
+    )
+    {
+        self.identityProviderSummary = identityProviderSummary
+    }
+}
+
+struct RegisterIdentityProviderOutputBody: Swift.Equatable {
+    let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
+}
+
+extension RegisterIdentityProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identityProviderSummary = "IdentityProviderSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identityProviderSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.self, forKey: .identityProviderSummary)
+        identityProviderSummary = identityProviderSummaryDecoded
+    }
+}
+
 enum RegisterIdentityProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1840,47 +1881,6 @@ enum RegisterIdentityProviderOutputError: ClientRuntime.HttpResponseErrorBinding
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RegisterIdentityProviderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RegisterIdentityProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.identityProviderSummary = output.identityProviderSummary
-        } else {
-            self.identityProviderSummary = nil
-        }
-    }
-}
-
-public struct RegisterIdentityProviderOutputResponse: Swift.Equatable {
-    /// Metadata that describes the results of an identity provider operation.
-    /// This member is required.
-    public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
-
-    public init(
-        identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
-    )
-    {
-        self.identityProviderSummary = identityProviderSummary
-    }
-}
-
-struct RegisterIdentityProviderOutputResponseBody: Swift.Equatable {
-    let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
-}
-
-extension RegisterIdentityProviderOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case identityProviderSummary = "IdentityProviderSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let identityProviderSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.self, forKey: .identityProviderSummary)
-        identityProviderSummary = identityProviderSummaryDecoded
     }
 }
 
@@ -2139,6 +2139,47 @@ extension StartProductSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension StartProductSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartProductSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.productUserSummary = output.productUserSummary
+        } else {
+            self.productUserSummary = nil
+        }
+    }
+}
+
+public struct StartProductSubscriptionOutput: Swift.Equatable {
+    /// Metadata that describes the start product subscription operation.
+    /// This member is required.
+    public var productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
+
+    public init(
+        productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary? = nil
+    )
+    {
+        self.productUserSummary = productUserSummary
+    }
+}
+
+struct StartProductSubscriptionOutputBody: Swift.Equatable {
+    let productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
+}
+
+extension StartProductSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case productUserSummary = "ProductUserSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let productUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary.self, forKey: .productUserSummary)
+        productUserSummary = productUserSummaryDecoded
+    }
+}
+
 enum StartProductSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2153,47 +2194,6 @@ enum StartProductSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartProductSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartProductSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.productUserSummary = output.productUserSummary
-        } else {
-            self.productUserSummary = nil
-        }
-    }
-}
-
-public struct StartProductSubscriptionOutputResponse: Swift.Equatable {
-    /// Metadata that describes the start product subscription operation.
-    /// This member is required.
-    public var productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
-
-    public init(
-        productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary? = nil
-    )
-    {
-        self.productUserSummary = productUserSummary
-    }
-}
-
-struct StartProductSubscriptionOutputResponseBody: Swift.Equatable {
-    let productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
-}
-
-extension StartProductSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case productUserSummary = "ProductUserSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let productUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary.self, forKey: .productUserSummary)
-        productUserSummary = productUserSummaryDecoded
     }
 }
 
@@ -2283,6 +2283,47 @@ extension StopProductSubscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension StopProductSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopProductSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.productUserSummary = output.productUserSummary
+        } else {
+            self.productUserSummary = nil
+        }
+    }
+}
+
+public struct StopProductSubscriptionOutput: Swift.Equatable {
+    /// Metadata that describes the start product subscription operation.
+    /// This member is required.
+    public var productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
+
+    public init(
+        productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary? = nil
+    )
+    {
+        self.productUserSummary = productUserSummary
+    }
+}
+
+struct StopProductSubscriptionOutputBody: Swift.Equatable {
+    let productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
+}
+
+extension StopProductSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case productUserSummary = "ProductUserSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let productUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary.self, forKey: .productUserSummary)
+        productUserSummary = productUserSummaryDecoded
+    }
+}
+
 enum StopProductSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2297,47 +2338,6 @@ enum StopProductSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StopProductSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StopProductSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.productUserSummary = output.productUserSummary
-        } else {
-            self.productUserSummary = nil
-        }
-    }
-}
-
-public struct StopProductSubscriptionOutputResponse: Swift.Equatable {
-    /// Metadata that describes the start product subscription operation.
-    /// This member is required.
-    public var productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
-
-    public init(
-        productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary? = nil
-    )
-    {
-        self.productUserSummary = productUserSummary
-    }
-}
-
-struct StopProductSubscriptionOutputResponseBody: Swift.Equatable {
-    let productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
-}
-
-extension StopProductSubscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case productUserSummary = "ProductUserSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let productUserSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary.self, forKey: .productUserSummary)
-        productUserSummary = productUserSummaryDecoded
     }
 }
 
@@ -2476,25 +2476,11 @@ extension UpdateIdentityProviderSettingsInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateIdentityProviderSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateIdentityProviderSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateIdentityProviderSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateIdentityProviderSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateIdentityProviderSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.identityProviderSummary = output.identityProviderSummary
         } else {
             self.identityProviderSummary = nil
@@ -2502,7 +2488,7 @@ extension UpdateIdentityProviderSettingsOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateIdentityProviderSettingsOutputResponse: Swift.Equatable {
+public struct UpdateIdentityProviderSettingsOutput: Swift.Equatable {
     /// Describes an identity provider.
     /// This member is required.
     public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
@@ -2515,11 +2501,11 @@ public struct UpdateIdentityProviderSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityProviderSettingsOutputResponseBody: Swift.Equatable {
+struct UpdateIdentityProviderSettingsOutputBody: Swift.Equatable {
     let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
 }
 
-extension UpdateIdentityProviderSettingsOutputResponseBody: Swift.Decodable {
+extension UpdateIdentityProviderSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identityProviderSummary = "IdentityProviderSummary"
     }
@@ -2528,6 +2514,20 @@ extension UpdateIdentityProviderSettingsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityProviderSummaryDecoded = try containerValues.decodeIfPresent(LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary.self, forKey: .identityProviderSummary)
         identityProviderSummary = identityProviderSummaryDecoded
+    }
+}
+
+enum UpdateIdentityProviderSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

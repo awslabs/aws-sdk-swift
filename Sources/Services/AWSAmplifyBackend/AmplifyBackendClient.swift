@@ -71,7 +71,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CloneBackendInput : The request body for CloneBackend.
     ///
-    /// - Returns: `CloneBackendOutputResponse` : [no documentation found]
+    /// - Returns: `CloneBackendOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,7 +80,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutputResponse
+    public func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -96,20 +96,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CloneBackendInput, CloneBackendOutputResponse, CloneBackendOutputError>(id: "cloneBackend")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloneBackendInput, CloneBackendOutputResponse, CloneBackendOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloneBackendInput, CloneBackendOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CloneBackendInput, CloneBackendOutput, CloneBackendOutputError>(id: "cloneBackend")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloneBackendInput, CloneBackendOutput, CloneBackendOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloneBackendInput, CloneBackendOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CloneBackendOutputResponse, CloneBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CloneBackendOutput, CloneBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CloneBackendInput, CloneBackendOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CloneBackendInput, CloneBackendOutputResponse>(xmlName: "CloneBackendRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CloneBackendInput, CloneBackendOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CloneBackendInput, CloneBackendOutput>(xmlName: "CloneBackendRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CloneBackendOutputResponse, CloneBackendOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CloneBackendOutput, CloneBackendOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloneBackendOutputResponse, CloneBackendOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloneBackendOutputResponse, CloneBackendOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CloneBackendOutputResponse, CloneBackendOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloneBackendOutput, CloneBackendOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloneBackendOutput, CloneBackendOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CloneBackendOutput, CloneBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -118,7 +118,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CreateBackendInput : The request body for CreateBackend.
     ///
-    /// - Returns: `CreateBackendOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBackendOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutputResponse
+    public func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -143,20 +143,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBackendInput, CreateBackendOutputResponse, CreateBackendOutputError>(id: "createBackend")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendInput, CreateBackendOutputResponse, CreateBackendOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendInput, CreateBackendOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBackendInput, CreateBackendOutput, CreateBackendOutputError>(id: "createBackend")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendInput, CreateBackendOutput, CreateBackendOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendInput, CreateBackendOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendOutputResponse, CreateBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendOutput, CreateBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendInput, CreateBackendOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendInput, CreateBackendOutputResponse>(xmlName: "CreateBackendRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendInput, CreateBackendOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendInput, CreateBackendOutput>(xmlName: "CreateBackendRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendOutputResponse, CreateBackendOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendOutput, CreateBackendOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendOutputResponse, CreateBackendOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendOutputResponse, CreateBackendOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendOutputResponse, CreateBackendOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendOutput, CreateBackendOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendOutput, CreateBackendOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendOutput, CreateBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -165,7 +165,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CreateBackendAPIInput : The request body for CreateBackendAPI.
     ///
-    /// - Returns: `CreateBackendAPIOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBackendAPIOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,7 +174,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutputResponse
+    public func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -190,20 +190,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBackendAPIInput, CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(id: "createBackendAPI")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendAPIInput, CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendAPIInput, CreateBackendAPIOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBackendAPIInput, CreateBackendAPIOutput, CreateBackendAPIOutputError>(id: "createBackendAPI")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendAPIInput, CreateBackendAPIOutput, CreateBackendAPIOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendAPIInput, CreateBackendAPIOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendAPIOutput, CreateBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendAPIInput, CreateBackendAPIOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendAPIInput, CreateBackendAPIOutputResponse>(xmlName: "CreateBackendAPIRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendAPIInput, CreateBackendAPIOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendAPIInput, CreateBackendAPIOutput>(xmlName: "CreateBackendAPIRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendAPIOutput, CreateBackendAPIOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendAPIOutput, CreateBackendAPIOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendAPIOutput, CreateBackendAPIOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendAPIOutput, CreateBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -212,7 +212,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CreateBackendAuthInput : The request body for CreateBackendAuth.
     ///
-    /// - Returns: `CreateBackendAuthOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBackendAuthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -221,7 +221,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutputResponse
+    public func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -237,20 +237,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBackendAuthInput, CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(id: "createBackendAuth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendAuthInput, CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendAuthInput, CreateBackendAuthOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBackendAuthInput, CreateBackendAuthOutput, CreateBackendAuthOutputError>(id: "createBackendAuth")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendAuthInput, CreateBackendAuthOutput, CreateBackendAuthOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendAuthInput, CreateBackendAuthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendAuthOutput, CreateBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendAuthInput, CreateBackendAuthOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendAuthInput, CreateBackendAuthOutputResponse>(xmlName: "CreateBackendAuthRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendAuthInput, CreateBackendAuthOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendAuthInput, CreateBackendAuthOutput>(xmlName: "CreateBackendAuthRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendAuthOutput, CreateBackendAuthOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendAuthOutput, CreateBackendAuthOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendAuthOutput, CreateBackendAuthOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendAuthOutput, CreateBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -259,7 +259,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CreateBackendConfigInput : The request body for CreateBackendConfig.
     ///
-    /// - Returns: `CreateBackendConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBackendConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,7 +268,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutputResponse
+    public func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -284,20 +284,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBackendConfigInput, CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(id: "createBackendConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendConfigInput, CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendConfigInput, CreateBackendConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBackendConfigInput, CreateBackendConfigOutput, CreateBackendConfigOutputError>(id: "createBackendConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendConfigInput, CreateBackendConfigOutput, CreateBackendConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendConfigInput, CreateBackendConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendConfigOutput, CreateBackendConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendConfigInput, CreateBackendConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendConfigInput, CreateBackendConfigOutputResponse>(xmlName: "CreateBackendConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendConfigInput, CreateBackendConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendConfigInput, CreateBackendConfigOutput>(xmlName: "CreateBackendConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendConfigOutput, CreateBackendConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendConfigOutput, CreateBackendConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendConfigOutput, CreateBackendConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendConfigOutput, CreateBackendConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -306,7 +306,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CreateBackendStorageInput : The request body for CreateBackendStorage.
     ///
-    /// - Returns: `CreateBackendStorageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBackendStorageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -315,7 +315,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutputResponse
+    public func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -331,20 +331,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBackendStorageInput, CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(id: "createBackendStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendStorageInput, CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendStorageInput, CreateBackendStorageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateBackendStorageInput, CreateBackendStorageOutput, CreateBackendStorageOutputError>(id: "createBackendStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendStorageInput, CreateBackendStorageOutput, CreateBackendStorageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendStorageInput, CreateBackendStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBackendStorageOutput, CreateBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendStorageInput, CreateBackendStorageOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendStorageInput, CreateBackendStorageOutputResponse>(xmlName: "CreateBackendStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBackendStorageInput, CreateBackendStorageOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBackendStorageInput, CreateBackendStorageOutput>(xmlName: "CreateBackendStorageRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBackendStorageOutput, CreateBackendStorageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendStorageOutput, CreateBackendStorageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendStorageOutput, CreateBackendStorageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendStorageOutput, CreateBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -353,7 +353,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter CreateTokenInput : [no documentation found]
     ///
-    /// - Returns: `CreateTokenOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -362,7 +362,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutputResponse
+    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -378,17 +378,17 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTokenInput, CreateTokenOutputResponse, CreateTokenOutputError>(id: "createToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTokenInput, CreateTokenOutputResponse, CreateTokenOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTokenInput, CreateTokenOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTokenInput, CreateTokenOutput, CreateTokenOutputError>(id: "createToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTokenInput, CreateTokenOutput, CreateTokenOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTokenInput, CreateTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTokenOutput, CreateTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTokenOutputResponse, CreateTokenOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTokenOutput, CreateTokenOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTokenOutputResponse, CreateTokenOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTokenOutput, CreateTokenOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTokenOutput, CreateTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTokenOutput, CreateTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -397,7 +397,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter DeleteBackendInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBackendOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBackendOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,7 +406,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutputResponse
+    public func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -422,17 +422,17 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBackendInput, DeleteBackendOutputResponse, DeleteBackendOutputError>(id: "deleteBackend")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendInput, DeleteBackendOutputResponse, DeleteBackendOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendInput, DeleteBackendOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBackendInput, DeleteBackendOutput, DeleteBackendOutputError>(id: "deleteBackend")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendInput, DeleteBackendOutput, DeleteBackendOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendInput, DeleteBackendOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendOutputResponse, DeleteBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendOutput, DeleteBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendOutputResponse, DeleteBackendOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendOutput, DeleteBackendOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendOutputResponse, DeleteBackendOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendOutputResponse, DeleteBackendOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendOutputResponse, DeleteBackendOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendOutput, DeleteBackendOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendOutput, DeleteBackendOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendOutput, DeleteBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -441,7 +441,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter DeleteBackendAPIInput : The request body for DeleteBackendAPI.
     ///
-    /// - Returns: `DeleteBackendAPIOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBackendAPIOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,7 +450,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutputResponse
+    public func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -466,20 +466,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(id: "deleteBackendAPI")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBackendAPIInput, DeleteBackendAPIOutput, DeleteBackendAPIOutputError>(id: "deleteBackendAPI")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutput, DeleteBackendAPIOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendAPIOutput, DeleteBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse>(xmlName: "DeleteBackendAPIRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutput>(xmlName: "DeleteBackendAPIRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendAPIOutput, DeleteBackendAPIOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendAPIOutput, DeleteBackendAPIOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendAPIOutput, DeleteBackendAPIOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendAPIOutput, DeleteBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -488,7 +488,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter DeleteBackendAuthInput : The request body for DeleteBackendAuth.
     ///
-    /// - Returns: `DeleteBackendAuthOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBackendAuthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,7 +497,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutputResponse
+    public func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -513,20 +513,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(id: "deleteBackendAuth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBackendAuthInput, DeleteBackendAuthOutput, DeleteBackendAuthOutputError>(id: "deleteBackendAuth")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutput, DeleteBackendAuthOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendAuthOutput, DeleteBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse>(xmlName: "DeleteBackendAuthRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutput>(xmlName: "DeleteBackendAuthRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendAuthOutput, DeleteBackendAuthOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendAuthOutput, DeleteBackendAuthOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendAuthOutput, DeleteBackendAuthOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendAuthOutput, DeleteBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -535,7 +535,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter DeleteBackendStorageInput : The request body for DeleteBackendStorage.
     ///
-    /// - Returns: `DeleteBackendStorageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBackendStorageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,7 +544,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutputResponse
+    public func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -560,20 +560,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(id: "deleteBackendStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteBackendStorageInput, DeleteBackendStorageOutput, DeleteBackendStorageOutputError>(id: "deleteBackendStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutput, DeleteBackendStorageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBackendStorageOutput, DeleteBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse>(xmlName: "DeleteBackendStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutput>(xmlName: "DeleteBackendStorageRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBackendStorageOutput, DeleteBackendStorageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendStorageOutput, DeleteBackendStorageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendStorageOutput, DeleteBackendStorageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendStorageOutput, DeleteBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -582,7 +582,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter DeleteTokenInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTokenOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,7 +591,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutputResponse
+    public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -607,17 +607,17 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTokenInput, DeleteTokenOutputResponse, DeleteTokenOutputError>(id: "deleteToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTokenInput, DeleteTokenOutputResponse, DeleteTokenOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTokenInput, DeleteTokenOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTokenInput, DeleteTokenOutput, DeleteTokenOutputError>(id: "deleteToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTokenInput, DeleteTokenOutput, DeleteTokenOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTokenInput, DeleteTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTokenOutputResponse, DeleteTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTokenOutput, DeleteTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTokenOutputResponse, DeleteTokenOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTokenOutput, DeleteTokenOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTokenOutputResponse, DeleteTokenOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTokenOutputResponse, DeleteTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTokenOutputResponse, DeleteTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTokenOutput, DeleteTokenOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTokenOutput, DeleteTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTokenOutput, DeleteTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -626,7 +626,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GenerateBackendAPIModelsInput : The request body for GenerateBackendAPIModels.
     ///
-    /// - Returns: `GenerateBackendAPIModelsOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateBackendAPIModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,7 +635,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutputResponse
+    public func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -651,20 +651,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(id: "generateBackendAPIModels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>(id: "generateBackendAPIModels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse>(xmlName: "GenerateBackendAPIModelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput>(xmlName: "GenerateBackendAPIModelsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateBackendAPIModelsOutput, GenerateBackendAPIModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -673,7 +673,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetBackendInput : The request body for GetBackend.
     ///
-    /// - Returns: `GetBackendOutputResponse` : [no documentation found]
+    /// - Returns: `GetBackendOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,7 +682,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackend(input: GetBackendInput) async throws -> GetBackendOutputResponse
+    public func getBackend(input: GetBackendInput) async throws -> GetBackendOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -698,20 +698,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBackendInput, GetBackendOutputResponse, GetBackendOutputError>(id: "getBackend")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendInput, GetBackendOutputResponse, GetBackendOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendInput, GetBackendOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBackendInput, GetBackendOutput, GetBackendOutputError>(id: "getBackend")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendInput, GetBackendOutput, GetBackendOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendInput, GetBackendOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendOutputResponse, GetBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendOutput, GetBackendOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendInput, GetBackendOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendInput, GetBackendOutputResponse>(xmlName: "GetBackendRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendInput, GetBackendOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendInput, GetBackendOutput>(xmlName: "GetBackendRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendOutputResponse, GetBackendOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendOutput, GetBackendOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendOutputResponse, GetBackendOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendOutputResponse, GetBackendOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendOutputResponse, GetBackendOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendOutput, GetBackendOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendOutput, GetBackendOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendOutput, GetBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -720,7 +720,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetBackendAPIInput : The request body for GetBackendAPI.
     ///
-    /// - Returns: `GetBackendAPIOutputResponse` : [no documentation found]
+    /// - Returns: `GetBackendAPIOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,7 +729,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutputResponse
+    public func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -745,20 +745,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBackendAPIInput, GetBackendAPIOutputResponse, GetBackendAPIOutputError>(id: "getBackendAPI")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAPIInput, GetBackendAPIOutputResponse, GetBackendAPIOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAPIInput, GetBackendAPIOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBackendAPIInput, GetBackendAPIOutput, GetBackendAPIOutputError>(id: "getBackendAPI")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAPIInput, GetBackendAPIOutput, GetBackendAPIOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAPIInput, GetBackendAPIOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendAPIOutput, GetBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendAPIInput, GetBackendAPIOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendAPIInput, GetBackendAPIOutputResponse>(xmlName: "GetBackendAPIRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendAPIInput, GetBackendAPIOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendAPIInput, GetBackendAPIOutput>(xmlName: "GetBackendAPIRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendAPIOutputResponse, GetBackendAPIOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendAPIOutput, GetBackendAPIOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAPIOutput, GetBackendAPIOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAPIOutput, GetBackendAPIOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAPIOutput, GetBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -767,7 +767,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetBackendAPIModelsInput : The request body for GetBackendAPIModels.
     ///
-    /// - Returns: `GetBackendAPIModelsOutputResponse` : [no documentation found]
+    /// - Returns: `GetBackendAPIModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,7 +776,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutputResponse
+    public func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -792,20 +792,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(id: "getBackendAPIModels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBackendAPIModelsInput, GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>(id: "getBackendAPIModels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse>(xmlName: "GetBackendAPIModelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutput>(xmlName: "GetBackendAPIModelsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAPIModelsOutput, GetBackendAPIModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -814,7 +814,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetBackendAuthInput : The request body for GetBackendAuth.
     ///
-    /// - Returns: `GetBackendAuthOutputResponse` : [no documentation found]
+    /// - Returns: `GetBackendAuthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,7 +823,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutputResponse
+    public func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -839,20 +839,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBackendAuthInput, GetBackendAuthOutputResponse, GetBackendAuthOutputError>(id: "getBackendAuth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAuthInput, GetBackendAuthOutputResponse, GetBackendAuthOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAuthInput, GetBackendAuthOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBackendAuthInput, GetBackendAuthOutput, GetBackendAuthOutputError>(id: "getBackendAuth")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAuthInput, GetBackendAuthOutput, GetBackendAuthOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAuthInput, GetBackendAuthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendAuthOutput, GetBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendAuthInput, GetBackendAuthOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendAuthInput, GetBackendAuthOutputResponse>(xmlName: "GetBackendAuthRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendAuthInput, GetBackendAuthOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendAuthInput, GetBackendAuthOutput>(xmlName: "GetBackendAuthRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendAuthOutputResponse, GetBackendAuthOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendAuthOutput, GetBackendAuthOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAuthOutput, GetBackendAuthOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAuthOutput, GetBackendAuthOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAuthOutput, GetBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -861,7 +861,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetBackendJobInput : [no documentation found]
     ///
-    /// - Returns: `GetBackendJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetBackendJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,7 +870,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutputResponse
+    public func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -886,17 +886,17 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBackendJobInput, GetBackendJobOutputResponse, GetBackendJobOutputError>(id: "getBackendJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendJobInput, GetBackendJobOutputResponse, GetBackendJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendJobInput, GetBackendJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBackendJobInput, GetBackendJobOutput, GetBackendJobOutputError>(id: "getBackendJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendJobInput, GetBackendJobOutput, GetBackendJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendJobInput, GetBackendJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendJobOutputResponse, GetBackendJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendJobOutput, GetBackendJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendJobOutputResponse, GetBackendJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendJobOutput, GetBackendJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendJobOutputResponse, GetBackendJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendJobOutputResponse, GetBackendJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendJobOutputResponse, GetBackendJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendJobOutput, GetBackendJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendJobOutput, GetBackendJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendJobOutput, GetBackendJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -905,7 +905,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetBackendStorageInput : The request body for GetBackendStorage.
     ///
-    /// - Returns: `GetBackendStorageOutputResponse` : [no documentation found]
+    /// - Returns: `GetBackendStorageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,7 +914,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutputResponse
+    public func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -930,20 +930,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBackendStorageInput, GetBackendStorageOutputResponse, GetBackendStorageOutputError>(id: "getBackendStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendStorageInput, GetBackendStorageOutputResponse, GetBackendStorageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendStorageInput, GetBackendStorageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetBackendStorageInput, GetBackendStorageOutput, GetBackendStorageOutputError>(id: "getBackendStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendStorageInput, GetBackendStorageOutput, GetBackendStorageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendStorageInput, GetBackendStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBackendStorageOutput, GetBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendStorageInput, GetBackendStorageOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendStorageInput, GetBackendStorageOutputResponse>(xmlName: "GetBackendStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBackendStorageInput, GetBackendStorageOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBackendStorageInput, GetBackendStorageOutput>(xmlName: "GetBackendStorageRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendStorageOutputResponse, GetBackendStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBackendStorageOutput, GetBackendStorageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendStorageOutput, GetBackendStorageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendStorageOutput, GetBackendStorageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendStorageOutput, GetBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -952,7 +952,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter GetTokenInput : [no documentation found]
     ///
-    /// - Returns: `GetTokenOutputResponse` : [no documentation found]
+    /// - Returns: `GetTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -961,7 +961,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func getToken(input: GetTokenInput) async throws -> GetTokenOutputResponse
+    public func getToken(input: GetTokenInput) async throws -> GetTokenOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -977,17 +977,17 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTokenInput, GetTokenOutputResponse, GetTokenOutputError>(id: "getToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTokenInput, GetTokenOutputResponse, GetTokenOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTokenInput, GetTokenOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTokenInput, GetTokenOutput, GetTokenOutputError>(id: "getToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTokenInput, GetTokenOutput, GetTokenOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTokenInput, GetTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTokenOutputResponse, GetTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTokenOutput, GetTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTokenOutputResponse, GetTokenOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTokenOutput, GetTokenOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTokenOutputResponse, GetTokenOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTokenOutputResponse, GetTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTokenOutputResponse, GetTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTokenOutput, GetTokenOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTokenOutput, GetTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTokenOutput, GetTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -996,7 +996,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter ImportBackendAuthInput : The request body for ImportBackendAuth.
     ///
-    /// - Returns: `ImportBackendAuthOutputResponse` : [no documentation found]
+    /// - Returns: `ImportBackendAuthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,7 +1005,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutputResponse
+    public func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1021,20 +1021,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportBackendAuthInput, ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(id: "importBackendAuth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportBackendAuthInput, ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportBackendAuthInput, ImportBackendAuthOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportBackendAuthInput, ImportBackendAuthOutput, ImportBackendAuthOutputError>(id: "importBackendAuth")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportBackendAuthInput, ImportBackendAuthOutput, ImportBackendAuthOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportBackendAuthInput, ImportBackendAuthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportBackendAuthOutput, ImportBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportBackendAuthInput, ImportBackendAuthOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportBackendAuthInput, ImportBackendAuthOutputResponse>(xmlName: "ImportBackendAuthRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportBackendAuthInput, ImportBackendAuthOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportBackendAuthInput, ImportBackendAuthOutput>(xmlName: "ImportBackendAuthRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportBackendAuthOutput, ImportBackendAuthOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportBackendAuthOutput, ImportBackendAuthOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportBackendAuthOutput, ImportBackendAuthOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportBackendAuthOutput, ImportBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1043,7 +1043,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter ImportBackendStorageInput : The request body for ImportBackendStorage.
     ///
-    /// - Returns: `ImportBackendStorageOutputResponse` : [no documentation found]
+    /// - Returns: `ImportBackendStorageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,7 +1052,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutputResponse
+    public func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1068,20 +1068,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportBackendStorageInput, ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(id: "importBackendStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportBackendStorageInput, ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportBackendStorageInput, ImportBackendStorageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ImportBackendStorageInput, ImportBackendStorageOutput, ImportBackendStorageOutputError>(id: "importBackendStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportBackendStorageInput, ImportBackendStorageOutput, ImportBackendStorageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportBackendStorageInput, ImportBackendStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportBackendStorageOutput, ImportBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportBackendStorageInput, ImportBackendStorageOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportBackendStorageInput, ImportBackendStorageOutputResponse>(xmlName: "ImportBackendStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportBackendStorageInput, ImportBackendStorageOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportBackendStorageInput, ImportBackendStorageOutput>(xmlName: "ImportBackendStorageRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportBackendStorageOutput, ImportBackendStorageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportBackendStorageOutput, ImportBackendStorageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportBackendStorageOutput, ImportBackendStorageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportBackendStorageOutput, ImportBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1090,7 +1090,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter ListBackendJobsInput : The request body for ListBackendJobs.
     ///
-    /// - Returns: `ListBackendJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBackendJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1099,7 +1099,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutputResponse
+    public func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1115,20 +1115,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBackendJobsInput, ListBackendJobsOutputResponse, ListBackendJobsOutputError>(id: "listBackendJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBackendJobsInput, ListBackendJobsOutputResponse, ListBackendJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBackendJobsInput, ListBackendJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBackendJobsInput, ListBackendJobsOutput, ListBackendJobsOutputError>(id: "listBackendJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBackendJobsInput, ListBackendJobsOutput, ListBackendJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBackendJobsInput, ListBackendJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBackendJobsOutput, ListBackendJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBackendJobsInput, ListBackendJobsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBackendJobsInput, ListBackendJobsOutputResponse>(xmlName: "ListBackendJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBackendJobsInput, ListBackendJobsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBackendJobsInput, ListBackendJobsOutput>(xmlName: "ListBackendJobsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBackendJobsOutputResponse, ListBackendJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBackendJobsOutput, ListBackendJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBackendJobsOutput, ListBackendJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBackendJobsOutput, ListBackendJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBackendJobsOutput, ListBackendJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1137,7 +1137,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter ListS3BucketsInput : The request body for S3Buckets.
     ///
-    /// - Returns: `ListS3BucketsOutputResponse` : [no documentation found]
+    /// - Returns: `ListS3BucketsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1146,7 +1146,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutputResponse
+    public func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1162,20 +1162,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListS3BucketsInput, ListS3BucketsOutputResponse, ListS3BucketsOutputError>(id: "listS3Buckets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListS3BucketsInput, ListS3BucketsOutputResponse, ListS3BucketsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListS3BucketsInput, ListS3BucketsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListS3BucketsInput, ListS3BucketsOutput, ListS3BucketsOutputError>(id: "listS3Buckets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListS3BucketsInput, ListS3BucketsOutput, ListS3BucketsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListS3BucketsInput, ListS3BucketsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListS3BucketsOutput, ListS3BucketsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListS3BucketsInput, ListS3BucketsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListS3BucketsInput, ListS3BucketsOutputResponse>(xmlName: "ListS3BucketsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListS3BucketsInput, ListS3BucketsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListS3BucketsInput, ListS3BucketsOutput>(xmlName: "ListS3BucketsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListS3BucketsOutputResponse, ListS3BucketsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListS3BucketsOutput, ListS3BucketsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListS3BucketsOutput, ListS3BucketsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListS3BucketsOutput, ListS3BucketsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListS3BucketsOutput, ListS3BucketsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1184,7 +1184,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter RemoveAllBackendsInput : The request body for RemoveAllBackends.
     ///
-    /// - Returns: `RemoveAllBackendsOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveAllBackendsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,7 +1193,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutputResponse
+    public func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1209,20 +1209,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(id: "removeAllBackends")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveAllBackendsInput, RemoveAllBackendsOutput, RemoveAllBackendsOutputError>(id: "removeAllBackends")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutput, RemoveAllBackendsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveAllBackendsOutput, RemoveAllBackendsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse>(xmlName: "RemoveAllBackendsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutput>(xmlName: "RemoveAllBackendsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveAllBackendsOutput, RemoveAllBackendsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAllBackendsOutput, RemoveAllBackendsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAllBackendsOutput, RemoveAllBackendsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAllBackendsOutput, RemoveAllBackendsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1231,7 +1231,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter RemoveBackendConfigInput : [no documentation found]
     ///
-    /// - Returns: `RemoveBackendConfigOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveBackendConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1240,7 +1240,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutputResponse
+    public func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1256,17 +1256,17 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveBackendConfigInput, RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(id: "removeBackendConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemoveBackendConfigInput, RemoveBackendConfigOutput, RemoveBackendConfigOutputError>(id: "removeBackendConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutput, RemoveBackendConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveBackendConfigOutput, RemoveBackendConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveBackendConfigOutput, RemoveBackendConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveBackendConfigOutput, RemoveBackendConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveBackendConfigOutput, RemoveBackendConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveBackendConfigOutput, RemoveBackendConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1275,7 +1275,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter UpdateBackendAPIInput : The request body for UpdateBackendAPI.
     ///
-    /// - Returns: `UpdateBackendAPIOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBackendAPIOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,7 +1284,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutputResponse
+    public func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1300,20 +1300,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(id: "updateBackendAPI")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBackendAPIInput, UpdateBackendAPIOutput, UpdateBackendAPIOutputError>(id: "updateBackendAPI")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutput, UpdateBackendAPIOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendAPIOutput, UpdateBackendAPIOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse>(xmlName: "UpdateBackendAPIRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutput>(xmlName: "UpdateBackendAPIRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendAPIOutput, UpdateBackendAPIOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendAPIOutput, UpdateBackendAPIOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendAPIOutput, UpdateBackendAPIOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendAPIOutput, UpdateBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1322,7 +1322,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter UpdateBackendAuthInput : The request body for UpdateBackendAuth.
     ///
-    /// - Returns: `UpdateBackendAuthOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBackendAuthOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1331,7 +1331,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutputResponse
+    public func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1347,20 +1347,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(id: "updateBackendAuth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBackendAuthInput, UpdateBackendAuthOutput, UpdateBackendAuthOutputError>(id: "updateBackendAuth")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutput, UpdateBackendAuthOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendAuthOutput, UpdateBackendAuthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse>(xmlName: "UpdateBackendAuthRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutput>(xmlName: "UpdateBackendAuthRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendAuthOutput, UpdateBackendAuthOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendAuthOutput, UpdateBackendAuthOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendAuthOutput, UpdateBackendAuthOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendAuthOutput, UpdateBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1369,7 +1369,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter UpdateBackendConfigInput : The request body for UpdateBackendConfig.
     ///
-    /// - Returns: `UpdateBackendConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBackendConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1378,7 +1378,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutputResponse
+    public func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1394,20 +1394,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(id: "updateBackendConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBackendConfigInput, UpdateBackendConfigOutput, UpdateBackendConfigOutputError>(id: "updateBackendConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutput, UpdateBackendConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendConfigOutput, UpdateBackendConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse>(xmlName: "UpdateBackendConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutput>(xmlName: "UpdateBackendConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendConfigOutput, UpdateBackendConfigOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendConfigOutput, UpdateBackendConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendConfigOutput, UpdateBackendConfigOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendConfigOutput, UpdateBackendConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1416,7 +1416,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter UpdateBackendJobInput : The request body for GetBackendJob.
     ///
-    /// - Returns: `UpdateBackendJobOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBackendJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1425,7 +1425,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutputResponse
+    public func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1441,20 +1441,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBackendJobInput, UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(id: "updateBackendJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendJobInput, UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendJobInput, UpdateBackendJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBackendJobInput, UpdateBackendJobOutput, UpdateBackendJobOutputError>(id: "updateBackendJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendJobInput, UpdateBackendJobOutput, UpdateBackendJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendJobInput, UpdateBackendJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendJobOutput, UpdateBackendJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendJobInput, UpdateBackendJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendJobInput, UpdateBackendJobOutputResponse>(xmlName: "UpdateBackendJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendJobInput, UpdateBackendJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendJobInput, UpdateBackendJobOutput>(xmlName: "UpdateBackendJobRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendJobOutput, UpdateBackendJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendJobOutput, UpdateBackendJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendJobOutput, UpdateBackendJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendJobOutput, UpdateBackendJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1463,7 +1463,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     ///
     /// - Parameter UpdateBackendStorageInput : The request body for UpdateBackendStorage.
     ///
-    /// - Returns: `UpdateBackendStorageOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateBackendStorageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,7 +1472,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
     /// - `GatewayTimeoutException` : An error returned if there's a temporary issue with the service.
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
-    public func updateBackendStorage(input: UpdateBackendStorageInput) async throws -> UpdateBackendStorageOutputResponse
+    public func updateBackendStorage(input: UpdateBackendStorageInput) async throws -> UpdateBackendStorageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1488,20 +1488,20 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(id: "updateBackendStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateBackendStorageInput, UpdateBackendStorageOutput, UpdateBackendStorageOutputError>(id: "updateBackendStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutput, UpdateBackendStorageOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBackendStorageOutput, UpdateBackendStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse>(xmlName: "UpdateBackendStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutput>(xmlName: "UpdateBackendStorageRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBackendStorageOutput, UpdateBackendStorageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendStorageOutput, UpdateBackendStorageOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendStorageOutput, UpdateBackendStorageOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendStorageOutput, UpdateBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

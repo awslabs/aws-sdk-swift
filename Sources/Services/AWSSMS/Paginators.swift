@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SMSClient {
-    /// Paginate over `[GetConnectorsOutputResponse]` results.
+    /// Paginate over `[GetConnectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetConnectorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetConnectorsOutputResponse`
-    public func getConnectorsPaginated(input: GetConnectorsInput) -> ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutputResponse>(input: input, inputKey: \GetConnectorsInput.nextToken, outputKey: \GetConnectorsOutputResponse.nextToken, paginationFunction: self.getConnectors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetConnectorsOutput`
+    public func getConnectorsPaginated(input: GetConnectorsInput) -> ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutput>(input: input, inputKey: \GetConnectorsInput.nextToken, outputKey: \GetConnectorsOutput.nextToken, paginationFunction: self.getConnectors(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension GetConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetConnectorsInput, Output == GetConnectorsOutputResponse {
+extension PaginatorSequence where Input == GetConnectorsInput, Output == GetConnectorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getConnectorsPaginated`
     /// to access the nested member `[SMSClientTypes.Connector]`
     /// - Returns: `[SMSClientTypes.Connector]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == GetConnectorsInput, Output == GetConn
     }
 }
 extension SMSClient {
-    /// Paginate over `[GetReplicationJobsOutputResponse]` results.
+    /// Paginate over `[GetReplicationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetReplicationJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetReplicationJobsOutputResponse`
-    public func getReplicationJobsPaginated(input: GetReplicationJobsInput) -> ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutputResponse>(input: input, inputKey: \GetReplicationJobsInput.nextToken, outputKey: \GetReplicationJobsOutputResponse.nextToken, paginationFunction: self.getReplicationJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReplicationJobsOutput`
+    public func getReplicationJobsPaginated(input: GetReplicationJobsInput) -> ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutput> {
+        return ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutput>(input: input, inputKey: \GetReplicationJobsInput.nextToken, outputKey: \GetReplicationJobsOutput.nextToken, paginationFunction: self.getReplicationJobs(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension GetReplicationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetReplicationJobsInput, Output == GetReplicationJobsOutputResponse {
+extension PaginatorSequence where Input == GetReplicationJobsInput, Output == GetReplicationJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getReplicationJobsPaginated`
     /// to access the nested member `[SMSClientTypes.ReplicationJob]`
     /// - Returns: `[SMSClientTypes.ReplicationJob]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == GetReplicationJobsInput, Output == Ge
     }
 }
 extension SMSClient {
-    /// Paginate over `[GetReplicationRunsOutputResponse]` results.
+    /// Paginate over `[GetReplicationRunsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetReplicationRunsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetReplicationRunsOutputResponse`
-    public func getReplicationRunsPaginated(input: GetReplicationRunsInput) -> ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutputResponse>(input: input, inputKey: \GetReplicationRunsInput.nextToken, outputKey: \GetReplicationRunsOutputResponse.nextToken, paginationFunction: self.getReplicationRuns(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReplicationRunsOutput`
+    public func getReplicationRunsPaginated(input: GetReplicationRunsInput) -> ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutput> {
+        return ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutput>(input: input, inputKey: \GetReplicationRunsInput.nextToken, outputKey: \GetReplicationRunsOutput.nextToken, paginationFunction: self.getReplicationRuns(input:))
     }
 }
 
@@ -86,7 +86,7 @@ extension GetReplicationRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetReplicationRunsInput, Output == GetReplicationRunsOutputResponse {
+extension PaginatorSequence where Input == GetReplicationRunsInput, Output == GetReplicationRunsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getReplicationRunsPaginated`
     /// to access the nested member `[SMSClientTypes.ReplicationRun]`
     /// - Returns: `[SMSClientTypes.ReplicationRun]`
@@ -95,16 +95,16 @@ extension PaginatorSequence where Input == GetReplicationRunsInput, Output == Ge
     }
 }
 extension SMSClient {
-    /// Paginate over `[GetServersOutputResponse]` results.
+    /// Paginate over `[GetServersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetServersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetServersOutputResponse`
-    public func getServersPaginated(input: GetServersInput) -> ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutputResponse>(input: input, inputKey: \GetServersInput.nextToken, outputKey: \GetServersOutputResponse.nextToken, paginationFunction: self.getServers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetServersOutput`
+    public func getServersPaginated(input: GetServersInput) -> ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutput> {
+        return ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutput>(input: input, inputKey: \GetServersInput.nextToken, outputKey: \GetServersOutput.nextToken, paginationFunction: self.getServers(input:))
     }
 }
 
@@ -117,7 +117,7 @@ extension GetServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetServersInput, Output == GetServersOutputResponse {
+extension PaginatorSequence where Input == GetServersInput, Output == GetServersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getServersPaginated`
     /// to access the nested member `[SMSClientTypes.Server]`
     /// - Returns: `[SMSClientTypes.Server]`

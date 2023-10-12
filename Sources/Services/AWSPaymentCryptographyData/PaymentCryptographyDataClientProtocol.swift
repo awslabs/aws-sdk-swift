@@ -14,7 +14,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter DecryptDataInput : [no documentation found]
     ///
-    /// - Returns: `DecryptDataOutputResponse` : [no documentation found]
+    /// - Returns: `DecryptDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24,7 +24,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func decryptData(input: DecryptDataInput) async throws -> DecryptDataOutputResponse
+    func decryptData(input: DecryptDataInput) async throws -> DecryptDataOutput
     /// Encrypts plaintext data to ciphertext using symmetric, asymmetric, or DUKPT data encryption key. For more information, see [Encrypt data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/encrypt-data.html) in the Amazon Web Services Payment Cryptography User Guide. You can generate an encryption key within Amazon Web Services Payment Cryptography by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html). You can import your own encryption key by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). For this operation, the key must have KeyModesOfUse set to Encrypt. In asymmetric encryption, plaintext is encrypted using public component. You can import the public component of an asymmetric key pair created outside Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)). for symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports TDES and AES algorithms. For asymmetric encryption, Amazon Web Services Payment Cryptography supports RSA. To encrypt using DUKPT, you must already have a DUKPT key in your account with KeyModesOfUse set to DeriveKey, or you can generate a new DUKPT key by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html). For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [DecryptData]
@@ -37,7 +37,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter EncryptDataInput : [no documentation found]
     ///
-    /// - Returns: `EncryptDataOutputResponse` : [no documentation found]
+    /// - Returns: `EncryptDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,7 +47,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func encryptData(input: EncryptDataInput) async throws -> EncryptDataOutputResponse
+    func encryptData(input: EncryptDataInput) async throws -> EncryptDataOutput
     /// Generates card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For more information, see [Generate card data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/generate-card-data.html) in the Amazon Web Services Payment Cryptography User Guide. This operation generates a CVV or CSC value that is printed on a payment credit or debit card during card production. The CVV or CSC, PAN (Primary Account Number) and expiration date of the card are required to check its validity during transaction processing. To begin this operation, a CVK (Card Verification Key) encryption key is required. You can use [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html) or [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html) to establish a CVK within Amazon Web Services Payment Cryptography. The KeyModesOfUse should be set to Generate and Verify for a CVK encryption key. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
@@ -56,7 +56,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter GenerateCardValidationDataInput : [no documentation found]
     ///
-    /// - Returns: `GenerateCardValidationDataOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateCardValidationDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,14 +66,14 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func generateCardValidationData(input: GenerateCardValidationDataInput) async throws -> GenerateCardValidationDataOutputResponse
+    func generateCardValidationData(input: GenerateCardValidationDataInput) async throws -> GenerateCardValidationDataOutput
     /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography. You can use this operation when keys won't be shared but mutual data is present on both ends for validation. In this case, known data values are used to generate a MAC on both ends for comparision without sending or receiving data in ciphertext or plaintext. You can use this operation to generate a DUPKT, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and they key must have KeyModesOfUse set to Generate and Verify. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [VerifyMac]
     ///
     /// - Parameter GenerateMacInput : [no documentation found]
     ///
-    /// - Returns: `GenerateMacOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateMacOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,7 +83,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutputResponse
+    func generateMac(input: GenerateMacInput) async throws -> GenerateMacOutput
     /// Generates pin-related data such as PIN, PIN Verification Value (PVV), PIN Block, and PIN Offset during new card issuance or reissuance. For more information, see [Generate PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/generate-pin-data.html) in the Amazon Web Services Payment Cryptography User Guide. PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation generates PIN, PVV, or PIN Offset and then encrypts it using Pin Encryption Key (PEK) to create an EncryptedPinBlock for transmission from Amazon Web Services Payment Cryptography. This operation uses a separate Pin Verification Key (PVK) for VISA PVV generation. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GenerateCardValidationData]
@@ -94,7 +94,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter GeneratePinDataInput : [no documentation found]
     ///
-    /// - Returns: `GeneratePinDataOutputResponse` : [no documentation found]
+    /// - Returns: `GeneratePinDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,7 +104,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func generatePinData(input: GeneratePinDataInput) async throws -> GeneratePinDataOutputResponse
+    func generatePinData(input: GeneratePinDataInput) async throws -> GeneratePinDataOutput
     /// Re-encrypt ciphertext using DUKPT, Symmetric and Asymmetric Data Encryption Keys. You can either generate an encryption key within Amazon Web Services Payment Cryptography by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html) or import your own encryption key by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). The KeyArn for use with this operation must be in a compatible key state with KeyModesOfUse set to Encrypt. In asymmetric encryption, ciphertext is encrypted using public component (imported by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)) of the asymmetric key pair created outside of Amazon Web Services Payment Cryptography. For symmetric and DUKPT encryption, Amazon Web Services Payment Cryptography supports TDES and AES algorithms. For asymmetric encryption, Amazon Web Services Payment Cryptography supports RSA. To encrypt using DUKPT, a DUKPT key must already exist within your account with KeyModesOfUse set to DeriveKey or a new DUKPT can be generated by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html). For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [DecryptData]
@@ -117,7 +117,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter ReEncryptDataInput : [no documentation found]
     ///
-    /// - Returns: `ReEncryptDataOutputResponse` : [no documentation found]
+    /// - Returns: `ReEncryptDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func reEncryptData(input: ReEncryptDataInput) async throws -> ReEncryptDataOutputResponse
+    func reEncryptData(input: ReEncryptDataInput) async throws -> ReEncryptDataOutput
     /// Translates encrypted PIN block from and to ISO 9564 formats 0,1,3,4. For more information, see [Translate PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/translate-pin-data.html) in the Amazon Web Services Payment Cryptography User Guide. PIN block translation involves changing the encrytion of PIN block from one encryption key to another encryption key and changing PIN block format from one to another without PIN block data leaving Amazon Web Services Payment Cryptography. The encryption key transformation can be from PEK (Pin Encryption Key) to BDK (Base Derivation Key) for DUKPT or from BDK for DUKPT to PEK. Amazon Web Services Payment Cryptography supports TDES and AES key derivation type for DUKPT tranlations. You can use this operation for P2PE (Point to Point Encryption) use cases where the encryption keys should change but the processing system either does not need to, or is not permitted to, decrypt the data. The allowed combinations of PIN block format translations are guided by PCI. It is important to note that not all encrypted PIN block formats (example, format 1) require PAN (Primary Account Number) as input. And as such, PIN block format that requires PAN (example, formats 0,3,4) cannot be translated to a format (format 1) that does not require a PAN for generation. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. At this time, Amazon Web Services Payment Cryptography does not support translations to PIN format 4. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GeneratePinData]
@@ -136,7 +136,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter TranslatePinDataInput : [no documentation found]
     ///
-    /// - Returns: `TranslatePinDataOutputResponse` : [no documentation found]
+    /// - Returns: `TranslatePinDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -146,7 +146,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
-    func translatePinData(input: TranslatePinDataInput) async throws -> TranslatePinDataOutputResponse
+    func translatePinData(input: TranslatePinDataInput) async throws -> TranslatePinDataOutput
     /// Verifies Authorization Request Cryptogram (ARQC) for a EMV chip payment card authorization. For more information, see [Verify auth request cryptogram](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/data-operations.verifyauthrequestcryptogram.html) in the Amazon Web Services Payment Cryptography User Guide. ARQC generation is done outside of Amazon Web Services Payment Cryptography and is typically generated on a point of sale terminal for an EMV chip card to obtain payment authorization during transaction time. For ARQC verification, you must first import the ARQC generated outside of Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). This operation uses the imported ARQC and an major encryption key (DUKPT) created by calling [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html) to either provide a boolean ARQC verification result or provide an APRC (Authorization Response Cryptogram) response using Method 1 or Method 2. The ARPC_METHOD_1 uses AuthResponseCode to generate ARPC and ARPC_METHOD_2 uses CardStatusUpdate to generate ARPC. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [VerifyCardValidationData]
@@ -155,7 +155,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter VerifyAuthRequestCryptogramInput : [no documentation found]
     ///
-    /// - Returns: `VerifyAuthRequestCryptogramOutputResponse` : [no documentation found]
+    /// - Returns: `VerifyAuthRequestCryptogramOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,7 +166,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    func verifyAuthRequestCryptogram(input: VerifyAuthRequestCryptogramInput) async throws -> VerifyAuthRequestCryptogramOutputResponse
+    func verifyAuthRequestCryptogram(input: VerifyAuthRequestCryptogramInput) async throws -> VerifyAuthRequestCryptogramOutput
     /// Verifies card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2) and Card Security Codes (CSC). For more information, see [Verify card data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/verify-card-data.html) in the Amazon Web Services Payment Cryptography User Guide. This operation validates the CVV or CSC codes that is printed on a payment credit or debit card during card payment transaction. The input values are typically provided as part of an inbound transaction to an issuer or supporting platform partner. Amazon Web Services Payment Cryptography uses CVV or CSC, PAN (Primary Account Number) and expiration date of the card to check its validity during transaction processing. In this operation, the CVK (Card Verification Key) encryption key for use with card data verification is same as the one in used for [GenerateCardValidationData]. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GenerateCardValidationData]
@@ -177,7 +177,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter VerifyCardValidationDataInput : [no documentation found]
     ///
-    /// - Returns: `VerifyCardValidationDataOutputResponse` : [no documentation found]
+    /// - Returns: `VerifyCardValidationDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,14 +188,14 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    func verifyCardValidationData(input: VerifyCardValidationDataInput) async throws -> VerifyCardValidationDataOutputResponse
+    func verifyCardValidationData(input: VerifyCardValidationDataInput) async throws -> VerifyCardValidationDataOutput
     /// Verifies a Message Authentication Code (MAC). You can use this operation when keys won't be shared but mutual data is present on both ends for validation. In this case, known data values are used to generate a MAC on both ends for verification without sending or receiving data in ciphertext or plaintext. You can use this operation to verify a DUPKT, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. Use the same encryption key for MAC verification as you use for [GenerateMac]. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GenerateMac]
     ///
     /// - Parameter VerifyMacInput : [no documentation found]
     ///
-    /// - Returns: `VerifyMacOutputResponse` : [no documentation found]
+    /// - Returns: `VerifyMacOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,7 +206,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutputResponse
+    func verifyMac(input: VerifyMacInput) async throws -> VerifyMacOutput
     /// Verifies pin-related data such as PIN and PIN Offset using algorithms including VISA PVV and IBM3624. For more information, see [Verify PIN data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/verify-pin-data.html) in the Amazon Web Services Payment Cryptography User Guide. This operation verifies PIN data for user payment card. A card holder PIN data is never transmitted in clear to or from Amazon Web Services Payment Cryptography. This operation uses PIN Verification Key (PVK) for PIN or PIN Offset generation and then encrypts it using PIN Encryption Key (PEK) to create an EncryptedPinBlock for transmission from Amazon Web Services Payment Cryptography. For information about valid keys for this operation, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) and [Key types for specific data operations](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/crypto-ops-validkeys-ops.html) in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GeneratePinData]
@@ -215,7 +215,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     ///
     /// - Parameter VerifyPinDataInput : [no documentation found]
     ///
-    /// - Returns: `VerifyPinDataOutputResponse` : [no documentation found]
+    /// - Returns: `VerifyPinDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -226,7 +226,7 @@ public protocol PaymentCryptographyDataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request was denied due to an invalid request error.
     /// - `VerificationFailedException` : This request failed verification.
-    func verifyPinData(input: VerifyPinDataInput) async throws -> VerifyPinDataOutputResponse
+    func verifyPinData(input: VerifyPinDataInput) async throws -> VerifyPinDataOutput
 }
 
 public enum PaymentCryptographyDataClientTypes {}

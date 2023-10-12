@@ -639,22 +639,11 @@ extension GetDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-enum GetDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDeploymentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
         } else {
             self.deployments = nil
@@ -662,7 +651,7 @@ extension GetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentsOutputResponse: Swift.Equatable {
+public struct GetDeploymentsOutput: Swift.Equatable {
     /// Returns a list of the configurations of the active deployments on the device.
     public var deployments: [SagemakerEdgeClientTypes.EdgeDeployment]?
 
@@ -674,11 +663,11 @@ public struct GetDeploymentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDeploymentsOutputResponseBody: Swift.Equatable {
+struct GetDeploymentsOutputBody: Swift.Equatable {
     let deployments: [SagemakerEdgeClientTypes.EdgeDeployment]?
 }
 
-extension GetDeploymentsOutputResponseBody: Swift.Decodable {
+extension GetDeploymentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deployments = "Deployments"
     }
@@ -696,6 +685,17 @@ extension GetDeploymentsOutputResponseBody: Swift.Decodable {
             }
         }
         deployments = deploymentsDecoded0
+    }
+}
+
+enum GetDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -760,22 +760,11 @@ extension GetDeviceRegistrationInputBody: Swift.Decodable {
     }
 }
 
-enum GetDeviceRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetDeviceRegistrationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetDeviceRegistrationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetDeviceRegistrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetDeviceRegistrationOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheTTL = output.cacheTTL
             self.deviceRegistration = output.deviceRegistration
         } else {
@@ -785,7 +774,7 @@ extension GetDeviceRegistrationOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetDeviceRegistrationOutputResponse: Swift.Equatable {
+public struct GetDeviceRegistrationOutput: Swift.Equatable {
     /// The amount of time, in seconds, that the registration status is stored on the device’s cache before it is refreshed.
     public var cacheTTL: Swift.String?
     /// Describes if the device is currently registered with SageMaker Edge Manager.
@@ -801,12 +790,12 @@ public struct GetDeviceRegistrationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetDeviceRegistrationOutputResponseBody: Swift.Equatable {
+struct GetDeviceRegistrationOutputBody: Swift.Equatable {
     let deviceRegistration: Swift.String?
     let cacheTTL: Swift.String?
 }
 
-extension GetDeviceRegistrationOutputResponseBody: Swift.Decodable {
+extension GetDeviceRegistrationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheTTL = "CacheTTL"
         case deviceRegistration = "DeviceRegistration"
@@ -818,6 +807,17 @@ extension GetDeviceRegistrationOutputResponseBody: Swift.Decodable {
         deviceRegistration = deviceRegistrationDecoded
         let cacheTTLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheTTL)
         cacheTTL = cacheTTLDecoded
+    }
+}
+
+enum GetDeviceRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1129,6 +1129,16 @@ extension SendHeartbeatInputBody: Swift.Decodable {
     }
 }
 
+extension SendHeartbeatOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SendHeartbeatOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum SendHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1138,14 +1148,4 @@ enum SendHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension SendHeartbeatOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SendHeartbeatOutputResponse: Swift.Equatable {
-
-    public init() { }
 }

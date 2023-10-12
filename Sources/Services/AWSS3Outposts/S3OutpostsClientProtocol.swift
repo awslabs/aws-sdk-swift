@@ -12,7 +12,7 @@ public protocol S3OutpostsClientProtocol {
     ///
     /// - Parameter CreateEndpointInput : [no documentation found]
     ///
-    /// - Returns: `CreateEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24,7 +24,7 @@ public protocol S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutputResponse
+    func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
     /// Deletes an endpoint. It can take up to 5 minutes for this action to finish. Related actions include:
     ///
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
@@ -33,7 +33,7 @@ public protocol S3OutpostsClientProtocol {
     ///
     /// - Parameter DeleteEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,7 +44,7 @@ public protocol S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
+    func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
     /// Lists endpoints associated with the specified Outpost. Related actions include:
     ///
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
@@ -53,7 +53,7 @@ public protocol S3OutpostsClientProtocol {
     ///
     /// - Parameter ListEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,12 +63,12 @@ public protocol S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutputResponse
+    func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput
     /// Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account. Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user from Resource Access Manager (RAM).
     ///
     /// - Parameter ListOutpostsWithS3Input : [no documentation found]
     ///
-    /// - Returns: `ListOutpostsWithS3OutputResponse` : [no documentation found]
+    /// - Returns: `ListOutpostsWithS3Output` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -77,7 +77,7 @@ public protocol S3OutpostsClientProtocol {
     /// - `InternalServerException` : There was an exception with the internal server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    func listOutpostsWithS3(input: ListOutpostsWithS3Input) async throws -> ListOutpostsWithS3OutputResponse
+    func listOutpostsWithS3(input: ListOutpostsWithS3Input) async throws -> ListOutpostsWithS3Output
     /// Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include:
     ///
     /// * [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
@@ -86,7 +86,7 @@ public protocol S3OutpostsClientProtocol {
     ///
     /// - Parameter ListSharedEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListSharedEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSharedEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -96,7 +96,7 @@ public protocol S3OutpostsClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : There was an exception validating this data.
-    func listSharedEndpoints(input: ListSharedEndpointsInput) async throws -> ListSharedEndpointsOutputResponse
+    func listSharedEndpoints(input: ListSharedEndpointsInput) async throws -> ListSharedEndpointsOutput
 }
 
 public enum S3OutpostsClientTypes {}

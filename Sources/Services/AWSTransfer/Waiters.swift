@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension TransferClientProtocol {
 
-    static func serverOfflineWaiterConfig() throws -> WaiterConfiguration<DescribeServerInput, DescribeServerOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeServerInput, DescribeServerOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutputResponse, Error>) -> Bool in
+    static func serverOfflineWaiterConfig() throws -> WaiterConfiguration<DescribeServerInput, DescribeServerOutput> {
+        let acceptors: [WaiterConfiguration<DescribeServerInput, DescribeServerOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutput, Error>) -> Bool in
                 // JMESPath expression: "Server.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "OFFLINE"
@@ -15,7 +15,7 @@ extension TransferClientProtocol {
                 let state = server?.state
                 return JMESUtils.compare(state, ==, "OFFLINE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutput, Error>) -> Bool in
                 // JMESPath expression: "Server.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "STOP_FAILED"
@@ -25,7 +25,7 @@ extension TransferClientProtocol {
                 return JMESUtils.compare(state, ==, "STOP_FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ServerOffline event on the describeServer operation.
@@ -39,14 +39,14 @@ extension TransferClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilServerOffline(options: WaiterOptions, input: DescribeServerInput) async throws -> WaiterOutcome<DescribeServerOutputResponse> {
+    public func waitUntilServerOffline(options: WaiterOptions, input: DescribeServerInput) async throws -> WaiterOutcome<DescribeServerOutput> {
         let waiter = Waiter(config: try Self.serverOfflineWaiterConfig(), operation: self.describeServer(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func serverOnlineWaiterConfig() throws -> WaiterConfiguration<DescribeServerInput, DescribeServerOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeServerInput, DescribeServerOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutputResponse, Error>) -> Bool in
+    static func serverOnlineWaiterConfig() throws -> WaiterConfiguration<DescribeServerInput, DescribeServerOutput> {
+        let acceptors: [WaiterConfiguration<DescribeServerInput, DescribeServerOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutput, Error>) -> Bool in
                 // JMESPath expression: "Server.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ONLINE"
@@ -55,7 +55,7 @@ extension TransferClientProtocol {
                 let state = server?.state
                 return JMESUtils.compare(state, ==, "ONLINE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeServerInput, result: Result<DescribeServerOutput, Error>) -> Bool in
                 // JMESPath expression: "Server.State"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "START_FAILED"
@@ -65,7 +65,7 @@ extension TransferClientProtocol {
                 return JMESUtils.compare(state, ==, "START_FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ServerOnline event on the describeServer operation.
@@ -79,7 +79,7 @@ extension TransferClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilServerOnline(options: WaiterOptions, input: DescribeServerInput) async throws -> WaiterOutcome<DescribeServerOutputResponse> {
+    public func waitUntilServerOnline(options: WaiterOptions, input: DescribeServerInput) async throws -> WaiterOutcome<DescribeServerOutput> {
         let waiter = Waiter(config: try Self.serverOnlineWaiterConfig(), operation: self.describeServer(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

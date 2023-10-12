@@ -22,7 +22,7 @@ public protocol KinesisVideoMediaClientProtocol {
     ///
     /// - Parameter GetMediaInput : [no documentation found]
     ///
-    /// - Returns: `GetMediaOutputResponse` : [no documentation found]
+    /// - Returns: `GetMediaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,7 +33,7 @@ public protocol KinesisVideoMediaClientProtocol {
     /// - `InvalidEndpointException` : Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : Status Code: 404, The stream with the given name does not exist.
-    func getMedia(input: GetMediaInput) async throws -> GetMediaOutputResponse
+    func getMedia(input: GetMediaInput) async throws -> GetMediaOutput
 }
 
 public enum KinesisVideoMediaClientTypes {}

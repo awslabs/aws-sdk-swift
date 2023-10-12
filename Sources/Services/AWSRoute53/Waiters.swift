@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension Route53ClientProtocol {
 
-    static func resourceRecordSetsChangedWaiterConfig() throws -> WaiterConfiguration<GetChangeInput, GetChangeOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetChangeInput, GetChangeOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetChangeInput, result: Result<GetChangeOutputResponse, Error>) -> Bool in
+    static func resourceRecordSetsChangedWaiterConfig() throws -> WaiterConfiguration<GetChangeInput, GetChangeOutput> {
+        let acceptors: [WaiterConfiguration<GetChangeInput, GetChangeOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetChangeInput, result: Result<GetChangeOutput, Error>) -> Bool in
                 // JMESPath expression: "ChangeInfo.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "INSYNC"
@@ -16,7 +16,7 @@ extension Route53ClientProtocol {
                 return JMESUtils.compare(status, ==, "INSYNC")
             }),
         ]
-        return try WaiterConfiguration<GetChangeInput, GetChangeOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetChangeInput, GetChangeOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ResourceRecordSetsChanged event on the getChange operation.
@@ -30,7 +30,7 @@ extension Route53ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilResourceRecordSetsChanged(options: WaiterOptions, input: GetChangeInput) async throws -> WaiterOutcome<GetChangeOutputResponse> {
+    public func waitUntilResourceRecordSetsChanged(options: WaiterOptions, input: GetChangeInput) async throws -> WaiterOutcome<GetChangeOutput> {
         let waiter = Waiter(config: try Self.resourceRecordSetsChangedWaiterConfig(), operation: self.getChange(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

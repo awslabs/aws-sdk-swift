@@ -8,7 +8,7 @@ public protocol SecurityLakeClientProtocol {
     ///
     /// - Parameter CreateAwsLogSourceInput : [no documentation found]
     ///
-    /// - Returns: `CreateAwsLogSourceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAwsLogSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createAwsLogSource(input: CreateAwsLogSourceInput) async throws -> CreateAwsLogSourceOutputResponse
+    func createAwsLogSource(input: CreateAwsLogSourceInput) async throws -> CreateAwsLogSourceOutput
     /// Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services Region where you want to create a custom source. Security Lake can collect logs and events from third-party custom sources. After creating the appropriate IAM role to invoke Glue crawler, use this API to add a custom source name in Security Lake. This operation creates a partition in the Amazon S3 bucket for Security Lake as the target location for log files from the custom source. In addition, this operation also creates an associated Glue table and an Glue crawler.
     ///
     /// - Parameter CreateCustomLogSourceInput : [no documentation found]
     ///
-    /// - Returns: `CreateCustomLogSourceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCustomLogSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createCustomLogSource(input: CreateCustomLogSourceInput) async throws -> CreateCustomLogSourceOutputResponse
+    func createCustomLogSource(input: CreateCustomLogSourceInput) async throws -> CreateCustomLogSourceOutput
     /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html).
     ///
     /// - Parameter CreateDataLakeInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataLakeOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataLakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createDataLake(input: CreateDataLakeInput) async throws -> CreateDataLakeOutputResponse
+    func createDataLake(input: CreateDataLakeInput) async throws -> CreateDataLakeOutput
     /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
     /// - Parameter CreateDataLakeExceptionSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataLakeExceptionSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataLakeExceptionSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,12 +67,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createDataLakeExceptionSubscription(input: CreateDataLakeExceptionSubscriptionInput) async throws -> CreateDataLakeExceptionSubscriptionOutputResponse
+    func createDataLakeExceptionSubscription(input: CreateDataLakeExceptionSubscriptionInput) async throws -> CreateDataLakeExceptionSubscriptionOutput
     /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization.
     ///
     /// - Parameter CreateDataLakeOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataLakeOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataLakeOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createDataLakeOrganizationConfiguration(input: CreateDataLakeOrganizationConfigurationInput) async throws -> CreateDataLakeOrganizationConfigurationOutputResponse
+    func createDataLakeOrganizationConfiguration(input: CreateDataLakeOrganizationConfigurationInput) async throws -> CreateDataLakeOrganizationConfigurationOutput
     /// Creates a subscription permission for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
     ///
     /// - Parameter CreateSubscriberInput : [no documentation found]
     ///
-    /// - Returns: `CreateSubscriberOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSubscriberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutputResponse
+    func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput
     /// Notifies the subscriber when new data is written to the data lake for the sources that the subscriber consumes in Security Lake. You can create only one subscriber notification per subscriber.
     ///
     /// - Parameter CreateSubscriberNotificationInput : [no documentation found]
     ///
-    /// - Returns: `CreateSubscriberNotificationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSubscriberNotificationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func createSubscriberNotification(input: CreateSubscriberNotificationInput) async throws -> CreateSubscriberNotificationOutputResponse
+    func createSubscriberNotification(input: CreateSubscriberNotificationInput) async throws -> CreateSubscriberNotificationOutput
     /// Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
     ///
     /// - Parameter DeleteAwsLogSourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAwsLogSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAwsLogSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteAwsLogSource(input: DeleteAwsLogSourceInput) async throws -> DeleteAwsLogSourceOutputResponse
+    func deleteAwsLogSource(input: DeleteAwsLogSourceInput) async throws -> DeleteAwsLogSourceOutput
     /// Removes a custom log source from Amazon Security Lake, to stop sending data from the custom source to Security Lake.
     ///
     /// - Parameter DeleteCustomLogSourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomLogSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomLogSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteCustomLogSource(input: DeleteCustomLogSourceInput) async throws -> DeleteCustomLogSourceOutputResponse
+    func deleteCustomLogSource(input: DeleteCustomLogSourceInput) async throws -> DeleteCustomLogSourceOutput
     /// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to remove the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in your Amazon S3 bucket, which is owned by your Amazon Web Services account. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html).
     ///
     /// - Parameter DeleteDataLakeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataLakeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataLakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteDataLake(input: DeleteDataLakeInput) async throws -> DeleteDataLakeOutputResponse
+    func deleteDataLake(input: DeleteDataLakeInput) async throws -> DeleteDataLakeOutput
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
     /// - Parameter DeleteDataLakeExceptionSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataLakeExceptionSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataLakeExceptionSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteDataLakeExceptionSubscription(input: DeleteDataLakeExceptionSubscriptionInput) async throws -> DeleteDataLakeExceptionSubscriptionOutputResponse
+    func deleteDataLakeExceptionSubscription(input: DeleteDataLakeExceptionSubscriptionInput) async throws -> DeleteDataLakeExceptionSubscriptionOutput
     /// Turns off automatic enablement of Amazon Security Lake for member accounts that are added to an organization in Organizations. Only the delegated Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member accounts won't automatically contribute data to the data lake.
     ///
     /// - Parameter DeleteDataLakeOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataLakeOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataLakeOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,12 +195,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteDataLakeOrganizationConfiguration(input: DeleteDataLakeOrganizationConfigurationInput) async throws -> DeleteDataLakeOrganizationConfigurationOutputResponse
+    func deleteDataLakeOrganizationConfiguration(input: DeleteDataLakeOrganizationConfigurationInput) async throws -> DeleteDataLakeOrganizationConfigurationOutput
     /// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber, the subscriber will no longer consume data from Security Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
     ///
     /// - Parameter DeleteSubscriberInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSubscriberOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSubscriberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,12 +211,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutputResponse
+    func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
     /// - Parameter DeleteSubscriberNotificationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSubscriberNotificationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSubscriberNotificationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -227,12 +227,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deleteSubscriberNotification(input: DeleteSubscriberNotificationInput) async throws -> DeleteSubscriberNotificationOutputResponse
+    func deleteSubscriberNotification(input: DeleteSubscriberNotificationInput) async throws -> DeleteSubscriberNotificationOutput
     /// Deletes the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
     ///
     /// - Parameter DeregisterDataLakeDelegatedAdministratorInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterDataLakeDelegatedAdministratorOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterDataLakeDelegatedAdministratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -243,12 +243,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func deregisterDataLakeDelegatedAdministrator(input: DeregisterDataLakeDelegatedAdministratorInput) async throws -> DeregisterDataLakeDelegatedAdministratorOutputResponse
+    func deregisterDataLakeDelegatedAdministrator(input: DeregisterDataLakeDelegatedAdministratorInput) async throws -> DeregisterDataLakeDelegatedAdministratorOutput
     /// Retrieves the details of exception notifications for the account in Amazon Security Lake.
     ///
     /// - Parameter GetDataLakeExceptionSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `GetDataLakeExceptionSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataLakeExceptionSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func getDataLakeExceptionSubscription(input: GetDataLakeExceptionSubscriptionInput) async throws -> GetDataLakeExceptionSubscriptionOutputResponse
+    func getDataLakeExceptionSubscription(input: GetDataLakeExceptionSubscriptionInput) async throws -> GetDataLakeExceptionSubscriptionOutput
     /// Retrieves the configuration that will be automatically set up for accounts added to the organization after the organization has onboarded to Amazon Security Lake. This API does not take input parameters.
     ///
     /// - Parameter GetDataLakeOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetDataLakeOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataLakeOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -275,12 +275,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func getDataLakeOrganizationConfiguration(input: GetDataLakeOrganizationConfigurationInput) async throws -> GetDataLakeOrganizationConfigurationOutputResponse
+    func getDataLakeOrganizationConfiguration(input: GetDataLakeOrganizationConfigurationInput) async throws -> GetDataLakeOrganizationConfigurationOutput
     /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
     ///
     /// - Parameter GetDataLakeSourcesInput : [no documentation found]
     ///
-    /// - Returns: `GetDataLakeSourcesOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataLakeSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func getDataLakeSources(input: GetDataLakeSourcesInput) async throws -> GetDataLakeSourcesOutputResponse
+    func getDataLakeSources(input: GetDataLakeSourcesInput) async throws -> GetDataLakeSourcesOutput
     /// Retrieves the subscription information for the specified subscription ID. You can get information about a specific subscriber.
     ///
     /// - Parameter GetSubscriberInput : [no documentation found]
     ///
-    /// - Returns: `GetSubscriberOutputResponse` : [no documentation found]
+    /// - Returns: `GetSubscriberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -307,12 +307,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func getSubscriber(input: GetSubscriberInput) async throws -> GetSubscriberOutputResponse
+    func getSubscriber(input: GetSubscriberInput) async throws -> GetSubscriberOutput
     /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
     ///
     /// - Parameter ListDataLakeExceptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataLakeExceptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataLakeExceptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func listDataLakeExceptions(input: ListDataLakeExceptionsInput) async throws -> ListDataLakeExceptionsOutputResponse
+    func listDataLakeExceptions(input: ListDataLakeExceptionsInput) async throws -> ListDataLakeExceptionsOutput
     /// Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services Regions. You can use this operation to determine whether Security Lake is enabled for a Region.
     ///
     /// - Parameter ListDataLakesInput : [no documentation found]
     ///
-    /// - Returns: `ListDataLakesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataLakesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -339,12 +339,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func listDataLakes(input: ListDataLakesInput) async throws -> ListDataLakesOutputResponse
+    func listDataLakes(input: ListDataLakesInput) async throws -> ListDataLakesOutput
     /// Retrieves the log sources in the current Amazon Web Services Region.
     ///
     /// - Parameter ListLogSourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListLogSourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListLogSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func listLogSources(input: ListLogSourcesInput) async throws -> ListLogSourcesOutputResponse
+    func listLogSources(input: ListLogSourcesInput) async throws -> ListLogSourcesOutput
     /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
     ///
     /// - Parameter ListSubscribersInput : [no documentation found]
     ///
-    /// - Returns: `ListSubscribersOutputResponse` : [no documentation found]
+    /// - Returns: `ListSubscribersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -371,12 +371,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func listSubscribers(input: ListSubscribersInput) async throws -> ListSubscribersOutputResponse
+    func listSubscribers(input: ListSubscribersInput) async throws -> ListSubscribersOutput
     /// Retrieves the tags (keys and values) that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -387,12 +387,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
     ///
     /// - Parameter RegisterDataLakeDelegatedAdministratorInput : [no documentation found]
     ///
-    /// - Returns: `RegisterDataLakeDelegatedAdministratorOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterDataLakeDelegatedAdministratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -403,12 +403,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func registerDataLakeDelegatedAdministrator(input: RegisterDataLakeDelegatedAdministratorInput) async throws -> RegisterDataLakeDelegatedAdministratorOutputResponse
+    func registerDataLakeDelegatedAdministrator(input: RegisterDataLakeDelegatedAdministratorInput) async throws -> RegisterDataLakeDelegatedAdministratorOutput
     /// Adds or updates one or more tags that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region. A tag is a label that you can define and associate with Amazon Web Services resources. Each tag consists of a required tag key and an associated tag value. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor for a tag key. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environment, or other criteria. For more information, see [Tagging Amazon Security Lake resources](https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html) in the Amazon Security Lake User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,12 +435,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Specifies where to store your security data and for how long. You can add a rollup Region to consolidate data from multiple Amazon Web Services Regions.
     ///
     /// - Parameter UpdateDataLakeInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataLakeOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataLakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -451,12 +451,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func updateDataLake(input: UpdateDataLakeInput) async throws -> UpdateDataLakeOutputResponse
+    func updateDataLake(input: UpdateDataLakeInput) async throws -> UpdateDataLakeOutput
     /// Updates the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
     /// - Parameter UpdateDataLakeExceptionSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataLakeExceptionSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataLakeExceptionSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -467,12 +467,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func updateDataLakeExceptionSubscription(input: UpdateDataLakeExceptionSubscriptionInput) async throws -> UpdateDataLakeExceptionSubscriptionOutputResponse
+    func updateDataLakeExceptionSubscription(input: UpdateDataLakeExceptionSubscriptionInput) async throws -> UpdateDataLakeExceptionSubscriptionOutput
     /// Updates an existing subscription for the given Amazon Security Lake account ID. You can update a subscriber by changing the sources that the subscriber consumes data from.
     ///
     /// - Parameter UpdateSubscriberInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSubscriberOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSubscriberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,12 +483,12 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutputResponse
+    func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput
     /// Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or switches the notification subscription endpoint for a subscriber.
     ///
     /// - Parameter UpdateSubscriberNotificationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSubscriberNotificationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSubscriberNotificationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -499,7 +499,7 @@ public protocol SecurityLakeClientProtocol {
     /// - `InternalServerException` : Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func updateSubscriberNotification(input: UpdateSubscriberNotificationInput) async throws -> UpdateSubscriberNotificationOutputResponse
+    func updateSubscriberNotification(input: UpdateSubscriberNotificationInput) async throws -> UpdateSubscriberNotificationOutput
 }
 
 public enum SecurityLakeClientTypes {}

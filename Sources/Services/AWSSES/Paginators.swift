@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SESClient {
-    /// Paginate over `[ListCustomVerificationEmailTemplatesOutputResponse]` results.
+    /// Paginate over `[ListCustomVerificationEmailTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCustomVerificationEmailTemplatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomVerificationEmailTemplatesOutputResponse`
-    public func listCustomVerificationEmailTemplatesPaginated(input: ListCustomVerificationEmailTemplatesInput) -> ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse>(input: input, inputKey: \ListCustomVerificationEmailTemplatesInput.nextToken, outputKey: \ListCustomVerificationEmailTemplatesOutputResponse.nextToken, paginationFunction: self.listCustomVerificationEmailTemplates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomVerificationEmailTemplatesOutput`
+    public func listCustomVerificationEmailTemplatesPaginated(input: ListCustomVerificationEmailTemplatesInput) -> ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput>(input: input, inputKey: \ListCustomVerificationEmailTemplatesInput.nextToken, outputKey: \ListCustomVerificationEmailTemplatesOutput.nextToken, paginationFunction: self.listCustomVerificationEmailTemplates(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListCustomVerificationEmailTemplatesInput: ClientRuntime.PaginateToken
         )}
 }
 extension SESClient {
-    /// Paginate over `[ListIdentitiesOutputResponse]` results.
+    /// Paginate over `[ListIdentitiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIdentitiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentitiesOutputResponse`
-    public func listIdentitiesPaginated(input: ListIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListIdentitiesInput, ListIdentitiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIdentitiesInput, ListIdentitiesOutputResponse>(input: input, inputKey: \ListIdentitiesInput.nextToken, outputKey: \ListIdentitiesOutputResponse.nextToken, paginationFunction: self.listIdentities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentitiesOutput`
+    public func listIdentitiesPaginated(input: ListIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListIdentitiesInput, ListIdentitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListIdentitiesInput, ListIdentitiesOutput>(input: input, inputKey: \ListIdentitiesInput.nextToken, outputKey: \ListIdentitiesOutput.nextToken, paginationFunction: self.listIdentities(input:))
     }
 }
 
@@ -46,7 +46,7 @@ extension ListIdentitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIdentitiesInput, Output == ListIdentitiesOutputResponse {
+extension PaginatorSequence where Input == ListIdentitiesInput, Output == ListIdentitiesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIdentitiesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

@@ -71,7 +71,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CancelGremlinQueryInput : [no documentation found]
     ///
-    /// - Returns: `CancelGremlinQueryOutputResponse` : [no documentation found]
+    /// - Returns: `CancelGremlinQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -90,7 +90,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutputResponse
+    public func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -106,17 +106,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelGremlinQueryInput, CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>(id: "cancelGremlinQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelGremlinQueryInput, CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelGremlinQueryInput, CancelGremlinQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelGremlinQueryInput, CancelGremlinQueryOutput, CancelGremlinQueryOutputError>(id: "cancelGremlinQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelGremlinQueryInput, CancelGremlinQueryOutput, CancelGremlinQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelGremlinQueryInput, CancelGremlinQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelGremlinQueryOutput, CancelGremlinQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelGremlinQueryOutput, CancelGremlinQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelGremlinQueryOutputResponse, CancelGremlinQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelGremlinQueryOutput, CancelGremlinQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelGremlinQueryOutput, CancelGremlinQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelGremlinQueryOutput, CancelGremlinQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -125,7 +125,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CancelLoaderJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelLoaderJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelLoaderJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -143,7 +143,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutputResponse
+    public func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -159,17 +159,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelLoaderJobInput, CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>(id: "cancelLoaderJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelLoaderJobInput, CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelLoaderJobInput, CancelLoaderJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelLoaderJobInput, CancelLoaderJobOutput, CancelLoaderJobOutputError>(id: "cancelLoaderJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelLoaderJobInput, CancelLoaderJobOutput, CancelLoaderJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelLoaderJobInput, CancelLoaderJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelLoaderJobOutput, CancelLoaderJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelLoaderJobOutput, CancelLoaderJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelLoaderJobOutputResponse, CancelLoaderJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelLoaderJobOutput, CancelLoaderJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelLoaderJobOutput, CancelLoaderJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelLoaderJobOutput, CancelLoaderJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -178,7 +178,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CancelMLDataProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelMLDataProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMLDataProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,7 +194,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutputResponse
+    public func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -210,18 +210,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>(id: "cancelMLDataProcessingJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>(id: "cancelMLDataProcessingJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMLDataProcessingJobOutputResponse, CancelMLDataProcessingJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMLDataProcessingJobOutput, CancelMLDataProcessingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -230,7 +230,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CancelMLModelTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelMLModelTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMLModelTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -246,7 +246,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutputResponse
+    public func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -262,18 +262,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>(id: "cancelMLModelTrainingJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>(id: "cancelMLModelTrainingJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMLModelTrainingJobOutputResponse, CancelMLModelTrainingJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMLModelTrainingJobOutput, CancelMLModelTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -282,7 +282,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CancelMLModelTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelMLModelTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelMLModelTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -298,7 +298,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutputResponse
+    public func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -314,18 +314,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>(id: "cancelMLModelTransformJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>(id: "cancelMLModelTransformJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMLModelTransformJobOutputResponse, CancelMLModelTransformJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMLModelTransformJobOutput, CancelMLModelTransformJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -334,7 +334,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CancelOpenCypherQueryInput : [no documentation found]
     ///
-    /// - Returns: `CancelOpenCypherQueryOutputResponse` : [no documentation found]
+    /// - Returns: `CancelOpenCypherQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -354,7 +354,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutputResponse
+    public func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -370,18 +370,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>(id: "cancelOpenCypherQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>(id: "cancelOpenCypherQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelOpenCypherQueryOutputResponse, CancelOpenCypherQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelOpenCypherQueryOutput, CancelOpenCypherQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -390,7 +390,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter CreateMLEndpointInput : [no documentation found]
     ///
-    /// - Returns: `CreateMLEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMLEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,7 +406,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutputResponse
+    public func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -422,20 +422,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMLEndpointInput, CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>(id: "createMLEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMLEndpointInput, CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMLEndpointInput, CreateMLEndpointOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateMLEndpointInput, CreateMLEndpointOutput, CreateMLEndpointOutputError>(id: "createMLEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMLEndpointInput, CreateMLEndpointOutput, CreateMLEndpointOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMLEndpointInput, CreateMLEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMLEndpointOutput, CreateMLEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMLEndpointInput, CreateMLEndpointOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMLEndpointInput, CreateMLEndpointOutputResponse>(xmlName: "CreateMLEndpointInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMLEndpointInput, CreateMLEndpointOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMLEndpointInput, CreateMLEndpointOutput>(xmlName: "CreateMLEndpointInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMLEndpointOutput, CreateMLEndpointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMLEndpointOutputResponse, CreateMLEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMLEndpointOutput, CreateMLEndpointOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMLEndpointOutput, CreateMLEndpointOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMLEndpointOutput, CreateMLEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -444,7 +444,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter DeleteMLEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMLEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMLEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,7 +460,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutputResponse
+    public func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -476,18 +476,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMLEndpointInput, DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>(id: "deleteMLEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteMLEndpointInput, DeleteMLEndpointOutput, DeleteMLEndpointOutputError>(id: "deleteMLEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutput, DeleteMLEndpointOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMLEndpointOutput, DeleteMLEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMLEndpointOutput, DeleteMLEndpointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMLEndpointOutputResponse, DeleteMLEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMLEndpointOutput, DeleteMLEndpointOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMLEndpointOutput, DeleteMLEndpointOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMLEndpointOutput, DeleteMLEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -496,7 +496,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter DeletePropertygraphStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `DeletePropertygraphStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePropertygraphStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,7 +514,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutputResponse
+    public func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -530,17 +530,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>(id: "deletePropertygraphStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>(id: "deletePropertygraphStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePropertygraphStatisticsOutputResponse, DeletePropertygraphStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePropertygraphStatisticsOutput, DeletePropertygraphStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -549,7 +549,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter DeleteSparqlStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSparqlStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSparqlStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -567,7 +567,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutputResponse
+    public func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -583,17 +583,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>(id: "deleteSparqlStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>(id: "deleteSparqlStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSparqlStatisticsOutputResponse, DeleteSparqlStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSparqlStatisticsOutput, DeleteSparqlStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -602,7 +602,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ExecuteFastResetInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteFastResetOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteFastResetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,7 +620,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `ServerShutdownException` : Raised when the server shuts down while processing a request.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutputResponse
+    public func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -636,20 +636,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteFastResetInput, ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>(id: "executeFastReset")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteFastResetInput, ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteFastResetInput, ExecuteFastResetOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExecuteFastResetInput, ExecuteFastResetOutput, ExecuteFastResetOutputError>(id: "executeFastReset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteFastResetInput, ExecuteFastResetOutput, ExecuteFastResetOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteFastResetInput, ExecuteFastResetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteFastResetOutput, ExecuteFastResetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteFastResetInput, ExecuteFastResetOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteFastResetInput, ExecuteFastResetOutputResponse>(xmlName: "ExecuteFastResetInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteFastResetInput, ExecuteFastResetOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteFastResetInput, ExecuteFastResetOutput>(xmlName: "ExecuteFastResetInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteFastResetOutput, ExecuteFastResetOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteFastResetOutputResponse, ExecuteFastResetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteFastResetOutput, ExecuteFastResetOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteFastResetOutput, ExecuteFastResetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteFastResetOutput, ExecuteFastResetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -658,7 +658,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ExecuteGremlinExplainQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteGremlinExplainQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteGremlinExplainQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,7 +683,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutputResponse
+    public func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -699,20 +699,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>(id: "executeGremlinExplainQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>(id: "executeGremlinExplainQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutputResponse>(xmlName: "ExecuteGremlinExplainQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput>(xmlName: "ExecuteGremlinExplainQueryInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteGremlinExplainQueryOutputResponse, ExecuteGremlinExplainQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteGremlinExplainQueryOutput, ExecuteGremlinExplainQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -721,7 +721,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ExecuteGremlinProfileQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteGremlinProfileQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteGremlinProfileQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,7 +746,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutputResponse
+    public func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -762,20 +762,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>(id: "executeGremlinProfileQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>(id: "executeGremlinProfileQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutputResponse>(xmlName: "ExecuteGremlinProfileQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput>(xmlName: "ExecuteGremlinProfileQueryInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteGremlinProfileQueryOutputResponse, ExecuteGremlinProfileQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteGremlinProfileQueryOutput, ExecuteGremlinProfileQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -784,7 +784,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ExecuteGremlinQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteGremlinQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteGremlinQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,7 +809,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutputResponse
+    public func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -825,21 +825,21 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>(id: "executeGremlinQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>(id: "executeGremlinQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutputResponse>(xmlName: "ExecuteGremlinQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput>(xmlName: "ExecuteGremlinQueryInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteGremlinQueryOutputResponse, ExecuteGremlinQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteGremlinQueryOutput, ExecuteGremlinQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -848,7 +848,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ExecuteOpenCypherExplainQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteOpenCypherExplainQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteOpenCypherExplainQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,7 +874,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutputResponse
+    public func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -890,20 +890,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>(id: "executeOpenCypherExplainQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>(id: "executeOpenCypherExplainQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutputResponse>(xmlName: "ExecuteOpenCypherExplainQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput>(xmlName: "ExecuteOpenCypherExplainQueryInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteOpenCypherExplainQueryOutputResponse, ExecuteOpenCypherExplainQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteOpenCypherExplainQueryOutput, ExecuteOpenCypherExplainQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -912,7 +912,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ExecuteOpenCypherQueryInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteOpenCypherQueryOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteOpenCypherQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,7 +938,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutputResponse
+    public func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -954,20 +954,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>(id: "executeOpenCypherQuery")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>(id: "executeOpenCypherQuery")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutputResponse>(xmlName: "ExecuteOpenCypherQueryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput>(xmlName: "ExecuteOpenCypherQueryInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteOpenCypherQueryOutputResponse, ExecuteOpenCypherQueryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteOpenCypherQueryOutput, ExecuteOpenCypherQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -976,7 +976,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetEngineStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetEngineStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetEngineStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,7 +989,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutputResponse
+    public func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1005,17 +1005,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEngineStatusInput, GetEngineStatusOutputResponse, GetEngineStatusOutputError>(id: "getEngineStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEngineStatusInput, GetEngineStatusOutputResponse, GetEngineStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEngineStatusInput, GetEngineStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetEngineStatusInput, GetEngineStatusOutput, GetEngineStatusOutputError>(id: "getEngineStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEngineStatusInput, GetEngineStatusOutput, GetEngineStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEngineStatusInput, GetEngineStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEngineStatusOutputResponse, GetEngineStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEngineStatusOutput, GetEngineStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEngineStatusOutputResponse, GetEngineStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEngineStatusOutput, GetEngineStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEngineStatusOutputResponse, GetEngineStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEngineStatusOutputResponse, GetEngineStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEngineStatusOutputResponse, GetEngineStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEngineStatusOutput, GetEngineStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEngineStatusOutput, GetEngineStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEngineStatusOutput, GetEngineStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1024,7 +1024,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetGremlinQueryStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetGremlinQueryStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetGremlinQueryStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,7 +1045,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutputResponse
+    public func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1061,17 +1061,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>(id: "getGremlinQueryStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>(id: "getGremlinQueryStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGremlinQueryStatusOutputResponse, GetGremlinQueryStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGremlinQueryStatusOutput, GetGremlinQueryStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1080,7 +1080,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetLoaderJobStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetLoaderJobStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetLoaderJobStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1098,7 +1098,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutputResponse
+    public func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1114,18 +1114,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLoaderJobStatusInput, GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>(id: "getLoaderJobStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetLoaderJobStatusInput, GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>(id: "getLoaderJobStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoaderJobStatusOutputResponse, GetLoaderJobStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoaderJobStatusOutput, GetLoaderJobStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1134,7 +1134,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetMLDataProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMLDataProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLDataProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,7 +1150,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutputResponse
+    public func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1166,18 +1166,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>(id: "getMLDataProcessingJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>(id: "getMLDataProcessingJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLDataProcessingJobOutputResponse, GetMLDataProcessingJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLDataProcessingJobOutput, GetMLDataProcessingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1186,7 +1186,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetMLEndpointInput : [no documentation found]
     ///
-    /// - Returns: `GetMLEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,7 +1202,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutputResponse
+    public func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1218,18 +1218,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMLEndpointInput, GetMLEndpointOutputResponse, GetMLEndpointOutputError>(id: "getMLEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLEndpointInput, GetMLEndpointOutputResponse, GetMLEndpointOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLEndpointInput, GetMLEndpointOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetMLEndpointInput, GetMLEndpointOutput, GetMLEndpointOutputError>(id: "getMLEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLEndpointInput, GetMLEndpointOutput, GetMLEndpointOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLEndpointInput, GetMLEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLEndpointOutputResponse, GetMLEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLEndpointOutput, GetMLEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLEndpointInput, GetMLEndpointOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLEndpointOutputResponse, GetMLEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLEndpointInput, GetMLEndpointOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLEndpointOutput, GetMLEndpointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLEndpointOutputResponse, GetMLEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLEndpointOutputResponse, GetMLEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLEndpointOutputResponse, GetMLEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLEndpointOutput, GetMLEndpointOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLEndpointOutput, GetMLEndpointOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLEndpointOutput, GetMLEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1238,7 +1238,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetMLModelTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMLModelTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLModelTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1254,7 +1254,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutputResponse
+    public func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1270,18 +1270,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>(id: "getMLModelTrainingJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>(id: "getMLModelTrainingJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLModelTrainingJobOutputResponse, GetMLModelTrainingJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLModelTrainingJobOutput, GetMLModelTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1290,7 +1290,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetMLModelTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMLModelTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMLModelTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1306,7 +1306,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutputResponse
+    public func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1322,18 +1322,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMLModelTransformJobInput, GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>(id: "getMLModelTransformJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetMLModelTransformJobInput, GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>(id: "getMLModelTransformJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLModelTransformJobOutputResponse, GetMLModelTransformJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLModelTransformJobOutput, GetMLModelTransformJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1342,7 +1342,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetOpenCypherQueryStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetOpenCypherQueryStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetOpenCypherQueryStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1364,7 +1364,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutputResponse
+    public func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1380,17 +1380,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>(id: "getOpenCypherQueryStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>(id: "getOpenCypherQueryStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenCypherQueryStatusOutputResponse, GetOpenCypherQueryStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenCypherQueryStatusOutput, GetOpenCypherQueryStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1399,7 +1399,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetPropertygraphStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `GetPropertygraphStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `GetPropertygraphStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,7 +1417,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutputResponse
+    public func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1433,17 +1433,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>(id: "getPropertygraphStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>(id: "getPropertygraphStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPropertygraphStatisticsOutputResponse, GetPropertygraphStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPropertygraphStatisticsOutput, GetPropertygraphStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1452,7 +1452,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetPropertygraphStreamInput : [no documentation found]
     ///
-    /// - Returns: `GetPropertygraphStreamOutputResponse` : [no documentation found]
+    /// - Returns: `GetPropertygraphStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1469,7 +1469,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `ThrottlingException` : Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutputResponse
+    public func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1485,19 +1485,19 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPropertygraphStreamInput, GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>(id: "getPropertygraphStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPropertygraphStreamInput, GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>(id: "getPropertygraphStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPropertygraphStreamOutputResponse, GetPropertygraphStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPropertygraphStreamOutput, GetPropertygraphStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1506,7 +1506,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetPropertygraphSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetPropertygraphSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetPropertygraphSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1524,7 +1524,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutputResponse
+    public func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1540,18 +1540,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>(id: "getPropertygraphSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>(id: "getPropertygraphSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPropertygraphSummaryOutputResponse, GetPropertygraphSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPropertygraphSummaryOutput, GetPropertygraphSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1560,7 +1560,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetRDFGraphSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetRDFGraphSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetRDFGraphSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,7 +1578,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutputResponse
+    public func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1594,18 +1594,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>(id: "getRDFGraphSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>(id: "getRDFGraphSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRDFGraphSummaryOutputResponse, GetRDFGraphSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRDFGraphSummaryOutput, GetRDFGraphSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1614,7 +1614,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetSparqlStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `GetSparqlStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSparqlStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1632,7 +1632,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutputResponse
+    public func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1648,17 +1648,17 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSparqlStatisticsInput, GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>(id: "getSparqlStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSparqlStatisticsInput, GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSparqlStatisticsInput, GetSparqlStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSparqlStatisticsInput, GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>(id: "getSparqlStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSparqlStatisticsInput, GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSparqlStatisticsInput, GetSparqlStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSparqlStatisticsOutputResponse, GetSparqlStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSparqlStatisticsOutput, GetSparqlStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1667,7 +1667,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter GetSparqlStreamInput : [no documentation found]
     ///
-    /// - Returns: `GetSparqlStreamOutputResponse` : [no documentation found]
+    /// - Returns: `GetSparqlStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,7 +1684,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `ThrottlingException` : Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutputResponse
+    public func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1700,19 +1700,19 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSparqlStreamInput, GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>(id: "getSparqlStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSparqlStreamInput, GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSparqlStreamInput, GetSparqlStreamOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSparqlStreamInput, GetSparqlStreamOutput, GetSparqlStreamOutputError>(id: "getSparqlStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSparqlStreamInput, GetSparqlStreamOutput, GetSparqlStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSparqlStreamInput, GetSparqlStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSparqlStreamOutput, GetSparqlStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSparqlStreamInput, GetSparqlStreamOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSparqlStreamInput, GetSparqlStreamOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSparqlStreamInput, GetSparqlStreamOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSparqlStreamInput, GetSparqlStreamOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSparqlStreamOutput, GetSparqlStreamOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSparqlStreamOutputResponse, GetSparqlStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSparqlStreamOutput, GetSparqlStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSparqlStreamOutput, GetSparqlStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSparqlStreamOutput, GetSparqlStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1721,7 +1721,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListGremlinQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListGremlinQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListGremlinQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,7 +1742,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutputResponse
+    public func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1758,18 +1758,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGremlinQueriesInput, ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>(id: "listGremlinQueries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListGremlinQueriesInput, ListGremlinQueriesOutput, ListGremlinQueriesOutputError>(id: "listGremlinQueries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutput, ListGremlinQueriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGremlinQueriesOutput, ListGremlinQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGremlinQueriesOutput, ListGremlinQueriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGremlinQueriesOutputResponse, ListGremlinQueriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGremlinQueriesOutput, ListGremlinQueriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGremlinQueriesOutput, ListGremlinQueriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGremlinQueriesOutput, ListGremlinQueriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1778,7 +1778,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListLoaderJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListLoaderJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLoaderJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1795,7 +1795,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutputResponse
+    public func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1811,18 +1811,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLoaderJobsInput, ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>(id: "listLoaderJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoaderJobsInput, ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoaderJobsInput, ListLoaderJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLoaderJobsInput, ListLoaderJobsOutput, ListLoaderJobsOutputError>(id: "listLoaderJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoaderJobsInput, ListLoaderJobsOutput, ListLoaderJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoaderJobsInput, ListLoaderJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLoaderJobsOutput, ListLoaderJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLoaderJobsInput, ListLoaderJobsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLoaderJobsInput, ListLoaderJobsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLoaderJobsOutput, ListLoaderJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoaderJobsOutputResponse, ListLoaderJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoaderJobsOutput, ListLoaderJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoaderJobsOutput, ListLoaderJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoaderJobsOutput, ListLoaderJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1831,7 +1831,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListMLDataProcessingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLDataProcessingJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLDataProcessingJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1847,7 +1847,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutputResponse
+    public func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1863,18 +1863,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>(id: "listMLDataProcessingJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>(id: "listMLDataProcessingJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLDataProcessingJobsOutputResponse, ListMLDataProcessingJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLDataProcessingJobsOutput, ListMLDataProcessingJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1883,7 +1883,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListMLEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,7 +1899,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutputResponse
+    public func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1915,18 +1915,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMLEndpointsInput, ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>(id: "listMLEndpoints")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLEndpointsInput, ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLEndpointsInput, ListMLEndpointsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMLEndpointsInput, ListMLEndpointsOutput, ListMLEndpointsOutputError>(id: "listMLEndpoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLEndpointsInput, ListMLEndpointsOutput, ListMLEndpointsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLEndpointsInput, ListMLEndpointsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLEndpointsOutput, ListMLEndpointsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLEndpointsInput, ListMLEndpointsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLEndpointsInput, ListMLEndpointsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLEndpointsOutput, ListMLEndpointsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLEndpointsOutputResponse, ListMLEndpointsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLEndpointsOutput, ListMLEndpointsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLEndpointsOutput, ListMLEndpointsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLEndpointsOutput, ListMLEndpointsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1935,7 +1935,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListMLModelTrainingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLModelTrainingJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLModelTrainingJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,7 +1951,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutputResponse
+    public func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1967,18 +1967,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>(id: "listMLModelTrainingJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>(id: "listMLModelTrainingJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLModelTrainingJobsOutputResponse, ListMLModelTrainingJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLModelTrainingJobsOutput, ListMLModelTrainingJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1987,7 +1987,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListMLModelTransformJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMLModelTransformJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMLModelTransformJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2003,7 +2003,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutputResponse
+    public func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2019,18 +2019,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>(id: "listMLModelTransformJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>(id: "listMLModelTransformJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLModelTransformJobsOutputResponse, ListMLModelTransformJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMLModelTransformJobsOutput, ListMLModelTransformJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2039,7 +2039,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ListOpenCypherQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListOpenCypherQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListOpenCypherQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2061,7 +2061,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `TimeLimitExceededException` : Raised when the an operation exceeds the time limit allowed for it.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutputResponse
+    public func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2077,18 +2077,18 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>(id: "listOpenCypherQueries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>(id: "listOpenCypherQueries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenCypherQueriesOutputResponse, ListOpenCypherQueriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenCypherQueriesOutput, ListOpenCypherQueriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2097,7 +2097,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ManagePropertygraphStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ManagePropertygraphStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ManagePropertygraphStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2115,7 +2115,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutputResponse
+    public func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2131,20 +2131,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>(id: "managePropertygraphStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>(id: "managePropertygraphStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutputResponse>(xmlName: "ManagePropertygraphStatisticsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput>(xmlName: "ManagePropertygraphStatisticsInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ManagePropertygraphStatisticsOutputResponse, ManagePropertygraphStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ManagePropertygraphStatisticsOutput, ManagePropertygraphStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2153,7 +2153,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter ManageSparqlStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ManageSparqlStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ManageSparqlStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2171,7 +2171,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `StatisticsNotAvailableException` : Raised when statistics needed to satisfy a request are not available.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutputResponse
+    public func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2187,20 +2187,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>(id: "manageSparqlStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>(id: "manageSparqlStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutputResponse>(xmlName: "ManageSparqlStatisticsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput>(xmlName: "ManageSparqlStatisticsInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ManageSparqlStatisticsOutputResponse, ManageSparqlStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ManageSparqlStatisticsOutput, ManageSparqlStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2209,7 +2209,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter StartLoaderJobInput : [no documentation found]
     ///
-    /// - Returns: `StartLoaderJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartLoaderJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2228,7 +2228,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `S3Exception` : Raised when there is a problem accessing Amazon S3.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutputResponse
+    public func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2244,20 +2244,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartLoaderJobInput, StartLoaderJobOutputResponse, StartLoaderJobOutputError>(id: "startLoaderJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLoaderJobInput, StartLoaderJobOutputResponse, StartLoaderJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLoaderJobInput, StartLoaderJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartLoaderJobInput, StartLoaderJobOutput, StartLoaderJobOutputError>(id: "startLoaderJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLoaderJobInput, StartLoaderJobOutput, StartLoaderJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLoaderJobInput, StartLoaderJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLoaderJobOutputResponse, StartLoaderJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLoaderJobOutput, StartLoaderJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLoaderJobInput, StartLoaderJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartLoaderJobInput, StartLoaderJobOutputResponse>(xmlName: "StartLoaderJobInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLoaderJobInput, StartLoaderJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartLoaderJobInput, StartLoaderJobOutput>(xmlName: "StartLoaderJobInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLoaderJobOutputResponse, StartLoaderJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLoaderJobOutput, StartLoaderJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLoaderJobOutputResponse, StartLoaderJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLoaderJobOutputResponse, StartLoaderJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLoaderJobOutputResponse, StartLoaderJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLoaderJobOutput, StartLoaderJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLoaderJobOutput, StartLoaderJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLoaderJobOutput, StartLoaderJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2266,7 +2266,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter StartMLDataProcessingJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMLDataProcessingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMLDataProcessingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,7 +2282,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutputResponse
+    public func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2298,20 +2298,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>(id: "startMLDataProcessingJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>(id: "startMLDataProcessingJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutputResponse>(xmlName: "StartMLDataProcessingJobInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput>(xmlName: "StartMLDataProcessingJobInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMLDataProcessingJobOutputResponse, StartMLDataProcessingJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMLDataProcessingJobOutput, StartMLDataProcessingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2320,7 +2320,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter StartMLModelTrainingJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMLModelTrainingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMLModelTrainingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2336,7 +2336,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutputResponse
+    public func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2352,20 +2352,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>(id: "startMLModelTrainingJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>(id: "startMLModelTrainingJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutputResponse>(xmlName: "StartMLModelTrainingJobInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput>(xmlName: "StartMLModelTrainingJobInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMLModelTrainingJobOutputResponse, StartMLModelTrainingJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMLModelTrainingJobOutput, StartMLModelTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2374,7 +2374,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     ///
     /// - Parameter StartMLModelTransformJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMLModelTransformJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMLModelTransformJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2390,7 +2390,7 @@ extension NeptunedataClient: NeptunedataClientProtocol {
     /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
-    public func startMLModelTransformJob(input: StartMLModelTransformJobInput) async throws -> StartMLModelTransformJobOutputResponse
+    public func startMLModelTransformJob(input: StartMLModelTransformJobInput) async throws -> StartMLModelTransformJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2406,20 +2406,20 @@ extension NeptunedataClient: NeptunedataClientProtocol {
                       .withSigningName(value: "neptune-db")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMLModelTransformJobInput, StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>(id: "startMLModelTransformJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartMLModelTransformJobInput, StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>(id: "startMLModelTransformJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutputResponse>(xmlName: "StartMLModelTransformJobInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutput>(xmlName: "StartMLModelTransformJobInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMLModelTransformJobOutputResponse, StartMLModelTransformJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMLModelTransformJobOutput, StartMLModelTransformJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

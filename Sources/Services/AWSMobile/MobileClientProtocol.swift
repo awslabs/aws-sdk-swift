@@ -8,7 +8,7 @@ public protocol MobileClientProtocol {
     ///
     /// - Parameter CreateProjectInput : Request structure used to request a project be created.
     ///
-    /// - Returns: `CreateProjectOutputResponse` : Result structure used in response to a request to create a project.
+    /// - Returns: `CreateProjectOutput` : Result structure used in response to a request to create a project.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     /// Delets a project in AWS Mobile Hub.
     ///
     /// - Parameter DeleteProjectInput : Request structure used to request a project be deleted.
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : Result structure used in response to request to delete a project.
+    /// - Returns: `DeleteProjectOutput` : Result structure used in response to request to delete a project.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     /// Get the bundle details for the requested bundle id.
     ///
     /// - Parameter DescribeBundleInput : Request structure to request the details of a specific bundle.
     ///
-    /// - Returns: `DescribeBundleOutputResponse` : Result structure contains the details of the bundle.
+    /// - Returns: `DescribeBundleOutput` : Result structure contains the details of the bundle.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func describeBundle(input: DescribeBundleInput) async throws -> DescribeBundleOutputResponse
+    func describeBundle(input: DescribeBundleInput) async throws -> DescribeBundleOutput
     /// Gets details about a project in AWS Mobile Hub.
     ///
     /// - Parameter DescribeProjectInput : Request structure used to request details about a project.
     ///
-    /// - Returns: `DescribeProjectOutputResponse` : Result structure used for requests of project details.
+    /// - Returns: `DescribeProjectOutput` : Result structure used for requests of project details.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,12 +67,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutputResponse
+    func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
     /// Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources.
     ///
     /// - Parameter ExportBundleInput : Request structure used to request generation of custom SDK and tool packages required to integrate mobile web or app clients with backed AWS resources.
     ///
-    /// - Returns: `ExportBundleOutputResponse` : Result structure which contains link to download custom-generated SDK and tool packages used to integrate mobile web or app clients with backed AWS resources.
+    /// - Returns: `ExportBundleOutput` : Result structure which contains link to download custom-generated SDK and tool packages used to integrate mobile web or app clients with backed AWS resources.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func exportBundle(input: ExportBundleInput) async throws -> ExportBundleOutputResponse
+    func exportBundle(input: ExportBundleInput) async throws -> ExportBundleOutput
     /// Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account.
     ///
     /// - Parameter ExportProjectInput : Request structure used in requests to export project configuration details.
     ///
-    /// - Returns: `ExportProjectOutputResponse` : Result structure used for requests to export project configuration details.
+    /// - Returns: `ExportProjectOutput` : Result structure used for requests to export project configuration details.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func exportProject(input: ExportProjectInput) async throws -> ExportProjectOutputResponse
+    func exportProject(input: ExportProjectInput) async throws -> ExportProjectOutput
     /// List all available bundles.
     ///
     /// - Parameter ListBundlesInput : Request structure to request all available bundles.
     ///
-    /// - Returns: `ListBundlesOutputResponse` : Result structure contains a list of all available bundles with details.
+    /// - Returns: `ListBundlesOutput` : Result structure contains a list of all available bundles with details.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -114,12 +114,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func listBundles(input: ListBundlesInput) async throws -> ListBundlesOutputResponse
+    func listBundles(input: ListBundlesInput) async throws -> ListBundlesOutput
     /// Lists projects in AWS Mobile Hub.
     ///
     /// - Parameter ListProjectsInput : Request structure used to request projects list in AWS Mobile Hub.
     ///
-    /// - Returns: `ListProjectsOutputResponse` : Result structure used for requests to list projects in AWS Mobile Hub.
+    /// - Returns: `ListProjectsOutput` : Result structure used for requests to list projects in AWS Mobile Hub.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,12 +129,12 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     /// Update an existing project.
     ///
     /// - Parameter UpdateProjectInput : Request structure used for requests to update project configuration.
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : Result structure used for requests to updated project configuration.
+    /// - Returns: `UpdateProjectOutput` : Result structure used for requests to updated project configuration.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,7 +147,7 @@ public protocol MobileClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
     /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
-    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
 }
 
 public enum MobileClientTypes {}

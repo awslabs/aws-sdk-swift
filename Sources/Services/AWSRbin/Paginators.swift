@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension RbinClient {
-    /// Paginate over `[ListRulesOutputResponse]` results.
+    /// Paginate over `[ListRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutputResponse`
-    public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutputResponse.nextToken, paginationFunction: self.listRules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutput`
+    public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutput.nextToken, paginationFunction: self.listRules(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension ListRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutputResponse {
+extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
     /// to access the nested member `[RbinClientTypes.RuleSummary]`
     /// - Returns: `[RbinClientTypes.RuleSummary]`

@@ -173,32 +173,11 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddTagsToResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddTagsToResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
             self.tagList = nil
@@ -207,7 +186,7 @@ extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
-public struct AddTagsToResourceOutputResponse: Swift.Equatable {
+public struct AddTagsToResourceOutput: Swift.Equatable {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
@@ -219,11 +198,11 @@ public struct AddTagsToResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddTagsToResourceOutputResponseBody: Swift.Equatable {
+struct AddTagsToResourceOutputBody: Swift.Equatable {
     let tagList: [ElastiCacheClientTypes.Tag]?
 }
 
-extension AddTagsToResourceOutputResponseBody: Swift.Decodable {
+extension AddTagsToResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagList = "TagList"
     }
@@ -249,6 +228,27 @@ extension AddTagsToResourceOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagList = nil
+        }
+    }
+}
+
+enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -650,25 +650,11 @@ extension AuthorizeCacheSecurityGroupIngressInputBody: Swift.Decodable {
     }
 }
 
-enum AuthorizeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AuthorizationAlreadyExists": return try await AuthorizationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AuthorizeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AuthorizeCacheSecurityGroupIngressOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AuthorizeCacheSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AuthorizeCacheSecurityGroupIngressOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
         } else {
             self.cacheSecurityGroup = nil
@@ -676,7 +662,7 @@ extension AuthorizeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct AuthorizeCacheSecurityGroupIngressOutputResponse: Swift.Equatable {
+public struct AuthorizeCacheSecurityGroupIngressOutput: Swift.Equatable {
     /// Represents the output of one of the following operations:
     ///
     /// * AuthorizeCacheSecurityGroupIngress
@@ -694,11 +680,11 @@ public struct AuthorizeCacheSecurityGroupIngressOutputResponse: Swift.Equatable 
     }
 }
 
-struct AuthorizeCacheSecurityGroupIngressOutputResponseBody: Swift.Equatable {
+struct AuthorizeCacheSecurityGroupIngressOutputBody: Swift.Equatable {
     let cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup?
 }
 
-extension AuthorizeCacheSecurityGroupIngressOutputResponseBody: Swift.Decodable {
+extension AuthorizeCacheSecurityGroupIngressOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSecurityGroup = "CacheSecurityGroup"
     }
@@ -708,6 +694,20 @@ extension AuthorizeCacheSecurityGroupIngressOutputResponseBody: Swift.Decodable 
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AuthorizeCacheSecurityGroupIngressResult"))
         let cacheSecurityGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSecurityGroup.self, forKey: .cacheSecurityGroup)
         cacheSecurityGroup = cacheSecurityGroupDecoded
+    }
+}
+
+enum AuthorizeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AuthorizationAlreadyExists": return try await AuthorizationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -904,22 +904,11 @@ extension BatchApplyUpdateActionInputBody: Swift.Decodable {
     }
 }
 
-enum BatchApplyUpdateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension BatchApplyUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchApplyUpdateActionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchApplyUpdateActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchApplyUpdateActionOutputBody = try responseDecoder.decode(responseBody: data)
             self.processedUpdateActions = output.processedUpdateActions
             self.unprocessedUpdateActions = output.unprocessedUpdateActions
         } else {
@@ -929,7 +918,7 @@ extension BatchApplyUpdateActionOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct BatchApplyUpdateActionOutputResponse: Swift.Equatable {
+public struct BatchApplyUpdateActionOutput: Swift.Equatable {
     /// Update actions that have been processed successfully
     public var processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]?
     /// Update actions that haven't been processed successfully
@@ -945,12 +934,12 @@ public struct BatchApplyUpdateActionOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchApplyUpdateActionOutputResponseBody: Swift.Equatable {
+struct BatchApplyUpdateActionOutputBody: Swift.Equatable {
     let processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]?
     let unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]?
 }
 
-extension BatchApplyUpdateActionOutputResponseBody: Swift.Decodable {
+extension BatchApplyUpdateActionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case processedUpdateActions = "ProcessedUpdateActions"
         case unprocessedUpdateActions = "UnprocessedUpdateActions"
@@ -996,6 +985,17 @@ extension BatchApplyUpdateActionOutputResponseBody: Swift.Decodable {
             }
         } else {
             unprocessedUpdateActions = nil
+        }
+    }
+}
+
+enum BatchApplyUpdateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -1120,22 +1120,11 @@ extension BatchStopUpdateActionInputBody: Swift.Decodable {
     }
 }
 
-enum BatchStopUpdateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension BatchStopUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchStopUpdateActionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchStopUpdateActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchStopUpdateActionOutputBody = try responseDecoder.decode(responseBody: data)
             self.processedUpdateActions = output.processedUpdateActions
             self.unprocessedUpdateActions = output.unprocessedUpdateActions
         } else {
@@ -1145,7 +1134,7 @@ extension BatchStopUpdateActionOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct BatchStopUpdateActionOutputResponse: Swift.Equatable {
+public struct BatchStopUpdateActionOutput: Swift.Equatable {
     /// Update actions that have been processed successfully
     public var processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]?
     /// Update actions that haven't been processed successfully
@@ -1161,12 +1150,12 @@ public struct BatchStopUpdateActionOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchStopUpdateActionOutputResponseBody: Swift.Equatable {
+struct BatchStopUpdateActionOutputBody: Swift.Equatable {
     let processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]?
     let unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]?
 }
 
-extension BatchStopUpdateActionOutputResponseBody: Swift.Decodable {
+extension BatchStopUpdateActionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case processedUpdateActions = "ProcessedUpdateActions"
         case unprocessedUpdateActions = "UnprocessedUpdateActions"
@@ -1212,6 +1201,17 @@ extension BatchStopUpdateActionOutputResponseBody: Swift.Decodable {
             }
         } else {
             unprocessedUpdateActions = nil
+        }
+    }
+}
+
+enum BatchStopUpdateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3605,23 +3605,11 @@ extension CompleteMigrationInputBody: Swift.Decodable {
     }
 }
 
-enum CompleteMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotUnderMigrationFault": return try await ReplicationGroupNotUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CompleteMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CompleteMigrationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CompleteMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CompleteMigrationOutputBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
             self.replicationGroup = nil
@@ -3629,7 +3617,7 @@ extension CompleteMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CompleteMigrationOutputResponse: Swift.Equatable {
+public struct CompleteMigrationOutput: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -3641,11 +3629,11 @@ public struct CompleteMigrationOutputResponse: Swift.Equatable {
     }
 }
 
-struct CompleteMigrationOutputResponseBody: Swift.Equatable {
+struct CompleteMigrationOutputBody: Swift.Equatable {
     let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 }
 
-extension CompleteMigrationOutputResponseBody: Swift.Decodable {
+extension CompleteMigrationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationGroup = "ReplicationGroup"
     }
@@ -3655,6 +3643,18 @@ extension CompleteMigrationOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CompleteMigrationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
         replicationGroup = replicationGroupDecoded
+    }
+}
+
+enum CompleteMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotUnderMigrationFault": return try await ReplicationGroupNotUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3906,6 +3906,47 @@ extension CopySnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CopySnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopySnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.snapshot = output.snapshot
+        } else {
+            self.snapshot = nil
+        }
+    }
+}
+
+public struct CopySnapshotOutput: Swift.Equatable {
+    /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
+    public var snapshot: ElastiCacheClientTypes.Snapshot?
+
+    public init(
+        snapshot: ElastiCacheClientTypes.Snapshot? = nil
+    )
+    {
+        self.snapshot = snapshot
+    }
+}
+
+struct CopySnapshotOutputBody: Swift.Equatable {
+    let snapshot: ElastiCacheClientTypes.Snapshot?
+}
+
+extension CopySnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshot = "Snapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopySnapshotResult"))
+        let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
+        snapshot = snapshotDecoded
+    }
+}
+
 enum CopySnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3919,47 +3960,6 @@ enum CopySnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CopySnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CopySnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.snapshot = output.snapshot
-        } else {
-            self.snapshot = nil
-        }
-    }
-}
-
-public struct CopySnapshotOutputResponse: Swift.Equatable {
-    /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
-    public var snapshot: ElastiCacheClientTypes.Snapshot?
-
-    public init(
-        snapshot: ElastiCacheClientTypes.Snapshot? = nil
-    )
-    {
-        self.snapshot = snapshot
-    }
-}
-
-struct CopySnapshotOutputResponseBody: Swift.Equatable {
-    let snapshot: ElastiCacheClientTypes.Snapshot?
-}
-
-extension CopySnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case snapshot = "Snapshot"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CopySnapshotResult"))
-        let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
-        snapshot = snapshotDecoded
     }
 }
 
@@ -4565,6 +4565,47 @@ extension CreateCacheClusterInputBody: Swift.Decodable {
     }
 }
 
+extension CreateCacheClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCacheClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cacheCluster = output.cacheCluster
+        } else {
+            self.cacheCluster = nil
+        }
+    }
+}
+
+public struct CreateCacheClusterOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific cluster.
+    public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
+
+    public init(
+        cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
+    )
+    {
+        self.cacheCluster = cacheCluster
+    }
+}
+
+struct CreateCacheClusterOutputBody: Swift.Equatable {
+    let cacheCluster: ElastiCacheClientTypes.CacheCluster?
+}
+
+extension CreateCacheClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheCluster = "CacheCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheClusterResult"))
+        let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
+        cacheCluster = cacheClusterDecoded
+    }
+}
+
 enum CreateCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4585,47 +4626,6 @@ enum CreateCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cacheCluster = output.cacheCluster
-        } else {
-            self.cacheCluster = nil
-        }
-    }
-}
-
-public struct CreateCacheClusterOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific cluster.
-    public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
-
-    public init(
-        cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
-        self.cacheCluster = cacheCluster
-    }
-}
-
-struct CreateCacheClusterOutputResponseBody: Swift.Equatable {
-    let cacheCluster: ElastiCacheClientTypes.CacheCluster?
-}
-
-extension CreateCacheClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cacheCluster = "CacheCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheClusterResult"))
-        let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
-        cacheCluster = cacheClusterDecoded
     }
 }
 
@@ -4737,6 +4737,47 @@ extension CreateCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateCacheParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCacheParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cacheParameterGroup = output.cacheParameterGroup
+        } else {
+            self.cacheParameterGroup = nil
+        }
+    }
+}
+
+public struct CreateCacheParameterGroupOutput: Swift.Equatable {
+    /// Represents the output of a CreateCacheParameterGroup operation.
+    public var cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup?
+
+    public init(
+        cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup? = nil
+    )
+    {
+        self.cacheParameterGroup = cacheParameterGroup
+    }
+}
+
+struct CreateCacheParameterGroupOutputBody: Swift.Equatable {
+    let cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup?
+}
+
+extension CreateCacheParameterGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheParameterGroup = "CacheParameterGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheParameterGroupResult"))
+        let cacheParameterGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheParameterGroup.self, forKey: .cacheParameterGroup)
+        cacheParameterGroup = cacheParameterGroupDecoded
+    }
+}
+
 enum CreateCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4749,47 +4790,6 @@ enum CreateCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cacheParameterGroup = output.cacheParameterGroup
-        } else {
-            self.cacheParameterGroup = nil
-        }
-    }
-}
-
-public struct CreateCacheParameterGroupOutputResponse: Swift.Equatable {
-    /// Represents the output of a CreateCacheParameterGroup operation.
-    public var cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup?
-
-    public init(
-        cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup? = nil
-    )
-    {
-        self.cacheParameterGroup = cacheParameterGroup
-    }
-}
-
-struct CreateCacheParameterGroupOutputResponseBody: Swift.Equatable {
-    let cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup?
-}
-
-extension CreateCacheParameterGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cacheParameterGroup = "CacheParameterGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheParameterGroupResult"))
-        let cacheParameterGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheParameterGroup.self, forKey: .cacheParameterGroup)
-        cacheParameterGroup = cacheParameterGroupDecoded
     }
 }
 
@@ -4889,25 +4889,11 @@ extension CreateCacheSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCacheSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheSecurityGroupAlreadyExists": return try await CacheSecurityGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "QuotaExceeded.CacheSecurityGroup": return try await CacheSecurityGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCacheSecurityGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateCacheSecurityGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateCacheSecurityGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
         } else {
             self.cacheSecurityGroup = nil
@@ -4915,7 +4901,7 @@ extension CreateCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateCacheSecurityGroupOutputResponse: Swift.Equatable {
+public struct CreateCacheSecurityGroupOutput: Swift.Equatable {
     /// Represents the output of one of the following operations:
     ///
     /// * AuthorizeCacheSecurityGroupIngress
@@ -4933,11 +4919,11 @@ public struct CreateCacheSecurityGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateCacheSecurityGroupOutputResponseBody: Swift.Equatable {
+struct CreateCacheSecurityGroupOutputBody: Swift.Equatable {
     let cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup?
 }
 
-extension CreateCacheSecurityGroupOutputResponseBody: Swift.Decodable {
+extension CreateCacheSecurityGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSecurityGroup = "CacheSecurityGroup"
     }
@@ -4947,6 +4933,20 @@ extension CreateCacheSecurityGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheSecurityGroupResult"))
         let cacheSecurityGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSecurityGroup.self, forKey: .cacheSecurityGroup)
         cacheSecurityGroup = cacheSecurityGroupDecoded
+    }
+}
+
+enum CreateCacheSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSecurityGroupAlreadyExists": return try await CacheSecurityGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "QuotaExceeded.CacheSecurityGroup": return try await CacheSecurityGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5084,26 +5084,11 @@ extension CreateCacheSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheSubnetGroupAlreadyExists": return try await CacheSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSubnetGroupQuotaExceeded": return try await CacheSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSubnetQuotaExceededFault": return try await CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetNotAllowedFault": return try await SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCacheSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateCacheSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateCacheSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroup = output.cacheSubnetGroup
         } else {
             self.cacheSubnetGroup = nil
@@ -5111,7 +5096,7 @@ extension CreateCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateCacheSubnetGroupOutputResponse: Swift.Equatable {
+public struct CreateCacheSubnetGroupOutput: Swift.Equatable {
     /// Represents the output of one of the following operations:
     ///
     /// * CreateCacheSubnetGroup
@@ -5127,11 +5112,11 @@ public struct CreateCacheSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateCacheSubnetGroupOutputResponseBody: Swift.Equatable {
+struct CreateCacheSubnetGroupOutputBody: Swift.Equatable {
     let cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup?
 }
 
-extension CreateCacheSubnetGroupOutputResponseBody: Swift.Decodable {
+extension CreateCacheSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSubnetGroup = "CacheSubnetGroup"
     }
@@ -5141,6 +5126,21 @@ extension CreateCacheSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateCacheSubnetGroupResult"))
         let cacheSubnetGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSubnetGroup.self, forKey: .cacheSubnetGroup)
         cacheSubnetGroup = cacheSubnetGroupDecoded
+    }
+}
+
+enum CreateCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupAlreadyExists": return try await CacheSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupQuotaExceeded": return try await CacheSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetQuotaExceededFault": return try await CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotAllowedFault": return try await SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5213,25 +5213,11 @@ extension CreateGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupAlreadyExistsFault": return try await GlobalReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -5239,7 +5225,7 @@ extension CreateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct CreateGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct CreateGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -5253,11 +5239,11 @@ public struct CreateGlobalReplicationGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct CreateGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension CreateGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension CreateGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -5267,6 +5253,20 @@ extension CreateGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum CreateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupAlreadyExistsFault": return try await GlobalReplicationGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6008,6 +6008,47 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct CreateReplicationGroupOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct CreateReplicationGroupOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension CreateReplicationGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateReplicationGroupResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum CreateReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -6033,47 +6074,6 @@ enum CreateReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct CreateReplicationGroupOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct CreateReplicationGroupOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension CreateReplicationGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateReplicationGroupResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -6194,6 +6194,47 @@ extension CreateSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.snapshot = output.snapshot
+        } else {
+            self.snapshot = nil
+        }
+    }
+}
+
+public struct CreateSnapshotOutput: Swift.Equatable {
+    /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
+    public var snapshot: ElastiCacheClientTypes.Snapshot?
+
+    public init(
+        snapshot: ElastiCacheClientTypes.Snapshot? = nil
+    )
+    {
+        self.snapshot = snapshot
+    }
+}
+
+struct CreateSnapshotOutputBody: Swift.Equatable {
+    let snapshot: ElastiCacheClientTypes.Snapshot?
+}
+
+extension CreateSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshot = "Snapshot"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateSnapshotResult"))
+        let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
+        snapshot = snapshotDecoded
+    }
+}
+
 enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -6210,47 +6251,6 @@ enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.snapshot = output.snapshot
-        } else {
-            self.snapshot = nil
-        }
-    }
-}
-
-public struct CreateSnapshotOutputResponse: Swift.Equatable {
-    /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
-    public var snapshot: ElastiCacheClientTypes.Snapshot?
-
-    public init(
-        snapshot: ElastiCacheClientTypes.Snapshot? = nil
-    )
-    {
-        self.snapshot = snapshot
-    }
-}
-
-struct CreateSnapshotOutputResponseBody: Swift.Equatable {
-    let snapshot: ElastiCacheClientTypes.Snapshot?
-}
-
-extension CreateSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case snapshot = "Snapshot"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateSnapshotResult"))
-        let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
-        snapshot = snapshotDecoded
     }
 }
 
@@ -6386,28 +6386,11 @@ extension CreateUserGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DefaultUserRequired": return try await DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupAlreadyExists": return try await UserGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupQuotaExceeded": return try await UserGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateUserGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateUserGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.engine = output.engine
             self.minimumEngineVersion = output.minimumEngineVersion
@@ -6429,7 +6412,7 @@ extension CreateUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserGroupOutputResponse: Swift.Equatable {
+public struct CreateUserGroupOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the user group.
     public var arn: Swift.String?
     /// The current supported value is Redis.
@@ -6469,7 +6452,7 @@ public struct CreateUserGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateUserGroupOutputResponseBody: Swift.Equatable {
+struct CreateUserGroupOutputBody: Swift.Equatable {
     let userGroupId: Swift.String?
     let status: Swift.String?
     let engine: Swift.String?
@@ -6480,7 +6463,7 @@ struct CreateUserGroupOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension CreateUserGroupOutputResponseBody: Swift.Decodable {
+extension CreateUserGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case engine = "Engine"
@@ -6545,6 +6528,23 @@ extension CreateUserGroupOutputResponseBody: Swift.Decodable {
         }
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum CreateUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DefaultUserRequired": return try await DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupAlreadyExists": return try await UserGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupQuotaExceeded": return try await UserGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6726,27 +6726,11 @@ extension CreateUserInputBody: Swift.Decodable {
     }
 }
 
-enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserAlreadyExists": return try await UserAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserQuotaExceeded": return try await UserQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateUserOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
             self.arn = output.arn
             self.authentication = output.authentication
@@ -6770,7 +6754,7 @@ extension CreateUserOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutputResponse: Swift.Equatable {
+public struct CreateUserOutput: Swift.Equatable {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
@@ -6814,7 +6798,7 @@ public struct CreateUserOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputResponseBody: Swift.Equatable {
+struct CreateUserOutputBody: Swift.Equatable {
     let userId: Swift.String?
     let userName: Swift.String?
     let status: Swift.String?
@@ -6826,7 +6810,7 @@ struct CreateUserOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension CreateUserOutputResponseBody: Swift.Decodable {
+extension CreateUserOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case accessString = "AccessString"
@@ -6877,6 +6861,22 @@ extension CreateUserOutputResponseBody: Swift.Decodable {
         authentication = authenticationDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserAlreadyExists": return try await UserAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserQuotaExceeded": return try await UserQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7101,24 +7101,11 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DecreaseNodeGroupsInGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DecreaseNodeGroupsInGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -7126,7 +7113,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntim
     }
 }
 
-public struct DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct DecreaseNodeGroupsInGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -7140,11 +7127,11 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse: Swift.Eq
     }
 }
 
-struct DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct DecreaseNodeGroupsInGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension DecreaseNodeGroupsInGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -7154,6 +7141,19 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.De
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecreaseNodeGroupsInGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7311,6 +7311,47 @@ extension DecreaseReplicaCountInputBody: Swift.Decodable {
     }
 }
 
+extension DecreaseReplicaCountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DecreaseReplicaCountOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct DecreaseReplicaCountOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct DecreaseReplicaCountOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension DecreaseReplicaCountOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecreaseReplicaCountResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum DecreaseReplicaCountOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7329,47 +7370,6 @@ enum DecreaseReplicaCountOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension DecreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DecreaseReplicaCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct DecreaseReplicaCountOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct DecreaseReplicaCountOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension DecreaseReplicaCountOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecreaseReplicaCountResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -7539,6 +7539,47 @@ extension DeleteCacheClusterInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCacheClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteCacheClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cacheCluster = output.cacheCluster
+        } else {
+            self.cacheCluster = nil
+        }
+    }
+}
+
+public struct DeleteCacheClusterOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific cluster.
+    public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
+
+    public init(
+        cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
+    )
+    {
+        self.cacheCluster = cacheCluster
+    }
+}
+
+struct DeleteCacheClusterOutputBody: Swift.Equatable {
+    let cacheCluster: ElastiCacheClientTypes.CacheCluster?
+}
+
+extension DeleteCacheClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheCluster = "CacheCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteCacheClusterResult"))
+        let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
+        cacheCluster = cacheClusterDecoded
+    }
+}
+
 enum DeleteCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7552,47 +7593,6 @@ enum DeleteCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceededFault": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension DeleteCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cacheCluster = output.cacheCluster
-        } else {
-            self.cacheCluster = nil
-        }
-    }
-}
-
-public struct DeleteCacheClusterOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific cluster.
-    public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
-
-    public init(
-        cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
-        self.cacheCluster = cacheCluster
-    }
-}
-
-struct DeleteCacheClusterOutputResponseBody: Swift.Equatable {
-    let cacheCluster: ElastiCacheClientTypes.CacheCluster?
-}
-
-extension DeleteCacheClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cacheCluster = "CacheCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteCacheClusterResult"))
-        let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
-        cacheCluster = cacheClusterDecoded
     }
 }
 
@@ -7643,6 +7643,16 @@ extension DeleteCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCacheParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCacheParameterGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7654,16 +7664,6 @@ enum DeleteCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCacheParameterGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCacheSecurityGroupInput: Swift.Encodable {
@@ -7713,6 +7713,16 @@ extension DeleteCacheSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCacheSecurityGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCacheSecurityGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCacheSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7724,16 +7734,6 @@ enum DeleteCacheSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteCacheSecurityGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCacheSecurityGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCacheSubnetGroupInput: Swift.Encodable {
@@ -7783,6 +7783,16 @@ extension DeleteCacheSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCacheSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCacheSubnetGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7792,16 +7802,6 @@ enum DeleteCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCacheSubnetGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteGlobalReplicationGroupInput: Swift.Encodable {
@@ -7862,23 +7862,11 @@ extension DeleteGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -7886,7 +7874,7 @@ extension DeleteGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct DeleteGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct DeleteGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -7900,11 +7888,11 @@ public struct DeleteGlobalReplicationGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct DeleteGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension DeleteGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension DeleteGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -7914,6 +7902,18 @@ extension DeleteGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum DeleteGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7986,6 +7986,47 @@ extension DeleteReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct DeleteReplicationGroupOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct DeleteReplicationGroupOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension DeleteReplicationGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteReplicationGroupResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum DeleteReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7999,47 +8040,6 @@ enum DeleteReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SnapshotQuotaExceededFault": return try await SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension DeleteReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct DeleteReplicationGroupOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct DeleteReplicationGroupOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension DeleteReplicationGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteReplicationGroupResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -8090,24 +8090,11 @@ extension DeleteSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSnapshotState": return try await InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
             self.snapshot = nil
@@ -8115,7 +8102,7 @@ extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSnapshotOutputResponse: Swift.Equatable {
+public struct DeleteSnapshotOutput: Swift.Equatable {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
@@ -8127,11 +8114,11 @@ public struct DeleteSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotOutputResponseBody: Swift.Equatable {
+struct DeleteSnapshotOutputBody: Swift.Equatable {
     let snapshot: ElastiCacheClientTypes.Snapshot?
 }
 
-extension DeleteSnapshotOutputResponseBody: Swift.Decodable {
+extension DeleteSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case snapshot = "Snapshot"
     }
@@ -8141,6 +8128,19 @@ extension DeleteSnapshotOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteSnapshotResult"))
         let snapshotDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.Snapshot.self, forKey: .snapshot)
         snapshot = snapshotDecoded
+    }
+}
+
+enum DeleteSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSnapshotState": return try await InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8190,24 +8190,11 @@ extension DeleteUserGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteUserGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteUserGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.engine = output.engine
             self.minimumEngineVersion = output.minimumEngineVersion
@@ -8229,7 +8216,7 @@ extension DeleteUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserGroupOutputResponse: Swift.Equatable {
+public struct DeleteUserGroupOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the user group.
     public var arn: Swift.String?
     /// The current supported value is Redis.
@@ -8269,7 +8256,7 @@ public struct DeleteUserGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteUserGroupOutputResponseBody: Swift.Equatable {
+struct DeleteUserGroupOutputBody: Swift.Equatable {
     let userGroupId: Swift.String?
     let status: Swift.String?
     let engine: Swift.String?
@@ -8280,7 +8267,7 @@ struct DeleteUserGroupOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension DeleteUserGroupOutputResponseBody: Swift.Decodable {
+extension DeleteUserGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case engine = "Engine"
@@ -8348,6 +8335,19 @@ extension DeleteUserGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum DeleteUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DeleteUserInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -8394,25 +8394,11 @@ extension DeleteUserInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DefaultUserAssociatedToUserGroup": return try await DefaultUserAssociatedToUserGroupFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidUserState": return try await InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteUserOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
             self.arn = output.arn
             self.authentication = output.authentication
@@ -8436,7 +8422,7 @@ extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutputResponse: Swift.Equatable {
+public struct DeleteUserOutput: Swift.Equatable {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
@@ -8480,7 +8466,7 @@ public struct DeleteUserOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteUserOutputResponseBody: Swift.Equatable {
+struct DeleteUserOutputBody: Swift.Equatable {
     let userId: Swift.String?
     let userName: Swift.String?
     let status: Swift.String?
@@ -8492,7 +8478,7 @@ struct DeleteUserOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension DeleteUserOutputResponseBody: Swift.Decodable {
+extension DeleteUserOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case accessString = "AccessString"
@@ -8543,6 +8529,20 @@ extension DeleteUserOutputResponseBody: Swift.Decodable {
         authentication = authenticationDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum DeleteUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DefaultUserAssociatedToUserGroup": return try await DefaultUserAssociatedToUserGroupFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserState": return try await InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8636,23 +8636,11 @@ extension DescribeCacheClustersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCacheClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCacheClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCacheClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCacheClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCacheClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheClusters = output.cacheClusters
             self.marker = output.marker
         } else {
@@ -8663,7 +8651,7 @@ extension DescribeCacheClustersOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Represents the output of a DescribeCacheClusters operation.
-public struct DescribeCacheClustersOutputResponse: Swift.Equatable {
+public struct DescribeCacheClustersOutput: Swift.Equatable {
     /// A list of clusters. Each item in the list contains detailed information about one cluster.
     public var cacheClusters: [ElastiCacheClientTypes.CacheCluster]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -8679,12 +8667,12 @@ public struct DescribeCacheClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCacheClustersOutputResponseBody: Swift.Equatable {
+struct DescribeCacheClustersOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let cacheClusters: [ElastiCacheClientTypes.CacheCluster]?
 }
 
-extension DescribeCacheClustersOutputResponseBody: Swift.Decodable {
+extension DescribeCacheClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheClusters = "CacheClusters"
         case marker = "Marker"
@@ -8713,6 +8701,18 @@ extension DescribeCacheClustersOutputResponseBody: Swift.Decodable {
             }
         } else {
             cacheClusters = nil
+        }
+    }
+}
+
+enum DescribeCacheClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8824,20 +8824,11 @@ extension DescribeCacheEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCacheEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCacheEngineVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCacheEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCacheEngineVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCacheEngineVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheEngineVersions = output.cacheEngineVersions
             self.marker = output.marker
         } else {
@@ -8848,7 +8839,7 @@ extension DescribeCacheEngineVersionsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Represents the output of a [DescribeCacheEngineVersions] operation.
-public struct DescribeCacheEngineVersionsOutputResponse: Swift.Equatable {
+public struct DescribeCacheEngineVersionsOutput: Swift.Equatable {
     /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
     public var cacheEngineVersions: [ElastiCacheClientTypes.CacheEngineVersion]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -8864,12 +8855,12 @@ public struct DescribeCacheEngineVersionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCacheEngineVersionsOutputResponseBody: Swift.Equatable {
+struct DescribeCacheEngineVersionsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let cacheEngineVersions: [ElastiCacheClientTypes.CacheEngineVersion]?
 }
 
-extension DescribeCacheEngineVersionsOutputResponseBody: Swift.Decodable {
+extension DescribeCacheEngineVersionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheEngineVersions = "CacheEngineVersions"
         case marker = "Marker"
@@ -8898,6 +8889,15 @@ extension DescribeCacheEngineVersionsOutputResponseBody: Swift.Decodable {
             }
         } else {
             cacheEngineVersions = nil
+        }
+    }
+}
+
+enum DescribeCacheEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8970,23 +8970,11 @@ extension DescribeCacheParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCacheParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCacheParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCacheParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCacheParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCacheParameterGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroups = output.cacheParameterGroups
             self.marker = output.marker
         } else {
@@ -8997,7 +8985,7 @@ extension DescribeCacheParameterGroupsOutputResponse: ClientRuntime.HttpResponse
 }
 
 /// Represents the output of a DescribeCacheParameterGroups operation.
-public struct DescribeCacheParameterGroupsOutputResponse: Swift.Equatable {
+public struct DescribeCacheParameterGroupsOutput: Swift.Equatable {
     /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
     public var cacheParameterGroups: [ElastiCacheClientTypes.CacheParameterGroup]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -9013,12 +9001,12 @@ public struct DescribeCacheParameterGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCacheParameterGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeCacheParameterGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let cacheParameterGroups: [ElastiCacheClientTypes.CacheParameterGroup]?
 }
 
-extension DescribeCacheParameterGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeCacheParameterGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheParameterGroups = "CacheParameterGroups"
         case marker = "Marker"
@@ -9047,6 +9035,18 @@ extension DescribeCacheParameterGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             cacheParameterGroups = nil
+        }
+    }
+}
+
+enum DescribeCacheParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9131,23 +9131,11 @@ extension DescribeCacheParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCacheParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCacheParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCacheParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCacheParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCacheParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheNodeTypeSpecificParameters = output.cacheNodeTypeSpecificParameters
             self.marker = output.marker
             self.parameters = output.parameters
@@ -9160,7 +9148,7 @@ extension DescribeCacheParametersOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// Represents the output of a DescribeCacheParameters operation.
-public struct DescribeCacheParametersOutputResponse: Swift.Equatable {
+public struct DescribeCacheParametersOutput: Swift.Equatable {
     /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
     public var cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -9180,13 +9168,13 @@ public struct DescribeCacheParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCacheParametersOutputResponseBody: Swift.Equatable {
+struct DescribeCacheParametersOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let parameters: [ElastiCacheClientTypes.Parameter]?
     let cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]?
 }
 
-extension DescribeCacheParametersOutputResponseBody: Swift.Decodable {
+extension DescribeCacheParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheNodeTypeSpecificParameters = "CacheNodeTypeSpecificParameters"
         case marker = "Marker"
@@ -9235,6 +9223,18 @@ extension DescribeCacheParametersOutputResponseBody: Swift.Decodable {
             }
         } else {
             cacheNodeTypeSpecificParameters = nil
+        }
+    }
+}
+
+enum DescribeCacheParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9307,23 +9307,11 @@ extension DescribeCacheSecurityGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCacheSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCacheSecurityGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCacheSecurityGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCacheSecurityGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCacheSecurityGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroups = output.cacheSecurityGroups
             self.marker = output.marker
         } else {
@@ -9334,7 +9322,7 @@ extension DescribeCacheSecurityGroupsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 /// Represents the output of a DescribeCacheSecurityGroups operation.
-public struct DescribeCacheSecurityGroupsOutputResponse: Swift.Equatable {
+public struct DescribeCacheSecurityGroupsOutput: Swift.Equatable {
     /// A list of cache security groups. Each element in the list contains detailed information about one group.
     public var cacheSecurityGroups: [ElastiCacheClientTypes.CacheSecurityGroup]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -9350,12 +9338,12 @@ public struct DescribeCacheSecurityGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCacheSecurityGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeCacheSecurityGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let cacheSecurityGroups: [ElastiCacheClientTypes.CacheSecurityGroup]?
 }
 
-extension DescribeCacheSecurityGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeCacheSecurityGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSecurityGroups = "CacheSecurityGroups"
         case marker = "Marker"
@@ -9384,6 +9372,18 @@ extension DescribeCacheSecurityGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             cacheSecurityGroups = nil
+        }
+    }
+}
+
+enum DescribeCacheSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9456,21 +9456,11 @@ extension DescribeCacheSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCacheSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeCacheSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCacheSubnetGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCacheSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCacheSubnetGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroups = output.cacheSubnetGroups
             self.marker = output.marker
         } else {
@@ -9481,7 +9471,7 @@ extension DescribeCacheSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// Represents the output of a DescribeCacheSubnetGroups operation.
-public struct DescribeCacheSubnetGroupsOutputResponse: Swift.Equatable {
+public struct DescribeCacheSubnetGroupsOutput: Swift.Equatable {
     /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
     public var cacheSubnetGroups: [ElastiCacheClientTypes.CacheSubnetGroup]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -9497,12 +9487,12 @@ public struct DescribeCacheSubnetGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCacheSubnetGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeCacheSubnetGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let cacheSubnetGroups: [ElastiCacheClientTypes.CacheSubnetGroup]?
 }
 
-extension DescribeCacheSubnetGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeCacheSubnetGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSubnetGroups = "CacheSubnetGroups"
         case marker = "Marker"
@@ -9531,6 +9521,16 @@ extension DescribeCacheSubnetGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             cacheSubnetGroups = nil
+        }
+    }
+}
+
+enum DescribeCacheSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9604,22 +9604,11 @@ extension DescribeEngineDefaultParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEngineDefaultParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEngineDefaultParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEngineDefaultParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineDefaults = output.engineDefaults
         } else {
             self.engineDefaults = nil
@@ -9627,7 +9616,7 @@ extension DescribeEngineDefaultParametersOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct DescribeEngineDefaultParametersOutputResponse: Swift.Equatable {
+public struct DescribeEngineDefaultParametersOutput: Swift.Equatable {
     /// Represents the output of a DescribeEngineDefaultParameters operation.
     public var engineDefaults: ElastiCacheClientTypes.EngineDefaults?
 
@@ -9639,11 +9628,11 @@ public struct DescribeEngineDefaultParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEngineDefaultParametersOutputResponseBody: Swift.Equatable {
+struct DescribeEngineDefaultParametersOutputBody: Swift.Equatable {
     let engineDefaults: ElastiCacheClientTypes.EngineDefaults?
 }
 
-extension DescribeEngineDefaultParametersOutputResponseBody: Swift.Decodable {
+extension DescribeEngineDefaultParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineDefaults = "EngineDefaults"
     }
@@ -9653,6 +9642,17 @@ extension DescribeEngineDefaultParametersOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeEngineDefaultParametersResult"))
         let engineDefaultsDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.EngineDefaults.self, forKey: .engineDefaults)
         engineDefaults = engineDefaultsDecoded
+    }
+}
+
+enum DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9768,22 +9768,11 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.marker = output.marker
         } else {
@@ -9794,7 +9783,7 @@ extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeEvents operation.
-public struct DescribeEventsOutputResponse: Swift.Equatable {
+public struct DescribeEventsOutput: Swift.Equatable {
     /// A list of events. Each element in the list contains detailed information about one event.
     public var events: [ElastiCacheClientTypes.Event]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -9810,12 +9799,12 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputResponseBody: Swift.Equatable {
+struct DescribeEventsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let events: [ElastiCacheClientTypes.Event]?
 }
 
-extension DescribeEventsOutputResponseBody: Swift.Decodable {
+extension DescribeEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Events"
         case marker = "Marker"
@@ -9844,6 +9833,17 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
             }
         } else {
             events = nil
+        }
+    }
+}
+
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9926,23 +9926,11 @@ extension DescribeGlobalReplicationGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeGlobalReplicationGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeGlobalReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeGlobalReplicationGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeGlobalReplicationGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeGlobalReplicationGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroups = output.globalReplicationGroups
             self.marker = output.marker
         } else {
@@ -9952,7 +9940,7 @@ extension DescribeGlobalReplicationGroupsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct DescribeGlobalReplicationGroupsOutputResponse: Swift.Equatable {
+public struct DescribeGlobalReplicationGroupsOutput: Swift.Equatable {
     /// Indicates the slot configuration and global identifier for each slice group.
     public var globalReplicationGroups: [ElastiCacheClientTypes.GlobalReplicationGroup]?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
@@ -9968,12 +9956,12 @@ public struct DescribeGlobalReplicationGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalReplicationGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeGlobalReplicationGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let globalReplicationGroups: [ElastiCacheClientTypes.GlobalReplicationGroup]?
 }
 
-extension DescribeGlobalReplicationGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeGlobalReplicationGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroups = "GlobalReplicationGroups"
         case marker = "Marker"
@@ -10002,6 +9990,18 @@ extension DescribeGlobalReplicationGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             globalReplicationGroups = nil
+        }
+    }
+}
+
+enum DescribeGlobalReplicationGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10074,23 +10074,11 @@ extension DescribeReplicationGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeReplicationGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReplicationGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReplicationGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReplicationGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.replicationGroups = output.replicationGroups
         } else {
@@ -10101,7 +10089,7 @@ extension DescribeReplicationGroupsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// Represents the output of a DescribeReplicationGroups operation.
-public struct DescribeReplicationGroupsOutputResponse: Swift.Equatable {
+public struct DescribeReplicationGroupsOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
     /// A list of replication groups. Each item in the list contains detailed information about one replication group.
@@ -10117,12 +10105,12 @@ public struct DescribeReplicationGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeReplicationGroupsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let replicationGroups: [ElastiCacheClientTypes.ReplicationGroup]?
 }
 
-extension DescribeReplicationGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeReplicationGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case replicationGroups = "ReplicationGroups"
@@ -10151,6 +10139,18 @@ extension DescribeReplicationGroupsOutputResponseBody: Swift.Decodable {
             }
         } else {
             replicationGroups = nil
+        }
+    }
+}
+
+enum DescribeReplicationGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10468,23 +10468,11 @@ extension DescribeReservedCacheNodesOfferingsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeReservedCacheNodesOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodesOfferingNotFound": return try await ReservedCacheNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeReservedCacheNodesOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReservedCacheNodesOfferingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReservedCacheNodesOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReservedCacheNodesOfferingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedCacheNodesOfferings = output.reservedCacheNodesOfferings
         } else {
@@ -10495,7 +10483,7 @@ extension DescribeReservedCacheNodesOfferingsOutputResponse: ClientRuntime.HttpR
 }
 
 /// Represents the output of a DescribeReservedCacheNodesOfferings operation.
-public struct DescribeReservedCacheNodesOfferingsOutputResponse: Swift.Equatable {
+public struct DescribeReservedCacheNodesOfferingsOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
     /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
@@ -10511,12 +10499,12 @@ public struct DescribeReservedCacheNodesOfferingsOutputResponse: Swift.Equatable
     }
 }
 
-struct DescribeReservedCacheNodesOfferingsOutputResponseBody: Swift.Equatable {
+struct DescribeReservedCacheNodesOfferingsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let reservedCacheNodesOfferings: [ElastiCacheClientTypes.ReservedCacheNodesOffering]?
 }
 
-extension DescribeReservedCacheNodesOfferingsOutputResponseBody: Swift.Decodable {
+extension DescribeReservedCacheNodesOfferingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case reservedCacheNodesOfferings = "ReservedCacheNodesOfferings"
@@ -10549,23 +10537,23 @@ extension DescribeReservedCacheNodesOfferingsOutputResponseBody: Swift.Decodable
     }
 }
 
-enum DescribeReservedCacheNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+enum DescribeReservedCacheNodesOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodesOfferingNotFound": return try await ReservedCacheNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
 
-extension DescribeReservedCacheNodesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeReservedCacheNodesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeReservedCacheNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeReservedCacheNodesOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.reservedCacheNodes = output.reservedCacheNodes
         } else {
@@ -10576,7 +10564,7 @@ extension DescribeReservedCacheNodesOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// Represents the output of a DescribeReservedCacheNodes operation.
-public struct DescribeReservedCacheNodesOutputResponse: Swift.Equatable {
+public struct DescribeReservedCacheNodesOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
     /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
@@ -10592,12 +10580,12 @@ public struct DescribeReservedCacheNodesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeReservedCacheNodesOutputResponseBody: Swift.Equatable {
+struct DescribeReservedCacheNodesOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let reservedCacheNodes: [ElastiCacheClientTypes.ReservedCacheNode]?
 }
 
-extension DescribeReservedCacheNodesOutputResponseBody: Swift.Decodable {
+extension DescribeReservedCacheNodesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case reservedCacheNodes = "ReservedCacheNodes"
@@ -10626,6 +10614,18 @@ extension DescribeReservedCacheNodesOutputResponseBody: Swift.Decodable {
             }
         } else {
             reservedCacheNodes = nil
+        }
+    }
+}
+
+enum DescribeReservedCacheNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10734,23 +10734,11 @@ extension DescribeServiceUpdatesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeServiceUpdatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeServiceUpdatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeServiceUpdatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeServiceUpdatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeServiceUpdatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.serviceUpdates = output.serviceUpdates
         } else {
@@ -10760,7 +10748,7 @@ extension DescribeServiceUpdatesOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeServiceUpdatesOutputResponse: Swift.Equatable {
+public struct DescribeServiceUpdatesOutput: Swift.Equatable {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of service updates
@@ -10776,12 +10764,12 @@ public struct DescribeServiceUpdatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeServiceUpdatesOutputResponseBody: Swift.Equatable {
+struct DescribeServiceUpdatesOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let serviceUpdates: [ElastiCacheClientTypes.ServiceUpdate]?
 }
 
-extension DescribeServiceUpdatesOutputResponseBody: Swift.Decodable {
+extension DescribeServiceUpdatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case serviceUpdates = "ServiceUpdates"
@@ -10810,6 +10798,18 @@ extension DescribeServiceUpdatesOutputResponseBody: Swift.Decodable {
             }
         } else {
             serviceUpdates = nil
+        }
+    }
+}
+
+enum DescribeServiceUpdatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceUpdateNotFoundFault": return try await ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -10926,24 +10926,11 @@ extension DescribeSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSnapshotsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.snapshots = output.snapshots
         } else {
@@ -10954,7 +10941,7 @@ extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeSnapshots operation.
-public struct DescribeSnapshotsOutputResponse: Swift.Equatable {
+public struct DescribeSnapshotsOutput: Swift.Equatable {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
@@ -10970,12 +10957,12 @@ public struct DescribeSnapshotsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSnapshotsOutputResponseBody: Swift.Equatable {
+struct DescribeSnapshotsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let snapshots: [ElastiCacheClientTypes.Snapshot]?
 }
 
-extension DescribeSnapshotsOutputResponseBody: Swift.Decodable {
+extension DescribeSnapshotsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case snapshots = "Snapshots"
@@ -11004,6 +10991,19 @@ extension DescribeSnapshotsOutputResponseBody: Swift.Decodable {
             }
         } else {
             snapshots = nil
+        }
+    }
+}
+
+enum DescribeSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11256,22 +11256,11 @@ extension DescribeUpdateActionsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeUpdateActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeUpdateActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeUpdateActionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeUpdateActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeUpdateActionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.updateActions = output.updateActions
         } else {
@@ -11281,7 +11270,7 @@ extension DescribeUpdateActionsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeUpdateActionsOutputResponse: Swift.Equatable {
+public struct DescribeUpdateActionsOutput: Swift.Equatable {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// Returns a list of update actions
@@ -11297,12 +11286,12 @@ public struct DescribeUpdateActionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeUpdateActionsOutputResponseBody: Swift.Equatable {
+struct DescribeUpdateActionsOutputBody: Swift.Equatable {
     let marker: Swift.String?
     let updateActions: [ElastiCacheClientTypes.UpdateAction]?
 }
 
-extension DescribeUpdateActionsOutputResponseBody: Swift.Decodable {
+extension DescribeUpdateActionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case updateActions = "UpdateActions"
@@ -11331,6 +11320,17 @@ extension DescribeUpdateActionsOutputResponseBody: Swift.Decodable {
             }
         } else {
             updateActions = nil
+        }
+    }
+}
+
+enum DescribeUpdateActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11402,23 +11402,11 @@ extension DescribeUserGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeUserGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeUserGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeUserGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeUserGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeUserGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.userGroups = output.userGroups
         } else {
@@ -11428,7 +11416,7 @@ extension DescribeUserGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserGroupsOutputResponse: Swift.Equatable {
+public struct DescribeUserGroupsOutput: Swift.Equatable {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     public var marker: Swift.String?
     /// Returns a list of user groups.
@@ -11444,12 +11432,12 @@ public struct DescribeUserGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeUserGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeUserGroupsOutputBody: Swift.Equatable {
     let userGroups: [ElastiCacheClientTypes.UserGroup]?
     let marker: Swift.String?
 }
 
-extension DescribeUserGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeUserGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case userGroups = "UserGroups"
@@ -11479,6 +11467,18 @@ extension DescribeUserGroupsOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeUserGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11597,23 +11597,11 @@ extension DescribeUsersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeUsersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeUsersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeUsersOutputBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.users = output.users
         } else {
@@ -11623,7 +11611,7 @@ extension DescribeUsersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUsersOutputResponse: Swift.Equatable {
+public struct DescribeUsersOutput: Swift.Equatable {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     public var marker: Swift.String?
     /// A list of users.
@@ -11639,12 +11627,12 @@ public struct DescribeUsersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeUsersOutputResponseBody: Swift.Equatable {
+struct DescribeUsersOutputBody: Swift.Equatable {
     let users: [ElastiCacheClientTypes.User]?
     let marker: Swift.String?
 }
 
-extension DescribeUsersOutputResponseBody: Swift.Decodable {
+extension DescribeUsersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case users = "Users"
@@ -11674,6 +11662,18 @@ extension DescribeUsersOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
+    }
+}
+
+enum DescribeUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11824,24 +11824,11 @@ extension DisassociateGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DisassociateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DisassociateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociateGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociateGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociateGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -11849,7 +11836,7 @@ extension DisassociateGlobalReplicationGroupOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct DisassociateGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct DisassociateGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -11863,11 +11850,11 @@ public struct DisassociateGlobalReplicationGroupOutputResponse: Swift.Equatable 
     }
 }
 
-struct DisassociateGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct DisassociateGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension DisassociateGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension DisassociateGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -11877,6 +11864,19 @@ extension DisassociateGlobalReplicationGroupOutputResponseBody: Swift.Decodable 
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DisassociateGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum DisassociateGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12286,24 +12286,11 @@ extension FailoverGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum FailoverGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension FailoverGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension FailoverGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: FailoverGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: FailoverGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -12311,7 +12298,7 @@ extension FailoverGlobalReplicationGroupOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct FailoverGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct FailoverGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -12325,11 +12312,11 @@ public struct FailoverGlobalReplicationGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct FailoverGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct FailoverGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension FailoverGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension FailoverGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -12339,6 +12326,19 @@ extension FailoverGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum FailoverGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13004,23 +13004,11 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension IncreaseNodeGroupsInGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: IncreaseNodeGroupsInGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -13028,7 +13016,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: ClientRuntim
     }
 }
 
-public struct IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct IncreaseNodeGroupsInGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -13042,11 +13030,11 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse: Swift.Eq
     }
 }
 
-struct IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct IncreaseNodeGroupsInGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension IncreaseNodeGroupsInGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -13056,6 +13044,18 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.De
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("IncreaseNodeGroupsInGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13165,6 +13165,47 @@ extension IncreaseReplicaCountInputBody: Swift.Decodable {
     }
 }
 
+extension IncreaseReplicaCountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: IncreaseReplicaCountOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct IncreaseReplicaCountOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct IncreaseReplicaCountOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension IncreaseReplicaCountOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("IncreaseReplicaCountResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum IncreaseReplicaCountOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -13183,47 +13224,6 @@ enum IncreaseReplicaCountOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension IncreaseReplicaCountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: IncreaseReplicaCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct IncreaseReplicaCountOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct IncreaseReplicaCountOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension IncreaseReplicaCountOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("IncreaseReplicaCountResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -14198,24 +14198,11 @@ extension ListAllowedNodeTypeModificationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListAllowedNodeTypeModificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAllowedNodeTypeModificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAllowedNodeTypeModificationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAllowedNodeTypeModificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAllowedNodeTypeModificationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.scaleDownModifications = output.scaleDownModifications
             self.scaleUpModifications = output.scaleUpModifications
         } else {
@@ -14226,7 +14213,7 @@ extension ListAllowedNodeTypeModificationsOutputResponse: ClientRuntime.HttpResp
 }
 
 /// Represents the allowed node types you can use to modify your cluster or replication group.
-public struct ListAllowedNodeTypeModificationsOutputResponse: Swift.Equatable {
+public struct ListAllowedNodeTypeModificationsOutput: Swift.Equatable {
     /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
     public var scaleDownModifications: [Swift.String]?
     /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
@@ -14242,12 +14229,12 @@ public struct ListAllowedNodeTypeModificationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAllowedNodeTypeModificationsOutputResponseBody: Swift.Equatable {
+struct ListAllowedNodeTypeModificationsOutputBody: Swift.Equatable {
     let scaleUpModifications: [Swift.String]?
     let scaleDownModifications: [Swift.String]?
 }
 
-extension ListAllowedNodeTypeModificationsOutputResponseBody: Swift.Decodable {
+extension ListAllowedNodeTypeModificationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scaleDownModifications = "ScaleDownModifications"
         case scaleUpModifications = "ScaleUpModifications"
@@ -14293,6 +14280,19 @@ extension ListAllowedNodeTypeModificationsOutputResponseBody: Swift.Decodable {
             }
         } else {
             scaleDownModifications = nil
+        }
+    }
+}
+
+enum ListAllowedNodeTypeModificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -14344,31 +14344,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
             self.tagList = nil
@@ -14377,7 +14357,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
@@ -14389,11 +14369,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tagList: [ElastiCacheClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagList = "TagList"
     }
@@ -14419,6 +14399,26 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagList = nil
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -15168,6 +15168,47 @@ extension ModifyCacheClusterInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyCacheClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyCacheClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cacheCluster = output.cacheCluster
+        } else {
+            self.cacheCluster = nil
+        }
+    }
+}
+
+public struct ModifyCacheClusterOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific cluster.
+    public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
+
+    public init(
+        cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
+    )
+    {
+        self.cacheCluster = cacheCluster
+    }
+}
+
+struct ModifyCacheClusterOutputBody: Swift.Equatable {
+    let cacheCluster: ElastiCacheClientTypes.CacheCluster?
+}
+
+extension ModifyCacheClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cacheCluster = "CacheCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheClusterResult"))
+        let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
+        cacheCluster = cacheClusterDecoded
+    }
+}
+
 enum ModifyCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -15185,47 +15226,6 @@ enum ModifyCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cacheCluster = output.cacheCluster
-        } else {
-            self.cacheCluster = nil
-        }
-    }
-}
-
-public struct ModifyCacheClusterOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific cluster.
-    public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
-
-    public init(
-        cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
-        self.cacheCluster = cacheCluster
-    }
-}
-
-struct ModifyCacheClusterOutputResponseBody: Swift.Equatable {
-    let cacheCluster: ElastiCacheClientTypes.CacheCluster?
-}
-
-extension ModifyCacheClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cacheCluster = "CacheCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheClusterResult"))
-        let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
-        cacheCluster = cacheClusterDecoded
     }
 }
 
@@ -15314,25 +15314,11 @@ extension ModifyCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyCacheParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyCacheParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroupName = output.cacheParameterGroupName
         } else {
             self.cacheParameterGroupName = nil
@@ -15345,7 +15331,7 @@ extension ModifyCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBin
 /// * ModifyCacheParameterGroup
 ///
 /// * ResetCacheParameterGroup
-public struct ModifyCacheParameterGroupOutputResponse: Swift.Equatable {
+public struct ModifyCacheParameterGroupOutput: Swift.Equatable {
     /// The name of the cache parameter group.
     public var cacheParameterGroupName: Swift.String?
 
@@ -15357,11 +15343,11 @@ public struct ModifyCacheParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyCacheParameterGroupOutputResponseBody: Swift.Equatable {
+struct ModifyCacheParameterGroupOutputBody: Swift.Equatable {
     let cacheParameterGroupName: Swift.String?
 }
 
-extension ModifyCacheParameterGroupOutputResponseBody: Swift.Decodable {
+extension ModifyCacheParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheParameterGroupName = "CacheParameterGroupName"
     }
@@ -15371,6 +15357,20 @@ extension ModifyCacheParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheParameterGroupResult"))
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
+    }
+}
+
+enum ModifyCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15469,25 +15469,11 @@ extension ModifyCacheSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSubnetQuotaExceededFault": return try await CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetInUse": return try await SubnetInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SubnetNotAllowedFault": return try await SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyCacheSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyCacheSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyCacheSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSubnetGroup = output.cacheSubnetGroup
         } else {
             self.cacheSubnetGroup = nil
@@ -15495,7 +15481,7 @@ extension ModifyCacheSubnetGroupOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ModifyCacheSubnetGroupOutputResponse: Swift.Equatable {
+public struct ModifyCacheSubnetGroupOutput: Swift.Equatable {
     /// Represents the output of one of the following operations:
     ///
     /// * CreateCacheSubnetGroup
@@ -15511,11 +15497,11 @@ public struct ModifyCacheSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyCacheSubnetGroupOutputResponseBody: Swift.Equatable {
+struct ModifyCacheSubnetGroupOutputBody: Swift.Equatable {
     let cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup?
 }
 
-extension ModifyCacheSubnetGroupOutputResponseBody: Swift.Decodable {
+extension ModifyCacheSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSubnetGroup = "CacheSubnetGroup"
     }
@@ -15525,6 +15511,20 @@ extension ModifyCacheSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyCacheSubnetGroupResult"))
         let cacheSubnetGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSubnetGroup.self, forKey: .cacheSubnetGroup)
         cacheSubnetGroup = cacheSubnetGroupDecoded
+    }
+}
+
+enum ModifyCacheSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetQuotaExceededFault": return try await CacheSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetInUse": return try await SubnetInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SubnetNotAllowedFault": return try await SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -15641,23 +15641,11 @@ extension ModifyGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -15665,7 +15653,7 @@ extension ModifyGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct ModifyGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct ModifyGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -15679,11 +15667,11 @@ public struct ModifyGlobalReplicationGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct ModifyGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension ModifyGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension ModifyGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -15693,6 +15681,18 @@ extension ModifyGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum ModifyGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16215,6 +16215,47 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct ModifyReplicationGroupOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct ModifyReplicationGroupOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension ModifyReplicationGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyReplicationGroupResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum ModifyReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -16237,47 +16278,6 @@ enum ModifyReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct ModifyReplicationGroupOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct ModifyReplicationGroupOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension ModifyReplicationGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyReplicationGroupResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -16463,6 +16463,47 @@ extension ModifyReplicationGroupShardConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension ModifyReplicationGroupShardConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyReplicationGroupShardConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct ModifyReplicationGroupShardConfigurationOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct ModifyReplicationGroupShardConfigurationOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension ModifyReplicationGroupShardConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyReplicationGroupShardConfigurationResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum ModifyReplicationGroupShardConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -16479,47 +16520,6 @@ enum ModifyReplicationGroupShardConfigurationOutputError: ClientRuntime.HttpResp
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension ModifyReplicationGroupShardConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyReplicationGroupShardConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct ModifyReplicationGroupShardConfigurationOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct ModifyReplicationGroupShardConfigurationOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension ModifyReplicationGroupShardConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyReplicationGroupShardConfigurationResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -16643,28 +16643,11 @@ extension ModifyUserGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DefaultUserRequired": return try await DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyUserGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyUserGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyUserGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.engine = output.engine
             self.minimumEngineVersion = output.minimumEngineVersion
@@ -16686,7 +16669,7 @@ extension ModifyUserGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyUserGroupOutputResponse: Swift.Equatable {
+public struct ModifyUserGroupOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the user group.
     public var arn: Swift.String?
     /// The current supported value is Redis.
@@ -16726,7 +16709,7 @@ public struct ModifyUserGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyUserGroupOutputResponseBody: Swift.Equatable {
+struct ModifyUserGroupOutputBody: Swift.Equatable {
     let userGroupId: Swift.String?
     let status: Swift.String?
     let engine: Swift.String?
@@ -16737,7 +16720,7 @@ struct ModifyUserGroupOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension ModifyUserGroupOutputResponseBody: Swift.Decodable {
+extension ModifyUserGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case engine = "Engine"
@@ -16802,6 +16785,23 @@ extension ModifyUserGroupOutputResponseBody: Swift.Decodable {
         }
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum ModifyUserGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DefaultUserRequired": return try await DefaultUserRequired(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DuplicateUserName": return try await DuplicateUserNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserGroupState": return try await InvalidUserGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -16932,25 +16932,11 @@ extension ModifyUserInputBody: Swift.Decodable {
     }
 }
 
-enum ModifyUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidUserState": return try await InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ModifyUserOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ModifyUserOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ModifyUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ModifyUserOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessString = output.accessString
             self.arn = output.arn
             self.authentication = output.authentication
@@ -16974,7 +16960,7 @@ extension ModifyUserOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyUserOutputResponse: Swift.Equatable {
+public struct ModifyUserOutput: Swift.Equatable {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
@@ -17018,7 +17004,7 @@ public struct ModifyUserOutputResponse: Swift.Equatable {
     }
 }
 
-struct ModifyUserOutputResponseBody: Swift.Equatable {
+struct ModifyUserOutputBody: Swift.Equatable {
     let userId: Swift.String?
     let userName: Swift.String?
     let status: Swift.String?
@@ -17030,7 +17016,7 @@ struct ModifyUserOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
 }
 
-extension ModifyUserOutputResponseBody: Swift.Decodable {
+extension ModifyUserOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
         case accessString = "AccessString"
@@ -17081,6 +17067,20 @@ extension ModifyUserOutputResponseBody: Swift.Decodable {
         authentication = authenticationDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+    }
+}
+
+enum ModifyUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidUserState": return try await InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -18783,6 +18783,47 @@ extension PurchaseReservedCacheNodesOfferingInputBody: Swift.Decodable {
     }
 }
 
+extension PurchaseReservedCacheNodesOfferingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PurchaseReservedCacheNodesOfferingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.reservedCacheNode = output.reservedCacheNode
+        } else {
+            self.reservedCacheNode = nil
+        }
+    }
+}
+
+public struct PurchaseReservedCacheNodesOfferingOutput: Swift.Equatable {
+    /// Represents the output of a PurchaseReservedCacheNodesOffering operation.
+    public var reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode?
+
+    public init(
+        reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode? = nil
+    )
+    {
+        self.reservedCacheNode = reservedCacheNode
+    }
+}
+
+struct PurchaseReservedCacheNodesOfferingOutputBody: Swift.Equatable {
+    let reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode?
+}
+
+extension PurchaseReservedCacheNodesOfferingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reservedCacheNode = "ReservedCacheNode"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PurchaseReservedCacheNodesOfferingResult"))
+        let reservedCacheNodeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReservedCacheNode.self, forKey: .reservedCacheNode)
+        reservedCacheNode = reservedCacheNodeDecoded
+    }
+}
+
 enum PurchaseReservedCacheNodesOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -18795,47 +18836,6 @@ enum PurchaseReservedCacheNodesOfferingOutputError: ClientRuntime.HttpResponseEr
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension PurchaseReservedCacheNodesOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PurchaseReservedCacheNodesOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.reservedCacheNode = output.reservedCacheNode
-        } else {
-            self.reservedCacheNode = nil
-        }
-    }
-}
-
-public struct PurchaseReservedCacheNodesOfferingOutputResponse: Swift.Equatable {
-    /// Represents the output of a PurchaseReservedCacheNodesOffering operation.
-    public var reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode?
-
-    public init(
-        reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode? = nil
-    )
-    {
-        self.reservedCacheNode = reservedCacheNode
-    }
-}
-
-struct PurchaseReservedCacheNodesOfferingOutputResponseBody: Swift.Equatable {
-    let reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode?
-}
-
-extension PurchaseReservedCacheNodesOfferingOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case reservedCacheNode = "ReservedCacheNode"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PurchaseReservedCacheNodesOfferingResult"))
-        let reservedCacheNodeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReservedCacheNode.self, forKey: .reservedCacheNode)
-        reservedCacheNode = reservedCacheNodeDecoded
     }
 }
 
@@ -18897,23 +18897,11 @@ extension RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Decodable {
     }
 }
 
-enum RebalanceSlotsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RebalanceSlotsInGlobalReplicationGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RebalanceSlotsInGlobalReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RebalanceSlotsInGlobalReplicationGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RebalanceSlotsInGlobalReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.globalReplicationGroup = output.globalReplicationGroup
         } else {
             self.globalReplicationGroup = nil
@@ -18921,7 +18909,7 @@ extension RebalanceSlotsInGlobalReplicationGroupOutputResponse: ClientRuntime.Ht
     }
 }
 
-public struct RebalanceSlotsInGlobalReplicationGroupOutputResponse: Swift.Equatable {
+public struct RebalanceSlotsInGlobalReplicationGroupOutput: Swift.Equatable {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -18935,11 +18923,11 @@ public struct RebalanceSlotsInGlobalReplicationGroupOutputResponse: Swift.Equata
     }
 }
 
-struct RebalanceSlotsInGlobalReplicationGroupOutputResponseBody: Swift.Equatable {
+struct RebalanceSlotsInGlobalReplicationGroupOutputBody: Swift.Equatable {
     let globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup?
 }
 
-extension RebalanceSlotsInGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
+extension RebalanceSlotsInGlobalReplicationGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalReplicationGroup = "GlobalReplicationGroup"
     }
@@ -18949,6 +18937,18 @@ extension RebalanceSlotsInGlobalReplicationGroupOutputResponseBody: Swift.Decoda
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebalanceSlotsInGlobalReplicationGroupResult"))
         let globalReplicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.GlobalReplicationGroup.self, forKey: .globalReplicationGroup)
         globalReplicationGroup = globalReplicationGroupDecoded
+    }
+}
+
+enum RebalanceSlotsInGlobalReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "GlobalReplicationGroupNotFoundFault": return try await GlobalReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19037,22 +19037,11 @@ extension RebootCacheClusterInputBody: Swift.Decodable {
     }
 }
 
-enum RebootCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RebootCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RebootCacheClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RebootCacheClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RebootCacheClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheCluster = output.cacheCluster
         } else {
             self.cacheCluster = nil
@@ -19060,7 +19049,7 @@ extension RebootCacheClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootCacheClusterOutputResponse: Swift.Equatable {
+public struct RebootCacheClusterOutput: Swift.Equatable {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
@@ -19072,11 +19061,11 @@ public struct RebootCacheClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct RebootCacheClusterOutputResponseBody: Swift.Equatable {
+struct RebootCacheClusterOutputBody: Swift.Equatable {
     let cacheCluster: ElastiCacheClientTypes.CacheCluster?
 }
 
-extension RebootCacheClusterOutputResponseBody: Swift.Decodable {
+extension RebootCacheClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheCluster = "CacheCluster"
     }
@@ -19086,6 +19075,17 @@ extension RebootCacheClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RebootCacheClusterResult"))
         let cacheClusterDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheCluster.self, forKey: .cacheCluster)
         cacheCluster = cacheClusterDecoded
+    }
+}
+
+enum RebootCacheClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheClusterState": return try await InvalidCacheClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -19303,32 +19303,11 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RemoveTagsFromResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RemoveTagsFromResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
             self.tagList = nil
@@ -19337,7 +19316,7 @@ extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
-public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
+public struct RemoveTagsFromResourceOutput: Swift.Equatable {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
@@ -19349,11 +19328,11 @@ public struct RemoveTagsFromResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct RemoveTagsFromResourceOutputResponseBody: Swift.Equatable {
+struct RemoveTagsFromResourceOutputBody: Swift.Equatable {
     let tagList: [ElastiCacheClientTypes.Tag]?
 }
 
-extension RemoveTagsFromResourceOutputResponseBody: Swift.Decodable {
+extension RemoveTagsFromResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagList = "TagList"
     }
@@ -19379,6 +19358,27 @@ extension RemoveTagsFromResourceOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagList = nil
+        }
+    }
+}
+
+enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheClusterNotFound": return try await CacheClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -20906,25 +20906,11 @@ extension ResetCacheParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ResetCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ResetCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResetCacheParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResetCacheParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResetCacheParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheParameterGroupName = output.cacheParameterGroupName
         } else {
             self.cacheParameterGroupName = nil
@@ -20937,7 +20923,7 @@ extension ResetCacheParameterGroupOutputResponse: ClientRuntime.HttpResponseBind
 /// * ModifyCacheParameterGroup
 ///
 /// * ResetCacheParameterGroup
-public struct ResetCacheParameterGroupOutputResponse: Swift.Equatable {
+public struct ResetCacheParameterGroupOutput: Swift.Equatable {
     /// The name of the cache parameter group.
     public var cacheParameterGroupName: Swift.String?
 
@@ -20949,11 +20935,11 @@ public struct ResetCacheParameterGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResetCacheParameterGroupOutputResponseBody: Swift.Equatable {
+struct ResetCacheParameterGroupOutputBody: Swift.Equatable {
     let cacheParameterGroupName: Swift.String?
 }
 
-extension ResetCacheParameterGroupOutputResponseBody: Swift.Decodable {
+extension ResetCacheParameterGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheParameterGroupName = "CacheParameterGroupName"
     }
@@ -20963,6 +20949,20 @@ extension ResetCacheParameterGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ResetCacheParameterGroupResult"))
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
+    }
+}
+
+enum ResetCacheParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "CacheParameterGroupNotFound": return try await CacheParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheParameterGroupState": return try await InvalidCacheParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalReplicationGroupState": return try await InvalidGlobalReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21143,25 +21143,11 @@ extension RevokeCacheSecurityGroupIngressInputBody: Swift.Decodable {
     }
 }
 
-enum RevokeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension RevokeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RevokeCacheSecurityGroupIngressOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RevokeCacheSecurityGroupIngressOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RevokeCacheSecurityGroupIngressOutputBody = try responseDecoder.decode(responseBody: data)
             self.cacheSecurityGroup = output.cacheSecurityGroup
         } else {
             self.cacheSecurityGroup = nil
@@ -21169,7 +21155,7 @@ extension RevokeCacheSecurityGroupIngressOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct RevokeCacheSecurityGroupIngressOutputResponse: Swift.Equatable {
+public struct RevokeCacheSecurityGroupIngressOutput: Swift.Equatable {
     /// Represents the output of one of the following operations:
     ///
     /// * AuthorizeCacheSecurityGroupIngress
@@ -21187,11 +21173,11 @@ public struct RevokeCacheSecurityGroupIngressOutputResponse: Swift.Equatable {
     }
 }
 
-struct RevokeCacheSecurityGroupIngressOutputResponseBody: Swift.Equatable {
+struct RevokeCacheSecurityGroupIngressOutputBody: Swift.Equatable {
     let cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup?
 }
 
-extension RevokeCacheSecurityGroupIngressOutputResponseBody: Swift.Decodable {
+extension RevokeCacheSecurityGroupIngressOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheSecurityGroup = "CacheSecurityGroup"
     }
@@ -21201,6 +21187,20 @@ extension RevokeCacheSecurityGroupIngressOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RevokeCacheSecurityGroupIngressResult"))
         let cacheSecurityGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.CacheSecurityGroup.self, forKey: .cacheSecurityGroup)
         cacheSecurityGroup = cacheSecurityGroupDecoded
+    }
+}
+
+enum RevokeCacheSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "CacheSecurityGroupNotFound": return try await CacheSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidCacheSecurityGroupState": return try await InvalidCacheSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22415,24 +22415,11 @@ extension StartMigrationInputBody: Swift.Decodable {
     }
 }
 
-enum StartMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupAlreadyUnderMigrationFault": return try await ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension StartMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMigrationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMigrationOutputBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
             self.replicationGroup = nil
@@ -22440,7 +22427,7 @@ extension StartMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMigrationOutputResponse: Swift.Equatable {
+public struct StartMigrationOutput: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -22452,11 +22439,11 @@ public struct StartMigrationOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMigrationOutputResponseBody: Swift.Equatable {
+struct StartMigrationOutputBody: Swift.Equatable {
     let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 }
 
-extension StartMigrationOutputResponseBody: Swift.Decodable {
+extension StartMigrationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationGroup = "ReplicationGroup"
     }
@@ -22466,6 +22453,19 @@ extension StartMigrationOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartMigrationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
         replicationGroup = replicationGroupDecoded
+    }
+}
+
+enum StartMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupAlreadyUnderMigrationFault": return try await ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22968,6 +22968,47 @@ extension TestFailoverNotAvailableFaultBody: Swift.Decodable {
     }
 }
 
+extension TestFailoverOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TestFailoverOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct TestFailoverOutput: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct TestFailoverOutputBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension TestFailoverOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestFailoverResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
 enum TestFailoverOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -22983,47 +23024,6 @@ enum TestFailoverOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TestFailoverNotAvailableFault": return try await TestFailoverNotAvailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
-    }
-}
-
-extension TestFailoverOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: TestFailoverOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct TestFailoverOutputResponse: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct TestFailoverOutputResponseBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension TestFailoverOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestFailoverResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
     }
 }
 
@@ -23111,24 +23111,11 @@ extension TestMigrationInputBody: Swift.Decodable {
     }
 }
 
-enum TestMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupAlreadyUnderMigrationFault": return try await ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension TestMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TestMigrationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TestMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TestMigrationOutputBody = try responseDecoder.decode(responseBody: data)
             self.replicationGroup = output.replicationGroup
         } else {
             self.replicationGroup = nil
@@ -23136,7 +23123,7 @@ extension TestMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestMigrationOutputResponse: Swift.Equatable {
+public struct TestMigrationOutput: Swift.Equatable {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -23148,11 +23135,11 @@ public struct TestMigrationOutputResponse: Swift.Equatable {
     }
 }
 
-struct TestMigrationOutputResponseBody: Swift.Equatable {
+struct TestMigrationOutputBody: Swift.Equatable {
     let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 }
 
-extension TestMigrationOutputResponseBody: Swift.Decodable {
+extension TestMigrationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationGroup = "ReplicationGroup"
     }
@@ -23162,6 +23149,19 @@ extension TestMigrationOutputResponseBody: Swift.Decodable {
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestMigrationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
         replicationGroup = replicationGroupDecoded
+    }
+}
+
+enum TestMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupAlreadyUnderMigrationFault": return try await ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 

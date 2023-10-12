@@ -8,7 +8,7 @@ public protocol BedrockClientProtocol {
     ///
     /// - Parameter CreateModelCustomizationJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelCustomizationJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelCustomizationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21,12 +21,12 @@ public protocol BedrockClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func createModelCustomizationJob(input: CreateModelCustomizationJobInput) async throws -> CreateModelCustomizationJobOutputResponse
+    func createModelCustomizationJob(input: CreateModelCustomizationJobInput) async throws -> CreateModelCustomizationJobOutput
     /// Creates a provisioned throughput with dedicated capacity for a foundation model or a fine-tuned model. For more information, see [Provisioned throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter CreateProvisionedModelThroughputInput : [no documentation found]
     ///
-    /// - Returns: `CreateProvisionedModelThroughputOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProvisionedModelThroughputOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -38,12 +38,12 @@ public protocol BedrockClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func createProvisionedModelThroughput(input: CreateProvisionedModelThroughputInput) async throws -> CreateProvisionedModelThroughputOutputResponse
+    func createProvisionedModelThroughput(input: CreateProvisionedModelThroughputInput) async throws -> CreateProvisionedModelThroughputOutput
     /// Deletes a custom model that you created earlier. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter DeleteCustomModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomModelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,12 +54,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func deleteCustomModel(input: DeleteCustomModelInput) async throws -> DeleteCustomModelOutputResponse
+    func deleteCustomModel(input: DeleteCustomModelInput) async throws -> DeleteCustomModelOutput
     /// Delete the invocation logging.
     ///
     /// - Parameter DeleteModelInvocationLoggingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelInvocationLoggingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelInvocationLoggingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,12 +67,12 @@ public protocol BedrockClientProtocol {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
-    func deleteModelInvocationLoggingConfiguration(input: DeleteModelInvocationLoggingConfigurationInput) async throws -> DeleteModelInvocationLoggingConfigurationOutputResponse
+    func deleteModelInvocationLoggingConfiguration(input: DeleteModelInvocationLoggingConfigurationInput) async throws -> DeleteModelInvocationLoggingConfigurationOutput
     /// Deletes a provisioned throughput. For more information, see [Provisioned throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter DeleteProvisionedModelThroughputInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProvisionedModelThroughputOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProvisionedModelThroughputOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func deleteProvisionedModelThroughput(input: DeleteProvisionedModelThroughputInput) async throws -> DeleteProvisionedModelThroughputOutputResponse
+    func deleteProvisionedModelThroughput(input: DeleteProvisionedModelThroughputInput) async throws -> DeleteProvisionedModelThroughputOutput
     /// Get the properties associated with a Bedrock custom model that you have created.For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter GetCustomModelInput : [no documentation found]
     ///
-    /// - Returns: `GetCustomModelOutputResponse` : [no documentation found]
+    /// - Returns: `GetCustomModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -98,12 +98,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func getCustomModel(input: GetCustomModelInput) async throws -> GetCustomModelOutputResponse
+    func getCustomModel(input: GetCustomModelInput) async throws -> GetCustomModelOutput
     /// Get details about a Bedrock foundation model.
     ///
     /// - Parameter GetFoundationModelInput : [no documentation found]
     ///
-    /// - Returns: `GetFoundationModelOutputResponse` : [no documentation found]
+    /// - Returns: `GetFoundationModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func getFoundationModel(input: GetFoundationModelInput) async throws -> GetFoundationModelOutputResponse
+    func getFoundationModel(input: GetFoundationModelInput) async throws -> GetFoundationModelOutput
     /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter GetModelCustomizationJobInput : [no documentation found]
     ///
-    /// - Returns: `GetModelCustomizationJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelCustomizationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,12 +128,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func getModelCustomizationJob(input: GetModelCustomizationJobInput) async throws -> GetModelCustomizationJobOutputResponse
+    func getModelCustomizationJob(input: GetModelCustomizationJobInput) async throws -> GetModelCustomizationJobOutput
     /// Get the current configuration values for model invocation logging.
     ///
     /// - Parameter GetModelInvocationLoggingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetModelInvocationLoggingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelInvocationLoggingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol BedrockClientProtocol {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
-    func getModelInvocationLoggingConfiguration(input: GetModelInvocationLoggingConfigurationInput) async throws -> GetModelInvocationLoggingConfigurationOutputResponse
+    func getModelInvocationLoggingConfiguration(input: GetModelInvocationLoggingConfigurationInput) async throws -> GetModelInvocationLoggingConfigurationOutput
     /// Get details for a provisioned throughput. For more information, see [Provisioned throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter GetProvisionedModelThroughputInput : [no documentation found]
     ///
-    /// - Returns: `GetProvisionedModelThroughputOutputResponse` : [no documentation found]
+    /// - Returns: `GetProvisionedModelThroughputOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -156,12 +156,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func getProvisionedModelThroughput(input: GetProvisionedModelThroughputInput) async throws -> GetProvisionedModelThroughputOutputResponse
+    func getProvisionedModelThroughput(input: GetProvisionedModelThroughputInput) async throws -> GetProvisionedModelThroughputOutput
     /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter ListCustomModelsInput : [no documentation found]
     ///
-    /// - Returns: `ListCustomModelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCustomModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -170,12 +170,12 @@ public protocol BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func listCustomModels(input: ListCustomModelsInput) async throws -> ListCustomModelsOutputResponse
+    func listCustomModels(input: ListCustomModelsInput) async throws -> ListCustomModelsOutput
     /// List of Bedrock foundation models that you can use. For more information, see [Foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter ListFoundationModelsInput : [no documentation found]
     ///
-    /// - Returns: `ListFoundationModelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFoundationModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func listFoundationModels(input: ListFoundationModelsInput) async throws -> ListFoundationModelsOutputResponse
+    func listFoundationModels(input: ListFoundationModelsInput) async throws -> ListFoundationModelsOutput
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter ListModelCustomizationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelCustomizationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListModelCustomizationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func listModelCustomizationJobs(input: ListModelCustomizationJobsInput) async throws -> ListModelCustomizationJobsOutputResponse
+    func listModelCustomizationJobs(input: ListModelCustomizationJobsInput) async throws -> ListModelCustomizationJobsOutput
     /// List the provisioned capacities. For more information, see [Provisioned throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter ListProvisionedModelThroughputsInput : [no documentation found]
     ///
-    /// - Returns: `ListProvisionedModelThroughputsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProvisionedModelThroughputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -212,12 +212,12 @@ public protocol BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func listProvisionedModelThroughputs(input: ListProvisionedModelThroughputsInput) async throws -> ListProvisionedModelThroughputsOutputResponse
+    func listProvisionedModelThroughputs(input: ListProvisionedModelThroughputsInput) async throws -> ListProvisionedModelThroughputsOutput
     /// List the tags associated with the specified resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -227,12 +227,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Set the configuration values for model invocation logging.
     ///
     /// - Parameter PutModelInvocationLoggingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutModelInvocationLoggingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutModelInvocationLoggingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol BedrockClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func putModelInvocationLoggingConfiguration(input: PutModelInvocationLoggingConfigurationInput) async throws -> PutModelInvocationLoggingConfigurationOutputResponse
+    func putModelInvocationLoggingConfiguration(input: PutModelInvocationLoggingConfigurationInput) async throws -> PutModelInvocationLoggingConfigurationOutput
     /// Stops an active model customization job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the Bedrock User Guide.
     ///
     /// - Parameter StopModelCustomizationJobInput : [no documentation found]
     ///
-    /// - Returns: `StopModelCustomizationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopModelCustomizationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -257,12 +257,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func stopModelCustomizationJob(input: StopModelCustomizationJobInput) async throws -> StopModelCustomizationJobOutputResponse
+    func stopModelCustomizationJob(input: StopModelCustomizationJobInput) async throws -> StopModelCustomizationJobOutput
     /// Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol BedrockClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove one or more tags from a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -288,12 +288,12 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update a provisioned throughput. For more information, see [Provisioned throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Bedrock User Guide.
     ///
     /// - Parameter UpdateProvisionedModelThroughputInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProvisionedModelThroughputOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProvisionedModelThroughputOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -303,7 +303,7 @@ public protocol BedrockClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
-    func updateProvisionedModelThroughput(input: UpdateProvisionedModelThroughputInput) async throws -> UpdateProvisionedModelThroughputOutputResponse
+    func updateProvisionedModelThroughput(input: UpdateProvisionedModelThroughputInput) async throws -> UpdateProvisionedModelThroughputOutput
 }
 
 public enum BedrockClientTypes {}

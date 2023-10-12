@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension OpenSearchClient {
-    /// Paginate over `[DescribeDomainAutoTunesOutputResponse]` results.
+    /// Paginate over `[DescribeDomainAutoTunesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeDomainAutoTunesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainAutoTunesOutputResponse`
-    public func describeDomainAutoTunesPaginated(input: DescribeDomainAutoTunesInput) -> ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse>(input: input, inputKey: \DescribeDomainAutoTunesInput.nextToken, outputKey: \DescribeDomainAutoTunesOutputResponse.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainAutoTunesOutput`
+    public func describeDomainAutoTunesPaginated(input: DescribeDomainAutoTunesInput) -> ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(input: input, inputKey: \DescribeDomainAutoTunesInput.nextToken, outputKey: \DescribeDomainAutoTunesOutput.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension DescribeDomainAutoTunesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[DescribeInboundConnectionsOutputResponse]` results.
+    /// Paginate over `[DescribeInboundConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeInboundConnectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundConnectionsOutputResponse`
-    public func describeInboundConnectionsPaginated(input: DescribeInboundConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutputResponse>(input: input, inputKey: \DescribeInboundConnectionsInput.nextToken, outputKey: \DescribeInboundConnectionsOutputResponse.nextToken, paginationFunction: self.describeInboundConnections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundConnectionsOutput`
+    public func describeInboundConnectionsPaginated(input: DescribeInboundConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput>(input: input, inputKey: \DescribeInboundConnectionsInput.nextToken, outputKey: \DescribeInboundConnectionsOutput.nextToken, paginationFunction: self.describeInboundConnections(input:))
     }
 }
 
@@ -47,16 +47,16 @@ extension DescribeInboundConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[DescribeOutboundConnectionsOutputResponse]` results.
+    /// Paginate over `[DescribeOutboundConnectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeOutboundConnectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOutboundConnectionsOutputResponse`
-    public func describeOutboundConnectionsPaginated(input: DescribeOutboundConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutputResponse>(input: input, inputKey: \DescribeOutboundConnectionsInput.nextToken, outputKey: \DescribeOutboundConnectionsOutputResponse.nextToken, paginationFunction: self.describeOutboundConnections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOutboundConnectionsOutput`
+    public func describeOutboundConnectionsPaginated(input: DescribeOutboundConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput>(input: input, inputKey: \DescribeOutboundConnectionsInput.nextToken, outputKey: \DescribeOutboundConnectionsOutput.nextToken, paginationFunction: self.describeOutboundConnections(input:))
     }
 }
 
@@ -69,16 +69,16 @@ extension DescribeOutboundConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[DescribePackagesOutputResponse]` results.
+    /// Paginate over `[DescribePackagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribePackagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribePackagesOutputResponse`
-    public func describePackagesPaginated(input: DescribePackagesInput) -> ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutputResponse>(input: input, inputKey: \DescribePackagesInput.nextToken, outputKey: \DescribePackagesOutputResponse.nextToken, paginationFunction: self.describePackages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePackagesOutput`
+    public func describePackagesPaginated(input: DescribePackagesInput) -> ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput>(input: input, inputKey: \DescribePackagesInput.nextToken, outputKey: \DescribePackagesOutput.nextToken, paginationFunction: self.describePackages(input:))
     }
 }
 
@@ -91,16 +91,16 @@ extension DescribePackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[DescribeReservedInstanceOfferingsOutputResponse]` results.
+    /// Paginate over `[DescribeReservedInstanceOfferingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReservedInstanceOfferingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstanceOfferingsOutputResponse`
-    public func describeReservedInstanceOfferingsPaginated(input: DescribeReservedInstanceOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutputResponse>(input: input, inputKey: \DescribeReservedInstanceOfferingsInput.nextToken, outputKey: \DescribeReservedInstanceOfferingsOutputResponse.nextToken, paginationFunction: self.describeReservedInstanceOfferings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstanceOfferingsOutput`
+    public func describeReservedInstanceOfferingsPaginated(input: DescribeReservedInstanceOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput>(input: input, inputKey: \DescribeReservedInstanceOfferingsInput.nextToken, outputKey: \DescribeReservedInstanceOfferingsOutput.nextToken, paginationFunction: self.describeReservedInstanceOfferings(input:))
     }
 }
 
@@ -113,16 +113,16 @@ extension DescribeReservedInstanceOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[DescribeReservedInstancesOutputResponse]` results.
+    /// Paginate over `[DescribeReservedInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReservedInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstancesOutputResponse`
-    public func describeReservedInstancesPaginated(input: DescribeReservedInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutputResponse>(input: input, inputKey: \DescribeReservedInstancesInput.nextToken, outputKey: \DescribeReservedInstancesOutputResponse.nextToken, paginationFunction: self.describeReservedInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstancesOutput`
+    public func describeReservedInstancesPaginated(input: DescribeReservedInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReservedInstancesInput, DescribeReservedInstancesOutput>(input: input, inputKey: \DescribeReservedInstancesInput.nextToken, outputKey: \DescribeReservedInstancesOutput.nextToken, paginationFunction: self.describeReservedInstances(input:))
     }
 }
 
@@ -135,16 +135,16 @@ extension DescribeReservedInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[GetPackageVersionHistoryOutputResponse]` results.
+    /// Paginate over `[GetPackageVersionHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetPackageVersionHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetPackageVersionHistoryOutputResponse`
-    public func getPackageVersionHistoryPaginated(input: GetPackageVersionHistoryInput) -> ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse>(input: input, inputKey: \GetPackageVersionHistoryInput.nextToken, outputKey: \GetPackageVersionHistoryOutputResponse.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPackageVersionHistoryOutput`
+    public func getPackageVersionHistoryPaginated(input: GetPackageVersionHistoryInput) -> ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(input: input, inputKey: \GetPackageVersionHistoryInput.nextToken, outputKey: \GetPackageVersionHistoryOutput.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
     }
 }
 
@@ -157,16 +157,16 @@ extension GetPackageVersionHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[GetUpgradeHistoryOutputResponse]` results.
+    /// Paginate over `[GetUpgradeHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetUpgradeHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetUpgradeHistoryOutputResponse`
-    public func getUpgradeHistoryPaginated(input: GetUpgradeHistoryInput) -> ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse>(input: input, inputKey: \GetUpgradeHistoryInput.nextToken, outputKey: \GetUpgradeHistoryOutputResponse.nextToken, paginationFunction: self.getUpgradeHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUpgradeHistoryOutput`
+    public func getUpgradeHistoryPaginated(input: GetUpgradeHistoryInput) -> ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(input: input, inputKey: \GetUpgradeHistoryInput.nextToken, outputKey: \GetUpgradeHistoryOutput.nextToken, paginationFunction: self.getUpgradeHistory(input:))
     }
 }
 
@@ -179,16 +179,16 @@ extension GetUpgradeHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[ListDomainsForPackageOutputResponse]` results.
+    /// Paginate over `[ListDomainsForPackageOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDomainsForPackageInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsForPackageOutputResponse`
-    public func listDomainsForPackagePaginated(input: ListDomainsForPackageInput) -> ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse>(input: input, inputKey: \ListDomainsForPackageInput.nextToken, outputKey: \ListDomainsForPackageOutputResponse.nextToken, paginationFunction: self.listDomainsForPackage(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsForPackageOutput`
+    public func listDomainsForPackagePaginated(input: ListDomainsForPackageInput) -> ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput>(input: input, inputKey: \ListDomainsForPackageInput.nextToken, outputKey: \ListDomainsForPackageOutput.nextToken, paginationFunction: self.listDomainsForPackage(input:))
     }
 }
 
@@ -201,16 +201,16 @@ extension ListDomainsForPackageInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[ListInstanceTypeDetailsOutputResponse]` results.
+    /// Paginate over `[ListInstanceTypeDetailsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstanceTypeDetailsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceTypeDetailsOutputResponse`
-    public func listInstanceTypeDetailsPaginated(input: ListInstanceTypeDetailsInput) -> ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutputResponse>(input: input, inputKey: \ListInstanceTypeDetailsInput.nextToken, outputKey: \ListInstanceTypeDetailsOutputResponse.nextToken, paginationFunction: self.listInstanceTypeDetails(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceTypeDetailsOutput`
+    public func listInstanceTypeDetailsPaginated(input: ListInstanceTypeDetailsInput) -> ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput>(input: input, inputKey: \ListInstanceTypeDetailsInput.nextToken, outputKey: \ListInstanceTypeDetailsOutput.nextToken, paginationFunction: self.listInstanceTypeDetails(input:))
     }
 }
 
@@ -226,16 +226,16 @@ extension ListInstanceTypeDetailsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[ListPackagesForDomainOutputResponse]` results.
+    /// Paginate over `[ListPackagesForDomainOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPackagesForDomainInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesForDomainOutputResponse`
-    public func listPackagesForDomainPaginated(input: ListPackagesForDomainInput) -> ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse>(input: input, inputKey: \ListPackagesForDomainInput.nextToken, outputKey: \ListPackagesForDomainOutputResponse.nextToken, paginationFunction: self.listPackagesForDomain(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesForDomainOutput`
+    public func listPackagesForDomainPaginated(input: ListPackagesForDomainInput) -> ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput> {
+        return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput>(input: input, inputKey: \ListPackagesForDomainInput.nextToken, outputKey: \ListPackagesForDomainOutput.nextToken, paginationFunction: self.listPackagesForDomain(input:))
     }
 }
 
@@ -248,16 +248,16 @@ extension ListPackagesForDomainInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[ListScheduledActionsOutputResponse]` results.
+    /// Paginate over `[ListScheduledActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListScheduledActionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledActionsOutputResponse`
-    public func listScheduledActionsPaginated(input: ListScheduledActionsInput) -> ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutputResponse>(input: input, inputKey: \ListScheduledActionsInput.nextToken, outputKey: \ListScheduledActionsOutputResponse.nextToken, paginationFunction: self.listScheduledActions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledActionsOutput`
+    public func listScheduledActionsPaginated(input: ListScheduledActionsInput) -> ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListScheduledActionsInput, ListScheduledActionsOutput>(input: input, inputKey: \ListScheduledActionsInput.nextToken, outputKey: \ListScheduledActionsOutput.nextToken, paginationFunction: self.listScheduledActions(input:))
     }
 }
 
@@ -270,16 +270,16 @@ extension ListScheduledActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OpenSearchClient {
-    /// Paginate over `[ListVersionsOutputResponse]` results.
+    /// Paginate over `[ListVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutputResponse`
-    public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutputResponse>(input: input, inputKey: \ListVersionsInput.nextToken, outputKey: \ListVersionsOutputResponse.nextToken, paginationFunction: self.listVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutput`
+    public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \ListVersionsInput.nextToken, outputKey: \ListVersionsOutput.nextToken, paginationFunction: self.listVersions(input:))
     }
 }
 

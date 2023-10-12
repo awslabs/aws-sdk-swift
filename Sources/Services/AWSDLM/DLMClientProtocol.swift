@@ -8,7 +8,7 @@ public protocol DLMClientProtocol {
     ///
     /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateLifecyclePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLifecyclePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16,12 +16,12 @@ public protocol DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
-    func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutputResponse
+    func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput
     /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see [Delete lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#delete).
     ///
     /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -29,12 +29,12 @@ public protocol DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutputResponse
+    func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
     /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use [GetLifecyclePolicy].
     ///
     /// - Parameter GetLifecyclePoliciesInput : [no documentation found]
     ///
-    /// - Returns: `GetLifecyclePoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `GetLifecyclePoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -43,12 +43,12 @@ public protocol DLMClientProtocol {
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func getLifecyclePolicies(input: GetLifecyclePoliciesInput) async throws -> GetLifecyclePoliciesOutputResponse
+    func getLifecyclePolicies(input: GetLifecyclePoliciesInput) async throws -> GetLifecyclePoliciesOutput
     /// Gets detailed information about the specified lifecycle policy.
     ///
     /// - Parameter GetLifecyclePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetLifecyclePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetLifecyclePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -56,12 +56,12 @@ public protocol DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutputResponse
+    func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds the specified tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -95,12 +95,12 @@ public protocol DLMClientProtocol {
     /// - `InternalServerException` : The service failed in an unexpected way.
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the specified lifecycle policy. For more information about updating a policy, see [Modify lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#modify).
     ///
     /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLifecyclePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLifecyclePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -109,7 +109,7 @@ public protocol DLMClientProtocol {
     /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
     /// - `LimitExceededException` : The request failed because a limit was exceeded.
     /// - `ResourceNotFoundException` : A requested resource was not found.
-    func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutputResponse
+    func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput
 }
 
 public enum DLMClientTypes {}

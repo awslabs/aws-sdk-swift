@@ -281,24 +281,11 @@ extension GetEntitlementsInputBody: Swift.Decodable {
     }
 }
 
-enum GetEntitlementsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEntitlementsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEntitlementsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEntitlementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEntitlementsOutputBody = try responseDecoder.decode(responseBody: data)
             self.entitlements = output.entitlements
             self.nextToken = output.nextToken
         } else {
@@ -309,7 +296,7 @@ extension GetEntitlementsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The GetEntitlementsRequest contains results from the GetEntitlements operation.
-public struct GetEntitlementsOutputResponse: Swift.Equatable {
+public struct GetEntitlementsOutput: Swift.Equatable {
     /// The set of entitlements found through the GetEntitlements operation. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
     public var entitlements: [MarketplaceEntitlementClientTypes.Entitlement]?
     /// For paginated results, use NextToken in subsequent calls to GetEntitlements. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
@@ -325,12 +312,12 @@ public struct GetEntitlementsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEntitlementsOutputResponseBody: Swift.Equatable {
+struct GetEntitlementsOutputBody: Swift.Equatable {
     let entitlements: [MarketplaceEntitlementClientTypes.Entitlement]?
     let nextToken: Swift.String?
 }
 
-extension GetEntitlementsOutputResponseBody: Swift.Decodable {
+extension GetEntitlementsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entitlements = "Entitlements"
         case nextToken = "NextToken"
@@ -351,6 +338,19 @@ extension GetEntitlementsOutputResponseBody: Swift.Decodable {
         entitlements = entitlementsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetEntitlementsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

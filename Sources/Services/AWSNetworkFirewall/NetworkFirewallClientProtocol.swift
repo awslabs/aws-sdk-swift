@@ -40,7 +40,7 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// - Parameter AssociateFirewallPolicyInput : [no documentation found]
     ///
-    /// - Returns: `AssociateFirewallPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateFirewallPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -57,12 +57,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func associateFirewallPolicy(input: AssociateFirewallPolicyInput) async throws -> AssociateFirewallPolicyOutputResponse
+    func associateFirewallPolicy(input: AssociateFirewallPolicyInput) async throws -> AssociateFirewallPolicyOutput
     /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans. This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint.
     ///
     /// - Parameter AssociateSubnetsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateSubnetsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateSubnetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,12 +80,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func associateSubnets(input: AssociateSubnetsInput) async throws -> AssociateSubnetsOutputResponse
+    func associateSubnets(input: AssociateSubnetsInput) async throws -> AssociateSubnetsOutput
     /// Creates an Network Firewall [Firewall] and accompanying [FirewallStatus] for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for a firewall, you use the operations that apply to the settings themselves, for example [UpdateLoggingConfiguration], [AssociateSubnets], and [UpdateFirewallDeleteProtection]. To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about firewalls, use [ListFirewalls] and [DescribeFirewall].
     ///
     /// - Parameter CreateFirewallInput : [no documentation found]
     ///
-    /// - Returns: `CreateFirewallOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFirewallOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func createFirewall(input: CreateFirewallInput) async throws -> CreateFirewallOutputResponse
+    func createFirewall(input: CreateFirewallInput) async throws -> CreateFirewallOutput
     /// Creates the firewall policy for the firewall according to the specifications. An Network Firewall firewall policy defines the behavior of a firewall, in a collection of stateless and stateful rule groups and other settings. You can use one firewall policy for multiple firewalls.
     ///
     /// - Parameter CreateFirewallPolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateFirewallPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFirewallPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -123,12 +123,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func createFirewallPolicy(input: CreateFirewallPolicyInput) async throws -> CreateFirewallPolicyOutputResponse
+    func createFirewallPolicy(input: CreateFirewallPolicyInput) async throws -> CreateFirewallPolicyOutput
     /// Creates the specified stateless or stateful rule group, which includes the rules for network traffic inspection, a capacity setting, and tags. You provide your rule group specification in your request using either RuleGroup or Rules.
     ///
     /// - Parameter CreateRuleGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateRuleGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRuleGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutputResponse
+    func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput
     /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a new firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     ///
     /// - Parameter CreateTLSInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateTLSInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTLSInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutputResponse
+    func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutput
     /// Deletes the specified [Firewall] and its [FirewallStatus]. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling [DescribeFirewall]. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using [UpdateFirewallDeleteProtection], then delete the firewall by calling [DeleteFirewall].
     ///
     /// - Parameter DeleteFirewallInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFirewallOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFirewallOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -187,12 +187,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
-    func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutputResponse
+    func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutput
     /// Deletes the specified [FirewallPolicy].
     ///
     /// - Parameter DeleteFirewallPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFirewallPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFirewallPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
-    func deleteFirewallPolicy(input: DeleteFirewallPolicyInput) async throws -> DeleteFirewallPolicyOutputResponse
+    func deleteFirewallPolicy(input: DeleteFirewallPolicyInput) async throws -> DeleteFirewallPolicyOutput
     /// Deletes a resource policy that you created in a [PutResourcePolicy] request.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -230,12 +230,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidResourcePolicyException` : The policy statement failed validation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     /// Deletes the specified [RuleGroup].
     ///
     /// - Parameter DeleteRuleGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRuleGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRuleGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -252,12 +252,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
-    func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutputResponse
+    func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput
     /// Deletes the specified [TLSInspectionConfiguration].
     ///
     /// - Parameter DeleteTLSInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTLSInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTLSInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutputResponse
+    func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutput
     /// Returns the data objects for the specified firewall.
     ///
     /// - Parameter DescribeFirewallInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFirewallOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFirewallOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -293,12 +293,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeFirewall(input: DescribeFirewallInput) async throws -> DescribeFirewallOutputResponse
+    func describeFirewall(input: DescribeFirewallInput) async throws -> DescribeFirewallOutput
     /// Returns the data objects for the specified firewall policy.
     ///
     /// - Parameter DescribeFirewallPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFirewallPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFirewallPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeFirewallPolicy(input: DescribeFirewallPolicyInput) async throws -> DescribeFirewallPolicyOutputResponse
+    func describeFirewallPolicy(input: DescribeFirewallPolicyInput) async throws -> DescribeFirewallPolicyOutput
     /// Returns the logging configuration for the specified firewall.
     ///
     /// - Parameter DescribeLoggingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLoggingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLoggingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,12 +333,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutputResponse
+    func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutput
     /// Retrieves a resource policy that you created in a [PutResourcePolicy] request.
     ///
     /// - Parameter DescribeResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -353,12 +353,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
+    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
     /// Returns the data objects for the specified rule group.
     ///
     /// - Parameter DescribeRuleGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRuleGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRuleGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -373,12 +373,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeRuleGroup(input: DescribeRuleGroupInput) async throws -> DescribeRuleGroupOutputResponse
+    func describeRuleGroup(input: DescribeRuleGroupInput) async throws -> DescribeRuleGroupOutput
     /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling [DescribeRuleGroup].
     ///
     /// - Parameter DescribeRuleGroupMetadataInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRuleGroupMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRuleGroupMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -393,12 +393,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeRuleGroupMetadata(input: DescribeRuleGroupMetadataInput) async throws -> DescribeRuleGroupMetadataOutputResponse
+    func describeRuleGroupMetadata(input: DescribeRuleGroupMetadataInput) async throws -> DescribeRuleGroupMetadataOutput
     /// Returns the data objects for the specified TLS inspection configuration.
     ///
     /// - Parameter DescribeTLSInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTLSInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTLSInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,12 +413,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutputResponse
+    func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutput
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
     ///
     /// - Parameter DisassociateSubnetsInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateSubnetsOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateSubnetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,12 +435,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutputResponse
+    func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutput
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
     ///
     /// - Parameter ListFirewallPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListFirewallPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListFirewallPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,12 +454,12 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func listFirewallPolicies(input: ListFirewallPoliciesInput) async throws -> ListFirewallPoliciesOutputResponse
+    func listFirewallPolicies(input: ListFirewallPoliciesInput) async throws -> ListFirewallPoliciesOutput
     /// Retrieves the metadata for the firewalls that you have defined. If you provide VPC identifiers in your request, this returns only the firewalls for those VPCs. Depending on your setting for max results and the number of firewalls, a single call might not return the full list.
     ///
     /// - Parameter ListFirewallsInput : [no documentation found]
     ///
-    /// - Returns: `ListFirewallsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFirewallsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -473,12 +473,12 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func listFirewalls(input: ListFirewallsInput) async throws -> ListFirewallsOutputResponse
+    func listFirewalls(input: ListFirewallsInput) async throws -> ListFirewallsOutput
     /// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list.
     ///
     /// - Parameter ListRuleGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListRuleGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRuleGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,12 +492,12 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutputResponse
+    func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput
     /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,12 +512,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
     ///
     /// - Parameter ListTLSInspectionConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListTLSInspectionConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTLSInspectionConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -531,7 +531,7 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutputResponse
+    func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutput
     /// Creates or updates an IAM policy for your rule group or firewall policy. Use this to share rule groups and firewall policies between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. Use this operation to create or update a resource policy for your rule group or firewall policy. In the policy, you specify the accounts that you want to share the resource with and the operations that you want the accounts to be able to perform. When you add an account in the resource policy, you then run the following Resource Access Manager (RAM) operations to access and accept the shared rule group or firewall policy.
     ///
     /// * [GetResourceShareInvitations](https://docs.aws.amazon.com/ram/latest/APIReference/API_GetResourceShareInvitations.html) - Returns the Amazon Resource Names (ARNs) of the resource share invitations.
@@ -543,7 +543,7 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,12 +559,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidResourcePolicyException` : The policy statement failed validation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,12 +579,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes the tags with the specified keys from the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can manage tags for the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -599,12 +599,12 @@ public protocol NetworkFirewallClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Modifies the flag, DeleteProtection, which indicates whether it is possible to delete the firewall. If the flag is set to TRUE, the firewall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use.
     ///
     /// - Parameter UpdateFirewallDeleteProtectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFirewallDeleteProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFirewallDeleteProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,12 +621,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateFirewallDeleteProtection(input: UpdateFirewallDeleteProtectionInput) async throws -> UpdateFirewallDeleteProtectionOutputResponse
+    func updateFirewallDeleteProtection(input: UpdateFirewallDeleteProtectionInput) async throws -> UpdateFirewallDeleteProtectionOutput
     /// Modifies the description for the specified firewall. Use the description to help you identify the firewall when you're working with it.
     ///
     /// - Parameter UpdateFirewallDescriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFirewallDescriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFirewallDescriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -642,12 +642,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateFirewallDescription(input: UpdateFirewallDescriptionInput) async throws -> UpdateFirewallDescriptionOutputResponse
+    func updateFirewallDescription(input: UpdateFirewallDescriptionInput) async throws -> UpdateFirewallDescriptionOutput
     /// A complex type that contains settings for encryption of your firewall resources.
     ///
     /// - Parameter UpdateFirewallEncryptionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFirewallEncryptionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFirewallEncryptionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,12 +664,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateFirewallEncryptionConfiguration(input: UpdateFirewallEncryptionConfigurationInput) async throws -> UpdateFirewallEncryptionConfigurationOutputResponse
+    func updateFirewallEncryptionConfiguration(input: UpdateFirewallEncryptionConfigurationInput) async throws -> UpdateFirewallEncryptionConfigurationOutput
     /// Updates the properties of the specified firewall policy.
     ///
     /// - Parameter UpdateFirewallPolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFirewallPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFirewallPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,12 +685,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateFirewallPolicy(input: UpdateFirewallPolicyInput) async throws -> UpdateFirewallPolicyOutputResponse
+    func updateFirewallPolicy(input: UpdateFirewallPolicyInput) async throws -> UpdateFirewallPolicyOutput
     /// Modifies the flag, ChangeProtection, which indicates whether it is possible to change the firewall. If the flag is set to TRUE, the firewall is protected from changes. This setting helps protect against accidentally changing a firewall that's in use.
     ///
     /// - Parameter UpdateFirewallPolicyChangeProtectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFirewallPolicyChangeProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFirewallPolicyChangeProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,7 +707,7 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateFirewallPolicyChangeProtection(input: UpdateFirewallPolicyChangeProtectionInput) async throws -> UpdateFirewallPolicyChangeProtectionOutputResponse
+    func updateFirewallPolicyChangeProtection(input: UpdateFirewallPolicyChangeProtectionInput) async throws -> UpdateFirewallPolicyChangeProtectionOutput
     /// Sets the logging configuration for the specified firewall. To change the logging configuration, retrieve the [LoggingConfiguration] by calling [DescribeLoggingConfiguration], then change it and provide the modified object to this update call. You must change the logging configuration one [LogDestinationConfig] at a time inside the retrieved [LoggingConfiguration] object. You can perform only one of the following actions in any call to UpdateLoggingConfiguration:
     ///
     /// * Create a new log destination object by adding a single LogDestinationConfig array element to LogDestinationConfigs.
@@ -721,7 +721,7 @@ public protocol NetworkFirewallClientProtocol {
     ///
     /// - Parameter UpdateLoggingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLoggingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLoggingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,12 +738,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `LogDestinationPermissionException` : Unable to send logs to a configured logging destination.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutputResponse
+    func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput
     /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group. To update a rule group, first call [DescribeRuleGroup] to retrieve the current [RuleGroup] object, update the object as needed, and then provide the updated object to this call.
     ///
     /// - Parameter UpdateRuleGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRuleGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRuleGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,12 +759,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutputResponse
+    func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput
     ///
     ///
     /// - Parameter UpdateSubnetChangeProtectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSubnetChangeProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSubnetChangeProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,12 +781,12 @@ public protocol NetworkFirewallClientProtocol {
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateSubnetChangeProtection(input: UpdateSubnetChangeProtectionInput) async throws -> UpdateSubnetChangeProtectionOutputResponse
+    func updateSubnetChangeProtection(input: UpdateSubnetChangeProtectionInput) async throws -> UpdateSubnetChangeProtectionOutput
     /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by reference in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call [DescribeTLSInspectionConfiguration] to retrieve the current [TLSInspectionConfiguration] object, update the object as needed, and then provide the updated object to this call.
     ///
     /// - Parameter UpdateTLSInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTLSInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTLSInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,7 +802,7 @@ public protocol NetworkFirewallClientProtocol {
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
-    func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutputResponse
+    func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutput
 }
 
 public enum NetworkFirewallClientTypes {}

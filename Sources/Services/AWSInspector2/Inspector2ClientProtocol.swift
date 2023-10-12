@@ -8,7 +8,7 @@ public protocol Inspector2ClientProtocol {
     ///
     /// - Parameter AssociateMemberInput : [no documentation found]
     ///
-    /// - Returns: `AssociateMemberOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutputResponse
+    func associateMember(input: AssociateMemberInput) async throws -> AssociateMemberOutput
     /// Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
     ///
     /// - Parameter BatchGetAccountStatusInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetAccountStatusOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetAccountStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,12 +32,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutputResponse
+    func batchGetAccountStatus(input: BatchGetAccountStatusInput) async throws -> BatchGetAccountStatusOutput
     /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
     ///
     /// - Parameter BatchGetCodeSnippetInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetCodeSnippetOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetCodeSnippetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -46,12 +46,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutputResponse
+    func batchGetCodeSnippet(input: BatchGetCodeSnippetInput) async throws -> BatchGetCodeSnippetOutput
     /// Gets vulnerability details for findings.
     ///
     /// - Parameter BatchGetFindingDetailsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetFindingDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetFindingDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -60,12 +60,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutputResponse
+    func batchGetFindingDetails(input: BatchGetFindingDetailsInput) async throws -> BatchGetFindingDetailsOutput
     /// Gets free trial status for multiple Amazon Web Services accounts.
     ///
     /// - Parameter BatchGetFreeTrialInfoInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetFreeTrialInfoOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetFreeTrialInfoOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutputResponse
+    func batchGetFreeTrialInfo(input: BatchGetFreeTrialInfoInput) async throws -> BatchGetFreeTrialInfoOutput
     /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
     ///
     /// - Parameter BatchGetMemberEc2DeepInspectionStatusInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetMemberEc2DeepInspectionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetMemberEc2DeepInspectionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func batchGetMemberEc2DeepInspectionStatus(input: BatchGetMemberEc2DeepInspectionStatusInput) async throws -> BatchGetMemberEc2DeepInspectionStatusOutputResponse
+    func batchGetMemberEc2DeepInspectionStatus(input: BatchGetMemberEc2DeepInspectionStatusInput) async throws -> BatchGetMemberEc2DeepInspectionStatusOutput
     /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
     ///
     /// - Parameter BatchUpdateMemberEc2DeepInspectionStatusInput : [no documentation found]
     ///
-    /// - Returns: `BatchUpdateMemberEc2DeepInspectionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `BatchUpdateMemberEc2DeepInspectionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutputResponse
+    func batchUpdateMemberEc2DeepInspectionStatus(input: BatchUpdateMemberEc2DeepInspectionStatusInput) async throws -> BatchUpdateMemberEc2DeepInspectionStatusOutput
     /// Cancels the given findings report.
     ///
     /// - Parameter CancelFindingsReportInput : [no documentation found]
     ///
-    /// - Returns: `CancelFindingsReportOutputResponse` : [no documentation found]
+    /// - Returns: `CancelFindingsReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -117,12 +117,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutputResponse
+    func cancelFindingsReport(input: CancelFindingsReportInput) async throws -> CancelFindingsReportOutput
     /// Cancels a software bill of materials (SBOM) report.
     ///
     /// - Parameter CancelSbomExportInput : [no documentation found]
     ///
-    /// - Returns: `CancelSbomExportOutputResponse` : [no documentation found]
+    /// - Returns: `CancelSbomExportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutputResponse
+    func cancelSbomExport(input: CancelSbomExportInput) async throws -> CancelSbomExportOutput
     /// Creates a filter resource using specified filter criteria.
     ///
     /// - Parameter CreateFilterInput : [no documentation found]
     ///
-    /// - Returns: `CreateFilterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
+    func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput
     /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
     ///
     /// - Parameter CreateFindingsReportInput : [no documentation found]
     ///
-    /// - Returns: `CreateFindingsReportOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFindingsReportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutputResponse
+    func createFindingsReport(input: CreateFindingsReportInput) async throws -> CreateFindingsReportOutput
     /// Creates a software bill of materials (SBOM) report.
     ///
     /// - Parameter CreateSbomExportInput : [no documentation found]
     ///
-    /// - Returns: `CreateSbomExportOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSbomExportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,12 +178,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutputResponse
+    func createSbomExport(input: CreateSbomExportInput) async throws -> CreateSbomExportOutput
     /// Deletes a filter resource.
     ///
     /// - Parameter DeleteFilterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFilterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutputResponse
+    func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput
     /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     ///
     /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -207,12 +207,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
+    func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
     /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
     ///
     /// - Parameter DisableInput : [no documentation found]
     ///
-    /// - Returns: `DisableOutputResponse` : [no documentation found]
+    /// - Returns: `DisableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func disable(input: DisableInput) async throws -> DisableOutputResponse
+    func disable(input: DisableInput) async throws -> DisableOutput
     /// Disables the Amazon Inspector delegated administrator for your organization.
     ///
     /// - Parameter DisableDelegatedAdminAccountInput : [no documentation found]
     ///
-    /// - Returns: `DisableDelegatedAdminAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DisableDelegatedAdminAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -238,12 +238,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func disableDelegatedAdminAccount(input: DisableDelegatedAdminAccountInput) async throws -> DisableDelegatedAdminAccountOutputResponse
+    func disableDelegatedAdminAccount(input: DisableDelegatedAdminAccountInput) async throws -> DisableDelegatedAdminAccountOutput
     /// Disassociates a member account from an Amazon Inspector delegated administrator.
     ///
     /// - Parameter DisassociateMemberInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateMemberOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -252,12 +252,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutputResponse
+    func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput
     /// Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
     ///
     /// - Parameter EnableInput : [no documentation found]
     ///
-    /// - Returns: `EnableOutputResponse` : [no documentation found]
+    /// - Returns: `EnableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,12 +267,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func enable(input: EnableInput) async throws -> EnableOutputResponse
+    func enable(input: EnableInput) async throws -> EnableOutput
     /// Enables the Amazon Inspector delegated administrator for your Organizations organization.
     ///
     /// - Parameter EnableDelegatedAdminAccountInput : [no documentation found]
     ///
-    /// - Returns: `EnableDelegatedAdminAccountOutputResponse` : [no documentation found]
+    /// - Returns: `EnableDelegatedAdminAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,12 +283,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func enableDelegatedAdminAccount(input: EnableDelegatedAdminAccountInput) async throws -> EnableDelegatedAdminAccountOutputResponse
+    func enableDelegatedAdminAccount(input: EnableDelegatedAdminAccountInput) async throws -> EnableDelegatedAdminAccountOutput
     /// Retrieves setting configurations for Inspector scans.
     ///
     /// - Parameter GetConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -296,12 +296,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutputResponse
+    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput
     /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
     ///
     /// - Parameter GetDelegatedAdminAccountInput : [no documentation found]
     ///
-    /// - Returns: `GetDelegatedAdminAccountOutputResponse` : [no documentation found]
+    /// - Returns: `GetDelegatedAdminAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -311,12 +311,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutputResponse
+    func getDelegatedAdminAccount(input: GetDelegatedAdminAccountInput) async throws -> GetDelegatedAdminAccountOutput
     /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
     ///
     /// - Parameter GetEc2DeepInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetEc2DeepInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetEc2DeepInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -325,12 +325,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
-    func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutputResponse
+    func getEc2DeepInspectionConfiguration(input: GetEc2DeepInspectionConfigurationInput) async throws -> GetEc2DeepInspectionConfigurationOutput
     /// Gets an encryption key.
     ///
     /// - Parameter GetEncryptionKeyInput : [no documentation found]
     ///
-    /// - Returns: `GetEncryptionKeyOutputResponse` : [no documentation found]
+    /// - Returns: `GetEncryptionKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -340,12 +340,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutputResponse
+    func getEncryptionKey(input: GetEncryptionKeyInput) async throws -> GetEncryptionKeyOutput
     /// Gets the status of a findings report.
     ///
     /// - Parameter GetFindingsReportStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetFindingsReportStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetFindingsReportStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutputResponse
+    func getFindingsReportStatus(input: GetFindingsReportStatusInput) async throws -> GetFindingsReportStatusOutput
     /// Gets member information for your organization.
     ///
     /// - Parameter GetMemberInput : [no documentation found]
     ///
-    /// - Returns: `GetMemberOutputResponse` : [no documentation found]
+    /// - Returns: `GetMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -370,12 +370,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func getMember(input: GetMemberInput) async throws -> GetMemberOutputResponse
+    func getMember(input: GetMemberInput) async throws -> GetMemberOutput
     /// Gets details of a software bill of materials (SBOM) report.
     ///
     /// - Parameter GetSbomExportInput : [no documentation found]
     ///
-    /// - Returns: `GetSbomExportOutputResponse` : [no documentation found]
+    /// - Returns: `GetSbomExportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,12 +385,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutputResponse
+    func getSbomExport(input: GetSbomExportInput) async throws -> GetSbomExportOutput
     /// Lists the permissions an account has to configure Amazon Inspector.
     ///
     /// - Parameter ListAccountPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -399,12 +399,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutputResponse
+    func listAccountPermissions(input: ListAccountPermissionsInput) async throws -> ListAccountPermissionsOutput
     /// Lists coverage details for you environment.
     ///
     /// - Parameter ListCoverageInput : [no documentation found]
     ///
-    /// - Returns: `ListCoverageOutputResponse` : [no documentation found]
+    /// - Returns: `ListCoverageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,12 +412,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutputResponse
+    func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutput
     /// Lists Amazon Inspector coverage statistics for your environment.
     ///
     /// - Parameter ListCoverageStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ListCoverageStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCoverageStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,12 +425,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listCoverageStatistics(input: ListCoverageStatisticsInput) async throws -> ListCoverageStatisticsOutputResponse
+    func listCoverageStatistics(input: ListCoverageStatisticsInput) async throws -> ListCoverageStatisticsOutput
     /// Lists information about the Amazon Inspector delegated administrator of your organization.
     ///
     /// - Parameter ListDelegatedAdminAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListDelegatedAdminAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDelegatedAdminAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -439,12 +439,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listDelegatedAdminAccounts(input: ListDelegatedAdminAccountsInput) async throws -> ListDelegatedAdminAccountsOutputResponse
+    func listDelegatedAdminAccounts(input: ListDelegatedAdminAccountsInput) async throws -> ListDelegatedAdminAccountsOutput
     /// Lists the filters associated with your account.
     ///
     /// - Parameter ListFiltersInput : [no documentation found]
     ///
-    /// - Returns: `ListFiltersOutputResponse` : [no documentation found]
+    /// - Returns: `ListFiltersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,12 +453,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutputResponse
+    func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput
     /// Lists aggregated finding data for your environment based on specific criteria.
     ///
     /// - Parameter ListFindingAggregationsInput : [no documentation found]
     ///
-    /// - Returns: `ListFindingAggregationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFindingAggregationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -466,12 +466,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listFindingAggregations(input: ListFindingAggregationsInput) async throws -> ListFindingAggregationsOutputResponse
+    func listFindingAggregations(input: ListFindingAggregationsInput) async throws -> ListFindingAggregationsOutput
     /// Lists findings for your environment.
     ///
     /// - Parameter ListFindingsInput : [no documentation found]
     ///
-    /// - Returns: `ListFindingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFindingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,12 +479,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutputResponse
+    func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
     /// List members associated with the Amazon Inspector delegated administrator for your organization.
     ///
     /// - Parameter ListMembersInput : [no documentation found]
     ///
-    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    /// - Returns: `ListMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,12 +493,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
+    func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
     /// Lists all tags attached to a given resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,12 +507,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists the Amazon Inspector usage totals over the last 30 days.
     ///
     /// - Parameter ListUsageTotalsInput : [no documentation found]
     ///
-    /// - Returns: `ListUsageTotalsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUsageTotalsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,12 +521,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutputResponse
+    func listUsageTotals(input: ListUsageTotalsInput) async throws -> ListUsageTotalsOutput
     /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
     ///
     /// - Parameter ResetEncryptionKeyInput : [no documentation found]
     ///
-    /// - Returns: `ResetEncryptionKeyOutputResponse` : [no documentation found]
+    /// - Returns: `ResetEncryptionKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -536,12 +536,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutputResponse
+    func resetEncryptionKey(input: ResetEncryptionKeyInput) async throws -> ResetEncryptionKeyOutput
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
     ///
     /// - Parameter SearchVulnerabilitiesInput : [no documentation found]
     ///
-    /// - Returns: `SearchVulnerabilitiesOutputResponse` : [no documentation found]
+    /// - Returns: `SearchVulnerabilitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,12 +550,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutputResponse
+    func searchVulnerabilities(input: SearchVulnerabilitiesInput) async throws -> SearchVulnerabilitiesOutput
     /// Adds tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,12 +565,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,12 +579,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
     ///
     /// - Parameter UpdateConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,12 +593,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutputResponse
+    func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
     ///
     /// - Parameter UpdateEc2DeepInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEc2DeepInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEc2DeepInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -607,12 +607,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutputResponse
+    func updateEc2DeepInspectionConfiguration(input: UpdateEc2DeepInspectionConfigurationInput) async throws -> UpdateEc2DeepInspectionConfigurationOutput
     /// Updates an encryption key. A ResourceNotFoundException means that an AWS owned key is being used for encryption.
     ///
     /// - Parameter UpdateEncryptionKeyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEncryptionKeyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEncryptionKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,12 +622,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutputResponse
+    func updateEncryptionKey(input: UpdateEncryptionKeyInput) async throws -> UpdateEncryptionKeyOutput
     /// Specifies the action that is to be applied to the findings that match the filter.
     ///
     /// - Parameter UpdateFilterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFilterOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,12 +637,12 @@ public protocol Inspector2ClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutputResponse
+    func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutput
     /// Updates the configurations for your Amazon Inspector organization.
     ///
     /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,12 +651,12 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
+    func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
     /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API.
     ///
     /// - Parameter UpdateOrgEc2DeepInspectionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOrgEc2DeepInspectionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOrgEc2DeepInspectionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,7 +665,7 @@ public protocol Inspector2ClientProtocol {
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
-    func updateOrgEc2DeepInspectionConfiguration(input: UpdateOrgEc2DeepInspectionConfigurationInput) async throws -> UpdateOrgEc2DeepInspectionConfigurationOutputResponse
+    func updateOrgEc2DeepInspectionConfiguration(input: UpdateOrgEc2DeepInspectionConfigurationInput) async throws -> UpdateOrgEc2DeepInspectionConfigurationOutput
 }
 
 public enum Inspector2ClientTypes {}

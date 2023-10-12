@@ -358,22 +358,11 @@ extension DescribeAffectedAccountsForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeAffectedAccountsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAffectedAccountsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAffectedAccountsForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAffectedAccountsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAffectedAccountsForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.affectedAccounts = output.affectedAccounts
             self.eventScopeCode = output.eventScopeCode
             self.nextToken = output.nextToken
@@ -385,7 +374,7 @@ extension DescribeAffectedAccountsForOrganizationOutputResponse: ClientRuntime.H
     }
 }
 
-public struct DescribeAffectedAccountsForOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeAffectedAccountsForOrganizationOutput: Swift.Equatable {
     /// A JSON set of elements of the affected accounts.
     public var affectedAccounts: [Swift.String]?
     /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
@@ -411,13 +400,13 @@ public struct DescribeAffectedAccountsForOrganizationOutputResponse: Swift.Equat
     }
 }
 
-struct DescribeAffectedAccountsForOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeAffectedAccountsForOrganizationOutputBody: Swift.Equatable {
     let affectedAccounts: [Swift.String]?
     let eventScopeCode: HealthClientTypes.EventScopeCode?
     let nextToken: Swift.String?
 }
 
-extension DescribeAffectedAccountsForOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeAffectedAccountsForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case affectedAccounts
         case eventScopeCode
@@ -441,6 +430,17 @@ extension DescribeAffectedAccountsForOrganizationOutputResponseBody: Swift.Decod
         eventScopeCode = eventScopeCodeDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeAffectedAccountsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -564,23 +564,11 @@ extension DescribeAffectedEntitiesForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeAffectedEntitiesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAffectedEntitiesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAffectedEntitiesForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAffectedEntitiesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAffectedEntitiesForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.failedSet = output.failedSet
             self.nextToken = output.nextToken
@@ -592,7 +580,7 @@ extension DescribeAffectedEntitiesForOrganizationOutputResponse: ClientRuntime.H
     }
 }
 
-public struct DescribeAffectedEntitiesForOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeAffectedEntitiesForOrganizationOutput: Swift.Equatable {
     /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, and statusCode.
     public var entities: [HealthClientTypes.AffectedEntity]?
     /// A JSON set of elements of the failed response, including the awsAccountId, errorMessage, errorName, and eventArn.
@@ -612,13 +600,13 @@ public struct DescribeAffectedEntitiesForOrganizationOutputResponse: Swift.Equat
     }
 }
 
-struct DescribeAffectedEntitiesForOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeAffectedEntitiesForOrganizationOutputBody: Swift.Equatable {
     let entities: [HealthClientTypes.AffectedEntity]?
     let failedSet: [HealthClientTypes.OrganizationAffectedEntitiesErrorItem]?
     let nextToken: Swift.String?
 }
 
-extension DescribeAffectedEntitiesForOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeAffectedEntitiesForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entities
         case failedSet
@@ -651,6 +639,18 @@ extension DescribeAffectedEntitiesForOrganizationOutputResponseBody: Swift.Decod
         failedSet = failedSetDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeAffectedEntitiesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -738,23 +738,11 @@ extension DescribeAffectedEntitiesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeAffectedEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAffectedEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAffectedEntitiesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAffectedEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAffectedEntitiesOutputBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
         } else {
@@ -764,7 +752,7 @@ extension DescribeAffectedEntitiesOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeAffectedEntitiesOutputResponse: Swift.Equatable {
+public struct DescribeAffectedEntitiesOutput: Swift.Equatable {
     /// The entities that match the filter criteria.
     public var entities: [HealthClientTypes.AffectedEntity]?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -780,12 +768,12 @@ public struct DescribeAffectedEntitiesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAffectedEntitiesOutputResponseBody: Swift.Equatable {
+struct DescribeAffectedEntitiesOutputBody: Swift.Equatable {
     let entities: [HealthClientTypes.AffectedEntity]?
     let nextToken: Swift.String?
 }
 
-extension DescribeAffectedEntitiesOutputResponseBody: Swift.Decodable {
+extension DescribeAffectedEntitiesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entities
         case nextToken
@@ -806,6 +794,18 @@ extension DescribeAffectedEntitiesOutputResponseBody: Swift.Decodable {
         entities = entitiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeAffectedEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -893,21 +893,11 @@ extension DescribeEntityAggregatesForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEntityAggregatesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEntityAggregatesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEntityAggregatesForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEntityAggregatesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEntityAggregatesForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.organizationEntityAggregates = output.organizationEntityAggregates
         } else {
             self.organizationEntityAggregates = nil
@@ -915,7 +905,7 @@ extension DescribeEntityAggregatesForOrganizationOutputResponse: ClientRuntime.H
     }
 }
 
-public struct DescribeEntityAggregatesForOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeEntityAggregatesForOrganizationOutput: Swift.Equatable {
     /// The list of entity aggregates for each of the specified accounts that are affected by each of the specified events.
     public var organizationEntityAggregates: [HealthClientTypes.OrganizationEntityAggregate]?
 
@@ -927,11 +917,11 @@ public struct DescribeEntityAggregatesForOrganizationOutputResponse: Swift.Equat
     }
 }
 
-struct DescribeEntityAggregatesForOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeEntityAggregatesForOrganizationOutputBody: Swift.Equatable {
     let organizationEntityAggregates: [HealthClientTypes.OrganizationEntityAggregate]?
 }
 
-extension DescribeEntityAggregatesForOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeEntityAggregatesForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case organizationEntityAggregates
     }
@@ -949,6 +939,16 @@ extension DescribeEntityAggregatesForOrganizationOutputResponseBody: Swift.Decod
             }
         }
         organizationEntityAggregates = organizationEntityAggregatesDecoded0
+    }
+}
+
+enum DescribeEntityAggregatesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1011,21 +1011,11 @@ extension DescribeEntityAggregatesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEntityAggregatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEntityAggregatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEntityAggregatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEntityAggregatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEntityAggregatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.entityAggregates = output.entityAggregates
         } else {
             self.entityAggregates = nil
@@ -1033,7 +1023,7 @@ extension DescribeEntityAggregatesOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeEntityAggregatesOutputResponse: Swift.Equatable {
+public struct DescribeEntityAggregatesOutput: Swift.Equatable {
     /// The number of entities that are affected by each of the specified events.
     public var entityAggregates: [HealthClientTypes.EntityAggregate]?
 
@@ -1045,11 +1035,11 @@ public struct DescribeEntityAggregatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEntityAggregatesOutputResponseBody: Swift.Equatable {
+struct DescribeEntityAggregatesOutputBody: Swift.Equatable {
     let entityAggregates: [HealthClientTypes.EntityAggregate]?
 }
 
-extension DescribeEntityAggregatesOutputResponseBody: Swift.Decodable {
+extension DescribeEntityAggregatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entityAggregates
     }
@@ -1067,6 +1057,16 @@ extension DescribeEntityAggregatesOutputResponseBody: Swift.Decodable {
             }
         }
         entityAggregates = entityAggregatesDecoded0
+    }
+}
+
+enum DescribeEntityAggregatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1154,22 +1154,11 @@ extension DescribeEventAggregatesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventAggregatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventAggregatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventAggregatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventAggregatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventAggregatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventAggregates = output.eventAggregates
             self.nextToken = output.nextToken
         } else {
@@ -1179,7 +1168,7 @@ extension DescribeEventAggregatesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeEventAggregatesOutputResponse: Swift.Equatable {
+public struct DescribeEventAggregatesOutput: Swift.Equatable {
     /// The number of events in each category that meet the optional filter criteria.
     public var eventAggregates: [HealthClientTypes.EventAggregate]?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -1195,12 +1184,12 @@ public struct DescribeEventAggregatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventAggregatesOutputResponseBody: Swift.Equatable {
+struct DescribeEventAggregatesOutputBody: Swift.Equatable {
     let eventAggregates: [HealthClientTypes.EventAggregate]?
     let nextToken: Swift.String?
 }
 
-extension DescribeEventAggregatesOutputResponseBody: Swift.Decodable {
+extension DescribeEventAggregatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventAggregates
         case nextToken
@@ -1221,6 +1210,17 @@ extension DescribeEventAggregatesOutputResponseBody: Swift.Decodable {
         eventAggregates = eventAggregatesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeEventAggregatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1296,22 +1296,11 @@ extension DescribeEventDetailsForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventDetailsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventDetailsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventDetailsForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventDetailsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventDetailsForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedSet = output.failedSet
             self.successfulSet = output.successfulSet
         } else {
@@ -1321,7 +1310,7 @@ extension DescribeEventDetailsForOrganizationOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct DescribeEventDetailsForOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeEventDetailsForOrganizationOutput: Swift.Equatable {
     /// Error messages for any events that could not be retrieved.
     public var failedSet: [HealthClientTypes.OrganizationEventDetailsErrorItem]?
     /// Information about the events that could be retrieved.
@@ -1337,12 +1326,12 @@ public struct DescribeEventDetailsForOrganizationOutputResponse: Swift.Equatable
     }
 }
 
-struct DescribeEventDetailsForOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeEventDetailsForOrganizationOutputBody: Swift.Equatable {
     let successfulSet: [HealthClientTypes.OrganizationEventDetails]?
     let failedSet: [HealthClientTypes.OrganizationEventDetailsErrorItem]?
 }
 
-extension DescribeEventDetailsForOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeEventDetailsForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedSet
         case successfulSet
@@ -1372,6 +1361,17 @@ extension DescribeEventDetailsForOrganizationOutputResponseBody: Swift.Decodable
             }
         }
         failedSet = failedSetDecoded0
+    }
+}
+
+enum DescribeEventDetailsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1447,22 +1447,11 @@ extension DescribeEventDetailsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedSet = output.failedSet
             self.successfulSet = output.successfulSet
         } else {
@@ -1472,7 +1461,7 @@ extension DescribeEventDetailsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeEventDetailsOutputResponse: Swift.Equatable {
+public struct DescribeEventDetailsOutput: Swift.Equatable {
     /// Error messages for any events that could not be retrieved.
     public var failedSet: [HealthClientTypes.EventDetailsErrorItem]?
     /// Information about the events that could be retrieved.
@@ -1488,12 +1477,12 @@ public struct DescribeEventDetailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventDetailsOutputResponseBody: Swift.Equatable {
+struct DescribeEventDetailsOutputBody: Swift.Equatable {
     let successfulSet: [HealthClientTypes.EventDetails]?
     let failedSet: [HealthClientTypes.EventDetailsErrorItem]?
 }
 
-extension DescribeEventDetailsOutputResponseBody: Swift.Decodable {
+extension DescribeEventDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedSet
         case successfulSet
@@ -1523,6 +1512,17 @@ extension DescribeEventDetailsOutputResponseBody: Swift.Decodable {
             }
         }
         failedSet = failedSetDecoded0
+    }
+}
+
+enum DescribeEventDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1609,23 +1609,11 @@ extension DescribeEventTypesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventTypesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventTypesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventTypesOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventTypes = output.eventTypes
             self.nextToken = output.nextToken
         } else {
@@ -1635,7 +1623,7 @@ extension DescribeEventTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventTypesOutputResponse: Swift.Equatable {
+public struct DescribeEventTypesOutput: Swift.Equatable {
     /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
     public var eventTypes: [HealthClientTypes.EventType]?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -1651,12 +1639,12 @@ public struct DescribeEventTypesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventTypesOutputResponseBody: Swift.Equatable {
+struct DescribeEventTypesOutputBody: Swift.Equatable {
     let eventTypes: [HealthClientTypes.EventType]?
     let nextToken: Swift.String?
 }
 
-extension DescribeEventTypesOutputResponseBody: Swift.Decodable {
+extension DescribeEventTypesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventTypes
         case nextToken
@@ -1677,6 +1665,18 @@ extension DescribeEventTypesOutputResponseBody: Swift.Decodable {
         eventTypes = eventTypesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeEventTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1763,23 +1763,11 @@ extension DescribeEventsForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventsForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
         } else {
@@ -1789,7 +1777,7 @@ extension DescribeEventsForOrganizationOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeEventsForOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeEventsForOrganizationOutput: Swift.Equatable {
     /// The events that match the specified filter criteria.
     public var events: [HealthClientTypes.OrganizationEvent]?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -1805,12 +1793,12 @@ public struct DescribeEventsForOrganizationOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsForOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeEventsForOrganizationOutputBody: Swift.Equatable {
     let events: [HealthClientTypes.OrganizationEvent]?
     let nextToken: Swift.String?
 }
 
-extension DescribeEventsForOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeEventsForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events
         case nextToken
@@ -1831,6 +1819,18 @@ extension DescribeEventsForOrganizationOutputResponseBody: Swift.Decodable {
         events = eventsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeEventsForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1917,23 +1917,11 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
         } else {
@@ -1943,7 +1931,7 @@ extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsOutputResponse: Swift.Equatable {
+public struct DescribeEventsOutput: Swift.Equatable {
     /// The events that match the specified filter criteria.
     public var events: [HealthClientTypes.Event]?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -1959,12 +1947,12 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputResponseBody: Swift.Equatable {
+struct DescribeEventsOutputBody: Swift.Equatable {
     let events: [HealthClientTypes.Event]?
     let nextToken: Swift.String?
 }
 
-extension DescribeEventsOutputResponseBody: Swift.Decodable {
+extension DescribeEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events
         case nextToken
@@ -1985,6 +1973,18 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
         events = eventsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidPaginationToken": return try await InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLocale": return try await UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2016,21 +2016,11 @@ extension DescribeHealthServiceStatusForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeHealthServiceStatusForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeHealthServiceStatusForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeHealthServiceStatusForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeHealthServiceStatusForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeHealthServiceStatusForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.healthServiceAccessStatusForOrganization = output.healthServiceAccessStatusForOrganization
         } else {
             self.healthServiceAccessStatusForOrganization = nil
@@ -2038,7 +2028,7 @@ extension DescribeHealthServiceStatusForOrganizationOutputResponse: ClientRuntim
     }
 }
 
-public struct DescribeHealthServiceStatusForOrganizationOutputResponse: Swift.Equatable {
+public struct DescribeHealthServiceStatusForOrganizationOutput: Swift.Equatable {
     /// Information about the status of enabling or disabling the Health organizational view feature in your organization. Valid values are ENABLED | DISABLED | PENDING.
     public var healthServiceAccessStatusForOrganization: Swift.String?
 
@@ -2050,11 +2040,11 @@ public struct DescribeHealthServiceStatusForOrganizationOutputResponse: Swift.Eq
     }
 }
 
-struct DescribeHealthServiceStatusForOrganizationOutputResponseBody: Swift.Equatable {
+struct DescribeHealthServiceStatusForOrganizationOutputBody: Swift.Equatable {
     let healthServiceAccessStatusForOrganization: Swift.String?
 }
 
-extension DescribeHealthServiceStatusForOrganizationOutputResponseBody: Swift.Decodable {
+extension DescribeHealthServiceStatusForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case healthServiceAccessStatusForOrganization
     }
@@ -2063,6 +2053,16 @@ extension DescribeHealthServiceStatusForOrganizationOutputResponseBody: Swift.De
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let healthServiceAccessStatusForOrganizationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .healthServiceAccessStatusForOrganization)
         healthServiceAccessStatusForOrganization = healthServiceAccessStatusForOrganizationDecoded
+    }
+}
+
+enum DescribeHealthServiceStatusForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2094,6 +2094,16 @@ extension DisableHealthServiceAccessForOrganizationInputBody: Swift.Decodable {
     }
 }
 
+extension DisableHealthServiceAccessForOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisableHealthServiceAccessForOrganizationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisableHealthServiceAccessForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2103,16 +2113,6 @@ enum DisableHealthServiceAccessForOrganizationOutputError: ClientRuntime.HttpRes
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisableHealthServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisableHealthServiceAccessForOrganizationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EnableHealthServiceAccessForOrganizationInput: Swift.Encodable {
@@ -2143,6 +2143,16 @@ extension EnableHealthServiceAccessForOrganizationInputBody: Swift.Decodable {
     }
 }
 
+extension EnableHealthServiceAccessForOrganizationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct EnableHealthServiceAccessForOrganizationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum EnableHealthServiceAccessForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2152,16 +2162,6 @@ enum EnableHealthServiceAccessForOrganizationOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension EnableHealthServiceAccessForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct EnableHealthServiceAccessForOrganizationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension HealthClientTypes.EntityAccountFilter: Swift.Codable {

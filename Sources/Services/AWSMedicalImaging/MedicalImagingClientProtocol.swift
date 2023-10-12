@@ -56,7 +56,7 @@ public protocol MedicalImagingClientProtocol {
     ///
     /// - Parameter CopyImageSetInput : [no documentation found]
     ///
-    /// - Returns: `CopyImageSetOutputResponse` : [no documentation found]
+    /// - Returns: `CopyImageSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutputResponse
+    func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutput
     /// Create a data store.
     ///
     /// - Parameter CreateDatastoreInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatastoreOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatastoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,12 +84,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutputResponse
+    func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput
     /// Delete a data store. Before a data store can be deleted, you must first delete all image sets within it.
     ///
     /// - Parameter DeleteDatastoreInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDatastoreOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDatastoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -100,12 +100,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutputResponse
+    func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput
     /// Delete an image set.
     ///
     /// - Parameter DeleteImageSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImageSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImageSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutputResponse
+    func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutput
     /// Get data store properties.
     ///
     /// - Parameter GetDatastoreInput : [no documentation found]
     ///
-    /// - Returns: `GetDatastoreOutputResponse` : [no documentation found]
+    /// - Returns: `GetDatastoreOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutputResponse
+    func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutput
     /// Get the import job properties to learn more about the job or job progress.
     ///
     /// - Parameter GetDICOMImportJobInput : [no documentation found]
     ///
-    /// - Returns: `GetDICOMImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetDICOMImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutputResponse
+    func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutput
     /// Get an image frame (pixel data) for an image set.
     ///
     /// - Parameter GetImageFrameInput : [no documentation found]
     ///
-    /// - Returns: `GetImageFrameOutputResponse` : [no documentation found]
+    /// - Returns: `GetImageFrameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutputResponse
+    func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutput
     /// Get image set properties.
     ///
     /// - Parameter GetImageSetInput : [no documentation found]
     ///
-    /// - Returns: `GetImageSetOutputResponse` : [no documentation found]
+    /// - Returns: `GetImageSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutputResponse
+    func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutput
     /// Get metadata attributes for an image set.
     ///
     /// - Parameter GetImageSetMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetImageSetMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetImageSetMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,12 +195,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutputResponse
+    func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutput
     /// List data stores created by this AWS account.
     ///
     /// - Parameter ListDatastoresInput : [no documentation found]
     ///
-    /// - Returns: `ListDatastoresOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatastoresOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during processing of the request.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutputResponse
+    func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput
     /// List import jobs created by this AWS account for a specific data store.
     ///
     /// - Parameter ListDICOMImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDICOMImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDICOMImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,12 +225,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutputResponse
+    func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutput
     /// List image set versions.
     ///
     /// - Parameter ListImageSetVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListImageSetVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListImageSetVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutputResponse
+    func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutput
     /// Lists all tags associated with a medical imaging resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Search image sets based on defined input attributes.
     ///
     /// - Parameter SearchImageSetsInput : [no documentation found]
     ///
-    /// - Returns: `SearchImageSetsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchImageSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -272,12 +272,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutputResponse
+    func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutput
     /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
     /// - Parameter StartDICOMImportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartDICOMImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartDICOMImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,12 +289,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutputResponse
+    func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutput
     /// Adds a user-specifed key and value tag to a medical imaging resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -304,12 +304,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a medical imaging resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,12 +319,12 @@ public protocol MedicalImagingClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update image set metadata attributes.
     ///
     /// - Parameter UpdateImageSetMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateImageSetMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateImageSetMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -336,7 +336,7 @@ public protocol MedicalImagingClientProtocol {
     /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func updateImageSetMetadata(input: UpdateImageSetMetadataInput) async throws -> UpdateImageSetMetadataOutputResponse
+    func updateImageSetMetadata(input: UpdateImageSetMetadataInput) async throws -> UpdateImageSetMetadataOutput
 }
 
 public enum MedicalImagingClientTypes {}

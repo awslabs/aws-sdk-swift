@@ -131,25 +131,11 @@ extension GetRoleCredentialsInputBody: Swift.Decodable {
     }
 }
 
-enum GetRoleCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRoleCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRoleCredentialsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRoleCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRoleCredentialsOutputBody = try responseDecoder.decode(responseBody: data)
             self.roleCredentials = output.roleCredentials
         } else {
             self.roleCredentials = nil
@@ -157,7 +143,7 @@ extension GetRoleCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRoleCredentialsOutputResponse: Swift.Equatable {
+public struct GetRoleCredentialsOutput: Swift.Equatable {
     /// The credentials for the role that is assigned to the user.
     public var roleCredentials: SSOClientTypes.RoleCredentials?
 
@@ -169,11 +155,11 @@ public struct GetRoleCredentialsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRoleCredentialsOutputResponseBody: Swift.Equatable {
+struct GetRoleCredentialsOutputBody: Swift.Equatable {
     let roleCredentials: SSOClientTypes.RoleCredentials?
 }
 
-extension GetRoleCredentialsOutputResponseBody: Swift.Decodable {
+extension GetRoleCredentialsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case roleCredentials
     }
@@ -182,6 +168,20 @@ extension GetRoleCredentialsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let roleCredentialsDecoded = try containerValues.decodeIfPresent(SSOClientTypes.RoleCredentials.self, forKey: .roleCredentials)
         roleCredentials = roleCredentialsDecoded
+    }
+}
+
+enum GetRoleCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -319,25 +319,11 @@ extension ListAccountRolesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAccountRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAccountRolesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccountRolesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccountRolesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccountRolesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.roleList = output.roleList
         } else {
@@ -347,7 +333,7 @@ extension ListAccountRolesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountRolesOutputResponse: Swift.Equatable {
+public struct ListAccountRolesOutput: Swift.Equatable {
     /// The page token client that is used to retrieve the list of accounts.
     public var nextToken: Swift.String?
     /// A paginated response with the list of roles and the next token if more results are available.
@@ -363,12 +349,12 @@ public struct ListAccountRolesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccountRolesOutputResponseBody: Swift.Equatable {
+struct ListAccountRolesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let roleList: [SSOClientTypes.RoleInfo]?
 }
 
-extension ListAccountRolesOutputResponseBody: Swift.Decodable {
+extension ListAccountRolesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case roleList
@@ -389,6 +375,20 @@ extension ListAccountRolesOutputResponseBody: Swift.Decodable {
             }
         }
         roleList = roleListDecoded0
+    }
+}
+
+enum ListAccountRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -460,25 +460,11 @@ extension ListAccountsInputBody: Swift.Decodable {
     }
 }
 
-enum ListAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccountsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccountsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountList = output.accountList
             self.nextToken = output.nextToken
         } else {
@@ -488,7 +474,7 @@ extension ListAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountsOutputResponse: Swift.Equatable {
+public struct ListAccountsOutput: Swift.Equatable {
     /// A paginated response with the list of account information and the next token if more results are available.
     public var accountList: [SSOClientTypes.AccountInfo]?
     /// The page token client that is used to retrieve the list of accounts.
@@ -504,12 +490,12 @@ public struct ListAccountsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccountsOutputResponseBody: Swift.Equatable {
+struct ListAccountsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let accountList: [SSOClientTypes.AccountInfo]?
 }
 
-extension ListAccountsOutputResponseBody: Swift.Decodable {
+extension ListAccountsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountList
         case nextToken
@@ -530,6 +516,20 @@ extension ListAccountsOutputResponseBody: Swift.Decodable {
             }
         }
         accountList = accountListDecoded0
+    }
+}
+
+enum ListAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -576,6 +576,16 @@ extension LogoutInputBody: Swift.Decodable {
     }
 }
 
+extension LogoutOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct LogoutOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum LogoutOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -587,16 +597,6 @@ enum LogoutOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension LogoutOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct LogoutOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResourceNotFoundException {

@@ -13,102 +13,102 @@ public protocol CostExplorerClientProtocol {
     ///
     /// - Parameter CreateAnomalyMonitorInput : [no documentation found]
     ///
-    /// - Returns: `CreateAnomalyMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAnomalyMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func createAnomalyMonitor(input: CreateAnomalyMonitorInput) async throws -> CreateAnomalyMonitorOutputResponse
+    func createAnomalyMonitor(input: CreateAnomalyMonitorInput) async throws -> CreateAnomalyMonitorOutput
     /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications.
     ///
     /// - Parameter CreateAnomalySubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateAnomalySubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAnomalySubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    func createAnomalySubscription(input: CreateAnomalySubscriptionInput) async throws -> CreateAnomalySubscriptionOutputResponse
+    func createAnomalySubscription(input: CreateAnomalySubscriptionInput) async throws -> CreateAnomalySubscriptionOutput
     /// Creates a new Cost Category with the requested name and rules.
     ///
     /// - Parameter CreateCostCategoryDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateCostCategoryDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCostCategoryDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-    func createCostCategoryDefinition(input: CreateCostCategoryDefinitionInput) async throws -> CreateCostCategoryDefinitionOutputResponse
+    func createCostCategoryDefinition(input: CreateCostCategoryDefinitionInput) async throws -> CreateCostCategoryDefinitionOutput
     /// Deletes a cost anomaly monitor.
     ///
     /// - Parameter DeleteAnomalyMonitorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAnomalyMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnomalyMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    func deleteAnomalyMonitor(input: DeleteAnomalyMonitorInput) async throws -> DeleteAnomalyMonitorOutputResponse
+    func deleteAnomalyMonitor(input: DeleteAnomalyMonitorInput) async throws -> DeleteAnomalyMonitorOutput
     /// Deletes a cost anomaly subscription.
     ///
     /// - Parameter DeleteAnomalySubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAnomalySubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnomalySubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
-    func deleteAnomalySubscription(input: DeleteAnomalySubscriptionInput) async throws -> DeleteAnomalySubscriptionOutputResponse
+    func deleteAnomalySubscription(input: DeleteAnomalySubscriptionInput) async throws -> DeleteAnomalySubscriptionOutput
     /// Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
     ///
     /// - Parameter DeleteCostCategoryDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCostCategoryDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCostCategoryDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInput) async throws -> DeleteCostCategoryDefinitionOutputResponse
+    func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInput) async throws -> DeleteCostCategoryDefinitionOutput
     /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
     ///
     /// - Parameter DescribeCostCategoryDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCostCategoryDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCostCategoryDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput) async throws -> DescribeCostCategoryDefinitionOutputResponse
+    func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput) async throws -> DescribeCostCategoryDefinitionOutput
     /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days.
     ///
     /// - Parameter GetAnomaliesInput : [no documentation found]
     ///
-    /// - Returns: `GetAnomaliesOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnomaliesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getAnomalies(input: GetAnomaliesInput) async throws -> GetAnomaliesOutputResponse
+    func getAnomalies(input: GetAnomaliesInput) async throws -> GetAnomaliesOutput
     /// Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
     ///
     /// - Parameter GetAnomalyMonitorsInput : [no documentation found]
     ///
-    /// - Returns: `GetAnomalyMonitorsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnomalyMonitorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    func getAnomalyMonitors(input: GetAnomalyMonitorsInput) async throws -> GetAnomalyMonitorsOutputResponse
+    func getAnomalyMonitors(input: GetAnomalyMonitorsInput) async throws -> GetAnomalyMonitorsOutput
     /// Retrieves the cost anomaly subscription objects for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
     ///
     /// - Parameter GetAnomalySubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `GetAnomalySubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnomalySubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,12 +129,12 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
-    func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput) async throws -> GetAnomalySubscriptionsOutputResponse
+    func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput) async throws -> GetAnomalySubscriptionsOutput
     /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the [GetDimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html) operation. Management account in an organization in Organizations have access to all member accounts. For information about filter limitations, see [Quotas and restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html) in the Billing and Cost Management User Guide.
     ///
     /// - Parameter GetCostAndUsageInput : [no documentation found]
     ///
-    /// - Returns: `GetCostAndUsageOutputResponse` : [no documentation found]
+    /// - Returns: `GetCostAndUsageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    func getCostAndUsage(input: GetCostAndUsageInput) async throws -> GetCostAndUsageOutputResponse
+    func getCostAndUsage(input: GetCostAndUsageInput) async throws -> GetCostAndUsageOutput
     /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the [GetDimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html) operation. Management account in an organization in Organizations have access to all member accounts. This API is currently available for the Amazon Elastic Compute Cloud – Compute service only. This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information about how to access the Settings page, see [Controlling Access for Cost Explorer](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-access.html) in the Billing and Cost Management User Guide.
     ///
     /// - Parameter GetCostAndUsageWithResourcesInput : [no documentation found]
     ///
-    /// - Returns: `GetCostAndUsageWithResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `GetCostAndUsageWithResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -159,12 +159,12 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput) async throws -> GetCostAndUsageWithResourcesOutputResponse
+    func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput) async throws -> GetCostAndUsageWithResourcesOutput
     /// Retrieves an array of Cost Category names and values incurred cost. If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
     ///
     /// - Parameter GetCostCategoriesInput : [no documentation found]
     ///
-    /// - Returns: `GetCostCategoriesOutputResponse` : [no documentation found]
+    /// - Returns: `GetCostCategoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,24 +174,24 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    func getCostCategories(input: GetCostCategoriesInput) async throws -> GetCostCategoriesOutputResponse
+    func getCostCategories(input: GetCostCategoriesInput) async throws -> GetCostCategoriesOutput
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will spend over the forecast time period that you select, based on your past costs.
     ///
     /// - Parameter GetCostForecastInput : [no documentation found]
     ///
-    /// - Returns: `GetCostForecastOutputResponse` : [no documentation found]
+    /// - Returns: `GetCostForecastOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getCostForecast(input: GetCostForecastInput) async throws -> GetCostForecastOutputResponse
+    func getCostForecast(input: GetCostForecastInput) async throws -> GetCostForecastOutput
     /// Retrieves all available filter values for a specified filter over a period of time. You can search the dimension values for an arbitrary string.
     ///
     /// - Parameter GetDimensionValuesInput : [no documentation found]
     ///
-    /// - Returns: `GetDimensionValuesOutputResponse` : [no documentation found]
+    /// - Returns: `GetDimensionValuesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -201,7 +201,7 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    func getDimensionValues(input: GetDimensionValuesInput) async throws -> GetDimensionValuesOutputResponse
+    func getDimensionValues(input: GetDimensionValuesInput) async throws -> GetDimensionValuesOutput
     /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:
     ///
     /// * AZ
@@ -233,7 +233,7 @@ public protocol CostExplorerClientProtocol {
     ///
     /// - Parameter GetReservationCoverageInput : You can use the following request parameters to query for how much of your instance usage a reservation covered.
     ///
-    /// - Returns: `GetReservationCoverageOutputResponse` : [no documentation found]
+    /// - Returns: `GetReservationCoverageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getReservationCoverage(input: GetReservationCoverageInput) async throws -> GetReservationCoverageOutputResponse
+    func getReservationCoverage(input: GetReservationCoverageInput) async throws -> GetReservationCoverageOutput
     /// Gets recommendations for reservation purchases. These recommendations might help you to reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reservations in each category of usage to identify the best number of each type of Reserved Instance (RI) to purchase to maximize your estimated savings. For example, Amazon Web Services automatically aggregates your Amazon EC2 Linux, shared tenancy, and c4 family usage in the US West (Oregon) Region and recommends that you buy size-flexible regional reservations to apply to the c4 family usage. Amazon Web Services recommends the smallest size instance in an instance family. This makes it easier to purchase a size-flexible Reserved Instance (RI). Amazon Web Services also shows the equal number of normalized units. This way, you can purchase any instance size that you want. For this example, your RI recommendation is for c4.large because that is the smallest size instance in the c4 instance family.
     ///
     /// - Parameter GetReservationPurchaseRecommendationInput : [no documentation found]
     ///
-    /// - Returns: `GetReservationPurchaseRecommendationOutputResponse` : [no documentation found]
+    /// - Returns: `GetReservationPurchaseRecommendationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -254,12 +254,12 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getReservationPurchaseRecommendation(input: GetReservationPurchaseRecommendationInput) async throws -> GetReservationPurchaseRecommendationOutputResponse
+    func getReservationPurchaseRecommendation(input: GetReservationPurchaseRecommendationInput) async throws -> GetReservationPurchaseRecommendationOutput
     /// Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID.
     ///
     /// - Parameter GetReservationUtilizationInput : [no documentation found]
     ///
-    /// - Returns: `GetReservationUtilizationOutputResponse` : [no documentation found]
+    /// - Returns: `GetReservationUtilizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,31 +267,31 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getReservationUtilization(input: GetReservationUtilizationInput) async throws -> GetReservationUtilizationOutputResponse
+    func getReservationUtilization(input: GetReservationUtilizationInput) async throws -> GetReservationUtilizationOutput
     /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For more information about calculation and function, see [Optimizing Your Cost with Rightsizing Recommendations](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html) in the Billing and Cost Management User Guide.
     ///
     /// - Parameter GetRightsizingRecommendationInput : [no documentation found]
     ///
-    /// - Returns: `GetRightsizingRecommendationOutputResponse` : [no documentation found]
+    /// - Returns: `GetRightsizingRecommendationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutputResponse
+    func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutput
     /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the cost, coverage, and utilization charts.
     ///
     /// - Parameter GetSavingsPlanPurchaseRecommendationDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetSavingsPlanPurchaseRecommendationDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSavingsPlanPurchaseRecommendationDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutputResponse
+    func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutput
     /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
     ///
     /// * LINKED_ACCOUNT
@@ -307,7 +307,7 @@ public protocol CostExplorerClientProtocol {
     ///
     /// - Parameter GetSavingsPlansCoverageInput : [no documentation found]
     ///
-    /// - Returns: `GetSavingsPlansCoverageOutputResponse` : [no documentation found]
+    /// - Returns: `GetSavingsPlansCoverageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -315,36 +315,36 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getSavingsPlansCoverage(input: GetSavingsPlansCoverageInput) async throws -> GetSavingsPlansCoverageOutputResponse
+    func getSavingsPlansCoverage(input: GetSavingsPlansCoverageInput) async throws -> GetSavingsPlansCoverageOutput
     /// Retrieves the Savings Plans recommendations for your account. First use StartSavingsPlansPurchaseRecommendationGeneration to generate a new set of recommendations, and then use GetSavingsPlansPurchaseRecommendation to retrieve them.
     ///
     /// - Parameter GetSavingsPlansPurchaseRecommendationInput : [no documentation found]
     ///
-    /// - Returns: `GetSavingsPlansPurchaseRecommendationOutputResponse` : [no documentation found]
+    /// - Returns: `GetSavingsPlansPurchaseRecommendationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getSavingsPlansPurchaseRecommendation(input: GetSavingsPlansPurchaseRecommendationInput) async throws -> GetSavingsPlansPurchaseRecommendationOutputResponse
+    func getSavingsPlansPurchaseRecommendation(input: GetSavingsPlansPurchaseRecommendationInput) async throws -> GetSavingsPlansPurchaseRecommendationOutput
     /// Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. You can't group by any dimension values for GetSavingsPlansUtilization.
     ///
     /// - Parameter GetSavingsPlansUtilizationInput : [no documentation found]
     ///
-    /// - Returns: `GetSavingsPlansUtilizationOutputResponse` : [no documentation found]
+    /// - Returns: `GetSavingsPlansUtilizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getSavingsPlansUtilization(input: GetSavingsPlansUtilizationInput) async throws -> GetSavingsPlansUtilizationOutputResponse
+    func getSavingsPlansUtilization(input: GetSavingsPlansUtilizationInput) async throws -> GetSavingsPlansUtilizationOutput
     /// Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn.
     ///
     /// - Parameter GetSavingsPlansUtilizationDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetSavingsPlansUtilizationDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetSavingsPlansUtilizationDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -352,12 +352,12 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func getSavingsPlansUtilizationDetails(input: GetSavingsPlansUtilizationDetailsInput) async throws -> GetSavingsPlansUtilizationDetailsOutputResponse
+    func getSavingsPlansUtilizationDetails(input: GetSavingsPlansUtilizationDetailsInput) async throws -> GetSavingsPlansUtilizationDetailsOutput
     /// Queries for available tag keys and tag values for a specified period. You can search the tag values for an arbitrary string.
     ///
     /// - Parameter GetTagsInput : [no documentation found]
     ///
-    /// - Returns: `GetTagsOutputResponse` : [no documentation found]
+    /// - Returns: `GetTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -367,12 +367,12 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-    func getTags(input: GetTagsInput) async throws -> GetTagsOutputResponse
+    func getTags(input: GetTagsInput) async throws -> GetTagsOutput
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will use over the forecast time period that you select, based on your past usage.
     ///
     /// - Parameter GetUsageForecastInput : [no documentation found]
     ///
-    /// - Returns: `GetUsageForecastOutputResponse` : [no documentation found]
+    /// - Returns: `GetUsageForecastOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -380,35 +380,35 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnresolvableUsageUnitException` : Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
-    func getUsageForecast(input: GetUsageForecastInput) async throws -> GetUsageForecastOutputResponse
+    func getUsageForecast(input: GetUsageForecastInput) async throws -> GetUsageForecastOutput
     /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are returned.
     ///
     /// - Parameter ListCostAllocationTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListCostAllocationTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCostAllocationTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func listCostAllocationTags(input: ListCostAllocationTagsInput) async throws -> ListCostAllocationTagsOutputResponse
+    func listCostAllocationTags(input: ListCostAllocationTagsInput) async throws -> ListCostAllocationTagsOutput
     /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     ///
     /// - Parameter ListCostCategoryDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListCostCategoryDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCostCategoryDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func listCostCategoryDefinitions(input: ListCostCategoryDefinitionsInput) async throws -> ListCostCategoryDefinitionsOutputResponse
+    func listCostCategoryDefinitions(input: ListCostCategoryDefinitionsInput) async throws -> ListCostCategoryDefinitionsOutput
     /// Retrieves a list of your historical recommendation generations within the past 30 days.
     ///
     /// - Parameter ListSavingsPlansPurchaseRecommendationGenerationInput : [no documentation found]
     ///
-    /// - Returns: `ListSavingsPlansPurchaseRecommendationGenerationOutputResponse` : [no documentation found]
+    /// - Returns: `ListSavingsPlansPurchaseRecommendationGenerationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,35 +416,35 @@ public protocol CostExplorerClientProtocol {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func listSavingsPlansPurchaseRecommendationGeneration(input: ListSavingsPlansPurchaseRecommendationGenerationInput) async throws -> ListSavingsPlansPurchaseRecommendationGenerationOutputResponse
+    func listSavingsPlansPurchaseRecommendationGeneration(input: ListSavingsPlansPurchaseRecommendationGenerationInput) async throws -> ListSavingsPlansPurchaseRecommendationGenerationOutput
     /// Returns a list of resource tags associated with the resource specified by the Amazon Resource Name (ARN).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Modifies the feedback property of a given cost anomaly.
     ///
     /// - Parameter ProvideAnomalyFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `ProvideAnomalyFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `ProvideAnomalyFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func provideAnomalyFeedback(input: ProvideAnomalyFeedbackInput) async throws -> ProvideAnomalyFeedbackOutputResponse
+    func provideAnomalyFeedback(input: ProvideAnomalyFeedbackInput) async throws -> ProvideAnomalyFeedbackOutput
     /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family. StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this operation.
     ///
     /// - Parameter StartSavingsPlansPurchaseRecommendationGenerationInput : [no documentation found]
     ///
-    /// - Returns: `StartSavingsPlansPurchaseRecommendationGenerationOutputResponse` : [no documentation found]
+    /// - Returns: `StartSavingsPlansPurchaseRecommendationGenerationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,12 +453,12 @@ public protocol CostExplorerClientProtocol {
     /// - `GenerationExistsException` : A request to generate a recommendation is already in progress.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-    func startSavingsPlansPurchaseRecommendationGeneration(input: StartSavingsPlansPurchaseRecommendationGenerationInput) async throws -> StartSavingsPlansPurchaseRecommendationGenerationOutputResponse
+    func startSavingsPlansPurchaseRecommendationGeneration(input: StartSavingsPlansPurchaseRecommendationGenerationInput) async throws -> StartSavingsPlansPurchaseRecommendationGenerationOutput
     /// An API operation for adding one or more tags (key-value pairs) to a resource. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web Services use.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -466,36 +466,36 @@ public protocol CostExplorerClientProtocol {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `TooManyTagsException` : Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an existing cost anomaly monitor. The changes made are applied going forward, and doesn't change anomalies detected in the past.
     ///
     /// - Parameter UpdateAnomalyMonitorInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnomalyMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnomalyMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
-    func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput) async throws -> UpdateAnomalyMonitorOutputResponse
+    func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput) async throws -> UpdateAnomalyMonitorOutput
     /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. The JSON below describes the generic construct for each type. See [Request Parameters](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html#API_UpdateAnomalySubscription_RequestParameters) for possible values as they apply to AnomalySubscription.
     ///
     /// - Parameter UpdateAnomalySubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnomalySubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnomalySubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -503,23 +503,23 @@ public protocol CostExplorerClientProtocol {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
-    func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutputResponse
+    func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutput
     /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag).
     ///
     /// - Parameter UpdateCostAllocationTagsStatusInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCostAllocationTagsStatusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCostAllocationTagsStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
-    func updateCostAllocationTagsStatus(input: UpdateCostAllocationTagsStatusInput) async throws -> UpdateCostAllocationTagsStatusOutputResponse
+    func updateCostAllocationTagsStatus(input: UpdateCostAllocationTagsStatusInput) async throws -> UpdateCostAllocationTagsStatusOutput
     /// Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
     ///
     /// - Parameter UpdateCostCategoryDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCostCategoryDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCostCategoryDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -527,7 +527,7 @@ public protocol CostExplorerClientProtocol {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-    func updateCostCategoryDefinition(input: UpdateCostCategoryDefinitionInput) async throws -> UpdateCostCategoryDefinitionOutputResponse
+    func updateCostCategoryDefinition(input: UpdateCostCategoryDefinitionInput) async throws -> UpdateCostCategoryDefinitionOutput
 }
 
 public enum CostExplorerClientTypes {}

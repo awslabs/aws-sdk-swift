@@ -8,7 +8,7 @@ public protocol MigrationHubStrategyClientProtocol {
     ///
     /// - Parameter GetApplicationComponentDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationComponentDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationComponentDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16,12 +16,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutputResponse
+    func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutput
     /// Retrieves a list of all the recommended strategies and tools for an application component running on a server.
     ///
     /// - Parameter GetApplicationComponentStrategiesInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationComponentStrategiesOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationComponentStrategiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -29,12 +29,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutputResponse
+    func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutput
     /// Retrieves the status of an on-going assessment.
     ///
     /// - Parameter GetAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `GetAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `GetAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -43,12 +43,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutputResponse
+    func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput
     /// Retrieves the details about a specific import task.
     ///
     /// - Parameter GetImportFileTaskInput : [no documentation found]
     ///
-    /// - Returns: `GetImportFileTaskOutputResponse` : [no documentation found]
+    /// - Returns: `GetImportFileTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,12 +58,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutputResponse
+    func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutput
     /// Retrieve the latest ID of a specific assessment task.
     ///
     /// - Parameter GetLatestAssessmentIdInput : [no documentation found]
     ///
-    /// - Returns: `GetLatestAssessmentIdOutputResponse` : [no documentation found]
+    /// - Returns: `GetLatestAssessmentIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -72,12 +72,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The request body isn't valid.
-    func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutputResponse
+    func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutput
     /// Retrieves your migration and modernization preferences.
     ///
     /// - Parameter GetPortfolioPreferencesInput : [no documentation found]
     ///
-    /// - Returns: `GetPortfolioPreferencesOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortfolioPreferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutputResponse
+    func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutput
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     ///
     /// - Parameter GetPortfolioSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetPortfolioSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetPortfolioSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutputResponse
+    func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutput
     /// Retrieves detailed information about the specified recommendation report.
     ///
     /// - Parameter GetRecommendationReportDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetRecommendationReportDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetRecommendationReportDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -114,12 +114,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutputResponse
+    func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutput
     /// Retrieves detailed information about a specified server.
     ///
     /// - Parameter GetServerDetailsInput : [no documentation found]
     ///
-    /// - Returns: `GetServerDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `GetServerDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,12 +129,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutputResponse
+    func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutput
     /// Retrieves recommended strategies and tools for the specified server.
     ///
     /// - Parameter GetServerStrategiesInput : [no documentation found]
     ///
-    /// - Returns: `GetServerStrategiesOutputResponse` : [no documentation found]
+    /// - Returns: `GetServerStrategiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutputResponse
+    func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutput
     /// Retrieves a list of all the application components (processes).
     ///
     /// - Parameter ListApplicationComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -158,12 +158,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ServiceLinkedRoleLockClientException` : Exception to indicate that the service-linked role (SLR) is locked.
     /// - `ValidationException` : The request body isn't valid.
-    func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutputResponse
+    func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutput
     /// Retrieves a list of all the installed collectors.
     ///
     /// - Parameter ListCollectorsInput : [no documentation found]
     ///
-    /// - Returns: `ListCollectorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCollectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -172,12 +172,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutputResponse
+    func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutput
     /// Retrieves a list of all the imports performed.
     ///
     /// - Parameter ListImportFileTaskInput : [no documentation found]
     ///
-    /// - Returns: `ListImportFileTaskOutputResponse` : [no documentation found]
+    /// - Returns: `ListImportFileTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -186,12 +186,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutputResponse
+    func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutput
     /// Returns a list of all the servers.
     ///
     /// - Parameter ListServersInput : [no documentation found]
     ///
-    /// - Returns: `ListServersOutputResponse` : [no documentation found]
+    /// - Returns: `ListServersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -200,12 +200,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func listServers(input: ListServersInput) async throws -> ListServersOutputResponse
+    func listServers(input: ListServersInput) async throws -> ListServersOutput
     /// Saves the specified migration and modernization preferences.
     ///
     /// - Parameter PutPortfolioPreferencesInput : [no documentation found]
     ///
-    /// - Returns: `PutPortfolioPreferencesOutputResponse` : [no documentation found]
+    /// - Returns: `PutPortfolioPreferencesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -215,12 +215,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutputResponse
+    func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutput
     /// Starts the assessment of an on-premises environment.
     ///
     /// - Parameter StartAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `StartAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `StartAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -229,12 +229,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutputResponse
+    func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutput
     /// Starts a file import.
     ///
     /// - Parameter StartImportFileTaskInput : [no documentation found]
     ///
-    /// - Returns: `StartImportFileTaskOutputResponse` : [no documentation found]
+    /// - Returns: `StartImportFileTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,12 +244,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutputResponse
+    func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutput
     /// Starts generating a recommendation report.
     ///
     /// - Parameter StartRecommendationReportGenerationInput : [no documentation found]
     ///
-    /// - Returns: `StartRecommendationReportGenerationOutputResponse` : [no documentation found]
+    /// - Returns: `StartRecommendationReportGenerationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutputResponse
+    func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutput
     /// Stops the assessment of an on-premises environment.
     ///
     /// - Parameter StopAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `StopAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `StopAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutputResponse
+    func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutput
     /// Updates the configuration of an application component.
     ///
     /// - Parameter UpdateApplicationComponentConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationComponentConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationComponentConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -287,12 +287,12 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutputResponse
+    func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutput
     /// Updates the configuration of the specified server.
     ///
     /// - Parameter UpdateServerConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServerConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServerConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -301,7 +301,7 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
-    func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutputResponse
+    func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutput
 }
 
 public enum MigrationHubStrategyClientTypes {}

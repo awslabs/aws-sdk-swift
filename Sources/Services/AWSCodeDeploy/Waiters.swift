@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension CodeDeployClientProtocol {
 
-    static func deploymentSuccessfulWaiterConfig() throws -> WaiterConfiguration<GetDeploymentInput, GetDeploymentOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetDeploymentInput, GetDeploymentOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetDeploymentInput, result: Result<GetDeploymentOutputResponse, Error>) -> Bool in
+    static func deploymentSuccessfulWaiterConfig() throws -> WaiterConfiguration<GetDeploymentInput, GetDeploymentOutput> {
+        let acceptors: [WaiterConfiguration<GetDeploymentInput, GetDeploymentOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetDeploymentInput, result: Result<GetDeploymentOutput, Error>) -> Bool in
                 // JMESPath expression: "deploymentInfo.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Succeeded"
@@ -15,7 +15,7 @@ extension CodeDeployClientProtocol {
                 let status = deploymentInfo?.status
                 return JMESUtils.compare(status, ==, "Succeeded")
             }),
-            .init(state: .failure, matcher: { (input: GetDeploymentInput, result: Result<GetDeploymentOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetDeploymentInput, result: Result<GetDeploymentOutput, Error>) -> Bool in
                 // JMESPath expression: "deploymentInfo.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Failed"
@@ -24,7 +24,7 @@ extension CodeDeployClientProtocol {
                 let status = deploymentInfo?.status
                 return JMESUtils.compare(status, ==, "Failed")
             }),
-            .init(state: .failure, matcher: { (input: GetDeploymentInput, result: Result<GetDeploymentOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetDeploymentInput, result: Result<GetDeploymentOutput, Error>) -> Bool in
                 // JMESPath expression: "deploymentInfo.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Stopped"
@@ -34,7 +34,7 @@ extension CodeDeployClientProtocol {
                 return JMESUtils.compare(status, ==, "Stopped")
             }),
         ]
-        return try WaiterConfiguration<GetDeploymentInput, GetDeploymentOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetDeploymentInput, GetDeploymentOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DeploymentSuccessful event on the getDeployment operation.
@@ -48,7 +48,7 @@ extension CodeDeployClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDeploymentSuccessful(options: WaiterOptions, input: GetDeploymentInput) async throws -> WaiterOutcome<GetDeploymentOutputResponse> {
+    public func waitUntilDeploymentSuccessful(options: WaiterOptions, input: GetDeploymentInput) async throws -> WaiterOutcome<GetDeploymentOutput> {
         let waiter = Waiter(config: try Self.deploymentSuccessfulWaiterConfig(), operation: self.getDeployment(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

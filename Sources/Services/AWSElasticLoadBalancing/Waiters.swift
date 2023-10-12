@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ElasticLoadBalancingClientProtocol {
 
-    static func anyInstanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutputResponse, Error>) -> Bool in
+    static func anyInstanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutput, Error>) -> Bool in
                 // JMESPath expression: "InstanceStates[].State"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "InService"
@@ -19,7 +19,7 @@ extension ElasticLoadBalancingClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "InService") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AnyInstanceInService event on the describeInstanceHealth operation.
@@ -33,14 +33,14 @@ extension ElasticLoadBalancingClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAnyInstanceInService(options: WaiterOptions, input: DescribeInstanceHealthInput) async throws -> WaiterOutcome<DescribeInstanceHealthOutputResponse> {
+    public func waitUntilAnyInstanceInService(options: WaiterOptions, input: DescribeInstanceHealthInput) async throws -> WaiterOutcome<DescribeInstanceHealthOutput> {
         let waiter = Waiter(config: try Self.anyInstanceInServiceWaiterConfig(), operation: self.describeInstanceHealth(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func instanceDeregisteredWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutputResponse, Error>) -> Bool in
+    static func instanceDeregisteredWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutput, Error>) -> Bool in
                 // JMESPath expression: "InstanceStates[].State"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "OutOfService"
@@ -52,12 +52,12 @@ extension ElasticLoadBalancingClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "OutOfService") } ?? false)
             }),
-            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InvalidInstance"
             }),
         ]
-        return try WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InstanceDeregistered event on the describeInstanceHealth operation.
@@ -71,14 +71,14 @@ extension ElasticLoadBalancingClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInstanceDeregistered(options: WaiterOptions, input: DescribeInstanceHealthInput) async throws -> WaiterOutcome<DescribeInstanceHealthOutputResponse> {
+    public func waitUntilInstanceDeregistered(options: WaiterOptions, input: DescribeInstanceHealthInput) async throws -> WaiterOutcome<DescribeInstanceHealthOutput> {
         let waiter = Waiter(config: try Self.instanceDeregisteredWaiterConfig(), operation: self.describeInstanceHealth(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func instanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutputResponse, Error>) -> Bool in
+    static func instanceInServiceWaiterConfig() throws -> WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput> {
+        let acceptors: [WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutput, Error>) -> Bool in
                 // JMESPath expression: "InstanceStates[].State"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "InService"
@@ -90,12 +90,12 @@ extension ElasticLoadBalancingClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "InService") } ?? false)
             }),
-            .init(state: .retry, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeInstanceHealthInput, result: Result<DescribeInstanceHealthOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InvalidInstance"
             }),
         ]
-        return try WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the InstanceInService event on the describeInstanceHealth operation.
@@ -109,7 +109,7 @@ extension ElasticLoadBalancingClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilInstanceInService(options: WaiterOptions, input: DescribeInstanceHealthInput) async throws -> WaiterOutcome<DescribeInstanceHealthOutputResponse> {
+    public func waitUntilInstanceInService(options: WaiterOptions, input: DescribeInstanceHealthInput) async throws -> WaiterOutcome<DescribeInstanceHealthOutput> {
         let waiter = Waiter(config: try Self.instanceInServiceWaiterConfig(), operation: self.describeInstanceHealth(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

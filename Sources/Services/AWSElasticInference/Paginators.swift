@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ElasticInferenceClient {
-    /// Paginate over `[DescribeAcceleratorsOutputResponse]` results.
+    /// Paginate over `[DescribeAcceleratorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAcceleratorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAcceleratorsOutputResponse`
-    public func describeAcceleratorsPaginated(input: DescribeAcceleratorsInput) -> ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutputResponse>(input: input, inputKey: \DescribeAcceleratorsInput.nextToken, outputKey: \DescribeAcceleratorsOutputResponse.nextToken, paginationFunction: self.describeAccelerators(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAcceleratorsOutput`
+    public func describeAcceleratorsPaginated(input: DescribeAcceleratorsInput) -> ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAcceleratorsInput, DescribeAcceleratorsOutput>(input: input, inputKey: \DescribeAcceleratorsInput.nextToken, outputKey: \DescribeAcceleratorsOutput.nextToken, paginationFunction: self.describeAccelerators(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeAcceleratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAcceleratorsInput, Output == DescribeAcceleratorsOutputResponse {
+extension PaginatorSequence where Input == DescribeAcceleratorsInput, Output == DescribeAcceleratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAcceleratorsPaginated`
     /// to access the nested member `[ElasticInferenceClientTypes.ElasticInferenceAccelerator]`
     /// - Returns: `[ElasticInferenceClientTypes.ElasticInferenceAccelerator]`

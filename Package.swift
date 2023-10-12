@@ -184,7 +184,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.31.0",
+    clientRuntimeVersion: "0.32.0",
     crtVersion: "0.13.0"
 )
 
@@ -283,6 +283,7 @@ let serviceTargets: [String] = [
     "AWSDataExchange",
     "AWSDataPipeline",
     "AWSDataSync",
+    "AWSDataZone",
     "AWSDatabaseMigrationService",
     "AWSDetective",
     "AWSDevOpsGuru",

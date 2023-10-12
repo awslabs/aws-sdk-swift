@@ -8,65 +8,65 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter ActivateOrganizationsAccessInput : [no documentation found]
     ///
-    /// - Returns: `ActivateOrganizationsAccessOutputResponse` : [no documentation found]
+    /// - Returns: `ActivateOrganizationsAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
-    func activateOrganizationsAccess(input: ActivateOrganizationsAccessInput) async throws -> ActivateOrganizationsAccessOutputResponse
+    func activateOrganizationsAccess(input: ActivateOrganizationsAccessInput) async throws -> ActivateOrganizationsAccessOutput
     /// Activates a public third-party extension, making it available for use in stack templates. For more information, see [Using public extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html) in the CloudFormation User Guide. Once you have activated a public third-party extension in your account and Region, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html) to specify configuration properties for the extension. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     ///
     /// - Parameter ActivateTypeInput : [no documentation found]
     ///
-    /// - Returns: `ActivateTypeOutputResponse` : [no documentation found]
+    /// - Returns: `ActivateTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func activateType(input: ActivateTypeInput) async throws -> ActivateTypeOutputResponse
+    func activateType(input: ActivateTypeInput) async throws -> ActivateTypeOutput
     /// Returns configuration data for the specified CloudFormation extensions, from the CloudFormation registry for the account and Region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
     ///
     /// - Parameter BatchDescribeTypeConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `BatchDescribeTypeConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDescribeTypeConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeConfigurationNotFoundException` : The specified extension configuration can't be found.
-    func batchDescribeTypeConfigurations(input: BatchDescribeTypeConfigurationsInput) async throws -> BatchDescribeTypeConfigurationsOutputResponse
+    func batchDescribeTypeConfigurations(input: BatchDescribeTypeConfigurationsInput) async throws -> BatchDescribeTypeConfigurationsOutput
     /// Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration. You can cancel only stacks that are in the UPDATE_IN_PROGRESS state.
     ///
     /// - Parameter CancelUpdateStackInput : The input for the [CancelUpdateStack] action.
     ///
-    /// - Returns: `CancelUpdateStackOutputResponse` : [no documentation found]
+    /// - Returns: `CancelUpdateStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func cancelUpdateStack(input: CancelUpdateStackInput) async throws -> CancelUpdateStackOutputResponse
+    func cancelUpdateStack(input: CancelUpdateStackInput) async throws -> CancelUpdateStackOutput
     /// For a specified stack that's in the UPDATE_ROLLBACK_FAILED state, continues rolling it back to the UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually [ fix the error](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed) and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state), and then try to update the stack again. A stack goes into the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, you might have a stack that's rolling back to an old database instance that was deleted outside of CloudFormation. Because CloudFormation doesn't know the database was deleted, it assumes that the database instance still exists and attempts to roll back to it, causing the update rollback to fail.
     ///
     /// - Parameter ContinueUpdateRollbackInput : The input for the [ContinueUpdateRollback] action.
     ///
-    /// - Returns: `ContinueUpdateRollbackOutputResponse` : The output for a [ContinueUpdateRollback] operation.
+    /// - Returns: `ContinueUpdateRollbackOutput` : The output for a [ContinueUpdateRollback] operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func continueUpdateRollback(input: ContinueUpdateRollbackInput) async throws -> ContinueUpdateRollbackOutputResponse
+    func continueUpdateRollback(input: ContinueUpdateRollbackInput) async throws -> ContinueUpdateRollbackOutput
     /// Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that CloudFormation will create. If you create a change set for an existing stack, CloudFormation compares the stack's information with the information that you submit in the change set and lists the differences. Use change sets to understand which resources CloudFormation will create or change, and how it will change resources in an existing stack, before you create or update a stack. To create a change set for a stack that doesn't exist, for the ChangeSetType parameter, specify CREATE. To create a change set for an existing stack, specify UPDATE for the ChangeSetType parameter. To create a change set for an import operation, specify IMPORT for the ChangeSetType parameter. After the CreateChangeSet call successfully completes, CloudFormation starts creating the change set. To check the status of the change set or to review it, use the [DescribeChangeSet] action. When you are satisfied with the changes the change set will make, execute the change set by using the [ExecuteChangeSet] action. CloudFormation doesn't make changes until you execute the change set. To create a change set for the entire stack hierarchy, set IncludeNestedStacks to True.
     ///
     /// - Parameter CreateChangeSetInput : The input for the [CreateChangeSet] action.
     ///
-    /// - Returns: `CreateChangeSetOutputResponse` : The output for the [CreateChangeSet] action.
+    /// - Returns: `CreateChangeSetOutput` : The output for the [CreateChangeSet] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol CloudFormationClientProtocol {
     /// - `AlreadyExistsException` : The resource with the name requested already exists.
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `LimitExceededException` : The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
-    func createChangeSet(input: CreateChangeSetInput) async throws -> CreateChangeSetOutputResponse
+    func createChangeSet(input: CreateChangeSetInput) async throws -> CreateChangeSetOutput
     /// Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack through the [DescribeStacks] operation.
     ///
     /// - Parameter CreateStackInput : The input for [CreateStack] action.
     ///
-    /// - Returns: `CreateStackOutputResponse` : The output for a [CreateStack] action.
+    /// - Returns: `CreateStackOutput` : The output for a [CreateStack] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol CloudFormationClientProtocol {
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `LimitExceededException` : The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func createStack(input: CreateStackInput) async throws -> CreateStackOutputResponse
+    func createStack(input: CreateStackInput) async throws -> CreateStackOutput
     /// Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions.
     ///
     /// - Parameter CreateStackInstancesInput : [no documentation found]
     ///
-    /// - Returns: `CreateStackInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStackInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol CloudFormationClientProtocol {
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    func createStackInstances(input: CreateStackInstancesInput) async throws -> CreateStackInstancesOutputResponse
+    func createStackInstances(input: CreateStackInstancesInput) async throws -> CreateStackInstancesOutput
     /// Creates a stack set.
     ///
     /// - Parameter CreateStackSetInput : [no documentation found]
     ///
-    /// - Returns: `CreateStackSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStackSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -117,58 +117,58 @@ public protocol CloudFormationClientProtocol {
     /// - `CreatedButModifiedException` : The specified resource exists, but has been changed.
     /// - `LimitExceededException` : The quota for the resource has already been reached. For information about resource and stack limitations, see [CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     /// - `NameAlreadyExistsException` : The specified name is already in use.
-    func createStackSet(input: CreateStackSetInput) async throws -> CreateStackSetOutputResponse
+    func createStackSet(input: CreateStackSetInput) async throws -> CreateStackSetOutput
     /// Deactivates trusted access with Organizations. If trusted access is deactivated, the management account does not have permissions to create and manage service-managed StackSets for your organization.
     ///
     /// - Parameter DeactivateOrganizationsAccessInput : [no documentation found]
     ///
-    /// - Returns: `DeactivateOrganizationsAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DeactivateOrganizationsAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
-    func deactivateOrganizationsAccess(input: DeactivateOrganizationsAccessInput) async throws -> DeactivateOrganizationsAccessOutputResponse
+    func deactivateOrganizationsAccess(input: DeactivateOrganizationsAccessInput) async throws -> DeactivateOrganizationsAccessOutput
     /// Deactivates a public extension that was previously activated in this account and Region. Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions aren't automatically updated if a new version of the extension is released.
     ///
     /// - Parameter DeactivateTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeactivateTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeactivateTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func deactivateType(input: DeactivateTypeInput) async throws -> DeactivateTypeOutputResponse
+    func deactivateType(input: DeactivateTypeInput) async throws -> DeactivateTypeOutput
     /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that belong to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS.
     ///
     /// - Parameter DeleteChangeSetInput : The input for the [DeleteChangeSet] action.
     ///
-    /// - Returns: `DeleteChangeSetOutputResponse` : The output for the [DeleteChangeSet] action.
+    /// - Returns: `DeleteChangeSetOutput` : The output for the [DeleteChangeSet] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidChangeSetStatusException` : The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
-    func deleteChangeSet(input: DeleteChangeSetInput) async throws -> DeleteChangeSetOutputResponse
+    func deleteChangeSet(input: DeleteChangeSetInput) async throws -> DeleteChangeSetOutput
     /// Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks don't show up in the [DescribeStacks] operation if the deletion has been completed successfully.
     ///
     /// - Parameter DeleteStackInput : The input for [DeleteStack] action.
     ///
-    /// - Returns: `DeleteStackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutputResponse
+    func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
     /// Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions.
     ///
     /// - Parameter DeleteStackInstancesInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStackInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStackInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,71 +178,71 @@ public protocol CloudFormationClientProtocol {
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    func deleteStackInstances(input: DeleteStackInstancesInput) async throws -> DeleteStackInstancesOutputResponse
+    func deleteStackInstances(input: DeleteStackInstancesInput) async throws -> DeleteStackInstancesOutput
     /// Deletes a stack set. Before you can delete a stack set, all its member stack instances must be deleted. For more information about how to complete this, see [DeleteStackInstances].
     ///
     /// - Parameter DeleteStackSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStackSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStackSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotEmptyException` : You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
-    func deleteStackSet(input: DeleteStackSetInput) async throws -> DeleteStackSetOutputResponse
+    func deleteStackSet(input: DeleteStackSetInput) async throws -> DeleteStackSetOutput
     /// Marks an extension or extension version as DEPRECATED in the CloudFormation registry, removing it from active use. Deprecated extensions or extension versions cannot be used in CloudFormation operations. To deregister an entire extension, you must individually deregister all active versions of that extension. If an extension has only a single active version, deregistering that version results in the extension itself being deregistered and marked as deprecated in the registry. You can't deregister the default version of an extension if there are other active version of that extension. If you do deregister the default version of an extension, the extension type itself is deregistered as well and marked as deprecated. To view the deprecation status of an extension or extension version, use [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html).
     ///
     /// - Parameter DeregisterTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func deregisterType(input: DeregisterTypeInput) async throws -> DeregisterTypeOutputResponse
+    func deregisterType(input: DeregisterTypeInput) async throws -> DeregisterTypeOutput
     /// Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see [CloudFormation Quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     ///
     /// - Parameter DescribeAccountLimitsInput : The input for the [DescribeAccountLimits] action.
     ///
-    /// - Returns: `DescribeAccountLimitsOutputResponse` : The output for the [DescribeAccountLimits] action.
-    func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutputResponse
+    /// - Returns: `DescribeAccountLimitsOutput` : The output for the [DescribeAccountLimits] action.
+    func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
     /// Returns the inputs for the change set and a list of changes that CloudFormation will make if you execute the change set. For more information, see [Updating Stacks Using Change Sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html) in the CloudFormation User Guide.
     ///
     /// - Parameter DescribeChangeSetInput : The input for the [DescribeChangeSet] action.
     ///
-    /// - Returns: `DescribeChangeSetOutputResponse` : The output for the [DescribeChangeSet] action.
+    /// - Returns: `DescribeChangeSetOutput` : The output for the [DescribeChangeSet] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ChangeSetNotFoundException` : The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-    func describeChangeSet(input: DescribeChangeSetInput) async throws -> DescribeChangeSetOutputResponse
+    func describeChangeSet(input: DescribeChangeSetInput) async throws -> DescribeChangeSetOutput
     /// Returns hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set.
     ///
     /// - Parameter DescribeChangeSetHooksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeChangeSetHooksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeChangeSetHooksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ChangeSetNotFoundException` : The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-    func describeChangeSetHooks(input: DescribeChangeSetHooksInput) async throws -> DescribeChangeSetHooksOutputResponse
+    func describeChangeSetHooks(input: DescribeChangeSetHooksInput) async throws -> DescribeChangeSetHooksOutput
     /// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the delegated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account.
     ///
     /// - Parameter DescribeOrganizationsAccessInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationsAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationsAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
-    func describeOrganizationsAccess(input: DescribeOrganizationsAccessInput) async throws -> DescribeOrganizationsAccessOutputResponse
+    func describeOrganizationsAccess(input: DescribeOrganizationsAccessInput) async throws -> DescribeOrganizationsAccessOutput
     /// Returns information about a CloudFormation extension publisher. If you don't supply a PublisherId, and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account. For more information about registering as a publisher, see:
     ///
     /// * [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html)
@@ -251,119 +251,119 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter DescribePublisherInput : [no documentation found]
     ///
-    /// - Returns: `DescribePublisherOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePublisherOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func describePublisher(input: DescribePublisherInput) async throws -> DescribePublisherOutputResponse
+    func describePublisher(input: DescribePublisherInput) async throws -> DescribePublisherOutput
     /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use [DetectStackDrift] to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources.
     ///
     /// - Parameter DescribeStackDriftDetectionStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackDriftDetectionStatusOutputResponse` : [no documentation found]
-    func describeStackDriftDetectionStatus(input: DescribeStackDriftDetectionStatusInput) async throws -> DescribeStackDriftDetectionStatusOutputResponse
+    /// - Returns: `DescribeStackDriftDetectionStatusOutput` : [no documentation found]
+    func describeStackDriftDetectionStatus(input: DescribeStackDriftDetectionStatusInput) async throws -> DescribeStackDriftDetectionStatusOutput
     /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html) in the CloudFormation User Guide. You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     ///
     /// - Parameter DescribeStackEventsInput : The input for [DescribeStackEvents] action.
     ///
-    /// - Returns: `DescribeStackEventsOutputResponse` : The output for a [DescribeStackEvents] action.
-    func describeStackEvents(input: DescribeStackEventsInput) async throws -> DescribeStackEventsOutputResponse
+    /// - Returns: `DescribeStackEventsOutput` : The output for a [DescribeStackEvents] action.
+    func describeStackEvents(input: DescribeStackEventsInput) async throws -> DescribeStackEventsOutput
     /// Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use [ListStackInstances].
     ///
     /// - Parameter DescribeStackInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStackInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func describeStackInstance(input: DescribeStackInstanceInput) async throws -> DescribeStackInstanceOutputResponse
+    func describeStackInstance(input: DescribeStackInstanceInput) async throws -> DescribeStackInstanceOutput
     /// Returns a description of the specified resource in the specified stack. For deleted stacks, DescribeStackResource returns resource information for up to 90 days after the stack has been deleted.
     ///
     /// - Parameter DescribeStackResourceInput : The input for [DescribeStackResource] action.
     ///
-    /// - Returns: `DescribeStackResourceOutputResponse` : The output for a [DescribeStackResource] action.
-    func describeStackResource(input: DescribeStackResourceInput) async throws -> DescribeStackResourceOutputResponse
+    /// - Returns: `DescribeStackResourceOutput` : The output for a [DescribeStackResource] action.
+    func describeStackResource(input: DescribeStackResourceInput) async throws -> DescribeStackResourceOutput
     /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a list of resources that support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html). Use [DetectStackResourceDrift] to detect drift on individual resources, or [DetectStackDrift] to detect drift on all supported resources for a given stack.
     ///
     /// - Parameter DescribeStackResourceDriftsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackResourceDriftsOutputResponse` : [no documentation found]
-    func describeStackResourceDrifts(input: DescribeStackResourceDriftsInput) async throws -> DescribeStackResourceDriftsOutputResponse
+    /// - Returns: `DescribeStackResourceDriftsOutput` : [no documentation found]
+    func describeStackResourceDrifts(input: DescribeStackResourceDriftsInput) async throws -> DescribeStackResourceDriftsOutput
     /// Returns Amazon Web Services resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned. Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead. For deleted stacks, DescribeStackResources returns resource information for up to 90 days after the stack has been deleted. You must specify either StackName or PhysicalResourceId, but not both. In addition, you can specify LogicalResourceId to filter the returned result. For more information about resources, the LogicalResourceId and PhysicalResourceId, go to the [CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/). A ValidationError is returned if you specify both StackName and PhysicalResourceId in the same request.
     ///
     /// - Parameter DescribeStackResourcesInput : The input for [DescribeStackResources] action.
     ///
-    /// - Returns: `DescribeStackResourcesOutputResponse` : The output for a [DescribeStackResources] action.
-    func describeStackResources(input: DescribeStackResourcesInput) async throws -> DescribeStackResourcesOutputResponse
+    /// - Returns: `DescribeStackResourcesOutput` : The output for a [DescribeStackResources] action.
+    func describeStackResources(input: DescribeStackResourcesInput) async throws -> DescribeStackResourcesOutput
     /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. If the stack doesn't exist, an ValidationError is returned.
     ///
     /// - Parameter DescribeStacksInput : The input for [DescribeStacks] action.
     ///
-    /// - Returns: `DescribeStacksOutputResponse` : The output for a [DescribeStacks] action.
-    func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutputResponse
+    /// - Returns: `DescribeStacksOutput` : The output for a [DescribeStacks] action.
+    func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
     /// Returns the description of the specified StackSet.
     ///
     /// - Parameter DescribeStackSetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackSetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStackSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func describeStackSet(input: DescribeStackSetInput) async throws -> DescribeStackSetOutputResponse
+    func describeStackSet(input: DescribeStackSetInput) async throws -> DescribeStackSetOutput
     /// Returns the description of the specified StackSet operation.
     ///
     /// - Parameter DescribeStackSetOperationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackSetOperationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStackSetOperationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func describeStackSetOperation(input: DescribeStackSetOperationInput) async throws -> DescribeStackSetOperationOutputResponse
+    func describeStackSetOperation(input: DescribeStackSetOperationInput) async throws -> DescribeStackSetOperationOutput
     /// Returns detailed information about an extension that has been registered. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version.
     ///
     /// - Parameter DescribeTypeInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func describeType(input: DescribeTypeInput) async throws -> DescribeTypeOutputResponse
+    func describeType(input: DescribeTypeInput) async throws -> DescribeTypeOutput
     /// Returns information about an extension's registration, including its current status and type and version identifiers. When you initiate a registration request using [RegisterType], you can then use [DescribeTypeRegistration] to monitor the progress of that registration request. Once the registration request has completed, use [DescribeType] to return detailed information about an extension.
     ///
     /// - Parameter DescribeTypeRegistrationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTypeRegistrationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTypeRegistrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func describeTypeRegistration(input: DescribeTypeRegistrationInput) async throws -> DescribeTypeRegistrationOutputResponse
+    func describeTypeRegistration(input: DescribeTypeRegistrationInput) async throws -> DescribeTypeRegistrationOutput
     /// Detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more of its resources differ from their expected template configurations. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackDrift to detect drift on all supported resources for a given stack, or [DetectStackResourceDrift] to detect drift on individual resources. For a list of stack resources that currently support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html). DetectStackDrift can take up to several minutes, depending on the number of resources contained within the stack. Use [DescribeStackDriftDetectionStatus] to monitor the progress of a detect stack drift operation. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources. When detecting drift on a stack, CloudFormation doesn't detect drift on any nested stacks belonging to that stack. Perform DetectStackDrift directly on the nested stack itself.
     ///
     /// - Parameter DetectStackDriftInput : [no documentation found]
     ///
-    /// - Returns: `DetectStackDriftOutputResponse` : [no documentation found]
-    func detectStackDrift(input: DetectStackDriftInput) async throws -> DetectStackDriftOutputResponse
+    /// - Returns: `DetectStackDriftOutput` : [no documentation found]
+    func detectStackDrift(input: DetectStackDriftInput) async throws -> DetectStackDriftOutput
     /// Returns information about whether a resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackResourceDrift to detect drift on individual resources, or [DetectStackDrift] to detect drift on all resources in a given stack that support drift detection. Resources that don't currently support drift detection can't be checked. For a list of resources that support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
     ///
     /// - Parameter DetectStackResourceDriftInput : [no documentation found]
     ///
-    /// - Returns: `DetectStackResourceDriftOutputResponse` : [no documentation found]
-    func detectStackResourceDrift(input: DetectStackResourceDriftInput) async throws -> DetectStackResourceDriftOutputResponse
+    /// - Returns: `DetectStackResourceDriftOutput` : [no documentation found]
+    func detectStackResourceDrift(input: DetectStackResourceDriftInput) async throws -> DetectStackResourceDriftOutput
     /// Detect drift on a stack set. When CloudFormation performs drift detection on a stack set, it performs drift detection on the stack associated with each stack instance in the stack set. For more information, see [How CloudFormation performs drift detection on a stack set](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html). DetectStackSetDrift returns the OperationId of the stack set drift detection operation. Use this operation id with [DescribeStackSetOperation] to monitor the progress of the drift detection operation. The drift detection operation may take some time, depending on the number of stack instances included in the stack set, in addition to the number of resources included in each stack. Once the operation has completed, use the following actions to return drift information:
     ///
     /// * Use [DescribeStackSet] to return detailed information about the stack set, including detailed information about the last completed drift operation performed on the stack set. (Information about drift operations that are in progress isn't included.)
@@ -377,7 +377,7 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter DetectStackSetDriftInput : [no documentation found]
     ///
-    /// - Returns: `DetectStackSetDriftOutputResponse` : [no documentation found]
+    /// - Returns: `DetectStackSetDriftOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,18 +385,18 @@ public protocol CloudFormationClientProtocol {
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationInProgressException` : Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func detectStackSetDrift(input: DetectStackSetDriftInput) async throws -> DetectStackSetDriftOutputResponse
+    func detectStackSetDrift(input: DetectStackSetDriftInput) async throws -> DetectStackSetDriftOutput
     /// Returns the estimated monthly cost of a template. The return value is an Amazon Web Services Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
     ///
     /// - Parameter EstimateTemplateCostInput : The input for an [EstimateTemplateCost] action.
     ///
-    /// - Returns: `EstimateTemplateCostOutputResponse` : The output for a [EstimateTemplateCost] action.
-    func estimateTemplateCost(input: EstimateTemplateCostInput) async throws -> EstimateTemplateCostOutputResponse
+    /// - Returns: `EstimateTemplateCostOutput` : The output for a [EstimateTemplateCost] action.
+    func estimateTemplateCost(input: EstimateTemplateCostInput) async throws -> EstimateTemplateCostOutput
     /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, CloudFormation starts updating the stack. Use the [DescribeStacks] action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the update. You can't specify a temporary stack policy that overrides the current policy. To create a change set for the entire stack hierarchy, IncludeNestedStacks must have been set to True.
     ///
     /// - Parameter ExecuteChangeSetInput : The input for the [ExecuteChangeSet] action.
     ///
-    /// - Returns: `ExecuteChangeSetOutputResponse` : The output for the [ExecuteChangeSet] action.
+    /// - Returns: `ExecuteChangeSetOutput` : The output for the [ExecuteChangeSet] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,40 +405,40 @@ public protocol CloudFormationClientProtocol {
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `InvalidChangeSetStatusException` : The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func executeChangeSet(input: ExecuteChangeSetInput) async throws -> ExecuteChangeSetOutputResponse
+    func executeChangeSet(input: ExecuteChangeSetInput) async throws -> ExecuteChangeSetOutput
     /// Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null value is returned.
     ///
     /// - Parameter GetStackPolicyInput : The input for the [GetStackPolicy] action.
     ///
-    /// - Returns: `GetStackPolicyOutputResponse` : The output for the [GetStackPolicy] action.
-    func getStackPolicy(input: GetStackPolicyInput) async throws -> GetStackPolicyOutputResponse
+    /// - Returns: `GetStackPolicyOutput` : The output for the [GetStackPolicy] action.
+    func getStackPolicy(input: GetStackPolicyInput) async throws -> GetStackPolicyOutput
     /// Returns the template body for a specified stack. You can get the template for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted. If the template doesn't exist, a ValidationError is returned.
     ///
     /// - Parameter GetTemplateInput : The input for a [GetTemplate] action.
     ///
-    /// - Returns: `GetTemplateOutputResponse` : The output for [GetTemplate] action.
+    /// - Returns: `GetTemplateOutput` : The output for [GetTemplate] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ChangeSetNotFoundException` : The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
-    func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutputResponse
+    func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
     /// Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or stack set. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a stack set, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been deleted. If the template doesn't exist, a ValidationError is returned.
     ///
     /// - Parameter GetTemplateSummaryInput : The input for the [GetTemplateSummary] action.
     ///
-    /// - Returns: `GetTemplateSummaryOutputResponse` : The output for the [GetTemplateSummary] action.
+    /// - Returns: `GetTemplateSummaryOutput` : The output for the [GetTemplateSummary] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func getTemplateSummary(input: GetTemplateSummaryInput) async throws -> GetTemplateSummaryOutputResponse
+    func getTemplateSummary(input: GetTemplateSummaryInput) async throws -> GetTemplateSummaryOutput
     /// Import existing stacks into a new stack sets. Use the stack import operation to import up to 10 stacks into a new stack set in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import.
     ///
     /// - Parameter ImportStacksToStackSetInput : [no documentation found]
     ///
-    /// - Returns: `ImportStacksToStackSetOutputResponse` : [no documentation found]
+    /// - Returns: `ImportStacksToStackSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,30 +450,30 @@ public protocol CloudFormationClientProtocol {
     /// - `StackNotFoundException` : The specified stack ARN doesn't exist or stack doesn't exist corresponding to the ARN in input.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    func importStacksToStackSet(input: ImportStacksToStackSetInput) async throws -> ImportStacksToStackSetOutputResponse
+    func importStacksToStackSet(input: ImportStacksToStackSetInput) async throws -> ImportStacksToStackSetOutput
     /// Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
     ///
     /// - Parameter ListChangeSetsInput : The input for the [ListChangeSets] action.
     ///
-    /// - Returns: `ListChangeSetsOutputResponse` : The output for the [ListChangeSets] action.
-    func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutputResponse
+    /// - Returns: `ListChangeSetsOutput` : The output for the [ListChangeSets] action.
+    func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutput
     /// Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the [ Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) function. For more information, see [ CloudFormation export stack output values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html).
     ///
     /// - Parameter ListExportsInput : [no documentation found]
     ///
-    /// - Returns: `ListExportsOutputResponse` : [no documentation found]
-    func listExports(input: ListExportsInput) async throws -> ListExportsOutputResponse
+    /// - Returns: `ListExportsOutput` : [no documentation found]
+    func listExports(input: ListExportsInput) async throws -> ListExportsOutput
     /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see [ListExports]. For more information about importing an exported output value, see the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) function.
     ///
     /// - Parameter ListImportsInput : [no documentation found]
     ///
-    /// - Returns: `ListImportsOutputResponse` : [no documentation found]
-    func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
+    /// - Returns: `ListImportsOutput` : [no documentation found]
+    func listImports(input: ListImportsInput) async throws -> ListImportsOutput
     /// Returns drift information for resources in a stack instance. ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results.
     ///
     /// - Parameter ListStackInstanceResourceDriftsInput : [no documentation found]
     ///
-    /// - Returns: `ListStackInstanceResourceDriftsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStackInstanceResourceDriftsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,53 +481,53 @@ public protocol CloudFormationClientProtocol {
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func listStackInstanceResourceDrifts(input: ListStackInstanceResourceDriftsInput) async throws -> ListStackInstanceResourceDriftsOutputResponse
+    func listStackInstanceResourceDrifts(input: ListStackInstanceResourceDriftsInput) async throws -> ListStackInstanceResourceDriftsOutput
     /// Returns summary information about stack instances that are associated with the specified stack set. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
     ///
     /// - Parameter ListStackInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListStackInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStackInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func listStackInstances(input: ListStackInstancesInput) async throws -> ListStackInstancesOutputResponse
+    func listStackInstances(input: ListStackInstancesInput) async throws -> ListStackInstancesOutput
     /// Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
     ///
     /// - Parameter ListStackResourcesInput : The input for the [ListStackResource] action.
     ///
-    /// - Returns: `ListStackResourcesOutputResponse` : The output for a [ListStackResources] action.
-    func listStackResources(input: ListStackResourcesInput) async throws -> ListStackResourcesOutputResponse
+    /// - Returns: `ListStackResourcesOutput` : The output for a [ListStackResources] action.
+    func listStackResources(input: ListStackResourcesInput) async throws -> ListStackResourcesOutput
     /// Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
     ///
     /// - Parameter ListStacksInput : The input for [ListStacks] action.
     ///
-    /// - Returns: `ListStacksOutputResponse` : The output for [ListStacks] action.
-    func listStacks(input: ListStacksInput) async throws -> ListStacksOutputResponse
+    /// - Returns: `ListStacksOutput` : The output for [ListStacks] action.
+    func listStacks(input: ListStacksInput) async throws -> ListStacksOutput
     /// Returns summary information about the results of a stack set operation.
     ///
     /// - Parameter ListStackSetOperationResultsInput : [no documentation found]
     ///
-    /// - Returns: `ListStackSetOperationResultsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStackSetOperationResultsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func listStackSetOperationResults(input: ListStackSetOperationResultsInput) async throws -> ListStackSetOperationResultsOutputResponse
+    func listStackSetOperationResults(input: ListStackSetOperationResultsInput) async throws -> ListStackSetOperationResultsOutput
     /// Returns summary information about operations performed on a stack set.
     ///
     /// - Parameter ListStackSetOperationsInput : [no documentation found]
     ///
-    /// - Returns: `ListStackSetOperationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStackSetOperationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func listStackSetOperations(input: ListStackSetOperationsInput) async throws -> ListStackSetOperationsOutputResponse
+    func listStackSetOperations(input: ListStackSetOperationsInput) async throws -> ListStackSetOperationsOutput
     /// Returns summary information about stack sets that are associated with the user.
     ///
     /// * [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your Amazon Web Services account, ListStackSets returns all self-managed stack sets in your Amazon Web Services account.
@@ -538,76 +538,76 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter ListStackSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListStackSetsOutputResponse` : [no documentation found]
-    func listStackSets(input: ListStackSetsInput) async throws -> ListStackSetsOutputResponse
+    /// - Returns: `ListStackSetsOutput` : [no documentation found]
+    func listStackSets(input: ListStackSetsInput) async throws -> ListStackSetsOutput
     /// Returns a list of registration tokens for the specified extension(s).
     ///
     /// - Parameter ListTypeRegistrationsInput : [no documentation found]
     ///
-    /// - Returns: `ListTypeRegistrationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTypeRegistrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func listTypeRegistrations(input: ListTypeRegistrationsInput) async throws -> ListTypeRegistrationsOutputResponse
+    func listTypeRegistrations(input: ListTypeRegistrationsInput) async throws -> ListTypeRegistrationsOutput
     /// Returns summary information about extension that have been registered with CloudFormation.
     ///
     /// - Parameter ListTypesInput : [no documentation found]
     ///
-    /// - Returns: `ListTypesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTypesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func listTypes(input: ListTypesInput) async throws -> ListTypesOutputResponse
+    func listTypes(input: ListTypesInput) async throws -> ListTypesOutput
     /// Returns summary information about the versions of an extension.
     ///
     /// - Parameter ListTypeVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTypeVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTypeVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func listTypeVersions(input: ListTypeVersionsInput) async throws -> ListTypeVersionsOutputResponse
+    func listTypeVersions(input: ListTypeVersionsInput) async throws -> ListTypeVersionsOutput
     /// Publishes the specified extension to the CloudFormation registry as a public extension in this Region. Public extensions are available for use by all CloudFormation users. For more information about publishing extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html) in the CloudFormation CLI User Guide. To publish an extension, you must be registered as a publisher with CloudFormation. For more information, see [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html).
     ///
     /// - Parameter PublishTypeInput : [no documentation found]
     ///
-    /// - Returns: `PublishTypeOutputResponse` : [no documentation found]
+    /// - Returns: `PublishTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func publishType(input: PublishTypeInput) async throws -> PublishTypeOutputResponse
+    func publishType(input: PublishTypeInput) async throws -> PublishTypeOutput
     /// Reports progress of a resource handler to CloudFormation. Reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). Don't use this API in your code.
     ///
     /// - Parameter RecordHandlerProgressInput : [no documentation found]
     ///
-    /// - Returns: `RecordHandlerProgressOutputResponse` : [no documentation found]
+    /// - Returns: `RecordHandlerProgressOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidStateTransitionException` : Error reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). CloudFormation doesn't return this error to users.
     /// - `OperationStatusCheckFailedException` : Error reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). CloudFormation doesn't return this error to users.
-    func recordHandlerProgress(input: RecordHandlerProgressInput) async throws -> RecordHandlerProgressOutputResponse
+    func recordHandlerProgress(input: RecordHandlerProgressInput) async throws -> RecordHandlerProgressOutput
     /// Registers your account as a publisher of public extensions in the CloudFormation registry. Public extensions are available for use by all CloudFormation users. This publisher ID applies to your account in all Amazon Web Services Regions. For information about requirements for registering as a public extension publisher, see [Registering your account to publish CloudFormation extensions](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-prereqs) in the CloudFormation CLI User Guide.
     ///
     /// - Parameter RegisterPublisherInput : [no documentation found]
     ///
-    /// - Returns: `RegisterPublisherOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterPublisherOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func registerPublisher(input: RegisterPublisherInput) async throws -> RegisterPublisherOutputResponse
+    func registerPublisher(input: RegisterPublisherInput) async throws -> RegisterPublisherOutput
     /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your Amazon Web Services account, and includes:
     ///
     /// * Validating the extension schema.
@@ -621,13 +621,13 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter RegisterTypeInput : [no documentation found]
     ///
-    /// - Returns: `RegisterTypeOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
-    func registerType(input: RegisterTypeInput) async throws -> RegisterTypeOutputResponse
+    func registerType(input: RegisterTypeInput) async throws -> RegisterTypeOutput
     /// When specifying RollbackStack, you preserve the state of previously provisioned resources when an operation fails. You can check the status of the stack through the [DescribeStacks] operation. Rolls back the specified stack to the last known stable state from CREATE_FAILED or UPDATE_FAILED stack statuses. This operation will delete a stack if it doesn't contain a last known stable state. A last known stable state includes any status in a *_COMPLETE. This includes the following stack statuses.
     ///
     /// * CREATE_COMPLETE
@@ -642,54 +642,54 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter RollbackStackInput : [no documentation found]
     ///
-    /// - Returns: `RollbackStackOutputResponse` : [no documentation found]
+    /// - Returns: `RollbackStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func rollbackStack(input: RollbackStackInput) async throws -> RollbackStackOutputResponse
+    func rollbackStack(input: RollbackStackInput) async throws -> RollbackStackOutput
     /// Sets a stack policy for a specified stack.
     ///
     /// - Parameter SetStackPolicyInput : The input for the [SetStackPolicy] action.
     ///
-    /// - Returns: `SetStackPolicyOutputResponse` : [no documentation found]
-    func setStackPolicy(input: SetStackPolicyInput) async throws -> SetStackPolicyOutputResponse
+    /// - Returns: `SetStackPolicyOutput` : [no documentation found]
+    func setStackPolicy(input: SetStackPolicyInput) async throws -> SetStackPolicyOutput
     /// Specifies the configuration data for a registered CloudFormation extension, in the given account and Region. To view the current configuration data for an extension, refer to the ConfigurationSchema element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide. It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party credentials. For more details on dynamic references, see [Using dynamic references to specify template values](https://docs.aws.amazon.com/) in the CloudFormation User Guide.
     ///
     /// - Parameter SetTypeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `SetTypeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `SetTypeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func setTypeConfiguration(input: SetTypeConfigurationInput) async throws -> SetTypeConfigurationOutputResponse
+    func setTypeConfiguration(input: SetTypeConfigurationInput) async throws -> SetTypeConfigurationOutput
     /// Specify the default version of an extension. The default version of an extension will be used in CloudFormation operations.
     ///
     /// - Parameter SetTypeDefaultVersionInput : [no documentation found]
     ///
-    /// - Returns: `SetTypeDefaultVersionOutputResponse` : [no documentation found]
+    /// - Returns: `SetTypeDefaultVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func setTypeDefaultVersion(input: SetTypeDefaultVersionInput) async throws -> SetTypeDefaultVersionOutputResponse
+    func setTypeDefaultVersion(input: SetTypeDefaultVersionInput) async throws -> SetTypeDefaultVersionOutput
     /// Sends a signal to the specified resource with a success or failure status. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.
     ///
     /// - Parameter SignalResourceInput : The input for the [SignalResource] action.
     ///
-    /// - Returns: `SignalResourceOutputResponse` : [no documentation found]
-    func signalResource(input: SignalResourceInput) async throws -> SignalResourceOutputResponse
+    /// - Returns: `SignalResourceOutput` : [no documentation found]
+    func signalResource(input: SignalResourceInput) async throws -> SignalResourceOutput
     /// Stops an in-progress operation on a stack set and its associated stack instances. StackSets will cancel all the unstarted stack instance deployments and wait for those are in-progress to complete.
     ///
     /// - Parameter StopStackSetOperationInput : [no documentation found]
     ///
-    /// - Returns: `StopStackSetOperationOutputResponse` : [no documentation found]
+    /// - Returns: `StopStackSetOperationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,7 +697,7 @@ public protocol CloudFormationClientProtocol {
     /// - `InvalidOperationException` : The specified operation isn't valid.
     /// - `OperationNotFoundException` : The specified ID refers to an operation that doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
-    func stopStackSetOperation(input: StopStackSetOperationInput) async throws -> StopStackSetOperationOutputResponse
+    func stopStackSetOperation(input: StopStackSetOperationInput) async throws -> StopStackSetOperationOutput
     /// Tests a registered extension to make sure it meets all necessary requirements for being published in the CloudFormation registry.
     ///
     /// * For resource types, this includes passing all contracts tests defined for the type.
@@ -709,31 +709,31 @@ public protocol CloudFormationClientProtocol {
     ///
     /// - Parameter TestTypeInput : [no documentation found]
     ///
-    /// - Returns: `TestTypeOutputResponse` : [no documentation found]
+    /// - Returns: `TestTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CFNRegistryException` : An error occurred during a CloudFormation registry operation.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
-    func testType(input: TestTypeInput) async throws -> TestTypeOutputResponse
+    func testType(input: TestTypeInput) async throws -> TestTypeOutput
     /// Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack through the [DescribeStacks] action. To get a copy of the template for an existing stack, you can use the [GetTemplate] action. For more information about creating an update template, updating a stack, and monitoring the progress of the update, see [Updating a Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks.html).
     ///
     /// - Parameter UpdateStackInput : The input for an [UpdateStack] action.
     ///
-    /// - Returns: `UpdateStackOutputResponse` : The output for an [UpdateStack] action.
+    /// - Returns: `UpdateStackOutput` : The output for an [UpdateStack] action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientCapabilitiesException` : The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     /// - `TokenAlreadyExistsException` : A client request token already exists.
-    func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutputResponse
+    func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput
     /// Updates the parameter values for stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You can only update stack instances in Amazon Web Services Regions and accounts where they already exist; to create additional stack instances, use [CreateStackInstances](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateStackInstances.html). During stack set updates, any parameters overridden for a stack instance aren't updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
     ///
     /// - Parameter UpdateStackInstancesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStackInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStackInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -744,12 +744,12 @@ public protocol CloudFormationClientProtocol {
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    func updateStackInstances(input: UpdateStackInstancesInput) async throws -> UpdateStackInstancesOutputResponse
+    func updateStackInstances(input: UpdateStackInstancesInput) async throws -> UpdateStackInstancesOutput
     /// Updates the stack set, and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent [CreateStackInstances] calls on the specified stack set use the updated stack set.
     ///
     /// - Parameter UpdateStackSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStackSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStackSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,19 +760,19 @@ public protocol CloudFormationClientProtocol {
     /// - `StackInstanceNotFoundException` : The specified stack instance doesn't exist.
     /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
     /// - `StaleRequestException` : Another operation has been performed on this stack set since the specified operation was performed.
-    func updateStackSet(input: UpdateStackSetInput) async throws -> UpdateStackSetOutputResponse
+    func updateStackSet(input: UpdateStackSetInput) async throws -> UpdateStackSetOutput
     /// Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see [Protecting a Stack From Being Deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) in the CloudFormation User Guide. For [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html), termination protection is set on the root stack and can't be changed directly on the nested stack.
     ///
     /// - Parameter UpdateTerminationProtectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTerminationProtectionOutputResponse` : [no documentation found]
-    func updateTerminationProtection(input: UpdateTerminationProtectionInput) async throws -> UpdateTerminationProtectionOutputResponse
+    /// - Returns: `UpdateTerminationProtectionOutput` : [no documentation found]
+    func updateTerminationProtection(input: UpdateTerminationProtectionInput) async throws -> UpdateTerminationProtectionOutput
     /// Validates a specified template. CloudFormation first checks if the template is valid JSON. If it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail, CloudFormation returns a template validation error.
     ///
     /// - Parameter ValidateTemplateInput : The input for [ValidateTemplate] action.
     ///
-    /// - Returns: `ValidateTemplateOutputResponse` : The output for [ValidateTemplate] action.
-    func validateTemplate(input: ValidateTemplateInput) async throws -> ValidateTemplateOutputResponse
+    /// - Returns: `ValidateTemplateOutput` : The output for [ValidateTemplate] action.
+    func validateTemplate(input: ValidateTemplateInput) async throws -> ValidateTemplateOutput
 }
 
 public enum CloudFormationClientTypes {}

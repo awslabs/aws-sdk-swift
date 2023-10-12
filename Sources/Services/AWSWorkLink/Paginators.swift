@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension WorkLinkClient {
-    /// Paginate over `[ListDevicesOutputResponse]` results.
+    /// Paginate over `[ListDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutputResponse`
-    public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutputResponse>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutputResponse.nextToken, paginationFunction: self.listDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutput`
+    public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutput.nextToken, paginationFunction: self.listDevices(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension ListDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WorkLinkClient {
-    /// Paginate over `[ListDomainsOutputResponse]` results.
+    /// Paginate over `[ListDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDomainsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutputResponse`
-    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse>(input: input, inputKey: \ListDomainsInput.nextToken, outputKey: \ListDomainsOutputResponse.nextToken, paginationFunction: self.listDomains(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
+    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.nextToken, outputKey: \ListDomainsOutput.nextToken, paginationFunction: self.listDomains(input:))
     }
 }
 
@@ -47,16 +47,16 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WorkLinkClient {
-    /// Paginate over `[ListFleetsOutputResponse]` results.
+    /// Paginate over `[ListFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFleetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutputResponse`
-    public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutputResponse>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutputResponse.nextToken, paginationFunction: self.listFleets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutput`
+    public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutput.nextToken, paginationFunction: self.listFleets(input:))
     }
 }
 
@@ -68,16 +68,16 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WorkLinkClient {
-    /// Paginate over `[ListWebsiteAuthorizationProvidersOutputResponse]` results.
+    /// Paginate over `[ListWebsiteAuthorizationProvidersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWebsiteAuthorizationProvidersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWebsiteAuthorizationProvidersOutputResponse`
-    public func listWebsiteAuthorizationProvidersPaginated(input: ListWebsiteAuthorizationProvidersInput) -> ClientRuntime.PaginatorSequence<ListWebsiteAuthorizationProvidersInput, ListWebsiteAuthorizationProvidersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWebsiteAuthorizationProvidersInput, ListWebsiteAuthorizationProvidersOutputResponse>(input: input, inputKey: \ListWebsiteAuthorizationProvidersInput.nextToken, outputKey: \ListWebsiteAuthorizationProvidersOutputResponse.nextToken, paginationFunction: self.listWebsiteAuthorizationProviders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWebsiteAuthorizationProvidersOutput`
+    public func listWebsiteAuthorizationProvidersPaginated(input: ListWebsiteAuthorizationProvidersInput) -> ClientRuntime.PaginatorSequence<ListWebsiteAuthorizationProvidersInput, ListWebsiteAuthorizationProvidersOutput> {
+        return ClientRuntime.PaginatorSequence<ListWebsiteAuthorizationProvidersInput, ListWebsiteAuthorizationProvidersOutput>(input: input, inputKey: \ListWebsiteAuthorizationProvidersInput.nextToken, outputKey: \ListWebsiteAuthorizationProvidersOutput.nextToken, paginationFunction: self.listWebsiteAuthorizationProviders(input:))
     }
 }
 
@@ -90,16 +90,16 @@ extension ListWebsiteAuthorizationProvidersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WorkLinkClient {
-    /// Paginate over `[ListWebsiteCertificateAuthoritiesOutputResponse]` results.
+    /// Paginate over `[ListWebsiteCertificateAuthoritiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWebsiteCertificateAuthoritiesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWebsiteCertificateAuthoritiesOutputResponse`
-    public func listWebsiteCertificateAuthoritiesPaginated(input: ListWebsiteCertificateAuthoritiesInput) -> ClientRuntime.PaginatorSequence<ListWebsiteCertificateAuthoritiesInput, ListWebsiteCertificateAuthoritiesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWebsiteCertificateAuthoritiesInput, ListWebsiteCertificateAuthoritiesOutputResponse>(input: input, inputKey: \ListWebsiteCertificateAuthoritiesInput.nextToken, outputKey: \ListWebsiteCertificateAuthoritiesOutputResponse.nextToken, paginationFunction: self.listWebsiteCertificateAuthorities(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWebsiteCertificateAuthoritiesOutput`
+    public func listWebsiteCertificateAuthoritiesPaginated(input: ListWebsiteCertificateAuthoritiesInput) -> ClientRuntime.PaginatorSequence<ListWebsiteCertificateAuthoritiesInput, ListWebsiteCertificateAuthoritiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWebsiteCertificateAuthoritiesInput, ListWebsiteCertificateAuthoritiesOutput>(input: input, inputKey: \ListWebsiteCertificateAuthoritiesInput.nextToken, outputKey: \ListWebsiteCertificateAuthoritiesOutput.nextToken, paginationFunction: self.listWebsiteCertificateAuthorities(input:))
     }
 }
 

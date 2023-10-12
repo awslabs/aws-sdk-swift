@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AppflowClient {
-    /// Paginate over `[DescribeConnectorProfilesOutputResponse]` results.
+    /// Paginate over `[DescribeConnectorProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeConnectorProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectorProfilesOutputResponse`
-    public func describeConnectorProfilesPaginated(input: DescribeConnectorProfilesInput) -> ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutputResponse>(input: input, inputKey: \DescribeConnectorProfilesInput.nextToken, outputKey: \DescribeConnectorProfilesOutputResponse.nextToken, paginationFunction: self.describeConnectorProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectorProfilesOutput`
+    public func describeConnectorProfilesPaginated(input: DescribeConnectorProfilesInput) -> ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeConnectorProfilesInput, DescribeConnectorProfilesOutput>(input: input, inputKey: \DescribeConnectorProfilesInput.nextToken, outputKey: \DescribeConnectorProfilesOutput.nextToken, paginationFunction: self.describeConnectorProfiles(input:))
     }
 }
 
@@ -27,16 +27,16 @@ extension DescribeConnectorProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppflowClient {
-    /// Paginate over `[DescribeConnectorsOutputResponse]` results.
+    /// Paginate over `[DescribeConnectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeConnectorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectorsOutputResponse`
-    public func describeConnectorsPaginated(input: DescribeConnectorsInput) -> ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutputResponse>(input: input, inputKey: \DescribeConnectorsInput.nextToken, outputKey: \DescribeConnectorsOutputResponse.nextToken, paginationFunction: self.describeConnectors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectorsOutput`
+    public func describeConnectorsPaginated(input: DescribeConnectorsInput) -> ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeConnectorsInput, DescribeConnectorsOutput>(input: input, inputKey: \DescribeConnectorsInput.nextToken, outputKey: \DescribeConnectorsOutput.nextToken, paginationFunction: self.describeConnectors(input:))
     }
 }
 
@@ -49,16 +49,16 @@ extension DescribeConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppflowClient {
-    /// Paginate over `[DescribeFlowExecutionRecordsOutputResponse]` results.
+    /// Paginate over `[DescribeFlowExecutionRecordsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeFlowExecutionRecordsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFlowExecutionRecordsOutputResponse`
-    public func describeFlowExecutionRecordsPaginated(input: DescribeFlowExecutionRecordsInput) -> ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutputResponse>(input: input, inputKey: \DescribeFlowExecutionRecordsInput.nextToken, outputKey: \DescribeFlowExecutionRecordsOutputResponse.nextToken, paginationFunction: self.describeFlowExecutionRecords(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFlowExecutionRecordsOutput`
+    public func describeFlowExecutionRecordsPaginated(input: DescribeFlowExecutionRecordsInput) -> ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeFlowExecutionRecordsInput, DescribeFlowExecutionRecordsOutput>(input: input, inputKey: \DescribeFlowExecutionRecordsInput.nextToken, outputKey: \DescribeFlowExecutionRecordsOutput.nextToken, paginationFunction: self.describeFlowExecutionRecords(input:))
     }
 }
 
@@ -71,16 +71,16 @@ extension DescribeFlowExecutionRecordsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppflowClient {
-    /// Paginate over `[ListConnectorsOutputResponse]` results.
+    /// Paginate over `[ListConnectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConnectorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutputResponse`
-    public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutputResponse>(input: input, inputKey: \ListConnectorsInput.nextToken, outputKey: \ListConnectorsOutputResponse.nextToken, paginationFunction: self.listConnectors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutput`
+    public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \ListConnectorsInput.nextToken, outputKey: \ListConnectorsOutput.nextToken, paginationFunction: self.listConnectors(input:))
     }
 }
 
@@ -92,16 +92,16 @@ extension ListConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppflowClient {
-    /// Paginate over `[ListFlowsOutputResponse]` results.
+    /// Paginate over `[ListFlowsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFlowsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowsOutputResponse`
-    public func listFlowsPaginated(input: ListFlowsInput) -> ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutputResponse>(input: input, inputKey: \ListFlowsInput.nextToken, outputKey: \ListFlowsOutputResponse.nextToken, paginationFunction: self.listFlows(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowsOutput`
+    public func listFlowsPaginated(input: ListFlowsInput) -> ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutput>(input: input, inputKey: \ListFlowsInput.nextToken, outputKey: \ListFlowsOutput.nextToken, paginationFunction: self.listFlows(input:))
     }
 }
 

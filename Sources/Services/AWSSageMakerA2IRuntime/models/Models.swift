@@ -120,6 +120,16 @@ extension DeleteHumanLoopInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteHumanLoopOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteHumanLoopOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -132,16 +142,6 @@ enum DeleteHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteHumanLoopOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteHumanLoopOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeHumanLoopInput: ClientRuntime.URLPathProvider {
@@ -175,25 +175,11 @@ extension DescribeHumanLoopInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeHumanLoopOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeHumanLoopOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeHumanLoopOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeHumanLoopOutputBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.failureCode = output.failureCode
             self.failureReason = output.failureReason
@@ -215,7 +201,7 @@ extension DescribeHumanLoopOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHumanLoopOutputResponse: Swift.Equatable {
+public struct DescribeHumanLoopOutput: Swift.Equatable {
     /// The creation time when Amazon Augmented AI created the human loop.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -260,7 +246,7 @@ public struct DescribeHumanLoopOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeHumanLoopOutputResponseBody: Swift.Equatable {
+struct DescribeHumanLoopOutputBody: Swift.Equatable {
     let creationTime: ClientRuntime.Date?
     let failureReason: Swift.String?
     let failureCode: Swift.String?
@@ -271,7 +257,7 @@ struct DescribeHumanLoopOutputResponseBody: Swift.Equatable {
     let humanLoopOutput: SageMakerA2IRuntimeClientTypes.HumanLoopOutput?
 }
 
-extension DescribeHumanLoopOutputResponseBody: Swift.Decodable {
+extension DescribeHumanLoopOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
         case failureCode = "FailureCode"
@@ -301,6 +287,20 @@ extension DescribeHumanLoopOutputResponseBody: Swift.Decodable {
         flowDefinitionArn = flowDefinitionArnDecoded
         let humanLoopOutputDecoded = try containerValues.decodeIfPresent(SageMakerA2IRuntimeClientTypes.HumanLoopOutput.self, forKey: .humanLoopOutput)
         humanLoopOutput = humanLoopOutputDecoded
+    }
+}
+
+enum DescribeHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -678,25 +678,11 @@ extension ListHumanLoopsInputBody: Swift.Decodable {
     }
 }
 
-enum ListHumanLoopsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListHumanLoopsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListHumanLoopsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListHumanLoopsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListHumanLoopsOutputBody = try responseDecoder.decode(responseBody: data)
             self.humanLoopSummaries = output.humanLoopSummaries
             self.nextToken = output.nextToken
         } else {
@@ -706,7 +692,7 @@ extension ListHumanLoopsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHumanLoopsOutputResponse: Swift.Equatable {
+public struct ListHumanLoopsOutput: Swift.Equatable {
     /// An array of objects that contain information about the human loops.
     /// This member is required.
     public var humanLoopSummaries: [SageMakerA2IRuntimeClientTypes.HumanLoopSummary]?
@@ -723,12 +709,12 @@ public struct ListHumanLoopsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListHumanLoopsOutputResponseBody: Swift.Equatable {
+struct ListHumanLoopsOutputBody: Swift.Equatable {
     let humanLoopSummaries: [SageMakerA2IRuntimeClientTypes.HumanLoopSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListHumanLoopsOutputResponseBody: Swift.Decodable {
+extension ListHumanLoopsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case humanLoopSummaries = "HumanLoopSummaries"
         case nextToken = "NextToken"
@@ -749,6 +735,20 @@ extension ListHumanLoopsOutputResponseBody: Swift.Decodable {
         humanLoopSummaries = humanLoopSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListHumanLoopsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -980,6 +980,46 @@ extension StartHumanLoopInputBody: Swift.Decodable {
     }
 }
 
+extension StartHumanLoopOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartHumanLoopOutputBody = try responseDecoder.decode(responseBody: data)
+            self.humanLoopArn = output.humanLoopArn
+        } else {
+            self.humanLoopArn = nil
+        }
+    }
+}
+
+public struct StartHumanLoopOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the human loop.
+    public var humanLoopArn: Swift.String?
+
+    public init(
+        humanLoopArn: Swift.String? = nil
+    )
+    {
+        self.humanLoopArn = humanLoopArn
+    }
+}
+
+struct StartHumanLoopOutputBody: Swift.Equatable {
+    let humanLoopArn: Swift.String?
+}
+
+extension StartHumanLoopOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case humanLoopArn = "HumanLoopArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let humanLoopArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .humanLoopArn)
+        humanLoopArn = humanLoopArnDecoded
+    }
+}
+
 enum StartHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -992,46 +1032,6 @@ enum StartHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartHumanLoopOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartHumanLoopOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.humanLoopArn = output.humanLoopArn
-        } else {
-            self.humanLoopArn = nil
-        }
-    }
-}
-
-public struct StartHumanLoopOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the human loop.
-    public var humanLoopArn: Swift.String?
-
-    public init(
-        humanLoopArn: Swift.String? = nil
-    )
-    {
-        self.humanLoopArn = humanLoopArn
-    }
-}
-
-struct StartHumanLoopOutputResponseBody: Swift.Equatable {
-    let humanLoopArn: Swift.String?
-}
-
-extension StartHumanLoopOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case humanLoopArn = "HumanLoopArn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let humanLoopArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .humanLoopArn)
-        humanLoopArn = humanLoopArnDecoded
     }
 }
 
@@ -1083,6 +1083,16 @@ extension StopHumanLoopInputBody: Swift.Decodable {
     }
 }
 
+extension StopHumanLoopOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopHumanLoopOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1095,16 +1105,6 @@ enum StopHumanLoopOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopHumanLoopOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopHumanLoopOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {

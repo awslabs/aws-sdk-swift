@@ -8,7 +8,7 @@ public protocol VPCLatticeClientProtocol {
     ///
     /// - Parameter BatchUpdateRuleInput : [no documentation found]
     ///
-    /// - Returns: `BatchUpdateRuleOutputResponse` : [no documentation found]
+    /// - Returns: `BatchUpdateRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func batchUpdateRule(input: BatchUpdateRuleInput) async throws -> BatchUpdateRuleOutputResponse
+    func batchUpdateRule(input: BatchUpdateRuleInput) async throws -> BatchUpdateRuleOutput
     /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner will only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see [Access logs](https://docs.aws.amazon.com/vpc-lattice/latest/ug/monitoring-access-logs.html) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter CreateAccessLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccessLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccessLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createAccessLogSubscription(input: CreateAccessLogSubscriptionInput) async throws -> CreateAccessLogSubscriptionOutputResponse
+    func createAccessLogSubscription(input: CreateAccessLogSubscriptionInput) async throws -> CreateAccessLogSubscriptionOutput
     /// Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see [Listeners](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter CreateListenerInput : [no documentation found]
     ///
-    /// - Returns: `CreateListenerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createListener(input: CreateListenerInput) async throws -> CreateListenerOutputResponse
+    func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
     /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter CreateRuleInput : [no documentation found]
     ///
-    /// - Returns: `CreateRuleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createRule(input: CreateRuleInput) async throws -> CreateRuleOutputResponse
+    func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
     /// Creates a service. A service is any software application that can run on instances containers, or serverless functions within an account or virtual private cloud (VPC). For more information, see [Services](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
     /// Creates a service network. A service network is a logical boundary for a collection of services. You can associate services and VPCs with a service network. For more information, see [Service networks](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter CreateServiceNetworkInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -103,12 +103,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createServiceNetwork(input: CreateServiceNetworkInput) async throws -> CreateServiceNetworkOutputResponse
+    func createServiceNetwork(input: CreateServiceNetworkInput) async throws -> CreateServiceNetworkOutput
     /// Associates a service with a service network. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     ///
     /// - Parameter CreateServiceNetworkServiceAssociationInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceNetworkServiceAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceNetworkServiceAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createServiceNetworkServiceAssociation(input: CreateServiceNetworkServiceAssociationInput) async throws -> CreateServiceNetworkServiceAssociationOutputResponse
+    func createServiceNetworkServiceAssociation(input: CreateServiceNetworkServiceAssociationInput) async throws -> CreateServiceNetworkServiceAssociationOutput
     /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. Once a security group is added to the VPC association it cannot be removed. You can add or update the security groups being used for the VPC association once a security group is attached. To remove all security groups you must reassociate the VPC.
     ///
     /// - Parameter CreateServiceNetworkVpcAssociationInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceNetworkVpcAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceNetworkVpcAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -137,12 +137,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createServiceNetworkVpcAssociation(input: CreateServiceNetworkVpcAssociationInput) async throws -> CreateServiceNetworkVpcAssociationOutputResponse
+    func createServiceNetworkVpcAssociation(input: CreateServiceNetworkVpcAssociationInput) async throws -> CreateServiceNetworkVpcAssociationOutput
     /// Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service. For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter CreateTargetGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateTargetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTargetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -154,12 +154,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutputResponse
+    func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutput
     /// Deletes the specified access log subscription.
     ///
     /// - Parameter DeleteAccessLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccessLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -169,12 +169,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteAccessLogSubscription(input: DeleteAccessLogSubscriptionInput) async throws -> DeleteAccessLogSubscriptionOutputResponse
+    func deleteAccessLogSubscription(input: DeleteAccessLogSubscriptionInput) async throws -> DeleteAccessLogSubscriptionOutput
     /// Deletes the specified auth policy. If an auth is set to Amazon Web Services_IAM and the auth policy is deleted, all requests will be denied by default. If you are trying to remove the auth policy completely, you must set the auth_type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests will be denied.
     ///
     /// - Parameter DeleteAuthPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAuthPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAuthPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteAuthPolicy(input: DeleteAuthPolicyInput) async throws -> DeleteAuthPolicyOutputResponse
+    func deleteAuthPolicy(input: DeleteAuthPolicyInput) async throws -> DeleteAuthPolicyOutput
     /// Deletes the specified listener.
     ///
     /// - Parameter DeleteListenerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteListenerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -200,12 +200,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutputResponse
+    func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
     /// Deletes the specified resource policy.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -215,12 +215,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter DeleteRuleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,12 +231,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
+    func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
     /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see [Delete a service](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html#delete-service) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,12 +247,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
     /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter DeleteServiceNetworkInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,12 +263,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteServiceNetwork(input: DeleteServiceNetworkInput) async throws -> DeleteServiceNetworkOutputResponse
+    func deleteServiceNetwork(input: DeleteServiceNetworkInput) async throws -> DeleteServiceNetworkOutput
     /// Deletes the association between a specified service and the specific service network. This request will fail if an association is still in progress.
     ///
     /// - Parameter DeleteServiceNetworkServiceAssociationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceNetworkServiceAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceNetworkServiceAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -279,12 +279,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteServiceNetworkServiceAssociation(input: DeleteServiceNetworkServiceAssociationInput) async throws -> DeleteServiceNetworkServiceAssociationOutputResponse
+    func deleteServiceNetworkServiceAssociation(input: DeleteServiceNetworkServiceAssociationInput) async throws -> DeleteServiceNetworkServiceAssociationOutput
     /// Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
     ///
     /// - Parameter DeleteServiceNetworkVpcAssociationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceNetworkVpcAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceNetworkVpcAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -295,12 +295,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteServiceNetworkVpcAssociation(input: DeleteServiceNetworkVpcAssociationInput) async throws -> DeleteServiceNetworkVpcAssociationOutputResponse
+    func deleteServiceNetworkVpcAssociation(input: DeleteServiceNetworkVpcAssociationInput) async throws -> DeleteServiceNetworkVpcAssociationOutput
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
     ///
     /// - Parameter DeleteTargetGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTargetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTargetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -310,12 +310,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutputResponse
+    func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutput
     /// Deregisters the specified targets from the specified target group.
     ///
     /// - Parameter DeregisterTargetsInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterTargetsOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterTargetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -326,12 +326,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutputResponse
+    func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutput
     /// Retrieves information about the specified access log subscription.
     ///
     /// - Parameter GetAccessLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `GetAccessLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `GetAccessLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -341,12 +341,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getAccessLogSubscription(input: GetAccessLogSubscriptionInput) async throws -> GetAccessLogSubscriptionOutputResponse
+    func getAccessLogSubscription(input: GetAccessLogSubscriptionInput) async throws -> GetAccessLogSubscriptionOutput
     /// Retrieves information about the auth policy for the specified service or service network.
     ///
     /// - Parameter GetAuthPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetAuthPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetAuthPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -356,12 +356,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getAuthPolicy(input: GetAuthPolicyInput) async throws -> GetAuthPolicyOutputResponse
+    func getAuthPolicy(input: GetAuthPolicyInput) async throws -> GetAuthPolicyOutput
     /// Retrieves information about the specified listener for the specified service.
     ///
     /// - Parameter GetListenerInput : [no documentation found]
     ///
-    /// - Returns: `GetListenerOutputResponse` : [no documentation found]
+    /// - Returns: `GetListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -371,12 +371,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getListener(input: GetListenerInput) async throws -> GetListenerOutputResponse
+    func getListener(input: GetListenerInput) async throws -> GetListenerOutput
     /// Retrieves information about the resource policy. The resource policy is an IAM policy created by AWS RAM on behalf of the resource owner when they share a resource.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,12 +386,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
+    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
     /// Retrieves information about listener rules. You can also retrieve information about the default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
     /// - Parameter GetRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetRuleOutputResponse` : [no documentation found]
+    /// - Returns: `GetRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -401,12 +401,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getRule(input: GetRuleInput) async throws -> GetRuleOutputResponse
+    func getRule(input: GetRuleInput) async throws -> GetRuleOutput
     /// Retrieves information about the specified service.
     ///
     /// - Parameter GetServiceInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,12 +416,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getService(input: GetServiceInput) async throws -> GetServiceOutputResponse
+    func getService(input: GetServiceInput) async throws -> GetServiceOutput
     /// Retrieves information about the specified service network.
     ///
     /// - Parameter GetServiceNetworkInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -431,12 +431,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getServiceNetwork(input: GetServiceNetworkInput) async throws -> GetServiceNetworkOutputResponse
+    func getServiceNetwork(input: GetServiceNetworkInput) async throws -> GetServiceNetworkOutput
     /// Retrieves information about the specified association between a service network and a service.
     ///
     /// - Parameter GetServiceNetworkServiceAssociationInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceNetworkServiceAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceNetworkServiceAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,12 +446,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getServiceNetworkServiceAssociation(input: GetServiceNetworkServiceAssociationInput) async throws -> GetServiceNetworkServiceAssociationOutputResponse
+    func getServiceNetworkServiceAssociation(input: GetServiceNetworkServiceAssociationInput) async throws -> GetServiceNetworkServiceAssociationOutput
     /// Retrieves information about the association between a service network and a VPC.
     ///
     /// - Parameter GetServiceNetworkVpcAssociationInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceNetworkVpcAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceNetworkVpcAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,12 +461,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getServiceNetworkVpcAssociation(input: GetServiceNetworkVpcAssociationInput) async throws -> GetServiceNetworkVpcAssociationOutputResponse
+    func getServiceNetworkVpcAssociation(input: GetServiceNetworkVpcAssociationInput) async throws -> GetServiceNetworkVpcAssociationOutput
     /// Retrieves information about the specified target group.
     ///
     /// - Parameter GetTargetGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetTargetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetTargetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,12 +476,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func getTargetGroup(input: GetTargetGroupInput) async throws -> GetTargetGroupOutputResponse
+    func getTargetGroup(input: GetTargetGroupInput) async throws -> GetTargetGroupOutput
     /// Lists all access log subscriptions for the specified service network or service.
     ///
     /// - Parameter ListAccessLogSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccessLogSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccessLogSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,12 +490,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listAccessLogSubscriptions(input: ListAccessLogSubscriptionsInput) async throws -> ListAccessLogSubscriptionsOutputResponse
+    func listAccessLogSubscriptions(input: ListAccessLogSubscriptionsInput) async throws -> ListAccessLogSubscriptionsOutput
     /// Lists the listeners for the specified service.
     ///
     /// - Parameter ListListenersInput : [no documentation found]
     ///
-    /// - Returns: `ListListenersOutputResponse` : [no documentation found]
+    /// - Returns: `ListListenersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -505,12 +505,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listListeners(input: ListListenersInput) async throws -> ListListenersOutputResponse
+    func listListeners(input: ListListenersInput) async throws -> ListListenersOutput
     /// Lists the rules for the listener.
     ///
     /// - Parameter ListRulesInput : [no documentation found]
     ///
-    /// - Returns: `ListRulesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,12 +520,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
+    func listRules(input: ListRulesInput) async throws -> ListRulesOutput
     /// Lists the service networks owned by the caller account or shared with the caller account. Also includes the account ID in the ARN to show which account owns the service network.
     ///
     /// - Parameter ListServiceNetworksInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceNetworksOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceNetworksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -534,12 +534,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listServiceNetworks(input: ListServiceNetworksInput) async throws -> ListServiceNetworksOutputResponse
+    func listServiceNetworks(input: ListServiceNetworksInput) async throws -> ListServiceNetworksOutput
     /// Lists the associations between the service network and the service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource that is shared with another account, the association will include the local account ID as the prefix in the ARN for each account the resource is shared with.
     ///
     /// - Parameter ListServiceNetworkServiceAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceNetworkServiceAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceNetworkServiceAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,12 +548,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listServiceNetworkServiceAssociations(input: ListServiceNetworkServiceAssociationsInput) async throws -> ListServiceNetworkServiceAssociationsOutputResponse
+    func listServiceNetworkServiceAssociations(input: ListServiceNetworkServiceAssociationsInput) async throws -> ListServiceNetworkServiceAssociationsOutput
     /// Lists the service network and VPC associations. You can filter the list either by VPC or service network. You must provide either the service network identifier or the VPC identifier.
     ///
     /// - Parameter ListServiceNetworkVpcAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceNetworkVpcAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceNetworkVpcAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,12 +562,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listServiceNetworkVpcAssociations(input: ListServiceNetworkVpcAssociationsInput) async throws -> ListServiceNetworkVpcAssociationsOutputResponse
+    func listServiceNetworkVpcAssociations(input: ListServiceNetworkVpcAssociationsInput) async throws -> ListServiceNetworkVpcAssociationsOutput
     /// Lists the services owned by the caller account or shared with the caller account.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -576,12 +576,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,12 +590,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists your target groups. You can narrow your search by using the filters below in your request.
     ///
     /// - Parameter ListTargetGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListTargetGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTargetGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,12 +604,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listTargetGroups(input: ListTargetGroupsInput) async throws -> ListTargetGroupsOutputResponse
+    func listTargetGroups(input: ListTargetGroupsInput) async throws -> ListTargetGroupsOutput
     /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
     ///
     /// - Parameter ListTargetsInput : [no documentation found]
     ///
-    /// - Returns: `ListTargetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTargetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,12 +619,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func listTargets(input: ListTargetsInput) async throws -> ListTargetsOutputResponse
+    func listTargets(input: ListTargetsInput) async throws -> ListTargetsOutput
     /// Creates or updates the auth policy.
     ///
     /// - Parameter PutAuthPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutAuthPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutAuthPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,12 +634,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func putAuthPolicy(input: PutAuthPolicyInput) async throws -> PutAuthPolicyOutputResponse
+    func putAuthPolicy(input: PutAuthPolicyInput) async throws -> PutAuthPolicyOutput
     /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -649,12 +649,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
     ///
     /// - Parameter RegisterTargetsInput : [no documentation found]
     ///
-    /// - Returns: `RegisterTargetsOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterTargetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,12 +666,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutputResponse
+    func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutput
     /// Adds the specified tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -681,12 +681,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,12 +695,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the specified access log subscription.
     ///
     /// - Parameter UpdateAccessLogSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccessLogSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccessLogSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,12 +711,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateAccessLogSubscription(input: UpdateAccessLogSubscriptionInput) async throws -> UpdateAccessLogSubscriptionOutputResponse
+    func updateAccessLogSubscription(input: UpdateAccessLogSubscriptionInput) async throws -> UpdateAccessLogSubscriptionOutput
     /// Updates the specified listener for the specified service.
     ///
     /// - Parameter UpdateListenerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateListenerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateListenerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,12 +727,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutputResponse
+    func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput
     /// Updates a rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     ///
     /// - Parameter UpdateRuleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRuleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,12 +743,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutputResponse
+    func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput
     /// Updates the specified service.
     ///
     /// - Parameter UpdateServiceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,12 +759,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutputResponse
+    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
     /// Updates the specified service network.
     ///
     /// - Parameter UpdateServiceNetworkInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,12 +775,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateServiceNetwork(input: UpdateServiceNetworkInput) async throws -> UpdateServiceNetworkOutputResponse
+    func updateServiceNetwork(input: UpdateServiceNetworkInput) async throws -> UpdateServiceNetworkOutput
     /// Updates the service network and VPC association. Once you add a security group, it cannot be removed.
     ///
     /// - Parameter UpdateServiceNetworkVpcAssociationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceNetworkVpcAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceNetworkVpcAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,12 +791,12 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateServiceNetworkVpcAssociation(input: UpdateServiceNetworkVpcAssociationInput) async throws -> UpdateServiceNetworkVpcAssociationOutputResponse
+    func updateServiceNetworkVpcAssociation(input: UpdateServiceNetworkVpcAssociationInput) async throws -> UpdateServiceNetworkVpcAssociationOutput
     /// Updates the specified target group.
     ///
     /// - Parameter UpdateTargetGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTargetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTargetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,7 +807,7 @@ public protocol VPCLatticeClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
-    func updateTargetGroup(input: UpdateTargetGroupInput) async throws -> UpdateTargetGroupOutputResponse
+    func updateTargetGroup(input: UpdateTargetGroupInput) async throws -> UpdateTargetGroupOutput
 }
 
 public enum VPCLatticeClientTypes {}

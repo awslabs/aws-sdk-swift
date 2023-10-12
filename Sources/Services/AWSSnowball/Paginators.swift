@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SnowballClient {
-    /// Paginate over `[DescribeAddressesOutputResponse]` results.
+    /// Paginate over `[DescribeAddressesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAddressesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddressesOutputResponse`
-    public func describeAddressesPaginated(input: DescribeAddressesInput) -> ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutputResponse>(input: input, inputKey: \DescribeAddressesInput.nextToken, outputKey: \DescribeAddressesOutputResponse.nextToken, paginationFunction: self.describeAddresses(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddressesOutput`
+    public func describeAddressesPaginated(input: DescribeAddressesInput) -> ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutput>(input: input, inputKey: \DescribeAddressesInput.nextToken, outputKey: \DescribeAddressesOutput.nextToken, paginationFunction: self.describeAddresses(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension DescribeAddressesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeAddressesInput, Output == DescribeAddressesOutputResponse {
+extension PaginatorSequence where Input == DescribeAddressesInput, Output == DescribeAddressesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAddressesPaginated`
     /// to access the nested member `[SnowballClientTypes.Address]`
     /// - Returns: `[SnowballClientTypes.Address]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == DescribeAddressesInput, Output == Des
     }
 }
 extension SnowballClient {
-    /// Paginate over `[ListClusterJobsOutputResponse]` results.
+    /// Paginate over `[ListClusterJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClusterJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterJobsOutputResponse`
-    public func listClusterJobsPaginated(input: ListClusterJobsInput) -> ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutputResponse>(input: input, inputKey: \ListClusterJobsInput.nextToken, outputKey: \ListClusterJobsOutputResponse.nextToken, paginationFunction: self.listClusterJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterJobsOutput`
+    public func listClusterJobsPaginated(input: ListClusterJobsInput) -> ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutput>(input: input, inputKey: \ListClusterJobsInput.nextToken, outputKey: \ListClusterJobsOutput.nextToken, paginationFunction: self.listClusterJobs(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListClusterJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClusterJobsInput, Output == ListClusterJobsOutputResponse {
+extension PaginatorSequence where Input == ListClusterJobsInput, Output == ListClusterJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClusterJobsPaginated`
     /// to access the nested member `[SnowballClientTypes.JobListEntry]`
     /// - Returns: `[SnowballClientTypes.JobListEntry]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListClusterJobsInput, Output == ListC
     }
 }
 extension SnowballClient {
-    /// Paginate over `[ListClustersOutputResponse]` results.
+    /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutputResponse`
-    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutputResponse>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutputResponse.nextToken, paginationFunction: self.listClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
+    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutput.nextToken, paginationFunction: self.listClusters(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutputResponse {
+extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[SnowballClientTypes.ClusterListEntry]`
     /// - Returns: `[SnowballClientTypes.ClusterListEntry]`
@@ -94,16 +94,16 @@ extension PaginatorSequence where Input == ListClustersInput, Output == ListClus
     }
 }
 extension SnowballClient {
-    /// Paginate over `[ListCompatibleImagesOutputResponse]` results.
+    /// Paginate over `[ListCompatibleImagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCompatibleImagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCompatibleImagesOutputResponse`
-    public func listCompatibleImagesPaginated(input: ListCompatibleImagesInput) -> ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutputResponse>(input: input, inputKey: \ListCompatibleImagesInput.nextToken, outputKey: \ListCompatibleImagesOutputResponse.nextToken, paginationFunction: self.listCompatibleImages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCompatibleImagesOutput`
+    public func listCompatibleImagesPaginated(input: ListCompatibleImagesInput) -> ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutput>(input: input, inputKey: \ListCompatibleImagesInput.nextToken, outputKey: \ListCompatibleImagesOutput.nextToken, paginationFunction: self.listCompatibleImages(input:))
     }
 }
 
@@ -115,7 +115,7 @@ extension ListCompatibleImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCompatibleImagesInput, Output == ListCompatibleImagesOutputResponse {
+extension PaginatorSequence where Input == ListCompatibleImagesInput, Output == ListCompatibleImagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCompatibleImagesPaginated`
     /// to access the nested member `[SnowballClientTypes.CompatibleImage]`
     /// - Returns: `[SnowballClientTypes.CompatibleImage]`
@@ -124,16 +124,16 @@ extension PaginatorSequence where Input == ListCompatibleImagesInput, Output == 
     }
 }
 extension SnowballClient {
-    /// Paginate over `[ListJobsOutputResponse]` results.
+    /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
-    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutputResponse.nextToken, paginationFunction: self.listJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
+    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -145,7 +145,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutputResponse {
+extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[SnowballClientTypes.JobListEntry]`
     /// - Returns: `[SnowballClientTypes.JobListEntry]`
@@ -154,16 +154,16 @@ extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutp
     }
 }
 extension SnowballClient {
-    /// Paginate over `[ListLongTermPricingOutputResponse]` results.
+    /// Paginate over `[ListLongTermPricingOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLongTermPricingInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLongTermPricingOutputResponse`
-    public func listLongTermPricingPaginated(input: ListLongTermPricingInput) -> ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutputResponse>(input: input, inputKey: \ListLongTermPricingInput.nextToken, outputKey: \ListLongTermPricingOutputResponse.nextToken, paginationFunction: self.listLongTermPricing(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLongTermPricingOutput`
+    public func listLongTermPricingPaginated(input: ListLongTermPricingInput) -> ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutput> {
+        return ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutput>(input: input, inputKey: \ListLongTermPricingInput.nextToken, outputKey: \ListLongTermPricingOutput.nextToken, paginationFunction: self.listLongTermPricing(input:))
     }
 }
 
@@ -175,7 +175,7 @@ extension ListLongTermPricingInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLongTermPricingInput, Output == ListLongTermPricingOutputResponse {
+extension PaginatorSequence where Input == ListLongTermPricingInput, Output == ListLongTermPricingOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLongTermPricingPaginated`
     /// to access the nested member `[SnowballClientTypes.LongTermPricingListEntry]`
     /// - Returns: `[SnowballClientTypes.LongTermPricingListEntry]`
@@ -184,16 +184,16 @@ extension PaginatorSequence where Input == ListLongTermPricingInput, Output == L
     }
 }
 extension SnowballClient {
-    /// Paginate over `[ListPickupLocationsOutputResponse]` results.
+    /// Paginate over `[ListPickupLocationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPickupLocationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPickupLocationsOutputResponse`
-    public func listPickupLocationsPaginated(input: ListPickupLocationsInput) -> ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutputResponse>(input: input, inputKey: \ListPickupLocationsInput.nextToken, outputKey: \ListPickupLocationsOutputResponse.nextToken, paginationFunction: self.listPickupLocations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPickupLocationsOutput`
+    public func listPickupLocationsPaginated(input: ListPickupLocationsInput) -> ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutput>(input: input, inputKey: \ListPickupLocationsInput.nextToken, outputKey: \ListPickupLocationsOutput.nextToken, paginationFunction: self.listPickupLocations(input:))
     }
 }
 

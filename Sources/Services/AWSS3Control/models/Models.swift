@@ -1345,20 +1345,11 @@ extension CreateAccessPointForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
-enum CreateAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAccessPointForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAccessPointForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAccessPointForObjectLambdaOutputBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
             self.objectLambdaAccessPointArn = output.objectLambdaAccessPointArn
         } else {
@@ -1368,7 +1359,7 @@ extension CreateAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
+public struct CreateAccessPointForObjectLambdaOutput: Swift.Equatable {
     /// The alias of the Object Lambda Access Point.
     public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// Specifies the ARN for the Object Lambda Access Point.
@@ -1384,12 +1375,12 @@ public struct CreateAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAccessPointForObjectLambdaOutputResponseBody: Swift.Equatable {
+struct CreateAccessPointForObjectLambdaOutputBody: Swift.Equatable {
     let objectLambdaAccessPointArn: Swift.String?
     let alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
 }
 
-extension CreateAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
+extension CreateAccessPointForObjectLambdaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias = "Alias"
         case objectLambdaAccessPointArn = "ObjectLambdaAccessPointArn"
@@ -1401,6 +1392,15 @@ extension CreateAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
         objectLambdaAccessPointArn = objectLambdaAccessPointArnDecoded
         let aliasDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaAccessPointAlias.self, forKey: .alias)
         alias = aliasDecoded
+    }
+}
+
+enum CreateAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1528,20 +1528,11 @@ extension CreateAccessPointInputBody: Swift.Decodable {
     }
 }
 
-enum CreateAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateAccessPointOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessPointArn = output.accessPointArn
             self.alias = output.alias
         } else {
@@ -1551,7 +1542,7 @@ extension CreateAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessPointOutputResponse: Swift.Equatable {
+public struct CreateAccessPointOutput: Swift.Equatable {
     /// The ARN of the access point. This is only supported by Amazon S3 on Outposts.
     public var accessPointArn: Swift.String?
     /// The name or alias of the access point.
@@ -1567,12 +1558,12 @@ public struct CreateAccessPointOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateAccessPointOutputResponseBody: Swift.Equatable {
+struct CreateAccessPointOutputBody: Swift.Equatable {
     let accessPointArn: Swift.String?
     let alias: Swift.String?
 }
 
-extension CreateAccessPointOutputResponseBody: Swift.Decodable {
+extension CreateAccessPointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointArn = "AccessPointArn"
         case alias = "Alias"
@@ -1584,6 +1575,15 @@ extension CreateAccessPointOutputResponseBody: Swift.Decodable {
         accessPointArn = accessPointArnDecoded
         let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
         alias = aliasDecoded
+    }
+}
+
+enum CreateAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1646,7 +1646,7 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<CreateBucketInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateBucketOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateBucketOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -1674,7 +1674,7 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<CreateBucketInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateBucketOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateBucketOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -1813,18 +1813,7 @@ extension CreateBucketInputBody: Swift.Decodable {
     }
 }
 
-enum CreateBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "BucketAlreadyExists": return try await BucketAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateBucketOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateBucketOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             self.location = locationHeaderValue
@@ -1833,7 +1822,7 @@ extension CreateBucketOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateBucketOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateBucketOutputBody = try responseDecoder.decode(responseBody: data)
             self.bucketArn = output.bucketArn
         } else {
             self.bucketArn = nil
@@ -1841,7 +1830,7 @@ extension CreateBucketOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBucketOutputResponse: Swift.Equatable {
+public struct CreateBucketOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucketArn: Swift.String?
     /// The location of the bucket.
@@ -1857,11 +1846,11 @@ public struct CreateBucketOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateBucketOutputResponseBody: Swift.Equatable {
+struct CreateBucketOutputBody: Swift.Equatable {
     let bucketArn: Swift.String?
 }
 
-extension CreateBucketOutputResponseBody: Swift.Decodable {
+extension CreateBucketOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketArn = "BucketArn"
     }
@@ -1870,6 +1859,17 @@ extension CreateBucketOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketArn)
         bucketArn = bucketArnDecoded
+    }
+}
+
+enum CreateBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "BucketAlreadyExists": return try await BucketAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2085,24 +2085,11 @@ extension CreateJobInputBody: Swift.Decodable {
     }
 }
 
-enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IdempotencyException": return try await IdempotencyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
             self.jobId = nil
@@ -2110,7 +2097,7 @@ extension CreateJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutputResponse: Swift.Equatable {
+public struct CreateJobOutput: Swift.Equatable {
     /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
     public var jobId: Swift.String?
 
@@ -2122,11 +2109,11 @@ public struct CreateJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputResponseBody: Swift.Equatable {
+struct CreateJobOutputBody: Swift.Equatable {
     let jobId: Swift.String?
 }
 
-extension CreateJobOutputResponseBody: Swift.Decodable {
+extension CreateJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
     }
@@ -2135,6 +2122,19 @@ extension CreateJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
         jobId = jobIdDecoded
+    }
+}
+
+enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IdempotencyException": return try await IdempotencyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2325,20 +2325,11 @@ extension CreateMultiRegionAccessPointInputBody: Swift.Decodable {
     }
 }
 
-enum CreateMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMultiRegionAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMultiRegionAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMultiRegionAccessPointOutputBody = try responseDecoder.decode(responseBody: data)
             self.requestTokenARN = output.requestTokenARN
         } else {
             self.requestTokenARN = nil
@@ -2346,7 +2337,7 @@ extension CreateMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct CreateMultiRegionAccessPointOutputResponse: Swift.Equatable {
+public struct CreateMultiRegionAccessPointOutput: Swift.Equatable {
     /// The request token associated with the request. You can use this token with [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html) to determine the status of asynchronous requests.
     public var requestTokenARN: Swift.String?
 
@@ -2358,11 +2349,11 @@ public struct CreateMultiRegionAccessPointOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMultiRegionAccessPointOutputResponseBody: Swift.Equatable {
+struct CreateMultiRegionAccessPointOutputBody: Swift.Equatable {
     let requestTokenARN: Swift.String?
 }
 
-extension CreateMultiRegionAccessPointOutputResponseBody: Swift.Decodable {
+extension CreateMultiRegionAccessPointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestTokenARN = "RequestTokenARN"
     }
@@ -2371,6 +2362,15 @@ extension CreateMultiRegionAccessPointOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestTokenARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestTokenARN)
         requestTokenARN = requestTokenARNDecoded
+    }
+}
+
+enum CreateMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -2420,6 +2420,16 @@ extension DeleteAccessPointForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccessPointForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccessPointForObjectLambdaOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2427,16 +2437,6 @@ enum DeleteAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccessPointInput: ClientRuntime.HeaderProvider {
@@ -2485,6 +2485,16 @@ extension DeleteAccessPointInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccessPointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccessPointOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2492,16 +2502,6 @@ enum DeleteAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccessPointPolicyForObjectLambdaInput: ClientRuntime.HeaderProvider {
@@ -2550,6 +2550,16 @@ extension DeleteAccessPointPolicyForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccessPointPolicyForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2557,16 +2567,6 @@ enum DeleteAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpRespon
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccessPointPolicyForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointPolicyForObjectLambdaOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccessPointPolicyInput: ClientRuntime.HeaderProvider {
@@ -2615,6 +2615,16 @@ extension DeleteAccessPointPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAccessPointPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2622,16 +2632,6 @@ enum DeleteAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketInput: ClientRuntime.HeaderProvider {
@@ -2726,6 +2726,16 @@ extension DeleteBucketLifecycleConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketLifecycleConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2735,12 +2745,12 @@ enum DeleteBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DeleteBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteBucketOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteBucketLifecycleConfigurationOutputResponse: Swift.Equatable {
+public struct DeleteBucketOutput: Swift.Equatable {
 
     public init() { }
 }
@@ -2752,16 +2762,6 @@ enum DeleteBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteBucketOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketPolicyInput: ClientRuntime.HeaderProvider {
@@ -2810,6 +2810,16 @@ extension DeleteBucketPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2817,16 +2827,6 @@ enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
@@ -2875,6 +2875,16 @@ extension DeleteBucketReplicationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketReplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2882,16 +2892,6 @@ enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketReplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
@@ -2940,6 +2940,16 @@ extension DeleteBucketTaggingInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -2947,16 +2957,6 @@ enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketTaggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteJobTaggingInput: ClientRuntime.HeaderProvider {
@@ -3005,6 +3005,16 @@ extension DeleteJobTaggingInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteJobTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteJobTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3015,16 +3025,6 @@ enum DeleteJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteJobTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteJobTaggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension S3ControlClientTypes.DeleteMarkerReplication: Swift.Codable {
@@ -3258,20 +3258,11 @@ extension DeleteMultiRegionAccessPointInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteMultiRegionAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteMultiRegionAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteMultiRegionAccessPointOutputBody = try responseDecoder.decode(responseBody: data)
             self.requestTokenARN = output.requestTokenARN
         } else {
             self.requestTokenARN = nil
@@ -3279,7 +3270,7 @@ extension DeleteMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct DeleteMultiRegionAccessPointOutputResponse: Swift.Equatable {
+public struct DeleteMultiRegionAccessPointOutput: Swift.Equatable {
     /// The request token associated with the request. You can use this token with [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html) to determine the status of asynchronous requests.
     public var requestTokenARN: Swift.String?
 
@@ -3291,11 +3282,11 @@ public struct DeleteMultiRegionAccessPointOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteMultiRegionAccessPointOutputResponseBody: Swift.Equatable {
+struct DeleteMultiRegionAccessPointOutputBody: Swift.Equatable {
     let requestTokenARN: Swift.String?
 }
 
-extension DeleteMultiRegionAccessPointOutputResponseBody: Swift.Decodable {
+extension DeleteMultiRegionAccessPointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestTokenARN = "RequestTokenARN"
     }
@@ -3304,6 +3295,15 @@ extension DeleteMultiRegionAccessPointOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let requestTokenARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestTokenARN)
         requestTokenARN = requestTokenARNDecoded
+    }
+}
+
+enum DeleteMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3345,6 +3345,16 @@ extension DeletePublicAccessBlockInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePublicAccessBlockOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3352,16 +3362,6 @@ enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeletePublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePublicAccessBlockOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteStorageLensConfigurationInput: ClientRuntime.HeaderProvider {
@@ -3410,6 +3410,16 @@ extension DeleteStorageLensConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStorageLensConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStorageLensConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3417,16 +3427,6 @@ enum DeleteStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteStorageLensConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStorageLensConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteStorageLensConfigurationTaggingInput: ClientRuntime.HeaderProvider {
@@ -3475,6 +3475,16 @@ extension DeleteStorageLensConfigurationTaggingInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStorageLensConfigurationTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStorageLensConfigurationTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3482,16 +3492,6 @@ enum DeleteStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension DeleteStorageLensConfigurationTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStorageLensConfigurationTaggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeJobInput: ClientRuntime.HeaderProvider {
@@ -3540,24 +3540,11 @@ extension DescribeJobInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.job = output.job
         } else {
             self.job = nil
@@ -3565,7 +3552,7 @@ extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobOutputResponse: Swift.Equatable {
+public struct DescribeJobOutput: Swift.Equatable {
     /// Contains the configuration parameters and status for the job specified in the Describe Job request.
     public var job: S3ControlClientTypes.JobDescriptor?
 
@@ -3577,11 +3564,11 @@ public struct DescribeJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeJobOutputResponseBody: Swift.Equatable {
+struct DescribeJobOutputBody: Swift.Equatable {
     let job: S3ControlClientTypes.JobDescriptor?
 }
 
-extension DescribeJobOutputResponseBody: Swift.Decodable {
+extension DescribeJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case job = "Job"
     }
@@ -3590,6 +3577,19 @@ extension DescribeJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.JobDescriptor.self, forKey: .job)
         job = jobDecoded
+    }
+}
+
+enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -3639,20 +3639,11 @@ extension DescribeMultiRegionAccessPointOperationInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeMultiRegionAccessPointOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DescribeMultiRegionAccessPointOperationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeMultiRegionAccessPointOperationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeMultiRegionAccessPointOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeMultiRegionAccessPointOperationOutputBody = try responseDecoder.decode(responseBody: data)
             self.asyncOperation = output.asyncOperation
         } else {
             self.asyncOperation = nil
@@ -3660,7 +3651,7 @@ extension DescribeMultiRegionAccessPointOperationOutputResponse: ClientRuntime.H
     }
 }
 
-public struct DescribeMultiRegionAccessPointOperationOutputResponse: Swift.Equatable {
+public struct DescribeMultiRegionAccessPointOperationOutput: Swift.Equatable {
     /// A container element containing the details of the asynchronous operation.
     public var asyncOperation: S3ControlClientTypes.AsyncOperation?
 
@@ -3672,11 +3663,11 @@ public struct DescribeMultiRegionAccessPointOperationOutputResponse: Swift.Equat
     }
 }
 
-struct DescribeMultiRegionAccessPointOperationOutputResponseBody: Swift.Equatable {
+struct DescribeMultiRegionAccessPointOperationOutputBody: Swift.Equatable {
     let asyncOperation: S3ControlClientTypes.AsyncOperation?
 }
 
-extension DescribeMultiRegionAccessPointOperationOutputResponseBody: Swift.Decodable {
+extension DescribeMultiRegionAccessPointOperationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case asyncOperation = "AsyncOperation"
     }
@@ -3685,6 +3676,15 @@ extension DescribeMultiRegionAccessPointOperationOutputResponseBody: Swift.Decod
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let asyncOperationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AsyncOperation.self, forKey: .asyncOperation)
         asyncOperation = asyncOperationDecoded
+    }
+}
+
+enum DescribeMultiRegionAccessPointOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4345,20 +4345,11 @@ extension GetAccessPointConfigurationForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointConfigurationForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointConfigurationForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointConfigurationForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointConfigurationForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointConfigurationForObjectLambdaOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
         } else {
             self.configuration = nil
@@ -4366,7 +4357,7 @@ extension GetAccessPointConfigurationForObjectLambdaOutputResponse: ClientRuntim
     }
 }
 
-public struct GetAccessPointConfigurationForObjectLambdaOutputResponse: Swift.Equatable {
+public struct GetAccessPointConfigurationForObjectLambdaOutput: Swift.Equatable {
     /// Object Lambda Access Point configuration document.
     public var configuration: S3ControlClientTypes.ObjectLambdaConfiguration?
 
@@ -4378,11 +4369,11 @@ public struct GetAccessPointConfigurationForObjectLambdaOutputResponse: Swift.Eq
     }
 }
 
-struct GetAccessPointConfigurationForObjectLambdaOutputResponseBody: Swift.Equatable {
+struct GetAccessPointConfigurationForObjectLambdaOutputBody: Swift.Equatable {
     let configuration: S3ControlClientTypes.ObjectLambdaConfiguration?
 }
 
-extension GetAccessPointConfigurationForObjectLambdaOutputResponseBody: Swift.Decodable {
+extension GetAccessPointConfigurationForObjectLambdaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
     }
@@ -4391,6 +4382,15 @@ extension GetAccessPointConfigurationForObjectLambdaOutputResponseBody: Swift.De
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+    }
+}
+
+enum GetAccessPointConfigurationForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4440,20 +4440,11 @@ extension GetAccessPointForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointForObjectLambdaOutputBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
             self.creationDate = output.creationDate
             self.name = output.name
@@ -4467,7 +4458,7 @@ extension GetAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
+public struct GetAccessPointForObjectLambdaOutput: Swift.Equatable {
     /// The alias of the Object Lambda Access Point.
     public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// The date and time when the specified Object Lambda Access Point was created.
@@ -4491,14 +4482,14 @@ public struct GetAccessPointForObjectLambdaOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccessPointForObjectLambdaOutputResponseBody: Swift.Equatable {
+struct GetAccessPointForObjectLambdaOutputBody: Swift.Equatable {
     let name: Swift.String?
     let publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
     let creationDate: ClientRuntime.Date?
     let alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
 }
 
-extension GetAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
+extension GetAccessPointForObjectLambdaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias = "Alias"
         case creationDate = "CreationDate"
@@ -4516,6 +4507,15 @@ extension GetAccessPointForObjectLambdaOutputResponseBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let aliasDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ObjectLambdaAccessPointAlias.self, forKey: .alias)
         alias = aliasDecoded
+    }
+}
+
+enum GetAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4565,20 +4565,11 @@ extension GetAccessPointInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessPointArn = output.accessPointArn
             self.alias = output.alias
             self.bucket = output.bucket
@@ -4604,7 +4595,7 @@ extension GetAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccessPointOutputResponse: Swift.Equatable {
+public struct GetAccessPointOutput: Swift.Equatable {
     /// The ARN of the access point.
     public var accessPointArn: Swift.String?
     /// The name or alias of the access point.
@@ -4652,7 +4643,7 @@ public struct GetAccessPointOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccessPointOutputResponseBody: Swift.Equatable {
+struct GetAccessPointOutputBody: Swift.Equatable {
     let name: Swift.String?
     let bucket: Swift.String?
     let networkOrigin: S3ControlClientTypes.NetworkOrigin?
@@ -4665,7 +4656,7 @@ struct GetAccessPointOutputResponseBody: Swift.Equatable {
     let bucketAccountId: Swift.String?
 }
 
-extension GetAccessPointOutputResponseBody: Swift.Decodable {
+extension GetAccessPointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointArn = "AccessPointArn"
         case alias = "Alias"
@@ -4721,6 +4712,15 @@ extension GetAccessPointOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetAccessPointPolicyForObjectLambdaInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -4767,20 +4767,11 @@ extension GetAccessPointPolicyForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointPolicyForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointPolicyForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointPolicyForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointPolicyForObjectLambdaOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -4788,7 +4779,7 @@ extension GetAccessPointPolicyForObjectLambdaOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct GetAccessPointPolicyForObjectLambdaOutputResponse: Swift.Equatable {
+public struct GetAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
     /// Object Lambda Access Point resource policy document.
     public var policy: Swift.String?
 
@@ -4800,11 +4791,11 @@ public struct GetAccessPointPolicyForObjectLambdaOutputResponse: Swift.Equatable
     }
 }
 
-struct GetAccessPointPolicyForObjectLambdaOutputResponseBody: Swift.Equatable {
+struct GetAccessPointPolicyForObjectLambdaOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetAccessPointPolicyForObjectLambdaOutputResponseBody: Swift.Decodable {
+extension GetAccessPointPolicyForObjectLambdaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -4813,6 +4804,15 @@ extension GetAccessPointPolicyForObjectLambdaOutputResponseBody: Swift.Decodable
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4862,20 +4862,11 @@ extension GetAccessPointPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -4883,7 +4874,7 @@ extension GetAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetAccessPointPolicyOutputResponse: Swift.Equatable {
+public struct GetAccessPointPolicyOutput: Swift.Equatable {
     /// The access point policy associated with the specified access point.
     public var policy: Swift.String?
 
@@ -4895,11 +4886,11 @@ public struct GetAccessPointPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccessPointPolicyOutputResponseBody: Swift.Equatable {
+struct GetAccessPointPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetAccessPointPolicyOutputResponseBody: Swift.Decodable {
+extension GetAccessPointPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -4908,6 +4899,15 @@ extension GetAccessPointPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -4957,20 +4957,11 @@ extension GetAccessPointPolicyStatusForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointPolicyStatusForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointPolicyStatusForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointPolicyStatusForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointPolicyStatusForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointPolicyStatusForObjectLambdaOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyStatus = output.policyStatus
         } else {
             self.policyStatus = nil
@@ -4978,7 +4969,7 @@ extension GetAccessPointPolicyStatusForObjectLambdaOutputResponse: ClientRuntime
     }
 }
 
-public struct GetAccessPointPolicyStatusForObjectLambdaOutputResponse: Swift.Equatable {
+public struct GetAccessPointPolicyStatusForObjectLambdaOutput: Swift.Equatable {
     /// Indicates whether this access point policy is public. For more information about how Amazon S3 evaluates policies to determine whether they are public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
     public var policyStatus: S3ControlClientTypes.PolicyStatus?
 
@@ -4990,11 +4981,11 @@ public struct GetAccessPointPolicyStatusForObjectLambdaOutputResponse: Swift.Equ
     }
 }
 
-struct GetAccessPointPolicyStatusForObjectLambdaOutputResponseBody: Swift.Equatable {
+struct GetAccessPointPolicyStatusForObjectLambdaOutputBody: Swift.Equatable {
     let policyStatus: S3ControlClientTypes.PolicyStatus?
 }
 
-extension GetAccessPointPolicyStatusForObjectLambdaOutputResponseBody: Swift.Decodable {
+extension GetAccessPointPolicyStatusForObjectLambdaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyStatus = "PolicyStatus"
     }
@@ -5003,6 +4994,15 @@ extension GetAccessPointPolicyStatusForObjectLambdaOutputResponseBody: Swift.Dec
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyStatusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PolicyStatus.self, forKey: .policyStatus)
         policyStatus = policyStatusDecoded
+    }
+}
+
+enum GetAccessPointPolicyStatusForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5052,20 +5052,11 @@ extension GetAccessPointPolicyStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetAccessPointPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetAccessPointPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAccessPointPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAccessPointPolicyStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAccessPointPolicyStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.policyStatus = output.policyStatus
         } else {
             self.policyStatus = nil
@@ -5073,7 +5064,7 @@ extension GetAccessPointPolicyStatusOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetAccessPointPolicyStatusOutputResponse: Swift.Equatable {
+public struct GetAccessPointPolicyStatusOutput: Swift.Equatable {
     /// Indicates the current policy status of the specified access point.
     public var policyStatus: S3ControlClientTypes.PolicyStatus?
 
@@ -5085,11 +5076,11 @@ public struct GetAccessPointPolicyStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAccessPointPolicyStatusOutputResponseBody: Swift.Equatable {
+struct GetAccessPointPolicyStatusOutputBody: Swift.Equatable {
     let policyStatus: S3ControlClientTypes.PolicyStatus?
 }
 
-extension GetAccessPointPolicyStatusOutputResponseBody: Swift.Decodable {
+extension GetAccessPointPolicyStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policyStatus = "PolicyStatus"
     }
@@ -5098,6 +5089,15 @@ extension GetAccessPointPolicyStatusOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyStatusDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PolicyStatus.self, forKey: .policyStatus)
         policyStatus = policyStatusDecoded
+    }
+}
+
+enum GetAccessPointPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5193,20 +5193,11 @@ extension GetBucketLifecycleConfigurationInputBody: Swift.Decodable {
     }
 }
 
-enum GetBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBucketLifecycleConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBucketLifecycleConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
             self.rules = nil
@@ -5214,7 +5205,7 @@ extension GetBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetBucketLifecycleConfigurationOutputResponse: Swift.Equatable {
+public struct GetBucketLifecycleConfigurationOutput: Swift.Equatable {
     /// Container for the lifecycle rule of the Outposts bucket.
     public var rules: [S3ControlClientTypes.LifecycleRule]?
 
@@ -5226,11 +5217,11 @@ public struct GetBucketLifecycleConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBucketLifecycleConfigurationOutputResponseBody: Swift.Equatable {
+struct GetBucketLifecycleConfigurationOutputBody: Swift.Equatable {
     let rules: [S3ControlClientTypes.LifecycleRule]?
 }
 
-extension GetBucketLifecycleConfigurationOutputResponseBody: Swift.Decodable {
+extension GetBucketLifecycleConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rules = "Rules"
     }
@@ -5259,7 +5250,7 @@ extension GetBucketLifecycleConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
-enum GetBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
+enum GetBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
@@ -5268,11 +5259,11 @@ enum GetBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBucketOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBucketOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBucketOutputBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.creationDate = output.creationDate
             self.publicAccessBlockEnabled = output.publicAccessBlockEnabled
@@ -5284,7 +5275,7 @@ extension GetBucketOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketOutputResponse: Swift.Equatable {
+public struct GetBucketOutput: Swift.Equatable {
     /// The Outposts bucket requested.
     public var bucket: Swift.String?
     /// The creation date of the Outposts bucket.
@@ -5304,13 +5295,13 @@ public struct GetBucketOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBucketOutputResponseBody: Swift.Equatable {
+struct GetBucketOutputBody: Swift.Equatable {
     let bucket: Swift.String?
     let publicAccessBlockEnabled: Swift.Bool
     let creationDate: ClientRuntime.Date?
 }
 
-extension GetBucketOutputResponseBody: Swift.Decodable {
+extension GetBucketOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "Bucket"
         case creationDate = "CreationDate"
@@ -5325,6 +5316,15 @@ extension GetBucketOutputResponseBody: Swift.Decodable {
         publicAccessBlockEnabled = publicAccessBlockEnabledDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationDate)
         creationDate = creationDateDecoded
+    }
+}
+
+enum GetBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5374,20 +5374,11 @@ extension GetBucketPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBucketPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBucketPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -5395,7 +5386,7 @@ extension GetBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketPolicyOutputResponse: Swift.Equatable {
+public struct GetBucketPolicyOutput: Swift.Equatable {
     /// The policy of the Outposts bucket.
     public var policy: Swift.String?
 
@@ -5407,11 +5398,11 @@ public struct GetBucketPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBucketPolicyOutputResponseBody: Swift.Equatable {
+struct GetBucketPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetBucketPolicyOutputResponseBody: Swift.Decodable {
+extension GetBucketPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -5420,6 +5411,15 @@ extension GetBucketPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5469,20 +5469,11 @@ extension GetBucketReplicationInputBody: Swift.Decodable {
     }
 }
 
-enum GetBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBucketReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBucketReplicationOutputBody = try responseDecoder.decode(responseBody: data)
             self.replicationConfiguration = output.replicationConfiguration
         } else {
             self.replicationConfiguration = nil
@@ -5490,7 +5481,7 @@ extension GetBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetBucketReplicationOutputResponse: Swift.Equatable {
+public struct GetBucketReplicationOutput: Swift.Equatable {
     /// A container for one or more replication rules. A replication configuration must have at least one rule and you can add up to 100 rules. The maximum size of a replication configuration is 128 KB.
     public var replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
 
@@ -5502,11 +5493,11 @@ public struct GetBucketReplicationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBucketReplicationOutputResponseBody: Swift.Equatable {
+struct GetBucketReplicationOutputBody: Swift.Equatable {
     let replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
 }
 
-extension GetBucketReplicationOutputResponseBody: Swift.Decodable {
+extension GetBucketReplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationConfiguration = "ReplicationConfiguration"
     }
@@ -5515,6 +5506,15 @@ extension GetBucketReplicationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.ReplicationConfiguration.self, forKey: .replicationConfiguration)
         replicationConfiguration = replicationConfigurationDecoded
+    }
+}
+
+enum GetBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5564,20 +5564,11 @@ extension GetBucketTaggingInputBody: Swift.Decodable {
     }
 }
 
-enum GetBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBucketTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBucketTaggingOutputBody = try responseDecoder.decode(responseBody: data)
             self.tagSet = output.tagSet
         } else {
             self.tagSet = nil
@@ -5585,7 +5576,7 @@ extension GetBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketTaggingOutputResponse: Swift.Equatable {
+public struct GetBucketTaggingOutput: Swift.Equatable {
     /// The tags set of the Outposts bucket.
     /// This member is required.
     public var tagSet: [S3ControlClientTypes.S3Tag]?
@@ -5598,11 +5589,11 @@ public struct GetBucketTaggingOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBucketTaggingOutputResponseBody: Swift.Equatable {
+struct GetBucketTaggingOutputBody: Swift.Equatable {
     let tagSet: [S3ControlClientTypes.S3Tag]?
 }
 
-extension GetBucketTaggingOutputResponseBody: Swift.Decodable {
+extension GetBucketTaggingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagSet = "TagSet"
     }
@@ -5627,6 +5618,15 @@ extension GetBucketTaggingOutputResponseBody: Swift.Decodable {
             }
         } else {
             tagSet = nil
+        }
+    }
+}
+
+enum GetBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -5677,20 +5677,11 @@ extension GetBucketVersioningInputBody: Swift.Decodable {
     }
 }
 
-enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetBucketVersioningOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetBucketVersioningOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetBucketVersioningOutputBody = try responseDecoder.decode(responseBody: data)
             self.mfaDelete = output.mfaDelete
             self.status = output.status
         } else {
@@ -5700,7 +5691,7 @@ extension GetBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketVersioningOutputResponse: Swift.Equatable {
+public struct GetBucketVersioningOutput: Swift.Equatable {
     /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is returned only if the bucket has been configured with MFA delete. If MFA delete has never been configured for the bucket, this element is not returned.
     public var mfaDelete: S3ControlClientTypes.MFADeleteStatus?
     /// The versioning state of the S3 on Outposts bucket.
@@ -5716,12 +5707,12 @@ public struct GetBucketVersioningOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetBucketVersioningOutputResponseBody: Swift.Equatable {
+struct GetBucketVersioningOutputBody: Swift.Equatable {
     let status: S3ControlClientTypes.BucketVersioningStatus?
     let mfaDelete: S3ControlClientTypes.MFADeleteStatus?
 }
 
-extension GetBucketVersioningOutputResponseBody: Swift.Decodable {
+extension GetBucketVersioningOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mfaDelete = "MfaDelete"
         case status = "Status"
@@ -5733,6 +5724,15 @@ extension GetBucketVersioningOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let mfaDeleteDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.MFADeleteStatus.self, forKey: .mfaDelete)
         mfaDelete = mfaDeleteDecoded
+    }
+}
+
+enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5782,23 +5782,11 @@ extension GetJobTaggingInputBody: Swift.Decodable {
     }
 }
 
-enum GetJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetJobTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetJobTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetJobTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetJobTaggingOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -5806,7 +5794,7 @@ extension GetJobTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobTaggingOutputResponse: Swift.Equatable {
+public struct GetJobTaggingOutput: Swift.Equatable {
     /// The set of tags associated with the S3 Batch Operations job.
     public var tags: [S3ControlClientTypes.S3Tag]?
 
@@ -5818,11 +5806,11 @@ public struct GetJobTaggingOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetJobTaggingOutputResponseBody: Swift.Equatable {
+struct GetJobTaggingOutputBody: Swift.Equatable {
     let tags: [S3ControlClientTypes.S3Tag]?
 }
 
-extension GetJobTaggingOutputResponseBody: Swift.Decodable {
+extension GetJobTaggingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -5847,6 +5835,18 @@ extension GetJobTaggingOutputResponseBody: Swift.Decodable {
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum GetJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -5897,20 +5897,11 @@ extension GetMultiRegionAccessPointInputBody: Swift.Decodable {
     }
 }
 
-enum GetMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMultiRegionAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMultiRegionAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMultiRegionAccessPointOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessPoint = output.accessPoint
         } else {
             self.accessPoint = nil
@@ -5918,7 +5909,7 @@ extension GetMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetMultiRegionAccessPointOutputResponse: Swift.Equatable {
+public struct GetMultiRegionAccessPointOutput: Swift.Equatable {
     /// A container element containing the details of the requested Multi-Region Access Point.
     public var accessPoint: S3ControlClientTypes.MultiRegionAccessPointReport?
 
@@ -5930,11 +5921,11 @@ public struct GetMultiRegionAccessPointOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMultiRegionAccessPointOutputResponseBody: Swift.Equatable {
+struct GetMultiRegionAccessPointOutputBody: Swift.Equatable {
     let accessPoint: S3ControlClientTypes.MultiRegionAccessPointReport?
 }
 
-extension GetMultiRegionAccessPointOutputResponseBody: Swift.Decodable {
+extension GetMultiRegionAccessPointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPoint = "AccessPoint"
     }
@@ -5943,6 +5934,15 @@ extension GetMultiRegionAccessPointOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPointDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.MultiRegionAccessPointReport.self, forKey: .accessPoint)
         accessPoint = accessPointDecoded
+    }
+}
+
+enum GetMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5992,20 +5992,11 @@ extension GetMultiRegionAccessPointPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetMultiRegionAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetMultiRegionAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMultiRegionAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMultiRegionAccessPointPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMultiRegionAccessPointPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -6013,7 +6004,7 @@ extension GetMultiRegionAccessPointPolicyOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetMultiRegionAccessPointPolicyOutputResponse: Swift.Equatable {
+public struct GetMultiRegionAccessPointPolicyOutput: Swift.Equatable {
     /// The policy associated with the specified Multi-Region Access Point.
     public var policy: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument?
 
@@ -6025,11 +6016,11 @@ public struct GetMultiRegionAccessPointPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMultiRegionAccessPointPolicyOutputResponseBody: Swift.Equatable {
+struct GetMultiRegionAccessPointPolicyOutputBody: Swift.Equatable {
     let policy: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument?
 }
 
-extension GetMultiRegionAccessPointPolicyOutputResponseBody: Swift.Decodable {
+extension GetMultiRegionAccessPointPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -6038,6 +6029,15 @@ extension GetMultiRegionAccessPointPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.MultiRegionAccessPointPolicyDocument.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetMultiRegionAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6087,20 +6087,11 @@ extension GetMultiRegionAccessPointPolicyStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetMultiRegionAccessPointPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetMultiRegionAccessPointPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMultiRegionAccessPointPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMultiRegionAccessPointPolicyStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMultiRegionAccessPointPolicyStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.established = output.established
         } else {
             self.established = nil
@@ -6108,7 +6099,7 @@ extension GetMultiRegionAccessPointPolicyStatusOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct GetMultiRegionAccessPointPolicyStatusOutputResponse: Swift.Equatable {
+public struct GetMultiRegionAccessPointPolicyStatusOutput: Swift.Equatable {
     /// Indicates whether this access point policy is public. For more information about how Amazon S3 evaluates policies to determine whether they are public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
     public var established: S3ControlClientTypes.PolicyStatus?
 
@@ -6120,11 +6111,11 @@ public struct GetMultiRegionAccessPointPolicyStatusOutputResponse: Swift.Equatab
     }
 }
 
-struct GetMultiRegionAccessPointPolicyStatusOutputResponseBody: Swift.Equatable {
+struct GetMultiRegionAccessPointPolicyStatusOutputBody: Swift.Equatable {
     let established: S3ControlClientTypes.PolicyStatus?
 }
 
-extension GetMultiRegionAccessPointPolicyStatusOutputResponseBody: Swift.Decodable {
+extension GetMultiRegionAccessPointPolicyStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case established = "Established"
     }
@@ -6133,6 +6124,15 @@ extension GetMultiRegionAccessPointPolicyStatusOutputResponseBody: Swift.Decodab
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let establishedDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PolicyStatus.self, forKey: .established)
         established = establishedDecoded
+    }
+}
+
+enum GetMultiRegionAccessPointPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6182,20 +6182,11 @@ extension GetMultiRegionAccessPointRoutesInputBody: Swift.Decodable {
     }
 }
 
-enum GetMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetMultiRegionAccessPointRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMultiRegionAccessPointRoutesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMultiRegionAccessPointRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMultiRegionAccessPointRoutesOutputBody = try responseDecoder.decode(responseBody: data)
             self.mrap = output.mrap
             self.routes = output.routes
         } else {
@@ -6205,7 +6196,7 @@ extension GetMultiRegionAccessPointRoutesOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetMultiRegionAccessPointRoutesOutputResponse: Swift.Equatable {
+public struct GetMultiRegionAccessPointRoutesOutput: Swift.Equatable {
     /// The Multi-Region Access Point ARN.
     public var mrap: Swift.String?
     /// The different routes that make up the route configuration. Active routes return a value of 100, and passive routes return a value of 0.
@@ -6221,12 +6212,12 @@ public struct GetMultiRegionAccessPointRoutesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMultiRegionAccessPointRoutesOutputResponseBody: Swift.Equatable {
+struct GetMultiRegionAccessPointRoutesOutputBody: Swift.Equatable {
     let mrap: Swift.String?
     let routes: [S3ControlClientTypes.MultiRegionAccessPointRoute]?
 }
 
-extension GetMultiRegionAccessPointRoutesOutputResponseBody: Swift.Decodable {
+extension GetMultiRegionAccessPointRoutesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mrap = "Mrap"
         case routes = "Routes"
@@ -6254,6 +6245,15 @@ extension GetMultiRegionAccessPointRoutesOutputResponseBody: Swift.Decodable {
             }
         } else {
             routes = nil
+        }
+    }
+}
+
+enum GetMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -6296,17 +6296,7 @@ extension GetPublicAccessBlockInputBody: Swift.Decodable {
     }
 }
 
-enum GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchPublicAccessBlockConfiguration": return try await NoSuchPublicAccessBlockConfiguration(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: S3ControlClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
@@ -6317,7 +6307,7 @@ extension GetPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetPublicAccessBlockOutputResponse: Swift.Equatable {
+public struct GetPublicAccessBlockOutput: Swift.Equatable {
     /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
 
@@ -6329,11 +6319,11 @@ public struct GetPublicAccessBlockOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPublicAccessBlockOutputResponseBody: Swift.Equatable {
+struct GetPublicAccessBlockOutputBody: Swift.Equatable {
     let publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
 }
 
-extension GetPublicAccessBlockOutputResponseBody: Swift.Decodable {
+extension GetPublicAccessBlockOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
     }
@@ -6342,6 +6332,16 @@ extension GetPublicAccessBlockOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.PublicAccessBlockConfiguration.self, forKey: .publicAccessBlockConfiguration)
         publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
+    }
+}
+
+enum GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchPublicAccessBlockConfiguration": return try await NoSuchPublicAccessBlockConfiguration(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6391,16 +6391,7 @@ extension GetStorageLensConfigurationInputBody: Swift.Decodable {
     }
 }
 
-enum GetStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetStorageLensConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetStorageLensConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
             let output: S3ControlClientTypes.StorageLensConfiguration = try responseDecoder.decode(responseBody: data)
@@ -6411,7 +6402,7 @@ extension GetStorageLensConfigurationOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetStorageLensConfigurationOutputResponse: Swift.Equatable {
+public struct GetStorageLensConfigurationOutput: Swift.Equatable {
     /// The S3 Storage Lens configuration requested.
     public var storageLensConfiguration: S3ControlClientTypes.StorageLensConfiguration?
 
@@ -6423,11 +6414,11 @@ public struct GetStorageLensConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetStorageLensConfigurationOutputResponseBody: Swift.Equatable {
+struct GetStorageLensConfigurationOutputBody: Swift.Equatable {
     let storageLensConfiguration: S3ControlClientTypes.StorageLensConfiguration?
 }
 
-extension GetStorageLensConfigurationOutputResponseBody: Swift.Decodable {
+extension GetStorageLensConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case storageLensConfiguration = "StorageLensConfiguration"
     }
@@ -6436,6 +6427,15 @@ extension GetStorageLensConfigurationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let storageLensConfigurationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.StorageLensConfiguration.self, forKey: .storageLensConfiguration)
         storageLensConfiguration = storageLensConfigurationDecoded
+    }
+}
+
+enum GetStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -6485,20 +6485,11 @@ extension GetStorageLensConfigurationTaggingInputBody: Swift.Decodable {
     }
 }
 
-enum GetStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension GetStorageLensConfigurationTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetStorageLensConfigurationTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetStorageLensConfigurationTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetStorageLensConfigurationTaggingOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -6506,7 +6497,7 @@ extension GetStorageLensConfigurationTaggingOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GetStorageLensConfigurationTaggingOutputResponse: Swift.Equatable {
+public struct GetStorageLensConfigurationTaggingOutput: Swift.Equatable {
     /// The tags of S3 Storage Lens configuration requested.
     public var tags: [S3ControlClientTypes.StorageLensTag]?
 
@@ -6518,11 +6509,11 @@ public struct GetStorageLensConfigurationTaggingOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetStorageLensConfigurationTaggingOutputResponseBody: Swift.Equatable {
+struct GetStorageLensConfigurationTaggingOutputBody: Swift.Equatable {
     let tags: [S3ControlClientTypes.StorageLensTag]?
 }
 
-extension GetStorageLensConfigurationTaggingOutputResponseBody: Swift.Decodable {
+extension GetStorageLensConfigurationTaggingOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -6547,6 +6538,15 @@ extension GetStorageLensConfigurationTaggingOutputResponseBody: Swift.Decodable 
             }
         } else {
             tags = nil
+        }
+    }
+}
+
+enum GetStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -8892,20 +8892,11 @@ extension ListAccessPointsForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
-enum ListAccessPointsForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAccessPointsForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccessPointsForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccessPointsForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccessPointsForObjectLambdaOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.objectLambdaAccessPointList = output.objectLambdaAccessPointList
         } else {
@@ -8915,7 +8906,7 @@ extension ListAccessPointsForObjectLambdaOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListAccessPointsForObjectLambdaOutputResponse: Swift.Equatable {
+public struct ListAccessPointsForObjectLambdaOutput: Swift.Equatable {
     /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
     public var nextToken: Swift.String?
     /// Returns list of Object Lambda Access Points.
@@ -8931,12 +8922,12 @@ public struct ListAccessPointsForObjectLambdaOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccessPointsForObjectLambdaOutputResponseBody: Swift.Equatable {
+struct ListAccessPointsForObjectLambdaOutputBody: Swift.Equatable {
     let objectLambdaAccessPointList: [S3ControlClientTypes.ObjectLambdaAccessPoint]?
     let nextToken: Swift.String?
 }
 
-extension ListAccessPointsForObjectLambdaOutputResponseBody: Swift.Decodable {
+extension ListAccessPointsForObjectLambdaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case objectLambdaAccessPointList = "ObjectLambdaAccessPointList"
@@ -8965,6 +8956,15 @@ extension ListAccessPointsForObjectLambdaOutputResponseBody: Swift.Decodable {
         }
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAccessPointsForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9039,20 +9039,11 @@ extension ListAccessPointsInputBody: Swift.Decodable {
     }
 }
 
-enum ListAccessPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListAccessPointsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAccessPointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAccessPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAccessPointsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessPointList = output.accessPointList
             self.nextToken = output.nextToken
         } else {
@@ -9062,7 +9053,7 @@ extension ListAccessPointsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessPointsOutputResponse: Swift.Equatable {
+public struct ListAccessPointsOutput: Swift.Equatable {
     /// Contains identification and configuration information for one or more access points associated with the specified bucket.
     public var accessPointList: [S3ControlClientTypes.AccessPoint]?
     /// If the specified bucket has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
@@ -9078,12 +9069,12 @@ public struct ListAccessPointsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAccessPointsOutputResponseBody: Swift.Equatable {
+struct ListAccessPointsOutputBody: Swift.Equatable {
     let accessPointList: [S3ControlClientTypes.AccessPoint]?
     let nextToken: Swift.String?
 }
 
-extension ListAccessPointsOutputResponseBody: Swift.Decodable {
+extension ListAccessPointsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointList = "AccessPointList"
         case nextToken = "NextToken"
@@ -9112,6 +9103,15 @@ extension ListAccessPointsOutputResponseBody: Swift.Decodable {
         }
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAccessPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9188,23 +9188,11 @@ extension ListJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.nextToken = output.nextToken
         } else {
@@ -9214,7 +9202,7 @@ extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutputResponse: Swift.Equatable {
+public struct ListJobsOutput: Swift.Equatable {
     /// The list of current jobs and jobs that have ended within the last 30 days.
     public var jobs: [S3ControlClientTypes.JobListDescriptor]?
     /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
@@ -9230,12 +9218,12 @@ public struct ListJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputResponseBody: Swift.Equatable {
+struct ListJobsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let jobs: [S3ControlClientTypes.JobListDescriptor]?
 }
 
-extension ListJobsOutputResponseBody: Swift.Decodable {
+extension ListJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobs = "Jobs"
         case nextToken = "NextToken"
@@ -9263,6 +9251,18 @@ extension ListJobsOutputResponseBody: Swift.Decodable {
             }
         } else {
             jobs = nil
+        }
+    }
+}
+
+enum ListJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -9330,20 +9330,11 @@ extension ListMultiRegionAccessPointsInputBody: Swift.Decodable {
     }
 }
 
-enum ListMultiRegionAccessPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListMultiRegionAccessPointsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMultiRegionAccessPointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMultiRegionAccessPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMultiRegionAccessPointsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessPoints = output.accessPoints
             self.nextToken = output.nextToken
         } else {
@@ -9353,7 +9344,7 @@ extension ListMultiRegionAccessPointsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListMultiRegionAccessPointsOutputResponse: Swift.Equatable {
+public struct ListMultiRegionAccessPointsOutput: Swift.Equatable {
     /// The list of Multi-Region Access Points associated with the user.
     public var accessPoints: [S3ControlClientTypes.MultiRegionAccessPointReport]?
     /// If the specified bucket has more Multi-Region Access Points than can be returned in one call to this action, this field contains a continuation token. You can use this token tin subsequent calls to this action to retrieve additional Multi-Region Access Points.
@@ -9369,12 +9360,12 @@ public struct ListMultiRegionAccessPointsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMultiRegionAccessPointsOutputResponseBody: Swift.Equatable {
+struct ListMultiRegionAccessPointsOutputBody: Swift.Equatable {
     let accessPoints: [S3ControlClientTypes.MultiRegionAccessPointReport]?
     let nextToken: Swift.String?
 }
 
-extension ListMultiRegionAccessPointsOutputResponseBody: Swift.Decodable {
+extension ListMultiRegionAccessPointsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPoints = "AccessPoints"
         case nextToken = "NextToken"
@@ -9403,6 +9394,15 @@ extension ListMultiRegionAccessPointsOutputResponseBody: Swift.Decodable {
         }
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMultiRegionAccessPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9476,20 +9476,11 @@ extension ListRegionalBucketsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRegionalBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListRegionalBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRegionalBucketsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRegionalBucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRegionalBucketsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.regionalBucketList = output.regionalBucketList
         } else {
@@ -9499,7 +9490,7 @@ extension ListRegionalBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegionalBucketsOutputResponse: Swift.Equatable {
+public struct ListRegionalBucketsOutput: Swift.Equatable {
     /// NextToken is sent when isTruncated is true, which means there are more buckets that can be listed. The next list requests to Amazon S3 can be continued with this NextToken. NextToken is obfuscated and is not a real key.
     public var nextToken: Swift.String?
     ///
@@ -9515,12 +9506,12 @@ public struct ListRegionalBucketsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRegionalBucketsOutputResponseBody: Swift.Equatable {
+struct ListRegionalBucketsOutputBody: Swift.Equatable {
     let regionalBucketList: [S3ControlClientTypes.RegionalBucket]?
     let nextToken: Swift.String?
 }
 
-extension ListRegionalBucketsOutputResponseBody: Swift.Decodable {
+extension ListRegionalBucketsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case regionalBucketList = "RegionalBucketList"
@@ -9549,6 +9540,15 @@ extension ListRegionalBucketsOutputResponseBody: Swift.Decodable {
         }
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRegionalBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9692,20 +9692,11 @@ extension ListStorageLensConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListStorageLensConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListStorageLensConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStorageLensConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStorageLensConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStorageLensConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.storageLensConfigurationList = output.storageLensConfigurationList
         } else {
@@ -9715,7 +9706,7 @@ extension ListStorageLensConfigurationsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListStorageLensConfigurationsOutputResponse: Swift.Equatable {
+public struct ListStorageLensConfigurationsOutput: Swift.Equatable {
     /// If the request produced more than the maximum number of S3 Storage Lens configuration results, you can pass this value into a subsequent request to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// A list of S3 Storage Lens configurations.
@@ -9731,12 +9722,12 @@ public struct ListStorageLensConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStorageLensConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListStorageLensConfigurationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let storageLensConfigurationList: [S3ControlClientTypes.ListStorageLensConfigurationEntry]?
 }
 
-extension ListStorageLensConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListStorageLensConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case storageLensConfigurationList = "StorageLensConfigurationList"
@@ -9763,6 +9754,15 @@ extension ListStorageLensConfigurationsOutputResponseBody: Swift.Decodable {
             }
         } else {
             storageLensConfigurationList = nil
+        }
+    }
+}
+
+enum ListStorageLensConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -11624,6 +11624,16 @@ extension PutAccessPointConfigurationForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
+extension PutAccessPointConfigurationForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutAccessPointConfigurationForObjectLambdaOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutAccessPointConfigurationForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -11631,16 +11641,6 @@ enum PutAccessPointConfigurationForObjectLambdaOutputError: ClientRuntime.HttpRe
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutAccessPointConfigurationForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutAccessPointConfigurationForObjectLambdaOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutAccessPointPolicyForObjectLambdaInput: ClientRuntime.DynamicNodeEncoding {
@@ -11731,6 +11731,16 @@ extension PutAccessPointPolicyForObjectLambdaInputBody: Swift.Decodable {
     }
 }
 
+extension PutAccessPointPolicyForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -11738,16 +11748,6 @@ enum PutAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseE
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutAccessPointPolicyForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutAccessPointPolicyForObjectLambdaOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutAccessPointPolicyInput: ClientRuntime.DynamicNodeEncoding {
@@ -11838,6 +11838,16 @@ extension PutAccessPointPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutAccessPointPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -11847,16 +11857,6 @@ enum PutAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutAccessPointPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutBucketLifecycleConfigurationInputBodyMiddleware"
 
@@ -11864,7 +11864,7 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutBucketLifecycleConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -11892,7 +11892,7 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketLifecycleConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -11983,6 +11983,16 @@ extension PutBucketLifecycleConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension PutBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBucketLifecycleConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -11990,16 +12000,6 @@ enum PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBucketLifecycleConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutBucketPolicyInput: ClientRuntime.DynamicNodeEncoding {
@@ -12097,6 +12097,16 @@ extension PutBucketPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBucketPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12106,16 +12116,6 @@ enum PutBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBucketPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutBucketReplicationInputBodyMiddleware"
 
@@ -12123,7 +12123,7 @@ public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware 
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutBucketReplicationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketReplicationOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketReplicationOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -12151,7 +12151,7 @@ public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware 
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketReplicationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketReplicationOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketReplicationOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -12243,6 +12243,16 @@ extension PutBucketReplicationInputBody: Swift.Decodable {
     }
 }
 
+extension PutBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBucketReplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12252,16 +12262,6 @@ enum PutBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBucketReplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutBucketTaggingInputBodyMiddleware"
 
@@ -12269,7 +12269,7 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutBucketTaggingInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketTaggingOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketTaggingOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -12297,7 +12297,7 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketTaggingInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketTaggingOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketTaggingOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -12389,6 +12389,16 @@ extension PutBucketTaggingInputBody: Swift.Decodable {
     }
 }
 
+extension PutBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBucketTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12398,16 +12408,6 @@ enum PutBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBucketTaggingOutputResponse: Swift.Equatable {
-
-    public init() { }
-}
-
 public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutBucketVersioningInputBodyMiddleware"
 
@@ -12415,7 +12415,7 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutBucketVersioningInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketVersioningOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketVersioningOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -12443,7 +12443,7 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketVersioningInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketVersioningOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketVersioningOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -12542,6 +12542,16 @@ extension PutBucketVersioningInputBody: Swift.Decodable {
     }
 }
 
+extension PutBucketVersioningOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutBucketVersioningOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12549,16 +12559,6 @@ enum PutBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutBucketVersioningOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutJobTaggingInput: ClientRuntime.DynamicNodeEncoding {
@@ -12669,6 +12669,16 @@ extension PutJobTaggingInputBody: Swift.Decodable {
     }
 }
 
+extension PutJobTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutJobTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12680,16 +12690,6 @@ enum PutJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutJobTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutJobTaggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput: Swift.Codable {
@@ -12849,20 +12849,11 @@ extension PutMultiRegionAccessPointPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum PutMultiRegionAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension PutMultiRegionAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutMultiRegionAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutMultiRegionAccessPointPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutMultiRegionAccessPointPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.requestTokenARN = output.requestTokenARN
         } else {
             self.requestTokenARN = nil
@@ -12870,7 +12861,7 @@ extension PutMultiRegionAccessPointPolicyOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct PutMultiRegionAccessPointPolicyOutputResponse: Swift.Equatable {
+public struct PutMultiRegionAccessPointPolicyOutput: Swift.Equatable {
     /// The request token associated with the request. You can use this token with [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html) to determine the status of asynchronous requests.
     public var requestTokenARN: Swift.String?
 
@@ -12882,11 +12873,11 @@ public struct PutMultiRegionAccessPointPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutMultiRegionAccessPointPolicyOutputResponseBody: Swift.Equatable {
+struct PutMultiRegionAccessPointPolicyOutputBody: Swift.Equatable {
     let requestTokenARN: Swift.String?
 }
 
-extension PutMultiRegionAccessPointPolicyOutputResponseBody: Swift.Decodable {
+extension PutMultiRegionAccessPointPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestTokenARN = "RequestTokenARN"
     }
@@ -12898,6 +12889,15 @@ extension PutMultiRegionAccessPointPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum PutMultiRegionAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutPublicAccessBlockInputBodyMiddleware"
 
@@ -12905,7 +12905,7 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutPublicAccessBlockInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutPublicAccessBlockOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutPublicAccessBlockOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -12933,7 +12933,7 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutPublicAccessBlockInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutPublicAccessBlockOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutPublicAccessBlockOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -13017,6 +13017,16 @@ extension PutPublicAccessBlockInputBody: Swift.Decodable {
     }
 }
 
+extension PutPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutPublicAccessBlockOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -13024,16 +13034,6 @@ enum PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutPublicAccessBlockOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutStorageLensConfigurationInput: ClientRuntime.DynamicNodeEncoding {
@@ -13156,6 +13156,16 @@ extension PutStorageLensConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension PutStorageLensConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutStorageLensConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -13163,16 +13173,6 @@ enum PutStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutStorageLensConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutStorageLensConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutStorageLensConfigurationTaggingInput: ClientRuntime.DynamicNodeEncoding {
@@ -13283,6 +13283,16 @@ extension PutStorageLensConfigurationTaggingInputBody: Swift.Decodable {
     }
 }
 
+extension PutStorageLensConfigurationTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutStorageLensConfigurationTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -13290,16 +13300,6 @@ enum PutStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutStorageLensConfigurationTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutStorageLensConfigurationTaggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension S3ControlClientTypes.Region: Swift.Codable {
@@ -17199,6 +17199,16 @@ extension SubmitMultiRegionAccessPointRoutesInputBody: Swift.Decodable {
     }
 }
 
+extension SubmitMultiRegionAccessPointRoutesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SubmitMultiRegionAccessPointRoutesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum SubmitMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -17206,16 +17216,6 @@ enum SubmitMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension SubmitMultiRegionAccessPointRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct SubmitMultiRegionAccessPointRoutesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension S3ControlClientTypes.Tagging: Swift.Codable {
@@ -17578,24 +17578,11 @@ extension UpdateJobPriorityInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateJobPriorityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdateJobPriorityOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateJobPriorityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateJobPriorityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateJobPriorityOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.priority = output.priority
         } else {
@@ -17605,7 +17592,7 @@ extension UpdateJobPriorityOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobPriorityOutputResponse: Swift.Equatable {
+public struct UpdateJobPriorityOutput: Swift.Equatable {
     /// The ID for the job whose priority Amazon S3 updated.
     /// This member is required.
     public var jobId: Swift.String?
@@ -17623,12 +17610,12 @@ public struct UpdateJobPriorityOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateJobPriorityOutputResponseBody: Swift.Equatable {
+struct UpdateJobPriorityOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let priority: Swift.Int
 }
 
-extension UpdateJobPriorityOutputResponseBody: Swift.Decodable {
+extension UpdateJobPriorityOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
         case priority = "Priority"
@@ -17640,6 +17627,19 @@ extension UpdateJobPriorityOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
         priority = priorityDecoded
+    }
+}
+
+enum UpdateJobPriorityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -17717,25 +17717,11 @@ extension UpdateJobStatusInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateJobStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "JobStatusException": return try await JobStatusException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension UpdateJobStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateJobStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateJobStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateJobStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.status = output.status
             self.statusUpdateReason = output.statusUpdateReason
@@ -17747,7 +17733,7 @@ extension UpdateJobStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobStatusOutputResponse: Swift.Equatable {
+public struct UpdateJobStatusOutput: Swift.Equatable {
     /// The ID for the job whose status was updated.
     public var jobId: Swift.String?
     /// The current status for the specified job.
@@ -17767,13 +17753,13 @@ public struct UpdateJobStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateJobStatusOutputResponseBody: Swift.Equatable {
+struct UpdateJobStatusOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let status: S3ControlClientTypes.JobStatus?
     let statusUpdateReason: Swift.String?
 }
 
-extension UpdateJobStatusOutputResponseBody: Swift.Decodable {
+extension UpdateJobStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId = "JobId"
         case status = "Status"
@@ -17788,6 +17774,20 @@ extension UpdateJobStatusOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statusUpdateReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusUpdateReason)
         statusUpdateReason = statusUpdateReasonDecoded
+    }
+}
+
+enum UpdateJobStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "JobStatusException": return try await JobStatusException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 

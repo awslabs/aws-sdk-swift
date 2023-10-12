@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension MachineLearningClientProtocol {
 
-    static func batchPredictionAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeBatchPredictionsInput, result: Result<DescribeBatchPredictionsOutputResponse, Error>) -> Bool in
+    static func batchPredictionAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeBatchPredictionsInput, result: Result<DescribeBatchPredictionsOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "COMPLETED"
@@ -18,7 +18,7 @@ extension MachineLearningClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeBatchPredictionsInput, result: Result<DescribeBatchPredictionsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeBatchPredictionsInput, result: Result<DescribeBatchPredictionsOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "FAILED"
@@ -31,7 +31,7 @@ extension MachineLearningClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "FAILED") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the BatchPredictionAvailable event on the describeBatchPredictions operation.
@@ -45,14 +45,14 @@ extension MachineLearningClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilBatchPredictionAvailable(options: WaiterOptions, input: DescribeBatchPredictionsInput) async throws -> WaiterOutcome<DescribeBatchPredictionsOutputResponse> {
+    public func waitUntilBatchPredictionAvailable(options: WaiterOptions, input: DescribeBatchPredictionsInput) async throws -> WaiterOutcome<DescribeBatchPredictionsOutput> {
         let waiter = Waiter(config: try Self.batchPredictionAvailableWaiterConfig(), operation: self.describeBatchPredictions(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dataSourceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDataSourcesInput, DescribeDataSourcesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDataSourcesInput, DescribeDataSourcesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDataSourcesInput, result: Result<DescribeDataSourcesOutputResponse, Error>) -> Bool in
+    static func dataSourceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDataSourcesInput, DescribeDataSourcesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDataSourcesInput, DescribeDataSourcesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDataSourcesInput, result: Result<DescribeDataSourcesOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "COMPLETED"
@@ -64,7 +64,7 @@ extension MachineLearningClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeDataSourcesInput, result: Result<DescribeDataSourcesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDataSourcesInput, result: Result<DescribeDataSourcesOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "FAILED"
@@ -77,7 +77,7 @@ extension MachineLearningClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "FAILED") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDataSourcesInput, DescribeDataSourcesOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDataSourcesInput, DescribeDataSourcesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DataSourceAvailable event on the describeDataSources operation.
@@ -91,14 +91,14 @@ extension MachineLearningClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDataSourceAvailable(options: WaiterOptions, input: DescribeDataSourcesInput) async throws -> WaiterOutcome<DescribeDataSourcesOutputResponse> {
+    public func waitUntilDataSourceAvailable(options: WaiterOptions, input: DescribeDataSourcesInput) async throws -> WaiterOutcome<DescribeDataSourcesOutput> {
         let waiter = Waiter(config: try Self.dataSourceAvailableWaiterConfig(), operation: self.describeDataSources(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func evaluationAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeEvaluationsInput, DescribeEvaluationsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeEvaluationsInput, DescribeEvaluationsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeEvaluationsInput, result: Result<DescribeEvaluationsOutputResponse, Error>) -> Bool in
+    static func evaluationAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeEvaluationsInput, DescribeEvaluationsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeEvaluationsInput, DescribeEvaluationsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeEvaluationsInput, result: Result<DescribeEvaluationsOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "COMPLETED"
@@ -110,7 +110,7 @@ extension MachineLearningClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeEvaluationsInput, result: Result<DescribeEvaluationsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeEvaluationsInput, result: Result<DescribeEvaluationsOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "FAILED"
@@ -123,7 +123,7 @@ extension MachineLearningClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "FAILED") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeEvaluationsInput, DescribeEvaluationsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeEvaluationsInput, DescribeEvaluationsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the EvaluationAvailable event on the describeEvaluations operation.
@@ -137,14 +137,14 @@ extension MachineLearningClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilEvaluationAvailable(options: WaiterOptions, input: DescribeEvaluationsInput) async throws -> WaiterOutcome<DescribeEvaluationsOutputResponse> {
+    public func waitUntilEvaluationAvailable(options: WaiterOptions, input: DescribeEvaluationsInput) async throws -> WaiterOutcome<DescribeEvaluationsOutput> {
         let waiter = Waiter(config: try Self.evaluationAvailableWaiterConfig(), operation: self.describeEvaluations(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func mlModelAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeMLModelsInput, DescribeMLModelsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeMLModelsInput, DescribeMLModelsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeMLModelsInput, result: Result<DescribeMLModelsOutputResponse, Error>) -> Bool in
+    static func mlModelAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeMLModelsInput, DescribeMLModelsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeMLModelsInput, DescribeMLModelsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMLModelsInput, result: Result<DescribeMLModelsOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "COMPLETED"
@@ -156,7 +156,7 @@ extension MachineLearningClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeMLModelsInput, result: Result<DescribeMLModelsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeMLModelsInput, result: Result<DescribeMLModelsOutput, Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "FAILED"
@@ -169,7 +169,7 @@ extension MachineLearningClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "FAILED") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeMLModelsInput, DescribeMLModelsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeMLModelsInput, DescribeMLModelsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the MLModelAvailable event on the describeMLModels operation.
@@ -183,7 +183,7 @@ extension MachineLearningClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilMLModelAvailable(options: WaiterOptions, input: DescribeMLModelsInput) async throws -> WaiterOutcome<DescribeMLModelsOutputResponse> {
+    public func waitUntilMLModelAvailable(options: WaiterOptions, input: DescribeMLModelsInput) async throws -> WaiterOutcome<DescribeMLModelsOutput> {
         let waiter = Waiter(config: try Self.mlModelAvailableWaiterConfig(), operation: self.describeMLModels(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

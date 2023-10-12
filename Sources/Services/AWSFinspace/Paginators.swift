@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension FinspaceClient {
-    /// Paginate over `[ListKxChangesetsOutputResponse]` results.
+    /// Paginate over `[ListKxChangesetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKxChangesetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKxChangesetsOutputResponse`
-    public func listKxChangesetsPaginated(input: ListKxChangesetsInput) -> ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutputResponse>(input: input, inputKey: \ListKxChangesetsInput.nextToken, outputKey: \ListKxChangesetsOutputResponse.nextToken, paginationFunction: self.listKxChangesets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKxChangesetsOutput`
+    public func listKxChangesetsPaginated(input: ListKxChangesetsInput) -> ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutput>(input: input, inputKey: \ListKxChangesetsInput.nextToken, outputKey: \ListKxChangesetsOutput.nextToken, paginationFunction: self.listKxChangesets(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListKxChangesetsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FinspaceClient {
-    /// Paginate over `[ListKxClusterNodesOutputResponse]` results.
+    /// Paginate over `[ListKxClusterNodesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKxClusterNodesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKxClusterNodesOutputResponse`
-    public func listKxClusterNodesPaginated(input: ListKxClusterNodesInput) -> ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutputResponse>(input: input, inputKey: \ListKxClusterNodesInput.nextToken, outputKey: \ListKxClusterNodesOutputResponse.nextToken, paginationFunction: self.listKxClusterNodes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKxClusterNodesOutput`
+    public func listKxClusterNodesPaginated(input: ListKxClusterNodesInput) -> ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutput> {
+        return ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutput>(input: input, inputKey: \ListKxClusterNodesInput.nextToken, outputKey: \ListKxClusterNodesOutput.nextToken, paginationFunction: self.listKxClusterNodes(input:))
     }
 }
 
@@ -49,16 +49,16 @@ extension ListKxClusterNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FinspaceClient {
-    /// Paginate over `[ListKxDatabasesOutputResponse]` results.
+    /// Paginate over `[ListKxDatabasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKxDatabasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKxDatabasesOutputResponse`
-    public func listKxDatabasesPaginated(input: ListKxDatabasesInput) -> ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutputResponse>(input: input, inputKey: \ListKxDatabasesInput.nextToken, outputKey: \ListKxDatabasesOutputResponse.nextToken, paginationFunction: self.listKxDatabases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKxDatabasesOutput`
+    public func listKxDatabasesPaginated(input: ListKxDatabasesInput) -> ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutput>(input: input, inputKey: \ListKxDatabasesInput.nextToken, outputKey: \ListKxDatabasesOutput.nextToken, paginationFunction: self.listKxDatabases(input:))
     }
 }
 
@@ -71,16 +71,16 @@ extension ListKxDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FinspaceClient {
-    /// Paginate over `[ListKxEnvironmentsOutputResponse]` results.
+    /// Paginate over `[ListKxEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKxEnvironmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKxEnvironmentsOutputResponse`
-    public func listKxEnvironmentsPaginated(input: ListKxEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutputResponse>(input: input, inputKey: \ListKxEnvironmentsInput.nextToken, outputKey: \ListKxEnvironmentsOutputResponse.nextToken, paginationFunction: self.listKxEnvironments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKxEnvironmentsOutput`
+    public func listKxEnvironmentsPaginated(input: ListKxEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutput>(input: input, inputKey: \ListKxEnvironmentsInput.nextToken, outputKey: \ListKxEnvironmentsOutput.nextToken, paginationFunction: self.listKxEnvironments(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension ListKxEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListKxEnvironmentsInput, Output == ListKxEnvironmentsOutputResponse {
+extension PaginatorSequence where Input == ListKxEnvironmentsInput, Output == ListKxEnvironmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKxEnvironmentsPaginated`
     /// to access the nested member `[FinspaceClientTypes.KxEnvironment]`
     /// - Returns: `[FinspaceClientTypes.KxEnvironment]`

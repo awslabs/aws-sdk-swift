@@ -2436,7 +2436,7 @@ public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRu
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -2468,7 +2468,7 @@ public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRu
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -2601,22 +2601,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartCallAnalyticsStreamTranscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
@@ -2698,7 +2683,7 @@ extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct StartCallAnalyticsStreamTranscriptionOutputResponse: Swift.Equatable {
+public struct StartCallAnalyticsStreamTranscriptionOutput: Swift.Equatable {
     /// Provides detailed information about your Call Analytics streaming session.
     public var callAnalyticsTranscriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream, Swift.Error>?
     /// Shows whether content identification was enabled for your Call Analytics transcription.
@@ -2766,6 +2751,21 @@ public struct StartCallAnalyticsStreamTranscriptionOutputResponse: Swift.Equatab
     }
 }
 
+enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "StartMedicalStreamTranscriptionInputBodyMiddleware"
 
@@ -2773,7 +2773,7 @@ public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -2805,7 +2805,7 @@ public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -2926,22 +2926,7 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMedicalStreamTranscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.MedicalContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
@@ -3013,7 +2998,7 @@ extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct StartMedicalStreamTranscriptionOutputResponse: Swift.Equatable {
+public struct StartMedicalStreamTranscriptionOutput: Swift.Equatable {
     /// Shows whether content identification was enabled for your transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType?
     /// Shows whether channel identification was enabled for your transcription.
@@ -3073,6 +3058,21 @@ public struct StartMedicalStreamTranscriptionOutputResponse: Swift.Equatable {
     }
 }
 
+enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "StartStreamTranscriptionInputBodyMiddleware"
 
@@ -3080,7 +3080,7 @@ public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middlew
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartStreamTranscriptionOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartStreamTranscriptionOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -3112,7 +3112,7 @@ public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middlew
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartStreamTranscriptionOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartStreamTranscriptionOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -3300,22 +3300,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-enum StartStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartStreamTranscriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
@@ -3437,7 +3422,7 @@ extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartStreamTranscriptionOutputResponse: Swift.Equatable {
+public struct StartStreamTranscriptionOutput: Swift.Equatable {
     /// Shows whether content identification was enabled for your transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
     /// Shows whether content redaction was enabled for your transcription.
@@ -3534,6 +3519,21 @@ public struct StartStreamTranscriptionOutputResponse: Swift.Equatable {
         self.vocabularyFilterNames = vocabularyFilterNames
         self.vocabularyName = vocabularyName
         self.vocabularyNames = vocabularyNames
+    }
+}
+
+enum StartStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

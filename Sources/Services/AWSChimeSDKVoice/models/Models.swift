@@ -318,29 +318,11 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupInputBody: Swift.Decodable
     }
 }
 
-enum AssociatePhoneNumbersWithVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssociatePhoneNumbersWithVoiceConnectorGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssociatePhoneNumbersWithVoiceConnectorGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
             self.phoneNumberErrors = nil
@@ -348,7 +330,7 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: ClientRunt
     }
 }
 
-public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: Swift.Equatable {
+public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutput: Swift.Equatable {
     /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
@@ -360,11 +342,11 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: Swift.
     }
 }
 
-struct AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponseBody: Swift.Equatable {
+struct AssociatePhoneNumbersWithVoiceConnectorGroupOutputBody: Swift.Equatable {
     let phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 }
 
-extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponseBody: Swift.Decodable {
+extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberErrors = "PhoneNumberErrors"
     }
@@ -382,6 +364,24 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponseBody: Swift.
             }
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
+    }
+}
+
+enum AssociatePhoneNumbersWithVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -475,29 +475,11 @@ extension AssociatePhoneNumbersWithVoiceConnectorInputBody: Swift.Decodable {
     }
 }
 
-enum AssociatePhoneNumbersWithVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AssociatePhoneNumbersWithVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssociatePhoneNumbersWithVoiceConnectorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssociatePhoneNumbersWithVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssociatePhoneNumbersWithVoiceConnectorOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
             self.phoneNumberErrors = nil
@@ -505,7 +487,7 @@ extension AssociatePhoneNumbersWithVoiceConnectorOutputResponse: ClientRuntime.H
     }
 }
 
-public struct AssociatePhoneNumbersWithVoiceConnectorOutputResponse: Swift.Equatable {
+public struct AssociatePhoneNumbersWithVoiceConnectorOutput: Swift.Equatable {
     /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
@@ -517,11 +499,11 @@ public struct AssociatePhoneNumbersWithVoiceConnectorOutputResponse: Swift.Equat
     }
 }
 
-struct AssociatePhoneNumbersWithVoiceConnectorOutputResponseBody: Swift.Equatable {
+struct AssociatePhoneNumbersWithVoiceConnectorOutputBody: Swift.Equatable {
     let phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 }
 
-extension AssociatePhoneNumbersWithVoiceConnectorOutputResponseBody: Swift.Decodable {
+extension AssociatePhoneNumbersWithVoiceConnectorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberErrors = "PhoneNumberErrors"
     }
@@ -539,6 +521,24 @@ extension AssociatePhoneNumbersWithVoiceConnectorOutputResponseBody: Swift.Decod
             }
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
+    }
+}
+
+enum AssociatePhoneNumbersWithVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -676,28 +676,11 @@ extension BatchDeletePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
-enum BatchDeletePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchDeletePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchDeletePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchDeletePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchDeletePhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
             self.phoneNumberErrors = nil
@@ -705,7 +688,7 @@ extension BatchDeletePhoneNumberOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct BatchDeletePhoneNumberOutputResponse: Swift.Equatable {
+public struct BatchDeletePhoneNumberOutput: Swift.Equatable {
     /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
@@ -717,11 +700,11 @@ public struct BatchDeletePhoneNumberOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchDeletePhoneNumberOutputResponseBody: Swift.Equatable {
+struct BatchDeletePhoneNumberOutputBody: Swift.Equatable {
     let phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 }
 
-extension BatchDeletePhoneNumberOutputResponseBody: Swift.Decodable {
+extension BatchDeletePhoneNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberErrors = "PhoneNumberErrors"
     }
@@ -739,6 +722,23 @@ extension BatchDeletePhoneNumberOutputResponseBody: Swift.Decodable {
             }
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
+    }
+}
+
+enum BatchDeletePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -812,28 +812,11 @@ extension BatchUpdatePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
-enum BatchUpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchUpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchUpdatePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchUpdatePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchUpdatePhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
             self.phoneNumberErrors = nil
@@ -841,7 +824,7 @@ extension BatchUpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct BatchUpdatePhoneNumberOutputResponse: Swift.Equatable {
+public struct BatchUpdatePhoneNumberOutput: Swift.Equatable {
     /// A list of failed phone numbers and their error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
@@ -853,11 +836,11 @@ public struct BatchUpdatePhoneNumberOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchUpdatePhoneNumberOutputResponseBody: Swift.Equatable {
+struct BatchUpdatePhoneNumberOutputBody: Swift.Equatable {
     let phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 }
 
-extension BatchUpdatePhoneNumberOutputResponseBody: Swift.Decodable {
+extension BatchUpdatePhoneNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberErrors = "PhoneNumberErrors"
     }
@@ -875,6 +858,23 @@ extension BatchUpdatePhoneNumberOutputResponseBody: Swift.Decodable {
             }
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
+    }
+}
+
+enum BatchUpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1289,6 +1289,46 @@ extension CreatePhoneNumberOrderInputBody: Swift.Decodable {
     }
 }
 
+extension CreatePhoneNumberOrderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePhoneNumberOrderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.phoneNumberOrder = output.phoneNumberOrder
+        } else {
+            self.phoneNumberOrder = nil
+        }
+    }
+}
+
+public struct CreatePhoneNumberOrderOutput: Swift.Equatable {
+    /// The phone number order details.
+    public var phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
+
+    public init(
+        phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder? = nil
+    )
+    {
+        self.phoneNumberOrder = phoneNumberOrder
+    }
+}
+
+struct CreatePhoneNumberOrderOutputBody: Swift.Equatable {
+    let phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
+}
+
+extension CreatePhoneNumberOrderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case phoneNumberOrder = "PhoneNumberOrder"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let phoneNumberOrderDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumberOrder.self, forKey: .phoneNumberOrder)
+        phoneNumberOrder = phoneNumberOrderDecoded
+    }
+}
+
 enum CreatePhoneNumberOrderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1304,46 +1344,6 @@ enum CreatePhoneNumberOrderOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreatePhoneNumberOrderOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreatePhoneNumberOrderOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.phoneNumberOrder = output.phoneNumberOrder
-        } else {
-            self.phoneNumberOrder = nil
-        }
-    }
-}
-
-public struct CreatePhoneNumberOrderOutputResponse: Swift.Equatable {
-    /// The phone number order details.
-    public var phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
-
-    public init(
-        phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder? = nil
-    )
-    {
-        self.phoneNumberOrder = phoneNumberOrder
-    }
-}
-
-struct CreatePhoneNumberOrderOutputResponseBody: Swift.Equatable {
-    let phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
-}
-
-extension CreatePhoneNumberOrderOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case phoneNumberOrder = "PhoneNumberOrder"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let phoneNumberOrderDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumberOrder.self, forKey: .phoneNumberOrder)
-        phoneNumberOrder = phoneNumberOrderDecoded
     }
 }
 
@@ -1505,6 +1505,46 @@ extension CreateProxySessionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateProxySessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateProxySessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.proxySession = output.proxySession
+        } else {
+            self.proxySession = nil
+        }
+    }
+}
+
+public struct CreateProxySessionOutput: Swift.Equatable {
+    /// The proxy session details.
+    public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
+
+    public init(
+        proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
+    )
+    {
+        self.proxySession = proxySession
+    }
+}
+
+struct CreateProxySessionOutputBody: Swift.Equatable {
+    let proxySession: ChimeSDKVoiceClientTypes.ProxySession?
+}
+
+extension CreateProxySessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case proxySession = "ProxySession"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let proxySessionDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ProxySession.self, forKey: .proxySession)
+        proxySession = proxySessionDecoded
+    }
+}
+
 enum CreateProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1519,46 +1559,6 @@ enum CreateProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateProxySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.proxySession = output.proxySession
-        } else {
-            self.proxySession = nil
-        }
-    }
-}
-
-public struct CreateProxySessionOutputResponse: Swift.Equatable {
-    /// The proxy session details.
-    public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
-
-    public init(
-        proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
-    )
-    {
-        self.proxySession = proxySession
-    }
-}
-
-struct CreateProxySessionOutputResponseBody: Swift.Equatable {
-    let proxySession: ChimeSDKVoiceClientTypes.ProxySession?
-}
-
-extension CreateProxySessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case proxySession = "ProxySession"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let proxySessionDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ProxySession.self, forKey: .proxySession)
-        proxySession = proxySessionDecoded
     }
 }
 
@@ -1684,6 +1684,46 @@ extension CreateSipMediaApplicationCallInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSipMediaApplicationCallOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSipMediaApplicationCallOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplicationCall = output.sipMediaApplicationCall
+        } else {
+            self.sipMediaApplicationCall = nil
+        }
+    }
+}
+
+public struct CreateSipMediaApplicationCallOutput: Swift.Equatable {
+    /// The actual call.
+    public var sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
+
+    public init(
+        sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall? = nil
+    )
+    {
+        self.sipMediaApplicationCall = sipMediaApplicationCall
+    }
+}
+
+struct CreateSipMediaApplicationCallOutputBody: Swift.Equatable {
+    let sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
+}
+
+extension CreateSipMediaApplicationCallOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplicationCall = "SipMediaApplicationCall"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationCallDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationCall.self, forKey: .sipMediaApplicationCall)
+        sipMediaApplicationCall = sipMediaApplicationCallDecoded
+    }
+}
+
 enum CreateSipMediaApplicationCallOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1699,46 +1739,6 @@ enum CreateSipMediaApplicationCallOutputError: ClientRuntime.HttpResponseErrorBi
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateSipMediaApplicationCallOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateSipMediaApplicationCallOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplicationCall = output.sipMediaApplicationCall
-        } else {
-            self.sipMediaApplicationCall = nil
-        }
-    }
-}
-
-public struct CreateSipMediaApplicationCallOutputResponse: Swift.Equatable {
-    /// The actual call.
-    public var sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
-
-    public init(
-        sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall? = nil
-    )
-    {
-        self.sipMediaApplicationCall = sipMediaApplicationCall
-    }
-}
-
-struct CreateSipMediaApplicationCallOutputResponseBody: Swift.Equatable {
-    let sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
-}
-
-extension CreateSipMediaApplicationCallOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplicationCall = "SipMediaApplicationCall"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationCallDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationCall.self, forKey: .sipMediaApplicationCall)
-        sipMediaApplicationCall = sipMediaApplicationCallDecoded
     }
 }
 
@@ -1852,6 +1852,46 @@ extension CreateSipMediaApplicationInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSipMediaApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSipMediaApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplication = output.sipMediaApplication
+        } else {
+            self.sipMediaApplication = nil
+        }
+    }
+}
+
+public struct CreateSipMediaApplicationOutput: Swift.Equatable {
+    /// The SIP media application details.
+    public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
+
+    public init(
+        sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
+    )
+    {
+        self.sipMediaApplication = sipMediaApplication
+    }
+}
+
+struct CreateSipMediaApplicationOutputBody: Swift.Equatable {
+    let sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
+}
+
+extension CreateSipMediaApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplication = "SipMediaApplication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplication.self, forKey: .sipMediaApplication)
+        sipMediaApplication = sipMediaApplicationDecoded
+    }
+}
+
 enum CreateSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1868,46 +1908,6 @@ enum CreateSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateSipMediaApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplication = output.sipMediaApplication
-        } else {
-            self.sipMediaApplication = nil
-        }
-    }
-}
-
-public struct CreateSipMediaApplicationOutputResponse: Swift.Equatable {
-    /// The SIP media application details.
-    public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
-
-    public init(
-        sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
-    )
-    {
-        self.sipMediaApplication = sipMediaApplication
-    }
-}
-
-struct CreateSipMediaApplicationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
-}
-
-extension CreateSipMediaApplicationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplication = "SipMediaApplication"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplication.self, forKey: .sipMediaApplication)
-        sipMediaApplication = sipMediaApplicationDecoded
     }
 }
 
@@ -2021,6 +2021,46 @@ extension CreateSipRuleInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSipRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSipRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipRule = output.sipRule
+        } else {
+            self.sipRule = nil
+        }
+    }
+}
+
+public struct CreateSipRuleOutput: Swift.Equatable {
+    /// The SIP rule information, including the rule ID, triggers, and target applications.
+    public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
+
+    public init(
+        sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
+    )
+    {
+        self.sipRule = sipRule
+    }
+}
+
+struct CreateSipRuleOutputBody: Swift.Equatable {
+    let sipRule: ChimeSDKVoiceClientTypes.SipRule?
+}
+
+extension CreateSipRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipRule = "SipRule"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipRuleDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipRule.self, forKey: .sipRule)
+        sipRule = sipRuleDecoded
+    }
+}
+
 enum CreateSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2037,46 +2077,6 @@ enum CreateSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateSipRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipRule = output.sipRule
-        } else {
-            self.sipRule = nil
-        }
-    }
-}
-
-public struct CreateSipRuleOutputResponse: Swift.Equatable {
-    /// The SIP rule information, including the rule ID, triggers, and target applications.
-    public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
-
-    public init(
-        sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
-    )
-    {
-        self.sipRule = sipRule
-    }
-}
-
-struct CreateSipRuleOutputResponseBody: Swift.Equatable {
-    let sipRule: ChimeSDKVoiceClientTypes.SipRule?
-}
-
-extension CreateSipRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipRule = "SipRule"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipRuleDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipRule.self, forKey: .sipRule)
-        sipRule = sipRuleDecoded
     }
 }
 
@@ -2152,6 +2152,46 @@ extension CreateVoiceConnectorGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVoiceConnectorGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVoiceConnectorGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnectorGroup = output.voiceConnectorGroup
+        } else {
+            self.voiceConnectorGroup = nil
+        }
+    }
+}
+
+public struct CreateVoiceConnectorGroupOutput: Swift.Equatable {
+    /// The details of the Voice Connector group.
+    public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
+
+    public init(
+        voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
+    )
+    {
+        self.voiceConnectorGroup = voiceConnectorGroup
+    }
+}
+
+struct CreateVoiceConnectorGroupOutputBody: Swift.Equatable {
+    let voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
+}
+
+extension CreateVoiceConnectorGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceConnectorGroup = "VoiceConnectorGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorGroupDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorGroup.self, forKey: .voiceConnectorGroup)
+        voiceConnectorGroup = voiceConnectorGroupDecoded
+    }
+}
+
 enum CreateVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2167,46 +2207,6 @@ enum CreateVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnectorGroup = output.voiceConnectorGroup
-        } else {
-            self.voiceConnectorGroup = nil
-        }
-    }
-}
-
-public struct CreateVoiceConnectorGroupOutputResponse: Swift.Equatable {
-    /// The details of the Voice Connector group.
-    public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
-
-    public init(
-        voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
-        self.voiceConnectorGroup = voiceConnectorGroup
-    }
-}
-
-struct CreateVoiceConnectorGroupOutputResponseBody: Swift.Equatable {
-    let voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
-}
-
-extension CreateVoiceConnectorGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnectorGroup = "VoiceConnectorGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorGroupDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorGroup.self, forKey: .voiceConnectorGroup)
-        voiceConnectorGroup = voiceConnectorGroupDecoded
     }
 }
 
@@ -2307,6 +2307,46 @@ extension CreateVoiceConnectorInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVoiceConnectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVoiceConnectorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnector = output.voiceConnector
+        } else {
+            self.voiceConnector = nil
+        }
+    }
+}
+
+public struct CreateVoiceConnectorOutput: Swift.Equatable {
+    /// The details of the Voice Connector.
+    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
+
+    public init(
+        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
+    )
+    {
+        self.voiceConnector = voiceConnector
+    }
+}
+
+struct CreateVoiceConnectorOutputBody: Swift.Equatable {
+    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
+}
+
+extension CreateVoiceConnectorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceConnector = "VoiceConnector"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
+        voiceConnector = voiceConnectorDecoded
+    }
+}
+
 enum CreateVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2322,46 +2362,6 @@ enum CreateVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnector = output.voiceConnector
-        } else {
-            self.voiceConnector = nil
-        }
-    }
-}
-
-public struct CreateVoiceConnectorOutputResponse: Swift.Equatable {
-    /// The details of the Voice Connector.
-    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
-
-    public init(
-        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
-    )
-    {
-        self.voiceConnector = voiceConnector
-    }
-}
-
-struct CreateVoiceConnectorOutputResponseBody: Swift.Equatable {
-    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
-}
-
-extension CreateVoiceConnectorOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnector = "VoiceConnector"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
-        voiceConnector = voiceConnectorDecoded
     }
 }
 
@@ -2474,6 +2474,46 @@ extension CreateVoiceProfileDomainInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVoiceProfileDomainOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVoiceProfileDomainOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfileDomain = output.voiceProfileDomain
+        } else {
+            self.voiceProfileDomain = nil
+        }
+    }
+}
+
+public struct CreateVoiceProfileDomainOutput: Swift.Equatable {
+    /// The requested voice profile domain.
+    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+
+    public init(
+        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
+    )
+    {
+        self.voiceProfileDomain = voiceProfileDomain
+    }
+}
+
+struct CreateVoiceProfileDomainOutputBody: Swift.Equatable {
+    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+}
+
+extension CreateVoiceProfileDomainOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfileDomain = "VoiceProfileDomain"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
+        voiceProfileDomain = voiceProfileDomainDecoded
+    }
+}
+
 enum CreateVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2490,46 +2530,6 @@ enum CreateVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateVoiceProfileDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceProfileDomain = output.voiceProfileDomain
-        } else {
-            self.voiceProfileDomain = nil
-        }
-    }
-}
-
-public struct CreateVoiceProfileDomainOutputResponse: Swift.Equatable {
-    /// The requested voice profile domain.
-    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
-
-    public init(
-        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
-    )
-    {
-        self.voiceProfileDomain = voiceProfileDomain
-    }
-}
-
-struct CreateVoiceProfileDomainOutputResponseBody: Swift.Equatable {
-    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
-}
-
-extension CreateVoiceProfileDomainOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceProfileDomain = "VoiceProfileDomain"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
-        voiceProfileDomain = voiceProfileDomainDecoded
     }
 }
 
@@ -2581,6 +2581,46 @@ extension CreateVoiceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension CreateVoiceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateVoiceProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfile = output.voiceProfile
+        } else {
+            self.voiceProfile = nil
+        }
+    }
+}
+
+public struct CreateVoiceProfileOutput: Swift.Equatable {
+    /// The requested voice profile.
+    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+
+    public init(
+        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
+    )
+    {
+        self.voiceProfile = voiceProfile
+    }
+}
+
+struct CreateVoiceProfileOutputBody: Swift.Equatable {
+    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+}
+
+extension CreateVoiceProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfile = "VoiceProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
+        voiceProfile = voiceProfileDecoded
+    }
+}
+
 enum CreateVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2599,46 +2639,6 @@ enum CreateVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateVoiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceProfile = output.voiceProfile
-        } else {
-            self.voiceProfile = nil
-        }
-    }
-}
-
-public struct CreateVoiceProfileOutputResponse: Swift.Equatable {
-    /// The requested voice profile.
-    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
-
-    public init(
-        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
-    )
-    {
-        self.voiceProfile = voiceProfile
-    }
-}
-
-struct CreateVoiceProfileOutputResponseBody: Swift.Equatable {
-    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
-}
-
-extension CreateVoiceProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceProfile = "VoiceProfile"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
-        voiceProfile = voiceProfileDecoded
     }
 }
 
@@ -2790,6 +2790,16 @@ extension DeletePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePhoneNumberOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2805,16 +2815,6 @@ enum DeletePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePhoneNumberOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteProxySessionInput: ClientRuntime.URLPathProvider {
@@ -2856,6 +2856,16 @@ extension DeleteProxySessionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteProxySessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteProxySessionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2871,16 +2881,6 @@ enum DeleteProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteProxySessionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSipMediaApplicationInput: ClientRuntime.URLPathProvider {
@@ -2914,6 +2914,16 @@ extension DeleteSipMediaApplicationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSipMediaApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSipMediaApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2930,16 +2940,6 @@ enum DeleteSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSipMediaApplicationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSipRuleInput: ClientRuntime.URLPathProvider {
@@ -2973,6 +2973,16 @@ extension DeleteSipRuleInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSipRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSipRuleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2989,16 +2999,6 @@ enum DeleteSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSipRuleOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URLPathProvider {
@@ -3032,6 +3032,16 @@ extension DeleteVoiceConnectorEmergencyCallingConfigurationInputBody: Swift.Deco
     }
 }
 
+extension DeleteVoiceConnectorEmergencyCallingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3047,16 +3057,6 @@ enum DeleteVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
@@ -3090,6 +3090,16 @@ extension DeleteVoiceConnectorGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceConnectorGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3106,16 +3116,6 @@ enum DeleteVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorInput: ClientRuntime.URLPathProvider {
@@ -3180,6 +3180,16 @@ extension DeleteVoiceConnectorOriginationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceConnectorOriginationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorOriginationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorOriginationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3197,12 +3207,12 @@ enum DeleteVoiceConnectorOriginationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteVoiceConnectorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteVoiceConnectorOriginationOutputResponse: Swift.Equatable {
+public struct DeleteVoiceConnectorOutput: Swift.Equatable {
 
     public init() { }
 }
@@ -3223,16 +3233,6 @@ enum DeleteVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
@@ -3266,6 +3266,16 @@ extension DeleteVoiceConnectorProxyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceConnectorProxyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorProxyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3281,16 +3291,6 @@ enum DeleteVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorProxyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPathProvider {
@@ -3324,6 +3324,16 @@ extension DeleteVoiceConnectorStreamingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceConnectorStreamingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorStreamingConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3339,16 +3349,6 @@ enum DeleteVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpRe
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorStreamingConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorTerminationCredentialsInput: Swift.Encodable {
@@ -3429,6 +3429,16 @@ extension DeleteVoiceConnectorTerminationCredentialsInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceConnectorTerminationCredentialsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorTerminationCredentialsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3444,16 +3454,6 @@ enum DeleteVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpRe
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorTerminationCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorTerminationCredentialsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
@@ -3487,6 +3487,16 @@ extension DeleteVoiceConnectorTerminationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceConnectorTerminationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceConnectorTerminationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3502,16 +3512,6 @@ enum DeleteVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceConnectorTerminationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceProfileDomainInput: ClientRuntime.URLPathProvider {
@@ -3545,6 +3545,16 @@ extension DeleteVoiceProfileDomainInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceProfileDomainOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceProfileDomainOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3562,16 +3572,6 @@ enum DeleteVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceProfileDomainOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVoiceProfileInput: ClientRuntime.URLPathProvider {
@@ -3605,6 +3605,16 @@ extension DeleteVoiceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVoiceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVoiceProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3622,16 +3632,6 @@ enum DeleteVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVoiceProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Encodable {
@@ -3712,28 +3712,11 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupInputBody: Swift.Decoda
     }
 }
 
-enum DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociatePhoneNumbersFromVoiceConnectorGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
             self.phoneNumberErrors = nil
@@ -3741,7 +3724,7 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: ClientR
     }
 }
 
-public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: Swift.Equatable {
+public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutput: Swift.Equatable {
     /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
@@ -3753,11 +3736,11 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: Swi
     }
 }
 
-struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponseBody: Swift.Equatable {
+struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutputBody: Swift.Equatable {
     let phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 }
 
-extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponseBody: Swift.Decodable {
+extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberErrors = "PhoneNumberErrors"
     }
@@ -3775,6 +3758,23 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponseBody: Swi
             }
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
+    }
+}
+
+enum DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3856,28 +3856,11 @@ extension DisassociatePhoneNumbersFromVoiceConnectorInputBody: Swift.Decodable {
     }
 }
 
-enum DisassociatePhoneNumbersFromVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociatePhoneNumbersFromVoiceConnectorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociatePhoneNumbersFromVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociatePhoneNumbersFromVoiceConnectorOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
             self.phoneNumberErrors = nil
@@ -3885,7 +3868,7 @@ extension DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: ClientRuntim
     }
 }
 
-public struct DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: Swift.Equatable {
+public struct DisassociatePhoneNumbersFromVoiceConnectorOutput: Swift.Equatable {
     /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
@@ -3897,11 +3880,11 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: Swift.Eq
     }
 }
 
-struct DisassociatePhoneNumbersFromVoiceConnectorOutputResponseBody: Swift.Equatable {
+struct DisassociatePhoneNumbersFromVoiceConnectorOutputBody: Swift.Equatable {
     let phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 }
 
-extension DisassociatePhoneNumbersFromVoiceConnectorOutputResponseBody: Swift.Decodable {
+extension DisassociatePhoneNumbersFromVoiceConnectorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberErrors = "PhoneNumberErrors"
     }
@@ -3919,6 +3902,23 @@ extension DisassociatePhoneNumbersFromVoiceConnectorOutputResponseBody: Swift.De
             }
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
+    }
+}
+
+enum DisassociatePhoneNumbersFromVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4206,6 +4206,46 @@ extension GetGlobalSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension GetGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetGlobalSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnector = output.voiceConnector
+        } else {
+            self.voiceConnector = nil
+        }
+    }
+}
+
+public struct GetGlobalSettingsOutput: Swift.Equatable {
+    /// The Voice Connector settings.
+    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
+
+    public init(
+        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings? = nil
+    )
+    {
+        self.voiceConnector = voiceConnector
+    }
+}
+
+struct GetGlobalSettingsOutputBody: Swift.Equatable {
+    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
+}
+
+extension GetGlobalSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceConnector = "VoiceConnector"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorSettings.self, forKey: .voiceConnector)
+        voiceConnector = voiceConnectorDecoded
+    }
+}
+
 enum GetGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4219,46 +4259,6 @@ enum GetGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetGlobalSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnector = output.voiceConnector
-        } else {
-            self.voiceConnector = nil
-        }
-    }
-}
-
-public struct GetGlobalSettingsOutputResponse: Swift.Equatable {
-    /// The Voice Connector settings.
-    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
-
-    public init(
-        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings? = nil
-    )
-    {
-        self.voiceConnector = voiceConnector
-    }
-}
-
-struct GetGlobalSettingsOutputResponseBody: Swift.Equatable {
-    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
-}
-
-extension GetGlobalSettingsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnector = "VoiceConnector"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorSettings.self, forKey: .voiceConnector)
-        voiceConnector = voiceConnectorDecoded
     }
 }
 
@@ -4329,6 +4329,46 @@ extension GetPhoneNumberOrderInputBody: Swift.Decodable {
     }
 }
 
+extension GetPhoneNumberOrderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPhoneNumberOrderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.phoneNumberOrder = output.phoneNumberOrder
+        } else {
+            self.phoneNumberOrder = nil
+        }
+    }
+}
+
+public struct GetPhoneNumberOrderOutput: Swift.Equatable {
+    /// The phone number order details.
+    public var phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
+
+    public init(
+        phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder? = nil
+    )
+    {
+        self.phoneNumberOrder = phoneNumberOrder
+    }
+}
+
+struct GetPhoneNumberOrderOutputBody: Swift.Equatable {
+    let phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
+}
+
+extension GetPhoneNumberOrderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case phoneNumberOrder = "PhoneNumberOrder"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let phoneNumberOrderDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumberOrder.self, forKey: .phoneNumberOrder)
+        phoneNumberOrder = phoneNumberOrderDecoded
+    }
+}
+
 enum GetPhoneNumberOrderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4346,43 +4386,43 @@ enum GetPhoneNumberOrderOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPhoneNumberOrderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPhoneNumberOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPhoneNumberOrderOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.phoneNumberOrder = output.phoneNumberOrder
+            let output: GetPhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.phoneNumber = output.phoneNumber
         } else {
-            self.phoneNumberOrder = nil
+            self.phoneNumber = nil
         }
     }
 }
 
-public struct GetPhoneNumberOrderOutputResponse: Swift.Equatable {
-    /// The phone number order details.
-    public var phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
+public struct GetPhoneNumberOutput: Swift.Equatable {
+    /// The phone number details.
+    public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
 
     public init(
-        phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder? = nil
+        phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
     )
     {
-        self.phoneNumberOrder = phoneNumberOrder
+        self.phoneNumber = phoneNumber
     }
 }
 
-struct GetPhoneNumberOrderOutputResponseBody: Swift.Equatable {
-    let phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
+struct GetPhoneNumberOutputBody: Swift.Equatable {
+    let phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
 }
 
-extension GetPhoneNumberOrderOutputResponseBody: Swift.Decodable {
+extension GetPhoneNumberOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case phoneNumberOrder = "PhoneNumberOrder"
+        case phoneNumber = "PhoneNumber"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let phoneNumberOrderDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumberOrder.self, forKey: .phoneNumberOrder)
-        phoneNumberOrder = phoneNumberOrderDecoded
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumber.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
     }
 }
 
@@ -4400,46 +4440,6 @@ enum GetPhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetPhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.phoneNumber = output.phoneNumber
-        } else {
-            self.phoneNumber = nil
-        }
-    }
-}
-
-public struct GetPhoneNumberOutputResponse: Swift.Equatable {
-    /// The phone number details.
-    public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
-
-    public init(
-        phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
-    )
-    {
-        self.phoneNumber = phoneNumber
-    }
-}
-
-struct GetPhoneNumberOutputResponseBody: Swift.Equatable {
-    let phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
-}
-
-extension GetPhoneNumberOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case phoneNumber = "PhoneNumber"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let phoneNumberDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumber.self, forKey: .phoneNumber)
-        phoneNumber = phoneNumberDecoded
     }
 }
 
@@ -4463,32 +4463,16 @@ extension GetPhoneNumberSettingsInputBody: Swift.Decodable {
     }
 }
 
-enum GetPhoneNumberSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPhoneNumberSettingsOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetPhoneNumberSettingsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPhoneNumberSettingsOutputResponse(callingNameUpdatedTimestamp: \(Swift.String(describing: callingNameUpdatedTimestamp)), callingName: \"CONTENT_REDACTED\")"}
+        "GetPhoneNumberSettingsOutput(callingNameUpdatedTimestamp: \(Swift.String(describing: callingNameUpdatedTimestamp)), callingName: \"CONTENT_REDACTED\")"}
 }
 
-extension GetPhoneNumberSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPhoneNumberSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPhoneNumberSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPhoneNumberSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.callingName = output.callingName
             self.callingNameUpdatedTimestamp = output.callingNameUpdatedTimestamp
         } else {
@@ -4498,7 +4482,7 @@ extension GetPhoneNumberSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetPhoneNumberSettingsOutputResponse: Swift.Equatable {
+public struct GetPhoneNumberSettingsOutput: Swift.Equatable {
     /// The default outbound calling name for the account.
     public var callingName: Swift.String?
     /// The updated outbound calling name timestamp, in ISO 8601 format.
@@ -4514,12 +4498,12 @@ public struct GetPhoneNumberSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPhoneNumberSettingsOutputResponseBody: Swift.Equatable {
+struct GetPhoneNumberSettingsOutputBody: Swift.Equatable {
     let callingName: Swift.String?
     let callingNameUpdatedTimestamp: ClientRuntime.Date?
 }
 
-extension GetPhoneNumberSettingsOutputResponseBody: Swift.Decodable {
+extension GetPhoneNumberSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callingName = "CallingName"
         case callingNameUpdatedTimestamp = "CallingNameUpdatedTimestamp"
@@ -4531,6 +4515,22 @@ extension GetPhoneNumberSettingsOutputResponseBody: Swift.Decodable {
         callingName = callingNameDecoded
         let callingNameUpdatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .callingNameUpdatedTimestamp)
         callingNameUpdatedTimestamp = callingNameUpdatedTimestampDecoded
+    }
+}
+
+enum GetPhoneNumberSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4573,6 +4573,46 @@ extension GetProxySessionInputBody: Swift.Decodable {
     }
 }
 
+extension GetProxySessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetProxySessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.proxySession = output.proxySession
+        } else {
+            self.proxySession = nil
+        }
+    }
+}
+
+public struct GetProxySessionOutput: Swift.Equatable {
+    /// The proxy session details.
+    public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
+
+    public init(
+        proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
+    )
+    {
+        self.proxySession = proxySession
+    }
+}
+
+struct GetProxySessionOutputBody: Swift.Equatable {
+    let proxySession: ChimeSDKVoiceClientTypes.ProxySession?
+}
+
+extension GetProxySessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case proxySession = "ProxySession"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let proxySessionDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ProxySession.self, forKey: .proxySession)
+        proxySession = proxySessionDecoded
+    }
+}
+
 enum GetProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4587,46 +4627,6 @@ enum GetProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetProxySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.proxySession = output.proxySession
-        } else {
-            self.proxySession = nil
-        }
-    }
-}
-
-public struct GetProxySessionOutputResponse: Swift.Equatable {
-    /// The proxy session details.
-    public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
-
-    public init(
-        proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
-    )
-    {
-        self.proxySession = proxySession
-    }
-}
-
-struct GetProxySessionOutputResponseBody: Swift.Equatable {
-    let proxySession: ChimeSDKVoiceClientTypes.ProxySession?
-}
-
-extension GetProxySessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case proxySession = "ProxySession"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let proxySessionDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ProxySession.self, forKey: .proxySession)
-        proxySession = proxySessionDecoded
     }
 }
 
@@ -4661,6 +4661,46 @@ extension GetSipMediaApplicationAlexaSkillConfigurationInputBody: Swift.Decodabl
     }
 }
 
+extension GetSipMediaApplicationAlexaSkillConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSipMediaApplicationAlexaSkillConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplicationAlexaSkillConfiguration = output.sipMediaApplicationAlexaSkillConfiguration
+        } else {
+            self.sipMediaApplicationAlexaSkillConfiguration = nil
+        }
+    }
+}
+
+public struct GetSipMediaApplicationAlexaSkillConfigurationOutput: Swift.Equatable {
+    /// Returns the Alexa Skill configuration.
+    public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
+
+    public init(
+        sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil
+    )
+    {
+        self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
+    }
+}
+
+struct GetSipMediaApplicationAlexaSkillConfigurationOutputBody: Swift.Equatable {
+    let sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
+}
+
+extension GetSipMediaApplicationAlexaSkillConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplicationAlexaSkillConfiguration = "SipMediaApplicationAlexaSkillConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationAlexaSkillConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration.self, forKey: .sipMediaApplicationAlexaSkillConfiguration)
+        sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfigurationDecoded
+    }
+}
+
 enum GetSipMediaApplicationAlexaSkillConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4675,46 +4715,6 @@ enum GetSipMediaApplicationAlexaSkillConfigurationOutputError: ClientRuntime.Htt
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSipMediaApplicationAlexaSkillConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetSipMediaApplicationAlexaSkillConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplicationAlexaSkillConfiguration = output.sipMediaApplicationAlexaSkillConfiguration
-        } else {
-            self.sipMediaApplicationAlexaSkillConfiguration = nil
-        }
-    }
-}
-
-public struct GetSipMediaApplicationAlexaSkillConfigurationOutputResponse: Swift.Equatable {
-    /// Returns the Alexa Skill configuration.
-    public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
-
-    public init(
-        sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil
-    )
-    {
-        self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
-    }
-}
-
-struct GetSipMediaApplicationAlexaSkillConfigurationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
-}
-
-extension GetSipMediaApplicationAlexaSkillConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplicationAlexaSkillConfiguration = "SipMediaApplicationAlexaSkillConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationAlexaSkillConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration.self, forKey: .sipMediaApplicationAlexaSkillConfiguration)
-        sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfigurationDecoded
     }
 }
 
@@ -4780,6 +4780,46 @@ extension GetSipMediaApplicationLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension GetSipMediaApplicationLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSipMediaApplicationLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplicationLoggingConfiguration = output.sipMediaApplicationLoggingConfiguration
+        } else {
+            self.sipMediaApplicationLoggingConfiguration = nil
+        }
+    }
+}
+
+public struct GetSipMediaApplicationLoggingConfigurationOutput: Swift.Equatable {
+    /// The actual logging configuration.
+    public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
+
+    public init(
+        sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
+    )
+    {
+        self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
+    }
+}
+
+struct GetSipMediaApplicationLoggingConfigurationOutputBody: Swift.Equatable {
+    let sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
+}
+
+extension GetSipMediaApplicationLoggingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplicationLoggingConfiguration = "SipMediaApplicationLoggingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationLoggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration.self, forKey: .sipMediaApplicationLoggingConfiguration)
+        sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfigurationDecoded
+    }
+}
+
 enum GetSipMediaApplicationLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4797,43 +4837,43 @@ enum GetSipMediaApplicationLoggingConfigurationOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension GetSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSipMediaApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSipMediaApplicationLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplicationLoggingConfiguration = output.sipMediaApplicationLoggingConfiguration
+            let output: GetSipMediaApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplication = output.sipMediaApplication
         } else {
-            self.sipMediaApplicationLoggingConfiguration = nil
+            self.sipMediaApplication = nil
         }
     }
 }
 
-public struct GetSipMediaApplicationLoggingConfigurationOutputResponse: Swift.Equatable {
-    /// The actual logging configuration.
-    public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
+public struct GetSipMediaApplicationOutput: Swift.Equatable {
+    /// The details of the SIP media application.
+    public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
 
     public init(
-        sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
+        sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
     )
     {
-        self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
+        self.sipMediaApplication = sipMediaApplication
     }
 }
 
-struct GetSipMediaApplicationLoggingConfigurationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
+struct GetSipMediaApplicationOutputBody: Swift.Equatable {
+    let sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
 }
 
-extension GetSipMediaApplicationLoggingConfigurationOutputResponseBody: Swift.Decodable {
+extension GetSipMediaApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplicationLoggingConfiguration = "SipMediaApplicationLoggingConfiguration"
+        case sipMediaApplication = "SipMediaApplication"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationLoggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration.self, forKey: .sipMediaApplicationLoggingConfiguration)
-        sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfigurationDecoded
+        let sipMediaApplicationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplication.self, forKey: .sipMediaApplication)
+        sipMediaApplication = sipMediaApplicationDecoded
     }
 }
 
@@ -4851,46 +4891,6 @@ enum GetSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetSipMediaApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplication = output.sipMediaApplication
-        } else {
-            self.sipMediaApplication = nil
-        }
-    }
-}
-
-public struct GetSipMediaApplicationOutputResponse: Swift.Equatable {
-    /// The details of the SIP media application.
-    public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
-
-    public init(
-        sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
-    )
-    {
-        self.sipMediaApplication = sipMediaApplication
-    }
-}
-
-struct GetSipMediaApplicationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
-}
-
-extension GetSipMediaApplicationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplication = "SipMediaApplication"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplication.self, forKey: .sipMediaApplication)
-        sipMediaApplication = sipMediaApplicationDecoded
     }
 }
 
@@ -4925,6 +4925,46 @@ extension GetSipRuleInputBody: Swift.Decodable {
     }
 }
 
+extension GetSipRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSipRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipRule = output.sipRule
+        } else {
+            self.sipRule = nil
+        }
+    }
+}
+
+public struct GetSipRuleOutput: Swift.Equatable {
+    /// The SIP rule details.
+    public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
+
+    public init(
+        sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
+    )
+    {
+        self.sipRule = sipRule
+    }
+}
+
+struct GetSipRuleOutputBody: Swift.Equatable {
+    let sipRule: ChimeSDKVoiceClientTypes.SipRule?
+}
+
+extension GetSipRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipRule = "SipRule"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipRuleDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipRule.self, forKey: .sipRule)
+        sipRule = sipRuleDecoded
+    }
+}
+
 enum GetSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4939,46 +4979,6 @@ enum GetSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetSipRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipRule = output.sipRule
-        } else {
-            self.sipRule = nil
-        }
-    }
-}
-
-public struct GetSipRuleOutputResponse: Swift.Equatable {
-    /// The SIP rule details.
-    public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
-
-    public init(
-        sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
-    )
-    {
-        self.sipRule = sipRule
-    }
-}
-
-struct GetSipRuleOutputResponseBody: Swift.Equatable {
-    let sipRule: ChimeSDKVoiceClientTypes.SipRule?
-}
-
-extension GetSipRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipRule = "SipRule"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipRuleDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipRule.self, forKey: .sipRule)
-        sipRule = sipRuleDecoded
     }
 }
 
@@ -5021,6 +5021,46 @@ extension GetSpeakerSearchTaskInputBody: Swift.Decodable {
     }
 }
 
+extension GetSpeakerSearchTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSpeakerSearchTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.speakerSearchTask = output.speakerSearchTask
+        } else {
+            self.speakerSearchTask = nil
+        }
+    }
+}
+
+public struct GetSpeakerSearchTaskOutput: Swift.Equatable {
+    /// The details of the speaker search task.
+    public var speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+
+    public init(
+        speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
+    )
+    {
+        self.speakerSearchTask = speakerSearchTask
+    }
+}
+
+struct GetSpeakerSearchTaskOutputBody: Swift.Equatable {
+    let speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+}
+
+extension GetSpeakerSearchTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTask = "SpeakerSearchTask"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchTask.self, forKey: .speakerSearchTask)
+        speakerSearchTask = speakerSearchTaskDecoded
+    }
+}
+
 enum GetSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5037,46 +5077,6 @@ enum GetSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetSpeakerSearchTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetSpeakerSearchTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.speakerSearchTask = output.speakerSearchTask
-        } else {
-            self.speakerSearchTask = nil
-        }
-    }
-}
-
-public struct GetSpeakerSearchTaskOutputResponse: Swift.Equatable {
-    /// The details of the speaker search task.
-    public var speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
-
-    public init(
-        speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
-    )
-    {
-        self.speakerSearchTask = speakerSearchTask
-    }
-}
-
-struct GetSpeakerSearchTaskOutputResponseBody: Swift.Equatable {
-    let speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
-}
-
-extension GetSpeakerSearchTaskOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case speakerSearchTask = "SpeakerSearchTask"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let speakerSearchTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchTask.self, forKey: .speakerSearchTask)
-        speakerSearchTask = speakerSearchTaskDecoded
     }
 }
 
@@ -5111,6 +5111,46 @@ extension GetVoiceConnectorEmergencyCallingConfigurationInputBody: Swift.Decodab
     }
 }
 
+extension GetVoiceConnectorEmergencyCallingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorEmergencyCallingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.emergencyCallingConfiguration = output.emergencyCallingConfiguration
+        } else {
+            self.emergencyCallingConfiguration = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Equatable {
+    /// The details of the emergency calling configuration.
+    public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
+
+    public init(
+        emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil
+    )
+    {
+        self.emergencyCallingConfiguration = emergencyCallingConfiguration
+    }
+}
+
+struct GetVoiceConnectorEmergencyCallingConfigurationOutputBody: Swift.Equatable {
+    let emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
+}
+
+extension GetVoiceConnectorEmergencyCallingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emergencyCallingConfiguration = "EmergencyCallingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emergencyCallingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.self, forKey: .emergencyCallingConfiguration)
+        emergencyCallingConfiguration = emergencyCallingConfigurationDecoded
+    }
+}
+
 enum GetVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5125,46 +5165,6 @@ enum GetVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime.Ht
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorEmergencyCallingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.emergencyCallingConfiguration = output.emergencyCallingConfiguration
-        } else {
-            self.emergencyCallingConfiguration = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorEmergencyCallingConfigurationOutputResponse: Swift.Equatable {
-    /// The details of the emergency calling configuration.
-    public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
-
-    public init(
-        emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil
-    )
-    {
-        self.emergencyCallingConfiguration = emergencyCallingConfiguration
-    }
-}
-
-struct GetVoiceConnectorEmergencyCallingConfigurationOutputResponseBody: Swift.Equatable {
-    let emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
-}
-
-extension GetVoiceConnectorEmergencyCallingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case emergencyCallingConfiguration = "EmergencyCallingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emergencyCallingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.self, forKey: .emergencyCallingConfiguration)
-        emergencyCallingConfiguration = emergencyCallingConfigurationDecoded
     }
 }
 
@@ -5199,6 +5199,46 @@ extension GetVoiceConnectorGroupInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnectorGroup = output.voiceConnectorGroup
+        } else {
+            self.voiceConnectorGroup = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorGroupOutput: Swift.Equatable {
+    /// The details of the Voice Connector group.
+    public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
+
+    public init(
+        voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
+    )
+    {
+        self.voiceConnectorGroup = voiceConnectorGroup
+    }
+}
+
+struct GetVoiceConnectorGroupOutputBody: Swift.Equatable {
+    let voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
+}
+
+extension GetVoiceConnectorGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceConnectorGroup = "VoiceConnectorGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorGroupDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorGroup.self, forKey: .voiceConnectorGroup)
+        voiceConnectorGroup = voiceConnectorGroupDecoded
+    }
+}
+
 enum GetVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5213,46 +5253,6 @@ enum GetVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnectorGroup = output.voiceConnectorGroup
-        } else {
-            self.voiceConnectorGroup = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorGroupOutputResponse: Swift.Equatable {
-    /// The details of the Voice Connector group.
-    public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
-
-    public init(
-        voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
-        self.voiceConnectorGroup = voiceConnectorGroup
-    }
-}
-
-struct GetVoiceConnectorGroupOutputResponseBody: Swift.Equatable {
-    let voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
-}
-
-extension GetVoiceConnectorGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnectorGroup = "VoiceConnectorGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorGroupDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorGroup.self, forKey: .voiceConnectorGroup)
-        voiceConnectorGroup = voiceConnectorGroupDecoded
     }
 }
 
@@ -5318,6 +5318,46 @@ extension GetVoiceConnectorLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.loggingConfiguration = output.loggingConfiguration
+        } else {
+            self.loggingConfiguration = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorLoggingConfigurationOutput: Swift.Equatable {
+    /// The logging configuration details .
+    public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
+
+    public init(
+        loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil
+    )
+    {
+        self.loggingConfiguration = loggingConfiguration
+    }
+}
+
+struct GetVoiceConnectorLoggingConfigurationOutputBody: Swift.Equatable {
+    let loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
+}
+
+extension GetVoiceConnectorLoggingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfiguration = "LoggingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let loggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
+        loggingConfiguration = loggingConfigurationDecoded
+    }
+}
+
 enum GetVoiceConnectorLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5332,46 +5372,6 @@ enum GetVoiceConnectorLoggingConfigurationOutputError: ClientRuntime.HttpRespons
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.loggingConfiguration = output.loggingConfiguration
-        } else {
-            self.loggingConfiguration = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorLoggingConfigurationOutputResponse: Swift.Equatable {
-    /// The logging configuration details .
-    public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
-
-    public init(
-        loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil
-    )
-    {
-        self.loggingConfiguration = loggingConfiguration
-    }
-}
-
-struct GetVoiceConnectorLoggingConfigurationOutputResponseBody: Swift.Equatable {
-    let loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
-}
-
-extension GetVoiceConnectorLoggingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case loggingConfiguration = "LoggingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let loggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
-        loggingConfiguration = loggingConfigurationDecoded
     }
 }
 
@@ -5406,6 +5406,46 @@ extension GetVoiceConnectorOriginationInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorOriginationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorOriginationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.origination = output.origination
+        } else {
+            self.origination = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorOriginationOutput: Swift.Equatable {
+    /// The origination setting details.
+    public var origination: ChimeSDKVoiceClientTypes.Origination?
+
+    public init(
+        origination: ChimeSDKVoiceClientTypes.Origination? = nil
+    )
+    {
+        self.origination = origination
+    }
+}
+
+struct GetVoiceConnectorOriginationOutputBody: Swift.Equatable {
+    let origination: ChimeSDKVoiceClientTypes.Origination?
+}
+
+extension GetVoiceConnectorOriginationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case origination = "Origination"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let originationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Origination.self, forKey: .origination)
+        origination = originationDecoded
+    }
+}
+
 enum GetVoiceConnectorOriginationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5423,43 +5463,43 @@ enum GetVoiceConnectorOriginationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetVoiceConnectorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetVoiceConnectorOriginationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.origination = output.origination
+            let output: GetVoiceConnectorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnector = output.voiceConnector
         } else {
-            self.origination = nil
+            self.voiceConnector = nil
         }
     }
 }
 
-public struct GetVoiceConnectorOriginationOutputResponse: Swift.Equatable {
-    /// The origination setting details.
-    public var origination: ChimeSDKVoiceClientTypes.Origination?
+public struct GetVoiceConnectorOutput: Swift.Equatable {
+    /// The Voice Connector details.
+    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
 
     public init(
-        origination: ChimeSDKVoiceClientTypes.Origination? = nil
+        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
     )
     {
-        self.origination = origination
+        self.voiceConnector = voiceConnector
     }
 }
 
-struct GetVoiceConnectorOriginationOutputResponseBody: Swift.Equatable {
-    let origination: ChimeSDKVoiceClientTypes.Origination?
+struct GetVoiceConnectorOutputBody: Swift.Equatable {
+    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
 }
 
-extension GetVoiceConnectorOriginationOutputResponseBody: Swift.Decodable {
+extension GetVoiceConnectorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case origination = "Origination"
+        case voiceConnector = "VoiceConnector"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let originationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Origination.self, forKey: .origination)
-        origination = originationDecoded
+        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
+        voiceConnector = voiceConnectorDecoded
     }
 }
 
@@ -5477,46 +5517,6 @@ enum GetVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnector = output.voiceConnector
-        } else {
-            self.voiceConnector = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorOutputResponse: Swift.Equatable {
-    /// The Voice Connector details.
-    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
-
-    public init(
-        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
-    )
-    {
-        self.voiceConnector = voiceConnector
-    }
-}
-
-struct GetVoiceConnectorOutputResponseBody: Swift.Equatable {
-    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
-}
-
-extension GetVoiceConnectorOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnector = "VoiceConnector"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
-        voiceConnector = voiceConnectorDecoded
     }
 }
 
@@ -5551,6 +5551,46 @@ extension GetVoiceConnectorProxyInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorProxyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorProxyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.proxy = output.proxy
+        } else {
+            self.proxy = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorProxyOutput: Swift.Equatable {
+    /// The proxy configuration details.
+    public var proxy: ChimeSDKVoiceClientTypes.Proxy?
+
+    public init(
+        proxy: ChimeSDKVoiceClientTypes.Proxy? = nil
+    )
+    {
+        self.proxy = proxy
+    }
+}
+
+struct GetVoiceConnectorProxyOutputBody: Swift.Equatable {
+    let proxy: ChimeSDKVoiceClientTypes.Proxy?
+}
+
+extension GetVoiceConnectorProxyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case proxy = "Proxy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let proxyDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Proxy.self, forKey: .proxy)
+        proxy = proxyDecoded
+    }
+}
+
 enum GetVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5565,46 +5605,6 @@ enum GetVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorProxyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.proxy = output.proxy
-        } else {
-            self.proxy = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorProxyOutputResponse: Swift.Equatable {
-    /// The proxy configuration details.
-    public var proxy: ChimeSDKVoiceClientTypes.Proxy?
-
-    public init(
-        proxy: ChimeSDKVoiceClientTypes.Proxy? = nil
-    )
-    {
-        self.proxy = proxy
-    }
-}
-
-struct GetVoiceConnectorProxyOutputResponseBody: Swift.Equatable {
-    let proxy: ChimeSDKVoiceClientTypes.Proxy?
-}
-
-extension GetVoiceConnectorProxyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case proxy = "Proxy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let proxyDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Proxy.self, forKey: .proxy)
-        proxy = proxyDecoded
     }
 }
 
@@ -5639,6 +5639,46 @@ extension GetVoiceConnectorStreamingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorStreamingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorStreamingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingConfiguration = output.streamingConfiguration
+        } else {
+            self.streamingConfiguration = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorStreamingConfigurationOutput: Swift.Equatable {
+    /// The details of the streaming configuration.
+    public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
+
+    public init(
+        streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil
+    )
+    {
+        self.streamingConfiguration = streamingConfiguration
+    }
+}
+
+struct GetVoiceConnectorStreamingConfigurationOutputBody: Swift.Equatable {
+    let streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
+}
+
+extension GetVoiceConnectorStreamingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingConfiguration = "StreamingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.StreamingConfiguration.self, forKey: .streamingConfiguration)
+        streamingConfiguration = streamingConfigurationDecoded
+    }
+}
+
 enum GetVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5653,46 +5693,6 @@ enum GetVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpRespo
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorStreamingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingConfiguration = output.streamingConfiguration
-        } else {
-            self.streamingConfiguration = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorStreamingConfigurationOutputResponse: Swift.Equatable {
-    /// The details of the streaming configuration.
-    public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
-
-    public init(
-        streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil
-    )
-    {
-        self.streamingConfiguration = streamingConfiguration
-    }
-}
-
-struct GetVoiceConnectorStreamingConfigurationOutputResponseBody: Swift.Equatable {
-    let streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
-}
-
-extension GetVoiceConnectorStreamingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingConfiguration = "StreamingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.StreamingConfiguration.self, forKey: .streamingConfiguration)
-        streamingConfiguration = streamingConfigurationDecoded
     }
 }
 
@@ -5727,6 +5727,46 @@ extension GetVoiceConnectorTerminationHealthInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorTerminationHealthOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorTerminationHealthOutputBody = try responseDecoder.decode(responseBody: data)
+            self.terminationHealth = output.terminationHealth
+        } else {
+            self.terminationHealth = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorTerminationHealthOutput: Swift.Equatable {
+    /// The termination health details.
+    public var terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth?
+
+    public init(
+        terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth? = nil
+    )
+    {
+        self.terminationHealth = terminationHealth
+    }
+}
+
+struct GetVoiceConnectorTerminationHealthOutputBody: Swift.Equatable {
+    let terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth?
+}
+
+extension GetVoiceConnectorTerminationHealthOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case terminationHealth = "TerminationHealth"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let terminationHealthDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.TerminationHealth.self, forKey: .terminationHealth)
+        terminationHealth = terminationHealthDecoded
+    }
+}
+
 enum GetVoiceConnectorTerminationHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5741,46 +5781,6 @@ enum GetVoiceConnectorTerminationHealthOutputError: ClientRuntime.HttpResponseEr
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorTerminationHealthOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorTerminationHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.terminationHealth = output.terminationHealth
-        } else {
-            self.terminationHealth = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorTerminationHealthOutputResponse: Swift.Equatable {
-    /// The termination health details.
-    public var terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth?
-
-    public init(
-        terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth? = nil
-    )
-    {
-        self.terminationHealth = terminationHealth
-    }
-}
-
-struct GetVoiceConnectorTerminationHealthOutputResponseBody: Swift.Equatable {
-    let terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth?
-}
-
-extension GetVoiceConnectorTerminationHealthOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case terminationHealth = "TerminationHealth"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let terminationHealthDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.TerminationHealth.self, forKey: .terminationHealth)
-        terminationHealth = terminationHealthDecoded
     }
 }
 
@@ -5815,6 +5815,46 @@ extension GetVoiceConnectorTerminationInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceConnectorTerminationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceConnectorTerminationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.termination = output.termination
+        } else {
+            self.termination = nil
+        }
+    }
+}
+
+public struct GetVoiceConnectorTerminationOutput: Swift.Equatable {
+    /// The termination setting details.
+    public var termination: ChimeSDKVoiceClientTypes.Termination?
+
+    public init(
+        termination: ChimeSDKVoiceClientTypes.Termination? = nil
+    )
+    {
+        self.termination = termination
+    }
+}
+
+struct GetVoiceConnectorTerminationOutputBody: Swift.Equatable {
+    let termination: ChimeSDKVoiceClientTypes.Termination?
+}
+
+extension GetVoiceConnectorTerminationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case termination = "Termination"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let terminationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Termination.self, forKey: .termination)
+        termination = terminationDecoded
+    }
+}
+
 enum GetVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5829,46 +5869,6 @@ enum GetVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseErrorBin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceConnectorTerminationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.termination = output.termination
-        } else {
-            self.termination = nil
-        }
-    }
-}
-
-public struct GetVoiceConnectorTerminationOutputResponse: Swift.Equatable {
-    /// The termination setting details.
-    public var termination: ChimeSDKVoiceClientTypes.Termination?
-
-    public init(
-        termination: ChimeSDKVoiceClientTypes.Termination? = nil
-    )
-    {
-        self.termination = termination
-    }
-}
-
-struct GetVoiceConnectorTerminationOutputResponseBody: Swift.Equatable {
-    let termination: ChimeSDKVoiceClientTypes.Termination?
-}
-
-extension GetVoiceConnectorTerminationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case termination = "Termination"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let terminationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Termination.self, forKey: .termination)
-        termination = terminationDecoded
     }
 }
 
@@ -5903,6 +5903,46 @@ extension GetVoiceProfileDomainInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceProfileDomainOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceProfileDomainOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfileDomain = output.voiceProfileDomain
+        } else {
+            self.voiceProfileDomain = nil
+        }
+    }
+}
+
+public struct GetVoiceProfileDomainOutput: Swift.Equatable {
+    /// The details of the voice profile domain.
+    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+
+    public init(
+        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
+    )
+    {
+        self.voiceProfileDomain = voiceProfileDomain
+    }
+}
+
+struct GetVoiceProfileDomainOutputBody: Swift.Equatable {
+    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+}
+
+extension GetVoiceProfileDomainOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfileDomain = "VoiceProfileDomain"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
+        voiceProfileDomain = voiceProfileDomainDecoded
+    }
+}
+
 enum GetVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5918,46 +5958,6 @@ enum GetVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceProfileDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceProfileDomain = output.voiceProfileDomain
-        } else {
-            self.voiceProfileDomain = nil
-        }
-    }
-}
-
-public struct GetVoiceProfileDomainOutputResponse: Swift.Equatable {
-    /// The details of the voice profile domain.
-    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
-
-    public init(
-        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
-    )
-    {
-        self.voiceProfileDomain = voiceProfileDomain
-    }
-}
-
-struct GetVoiceProfileDomainOutputResponseBody: Swift.Equatable {
-    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
-}
-
-extension GetVoiceProfileDomainOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceProfileDomain = "VoiceProfileDomain"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
-        voiceProfileDomain = voiceProfileDomainDecoded
     }
 }
 
@@ -5992,6 +5992,46 @@ extension GetVoiceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfile = output.voiceProfile
+        } else {
+            self.voiceProfile = nil
+        }
+    }
+}
+
+public struct GetVoiceProfileOutput: Swift.Equatable {
+    /// The voice profile details.
+    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+
+    public init(
+        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
+    )
+    {
+        self.voiceProfile = voiceProfile
+    }
+}
+
+struct GetVoiceProfileOutputBody: Swift.Equatable {
+    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+}
+
+extension GetVoiceProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfile = "VoiceProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
+        voiceProfile = voiceProfileDecoded
+    }
+}
+
 enum GetVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6007,46 +6047,6 @@ enum GetVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceProfile = output.voiceProfile
-        } else {
-            self.voiceProfile = nil
-        }
-    }
-}
-
-public struct GetVoiceProfileOutputResponse: Swift.Equatable {
-    /// The voice profile details.
-    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
-
-    public init(
-        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
-    )
-    {
-        self.voiceProfile = voiceProfile
-    }
-}
-
-struct GetVoiceProfileOutputResponseBody: Swift.Equatable {
-    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
-}
-
-extension GetVoiceProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceProfile = "VoiceProfile"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
-        voiceProfile = voiceProfileDecoded
     }
 }
 
@@ -6109,6 +6109,46 @@ extension GetVoiceToneAnalysisTaskInputBody: Swift.Decodable {
     }
 }
 
+extension GetVoiceToneAnalysisTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetVoiceToneAnalysisTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceToneAnalysisTask = output.voiceToneAnalysisTask
+        } else {
+            self.voiceToneAnalysisTask = nil
+        }
+    }
+}
+
+public struct GetVoiceToneAnalysisTaskOutput: Swift.Equatable {
+    /// The details of the voice tone analysis task.
+    public var voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+
+    public init(
+        voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
+    )
+    {
+        self.voiceToneAnalysisTask = voiceToneAnalysisTask
+    }
+}
+
+struct GetVoiceToneAnalysisTaskOutputBody: Swift.Equatable {
+    let voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+}
+
+extension GetVoiceToneAnalysisTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceToneAnalysisTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask.self, forKey: .voiceToneAnalysisTask)
+        voiceToneAnalysisTask = voiceToneAnalysisTaskDecoded
+    }
+}
+
 enum GetVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6125,46 +6165,6 @@ enum GetVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetVoiceToneAnalysisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetVoiceToneAnalysisTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceToneAnalysisTask = output.voiceToneAnalysisTask
-        } else {
-            self.voiceToneAnalysisTask = nil
-        }
-    }
-}
-
-public struct GetVoiceToneAnalysisTaskOutputResponse: Swift.Equatable {
-    /// The details of the voice tone analysis task.
-    public var voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
-
-    public init(
-        voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
-    )
-    {
-        self.voiceToneAnalysisTask = voiceToneAnalysisTask
-    }
-}
-
-struct GetVoiceToneAnalysisTaskOutputResponseBody: Swift.Equatable {
-    let voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
-}
-
-extension GetVoiceToneAnalysisTaskOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceToneAnalysisTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask.self, forKey: .voiceToneAnalysisTask)
-        voiceToneAnalysisTask = voiceToneAnalysisTaskDecoded
     }
 }
 
@@ -6281,27 +6281,11 @@ extension ListAvailableVoiceConnectorRegionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListAvailableVoiceConnectorRegionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAvailableVoiceConnectorRegionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAvailableVoiceConnectorRegionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAvailableVoiceConnectorRegionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAvailableVoiceConnectorRegionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnectorRegions = output.voiceConnectorRegions
         } else {
             self.voiceConnectorRegions = nil
@@ -6309,7 +6293,7 @@ extension ListAvailableVoiceConnectorRegionsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct ListAvailableVoiceConnectorRegionsOutputResponse: Swift.Equatable {
+public struct ListAvailableVoiceConnectorRegionsOutput: Swift.Equatable {
     /// The list of AWS Regions.
     public var voiceConnectorRegions: [ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion]?
 
@@ -6321,11 +6305,11 @@ public struct ListAvailableVoiceConnectorRegionsOutputResponse: Swift.Equatable 
     }
 }
 
-struct ListAvailableVoiceConnectorRegionsOutputResponseBody: Swift.Equatable {
+struct ListAvailableVoiceConnectorRegionsOutputBody: Swift.Equatable {
     let voiceConnectorRegions: [ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion]?
 }
 
-extension ListAvailableVoiceConnectorRegionsOutputResponseBody: Swift.Decodable {
+extension ListAvailableVoiceConnectorRegionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case voiceConnectorRegions = "VoiceConnectorRegions"
     }
@@ -6343,6 +6327,22 @@ extension ListAvailableVoiceConnectorRegionsOutputResponseBody: Swift.Decodable 
             }
         }
         voiceConnectorRegions = voiceConnectorRegionsDecoded0
+    }
+}
+
+enum ListAvailableVoiceConnectorRegionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6394,27 +6394,11 @@ extension ListPhoneNumberOrdersInputBody: Swift.Decodable {
     }
 }
 
-enum ListPhoneNumberOrdersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPhoneNumberOrdersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPhoneNumberOrdersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPhoneNumberOrdersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPhoneNumberOrdersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.phoneNumberOrders = output.phoneNumberOrders
         } else {
@@ -6424,7 +6408,7 @@ extension ListPhoneNumberOrdersOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListPhoneNumberOrdersOutputResponse: Swift.Equatable {
+public struct ListPhoneNumberOrdersOutput: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The phone number order details.
@@ -6440,12 +6424,12 @@ public struct ListPhoneNumberOrdersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPhoneNumberOrdersOutputResponseBody: Swift.Equatable {
+struct ListPhoneNumberOrdersOutputBody: Swift.Equatable {
     let phoneNumberOrders: [ChimeSDKVoiceClientTypes.PhoneNumberOrder]?
     let nextToken: Swift.String?
 }
 
-extension ListPhoneNumberOrdersOutputResponseBody: Swift.Decodable {
+extension ListPhoneNumberOrdersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case phoneNumberOrders = "PhoneNumberOrders"
@@ -6466,6 +6450,22 @@ extension ListPhoneNumberOrdersOutputResponseBody: Swift.Decodable {
         phoneNumberOrders = phoneNumberOrdersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPhoneNumberOrdersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6549,28 +6549,11 @@ extension ListPhoneNumbersInputBody: Swift.Decodable {
     }
 }
 
-enum ListPhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPhoneNumbersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPhoneNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPhoneNumbersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.phoneNumbers = output.phoneNumbers
         } else {
@@ -6580,7 +6563,7 @@ extension ListPhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPhoneNumbersOutputResponse: Swift.Equatable {
+public struct ListPhoneNumbersOutput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
     /// The phone number details.
@@ -6596,12 +6579,12 @@ public struct ListPhoneNumbersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPhoneNumbersOutputResponseBody: Swift.Equatable {
+struct ListPhoneNumbersOutputBody: Swift.Equatable {
     let phoneNumbers: [ChimeSDKVoiceClientTypes.PhoneNumber]?
     let nextToken: Swift.String?
 }
 
-extension ListPhoneNumbersOutputResponseBody: Swift.Decodable {
+extension ListPhoneNumbersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case phoneNumbers = "PhoneNumbers"
@@ -6622,6 +6605,23 @@ extension ListPhoneNumbersOutputResponseBody: Swift.Decodable {
         phoneNumbers = phoneNumbersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6689,28 +6689,11 @@ extension ListProxySessionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListProxySessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProxySessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProxySessionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProxySessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProxySessionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.proxySessions = output.proxySessions
         } else {
@@ -6720,7 +6703,7 @@ extension ListProxySessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProxySessionsOutputResponse: Swift.Equatable {
+public struct ListProxySessionsOutput: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The proxy sessions' details.
@@ -6736,12 +6719,12 @@ public struct ListProxySessionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProxySessionsOutputResponseBody: Swift.Equatable {
+struct ListProxySessionsOutputBody: Swift.Equatable {
     let proxySessions: [ChimeSDKVoiceClientTypes.ProxySession]?
     let nextToken: Swift.String?
 }
 
-extension ListProxySessionsOutputResponseBody: Swift.Decodable {
+extension ListProxySessionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case proxySessions = "ProxySessions"
@@ -6762,6 +6745,23 @@ extension ListProxySessionsOutputResponseBody: Swift.Decodable {
         proxySessions = proxySessionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProxySessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6813,27 +6813,11 @@ extension ListSipMediaApplicationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSipMediaApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSipMediaApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSipMediaApplicationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSipMediaApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSipMediaApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sipMediaApplications = output.sipMediaApplications
         } else {
@@ -6843,7 +6827,7 @@ extension ListSipMediaApplicationsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListSipMediaApplicationsOutputResponse: Swift.Equatable {
+public struct ListSipMediaApplicationsOutput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
     /// The list of SIP media applications and application details.
@@ -6859,12 +6843,12 @@ public struct ListSipMediaApplicationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSipMediaApplicationsOutputResponseBody: Swift.Equatable {
+struct ListSipMediaApplicationsOutputBody: Swift.Equatable {
     let sipMediaApplications: [ChimeSDKVoiceClientTypes.SipMediaApplication]?
     let nextToken: Swift.String?
 }
 
-extension ListSipMediaApplicationsOutputResponseBody: Swift.Decodable {
+extension ListSipMediaApplicationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case sipMediaApplications = "SipMediaApplications"
@@ -6885,6 +6869,22 @@ extension ListSipMediaApplicationsOutputResponseBody: Swift.Decodable {
         sipMediaApplications = sipMediaApplicationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSipMediaApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6944,27 +6944,11 @@ extension ListSipRulesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSipRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSipRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSipRulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSipRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSipRulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sipRules = output.sipRules
         } else {
@@ -6974,7 +6958,7 @@ extension ListSipRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSipRulesOutputResponse: Swift.Equatable {
+public struct ListSipRulesOutput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
     /// The list of SIP rules and details.
@@ -6990,12 +6974,12 @@ public struct ListSipRulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSipRulesOutputResponseBody: Swift.Equatable {
+struct ListSipRulesOutputBody: Swift.Equatable {
     let sipRules: [ChimeSDKVoiceClientTypes.SipRule]?
     let nextToken: Swift.String?
 }
 
-extension ListSipRulesOutputResponseBody: Swift.Decodable {
+extension ListSipRulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case sipRules = "SipRules"
@@ -7016,6 +7000,22 @@ extension ListSipRulesOutputResponseBody: Swift.Decodable {
         sipRules = sipRulesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSipRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7062,28 +7062,11 @@ extension ListSupportedPhoneNumberCountriesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSupportedPhoneNumberCountriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSupportedPhoneNumberCountriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSupportedPhoneNumberCountriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSupportedPhoneNumberCountriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSupportedPhoneNumberCountriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberCountries = output.phoneNumberCountries
         } else {
             self.phoneNumberCountries = nil
@@ -7091,7 +7074,7 @@ extension ListSupportedPhoneNumberCountriesOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct ListSupportedPhoneNumberCountriesOutputResponse: Swift.Equatable {
+public struct ListSupportedPhoneNumberCountriesOutput: Swift.Equatable {
     /// The supported phone number countries.
     public var phoneNumberCountries: [ChimeSDKVoiceClientTypes.PhoneNumberCountry]?
 
@@ -7103,11 +7086,11 @@ public struct ListSupportedPhoneNumberCountriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSupportedPhoneNumberCountriesOutputResponseBody: Swift.Equatable {
+struct ListSupportedPhoneNumberCountriesOutputBody: Swift.Equatable {
     let phoneNumberCountries: [ChimeSDKVoiceClientTypes.PhoneNumberCountry]?
 }
 
-extension ListSupportedPhoneNumberCountriesOutputResponseBody: Swift.Decodable {
+extension ListSupportedPhoneNumberCountriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberCountries = "PhoneNumberCountries"
     }
@@ -7125,6 +7108,23 @@ extension ListSupportedPhoneNumberCountriesOutputResponseBody: Swift.Decodable {
             }
         }
         phoneNumberCountries = phoneNumberCountriesDecoded0
+    }
+}
+
+enum ListSupportedPhoneNumberCountriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7176,27 +7176,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -7204,7 +7188,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags in the list.
     public var tags: [ChimeSDKVoiceClientTypes.Tag]?
 
@@ -7216,11 +7200,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [ChimeSDKVoiceClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -7238,6 +7222,22 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7289,27 +7289,11 @@ extension ListVoiceConnectorGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListVoiceConnectorGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVoiceConnectorGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVoiceConnectorGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVoiceConnectorGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVoiceConnectorGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voiceConnectorGroups = output.voiceConnectorGroups
         } else {
@@ -7319,7 +7303,7 @@ extension ListVoiceConnectorGroupsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListVoiceConnectorGroupsOutputResponse: Swift.Equatable {
+public struct ListVoiceConnectorGroupsOutput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
     /// The details of the Voice Connector groups.
@@ -7335,12 +7319,12 @@ public struct ListVoiceConnectorGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVoiceConnectorGroupsOutputResponseBody: Swift.Equatable {
+struct ListVoiceConnectorGroupsOutputBody: Swift.Equatable {
     let voiceConnectorGroups: [ChimeSDKVoiceClientTypes.VoiceConnectorGroup]?
     let nextToken: Swift.String?
 }
 
-extension ListVoiceConnectorGroupsOutputResponseBody: Swift.Decodable {
+extension ListVoiceConnectorGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case voiceConnectorGroups = "VoiceConnectorGroups"
@@ -7361,6 +7345,22 @@ extension ListVoiceConnectorGroupsOutputResponseBody: Swift.Decodable {
         voiceConnectorGroups = voiceConnectorGroupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVoiceConnectorGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7395,28 +7395,11 @@ extension ListVoiceConnectorTerminationCredentialsInputBody: Swift.Decodable {
     }
 }
 
-enum ListVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVoiceConnectorTerminationCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVoiceConnectorTerminationCredentialsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVoiceConnectorTerminationCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVoiceConnectorTerminationCredentialsOutputBody = try responseDecoder.decode(responseBody: data)
             self.usernames = output.usernames
         } else {
             self.usernames = nil
@@ -7424,7 +7407,7 @@ extension ListVoiceConnectorTerminationCredentialsOutputResponse: ClientRuntime.
     }
 }
 
-public struct ListVoiceConnectorTerminationCredentialsOutputResponse: Swift.Equatable {
+public struct ListVoiceConnectorTerminationCredentialsOutput: Swift.Equatable {
     /// A list of user names.
     public var usernames: [Swift.String]?
 
@@ -7436,11 +7419,11 @@ public struct ListVoiceConnectorTerminationCredentialsOutputResponse: Swift.Equa
     }
 }
 
-struct ListVoiceConnectorTerminationCredentialsOutputResponseBody: Swift.Equatable {
+struct ListVoiceConnectorTerminationCredentialsOutputBody: Swift.Equatable {
     let usernames: [Swift.String]?
 }
 
-extension ListVoiceConnectorTerminationCredentialsOutputResponseBody: Swift.Decodable {
+extension ListVoiceConnectorTerminationCredentialsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case usernames = "Usernames"
     }
@@ -7458,6 +7441,23 @@ extension ListVoiceConnectorTerminationCredentialsOutputResponseBody: Swift.Deco
             }
         }
         usernames = usernamesDecoded0
+    }
+}
+
+enum ListVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7509,27 +7509,11 @@ extension ListVoiceConnectorsInputBody: Swift.Decodable {
     }
 }
 
-enum ListVoiceConnectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVoiceConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVoiceConnectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVoiceConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVoiceConnectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voiceConnectors = output.voiceConnectors
         } else {
@@ -7539,7 +7523,7 @@ extension ListVoiceConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVoiceConnectorsOutputResponse: Swift.Equatable {
+public struct ListVoiceConnectorsOutput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
     /// The details of the Voice Connectors.
@@ -7555,12 +7539,12 @@ public struct ListVoiceConnectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVoiceConnectorsOutputResponseBody: Swift.Equatable {
+struct ListVoiceConnectorsOutputBody: Swift.Equatable {
     let voiceConnectors: [ChimeSDKVoiceClientTypes.VoiceConnector]?
     let nextToken: Swift.String?
 }
 
-extension ListVoiceConnectorsOutputResponseBody: Swift.Decodable {
+extension ListVoiceConnectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case voiceConnectors = "VoiceConnectors"
@@ -7581,6 +7565,22 @@ extension ListVoiceConnectorsOutputResponseBody: Swift.Decodable {
         voiceConnectors = voiceConnectorsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVoiceConnectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7632,28 +7632,11 @@ extension ListVoiceProfileDomainsInputBody: Swift.Decodable {
     }
 }
 
-enum ListVoiceProfileDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVoiceProfileDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVoiceProfileDomainsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVoiceProfileDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVoiceProfileDomainsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voiceProfileDomains = output.voiceProfileDomains
         } else {
@@ -7663,7 +7646,7 @@ extension ListVoiceProfileDomainsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListVoiceProfileDomainsOutputResponse: Swift.Equatable {
+public struct ListVoiceProfileDomainsOutput: Swift.Equatable {
     /// The token used to return the next page of results.
     public var nextToken: Swift.String?
     /// The list of voice profile domains.
@@ -7679,12 +7662,12 @@ public struct ListVoiceProfileDomainsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVoiceProfileDomainsOutputResponseBody: Swift.Equatable {
+struct ListVoiceProfileDomainsOutputBody: Swift.Equatable {
     let voiceProfileDomains: [ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListVoiceProfileDomainsOutputResponseBody: Swift.Decodable {
+extension ListVoiceProfileDomainsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case voiceProfileDomains = "VoiceProfileDomains"
@@ -7705,6 +7688,23 @@ extension ListVoiceProfileDomainsOutputResponseBody: Swift.Decodable {
         voiceProfileDomains = voiceProfileDomainsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVoiceProfileDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7767,28 +7767,11 @@ extension ListVoiceProfilesInputBody: Swift.Decodable {
     }
 }
 
-enum ListVoiceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVoiceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVoiceProfilesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVoiceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVoiceProfilesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voiceProfiles = output.voiceProfiles
         } else {
@@ -7798,7 +7781,7 @@ extension ListVoiceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVoiceProfilesOutputResponse: Swift.Equatable {
+public struct ListVoiceProfilesOutput: Swift.Equatable {
     /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// The list of voice profiles.
@@ -7814,12 +7797,12 @@ public struct ListVoiceProfilesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVoiceProfilesOutputResponseBody: Swift.Equatable {
+struct ListVoiceProfilesOutputBody: Swift.Equatable {
     let voiceProfiles: [ChimeSDKVoiceClientTypes.VoiceProfileSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListVoiceProfilesOutputResponseBody: Swift.Decodable {
+extension ListVoiceProfilesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case voiceProfiles = "VoiceProfiles"
@@ -7840,6 +7823,23 @@ extension ListVoiceProfilesOutputResponseBody: Swift.Decodable {
         voiceProfiles = voiceProfilesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVoiceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9524,6 +9524,46 @@ extension PutSipMediaApplicationAlexaSkillConfigurationInputBody: Swift.Decodabl
     }
 }
 
+extension PutSipMediaApplicationAlexaSkillConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutSipMediaApplicationAlexaSkillConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplicationAlexaSkillConfiguration = output.sipMediaApplicationAlexaSkillConfiguration
+        } else {
+            self.sipMediaApplicationAlexaSkillConfiguration = nil
+        }
+    }
+}
+
+public struct PutSipMediaApplicationAlexaSkillConfigurationOutput: Swift.Equatable {
+    /// Returns the Alexa Skill configuration.
+    public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
+
+    public init(
+        sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil
+    )
+    {
+        self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
+    }
+}
+
+struct PutSipMediaApplicationAlexaSkillConfigurationOutputBody: Swift.Equatable {
+    let sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
+}
+
+extension PutSipMediaApplicationAlexaSkillConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplicationAlexaSkillConfiguration = "SipMediaApplicationAlexaSkillConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationAlexaSkillConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration.self, forKey: .sipMediaApplicationAlexaSkillConfiguration)
+        sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfigurationDecoded
+    }
+}
+
 enum PutSipMediaApplicationAlexaSkillConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9538,46 +9578,6 @@ enum PutSipMediaApplicationAlexaSkillConfigurationOutputError: ClientRuntime.Htt
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutSipMediaApplicationAlexaSkillConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutSipMediaApplicationAlexaSkillConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplicationAlexaSkillConfiguration = output.sipMediaApplicationAlexaSkillConfiguration
-        } else {
-            self.sipMediaApplicationAlexaSkillConfiguration = nil
-        }
-    }
-}
-
-public struct PutSipMediaApplicationAlexaSkillConfigurationOutputResponse: Swift.Equatable {
-    /// Returns the Alexa Skill configuration.
-    public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
-
-    public init(
-        sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil
-    )
-    {
-        self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
-    }
-}
-
-struct PutSipMediaApplicationAlexaSkillConfigurationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
-}
-
-extension PutSipMediaApplicationAlexaSkillConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplicationAlexaSkillConfiguration = "SipMediaApplicationAlexaSkillConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationAlexaSkillConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration.self, forKey: .sipMediaApplicationAlexaSkillConfiguration)
-        sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfigurationDecoded
     }
 }
 
@@ -9636,6 +9636,46 @@ extension PutSipMediaApplicationLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension PutSipMediaApplicationLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutSipMediaApplicationLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplicationLoggingConfiguration = output.sipMediaApplicationLoggingConfiguration
+        } else {
+            self.sipMediaApplicationLoggingConfiguration = nil
+        }
+    }
+}
+
+public struct PutSipMediaApplicationLoggingConfigurationOutput: Swift.Equatable {
+    /// The updated logging configuration for the specified SIP media application.
+    public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
+
+    public init(
+        sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
+    )
+    {
+        self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
+    }
+}
+
+struct PutSipMediaApplicationLoggingConfigurationOutputBody: Swift.Equatable {
+    let sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
+}
+
+extension PutSipMediaApplicationLoggingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplicationLoggingConfiguration = "SipMediaApplicationLoggingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationLoggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration.self, forKey: .sipMediaApplicationLoggingConfiguration)
+        sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfigurationDecoded
+    }
+}
+
 enum PutSipMediaApplicationLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9650,46 +9690,6 @@ enum PutSipMediaApplicationLoggingConfigurationOutputError: ClientRuntime.HttpRe
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutSipMediaApplicationLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplicationLoggingConfiguration = output.sipMediaApplicationLoggingConfiguration
-        } else {
-            self.sipMediaApplicationLoggingConfiguration = nil
-        }
-    }
-}
-
-public struct PutSipMediaApplicationLoggingConfigurationOutputResponse: Swift.Equatable {
-    /// The updated logging configuration for the specified SIP media application.
-    public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
-
-    public init(
-        sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
-        self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
-    }
-}
-
-struct PutSipMediaApplicationLoggingConfigurationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
-}
-
-extension PutSipMediaApplicationLoggingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplicationLoggingConfiguration = "SipMediaApplicationLoggingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationLoggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration.self, forKey: .sipMediaApplicationLoggingConfiguration)
-        sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfigurationDecoded
     }
 }
 
@@ -9749,6 +9749,46 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInputBody: Swift.Decodab
     }
 }
 
+extension PutVoiceConnectorEmergencyCallingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutVoiceConnectorEmergencyCallingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.emergencyCallingConfiguration = output.emergencyCallingConfiguration
+        } else {
+            self.emergencyCallingConfiguration = nil
+        }
+    }
+}
+
+public struct PutVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Equatable {
+    /// The updated configuration.
+    public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
+
+    public init(
+        emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil
+    )
+    {
+        self.emergencyCallingConfiguration = emergencyCallingConfiguration
+    }
+}
+
+struct PutVoiceConnectorEmergencyCallingConfigurationOutputBody: Swift.Equatable {
+    let emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
+}
+
+extension PutVoiceConnectorEmergencyCallingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emergencyCallingConfiguration = "EmergencyCallingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emergencyCallingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.self, forKey: .emergencyCallingConfiguration)
+        emergencyCallingConfiguration = emergencyCallingConfigurationDecoded
+    }
+}
+
 enum PutVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9763,46 +9803,6 @@ enum PutVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime.Ht
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutVoiceConnectorEmergencyCallingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.emergencyCallingConfiguration = output.emergencyCallingConfiguration
-        } else {
-            self.emergencyCallingConfiguration = nil
-        }
-    }
-}
-
-public struct PutVoiceConnectorEmergencyCallingConfigurationOutputResponse: Swift.Equatable {
-    /// The updated configuration.
-    public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
-
-    public init(
-        emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil
-    )
-    {
-        self.emergencyCallingConfiguration = emergencyCallingConfiguration
-    }
-}
-
-struct PutVoiceConnectorEmergencyCallingConfigurationOutputResponseBody: Swift.Equatable {
-    let emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
-}
-
-extension PutVoiceConnectorEmergencyCallingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case emergencyCallingConfiguration = "EmergencyCallingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emergencyCallingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.self, forKey: .emergencyCallingConfiguration)
-        emergencyCallingConfiguration = emergencyCallingConfigurationDecoded
     }
 }
 
@@ -9862,6 +9862,46 @@ extension PutVoiceConnectorLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension PutVoiceConnectorLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutVoiceConnectorLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.loggingConfiguration = output.loggingConfiguration
+        } else {
+            self.loggingConfiguration = nil
+        }
+    }
+}
+
+public struct PutVoiceConnectorLoggingConfigurationOutput: Swift.Equatable {
+    /// The updated logging configuration.
+    public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
+
+    public init(
+        loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil
+    )
+    {
+        self.loggingConfiguration = loggingConfiguration
+    }
+}
+
+struct PutVoiceConnectorLoggingConfigurationOutputBody: Swift.Equatable {
+    let loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
+}
+
+extension PutVoiceConnectorLoggingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingConfiguration = "LoggingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let loggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
+        loggingConfiguration = loggingConfigurationDecoded
+    }
+}
+
 enum PutVoiceConnectorLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9876,46 +9916,6 @@ enum PutVoiceConnectorLoggingConfigurationOutputError: ClientRuntime.HttpRespons
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutVoiceConnectorLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutVoiceConnectorLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.loggingConfiguration = output.loggingConfiguration
-        } else {
-            self.loggingConfiguration = nil
-        }
-    }
-}
-
-public struct PutVoiceConnectorLoggingConfigurationOutputResponse: Swift.Equatable {
-    /// The updated logging configuration.
-    public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
-
-    public init(
-        loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil
-    )
-    {
-        self.loggingConfiguration = loggingConfiguration
-    }
-}
-
-struct PutVoiceConnectorLoggingConfigurationOutputResponseBody: Swift.Equatable {
-    let loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
-}
-
-extension PutVoiceConnectorLoggingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case loggingConfiguration = "LoggingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let loggingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
-        loggingConfiguration = loggingConfigurationDecoded
     }
 }
 
@@ -9975,6 +9975,46 @@ extension PutVoiceConnectorOriginationInputBody: Swift.Decodable {
     }
 }
 
+extension PutVoiceConnectorOriginationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutVoiceConnectorOriginationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.origination = output.origination
+        } else {
+            self.origination = nil
+        }
+    }
+}
+
+public struct PutVoiceConnectorOriginationOutput: Swift.Equatable {
+    /// The updated origination settings.
+    public var origination: ChimeSDKVoiceClientTypes.Origination?
+
+    public init(
+        origination: ChimeSDKVoiceClientTypes.Origination? = nil
+    )
+    {
+        self.origination = origination
+    }
+}
+
+struct PutVoiceConnectorOriginationOutputBody: Swift.Equatable {
+    let origination: ChimeSDKVoiceClientTypes.Origination?
+}
+
+extension PutVoiceConnectorOriginationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case origination = "Origination"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let originationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Origination.self, forKey: .origination)
+        origination = originationDecoded
+    }
+}
+
 enum PutVoiceConnectorOriginationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9989,46 +10029,6 @@ enum PutVoiceConnectorOriginationOutputError: ClientRuntime.HttpResponseErrorBin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutVoiceConnectorOriginationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.origination = output.origination
-        } else {
-            self.origination = nil
-        }
-    }
-}
-
-public struct PutVoiceConnectorOriginationOutputResponse: Swift.Equatable {
-    /// The updated origination settings.
-    public var origination: ChimeSDKVoiceClientTypes.Origination?
-
-    public init(
-        origination: ChimeSDKVoiceClientTypes.Origination? = nil
-    )
-    {
-        self.origination = origination
-    }
-}
-
-struct PutVoiceConnectorOriginationOutputResponseBody: Swift.Equatable {
-    let origination: ChimeSDKVoiceClientTypes.Origination?
-}
-
-extension PutVoiceConnectorOriginationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case origination = "Origination"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let originationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Origination.self, forKey: .origination)
-        origination = originationDecoded
     }
 }
 
@@ -10142,6 +10142,46 @@ extension PutVoiceConnectorProxyInputBody: Swift.Decodable {
     }
 }
 
+extension PutVoiceConnectorProxyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutVoiceConnectorProxyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.proxy = output.proxy
+        } else {
+            self.proxy = nil
+        }
+    }
+}
+
+public struct PutVoiceConnectorProxyOutput: Swift.Equatable {
+    /// The proxy configuration details.
+    public var proxy: ChimeSDKVoiceClientTypes.Proxy?
+
+    public init(
+        proxy: ChimeSDKVoiceClientTypes.Proxy? = nil
+    )
+    {
+        self.proxy = proxy
+    }
+}
+
+struct PutVoiceConnectorProxyOutputBody: Swift.Equatable {
+    let proxy: ChimeSDKVoiceClientTypes.Proxy?
+}
+
+extension PutVoiceConnectorProxyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case proxy = "Proxy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let proxyDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Proxy.self, forKey: .proxy)
+        proxy = proxyDecoded
+    }
+}
+
 enum PutVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10157,46 +10197,6 @@ enum PutVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutVoiceConnectorProxyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.proxy = output.proxy
-        } else {
-            self.proxy = nil
-        }
-    }
-}
-
-public struct PutVoiceConnectorProxyOutputResponse: Swift.Equatable {
-    /// The proxy configuration details.
-    public var proxy: ChimeSDKVoiceClientTypes.Proxy?
-
-    public init(
-        proxy: ChimeSDKVoiceClientTypes.Proxy? = nil
-    )
-    {
-        self.proxy = proxy
-    }
-}
-
-struct PutVoiceConnectorProxyOutputResponseBody: Swift.Equatable {
-    let proxy: ChimeSDKVoiceClientTypes.Proxy?
-}
-
-extension PutVoiceConnectorProxyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case proxy = "Proxy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let proxyDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Proxy.self, forKey: .proxy)
-        proxy = proxyDecoded
     }
 }
 
@@ -10256,6 +10256,46 @@ extension PutVoiceConnectorStreamingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension PutVoiceConnectorStreamingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutVoiceConnectorStreamingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingConfiguration = output.streamingConfiguration
+        } else {
+            self.streamingConfiguration = nil
+        }
+    }
+}
+
+public struct PutVoiceConnectorStreamingConfigurationOutput: Swift.Equatable {
+    /// The updated streaming settings.
+    public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
+
+    public init(
+        streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil
+    )
+    {
+        self.streamingConfiguration = streamingConfiguration
+    }
+}
+
+struct PutVoiceConnectorStreamingConfigurationOutputBody: Swift.Equatable {
+    let streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
+}
+
+extension PutVoiceConnectorStreamingConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingConfiguration = "StreamingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.StreamingConfiguration.self, forKey: .streamingConfiguration)
+        streamingConfiguration = streamingConfigurationDecoded
+    }
+}
+
 enum PutVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10270,46 +10310,6 @@ enum PutVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpRespo
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutVoiceConnectorStreamingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingConfiguration = output.streamingConfiguration
-        } else {
-            self.streamingConfiguration = nil
-        }
-    }
-}
-
-public struct PutVoiceConnectorStreamingConfigurationOutputResponse: Swift.Equatable {
-    /// The updated streaming settings.
-    public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
-
-    public init(
-        streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil
-    )
-    {
-        self.streamingConfiguration = streamingConfiguration
-    }
-}
-
-struct PutVoiceConnectorStreamingConfigurationOutputResponseBody: Swift.Equatable {
-    let streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
-}
-
-extension PutVoiceConnectorStreamingConfigurationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingConfiguration = "StreamingConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.StreamingConfiguration.self, forKey: .streamingConfiguration)
-        streamingConfiguration = streamingConfigurationDecoded
     }
 }
 
@@ -10390,6 +10390,16 @@ extension PutVoiceConnectorTerminationCredentialsInputBody: Swift.Decodable {
     }
 }
 
+extension PutVoiceConnectorTerminationCredentialsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutVoiceConnectorTerminationCredentialsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10405,16 +10415,6 @@ enum PutVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutVoiceConnectorTerminationCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutVoiceConnectorTerminationCredentialsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutVoiceConnectorTerminationInput: Swift.Encodable {
@@ -10473,6 +10473,46 @@ extension PutVoiceConnectorTerminationInputBody: Swift.Decodable {
     }
 }
 
+extension PutVoiceConnectorTerminationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutVoiceConnectorTerminationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.termination = output.termination
+        } else {
+            self.termination = nil
+        }
+    }
+}
+
+public struct PutVoiceConnectorTerminationOutput: Swift.Equatable {
+    /// The updated termination settings.
+    public var termination: ChimeSDKVoiceClientTypes.Termination?
+
+    public init(
+        termination: ChimeSDKVoiceClientTypes.Termination? = nil
+    )
+    {
+        self.termination = termination
+    }
+}
+
+struct PutVoiceConnectorTerminationOutputBody: Swift.Equatable {
+    let termination: ChimeSDKVoiceClientTypes.Termination?
+}
+
+extension PutVoiceConnectorTerminationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case termination = "Termination"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let terminationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Termination.self, forKey: .termination)
+        termination = terminationDecoded
+    }
+}
+
 enum PutVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10488,46 +10528,6 @@ enum PutVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseErrorBin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutVoiceConnectorTerminationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.termination = output.termination
-        } else {
-            self.termination = nil
-        }
-    }
-}
-
-public struct PutVoiceConnectorTerminationOutputResponse: Swift.Equatable {
-    /// The updated termination settings.
-    public var termination: ChimeSDKVoiceClientTypes.Termination?
-
-    public init(
-        termination: ChimeSDKVoiceClientTypes.Termination? = nil
-    )
-    {
-        self.termination = termination
-    }
-}
-
-struct PutVoiceConnectorTerminationOutputResponseBody: Swift.Equatable {
-    let termination: ChimeSDKVoiceClientTypes.Termination?
-}
-
-extension PutVoiceConnectorTerminationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case termination = "Termination"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let terminationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Termination.self, forKey: .termination)
-        termination = terminationDecoded
     }
 }
 
@@ -10641,6 +10641,46 @@ extension RestorePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
+extension RestorePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestorePhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.phoneNumber = output.phoneNumber
+        } else {
+            self.phoneNumber = nil
+        }
+    }
+}
+
+public struct RestorePhoneNumberOutput: Swift.Equatable {
+    /// The restored phone number.
+    public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
+
+    public init(
+        phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
+    )
+    {
+        self.phoneNumber = phoneNumber
+    }
+}
+
+struct RestorePhoneNumberOutputBody: Swift.Equatable {
+    let phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
+}
+
+extension RestorePhoneNumberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case phoneNumber = "PhoneNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumber.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
+    }
+}
+
 enum RestorePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10656,46 +10696,6 @@ enum RestorePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RestorePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestorePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.phoneNumber = output.phoneNumber
-        } else {
-            self.phoneNumber = nil
-        }
-    }
-}
-
-public struct RestorePhoneNumberOutputResponse: Swift.Equatable {
-    /// The restored phone number.
-    public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
-
-    public init(
-        phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
-    )
-    {
-        self.phoneNumber = phoneNumber
-    }
-}
-
-struct RestorePhoneNumberOutputResponseBody: Swift.Equatable {
-    let phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
-}
-
-extension RestorePhoneNumberOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case phoneNumber = "PhoneNumber"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let phoneNumberDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumber.self, forKey: .phoneNumber)
-        phoneNumber = phoneNumberDecoded
     }
 }
 
@@ -10796,28 +10796,11 @@ extension SearchAvailablePhoneNumbersInputBody: Swift.Decodable {
     }
 }
 
-enum SearchAvailablePhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SearchAvailablePhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SearchAvailablePhoneNumbersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SearchAvailablePhoneNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SearchAvailablePhoneNumbersOutputBody = try responseDecoder.decode(responseBody: data)
             self.e164PhoneNumbers = output.e164PhoneNumbers
             self.nextToken = output.nextToken
         } else {
@@ -10827,7 +10810,7 @@ extension SearchAvailablePhoneNumbersOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct SearchAvailablePhoneNumbersOutputResponse: Swift.Equatable {
+public struct SearchAvailablePhoneNumbersOutput: Swift.Equatable {
     /// Confines a search to just the phone numbers in the E.164 format.
     public var e164PhoneNumbers: [Swift.String]?
     /// The token used to return the next page of results.
@@ -10843,12 +10826,12 @@ public struct SearchAvailablePhoneNumbersOutputResponse: Swift.Equatable {
     }
 }
 
-struct SearchAvailablePhoneNumbersOutputResponseBody: Swift.Equatable {
+struct SearchAvailablePhoneNumbersOutputBody: Swift.Equatable {
     let e164PhoneNumbers: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension SearchAvailablePhoneNumbersOutputResponseBody: Swift.Decodable {
+extension SearchAvailablePhoneNumbersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case e164PhoneNumbers = "E164PhoneNumbers"
         case nextToken = "NextToken"
@@ -10869,6 +10852,23 @@ extension SearchAvailablePhoneNumbersOutputResponseBody: Swift.Decodable {
         e164PhoneNumbers = e164PhoneNumbersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum SearchAvailablePhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11821,6 +11821,46 @@ extension StartSpeakerSearchTaskInputBody: Swift.Decodable {
     }
 }
 
+extension StartSpeakerSearchTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartSpeakerSearchTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.speakerSearchTask = output.speakerSearchTask
+        } else {
+            self.speakerSearchTask = nil
+        }
+    }
+}
+
+public struct StartSpeakerSearchTaskOutput: Swift.Equatable {
+    /// The details of the speaker search task.
+    public var speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+
+    public init(
+        speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
+    )
+    {
+        self.speakerSearchTask = speakerSearchTask
+    }
+}
+
+struct StartSpeakerSearchTaskOutputBody: Swift.Equatable {
+    let speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+}
+
+extension StartSpeakerSearchTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTask = "SpeakerSearchTask"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchTask.self, forKey: .speakerSearchTask)
+        speakerSearchTask = speakerSearchTaskDecoded
+    }
+}
+
 enum StartSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11840,46 +11880,6 @@ enum StartSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartSpeakerSearchTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartSpeakerSearchTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.speakerSearchTask = output.speakerSearchTask
-        } else {
-            self.speakerSearchTask = nil
-        }
-    }
-}
-
-public struct StartSpeakerSearchTaskOutputResponse: Swift.Equatable {
-    /// The details of the speaker search task.
-    public var speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
-
-    public init(
-        speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
-    )
-    {
-        self.speakerSearchTask = speakerSearchTask
-    }
-}
-
-struct StartSpeakerSearchTaskOutputResponseBody: Swift.Equatable {
-    let speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
-}
-
-extension StartSpeakerSearchTaskOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case speakerSearchTask = "SpeakerSearchTask"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let speakerSearchTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchTask.self, forKey: .speakerSearchTask)
-        speakerSearchTask = speakerSearchTaskDecoded
     }
 }
 
@@ -11964,6 +11964,46 @@ extension StartVoiceToneAnalysisTaskInputBody: Swift.Decodable {
     }
 }
 
+extension StartVoiceToneAnalysisTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartVoiceToneAnalysisTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceToneAnalysisTask = output.voiceToneAnalysisTask
+        } else {
+            self.voiceToneAnalysisTask = nil
+        }
+    }
+}
+
+public struct StartVoiceToneAnalysisTaskOutput: Swift.Equatable {
+    /// The details of the voice tone analysis task.
+    public var voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+
+    public init(
+        voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
+    )
+    {
+        self.voiceToneAnalysisTask = voiceToneAnalysisTask
+    }
+}
+
+struct StartVoiceToneAnalysisTaskOutputBody: Swift.Equatable {
+    let voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+}
+
+extension StartVoiceToneAnalysisTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceToneAnalysisTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask.self, forKey: .voiceToneAnalysisTask)
+        voiceToneAnalysisTask = voiceToneAnalysisTaskDecoded
+    }
+}
+
 enum StartVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11983,46 +12023,6 @@ enum StartVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBindi
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartVoiceToneAnalysisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartVoiceToneAnalysisTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceToneAnalysisTask = output.voiceToneAnalysisTask
-        } else {
-            self.voiceToneAnalysisTask = nil
-        }
-    }
-}
-
-public struct StartVoiceToneAnalysisTaskOutputResponse: Swift.Equatable {
-    /// The details of the voice tone analysis task.
-    public var voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
-
-    public init(
-        voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
-    )
-    {
-        self.voiceToneAnalysisTask = voiceToneAnalysisTask
-    }
-}
-
-struct StartVoiceToneAnalysisTaskOutputResponseBody: Swift.Equatable {
-    let voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
-}
-
-extension StartVoiceToneAnalysisTaskOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceToneAnalysisTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask.self, forKey: .voiceToneAnalysisTask)
-        voiceToneAnalysisTask = voiceToneAnalysisTaskDecoded
     }
 }
 
@@ -12075,6 +12075,16 @@ extension StopSpeakerSearchTaskInputBody: Swift.Decodable {
     }
 }
 
+extension StopSpeakerSearchTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopSpeakerSearchTaskOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12093,16 +12103,6 @@ enum StopSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopSpeakerSearchTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopSpeakerSearchTaskOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StopVoiceToneAnalysisTaskInput: ClientRuntime.QueryItemProvider {
@@ -12154,6 +12154,16 @@ extension StopVoiceToneAnalysisTaskInputBody: Swift.Decodable {
     }
 }
 
+extension StopVoiceToneAnalysisTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopVoiceToneAnalysisTaskOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12172,16 +12182,6 @@ enum StopVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopVoiceToneAnalysisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopVoiceToneAnalysisTaskOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ChimeSDKVoiceClientTypes.StreamingConfiguration: Swift.Codable {
@@ -12438,6 +12438,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12453,16 +12463,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ChimeSDKVoiceClientTypes.Termination: Swift.Codable {
@@ -12894,6 +12894,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12908,16 +12918,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateGlobalSettingsInput: Swift.Encodable {
@@ -12967,6 +12967,16 @@ extension UpdateGlobalSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateGlobalSettingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12981,16 +12991,6 @@ enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateGlobalSettingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePhoneNumberInput: Swift.CustomDebugStringConvertible {
@@ -13077,6 +13077,46 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePhoneNumberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePhoneNumberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.phoneNumber = output.phoneNumber
+        } else {
+            self.phoneNumber = nil
+        }
+    }
+}
+
+public struct UpdatePhoneNumberOutput: Swift.Equatable {
+    /// The updated phone number details.
+    public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
+
+    public init(
+        phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
+    )
+    {
+        self.phoneNumber = phoneNumber
+    }
+}
+
+struct UpdatePhoneNumberOutputBody: Swift.Equatable {
+    let phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
+}
+
+extension UpdatePhoneNumberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case phoneNumber = "PhoneNumber"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let phoneNumberDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumber.self, forKey: .phoneNumber)
+        phoneNumber = phoneNumberDecoded
+    }
+}
+
 enum UpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13092,46 +13132,6 @@ enum UpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdatePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.phoneNumber = output.phoneNumber
-        } else {
-            self.phoneNumber = nil
-        }
-    }
-}
-
-public struct UpdatePhoneNumberOutputResponse: Swift.Equatable {
-    /// The updated phone number details.
-    public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
-
-    public init(
-        phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
-    )
-    {
-        self.phoneNumber = phoneNumber
-    }
-}
-
-struct UpdatePhoneNumberOutputResponseBody: Swift.Equatable {
-    let phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
-}
-
-extension UpdatePhoneNumberOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case phoneNumber = "PhoneNumber"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let phoneNumberDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.PhoneNumber.self, forKey: .phoneNumber)
-        phoneNumber = phoneNumberDecoded
     }
 }
 
@@ -13259,6 +13259,16 @@ extension UpdatePhoneNumberSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePhoneNumberSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePhoneNumberSettingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdatePhoneNumberSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13273,16 +13283,6 @@ enum UpdatePhoneNumberSettingsOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdatePhoneNumberSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdatePhoneNumberSettingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateProxySessionInput: Swift.Encodable {
@@ -13373,6 +13373,46 @@ extension UpdateProxySessionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateProxySessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateProxySessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.proxySession = output.proxySession
+        } else {
+            self.proxySession = nil
+        }
+    }
+}
+
+public struct UpdateProxySessionOutput: Swift.Equatable {
+    /// The updated proxy session details.
+    public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
+
+    public init(
+        proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
+    )
+    {
+        self.proxySession = proxySession
+    }
+}
+
+struct UpdateProxySessionOutputBody: Swift.Equatable {
+    let proxySession: ChimeSDKVoiceClientTypes.ProxySession?
+}
+
+extension UpdateProxySessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case proxySession = "ProxySession"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let proxySessionDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ProxySession.self, forKey: .proxySession)
+        proxySession = proxySessionDecoded
+    }
+}
+
 enum UpdateProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13387,46 +13427,6 @@ enum UpdateProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateProxySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.proxySession = output.proxySession
-        } else {
-            self.proxySession = nil
-        }
-    }
-}
-
-public struct UpdateProxySessionOutputResponse: Swift.Equatable {
-    /// The updated proxy session details.
-    public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
-
-    public init(
-        proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
-    )
-    {
-        self.proxySession = proxySession
-    }
-}
-
-struct UpdateProxySessionOutputResponseBody: Swift.Equatable {
-    let proxySession: ChimeSDKVoiceClientTypes.ProxySession?
-}
-
-extension UpdateProxySessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case proxySession = "ProxySession"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let proxySessionDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ProxySession.self, forKey: .proxySession)
-        proxySession = proxySessionDecoded
     }
 }
 
@@ -13506,6 +13506,46 @@ extension UpdateSipMediaApplicationCallInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSipMediaApplicationCallOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSipMediaApplicationCallOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplicationCall = output.sipMediaApplicationCall
+        } else {
+            self.sipMediaApplicationCall = nil
+        }
+    }
+}
+
+public struct UpdateSipMediaApplicationCallOutput: Swift.Equatable {
+    /// A Call instance for a SIP media application.
+    public var sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
+
+    public init(
+        sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall? = nil
+    )
+    {
+        self.sipMediaApplicationCall = sipMediaApplicationCall
+    }
+}
+
+struct UpdateSipMediaApplicationCallOutputBody: Swift.Equatable {
+    let sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
+}
+
+extension UpdateSipMediaApplicationCallOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplicationCall = "SipMediaApplicationCall"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationCallDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationCall.self, forKey: .sipMediaApplicationCall)
+        sipMediaApplicationCall = sipMediaApplicationCallDecoded
+    }
+}
+
 enum UpdateSipMediaApplicationCallOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13521,46 +13561,6 @@ enum UpdateSipMediaApplicationCallOutputError: ClientRuntime.HttpResponseErrorBi
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateSipMediaApplicationCallOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSipMediaApplicationCallOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplicationCall = output.sipMediaApplicationCall
-        } else {
-            self.sipMediaApplicationCall = nil
-        }
-    }
-}
-
-public struct UpdateSipMediaApplicationCallOutputResponse: Swift.Equatable {
-    /// A Call instance for a SIP media application.
-    public var sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
-
-    public init(
-        sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall? = nil
-    )
-    {
-        self.sipMediaApplicationCall = sipMediaApplicationCall
-    }
-}
-
-struct UpdateSipMediaApplicationCallOutputResponseBody: Swift.Equatable {
-    let sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
-}
-
-extension UpdateSipMediaApplicationCallOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplicationCall = "SipMediaApplicationCall"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationCallDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplicationCall.self, forKey: .sipMediaApplicationCall)
-        sipMediaApplicationCall = sipMediaApplicationCallDecoded
     }
 }
 
@@ -13643,6 +13643,46 @@ extension UpdateSipMediaApplicationInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSipMediaApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSipMediaApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipMediaApplication = output.sipMediaApplication
+        } else {
+            self.sipMediaApplication = nil
+        }
+    }
+}
+
+public struct UpdateSipMediaApplicationOutput: Swift.Equatable {
+    /// The updated SIP media application’s details.
+    public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
+
+    public init(
+        sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
+    )
+    {
+        self.sipMediaApplication = sipMediaApplication
+    }
+}
+
+struct UpdateSipMediaApplicationOutputBody: Swift.Equatable {
+    let sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
+}
+
+extension UpdateSipMediaApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipMediaApplication = "SipMediaApplication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipMediaApplicationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplication.self, forKey: .sipMediaApplication)
+        sipMediaApplication = sipMediaApplicationDecoded
+    }
+}
+
 enum UpdateSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13658,46 +13698,6 @@ enum UpdateSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSipMediaApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipMediaApplication = output.sipMediaApplication
-        } else {
-            self.sipMediaApplication = nil
-        }
-    }
-}
-
-public struct UpdateSipMediaApplicationOutputResponse: Swift.Equatable {
-    /// The updated SIP media application’s details.
-    public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
-
-    public init(
-        sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
-    )
-    {
-        self.sipMediaApplication = sipMediaApplication
-    }
-}
-
-struct UpdateSipMediaApplicationOutputResponseBody: Swift.Equatable {
-    let sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
-}
-
-extension UpdateSipMediaApplicationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipMediaApplication = "SipMediaApplication"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipMediaApplicationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipMediaApplication.self, forKey: .sipMediaApplication)
-        sipMediaApplication = sipMediaApplicationDecoded
     }
 }
 
@@ -13793,6 +13793,46 @@ extension UpdateSipRuleInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSipRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSipRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.sipRule = output.sipRule
+        } else {
+            self.sipRule = nil
+        }
+    }
+}
+
+public struct UpdateSipRuleOutput: Swift.Equatable {
+    /// The updated SIP rule details.
+    public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
+
+    public init(
+        sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
+    )
+    {
+        self.sipRule = sipRule
+    }
+}
+
+struct UpdateSipRuleOutputBody: Swift.Equatable {
+    let sipRule: ChimeSDKVoiceClientTypes.SipRule?
+}
+
+extension UpdateSipRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sipRule = "SipRule"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sipRuleDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipRule.self, forKey: .sipRule)
+        sipRule = sipRuleDecoded
+    }
+}
+
 enum UpdateSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13809,46 +13849,6 @@ enum UpdateSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSipRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.sipRule = output.sipRule
-        } else {
-            self.sipRule = nil
-        }
-    }
-}
-
-public struct UpdateSipRuleOutputResponse: Swift.Equatable {
-    /// The updated SIP rule details.
-    public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
-
-    public init(
-        sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
-    )
-    {
-        self.sipRule = sipRule
-    }
-}
-
-struct UpdateSipRuleOutputResponseBody: Swift.Equatable {
-    let sipRule: ChimeSDKVoiceClientTypes.SipRule?
-}
-
-extension UpdateSipRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case sipRule = "SipRule"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sipRuleDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SipRule.self, forKey: .sipRule)
-        sipRule = sipRuleDecoded
     }
 }
 
@@ -13933,6 +13933,46 @@ extension UpdateVoiceConnectorGroupInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVoiceConnectorGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateVoiceConnectorGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnectorGroup = output.voiceConnectorGroup
+        } else {
+            self.voiceConnectorGroup = nil
+        }
+    }
+}
+
+public struct UpdateVoiceConnectorGroupOutput: Swift.Equatable {
+    /// The updated Voice Connector group.
+    public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
+
+    public init(
+        voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
+    )
+    {
+        self.voiceConnectorGroup = voiceConnectorGroup
+    }
+}
+
+struct UpdateVoiceConnectorGroupOutputBody: Swift.Equatable {
+    let voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
+}
+
+extension UpdateVoiceConnectorGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceConnectorGroup = "VoiceConnectorGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorGroupDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorGroup.self, forKey: .voiceConnectorGroup)
+        voiceConnectorGroup = voiceConnectorGroupDecoded
+    }
+}
+
 enum UpdateVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13948,46 +13988,6 @@ enum UpdateVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBindin
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnectorGroup = output.voiceConnectorGroup
-        } else {
-            self.voiceConnectorGroup = nil
-        }
-    }
-}
-
-public struct UpdateVoiceConnectorGroupOutputResponse: Swift.Equatable {
-    /// The updated Voice Connector group.
-    public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
-
-    public init(
-        voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
-        self.voiceConnectorGroup = voiceConnectorGroup
-    }
-}
-
-struct UpdateVoiceConnectorGroupOutputResponseBody: Swift.Equatable {
-    let voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
-}
-
-extension UpdateVoiceConnectorGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnectorGroup = "VoiceConnectorGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorGroupDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnectorGroup.self, forKey: .voiceConnectorGroup)
-        voiceConnectorGroup = voiceConnectorGroupDecoded
     }
 }
 
@@ -14060,6 +14060,46 @@ extension UpdateVoiceConnectorInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVoiceConnectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateVoiceConnectorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceConnector = output.voiceConnector
+        } else {
+            self.voiceConnector = nil
+        }
+    }
+}
+
+public struct UpdateVoiceConnectorOutput: Swift.Equatable {
+    /// The updated Voice Connector details.
+    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
+
+    public init(
+        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
+    )
+    {
+        self.voiceConnector = voiceConnector
+    }
+}
+
+struct UpdateVoiceConnectorOutputBody: Swift.Equatable {
+    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
+}
+
+extension UpdateVoiceConnectorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceConnector = "VoiceConnector"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
+        voiceConnector = voiceConnectorDecoded
+    }
+}
+
 enum UpdateVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14074,46 +14114,6 @@ enum UpdateVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceConnector = output.voiceConnector
-        } else {
-            self.voiceConnector = nil
-        }
-    }
-}
-
-public struct UpdateVoiceConnectorOutputResponse: Swift.Equatable {
-    /// The updated Voice Connector details.
-    public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
-
-    public init(
-        voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
-    )
-    {
-        self.voiceConnector = voiceConnector
-    }
-}
-
-struct UpdateVoiceConnectorOutputResponseBody: Swift.Equatable {
-    let voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
-}
-
-extension UpdateVoiceConnectorOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceConnector = "VoiceConnector"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
-        voiceConnector = voiceConnectorDecoded
     }
 }
 
@@ -14184,6 +14184,46 @@ extension UpdateVoiceProfileDomainInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVoiceProfileDomainOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateVoiceProfileDomainOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfileDomain = output.voiceProfileDomain
+        } else {
+            self.voiceProfileDomain = nil
+        }
+    }
+}
+
+public struct UpdateVoiceProfileDomainOutput: Swift.Equatable {
+    /// The updated details of the voice profile domain.
+    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+
+    public init(
+        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
+    )
+    {
+        self.voiceProfileDomain = voiceProfileDomain
+    }
+}
+
+struct UpdateVoiceProfileDomainOutputBody: Swift.Equatable {
+    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+}
+
+extension UpdateVoiceProfileDomainOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfileDomain = "VoiceProfileDomain"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
+        voiceProfileDomain = voiceProfileDomainDecoded
+    }
+}
+
 enum UpdateVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14199,46 +14239,6 @@ enum UpdateVoiceProfileDomainOutputError: ClientRuntime.HttpResponseErrorBinding
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateVoiceProfileDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceProfileDomain = output.voiceProfileDomain
-        } else {
-            self.voiceProfileDomain = nil
-        }
-    }
-}
-
-public struct UpdateVoiceProfileDomainOutputResponse: Swift.Equatable {
-    /// The updated details of the voice profile domain.
-    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
-
-    public init(
-        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
-    )
-    {
-        self.voiceProfileDomain = voiceProfileDomain
-    }
-}
-
-struct UpdateVoiceProfileDomainOutputResponseBody: Swift.Equatable {
-    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
-}
-
-extension UpdateVoiceProfileDomainOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceProfileDomain = "VoiceProfileDomain"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
-        voiceProfileDomain = voiceProfileDomainDecoded
     }
 }
 
@@ -14298,6 +14298,46 @@ extension UpdateVoiceProfileInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateVoiceProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateVoiceProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfile = output.voiceProfile
+        } else {
+            self.voiceProfile = nil
+        }
+    }
+}
+
+public struct UpdateVoiceProfileOutput: Swift.Equatable {
+    /// The updated voice profile settings.
+    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+
+    public init(
+        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
+    )
+    {
+        self.voiceProfile = voiceProfile
+    }
+}
+
+struct UpdateVoiceProfileOutputBody: Swift.Equatable {
+    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+}
+
+extension UpdateVoiceProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfile = "VoiceProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
+        voiceProfile = voiceProfileDecoded
+    }
+}
+
 enum UpdateVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14315,46 +14355,6 @@ enum UpdateVoiceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateVoiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.voiceProfile = output.voiceProfile
-        } else {
-            self.voiceProfile = nil
-        }
-    }
-}
-
-public struct UpdateVoiceProfileOutputResponse: Swift.Equatable {
-    /// The updated voice profile settings.
-    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
-
-    public init(
-        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
-    )
-    {
-        self.voiceProfile = voiceProfile
-    }
-}
-
-struct UpdateVoiceProfileOutputResponseBody: Swift.Equatable {
-    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
-}
-
-extension UpdateVoiceProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case voiceProfile = "VoiceProfile"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
-        voiceProfile = voiceProfileDecoded
     }
 }
 
@@ -14489,28 +14489,11 @@ extension ValidateE911AddressInputBody: Swift.Decodable {
     }
 }
 
-enum ValidateE911AddressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ValidateE911AddressOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ValidateE911AddressOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ValidateE911AddressOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ValidateE911AddressOutputBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
             self.addressExternalId = output.addressExternalId
             self.candidateAddressList = output.candidateAddressList
@@ -14524,7 +14507,7 @@ extension ValidateE911AddressOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ValidateE911AddressOutputResponse: Swift.Equatable {
+public struct ValidateE911AddressOutput: Swift.Equatable {
     /// The validated address.
     public var address: ChimeSDKVoiceClientTypes.Address?
     /// The ID that represents the address.
@@ -14548,14 +14531,14 @@ public struct ValidateE911AddressOutputResponse: Swift.Equatable {
     }
 }
 
-struct ValidateE911AddressOutputResponseBody: Swift.Equatable {
+struct ValidateE911AddressOutputBody: Swift.Equatable {
     let validationResult: Swift.Int
     let addressExternalId: Swift.String?
     let address: ChimeSDKVoiceClientTypes.Address?
     let candidateAddressList: [ChimeSDKVoiceClientTypes.CandidateAddress]?
 }
 
-extension ValidateE911AddressOutputResponseBody: Swift.Decodable {
+extension ValidateE911AddressOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
         case addressExternalId = "AddressExternalId"
@@ -14582,6 +14565,23 @@ extension ValidateE911AddressOutputResponseBody: Swift.Decodable {
             }
         }
         candidateAddressList = candidateAddressListDecoded0
+    }
+}
+
+enum ValidateE911AddressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

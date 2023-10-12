@@ -8,7 +8,7 @@ public protocol TranslateClientProtocol {
     ///
     /// - Parameter CreateParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `CreateParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `CreateParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21,12 +21,12 @@ public protocol TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutputResponse
+    func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutput
     /// Deletes a parallel data resource in Amazon Translate.
     ///
     /// - Parameter DeleteParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `DeleteParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func deleteParallelData(input: DeleteParallelDataInput) async throws -> DeleteParallelDataOutputResponse
+    func deleteParallelData(input: DeleteParallelDataInput) async throws -> DeleteParallelDataOutput
     /// A synchronous action that deletes a custom terminology.
     ///
     /// - Parameter DeleteTerminologyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTerminologyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTerminologyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func deleteTerminology(input: DeleteTerminologyInput) async throws -> DeleteTerminologyOutputResponse
+    func deleteTerminology(input: DeleteTerminologyInput) async throws -> DeleteTerminologyOutput
     /// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
     ///
     /// - Parameter DescribeTextTranslationJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTextTranslationJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTextTranslationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -62,12 +62,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func describeTextTranslationJob(input: DescribeTextTranslationJobInput) async throws -> DescribeTextTranslationJobOutputResponse
+    func describeTextTranslationJob(input: DescribeTextTranslationJobInput) async throws -> DescribeTextTranslationJobOutput
     /// Provides information about a parallel data resource.
     ///
     /// - Parameter GetParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `GetParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `GetParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func getParallelData(input: GetParallelDataInput) async throws -> GetParallelDataOutputResponse
+    func getParallelData(input: GetParallelDataInput) async throws -> GetParallelDataOutput
     /// Retrieves a custom terminology.
     ///
     /// - Parameter GetTerminologyInput : [no documentation found]
     ///
-    /// - Returns: `GetTerminologyOutputResponse` : [no documentation found]
+    /// - Returns: `GetTerminologyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -90,12 +90,12 @@ public protocol TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func getTerminology(input: GetTerminologyInput) async throws -> GetTerminologyOutputResponse
+    func getTerminology(input: GetTerminologyInput) async throws -> GetTerminologyOutput
     /// Creates or updates a custom terminology, depending on whether one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. After that, translations have access to the new terminology.
     ///
     /// - Parameter ImportTerminologyInput : [no documentation found]
     ///
-    /// - Returns: `ImportTerminologyOutputResponse` : [no documentation found]
+    /// - Returns: `ImportTerminologyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    func importTerminology(input: ImportTerminologyInput) async throws -> ImportTerminologyOutputResponse
+    func importTerminology(input: ImportTerminologyInput) async throws -> ImportTerminologyOutput
     /// Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
     ///
     /// - Parameter ListLanguagesInput : [no documentation found]
     ///
-    /// - Returns: `ListLanguagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListLanguagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedDisplayLanguageCodeException` : Requested display language code is not supported.
-    func listLanguages(input: ListLanguagesInput) async throws -> ListLanguagesOutputResponse
+    func listLanguages(input: ListLanguagesInput) async throws -> ListLanguagesOutput
     /// Provides a list of your parallel data resources in Amazon Translate.
     ///
     /// - Parameter ListParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `ListParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `ListParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -133,12 +133,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func listParallelData(input: ListParallelDataInput) async throws -> ListParallelDataOutputResponse
+    func listParallelData(input: ListParallelDataInput) async throws -> ListParallelDataOutput
     /// Lists all tags associated with a given Amazon Translate resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -146,12 +146,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Provides a list of custom terminologies associated with your account.
     ///
     /// - Parameter ListTerminologiesInput : [no documentation found]
     ///
-    /// - Returns: `ListTerminologiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTerminologiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -159,12 +159,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutputResponse
+    func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutput
     /// Gets a list of the batch translation jobs that you have submitted.
     ///
     /// - Parameter ListTextTranslationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListTextTranslationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTextTranslationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol TranslateClientProtocol {
     /// - `InvalidFilterException` : The filter specified for the operation is not valid. Specify a different filter.
     /// - `InvalidRequestException` : The request that you made is not valid. Check your request to determine why it's not valid and then retry the request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutputResponse
+    func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutput
     /// Starts an asynchronous batch translation job. Use batch translation jobs to translate large volumes of text across multiple documents at once. For batch translation, you can input documents with different source languages (specify auto as the source language). You can specify one or more target languages. Batch translation translates each input document into each of the target languages. For more information, see [Asynchronous batch processing](https://docs.aws.amazon.com/translate/latest/dg/async.html). Batch translation jobs can be described with the [DescribeTextTranslationJob] operation, listed with the [ListTextTranslationJobs] operation, and stopped with the [StopTextTranslationJob] operation.
     ///
     /// - Parameter StartTextTranslationJobInput : [no documentation found]
     ///
-    /// - Returns: `StartTextTranslationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartTextTranslationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -189,12 +189,12 @@ public protocol TranslateClientProtocol {
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutputResponse
+    func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutput
     /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the [StartTextTranslationJob] operation. You can use the [DescribeTextTranslationJob] or [ListTextTranslationJobs] operations to get a batch translation job's JobId.
     ///
     /// - Parameter StopTextTranslationJobInput : [no documentation found]
     ///
-    /// - Returns: `StopTextTranslationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopTextTranslationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -202,12 +202,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutputResponse
+    func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutput
     /// Associates a specific tag with a resource. A tag is a key-value pair that adds as a metadata to a resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol TranslateClientProtocol {
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyTagsException` : You have added too many tags to this resource. The maximum is 50 tags.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Translates the input document from the source language to the target language. This synchronous operation supports plain text or HTML for the input document. TranslateDocument supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as “en” (English). TranslateDocument does not support language auto-detection. If you set the Formality parameter, the request will fail if the target language does not support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
     ///
     /// - Parameter TranslateDocumentInput : [no documentation found]
     ///
-    /// - Returns: `TranslateDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `TranslateDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -234,12 +234,12 @@ public protocol TranslateClientProtocol {
     /// - `ServiceUnavailableException` : The Amazon Translate service is temporarily unavailable. Wait a bit and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    func translateDocument(input: TranslateDocumentInput) async throws -> TranslateDocumentOutputResponse
+    func translateDocument(input: TranslateDocumentInput) async throws -> TranslateDocumentOutput
     /// Translates input text from the source language to the target language. For a list of available languages and language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
     ///
     /// - Parameter TranslateTextInput : [no documentation found]
     ///
-    /// - Returns: `TranslateTextOutputResponse` : [no documentation found]
+    /// - Returns: `TranslateTextOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -252,12 +252,12 @@ public protocol TranslateClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
     /// - `UnsupportedLanguagePairException` : Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
-    func translateText(input: TranslateTextInput) async throws -> TranslateTextOutputResponse
+    func translateText(input: TranslateTextInput) async throws -> TranslateTextOutput
     /// Removes a specific tag associated with an Amazon Translate resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -266,12 +266,12 @@ public protocol TranslateClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidParameterValueException` : The value of the parameter is not valid. Review the value of the parameter you are using to correct it, and then retry your operation.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a previously created parallel data resource by importing a new input file from Amazon S3.
     ///
     /// - Parameter UpdateParallelDataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateParallelDataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateParallelDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -284,7 +284,7 @@ public protocol TranslateClientProtocol {
     /// - `LimitExceededException` : The specified limit has been exceeded. Review your request and retry it with a quantity below the stated limit.
     /// - `ResourceNotFoundException` : The resource you are looking for has not been found. Review the resource you're looking for and see if a different resource will accomplish your needs before retrying the revised request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again.
-    func updateParallelData(input: UpdateParallelDataInput) async throws -> UpdateParallelDataOutputResponse
+    func updateParallelData(input: UpdateParallelDataInput) async throws -> UpdateParallelDataOutput
 }
 
 public enum TranslateClientTypes {}

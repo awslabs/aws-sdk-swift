@@ -8,7 +8,7 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     ///
     /// - Parameter AssociateUserInput : [no documentation found]
     ///
-    /// - Returns: `AssociateUserOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutputResponse
+    func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutput
     /// Deregisters the identity provider from providing user-based subscriptions.
     ///
     /// - Parameter DeregisterIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutputResponse
+    func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutput
     /// Disassociates the user from an EC2 instance providing user-based subscriptions.
     ///
     /// - Parameter DisassociateUserInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateUserOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,12 +54,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutputResponse
+    func disassociateUser(input: DisassociateUserInput) async throws -> DisassociateUserOutput
     /// Lists the identity providers for user-based subscriptions.
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
     ///
-    /// - Returns: `ListIdentityProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -71,12 +71,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutputResponse
+    func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
     /// Lists the EC2 instances providing user-based subscriptions.
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
+    func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
     /// Lists the user-based subscription products available from an identity provider.
     ///
     /// - Parameter ListProductSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListProductSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProductSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -105,12 +105,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutputResponse
+    func listProductSubscriptions(input: ListProductSubscriptionsInput) async throws -> ListProductSubscriptionsOutput
     /// Lists user associations for an identity provider.
     ///
     /// - Parameter ListUserAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -122,12 +122,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutputResponse
+    func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutput
     /// Registers an identity provider for user-based subscriptions.
     ///
     /// - Parameter RegisterIdentityProviderInput : [no documentation found]
     ///
-    /// - Returns: `RegisterIdentityProviderOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterIdentityProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutputResponse
+    func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutput
     /// Starts a product subscription for a user with the specified identity provider. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     ///
     /// - Parameter StartProductSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StartProductSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartProductSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -156,12 +156,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutputResponse
+    func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutput
     /// Stops a product subscription for a user with the specified identity provider.
     ///
     /// - Parameter StopProductSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StopProductSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StopProductSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `ServiceQuotaExceededException` : The request failed because a service quota is exceeded.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutputResponse
+    func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutput
     /// Updates additional product configuration settings for the registered identity provider.
     ///
     /// - Parameter UpdateIdentityProviderSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIdentityProviderSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIdentityProviderSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -187,7 +187,7 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     /// - `InternalServerException` : An exception occurred with the service.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
     /// - `ValidationException` : A parameter is not valid.
-    func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutputResponse
+    func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutput
 }
 
 public enum LicenseManagerUserSubscriptionsClientTypes {}

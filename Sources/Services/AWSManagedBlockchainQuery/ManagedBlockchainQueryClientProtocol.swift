@@ -8,7 +8,7 @@ public protocol ManagedBlockchainQueryClientProtocol {
     ///
     /// - Parameter BatchGetTokenBalanceInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetTokenBalanceOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetTokenBalanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    func batchGetTokenBalance(input: BatchGetTokenBalanceInput) async throws -> BatchGetTokenBalanceOutputResponse
+    func batchGetTokenBalance(input: BatchGetTokenBalanceInput) async throws -> BatchGetTokenBalanceOutput
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
     /// - Parameter GetTokenBalanceInput : [no documentation found]
     ///
-    /// - Returns: `GetTokenBalanceOutputResponse` : [no documentation found]
+    /// - Returns: `GetTokenBalanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    func getTokenBalance(input: GetTokenBalanceInput) async throws -> GetTokenBalanceOutputResponse
+    func getTokenBalance(input: GetTokenBalanceInput) async throws -> GetTokenBalanceOutput
     /// Get the details of a transaction.
     ///
     /// - Parameter GetTransactionInput : [no documentation found]
     ///
-    /// - Returns: `GetTransactionOutputResponse` : [no documentation found]
+    /// - Returns: `GetTransactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,7 +51,7 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    func getTransaction(input: GetTransactionInput) async throws -> GetTransactionOutputResponse
+    func getTransaction(input: GetTransactionInput) async throws -> GetTransactionOutput
     /// This action returns the following for a given a blockchain network:
     ///
     /// * Lists all token balances owned by an address (either a contact address or a wallet address).
@@ -65,7 +65,7 @@ public protocol ManagedBlockchainQueryClientProtocol {
     ///
     /// - Parameter ListTokenBalancesInput : [no documentation found]
     ///
-    /// - Returns: `ListTokenBalancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTokenBalancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    func listTokenBalances(input: ListTokenBalancesInput) async throws -> ListTokenBalancesOutputResponse
+    func listTokenBalances(input: ListTokenBalancesInput) async throws -> ListTokenBalancesOutput
     /// An array of TransactionEvent objects. Each object contains details about the transaction event.
     ///
     /// - Parameter ListTransactionEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListTransactionEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTransactionEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -90,12 +90,12 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    func listTransactionEvents(input: ListTransactionEventsInput) async throws -> ListTransactionEventsOutputResponse
+    func listTransactionEvents(input: ListTransactionEventsInput) async throws -> ListTransactionEventsOutput
     /// Lists all of the transactions on a given wallet address or to a specific contract.
     ///
     /// - Parameter ListTransactionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTransactionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTransactionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -105,7 +105,7 @@ public protocol ManagedBlockchainQueryClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
     /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
     /// - `ValidationException` : The resource passed is invalid.
-    func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutputResponse
+    func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput
 }
 
 public enum ManagedBlockchainQueryClientTypes {}

@@ -183,6 +183,16 @@ extension AssociateWebACLInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateWebACLOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateWebACLOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -196,16 +206,6 @@ enum AssociateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AssociateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateWebACLOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WAFRegionalClientTypes.ByteMatchSet: Swift.Codable {
@@ -683,27 +683,11 @@ extension CreateByteMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateByteMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSet = output.byteMatchSet
             self.changeToken = output.changeToken
         } else {
@@ -713,7 +697,7 @@ extension CreateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateByteMatchSetOutputResponse: Swift.Equatable {
+public struct CreateByteMatchSetOutput: Swift.Equatable {
     /// A [ByteMatchSet] that contains no ByteMatchTuple objects.
     public var byteMatchSet: WAFRegionalClientTypes.ByteMatchSet?
     /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
@@ -729,12 +713,12 @@ public struct CreateByteMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateByteMatchSetOutputResponseBody: Swift.Equatable {
+struct CreateByteMatchSetOutputBody: Swift.Equatable {
     let byteMatchSet: WAFRegionalClientTypes.ByteMatchSet?
     let changeToken: Swift.String?
 }
 
-extension CreateByteMatchSetOutputResponseBody: Swift.Decodable {
+extension CreateByteMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case byteMatchSet = "ByteMatchSet"
         case changeToken = "ChangeToken"
@@ -746,6 +730,22 @@ extension CreateByteMatchSetOutputResponseBody: Swift.Decodable {
         byteMatchSet = byteMatchSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -810,27 +810,11 @@ extension CreateGeoMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateGeoMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.geoMatchSet = output.geoMatchSet
         } else {
@@ -840,7 +824,7 @@ extension CreateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGeoMatchSetOutputResponse: Swift.Equatable {
+public struct CreateGeoMatchSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [GeoMatchSet] returned in the CreateGeoMatchSet response. The GeoMatchSet contains no GeoMatchConstraints.
@@ -856,12 +840,12 @@ public struct CreateGeoMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateGeoMatchSetOutputResponseBody: Swift.Equatable {
+struct CreateGeoMatchSetOutputBody: Swift.Equatable {
     let geoMatchSet: WAFRegionalClientTypes.GeoMatchSet?
     let changeToken: Swift.String?
 }
 
-extension CreateGeoMatchSetOutputResponseBody: Swift.Decodable {
+extension CreateGeoMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case geoMatchSet = "GeoMatchSet"
@@ -873,6 +857,22 @@ extension CreateGeoMatchSetOutputResponseBody: Swift.Decodable {
         geoMatchSet = geoMatchSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -937,27 +937,11 @@ extension CreateIPSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateIPSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateIPSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.ipSet = output.ipSet
         } else {
@@ -967,7 +951,7 @@ extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIPSetOutputResponse: Swift.Equatable {
+public struct CreateIPSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [IPSet] returned in the CreateIPSet response.
@@ -983,12 +967,12 @@ public struct CreateIPSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateIPSetOutputResponseBody: Swift.Equatable {
+struct CreateIPSetOutputBody: Swift.Equatable {
     let ipSet: WAFRegionalClientTypes.IPSet?
     let changeToken: Swift.String?
 }
 
-extension CreateIPSetOutputResponseBody: Swift.Decodable {
+extension CreateIPSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case ipSet = "IPSet"
@@ -1000,6 +984,22 @@ extension CreateIPSetOutputResponseBody: Swift.Decodable {
         ipSet = ipSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1127,29 +1127,11 @@ extension CreateRateBasedRuleInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRateBasedRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.rule = output.rule
         } else {
@@ -1159,7 +1141,7 @@ extension CreateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRateBasedRuleOutputResponse: Swift.Equatable {
+public struct CreateRateBasedRuleOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [RateBasedRule] that is returned in the CreateRateBasedRule response.
@@ -1175,12 +1157,12 @@ public struct CreateRateBasedRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRateBasedRuleOutputResponseBody: Swift.Equatable {
+struct CreateRateBasedRuleOutputBody: Swift.Equatable {
     let rule: WAFRegionalClientTypes.RateBasedRule?
     let changeToken: Swift.String?
 }
 
-extension CreateRateBasedRuleOutputResponseBody: Swift.Decodable {
+extension CreateRateBasedRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case rule = "Rule"
@@ -1192,6 +1174,24 @@ extension CreateRateBasedRuleOutputResponseBody: Swift.Decodable {
         rule = ruleDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1256,25 +1256,11 @@ extension CreateRegexMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRegexMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.regexMatchSet = output.regexMatchSet
         } else {
@@ -1284,7 +1270,7 @@ extension CreateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegexMatchSetOutputResponse: Swift.Equatable {
+public struct CreateRegexMatchSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [RegexMatchSet] that contains no RegexMatchTuple objects.
@@ -1300,12 +1286,12 @@ public struct CreateRegexMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRegexMatchSetOutputResponseBody: Swift.Equatable {
+struct CreateRegexMatchSetOutputBody: Swift.Equatable {
     let regexMatchSet: WAFRegionalClientTypes.RegexMatchSet?
     let changeToken: Swift.String?
 }
 
-extension CreateRegexMatchSetOutputResponseBody: Swift.Decodable {
+extension CreateRegexMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case regexMatchSet = "RegexMatchSet"
@@ -1317,6 +1303,20 @@ extension CreateRegexMatchSetOutputResponseBody: Swift.Decodable {
         regexMatchSet = regexMatchSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1381,25 +1381,11 @@ extension CreateRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRegexPatternSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.regexPatternSet = output.regexPatternSet
         } else {
@@ -1409,7 +1395,7 @@ extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateRegexPatternSetOutputResponse: Swift.Equatable {
+public struct CreateRegexPatternSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [RegexPatternSet] that contains no objects.
@@ -1425,12 +1411,12 @@ public struct CreateRegexPatternSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRegexPatternSetOutputResponseBody: Swift.Equatable {
+struct CreateRegexPatternSetOutputBody: Swift.Equatable {
     let regexPatternSet: WAFRegionalClientTypes.RegexPatternSet?
     let changeToken: Swift.String?
 }
 
-extension CreateRegexPatternSetOutputResponseBody: Swift.Decodable {
+extension CreateRegexPatternSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case regexPatternSet = "RegexPatternSet"
@@ -1442,6 +1428,20 @@ extension CreateRegexPatternSetOutputResponseBody: Swift.Decodable {
         regexPatternSet = regexPatternSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1543,28 +1543,11 @@ extension CreateRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRuleGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.ruleGroup = output.ruleGroup
         } else {
@@ -1574,7 +1557,7 @@ extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleGroupOutputResponse: Swift.Equatable {
+public struct CreateRuleGroupOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// An empty [RuleGroup].
@@ -1590,12 +1573,12 @@ public struct CreateRuleGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupOutputResponseBody: Swift.Equatable {
+struct CreateRuleGroupOutputBody: Swift.Equatable {
     let ruleGroup: WAFRegionalClientTypes.RuleGroup?
     let changeToken: Swift.String?
 }
 
-extension CreateRuleGroupOutputResponseBody: Swift.Decodable {
+extension CreateRuleGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case ruleGroup = "RuleGroup"
@@ -1607,6 +1590,23 @@ extension CreateRuleGroupOutputResponseBody: Swift.Decodable {
         ruleGroup = ruleGroupDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1708,29 +1708,11 @@ extension CreateRuleInputBody: Swift.Decodable {
     }
 }
 
-enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.rule = output.rule
         } else {
@@ -1740,7 +1722,7 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleOutputResponse: Swift.Equatable {
+public struct CreateRuleOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [Rule] returned in the CreateRule response.
@@ -1756,12 +1738,12 @@ public struct CreateRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateRuleOutputResponseBody: Swift.Equatable {
+struct CreateRuleOutputBody: Swift.Equatable {
     let rule: WAFRegionalClientTypes.Rule?
     let changeToken: Swift.String?
 }
 
-extension CreateRuleOutputResponseBody: Swift.Decodable {
+extension CreateRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case rule = "Rule"
@@ -1773,6 +1755,24 @@ extension CreateRuleOutputResponseBody: Swift.Decodable {
         rule = ruleDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1837,27 +1837,11 @@ extension CreateSizeConstraintSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSizeConstraintSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.sizeConstraintSet = output.sizeConstraintSet
         } else {
@@ -1867,7 +1851,7 @@ extension CreateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateSizeConstraintSetOutputResponse: Swift.Equatable {
+public struct CreateSizeConstraintSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [SizeConstraintSet] that contains no SizeConstraint objects.
@@ -1883,12 +1867,12 @@ public struct CreateSizeConstraintSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSizeConstraintSetOutputResponseBody: Swift.Equatable {
+struct CreateSizeConstraintSetOutputBody: Swift.Equatable {
     let sizeConstraintSet: WAFRegionalClientTypes.SizeConstraintSet?
     let changeToken: Swift.String?
 }
 
-extension CreateSizeConstraintSetOutputResponseBody: Swift.Decodable {
+extension CreateSizeConstraintSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case sizeConstraintSet = "SizeConstraintSet"
@@ -1900,6 +1884,22 @@ extension CreateSizeConstraintSetOutputResponseBody: Swift.Decodable {
         sizeConstraintSet = sizeConstraintSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1965,27 +1965,11 @@ extension CreateSqlInjectionMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSqlInjectionMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.sqlInjectionMatchSet = output.sqlInjectionMatchSet
         } else {
@@ -1996,7 +1980,7 @@ extension CreateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// The response to a CreateSqlInjectionMatchSet request.
-public struct CreateSqlInjectionMatchSetOutputResponse: Swift.Equatable {
+public struct CreateSqlInjectionMatchSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [SqlInjectionMatchSet].
@@ -2012,12 +1996,12 @@ public struct CreateSqlInjectionMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSqlInjectionMatchSetOutputResponseBody: Swift.Equatable {
+struct CreateSqlInjectionMatchSetOutputBody: Swift.Equatable {
     let sqlInjectionMatchSet: WAFRegionalClientTypes.SqlInjectionMatchSet?
     let changeToken: Swift.String?
 }
 
-extension CreateSqlInjectionMatchSetOutputResponseBody: Swift.Decodable {
+extension CreateSqlInjectionMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case sqlInjectionMatchSet = "SqlInjectionMatchSet"
@@ -2029,6 +2013,22 @@ extension CreateSqlInjectionMatchSetOutputResponseBody: Swift.Decodable {
         sqlInjectionMatchSet = sqlInjectionMatchSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2223,6 +2223,47 @@ extension CreateWebACLMigrationStackInputBody: Swift.Decodable {
     }
 }
 
+extension CreateWebACLMigrationStackOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateWebACLMigrationStackOutputBody = try responseDecoder.decode(responseBody: data)
+            self.s3ObjectUrl = output.s3ObjectUrl
+        } else {
+            self.s3ObjectUrl = nil
+        }
+    }
+}
+
+public struct CreateWebACLMigrationStackOutput: Swift.Equatable {
+    /// The URL of the template created in Amazon S3.
+    /// This member is required.
+    public var s3ObjectUrl: Swift.String?
+
+    public init(
+        s3ObjectUrl: Swift.String? = nil
+    )
+    {
+        self.s3ObjectUrl = s3ObjectUrl
+    }
+}
+
+struct CreateWebACLMigrationStackOutputBody: Swift.Equatable {
+    let s3ObjectUrl: Swift.String?
+}
+
+extension CreateWebACLMigrationStackOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3ObjectUrl = "S3ObjectUrl"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3ObjectUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ObjectUrl)
+        s3ObjectUrl = s3ObjectUrlDecoded
+    }
+}
+
 enum CreateWebACLMigrationStackOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2238,44 +2279,53 @@ enum CreateWebACLMigrationStackOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension CreateWebACLMigrationStackOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateWebACLOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateWebACLMigrationStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.s3ObjectUrl = output.s3ObjectUrl
+            let output: CreateWebACLOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+            self.webACL = output.webACL
         } else {
-            self.s3ObjectUrl = nil
+            self.changeToken = nil
+            self.webACL = nil
         }
     }
 }
 
-public struct CreateWebACLMigrationStackOutputResponse: Swift.Equatable {
-    /// The URL of the template created in Amazon S3.
-    /// This member is required.
-    public var s3ObjectUrl: Swift.String?
+public struct CreateWebACLOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+    /// The [WebACL] returned in the CreateWebACL response.
+    public var webACL: WAFRegionalClientTypes.WebACL?
 
     public init(
-        s3ObjectUrl: Swift.String? = nil
+        changeToken: Swift.String? = nil,
+        webACL: WAFRegionalClientTypes.WebACL? = nil
     )
     {
-        self.s3ObjectUrl = s3ObjectUrl
+        self.changeToken = changeToken
+        self.webACL = webACL
     }
 }
 
-struct CreateWebACLMigrationStackOutputResponseBody: Swift.Equatable {
-    let s3ObjectUrl: Swift.String?
+struct CreateWebACLOutputBody: Swift.Equatable {
+    let webACL: WAFRegionalClientTypes.WebACL?
+    let changeToken: Swift.String?
 }
 
-extension CreateWebACLMigrationStackOutputResponseBody: Swift.Decodable {
+extension CreateWebACLOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case s3ObjectUrl = "S3ObjectUrl"
+        case changeToken = "ChangeToken"
+        case webACL = "WebACL"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let s3ObjectUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ObjectUrl)
-        s3ObjectUrl = s3ObjectUrlDecoded
+        let webACLDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.WebACL.self, forKey: .webACL)
+        webACL = webACLDecoded
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
     }
 }
 
@@ -2295,56 +2345,6 @@ enum CreateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-            self.webACL = output.webACL
-        } else {
-            self.changeToken = nil
-            self.webACL = nil
-        }
-    }
-}
-
-public struct CreateWebACLOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-    /// The [WebACL] returned in the CreateWebACL response.
-    public var webACL: WAFRegionalClientTypes.WebACL?
-
-    public init(
-        changeToken: Swift.String? = nil,
-        webACL: WAFRegionalClientTypes.WebACL? = nil
-    )
-    {
-        self.changeToken = changeToken
-        self.webACL = webACL
-    }
-}
-
-struct CreateWebACLOutputResponseBody: Swift.Equatable {
-    let webACL: WAFRegionalClientTypes.WebACL?
-    let changeToken: Swift.String?
-}
-
-extension CreateWebACLOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-        case webACL = "WebACL"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let webACLDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.WebACL.self, forKey: .webACL)
-        webACL = webACLDecoded
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -2410,27 +2410,11 @@ extension CreateXssMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum CreateXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateXssMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.xssMatchSet = output.xssMatchSet
         } else {
@@ -2441,7 +2425,7 @@ extension CreateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a CreateXssMatchSet request.
-public struct CreateXssMatchSetOutputResponse: Swift.Equatable {
+public struct CreateXssMatchSetOutput: Swift.Equatable {
     /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// An [XssMatchSet].
@@ -2457,12 +2441,12 @@ public struct CreateXssMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateXssMatchSetOutputResponseBody: Swift.Equatable {
+struct CreateXssMatchSetOutputBody: Swift.Equatable {
     let xssMatchSet: WAFRegionalClientTypes.XssMatchSet?
     let changeToken: Swift.String?
 }
 
-extension CreateXssMatchSetOutputResponseBody: Swift.Decodable {
+extension CreateXssMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
         case xssMatchSet = "XssMatchSet"
@@ -2474,6 +2458,22 @@ extension CreateXssMatchSetOutputResponseBody: Swift.Decodable {
         xssMatchSet = xssMatchSetDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum CreateXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFDisallowedNameException": return try await WAFDisallowedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFLimitsExceededException": return try await WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2538,6 +2538,46 @@ extension DeleteByteMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteByteMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteByteMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteByteMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteByteMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2551,46 +2591,6 @@ enum DeleteByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteByteMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteByteMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteByteMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -2655,6 +2655,46 @@ extension DeleteGeoMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteGeoMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteGeoMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteGeoMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteGeoMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2668,46 +2708,6 @@ enum DeleteGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteGeoMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteGeoMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteGeoMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -2772,6 +2772,46 @@ extension DeleteIPSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteIPSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteIPSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteIPSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteIPSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteIPSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2785,46 +2825,6 @@ enum DeleteIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteIPSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteIPSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteIPSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -2876,6 +2876,16 @@ extension DeleteLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLoggingConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2887,16 +2897,6 @@ enum DeleteLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLoggingConfigurationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeletePermissionPolicyInput: Swift.Encodable {
@@ -2947,6 +2947,16 @@ extension DeletePermissionPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePermissionPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeletePermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2958,16 +2968,6 @@ enum DeletePermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeletePermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePermissionPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteRateBasedRuleInput: Swift.Encodable {
@@ -3031,6 +3031,46 @@ extension DeleteRateBasedRuleInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRateBasedRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteRateBasedRuleOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteRateBasedRuleOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteRateBasedRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3046,46 +3086,6 @@ enum DeleteRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteRateBasedRuleOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteRateBasedRuleOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteRateBasedRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3150,6 +3150,46 @@ extension DeleteRegexMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRegexMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteRegexMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteRegexMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteRegexMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3163,46 +3203,6 @@ enum DeleteRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteRegexMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteRegexMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteRegexMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3267,6 +3267,46 @@ extension DeleteRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRegexPatternSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteRegexPatternSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteRegexPatternSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteRegexPatternSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3280,46 +3320,6 @@ enum DeleteRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteRegexPatternSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteRegexPatternSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteRegexPatternSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3384,6 +3384,46 @@ extension DeleteRuleGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRuleGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRuleGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteRuleGroupOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteRuleGroupOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteRuleGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3399,46 +3439,6 @@ enum DeleteRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteRuleGroupOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteRuleGroupOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteRuleGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3503,6 +3503,46 @@ extension DeleteRuleInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteRuleOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteRuleOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3518,46 +3558,6 @@ enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteRuleOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteRuleOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3622,6 +3622,46 @@ extension DeleteSizeConstraintSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteSizeConstraintSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteSizeConstraintSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteSizeConstraintSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteSizeConstraintSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3635,46 +3675,6 @@ enum DeleteSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteSizeConstraintSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteSizeConstraintSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteSizeConstraintSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3740,6 +3740,47 @@ extension DeleteSqlInjectionMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteSqlInjectionMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+/// The response to a request to delete a [SqlInjectionMatchSet] from AWS WAF.
+public struct DeleteSqlInjectionMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteSqlInjectionMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteSqlInjectionMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3753,47 +3794,6 @@ enum DeleteSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBindi
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-/// The response to a request to delete a [SqlInjectionMatchSet] from AWS WAF.
-public struct DeleteSqlInjectionMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteSqlInjectionMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteSqlInjectionMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3858,6 +3858,46 @@ extension DeleteWebACLInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteWebACLOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteWebACLOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct DeleteWebACLOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteWebACLOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteWebACLOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3873,46 +3913,6 @@ enum DeleteWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct DeleteWebACLOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteWebACLOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteWebACLOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -3978,6 +3978,47 @@ extension DeleteXssMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteXssMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+/// The response to a request to delete an [XssMatchSet] from AWS WAF.
+public struct DeleteXssMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct DeleteXssMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension DeleteXssMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum DeleteXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3991,47 +4032,6 @@ enum DeleteXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-/// The response to a request to delete an [XssMatchSet] from AWS WAF.
-public struct DeleteXssMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct DeleteXssMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension DeleteXssMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -4087,6 +4087,16 @@ extension DisassociateWebACLInputBody: Swift.Decodable {
     }
 }
 
+extension DisassociateWebACLOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateWebACLOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisassociateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4099,16 +4109,6 @@ enum DisassociateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateWebACLOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WAFRegionalClientTypes.ExcludedRule: Swift.Codable {
@@ -5267,24 +5267,11 @@ extension GetByteMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetByteMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSet = output.byteMatchSet
         } else {
             self.byteMatchSet = nil
@@ -5292,7 +5279,7 @@ extension GetByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetByteMatchSetOutputResponse: Swift.Equatable {
+public struct GetByteMatchSetOutput: Swift.Equatable {
     /// Information about the [ByteMatchSet] that you specified in the GetByteMatchSet request. For more information, see the following topics:
     ///
     /// * [ByteMatchSet]: Contains ByteMatchSetId, ByteMatchTuples, and Name
@@ -5310,11 +5297,11 @@ public struct GetByteMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetByteMatchSetOutputResponseBody: Swift.Equatable {
+struct GetByteMatchSetOutputBody: Swift.Equatable {
     let byteMatchSet: WAFRegionalClientTypes.ByteMatchSet?
 }
 
-extension GetByteMatchSetOutputResponseBody: Swift.Decodable {
+extension GetByteMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case byteMatchSet = "ByteMatchSet"
     }
@@ -5323,6 +5310,19 @@ extension GetByteMatchSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let byteMatchSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.ByteMatchSet.self, forKey: .byteMatchSet)
         byteMatchSet = byteMatchSetDecoded
+    }
+}
+
+enum GetByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5354,22 +5354,11 @@ extension GetChangeTokenInputBody: Swift.Decodable {
     }
 }
 
-enum GetChangeTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetChangeTokenOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetChangeTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetChangeTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetChangeTokenOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
             self.changeToken = nil
@@ -5377,7 +5366,7 @@ extension GetChangeTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChangeTokenOutputResponse: Swift.Equatable {
+public struct GetChangeTokenOutput: Swift.Equatable {
     /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request.
     public var changeToken: Swift.String?
 
@@ -5389,11 +5378,11 @@ public struct GetChangeTokenOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetChangeTokenOutputResponseBody: Swift.Equatable {
+struct GetChangeTokenOutputBody: Swift.Equatable {
     let changeToken: Swift.String?
 }
 
-extension GetChangeTokenOutputResponseBody: Swift.Decodable {
+extension GetChangeTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeToken = "ChangeToken"
     }
@@ -5402,6 +5391,17 @@ extension GetChangeTokenOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
+    }
+}
+
+enum GetChangeTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5453,23 +5453,11 @@ extension GetChangeTokenStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetChangeTokenStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetChangeTokenStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetChangeTokenStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetChangeTokenStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetChangeTokenStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.changeTokenStatus = output.changeTokenStatus
         } else {
             self.changeTokenStatus = nil
@@ -5477,7 +5465,7 @@ extension GetChangeTokenStatusOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetChangeTokenStatusOutputResponse: Swift.Equatable {
+public struct GetChangeTokenStatusOutput: Swift.Equatable {
     /// The status of the change token.
     public var changeTokenStatus: WAFRegionalClientTypes.ChangeTokenStatus?
 
@@ -5489,11 +5477,11 @@ public struct GetChangeTokenStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetChangeTokenStatusOutputResponseBody: Swift.Equatable {
+struct GetChangeTokenStatusOutputBody: Swift.Equatable {
     let changeTokenStatus: WAFRegionalClientTypes.ChangeTokenStatus?
 }
 
-extension GetChangeTokenStatusOutputResponseBody: Swift.Decodable {
+extension GetChangeTokenStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeTokenStatus = "ChangeTokenStatus"
     }
@@ -5502,6 +5490,18 @@ extension GetChangeTokenStatusOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let changeTokenStatusDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.ChangeTokenStatus.self, forKey: .changeTokenStatus)
         changeTokenStatus = changeTokenStatusDecoded
+    }
+}
+
+enum GetChangeTokenStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5553,24 +5553,11 @@ extension GetGeoMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetGeoMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.geoMatchSet = output.geoMatchSet
         } else {
             self.geoMatchSet = nil
@@ -5578,7 +5565,7 @@ extension GetGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGeoMatchSetOutputResponse: Swift.Equatable {
+public struct GetGeoMatchSetOutput: Swift.Equatable {
     /// Information about the [GeoMatchSet] that you specified in the GetGeoMatchSet request. This includes the Type, which for a GeoMatchContraint is always Country, as well as the Value, which is the identifier for a specific country.
     public var geoMatchSet: WAFRegionalClientTypes.GeoMatchSet?
 
@@ -5590,11 +5577,11 @@ public struct GetGeoMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetGeoMatchSetOutputResponseBody: Swift.Equatable {
+struct GetGeoMatchSetOutputBody: Swift.Equatable {
     let geoMatchSet: WAFRegionalClientTypes.GeoMatchSet?
 }
 
-extension GetGeoMatchSetOutputResponseBody: Swift.Decodable {
+extension GetGeoMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case geoMatchSet = "GeoMatchSet"
     }
@@ -5603,6 +5590,19 @@ extension GetGeoMatchSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let geoMatchSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.GeoMatchSet.self, forKey: .geoMatchSet)
         geoMatchSet = geoMatchSetDecoded
+    }
+}
+
+enum GetGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5654,24 +5654,11 @@ extension GetIPSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetIPSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetIPSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.ipSet = output.ipSet
         } else {
             self.ipSet = nil
@@ -5679,7 +5666,7 @@ extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIPSetOutputResponse: Swift.Equatable {
+public struct GetIPSetOutput: Swift.Equatable {
     /// Information about the [IPSet] that you specified in the GetIPSet request. For more information, see the following topics:
     ///
     /// * [IPSet]: Contains IPSetDescriptors, IPSetId, and Name
@@ -5695,11 +5682,11 @@ public struct GetIPSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetIPSetOutputResponseBody: Swift.Equatable {
+struct GetIPSetOutputBody: Swift.Equatable {
     let ipSet: WAFRegionalClientTypes.IPSet?
 }
 
-extension GetIPSetOutputResponseBody: Swift.Decodable {
+extension GetIPSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipSet = "IPSet"
     }
@@ -5708,6 +5695,19 @@ extension GetIPSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.IPSet.self, forKey: .ipSet)
         ipSet = ipSetDecoded
+    }
+}
+
+enum GetIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5759,23 +5759,11 @@ extension GetLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-enum GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
             self.loggingConfiguration = nil
@@ -5783,7 +5771,7 @@ extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetLoggingConfigurationOutputResponse: Swift.Equatable {
+public struct GetLoggingConfigurationOutput: Swift.Equatable {
     /// The [LoggingConfiguration] for the specified web ACL.
     public var loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 
@@ -5795,11 +5783,11 @@ public struct GetLoggingConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationOutputResponseBody: Swift.Equatable {
+struct GetLoggingConfigurationOutputBody: Swift.Equatable {
     let loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 }
 
-extension GetLoggingConfigurationOutputResponseBody: Swift.Decodable {
+extension GetLoggingConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingConfiguration = "LoggingConfiguration"
     }
@@ -5808,6 +5796,18 @@ extension GetLoggingConfigurationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loggingConfigurationDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
         loggingConfiguration = loggingConfigurationDecoded
+    }
+}
+
+enum GetLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5859,23 +5859,11 @@ extension GetPermissionPolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetPermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPermissionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPermissionPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
             self.policy = nil
@@ -5883,7 +5871,7 @@ extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPermissionPolicyOutputResponse: Swift.Equatable {
+public struct GetPermissionPolicyOutput: Swift.Equatable {
     /// The IAM policy attached to the specified RuleGroup.
     public var policy: Swift.String?
 
@@ -5895,11 +5883,11 @@ public struct GetPermissionPolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPermissionPolicyOutputResponseBody: Swift.Equatable {
+struct GetPermissionPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
 }
 
-extension GetPermissionPolicyOutputResponseBody: Swift.Decodable {
+extension GetPermissionPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -5908,6 +5896,18 @@ extension GetPermissionPolicyOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+    }
+}
+
+enum GetPermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6019,25 +6019,11 @@ extension GetRateBasedRuleManagedKeysInputBody: Swift.Decodable {
     }
 }
 
-enum GetRateBasedRuleManagedKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRateBasedRuleManagedKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRateBasedRuleManagedKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRateBasedRuleManagedKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRateBasedRuleManagedKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.managedKeys = output.managedKeys
             self.nextMarker = output.nextMarker
         } else {
@@ -6047,7 +6033,7 @@ extension GetRateBasedRuleManagedKeysOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetRateBasedRuleManagedKeysOutputResponse: Swift.Equatable {
+public struct GetRateBasedRuleManagedKeysOutput: Swift.Equatable {
     /// An array of IP addresses that currently are blocked by the specified [RateBasedRule].
     public var managedKeys: [Swift.String]?
     /// A null value and not currently used.
@@ -6063,12 +6049,12 @@ public struct GetRateBasedRuleManagedKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRateBasedRuleManagedKeysOutputResponseBody: Swift.Equatable {
+struct GetRateBasedRuleManagedKeysOutputBody: Swift.Equatable {
     let managedKeys: [Swift.String]?
     let nextMarker: Swift.String?
 }
 
-extension GetRateBasedRuleManagedKeysOutputResponseBody: Swift.Decodable {
+extension GetRateBasedRuleManagedKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case managedKeys = "ManagedKeys"
         case nextMarker = "NextMarker"
@@ -6092,24 +6078,25 @@ extension GetRateBasedRuleManagedKeysOutputResponseBody: Swift.Decodable {
     }
 }
 
-enum GetRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+enum GetRateBasedRuleManagedKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-extension GetRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRateBasedRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
             self.rule = nil
@@ -6117,7 +6104,7 @@ extension GetRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRateBasedRuleOutputResponse: Swift.Equatable {
+public struct GetRateBasedRuleOutput: Swift.Equatable {
     /// Information about the [RateBasedRule] that you specified in the GetRateBasedRule request.
     public var rule: WAFRegionalClientTypes.RateBasedRule?
 
@@ -6129,11 +6116,11 @@ public struct GetRateBasedRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRateBasedRuleOutputResponseBody: Swift.Equatable {
+struct GetRateBasedRuleOutputBody: Swift.Equatable {
     let rule: WAFRegionalClientTypes.RateBasedRule?
 }
 
-extension GetRateBasedRuleOutputResponseBody: Swift.Decodable {
+extension GetRateBasedRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rule = "Rule"
     }
@@ -6142,6 +6129,19 @@ extension GetRateBasedRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.RateBasedRule.self, forKey: .rule)
         rule = ruleDecoded
+    }
+}
+
+enum GetRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6193,24 +6193,11 @@ extension GetRegexMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRegexMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.regexMatchSet = output.regexMatchSet
         } else {
             self.regexMatchSet = nil
@@ -6218,7 +6205,7 @@ extension GetRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegexMatchSetOutputResponse: Swift.Equatable {
+public struct GetRegexMatchSetOutput: Swift.Equatable {
     /// Information about the [RegexMatchSet] that you specified in the GetRegexMatchSet request. For more information, see [RegexMatchTuple].
     public var regexMatchSet: WAFRegionalClientTypes.RegexMatchSet?
 
@@ -6230,11 +6217,11 @@ public struct GetRegexMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRegexMatchSetOutputResponseBody: Swift.Equatable {
+struct GetRegexMatchSetOutputBody: Swift.Equatable {
     let regexMatchSet: WAFRegionalClientTypes.RegexMatchSet?
 }
 
-extension GetRegexMatchSetOutputResponseBody: Swift.Decodable {
+extension GetRegexMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case regexMatchSet = "RegexMatchSet"
     }
@@ -6243,6 +6230,19 @@ extension GetRegexMatchSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regexMatchSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.RegexMatchSet.self, forKey: .regexMatchSet)
         regexMatchSet = regexMatchSetDecoded
+    }
+}
+
+enum GetRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6294,24 +6294,11 @@ extension GetRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRegexPatternSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.regexPatternSet = output.regexPatternSet
         } else {
             self.regexPatternSet = nil
@@ -6319,7 +6306,7 @@ extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegexPatternSetOutputResponse: Swift.Equatable {
+public struct GetRegexPatternSetOutput: Swift.Equatable {
     /// Information about the [RegexPatternSet] that you specified in the GetRegexPatternSet request, including the identifier of the pattern set and the regular expression patterns you want AWS WAF to search for.
     public var regexPatternSet: WAFRegionalClientTypes.RegexPatternSet?
 
@@ -6331,11 +6318,11 @@ public struct GetRegexPatternSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRegexPatternSetOutputResponseBody: Swift.Equatable {
+struct GetRegexPatternSetOutputBody: Swift.Equatable {
     let regexPatternSet: WAFRegionalClientTypes.RegexPatternSet?
 }
 
-extension GetRegexPatternSetOutputResponseBody: Swift.Decodable {
+extension GetRegexPatternSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case regexPatternSet = "RegexPatternSet"
     }
@@ -6344,6 +6331,19 @@ extension GetRegexPatternSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let regexPatternSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.RegexPatternSet.self, forKey: .regexPatternSet)
         regexPatternSet = regexPatternSetDecoded
+    }
+}
+
+enum GetRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6395,23 +6395,11 @@ extension GetRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-enum GetRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRuleGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroup = output.ruleGroup
         } else {
             self.ruleGroup = nil
@@ -6419,7 +6407,7 @@ extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuleGroupOutputResponse: Swift.Equatable {
+public struct GetRuleGroupOutput: Swift.Equatable {
     /// Information about the [RuleGroup] that you specified in the GetRuleGroup request.
     public var ruleGroup: WAFRegionalClientTypes.RuleGroup?
 
@@ -6431,11 +6419,11 @@ public struct GetRuleGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRuleGroupOutputResponseBody: Swift.Equatable {
+struct GetRuleGroupOutputBody: Swift.Equatable {
     let ruleGroup: WAFRegionalClientTypes.RuleGroup?
 }
 
-extension GetRuleGroupOutputResponseBody: Swift.Decodable {
+extension GetRuleGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ruleGroup = "RuleGroup"
     }
@@ -6444,6 +6432,18 @@ extension GetRuleGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleGroupDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.RuleGroup.self, forKey: .ruleGroup)
         ruleGroup = ruleGroupDecoded
+    }
+}
+
+enum GetRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6495,24 +6495,11 @@ extension GetRuleInputBody: Swift.Decodable {
     }
 }
 
-enum GetRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRuleOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRuleOutputBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
             self.rule = nil
@@ -6520,7 +6507,7 @@ extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuleOutputResponse: Swift.Equatable {
+public struct GetRuleOutput: Swift.Equatable {
     /// Information about the [Rule] that you specified in the GetRule request. For more information, see the following topics:
     ///
     /// * [Rule]: Contains MetricName, Name, an array of Predicate objects, and RuleId
@@ -6536,11 +6523,11 @@ public struct GetRuleOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRuleOutputResponseBody: Swift.Equatable {
+struct GetRuleOutputBody: Swift.Equatable {
     let rule: WAFRegionalClientTypes.Rule?
 }
 
-extension GetRuleOutputResponseBody: Swift.Decodable {
+extension GetRuleOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rule = "Rule"
     }
@@ -6549,6 +6536,19 @@ extension GetRuleOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.Rule.self, forKey: .rule)
         rule = ruleDecoded
+    }
+}
+
+enum GetRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6643,23 +6643,11 @@ extension GetSampledRequestsInputBody: Swift.Decodable {
     }
 }
 
-enum GetSampledRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSampledRequestsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSampledRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSampledRequestsOutputBody = try responseDecoder.decode(responseBody: data)
             self.populationSize = output.populationSize
             self.sampledRequests = output.sampledRequests
             self.timeWindow = output.timeWindow
@@ -6671,7 +6659,7 @@ extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSampledRequestsOutputResponse: Swift.Equatable {
+public struct GetSampledRequestsOutput: Swift.Equatable {
     /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
     public var populationSize: Swift.Int
     /// A complex type that contains detailed information about each of the requests in the sample.
@@ -6691,13 +6679,13 @@ public struct GetSampledRequestsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSampledRequestsOutputResponseBody: Swift.Equatable {
+struct GetSampledRequestsOutputBody: Swift.Equatable {
     let sampledRequests: [WAFRegionalClientTypes.SampledHTTPRequest]?
     let populationSize: Swift.Int
     let timeWindow: WAFRegionalClientTypes.TimeWindow?
 }
 
-extension GetSampledRequestsOutputResponseBody: Swift.Decodable {
+extension GetSampledRequestsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case populationSize = "PopulationSize"
         case sampledRequests = "SampledRequests"
@@ -6721,6 +6709,18 @@ extension GetSampledRequestsOutputResponseBody: Swift.Decodable {
         populationSize = populationSizeDecoded
         let timeWindowDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.TimeWindow.self, forKey: .timeWindow)
         timeWindow = timeWindowDecoded
+    }
+}
+
+enum GetSampledRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6772,24 +6772,11 @@ extension GetSizeConstraintSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSizeConstraintSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.sizeConstraintSet = output.sizeConstraintSet
         } else {
             self.sizeConstraintSet = nil
@@ -6797,7 +6784,7 @@ extension GetSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetSizeConstraintSetOutputResponse: Swift.Equatable {
+public struct GetSizeConstraintSetOutput: Swift.Equatable {
     /// Information about the [SizeConstraintSet] that you specified in the GetSizeConstraintSet request. For more information, see the following topics:
     ///
     /// * [SizeConstraintSet]: Contains SizeConstraintSetId, SizeConstraints, and Name
@@ -6815,11 +6802,11 @@ public struct GetSizeConstraintSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSizeConstraintSetOutputResponseBody: Swift.Equatable {
+struct GetSizeConstraintSetOutputBody: Swift.Equatable {
     let sizeConstraintSet: WAFRegionalClientTypes.SizeConstraintSet?
 }
 
-extension GetSizeConstraintSetOutputResponseBody: Swift.Decodable {
+extension GetSizeConstraintSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sizeConstraintSet = "SizeConstraintSet"
     }
@@ -6828,6 +6815,19 @@ extension GetSizeConstraintSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sizeConstraintSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.SizeConstraintSet.self, forKey: .sizeConstraintSet)
         sizeConstraintSet = sizeConstraintSetDecoded
+    }
+}
+
+enum GetSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6880,24 +6880,11 @@ extension GetSqlInjectionMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSqlInjectionMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.sqlInjectionMatchSet = output.sqlInjectionMatchSet
         } else {
             self.sqlInjectionMatchSet = nil
@@ -6906,7 +6893,7 @@ extension GetSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 /// The response to a [GetSqlInjectionMatchSet] request.
-public struct GetSqlInjectionMatchSetOutputResponse: Swift.Equatable {
+public struct GetSqlInjectionMatchSetOutput: Swift.Equatable {
     /// Information about the [SqlInjectionMatchSet] that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:
     ///
     /// * [SqlInjectionMatchSet]: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects
@@ -6924,11 +6911,11 @@ public struct GetSqlInjectionMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSqlInjectionMatchSetOutputResponseBody: Swift.Equatable {
+struct GetSqlInjectionMatchSetOutputBody: Swift.Equatable {
     let sqlInjectionMatchSet: WAFRegionalClientTypes.SqlInjectionMatchSet?
 }
 
-extension GetSqlInjectionMatchSetOutputResponseBody: Swift.Decodable {
+extension GetSqlInjectionMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sqlInjectionMatchSet = "SqlInjectionMatchSet"
     }
@@ -6937,6 +6924,19 @@ extension GetSqlInjectionMatchSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sqlInjectionMatchSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.SqlInjectionMatchSet.self, forKey: .sqlInjectionMatchSet)
         sqlInjectionMatchSet = sqlInjectionMatchSetDecoded
+    }
+}
+
+enum GetSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6992,6 +6992,46 @@ extension GetWebACLForResourceInputBody: Swift.Decodable {
     }
 }
 
+extension GetWebACLForResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetWebACLForResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.webACLSummary = output.webACLSummary
+        } else {
+            self.webACLSummary = nil
+        }
+    }
+}
+
+public struct GetWebACLForResourceOutput: Swift.Equatable {
+    /// Information about the web ACL that you specified in the GetWebACLForResource request. If there is no associated resource, a null WebACLSummary is returned.
+    public var webACLSummary: WAFRegionalClientTypes.WebACLSummary?
+
+    public init(
+        webACLSummary: WAFRegionalClientTypes.WebACLSummary? = nil
+    )
+    {
+        self.webACLSummary = webACLSummary
+    }
+}
+
+struct GetWebACLForResourceOutputBody: Swift.Equatable {
+    let webACLSummary: WAFRegionalClientTypes.WebACLSummary?
+}
+
+extension GetWebACLForResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case webACLSummary = "WebACLSummary"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let webACLSummaryDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.WebACLSummary.self, forKey: .webACLSummary)
+        webACLSummary = webACLSummaryDecoded
+    }
+}
+
 enum GetWebACLForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7004,46 +7044,6 @@ enum GetWebACLForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFUnavailableEntityException": return try await WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetWebACLForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetWebACLForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.webACLSummary = output.webACLSummary
-        } else {
-            self.webACLSummary = nil
-        }
-    }
-}
-
-public struct GetWebACLForResourceOutputResponse: Swift.Equatable {
-    /// Information about the web ACL that you specified in the GetWebACLForResource request. If there is no associated resource, a null WebACLSummary is returned.
-    public var webACLSummary: WAFRegionalClientTypes.WebACLSummary?
-
-    public init(
-        webACLSummary: WAFRegionalClientTypes.WebACLSummary? = nil
-    )
-    {
-        self.webACLSummary = webACLSummary
-    }
-}
-
-struct GetWebACLForResourceOutputResponseBody: Swift.Equatable {
-    let webACLSummary: WAFRegionalClientTypes.WebACLSummary?
-}
-
-extension GetWebACLForResourceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case webACLSummary = "WebACLSummary"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let webACLSummaryDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.WebACLSummary.self, forKey: .webACLSummary)
-        webACLSummary = webACLSummaryDecoded
     }
 }
 
@@ -7095,24 +7095,11 @@ extension GetWebACLInputBody: Swift.Decodable {
     }
 }
 
-enum GetWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetWebACLOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetWebACLOutputBody = try responseDecoder.decode(responseBody: data)
             self.webACL = output.webACL
         } else {
             self.webACL = nil
@@ -7120,7 +7107,7 @@ extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWebACLOutputResponse: Swift.Equatable {
+public struct GetWebACLOutput: Swift.Equatable {
     /// Information about the [WebACL] that you specified in the GetWebACL request. For more information, see the following topics:
     ///
     /// * [WebACL]: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId
@@ -7140,11 +7127,11 @@ public struct GetWebACLOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetWebACLOutputResponseBody: Swift.Equatable {
+struct GetWebACLOutputBody: Swift.Equatable {
     let webACL: WAFRegionalClientTypes.WebACL?
 }
 
-extension GetWebACLOutputResponseBody: Swift.Decodable {
+extension GetWebACLOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case webACL = "WebACL"
     }
@@ -7153,6 +7140,19 @@ extension GetWebACLOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let webACLDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.WebACL.self, forKey: .webACL)
         webACL = webACLDecoded
+    }
+}
+
+enum GetWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7205,24 +7205,11 @@ extension GetXssMatchSetInputBody: Swift.Decodable {
     }
 }
 
-enum GetXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetXssMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
             self.xssMatchSet = output.xssMatchSet
         } else {
             self.xssMatchSet = nil
@@ -7231,7 +7218,7 @@ extension GetXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a [GetXssMatchSet] request.
-public struct GetXssMatchSetOutputResponse: Swift.Equatable {
+public struct GetXssMatchSetOutput: Swift.Equatable {
     /// Information about the [XssMatchSet] that you specified in the GetXssMatchSet request. For more information, see the following topics:
     ///
     /// * [XssMatchSet]: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects
@@ -7249,11 +7236,11 @@ public struct GetXssMatchSetOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetXssMatchSetOutputResponseBody: Swift.Equatable {
+struct GetXssMatchSetOutputBody: Swift.Equatable {
     let xssMatchSet: WAFRegionalClientTypes.XssMatchSet?
 }
 
-extension GetXssMatchSetOutputResponseBody: Swift.Decodable {
+extension GetXssMatchSetOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case xssMatchSet = "XssMatchSet"
     }
@@ -7262,6 +7249,19 @@ extension GetXssMatchSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let xssMatchSetDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.XssMatchSet.self, forKey: .xssMatchSet)
         xssMatchSet = xssMatchSetDecoded
+    }
+}
+
+enum GetXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7735,24 +7735,11 @@ extension ListActivatedRulesInRuleGroupInputBody: Swift.Decodable {
     }
 }
 
-enum ListActivatedRulesInRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListActivatedRulesInRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListActivatedRulesInRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListActivatedRulesInRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListActivatedRulesInRuleGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.activatedRules = output.activatedRules
             self.nextMarker = output.nextMarker
         } else {
@@ -7762,7 +7749,7 @@ extension ListActivatedRulesInRuleGroupOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListActivatedRulesInRuleGroupOutputResponse: Swift.Equatable {
+public struct ListActivatedRulesInRuleGroupOutput: Swift.Equatable {
     /// An array of ActivatedRules objects.
     public var activatedRules: [WAFRegionalClientTypes.ActivatedRule]?
     /// If you have more ActivatedRules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ActivatedRules, submit another ListActivatedRulesInRuleGroup request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -7778,12 +7765,12 @@ public struct ListActivatedRulesInRuleGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListActivatedRulesInRuleGroupOutputResponseBody: Swift.Equatable {
+struct ListActivatedRulesInRuleGroupOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let activatedRules: [WAFRegionalClientTypes.ActivatedRule]?
 }
 
-extension ListActivatedRulesInRuleGroupOutputResponseBody: Swift.Decodable {
+extension ListActivatedRulesInRuleGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activatedRules = "ActivatedRules"
         case nextMarker = "NextMarker"
@@ -7804,6 +7791,19 @@ extension ListActivatedRulesInRuleGroupOutputResponseBody: Swift.Decodable {
             }
         }
         activatedRules = activatedRulesDecoded0
+    }
+}
+
+enum ListActivatedRulesInRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7866,23 +7866,11 @@ extension ListByteMatchSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListByteMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListByteMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListByteMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListByteMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListByteMatchSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSets = output.byteMatchSets
             self.nextMarker = output.nextMarker
         } else {
@@ -7892,7 +7880,7 @@ extension ListByteMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListByteMatchSetsOutputResponse: Swift.Equatable {
+public struct ListByteMatchSetsOutput: Swift.Equatable {
     /// An array of [ByteMatchSetSummary] objects.
     public var byteMatchSets: [WAFRegionalClientTypes.ByteMatchSetSummary]?
     /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -7908,12 +7896,12 @@ public struct ListByteMatchSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListByteMatchSetsOutputResponseBody: Swift.Equatable {
+struct ListByteMatchSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let byteMatchSets: [WAFRegionalClientTypes.ByteMatchSetSummary]?
 }
 
-extension ListByteMatchSetsOutputResponseBody: Swift.Decodable {
+extension ListByteMatchSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case byteMatchSets = "ByteMatchSets"
         case nextMarker = "NextMarker"
@@ -7934,6 +7922,18 @@ extension ListByteMatchSetsOutputResponseBody: Swift.Decodable {
             }
         }
         byteMatchSets = byteMatchSetsDecoded0
+    }
+}
+
+enum ListByteMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7996,23 +7996,11 @@ extension ListGeoMatchSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListGeoMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListGeoMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListGeoMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListGeoMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListGeoMatchSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.geoMatchSets = output.geoMatchSets
             self.nextMarker = output.nextMarker
         } else {
@@ -8022,7 +8010,7 @@ extension ListGeoMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGeoMatchSetsOutputResponse: Swift.Equatable {
+public struct ListGeoMatchSetsOutput: Swift.Equatable {
     /// An array of [GeoMatchSetSummary] objects.
     public var geoMatchSets: [WAFRegionalClientTypes.GeoMatchSetSummary]?
     /// If you have more GeoMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more GeoMatchSet objects, submit another ListGeoMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -8038,12 +8026,12 @@ public struct ListGeoMatchSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListGeoMatchSetsOutputResponseBody: Swift.Equatable {
+struct ListGeoMatchSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let geoMatchSets: [WAFRegionalClientTypes.GeoMatchSetSummary]?
 }
 
-extension ListGeoMatchSetsOutputResponseBody: Swift.Decodable {
+extension ListGeoMatchSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case geoMatchSets = "GeoMatchSets"
         case nextMarker = "NextMarker"
@@ -8064,6 +8052,18 @@ extension ListGeoMatchSetsOutputResponseBody: Swift.Decodable {
             }
         }
         geoMatchSets = geoMatchSetsDecoded0
+    }
+}
+
+enum ListGeoMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8126,23 +8126,11 @@ extension ListIPSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListIPSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListIPSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListIPSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.ipSets = output.ipSets
             self.nextMarker = output.nextMarker
         } else {
@@ -8152,7 +8140,7 @@ extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIPSetsOutputResponse: Swift.Equatable {
+public struct ListIPSetsOutput: Swift.Equatable {
     /// An array of [IPSetSummary] objects.
     public var ipSets: [WAFRegionalClientTypes.IPSetSummary]?
     /// To list more IPSet objects, submit another ListIPSets request, and in the next request use the NextMarker response value as the NextMarker value.
@@ -8168,12 +8156,12 @@ public struct ListIPSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListIPSetsOutputResponseBody: Swift.Equatable {
+struct ListIPSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let ipSets: [WAFRegionalClientTypes.IPSetSummary]?
 }
 
-extension ListIPSetsOutputResponseBody: Swift.Decodable {
+extension ListIPSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipSets = "IPSets"
         case nextMarker = "NextMarker"
@@ -8194,6 +8182,18 @@ extension ListIPSetsOutputResponseBody: Swift.Decodable {
             }
         }
         ipSets = ipSetsDecoded0
+    }
+}
+
+enum ListIPSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8256,24 +8256,11 @@ extension ListLoggingConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLoggingConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLoggingConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
             self.nextMarker = output.nextMarker
         } else {
@@ -8283,7 +8270,7 @@ extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
+public struct ListLoggingConfigurationsOutput: Swift.Equatable {
     /// An array of [LoggingConfiguration] objects.
     public var loggingConfigurations: [WAFRegionalClientTypes.LoggingConfiguration]?
     /// If you have more LoggingConfigurations than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more LoggingConfigurations, submit another ListLoggingConfigurations request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -8299,12 +8286,12 @@ public struct ListLoggingConfigurationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsOutputResponseBody: Swift.Equatable {
+struct ListLoggingConfigurationsOutputBody: Swift.Equatable {
     let loggingConfigurations: [WAFRegionalClientTypes.LoggingConfiguration]?
     let nextMarker: Swift.String?
 }
 
-extension ListLoggingConfigurationsOutputResponseBody: Swift.Decodable {
+extension ListLoggingConfigurationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingConfigurations = "LoggingConfigurations"
         case nextMarker = "NextMarker"
@@ -8325,6 +8312,19 @@ extension ListLoggingConfigurationsOutputResponseBody: Swift.Decodable {
         loggingConfigurations = loggingConfigurationsDecoded0
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
+    }
+}
+
+enum ListLoggingConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8387,23 +8387,11 @@ extension ListRateBasedRulesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRateBasedRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRateBasedRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRateBasedRulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRateBasedRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRateBasedRulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
         } else {
@@ -8413,7 +8401,7 @@ extension ListRateBasedRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRateBasedRulesOutputResponse: Swift.Equatable {
+public struct ListRateBasedRulesOutput: Swift.Equatable {
     /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRateBasedRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleSummary] objects.
@@ -8429,12 +8417,12 @@ public struct ListRateBasedRulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRateBasedRulesOutputResponseBody: Swift.Equatable {
+struct ListRateBasedRulesOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let rules: [WAFRegionalClientTypes.RuleSummary]?
 }
 
-extension ListRateBasedRulesOutputResponseBody: Swift.Decodable {
+extension ListRateBasedRulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case rules = "Rules"
@@ -8455,6 +8443,18 @@ extension ListRateBasedRulesOutputResponseBody: Swift.Decodable {
             }
         }
         rules = rulesDecoded0
+    }
+}
+
+enum ListRateBasedRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8517,23 +8517,11 @@ extension ListRegexMatchSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRegexMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRegexMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRegexMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRegexMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRegexMatchSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexMatchSets = output.regexMatchSets
         } else {
@@ -8543,7 +8531,7 @@ extension ListRegexMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegexMatchSetsOutputResponse: Swift.Equatable {
+public struct ListRegexMatchSetsOutput: Swift.Equatable {
     /// If you have more RegexMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexMatchSet objects, submit another ListRegexMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RegexMatchSetSummary] objects.
@@ -8559,12 +8547,12 @@ public struct ListRegexMatchSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRegexMatchSetsOutputResponseBody: Swift.Equatable {
+struct ListRegexMatchSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let regexMatchSets: [WAFRegionalClientTypes.RegexMatchSetSummary]?
 }
 
-extension ListRegexMatchSetsOutputResponseBody: Swift.Decodable {
+extension ListRegexMatchSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case regexMatchSets = "RegexMatchSets"
@@ -8585,6 +8573,18 @@ extension ListRegexMatchSetsOutputResponseBody: Swift.Decodable {
             }
         }
         regexMatchSets = regexMatchSetsDecoded0
+    }
+}
+
+enum ListRegexMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8647,23 +8647,11 @@ extension ListRegexPatternSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRegexPatternSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRegexPatternSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRegexPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRegexPatternSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexPatternSets = output.regexPatternSets
         } else {
@@ -8673,7 +8661,7 @@ extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListRegexPatternSetsOutputResponse: Swift.Equatable {
+public struct ListRegexPatternSetsOutput: Swift.Equatable {
     /// If you have more RegexPatternSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexPatternSet objects, submit another ListRegexPatternSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RegexPatternSetSummary] objects.
@@ -8689,12 +8677,12 @@ public struct ListRegexPatternSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRegexPatternSetsOutputResponseBody: Swift.Equatable {
+struct ListRegexPatternSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let regexPatternSets: [WAFRegionalClientTypes.RegexPatternSetSummary]?
 }
 
-extension ListRegexPatternSetsOutputResponseBody: Swift.Decodable {
+extension ListRegexPatternSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case regexPatternSets = "RegexPatternSets"
@@ -8715,6 +8703,18 @@ extension ListRegexPatternSetsOutputResponseBody: Swift.Decodable {
             }
         }
         regexPatternSets = regexPatternSetsDecoded0
+    }
+}
+
+enum ListRegexPatternSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8778,25 +8778,11 @@ extension ListResourcesForWebACLInputBody: Swift.Decodable {
     }
 }
 
-enum ListResourcesForWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListResourcesForWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListResourcesForWebACLOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListResourcesForWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListResourcesForWebACLOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourceArns = output.resourceArns
         } else {
             self.resourceArns = nil
@@ -8804,7 +8790,7 @@ extension ListResourcesForWebACLOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListResourcesForWebACLOutputResponse: Swift.Equatable {
+public struct ListResourcesForWebACLOutput: Swift.Equatable {
     /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
     public var resourceArns: [Swift.String]?
 
@@ -8816,11 +8802,11 @@ public struct ListResourcesForWebACLOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListResourcesForWebACLOutputResponseBody: Swift.Equatable {
+struct ListResourcesForWebACLOutputBody: Swift.Equatable {
     let resourceArns: [Swift.String]?
 }
 
-extension ListResourcesForWebACLOutputResponseBody: Swift.Decodable {
+extension ListResourcesForWebACLOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArns = "ResourceArns"
     }
@@ -8838,6 +8824,20 @@ extension ListResourcesForWebACLOutputResponseBody: Swift.Decodable {
             }
         }
         resourceArns = resourceArnsDecoded0
+    }
+}
+
+enum ListResourcesForWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8900,22 +8900,11 @@ extension ListRuleGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRuleGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRuleGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
         } else {
@@ -8925,7 +8914,7 @@ extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRuleGroupsOutputResponse: Swift.Equatable {
+public struct ListRuleGroupsOutput: Swift.Equatable {
     /// If you have more RuleGroups than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RuleGroups, submit another ListRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleGroup] objects.
@@ -8941,12 +8930,12 @@ public struct ListRuleGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsOutputResponseBody: Swift.Equatable {
+struct ListRuleGroupsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let ruleGroups: [WAFRegionalClientTypes.RuleGroupSummary]?
 }
 
-extension ListRuleGroupsOutputResponseBody: Swift.Decodable {
+extension ListRuleGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case ruleGroups = "RuleGroups"
@@ -8967,6 +8956,17 @@ extension ListRuleGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         ruleGroups = ruleGroupsDecoded0
+    }
+}
+
+enum ListRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9029,23 +9029,11 @@ extension ListRulesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRulesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
         } else {
@@ -9055,7 +9043,7 @@ extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutputResponse: Swift.Equatable {
+public struct ListRulesOutput: Swift.Equatable {
     /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleSummary] objects.
@@ -9071,12 +9059,12 @@ public struct ListRulesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputResponseBody: Swift.Equatable {
+struct ListRulesOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let rules: [WAFRegionalClientTypes.RuleSummary]?
 }
 
-extension ListRulesOutputResponseBody: Swift.Decodable {
+extension ListRulesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case rules = "Rules"
@@ -9097,6 +9085,18 @@ extension ListRulesOutputResponseBody: Swift.Decodable {
             }
         }
         rules = rulesDecoded0
+    }
+}
+
+enum ListRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9159,23 +9159,11 @@ extension ListSizeConstraintSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSizeConstraintSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSizeConstraintSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSizeConstraintSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSizeConstraintSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSizeConstraintSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sizeConstraintSets = output.sizeConstraintSets
         } else {
@@ -9185,7 +9173,7 @@ extension ListSizeConstraintSetsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListSizeConstraintSetsOutputResponse: Swift.Equatable {
+public struct ListSizeConstraintSetsOutput: Swift.Equatable {
     /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [SizeConstraintSetSummary] objects.
@@ -9201,12 +9189,12 @@ public struct ListSizeConstraintSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSizeConstraintSetsOutputResponseBody: Swift.Equatable {
+struct ListSizeConstraintSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let sizeConstraintSets: [WAFRegionalClientTypes.SizeConstraintSetSummary]?
 }
 
-extension ListSizeConstraintSetsOutputResponseBody: Swift.Decodable {
+extension ListSizeConstraintSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case sizeConstraintSets = "SizeConstraintSets"
@@ -9227,6 +9215,18 @@ extension ListSizeConstraintSetsOutputResponseBody: Swift.Decodable {
             }
         }
         sizeConstraintSets = sizeConstraintSetsDecoded0
+    }
+}
+
+enum ListSizeConstraintSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9290,23 +9290,11 @@ extension ListSqlInjectionMatchSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSqlInjectionMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSqlInjectionMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSqlInjectionMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSqlInjectionMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSqlInjectionMatchSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sqlInjectionMatchSets = output.sqlInjectionMatchSets
         } else {
@@ -9317,7 +9305,7 @@ extension ListSqlInjectionMatchSetsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 /// The response to a [ListSqlInjectionMatchSets] request.
-public struct ListSqlInjectionMatchSetsOutputResponse: Swift.Equatable {
+public struct ListSqlInjectionMatchSetsOutput: Swift.Equatable {
     /// If you have more [SqlInjectionMatchSet] objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [SqlInjectionMatchSetSummary] objects.
@@ -9333,12 +9321,12 @@ public struct ListSqlInjectionMatchSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSqlInjectionMatchSetsOutputResponseBody: Swift.Equatable {
+struct ListSqlInjectionMatchSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let sqlInjectionMatchSets: [WAFRegionalClientTypes.SqlInjectionMatchSetSummary]?
 }
 
-extension ListSqlInjectionMatchSetsOutputResponseBody: Swift.Decodable {
+extension ListSqlInjectionMatchSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case sqlInjectionMatchSets = "SqlInjectionMatchSets"
@@ -9359,6 +9347,18 @@ extension ListSqlInjectionMatchSetsOutputResponseBody: Swift.Decodable {
             }
         }
         sqlInjectionMatchSets = sqlInjectionMatchSetsDecoded0
+    }
+}
+
+enum ListSqlInjectionMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9421,23 +9421,11 @@ extension ListSubscribedRuleGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListSubscribedRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSubscribedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSubscribedRuleGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSubscribedRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSubscribedRuleGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
         } else {
@@ -9447,7 +9435,7 @@ extension ListSubscribedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListSubscribedRuleGroupsOutputResponse: Swift.Equatable {
+public struct ListSubscribedRuleGroupsOutput: Swift.Equatable {
     /// If you have more objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more objects, submit another ListSubscribedRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleGroup] objects.
@@ -9463,12 +9451,12 @@ public struct ListSubscribedRuleGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSubscribedRuleGroupsOutputResponseBody: Swift.Equatable {
+struct ListSubscribedRuleGroupsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let ruleGroups: [WAFRegionalClientTypes.SubscribedRuleGroupSummary]?
 }
 
-extension ListSubscribedRuleGroupsOutputResponseBody: Swift.Decodable {
+extension ListSubscribedRuleGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case ruleGroups = "RuleGroups"
@@ -9489,6 +9477,18 @@ extension ListSubscribedRuleGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         ruleGroups = ruleGroupsDecoded0
+    }
+}
+
+enum ListSubscribedRuleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9564,27 +9564,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tagInfoForResource = output.tagInfoForResource
         } else {
@@ -9594,7 +9578,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     ///
     public var nextMarker: Swift.String?
     ///
@@ -9610,12 +9594,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let tagInfoForResource: WAFRegionalClientTypes.TagInfoForResource?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case tagInfoForResource = "TagInfoForResource"
@@ -9627,6 +9611,22 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         nextMarker = nextMarkerDecoded
         let tagInfoForResourceDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.TagInfoForResource.self, forKey: .tagInfoForResource)
         tagInfoForResource = tagInfoForResourceDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFBadRequestException": return try await WAFBadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidParameterException": return try await WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationException": return try await WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFTagOperationInternalErrorException": return try await WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9689,23 +9689,11 @@ extension ListWebACLsInputBody: Swift.Decodable {
     }
 }
 
-enum ListWebACLsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWebACLsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWebACLsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWebACLsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.webACLs = output.webACLs
         } else {
@@ -9715,7 +9703,7 @@ extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWebACLsOutputResponse: Swift.Equatable {
+public struct ListWebACLsOutput: Swift.Equatable {
     /// If you have more WebACL objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more WebACL objects, submit another ListWebACLs request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [WebACLSummary] objects.
@@ -9731,12 +9719,12 @@ public struct ListWebACLsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWebACLsOutputResponseBody: Swift.Equatable {
+struct ListWebACLsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let webACLs: [WAFRegionalClientTypes.WebACLSummary]?
 }
 
-extension ListWebACLsOutputResponseBody: Swift.Decodable {
+extension ListWebACLsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case webACLs = "WebACLs"
@@ -9757,6 +9745,18 @@ extension ListWebACLsOutputResponseBody: Swift.Decodable {
             }
         }
         webACLs = webACLsDecoded0
+    }
+}
+
+enum ListWebACLsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9820,23 +9820,11 @@ extension ListXssMatchSetsInputBody: Swift.Decodable {
     }
 }
 
-enum ListXssMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListXssMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListXssMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListXssMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListXssMatchSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.xssMatchSets = output.xssMatchSets
         } else {
@@ -9847,7 +9835,7 @@ extension ListXssMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a [ListXssMatchSets] request.
-public struct ListXssMatchSetsOutputResponse: Swift.Equatable {
+public struct ListXssMatchSetsOutput: Swift.Equatable {
     /// If you have more [XssMatchSet] objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [XssMatchSetSummary] objects.
@@ -9863,12 +9851,12 @@ public struct ListXssMatchSetsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListXssMatchSetsOutputResponseBody: Swift.Equatable {
+struct ListXssMatchSetsOutputBody: Swift.Equatable {
     let nextMarker: Swift.String?
     let xssMatchSets: [WAFRegionalClientTypes.XssMatchSetSummary]?
 }
 
-extension ListXssMatchSetsOutputResponseBody: Swift.Decodable {
+extension ListXssMatchSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextMarker = "NextMarker"
         case xssMatchSets = "XssMatchSets"
@@ -9889,6 +9877,18 @@ extension ListXssMatchSetsOutputResponseBody: Swift.Decodable {
             }
         }
         xssMatchSets = xssMatchSetsDecoded0
+    }
+}
+
+enum ListXssMatchSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFInvalidAccountException": return try await WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10379,25 +10379,11 @@ extension PutLoggingConfigurationInputBody: Swift.Decodable {
     }
 }
 
-enum PutLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFServiceLinkedRoleErrorException": return try await WAFServiceLinkedRoleErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutLoggingConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
             self.loggingConfiguration = nil
@@ -10405,7 +10391,7 @@ extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct PutLoggingConfigurationOutputResponse: Swift.Equatable {
+public struct PutLoggingConfigurationOutput: Swift.Equatable {
     /// The [LoggingConfiguration] that you submitted in the request.
     public var loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 
@@ -10417,11 +10403,11 @@ public struct PutLoggingConfigurationOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutLoggingConfigurationOutputResponseBody: Swift.Equatable {
+struct PutLoggingConfigurationOutputBody: Swift.Equatable {
     let loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 }
 
-extension PutLoggingConfigurationOutputResponseBody: Swift.Decodable {
+extension PutLoggingConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingConfiguration = "LoggingConfiguration"
     }
@@ -10430,6 +10416,20 @@ extension PutLoggingConfigurationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loggingConfigurationDecoded = try containerValues.decodeIfPresent(WAFRegionalClientTypes.LoggingConfiguration.self, forKey: .loggingConfiguration)
         loggingConfiguration = loggingConfigurationDecoded
+    }
+}
+
+enum PutLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "WAFInternalErrorException": return try await WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFNonexistentItemException": return try await WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFServiceLinkedRoleErrorException": return try await WAFServiceLinkedRoleErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10494,6 +10494,16 @@ extension PutPermissionPolicyInputBody: Swift.Decodable {
     }
 }
 
+extension PutPermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutPermissionPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutPermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10506,16 +10516,6 @@ enum PutPermissionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutPermissionPolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WAFRegionalClientTypes.RateBasedRule: Swift.Codable {
@@ -12300,6 +12300,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12315,16 +12325,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WAFRegionalClientTypes {
@@ -12491,6 +12491,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12505,16 +12515,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateByteMatchSetInput: Swift.Encodable {
@@ -12609,6 +12609,46 @@ extension UpdateByteMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateByteMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateByteMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateByteMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateByteMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12624,46 +12664,6 @@ enum UpdateByteMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateByteMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateByteMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateByteMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -12757,6 +12757,46 @@ extension UpdateGeoMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateGeoMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateGeoMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateGeoMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateGeoMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12773,46 +12813,6 @@ enum UpdateGeoMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateGeoMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateGeoMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateGeoMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -12909,6 +12909,46 @@ extension UpdateIPSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateIPSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateIPSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateIPSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateIPSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateIPSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12925,46 +12965,6 @@ enum UpdateIPSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateIPSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateIPSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateIPSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13067,6 +13067,46 @@ extension UpdateRateBasedRuleInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRateBasedRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateRateBasedRuleOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateRateBasedRuleOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateRateBasedRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13083,46 +13123,6 @@ enum UpdateRateBasedRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateRateBasedRuleOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateRateBasedRuleOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateRateBasedRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13212,6 +13212,46 @@ extension UpdateRegexMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRegexMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateRegexMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateRegexMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateRegexMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13227,46 +13267,6 @@ enum UpdateRegexMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateRegexMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateRegexMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateRegexMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13356,6 +13356,46 @@ extension UpdateRegexPatternSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRegexPatternSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateRegexPatternSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateRegexPatternSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateRegexPatternSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13371,46 +13411,6 @@ enum UpdateRegexPatternSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateRegexPatternSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateRegexPatternSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateRegexPatternSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13500,6 +13500,46 @@ extension UpdateRuleGroupInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRuleGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRuleGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateRuleGroupOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateRuleGroupOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateRuleGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13514,46 +13554,6 @@ enum UpdateRuleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateRuleGroupOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateRuleGroupOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateRuleGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13649,6 +13649,46 @@ extension UpdateRuleInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateRuleOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateRuleOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13665,46 +13705,6 @@ enum UpdateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateRuleOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateRuleOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13800,6 +13800,46 @@ extension UpdateSizeConstraintSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSizeConstraintSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateSizeConstraintSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateSizeConstraintSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateSizeConstraintSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13816,46 +13856,6 @@ enum UpdateSizeConstraintSetOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateSizeConstraintSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateSizeConstraintSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateSizeConstraintSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -13952,6 +13952,47 @@ extension UpdateSqlInjectionMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSqlInjectionMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+/// The response to an [UpdateSqlInjectionMatchSets] request.
+public struct UpdateSqlInjectionMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateSqlInjectionMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateSqlInjectionMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13967,47 +14008,6 @@ enum UpdateSqlInjectionMatchSetOutputError: ClientRuntime.HttpResponseErrorBindi
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-/// The response to an [UpdateSqlInjectionMatchSets] request.
-public struct UpdateSqlInjectionMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateSqlInjectionMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateSqlInjectionMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -14114,6 +14114,46 @@ extension UpdateWebACLInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateWebACLOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateWebACLOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+public struct UpdateWebACLOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateWebACLOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateWebACLOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14131,46 +14171,6 @@ enum UpdateWebACLOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFSubscriptionNotFoundException": return try await WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-public struct UpdateWebACLOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateWebACLOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateWebACLOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 
@@ -14267,6 +14267,47 @@ extension UpdateXssMatchSetInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateXssMatchSetOutputBody = try responseDecoder.decode(responseBody: data)
+            self.changeToken = output.changeToken
+        } else {
+            self.changeToken = nil
+        }
+    }
+}
+
+/// The response to an [UpdateXssMatchSets] request.
+public struct UpdateXssMatchSetOutput: Swift.Equatable {
+    /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
+    public var changeToken: Swift.String?
+
+    public init(
+        changeToken: Swift.String? = nil
+    )
+    {
+        self.changeToken = changeToken
+    }
+}
+
+struct UpdateXssMatchSetOutputBody: Swift.Equatable {
+    let changeToken: Swift.String?
+}
+
+extension UpdateXssMatchSetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeToken = "ChangeToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
+        changeToken = changeTokenDecoded
+    }
+}
+
 enum UpdateXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14282,47 +14323,6 @@ enum UpdateXssMatchSetOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "WAFStaleDataException": return try await WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.changeToken = output.changeToken
-        } else {
-            self.changeToken = nil
-        }
-    }
-}
-
-/// The response to an [UpdateXssMatchSets] request.
-public struct UpdateXssMatchSetOutputResponse: Swift.Equatable {
-    /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
-    public var changeToken: Swift.String?
-
-    public init(
-        changeToken: Swift.String? = nil
-    )
-    {
-        self.changeToken = changeToken
-    }
-}
-
-struct UpdateXssMatchSetOutputResponseBody: Swift.Equatable {
-    let changeToken: Swift.String?
-}
-
-extension UpdateXssMatchSetOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeToken = "ChangeToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
-        changeToken = changeTokenDecoded
     }
 }
 

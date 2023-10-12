@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension RekognitionClientProtocol {
 
-    static func projectVersionRunningWaiterConfig() throws -> WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutputResponse, Error>) -> Bool in
+    static func projectVersionRunningWaiterConfig() throws -> WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutput, Error>) -> Bool in
                 // JMESPath expression: "ProjectVersionDescriptions[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "RUNNING"
@@ -18,7 +18,7 @@ extension RekognitionClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "RUNNING") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutput, Error>) -> Bool in
                 // JMESPath expression: "ProjectVersionDescriptions[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "FAILED"
@@ -31,7 +31,7 @@ extension RekognitionClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "FAILED") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ProjectVersionRunning event on the describeProjectVersions operation.
@@ -45,14 +45,14 @@ extension RekognitionClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilProjectVersionRunning(options: WaiterOptions, input: DescribeProjectVersionsInput) async throws -> WaiterOutcome<DescribeProjectVersionsOutputResponse> {
+    public func waitUntilProjectVersionRunning(options: WaiterOptions, input: DescribeProjectVersionsInput) async throws -> WaiterOutcome<DescribeProjectVersionsOutput> {
         let waiter = Waiter(config: try Self.projectVersionRunningWaiterConfig(), operation: self.describeProjectVersions(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func projectVersionTrainingCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutputResponse, Error>) -> Bool in
+    static func projectVersionTrainingCompletedWaiterConfig() throws -> WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutput, Error>) -> Bool in
                 // JMESPath expression: "ProjectVersionDescriptions[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "TRAINING_COMPLETED"
@@ -64,7 +64,7 @@ extension RekognitionClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "TRAINING_COMPLETED") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeProjectVersionsInput, result: Result<DescribeProjectVersionsOutput, Error>) -> Bool in
                 // JMESPath expression: "ProjectVersionDescriptions[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "TRAINING_FAILED"
@@ -77,7 +77,7 @@ extension RekognitionClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "TRAINING_FAILED") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse>(acceptors: acceptors, minDelay: 120.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(acceptors: acceptors, minDelay: 120.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ProjectVersionTrainingCompleted event on the describeProjectVersions operation.
@@ -91,7 +91,7 @@ extension RekognitionClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilProjectVersionTrainingCompleted(options: WaiterOptions, input: DescribeProjectVersionsInput) async throws -> WaiterOutcome<DescribeProjectVersionsOutputResponse> {
+    public func waitUntilProjectVersionTrainingCompleted(options: WaiterOptions, input: DescribeProjectVersionsInput) async throws -> WaiterOutcome<DescribeProjectVersionsOutput> {
         let waiter = Waiter(config: try Self.projectVersionTrainingCompletedWaiterConfig(), operation: self.describeProjectVersions(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

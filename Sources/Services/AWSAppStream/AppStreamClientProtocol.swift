@@ -12,7 +12,7 @@ public protocol AppStreamClientProtocol {
     ///
     /// - Parameter AssociateAppBlockBuilderAppBlockInput : [no documentation found]
     ///
-    /// - Returns: `AssociateAppBlockBuilderAppBlockOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateAppBlockBuilderAppBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22,12 +22,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutputResponse
+    func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutput
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     ///
     /// - Parameter AssociateApplicationFleetInput : [no documentation found]
     ///
-    /// - Returns: `AssociateApplicationFleetOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateApplicationFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutputResponse
+    func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutput
     /// Associates an application to entitle.
     ///
     /// - Parameter AssociateApplicationToEntitlementInput : [no documentation found]
     ///
-    /// - Returns: `AssociateApplicationToEntitlementOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateApplicationToEntitlementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func associateApplicationToEntitlement(input: AssociateApplicationToEntitlementInput) async throws -> AssociateApplicationToEntitlementOutputResponse
+    func associateApplicationToEntitlement(input: AssociateApplicationToEntitlementInput) async throws -> AssociateApplicationToEntitlementOutput
     /// Associates the specified fleet with the specified stack.
     ///
     /// - Parameter AssociateFleetInput : [no documentation found]
     ///
-    /// - Returns: `AssociateFleetOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,36 +67,36 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func associateFleet(input: AssociateFleetInput) async throws -> AssociateFleetOutputResponse
+    func associateFleet(input: AssociateFleetInput) async throws -> AssociateFleetOutput
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     ///
     /// - Parameter BatchAssociateUserStackInput : [no documentation found]
     ///
-    /// - Returns: `BatchAssociateUserStackOutputResponse` : [no documentation found]
+    /// - Returns: `BatchAssociateUserStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    func batchAssociateUserStack(input: BatchAssociateUserStackInput) async throws -> BatchAssociateUserStackOutputResponse
+    func batchAssociateUserStack(input: BatchAssociateUserStackInput) async throws -> BatchAssociateUserStackOutput
     /// Disassociates the specified users from the specified stacks.
     ///
     /// - Parameter BatchDisassociateUserStackInput : [no documentation found]
     ///
-    /// - Returns: `BatchDisassociateUserStackOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDisassociateUserStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    func batchDisassociateUserStack(input: BatchDisassociateUserStackInput) async throws -> BatchDisassociateUserStackOutputResponse
+    func batchDisassociateUserStack(input: BatchDisassociateUserStackInput) async throws -> BatchDisassociateUserStackOutput
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
     ///
     /// - Parameter CopyImageInput : [no documentation found]
     ///
-    /// - Returns: `CopyImageOutputResponse` : [no documentation found]
+    /// - Returns: `CopyImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -107,12 +107,12 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func copyImage(input: CopyImageInput) async throws -> CopyImageOutputResponse
+    func copyImage(input: CopyImageInput) async throws -> CopyImageOutput
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
     /// - Parameter CreateAppBlockInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppBlockOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -121,12 +121,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
-    func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutputResponse
+    func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutput
     /// Creates an app block builder.
     ///
     /// - Parameter CreateAppBlockBuilderInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppBlockBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppBlockBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,24 +141,24 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutputResponse
+    func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutput
     /// Creates a URL to start a create app block builder streaming session.
     ///
     /// - Parameter CreateAppBlockBuilderStreamingURLInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppBlockBuilderStreamingURLOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppBlockBuilderStreamingURLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutputResponse
+    func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutput
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -168,12 +168,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// - Parameter CreateDirectoryConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateDirectoryConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDirectoryConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,12 +184,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createDirectoryConfig(input: CreateDirectoryConfigInput) async throws -> CreateDirectoryConfigOutputResponse
+    func createDirectoryConfig(input: CreateDirectoryConfigInput) async throws -> CreateDirectoryConfigOutput
     /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
     /// - Parameter CreateEntitlementInput : [no documentation found]
     ///
-    /// - Returns: `CreateEntitlementOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEntitlementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutputResponse
+    func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutput
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     ///
     /// - Parameter CreateFleetInput : [no documentation found]
     ///
-    /// - Returns: `CreateFleetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -219,12 +219,12 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutputResponse
+    func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     ///
     /// - Parameter CreateImageBuilderInput : [no documentation found]
     ///
-    /// - Returns: `CreateImageBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateImageBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -240,24 +240,24 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createImageBuilder(input: CreateImageBuilderInput) async throws -> CreateImageBuilderOutputResponse
+    func createImageBuilder(input: CreateImageBuilderInput) async throws -> CreateImageBuilderOutput
     /// Creates a URL to start an image builder streaming session.
     ///
     /// - Parameter CreateImageBuilderStreamingURLInput : [no documentation found]
     ///
-    /// - Returns: `CreateImageBuilderStreamingURLOutputResponse` : [no documentation found]
+    /// - Returns: `CreateImageBuilderStreamingURLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createImageBuilderStreamingURL(input: CreateImageBuilderStreamingURLInput) async throws -> CreateImageBuilderStreamingURLOutputResponse
+    func createImageBuilderStreamingURL(input: CreateImageBuilderStreamingURLInput) async throws -> CreateImageBuilderStreamingURLOutput
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     ///
     /// - Parameter CreateStackInput : [no documentation found]
     ///
-    /// - Returns: `CreateStackOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -269,12 +269,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createStack(input: CreateStackInput) async throws -> CreateStackOutputResponse
+    func createStack(input: CreateStackInput) async throws -> CreateStackOutput
     /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
     /// - Parameter CreateStreamingURLInput : [no documentation found]
     ///
-    /// - Returns: `CreateStreamingURLOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStreamingURLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,12 +283,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createStreamingURL(input: CreateStreamingURLInput) async throws -> CreateStreamingURLOutputResponse
+    func createStreamingURL(input: CreateStreamingURLInput) async throws -> CreateStreamingURLOutput
     /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter CreateUpdatedImageInput : [no documentation found]
     ///
-    /// - Returns: `CreateUpdatedImageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUpdatedImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,12 +300,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func createUpdatedImage(input: CreateUpdatedImageInput) async throws -> CreateUpdatedImageOutputResponse
+    func createUpdatedImage(input: CreateUpdatedImageInput) async throws -> CreateUpdatedImageOutput
     /// Creates a usage report subscription. Usage reports are generated daily.
     ///
     /// - Parameter CreateUsageReportSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateUsageReportSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUsageReportSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
-    func createUsageReportSubscription(input: CreateUsageReportSubscriptionInput) async throws -> CreateUsageReportSubscriptionOutputResponse
+    func createUsageReportSubscription(input: CreateUsageReportSubscriptionInput) async throws -> CreateUsageReportSubscriptionOutput
     /// Creates a new user in the user pool.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -328,12 +328,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
-    func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     /// Deletes an app block.
     ///
     /// - Parameter DeleteAppBlockInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppBlockOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -341,12 +341,12 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutputResponse
+    func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutput
     /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
     ///
     /// - Parameter DeleteAppBlockBuilderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppBlockBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppBlockBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutputResponse
+    func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutput
     /// Deletes an application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -369,24 +369,24 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
     /// - Parameter DeleteDirectoryConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDirectoryConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDirectoryConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteDirectoryConfig(input: DeleteDirectoryConfigInput) async throws -> DeleteDirectoryConfigOutputResponse
+    func deleteDirectoryConfig(input: DeleteDirectoryConfigInput) async throws -> DeleteDirectoryConfigOutput
     /// Deletes the specified entitlement.
     ///
     /// - Parameter DeleteEntitlementInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEntitlementOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEntitlementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -395,12 +395,12 @@ public protocol AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutputResponse
+    func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutput
     /// Deletes the specified fleet.
     ///
     /// - Parameter DeleteFleetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,12 +408,12 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutputResponse
+    func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
     /// Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
     ///
     /// - Parameter DeleteImageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -422,12 +422,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutputResponse
+    func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
     /// Deletes the specified image builder and releases the capacity.
     ///
     /// - Parameter DeleteImageBuilderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImageBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImageBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,24 +435,24 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteImageBuilder(input: DeleteImageBuilderInput) async throws -> DeleteImageBuilderOutputResponse
+    func deleteImageBuilder(input: DeleteImageBuilderInput) async throws -> DeleteImageBuilderOutput
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
     ///
     /// - Parameter DeleteImagePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteImagePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteImagePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteImagePermissions(input: DeleteImagePermissionsInput) async throws -> DeleteImagePermissionsOutputResponse
+    func deleteImagePermissions(input: DeleteImagePermissionsInput) async throws -> DeleteImagePermissionsOutput
     /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
     ///
     /// - Parameter DeleteStackInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,106 +461,106 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutputResponse
+    func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
     /// Disables usage report generation.
     ///
     /// - Parameter DeleteUsageReportSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUsageReportSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUsageReportSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutputResponse
+    func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutput
     /// Deletes a user from the user pool.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Retrieves a list that describes one or more app block builder associations.
     ///
     /// - Parameter DescribeAppBlockBuilderAppBlockAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppBlockBuilderAppBlockAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppBlockBuilderAppBlockAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutputResponse
+    func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutput
     /// Retrieves a list that describes one or more app block builders.
     ///
     /// - Parameter DescribeAppBlockBuildersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppBlockBuildersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppBlockBuildersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutputResponse
+    func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutput
     /// Retrieves a list that describes one or more app blocks.
     ///
     /// - Parameter DescribeAppBlocksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppBlocksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppBlocksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutputResponse
+    func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutput
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     ///
     /// - Parameter DescribeApplicationFleetAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeApplicationFleetAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeApplicationFleetAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    func describeApplicationFleetAssociations(input: DescribeApplicationFleetAssociationsInput) async throws -> DescribeApplicationFleetAssociationsOutputResponse
+    func describeApplicationFleetAssociations(input: DescribeApplicationFleetAssociationsInput) async throws -> DescribeApplicationFleetAssociationsOutput
     /// Retrieves a list that describes one or more applications.
     ///
     /// - Parameter DescribeApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutputResponse
+    func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
     /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
     /// - Parameter DescribeDirectoryConfigsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDirectoryConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDirectoryConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput) async throws -> DescribeDirectoryConfigsOutputResponse
+    func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput) async throws -> DescribeDirectoryConfigsOutput
     /// Retrieves a list that describes one of more entitlements.
     ///
     /// - Parameter DescribeEntitlementsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEntitlementsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEntitlementsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -568,91 +568,91 @@ public protocol AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeEntitlements(input: DescribeEntitlementsInput) async throws -> DescribeEntitlementsOutputResponse
+    func describeEntitlements(input: DescribeEntitlementsInput) async throws -> DescribeEntitlementsOutput
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     ///
     /// - Parameter DescribeFleetsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutputResponse
+    func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput
     /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     ///
     /// - Parameter DescribeImageBuildersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImageBuildersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImageBuildersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeImageBuilders(input: DescribeImageBuildersInput) async throws -> DescribeImageBuildersOutputResponse
+    func describeImageBuilders(input: DescribeImageBuildersInput) async throws -> DescribeImageBuildersOutput
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     ///
     /// - Parameter DescribeImagePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImagePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImagePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeImagePermissions(input: DescribeImagePermissionsInput) async throws -> DescribeImagePermissionsOutputResponse
+    func describeImagePermissions(input: DescribeImagePermissionsInput) async throws -> DescribeImagePermissionsOutput
     /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImagesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutputResponse
+    func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
     /// Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     ///
     /// - Parameter DescribeSessionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
-    func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutputResponse
+    func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     ///
     /// - Parameter DescribeStacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStacksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeStacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutputResponse
+    func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
     /// Retrieves a list that describes one or more usage report subscriptions.
     ///
     /// - Parameter DescribeUsageReportSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUsageReportSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUsageReportSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeUsageReportSubscriptions(input: DescribeUsageReportSubscriptionsInput) async throws -> DescribeUsageReportSubscriptionsOutputResponse
+    func describeUsageReportSubscriptions(input: DescribeUsageReportSubscriptionsInput) async throws -> DescribeUsageReportSubscriptionsOutput
     /// Retrieves a list that describes one or more specified users in the user pool.
     ///
     /// - Parameter DescribeUsersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUsersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,7 +660,7 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutputResponse
+    func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
     /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
     ///
     /// * The stack name
@@ -669,30 +669,30 @@ public protocol AppStreamClientProtocol {
     ///
     /// - Parameter DescribeUserStackAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserStackAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUserStackAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutputResponse
+    func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutput
     /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
     ///
     /// - Parameter DisableUserInput : [no documentation found]
     ///
-    /// - Returns: `DisableUserOutputResponse` : [no documentation found]
+    /// - Returns: `DisableUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func disableUser(input: DisableUserInput) async throws -> DisableUserOutputResponse
+    func disableUser(input: DisableUserInput) async throws -> DisableUserOutput
     /// Disassociates a specified app block builder from a specified app block.
     ///
     /// - Parameter DisassociateAppBlockBuilderAppBlockInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateAppBlockBuilderAppBlockOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateAppBlockBuilderAppBlockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,12 +701,12 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutputResponse
+    func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutput
     /// Disassociates the specified application from the fleet.
     ///
     /// - Parameter DisassociateApplicationFleetInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateApplicationFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateApplicationFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,12 +714,12 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutputResponse
+    func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutput
     /// Deletes the specified application from the specified entitlement.
     ///
     /// - Parameter DisassociateApplicationFromEntitlementInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateApplicationFromEntitlementOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateApplicationFromEntitlementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,12 +727,12 @@ public protocol AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func disassociateApplicationFromEntitlement(input: DisassociateApplicationFromEntitlementInput) async throws -> DisassociateApplicationFromEntitlementOutputResponse
+    func disassociateApplicationFromEntitlement(input: DisassociateApplicationFromEntitlementInput) async throws -> DisassociateApplicationFromEntitlementOutput
     /// Disassociates the specified fleet from the specified stack.
     ///
     /// - Parameter DisassociateFleetInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,42 +741,42 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func disassociateFleet(input: DisassociateFleetInput) async throws -> DisassociateFleetOutputResponse
+    func disassociateFleet(input: DisassociateFleetInput) async throws -> DisassociateFleetOutput
     /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
     ///
     /// - Parameter EnableUserInput : [no documentation found]
     ///
-    /// - Returns: `EnableUserOutputResponse` : [no documentation found]
+    /// - Returns: `EnableUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func enableUser(input: EnableUserInput) async throws -> EnableUserOutputResponse
+    func enableUser(input: EnableUserInput) async throws -> EnableUserOutput
     /// Immediately stops the specified streaming session.
     ///
     /// - Parameter ExpireSessionInput : [no documentation found]
     ///
-    /// - Returns: `ExpireSessionOutputResponse` : [no documentation found]
-    func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutputResponse
+    /// - Returns: `ExpireSessionOutput` : [no documentation found]
+    func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput
     /// Retrieves the name of the fleet that is associated with the specified stack.
     ///
     /// - Parameter ListAssociatedFleetsInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociatedFleetsOutputResponse` : [no documentation found]
-    func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutputResponse
+    /// - Returns: `ListAssociatedFleetsOutput` : [no documentation found]
+    func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput
     /// Retrieves the name of the stack with which the specified fleet is associated.
     ///
     /// - Parameter ListAssociatedStacksInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociatedStacksOutputResponse` : [no documentation found]
-    func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutputResponse
+    /// - Returns: `ListAssociatedStacksOutput` : [no documentation found]
+    func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput
     /// Retrieves a list of entitled applications.
     ///
     /// - Parameter ListEntitledApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListEntitledApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEntitledApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,23 +784,23 @@ public protocol AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutputResponse
+    func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutput
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
     ///
     /// - Parameter StartAppBlockBuilderInput : [no documentation found]
     ///
-    /// - Returns: `StartAppBlockBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `StartAppBlockBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,12 +812,12 @@ public protocol AppStreamClientProtocol {
     /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutputResponse
+    func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput
     /// Starts the specified fleet.
     ///
     /// - Parameter StartFleetInput : [no documentation found]
     ///
-    /// - Returns: `StartFleetOutputResponse` : [no documentation found]
+    /// - Returns: `StartFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,12 +830,12 @@ public protocol AppStreamClientProtocol {
     /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func startFleet(input: StartFleetInput) async throws -> StartFleetOutputResponse
+    func startFleet(input: StartFleetInput) async throws -> StartFleetOutput
     /// Starts the specified image builder.
     ///
     /// - Parameter StartImageBuilderInput : [no documentation found]
     ///
-    /// - Returns: `StartImageBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `StartImageBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -845,12 +845,12 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutputResponse
+    func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutput
     /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
     ///
     /// - Parameter StopAppBlockBuilderInput : [no documentation found]
     ///
-    /// - Returns: `StopAppBlockBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `StopAppBlockBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,24 +858,24 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutputResponse
+    func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutput
     /// Stops the specified fleet.
     ///
     /// - Parameter StopFleetInput : [no documentation found]
     ///
-    /// - Returns: `StopFleetOutputResponse` : [no documentation found]
+    /// - Returns: `StopFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func stopFleet(input: StopFleetInput) async throws -> StopFleetOutputResponse
+    func stopFleet(input: StopFleetInput) async throws -> StopFleetOutput
     /// Stops the specified image builder.
     ///
     /// - Parameter StopImageBuilderInput : [no documentation found]
     ///
-    /// - Returns: `StopImageBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `StopImageBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -883,12 +883,12 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func stopImageBuilder(input: StopImageBuilderInput) async throws -> StopImageBuilderOutputResponse
+    func stopImageBuilder(input: StopImageBuilderInput) async throws -> StopImageBuilderOutput
     /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -896,23 +896,23 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
     ///
     /// - Parameter UpdateAppBlockBuilderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppBlockBuilderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppBlockBuilderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,12 +927,12 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutputResponse
+    func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutput
     /// Updates the specified application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -940,12 +940,12 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// - Parameter UpdateDirectoryConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDirectoryConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDirectoryConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -955,12 +955,12 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateDirectoryConfig(input: UpdateDirectoryConfigInput) async throws -> UpdateDirectoryConfigOutputResponse
+    func updateDirectoryConfig(input: UpdateDirectoryConfigInput) async throws -> UpdateDirectoryConfigOutput
     /// Updates the specified entitlement.
     ///
     /// - Parameter UpdateEntitlementInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEntitlementOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEntitlementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,7 +969,7 @@ public protocol AppStreamClientProtocol {
     /// - `EntitlementNotFoundException` : The entitlement can't be found.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateEntitlement(input: UpdateEntitlementInput) async throws -> UpdateEntitlementOutputResponse
+    func updateEntitlement(input: UpdateEntitlementInput) async throws -> UpdateEntitlementOutput
     /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type:
     ///
     /// * Always-On and On-Demand fleet types You can update the DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and DisconnectTimeoutInSeconds attributes.
@@ -981,7 +981,7 @@ public protocol AppStreamClientProtocol {
     ///
     /// - Parameter UpdateFleetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFleetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,12 +997,12 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutputResponse
+    func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput
     /// Adds or updates permissions for the specified private image.
     ///
     /// - Parameter UpdateImagePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateImagePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateImagePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,12 +1010,12 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateImagePermissions(input: UpdateImagePermissionsInput) async throws -> UpdateImagePermissionsOutputResponse
+    func updateImagePermissions(input: UpdateImagePermissionsInput) async throws -> UpdateImagePermissionsOutput
     /// Updates the specified fields for the specified stack.
     ///
     /// - Parameter UpdateStackInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStackOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1029,7 +1029,7 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutputResponse
+    func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput
 }
 
 public enum AppStreamClientTypes {}

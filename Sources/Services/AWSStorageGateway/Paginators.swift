@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension StorageGatewayClient {
-    /// Paginate over `[DescribeTapeArchivesOutputResponse]` results.
+    /// Paginate over `[DescribeTapeArchivesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeTapeArchivesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapeArchivesOutputResponse`
-    public func describeTapeArchivesPaginated(input: DescribeTapeArchivesInput) -> ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutputResponse>(input: input, inputKey: \DescribeTapeArchivesInput.marker, outputKey: \DescribeTapeArchivesOutputResponse.marker, paginationFunction: self.describeTapeArchives(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapeArchivesOutput`
+    public func describeTapeArchivesPaginated(input: DescribeTapeArchivesInput) -> ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(input: input, inputKey: \DescribeTapeArchivesInput.marker, outputKey: \DescribeTapeArchivesOutput.marker, paginationFunction: self.describeTapeArchives(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeTapeArchivesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeTapeArchivesInput, Output == DescribeTapeArchivesOutputResponse {
+extension PaginatorSequence where Input == DescribeTapeArchivesInput, Output == DescribeTapeArchivesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTapeArchivesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.TapeArchive]`
     /// - Returns: `[StorageGatewayClientTypes.TapeArchive]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeTapeArchivesInput, Output == 
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[DescribeTapeRecoveryPointsOutputResponse]` results.
+    /// Paginate over `[DescribeTapeRecoveryPointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeTapeRecoveryPointsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapeRecoveryPointsOutputResponse`
-    public func describeTapeRecoveryPointsPaginated(input: DescribeTapeRecoveryPointsInput) -> ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutputResponse>(input: input, inputKey: \DescribeTapeRecoveryPointsInput.marker, outputKey: \DescribeTapeRecoveryPointsOutputResponse.marker, paginationFunction: self.describeTapeRecoveryPoints(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapeRecoveryPointsOutput`
+    public func describeTapeRecoveryPointsPaginated(input: DescribeTapeRecoveryPointsInput) -> ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(input: input, inputKey: \DescribeTapeRecoveryPointsInput.marker, outputKey: \DescribeTapeRecoveryPointsOutput.marker, paginationFunction: self.describeTapeRecoveryPoints(input:))
     }
 }
 
@@ -56,7 +56,7 @@ extension DescribeTapeRecoveryPointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeTapeRecoveryPointsInput, Output == DescribeTapeRecoveryPointsOutputResponse {
+extension PaginatorSequence where Input == DescribeTapeRecoveryPointsInput, Output == DescribeTapeRecoveryPointsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTapeRecoveryPointsPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.TapeRecoveryPointInfo]`
     /// - Returns: `[StorageGatewayClientTypes.TapeRecoveryPointInfo]`
@@ -65,16 +65,16 @@ extension PaginatorSequence where Input == DescribeTapeRecoveryPointsInput, Outp
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[DescribeTapesOutputResponse]` results.
+    /// Paginate over `[DescribeTapesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeTapesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapesOutputResponse`
-    public func describeTapesPaginated(input: DescribeTapesInput) -> ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutputResponse>(input: input, inputKey: \DescribeTapesInput.marker, outputKey: \DescribeTapesOutputResponse.marker, paginationFunction: self.describeTapes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapesOutput`
+    public func describeTapesPaginated(input: DescribeTapesInput) -> ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutput>(input: input, inputKey: \DescribeTapesInput.marker, outputKey: \DescribeTapesOutput.marker, paginationFunction: self.describeTapes(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension DescribeTapesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeTapesInput, Output == DescribeTapesOutputResponse {
+extension PaginatorSequence where Input == DescribeTapesInput, Output == DescribeTapesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeTapesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.Tape]`
     /// - Returns: `[StorageGatewayClientTypes.Tape]`
@@ -97,16 +97,16 @@ extension PaginatorSequence where Input == DescribeTapesInput, Output == Describ
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[DescribeVTLDevicesOutputResponse]` results.
+    /// Paginate over `[DescribeVTLDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeVTLDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeVTLDevicesOutputResponse`
-    public func describeVTLDevicesPaginated(input: DescribeVTLDevicesInput) -> ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutputResponse>(input: input, inputKey: \DescribeVTLDevicesInput.marker, outputKey: \DescribeVTLDevicesOutputResponse.marker, paginationFunction: self.describeVTLDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeVTLDevicesOutput`
+    public func describeVTLDevicesPaginated(input: DescribeVTLDevicesInput) -> ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(input: input, inputKey: \DescribeVTLDevicesInput.marker, outputKey: \DescribeVTLDevicesOutput.marker, paginationFunction: self.describeVTLDevices(input:))
     }
 }
 
@@ -120,7 +120,7 @@ extension DescribeVTLDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeVTLDevicesInput, Output == DescribeVTLDevicesOutputResponse {
+extension PaginatorSequence where Input == DescribeVTLDevicesInput, Output == DescribeVTLDevicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeVTLDevicesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.VTLDevice]`
     /// - Returns: `[StorageGatewayClientTypes.VTLDevice]`
@@ -129,16 +129,16 @@ extension PaginatorSequence where Input == DescribeVTLDevicesInput, Output == De
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListFileSharesOutputResponse]` results.
+    /// Paginate over `[ListFileSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFileSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFileSharesOutputResponse`
-    public func listFileSharesPaginated(input: ListFileSharesInput) -> ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutputResponse>(input: input, inputKey: \ListFileSharesInput.marker, outputKey: \ListFileSharesOutputResponse.nextMarker, paginationFunction: self.listFileShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFileSharesOutput`
+    public func listFileSharesPaginated(input: ListFileSharesInput) -> ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutput>(input: input, inputKey: \ListFileSharesInput.marker, outputKey: \ListFileSharesOutput.nextMarker, paginationFunction: self.listFileShares(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListFileSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFileSharesInput, Output == ListFileSharesOutputResponse {
+extension PaginatorSequence where Input == ListFileSharesInput, Output == ListFileSharesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFileSharesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.FileShareInfo]`
     /// - Returns: `[StorageGatewayClientTypes.FileShareInfo]`
@@ -160,16 +160,16 @@ extension PaginatorSequence where Input == ListFileSharesInput, Output == ListFi
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListFileSystemAssociationsOutputResponse]` results.
+    /// Paginate over `[ListFileSystemAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFileSystemAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFileSystemAssociationsOutputResponse`
-    public func listFileSystemAssociationsPaginated(input: ListFileSystemAssociationsInput) -> ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutputResponse>(input: input, inputKey: \ListFileSystemAssociationsInput.marker, outputKey: \ListFileSystemAssociationsOutputResponse.nextMarker, paginationFunction: self.listFileSystemAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFileSystemAssociationsOutput`
+    public func listFileSystemAssociationsPaginated(input: ListFileSystemAssociationsInput) -> ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(input: input, inputKey: \ListFileSystemAssociationsInput.marker, outputKey: \ListFileSystemAssociationsOutput.nextMarker, paginationFunction: self.listFileSystemAssociations(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListFileSystemAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFileSystemAssociationsInput, Output == ListFileSystemAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListFileSystemAssociationsInput, Output == ListFileSystemAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFileSystemAssociationsPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.FileSystemAssociationSummary]`
     /// - Returns: `[StorageGatewayClientTypes.FileSystemAssociationSummary]`
@@ -191,16 +191,16 @@ extension PaginatorSequence where Input == ListFileSystemAssociationsInput, Outp
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListGatewaysOutputResponse]` results.
+    /// Paginate over `[ListGatewaysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGatewaysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutputResponse`
-    public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutputResponse>(input: input, inputKey: \ListGatewaysInput.marker, outputKey: \ListGatewaysOutputResponse.marker, paginationFunction: self.listGateways(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutput`
+    public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput> {
+        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \ListGatewaysInput.marker, outputKey: \ListGatewaysOutput.marker, paginationFunction: self.listGateways(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension ListGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGatewaysOutputResponse {
+extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGatewaysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGatewaysPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.GatewayInfo]`
     /// - Returns: `[StorageGatewayClientTypes.GatewayInfo]`
@@ -221,16 +221,16 @@ extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGate
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.marker, outputKey: \ListTagsForResourceOutputResponse.marker, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.marker, outputKey: \ListTagsForResourceOutput.marker, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -243,7 +243,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[StorageGatewayClientTypes.Tag]`
     /// - Returns: `[StorageGatewayClientTypes.Tag]`
@@ -252,16 +252,16 @@ extension PaginatorSequence where Input == ListTagsForResourceInput, Output == L
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListTapePoolsOutputResponse]` results.
+    /// Paginate over `[ListTapePoolsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTapePoolsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTapePoolsOutputResponse`
-    public func listTapePoolsPaginated(input: ListTapePoolsInput) -> ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutputResponse>(input: input, inputKey: \ListTapePoolsInput.marker, outputKey: \ListTapePoolsOutputResponse.marker, paginationFunction: self.listTapePools(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTapePoolsOutput`
+    public func listTapePoolsPaginated(input: ListTapePoolsInput) -> ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutput>(input: input, inputKey: \ListTapePoolsInput.marker, outputKey: \ListTapePoolsOutput.marker, paginationFunction: self.listTapePools(input:))
     }
 }
 
@@ -274,7 +274,7 @@ extension ListTapePoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTapePoolsInput, Output == ListTapePoolsOutputResponse {
+extension PaginatorSequence where Input == ListTapePoolsInput, Output == ListTapePoolsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTapePoolsPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.PoolInfo]`
     /// - Returns: `[StorageGatewayClientTypes.PoolInfo]`
@@ -283,16 +283,16 @@ extension PaginatorSequence where Input == ListTapePoolsInput, Output == ListTap
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListTapesOutputResponse]` results.
+    /// Paginate over `[ListTapesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTapesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTapesOutputResponse`
-    public func listTapesPaginated(input: ListTapesInput) -> ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutputResponse>(input: input, inputKey: \ListTapesInput.marker, outputKey: \ListTapesOutputResponse.marker, paginationFunction: self.listTapes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTapesOutput`
+    public func listTapesPaginated(input: ListTapesInput) -> ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutput>(input: input, inputKey: \ListTapesInput.marker, outputKey: \ListTapesOutput.marker, paginationFunction: self.listTapes(input:))
     }
 }
 
@@ -305,7 +305,7 @@ extension ListTapesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTapesInput, Output == ListTapesOutputResponse {
+extension PaginatorSequence where Input == ListTapesInput, Output == ListTapesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTapesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.TapeInfo]`
     /// - Returns: `[StorageGatewayClientTypes.TapeInfo]`
@@ -314,16 +314,16 @@ extension PaginatorSequence where Input == ListTapesInput, Output == ListTapesOu
     }
 }
 extension StorageGatewayClient {
-    /// Paginate over `[ListVolumesOutputResponse]` results.
+    /// Paginate over `[ListVolumesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVolumesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVolumesOutputResponse`
-    public func listVolumesPaginated(input: ListVolumesInput) -> ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutputResponse>(input: input, inputKey: \ListVolumesInput.marker, outputKey: \ListVolumesOutputResponse.marker, paginationFunction: self.listVolumes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVolumesOutput`
+    public func listVolumesPaginated(input: ListVolumesInput) -> ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutput> {
+        return ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutput>(input: input, inputKey: \ListVolumesInput.marker, outputKey: \ListVolumesOutput.marker, paginationFunction: self.listVolumes(input:))
     }
 }
 
@@ -336,7 +336,7 @@ extension ListVolumesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListVolumesInput, Output == ListVolumesOutputResponse {
+extension PaginatorSequence where Input == ListVolumesInput, Output == ListVolumesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listVolumesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.VolumeInfo]`
     /// - Returns: `[StorageGatewayClientTypes.VolumeInfo]`

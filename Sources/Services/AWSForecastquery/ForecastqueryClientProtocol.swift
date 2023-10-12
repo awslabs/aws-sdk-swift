@@ -8,7 +8,7 @@ public protocol ForecastqueryClientProtocol {
     ///
     /// - Parameter QueryForecastInput : [no documentation found]
     ///
-    /// - Returns: `QueryForecastOutputResponse` : [no documentation found]
+    /// - Returns: `QueryForecastOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol ForecastqueryClientProtocol {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find that resource. Check the information that you've provided and try again.
-    func queryForecast(input: QueryForecastInput) async throws -> QueryForecastOutputResponse
+    func queryForecast(input: QueryForecastInput) async throws -> QueryForecastOutput
     /// Retrieves a what-if forecast.
     ///
     /// - Parameter QueryWhatIfForecastInput : [no documentation found]
     ///
-    /// - Returns: `QueryWhatIfForecastOutputResponse` : [no documentation found]
+    /// - Returns: `QueryWhatIfForecastOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,7 +33,7 @@ public protocol ForecastqueryClientProtocol {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find that resource. Check the information that you've provided and try again.
-    func queryWhatIfForecast(input: QueryWhatIfForecastInput) async throws -> QueryWhatIfForecastOutputResponse
+    func queryWhatIfForecast(input: QueryWhatIfForecastInput) async throws -> QueryWhatIfForecastOutput
 }
 
 public enum ForecastqueryClientTypes {}

@@ -122,6 +122,46 @@ extension DescribeJobExecutionInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeJobExecutionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeJobExecutionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.execution = output.execution
+        } else {
+            self.execution = nil
+        }
+    }
+}
+
+public struct DescribeJobExecutionOutput: Swift.Equatable {
+    /// Contains data about a job execution.
+    public var execution: IoTJobsDataPlaneClientTypes.JobExecution?
+
+    public init(
+        execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
+    )
+    {
+        self.execution = execution
+    }
+}
+
+struct DescribeJobExecutionOutputBody: Swift.Equatable {
+    let execution: IoTJobsDataPlaneClientTypes.JobExecution?
+}
+
+extension DescribeJobExecutionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case execution
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionDecoded = try containerValues.decodeIfPresent(IoTJobsDataPlaneClientTypes.JobExecution.self, forKey: .execution)
+        execution = executionDecoded
+    }
+}
+
 enum DescribeJobExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -135,46 +175,6 @@ enum DescribeJobExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeJobExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeJobExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.execution = output.execution
-        } else {
-            self.execution = nil
-        }
-    }
-}
-
-public struct DescribeJobExecutionOutputResponse: Swift.Equatable {
-    /// Contains data about a job execution.
-    public var execution: IoTJobsDataPlaneClientTypes.JobExecution?
-
-    public init(
-        execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
-    )
-    {
-        self.execution = execution
-    }
-}
-
-struct DescribeJobExecutionOutputResponseBody: Swift.Equatable {
-    let execution: IoTJobsDataPlaneClientTypes.JobExecution?
-}
-
-extension DescribeJobExecutionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case execution
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let executionDecoded = try containerValues.decodeIfPresent(IoTJobsDataPlaneClientTypes.JobExecution.self, forKey: .execution)
-        execution = executionDecoded
     }
 }
 
@@ -209,26 +209,11 @@ extension GetPendingJobExecutionsInputBody: Swift.Decodable {
     }
 }
 
-enum GetPendingJobExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CertificateValidationException": return try await CertificateValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPendingJobExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPendingJobExecutionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPendingJobExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPendingJobExecutionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.inProgressJobs = output.inProgressJobs
             self.queuedJobs = output.queuedJobs
         } else {
@@ -238,7 +223,7 @@ extension GetPendingJobExecutionsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetPendingJobExecutionsOutputResponse: Swift.Equatable {
+public struct GetPendingJobExecutionsOutput: Swift.Equatable {
     /// A list of JobExecutionSummary objects with status IN_PROGRESS.
     public var inProgressJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]?
     /// A list of JobExecutionSummary objects with status QUEUED.
@@ -254,12 +239,12 @@ public struct GetPendingJobExecutionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPendingJobExecutionsOutputResponseBody: Swift.Equatable {
+struct GetPendingJobExecutionsOutputBody: Swift.Equatable {
     let inProgressJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]?
     let queuedJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]?
 }
 
-extension GetPendingJobExecutionsOutputResponseBody: Swift.Decodable {
+extension GetPendingJobExecutionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inProgressJobs
         case queuedJobs
@@ -289,6 +274,21 @@ extension GetPendingJobExecutionsOutputResponseBody: Swift.Decodable {
             }
         }
         queuedJobs = queuedJobsDecoded0
+    }
+}
+
+enum GetPendingJobExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CertificateValidationException": return try await CertificateValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -943,6 +943,46 @@ extension StartNextPendingJobExecutionInputBody: Swift.Decodable {
     }
 }
 
+extension StartNextPendingJobExecutionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartNextPendingJobExecutionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.execution = output.execution
+        } else {
+            self.execution = nil
+        }
+    }
+}
+
+public struct StartNextPendingJobExecutionOutput: Swift.Equatable {
+    /// A JobExecution object.
+    public var execution: IoTJobsDataPlaneClientTypes.JobExecution?
+
+    public init(
+        execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
+    )
+    {
+        self.execution = execution
+    }
+}
+
+struct StartNextPendingJobExecutionOutputBody: Swift.Equatable {
+    let execution: IoTJobsDataPlaneClientTypes.JobExecution?
+}
+
+extension StartNextPendingJobExecutionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case execution
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionDecoded = try containerValues.decodeIfPresent(IoTJobsDataPlaneClientTypes.JobExecution.self, forKey: .execution)
+        execution = executionDecoded
+    }
+}
+
 enum StartNextPendingJobExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -955,46 +995,6 @@ enum StartNextPendingJobExecutionOutputError: ClientRuntime.HttpResponseErrorBin
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartNextPendingJobExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartNextPendingJobExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.execution = output.execution
-        } else {
-            self.execution = nil
-        }
-    }
-}
-
-public struct StartNextPendingJobExecutionOutputResponse: Swift.Equatable {
-    /// A JobExecution object.
-    public var execution: IoTJobsDataPlaneClientTypes.JobExecution?
-
-    public init(
-        execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
-    )
-    {
-        self.execution = execution
-    }
-}
-
-struct StartNextPendingJobExecutionOutputResponseBody: Swift.Equatable {
-    let execution: IoTJobsDataPlaneClientTypes.JobExecution?
-}
-
-extension StartNextPendingJobExecutionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case execution
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let executionDecoded = try containerValues.decodeIfPresent(IoTJobsDataPlaneClientTypes.JobExecution.self, forKey: .execution)
-        execution = executionDecoded
     }
 }
 
@@ -1267,27 +1267,11 @@ extension UpdateJobExecutionInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateJobExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CertificateValidationException": return try await CertificateValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidStateTransitionException": return try await InvalidStateTransitionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateJobExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateJobExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateJobExecutionOutputBody = try responseDecoder.decode(responseBody: data)
             self.executionState = output.executionState
             self.jobDocument = output.jobDocument
         } else {
@@ -1297,7 +1281,7 @@ extension UpdateJobExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobExecutionOutputResponse: Swift.Equatable {
+public struct UpdateJobExecutionOutput: Swift.Equatable {
     /// A JobExecutionState object.
     public var executionState: IoTJobsDataPlaneClientTypes.JobExecutionState?
     /// The contents of the Job Documents.
@@ -1313,12 +1297,12 @@ public struct UpdateJobExecutionOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateJobExecutionOutputResponseBody: Swift.Equatable {
+struct UpdateJobExecutionOutputBody: Swift.Equatable {
     let executionState: IoTJobsDataPlaneClientTypes.JobExecutionState?
     let jobDocument: Swift.String?
 }
 
-extension UpdateJobExecutionOutputResponseBody: Swift.Decodable {
+extension UpdateJobExecutionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionState
         case jobDocument
@@ -1330,5 +1314,21 @@ extension UpdateJobExecutionOutputResponseBody: Swift.Decodable {
         executionState = executionStateDecoded
         let jobDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDocument)
         jobDocument = jobDocumentDecoded
+    }
+}
+
+enum UpdateJobExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CertificateValidationException": return try await CertificateValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidStateTransitionException": return try await InvalidStateTransitionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }

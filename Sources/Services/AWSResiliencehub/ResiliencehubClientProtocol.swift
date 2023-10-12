@@ -8,7 +8,7 @@ public protocol ResiliencehubClientProtocol {
     ///
     /// - Parameter AddDraftAppVersionResourceMappingsInput : [no documentation found]
     ///
-    /// - Returns: `AddDraftAppVersionResourceMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `AddDraftAppVersionResourceMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func addDraftAppVersionResourceMappings(input: AddDraftAppVersionResourceMappingsInput) async throws -> AddDraftAppVersionResourceMappingsOutputResponse
+    func addDraftAppVersionResourceMappings(input: AddDraftAppVersionResourceMappingsInput) async throws -> AddDraftAppVersionResourceMappingsOutput
     /// Enables you to include or exclude one or more operational recommendations.
     ///
     /// - Parameter BatchUpdateRecommendationStatusInput : [no documentation found]
     ///
-    /// - Returns: `BatchUpdateRecommendationStatusOutputResponse` : [no documentation found]
+    /// - Returns: `BatchUpdateRecommendationStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func batchUpdateRecommendationStatus(input: BatchUpdateRecommendationStatusInput) async throws -> BatchUpdateRecommendationStatusOutputResponse
+    func batchUpdateRecommendationStatus(input: BatchUpdateRecommendationStatusInput) async throws -> BatchUpdateRecommendationStatusOutput
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub). After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     ///
     /// - Parameter CreateAppInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
+    func createApp(input: CreateAppInput) async throws -> CreateAppOutput
     /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter CreateAppVersionAppComponentInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppVersionAppComponentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppVersionAppComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,7 +68,7 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func createAppVersionAppComponent(input: CreateAppVersionAppComponentInput) async throws -> CreateAppVersionAppComponentOutputResponse
+    func createAppVersionAppComponent(input: CreateAppVersionAppComponentInput) async throws -> CreateAppVersionAppComponentOutput
     /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -79,7 +79,7 @@ public protocol ResiliencehubClientProtocol {
     ///
     /// - Parameter CreateAppVersionResourceInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppVersionResourceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAppVersionResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -91,12 +91,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func createAppVersionResource(input: CreateAppVersionResourceInput) async throws -> CreateAppVersionResourceOutputResponse
+    func createAppVersionResource(input: CreateAppVersionResourceInput) async throws -> CreateAppVersionResourceOutput
     /// Creates a new recommendation template for the Resilience Hub application.
     ///
     /// - Parameter CreateRecommendationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateRecommendationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRecommendationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -108,12 +108,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func createRecommendationTemplate(input: CreateRecommendationTemplateInput) async throws -> CreateRecommendationTemplateOutputResponse
+    func createRecommendationTemplate(input: CreateRecommendationTemplateInput) async throws -> CreateRecommendationTemplateOutput
     /// Creates a resiliency policy for an application.
     ///
     /// - Parameter CreateResiliencyPolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreateResiliencyPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreateResiliencyPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -124,12 +124,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func createResiliencyPolicy(input: CreateResiliencyPolicyInput) async throws -> CreateResiliencyPolicyOutputResponse
+    func createResiliencyPolicy(input: CreateResiliencyPolicyInput) async throws -> CreateResiliencyPolicyOutput
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
+    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteAppAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteAppAssessment(input: DeleteAppAssessmentInput) async throws -> DeleteAppAssessmentOutputResponse
+    func deleteAppAssessment(input: DeleteAppAssessmentInput) async throws -> DeleteAppAssessmentOutput
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
     ///
     /// - Parameter DeleteAppInputSourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppInputSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppInputSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -171,7 +171,7 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteAppInputSource(input: DeleteAppInputSourceInput) async throws -> DeleteAppInputSourceOutputResponse
+    func deleteAppInputSource(input: DeleteAppInputSourceInput) async throws -> DeleteAppInputSourceOutput
     /// Deletes an Application Component from the Resilience Hub application.
     ///
     /// * This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
@@ -180,7 +180,7 @@ public protocol ResiliencehubClientProtocol {
     ///
     /// - Parameter DeleteAppVersionAppComponentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppVersionAppComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppVersionAppComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -191,7 +191,7 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteAppVersionAppComponent(input: DeleteAppVersionAppComponentInput) async throws -> DeleteAppVersionAppComponentOutputResponse
+    func deleteAppVersionAppComponent(input: DeleteAppVersionAppComponentInput) async throws -> DeleteAppVersionAppComponentOutput
     /// Deletes a resource from the Resilience Hub application.
     ///
     /// * You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.
@@ -202,7 +202,7 @@ public protocol ResiliencehubClientProtocol {
     ///
     /// - Parameter DeleteAppVersionResourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppVersionResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppVersionResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -213,12 +213,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteAppVersionResource(input: DeleteAppVersionResourceInput) async throws -> DeleteAppVersionResourceOutputResponse
+    func deleteAppVersionResource(input: DeleteAppVersionResourceInput) async throws -> DeleteAppVersionResourceOutput
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteRecommendationTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRecommendationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRecommendationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -228,12 +228,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteRecommendationTemplate(input: DeleteRecommendationTemplateInput) async throws -> DeleteRecommendationTemplateOutputResponse
+    func deleteRecommendationTemplate(input: DeleteRecommendationTemplateInput) async throws -> DeleteRecommendationTemplateOutput
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteResiliencyPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResiliencyPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResiliencyPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,12 +244,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func deleteResiliencyPolicy(input: DeleteResiliencyPolicyInput) async throws -> DeleteResiliencyPolicyOutputResponse
+    func deleteResiliencyPolicy(input: DeleteResiliencyPolicyInput) async throws -> DeleteResiliencyPolicyOutput
     /// Describes an Resilience Hub application.
     ///
     /// - Parameter DescribeAppInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutputResponse
+    func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutput
     /// Describes an assessment for an Resilience Hub application.
     ///
     /// - Parameter DescribeAppAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,12 +274,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeAppAssessment(input: DescribeAppAssessmentInput) async throws -> DescribeAppAssessmentOutputResponse
+    func describeAppAssessment(input: DescribeAppAssessmentInput) async throws -> DescribeAppAssessmentOutput
     /// Describes the Resilience Hub application version.
     ///
     /// - Parameter DescribeAppVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,12 +289,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeAppVersion(input: DescribeAppVersionInput) async throws -> DescribeAppVersionOutputResponse
+    func describeAppVersion(input: DescribeAppVersionInput) async throws -> DescribeAppVersionOutput
     /// Describes an Application Component in the Resilience Hub application.
     ///
     /// - Parameter DescribeAppVersionAppComponentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppVersionAppComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppVersionAppComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -305,7 +305,7 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeAppVersionAppComponent(input: DescribeAppVersionAppComponentInput) async throws -> DescribeAppVersionAppComponentOutputResponse
+    func describeAppVersionAppComponent(input: DescribeAppVersionAppComponentInput) async throws -> DescribeAppVersionAppComponentOutput
     /// Describes a resource of the Resilience Hub application. This API accepts only one of the following parameters to descibe the resource:
     ///
     /// * resourceName
@@ -316,7 +316,7 @@ public protocol ResiliencehubClientProtocol {
     ///
     /// - Parameter DescribeAppVersionResourceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppVersionResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppVersionResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,12 +327,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeAppVersionResource(input: DescribeAppVersionResourceInput) async throws -> DescribeAppVersionResourceOutputResponse
+    func describeAppVersionResource(input: DescribeAppVersionResourceInput) async throws -> DescribeAppVersionResourceOutput
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
     ///
     /// - Parameter DescribeAppVersionResourcesResolutionStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppVersionResourcesResolutionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppVersionResourcesResolutionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -342,12 +342,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeAppVersionResourcesResolutionStatus(input: DescribeAppVersionResourcesResolutionStatusInput) async throws -> DescribeAppVersionResourcesResolutionStatusOutputResponse
+    func describeAppVersionResourcesResolutionStatus(input: DescribeAppVersionResourcesResolutionStatusInput) async throws -> DescribeAppVersionResourcesResolutionStatusOutput
     /// Describes details about an Resilience Hub application.
     ///
     /// - Parameter DescribeAppVersionTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppVersionTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAppVersionTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -357,12 +357,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeAppVersionTemplate(input: DescribeAppVersionTemplateInput) async throws -> DescribeAppVersionTemplateOutputResponse
+    func describeAppVersionTemplate(input: DescribeAppVersionTemplateInput) async throws -> DescribeAppVersionTemplateOutput
     /// Describes the status of importing resources to an application version. If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     ///
     /// - Parameter DescribeDraftAppVersionResourcesImportStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDraftAppVersionResourcesImportStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDraftAppVersionResourcesImportStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -372,12 +372,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeDraftAppVersionResourcesImportStatus(input: DescribeDraftAppVersionResourcesImportStatusInput) async throws -> DescribeDraftAppVersionResourcesImportStatusOutputResponse
+    func describeDraftAppVersionResourcesImportStatus(input: DescribeDraftAppVersionResourcesImportStatusInput) async throws -> DescribeDraftAppVersionResourcesImportStatusOutput
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     ///
     /// - Parameter DescribeResiliencyPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResiliencyPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResiliencyPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -387,12 +387,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func describeResiliencyPolicy(input: DescribeResiliencyPolicyInput) async throws -> DescribeResiliencyPolicyOutputResponse
+    func describeResiliencyPolicy(input: DescribeResiliencyPolicyInput) async throws -> DescribeResiliencyPolicyOutput
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
     /// - Parameter ImportResourcesToDraftAppVersionInput : [no documentation found]
     ///
-    /// - Returns: `ImportResourcesToDraftAppVersionOutputResponse` : [no documentation found]
+    /// - Returns: `ImportResourcesToDraftAppVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -404,12 +404,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func importResourcesToDraftAppVersion(input: ImportResourcesToDraftAppVersionInput) async throws -> ImportResourcesToDraftAppVersionOutputResponse
+    func importResourcesToDraftAppVersion(input: ImportResourcesToDraftAppVersionInput) async throws -> ImportResourcesToDraftAppVersionOutput
     /// Lists the alarm recommendations for an Resilience Hub application.
     ///
     /// - Parameter ListAlarmRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAlarmRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAlarmRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAlarmRecommendations(input: ListAlarmRecommendationsInput) async throws -> ListAlarmRecommendationsOutputResponse
+    func listAlarmRecommendations(input: ListAlarmRecommendationsInput) async throws -> ListAlarmRecommendationsOutput
     /// List of compliance drifts that were detected while running an assessment.
     ///
     /// - Parameter ListAppAssessmentComplianceDriftsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppAssessmentComplianceDriftsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppAssessmentComplianceDriftsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -433,12 +433,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppAssessmentComplianceDrifts(input: ListAppAssessmentComplianceDriftsInput) async throws -> ListAppAssessmentComplianceDriftsOutputResponse
+    func listAppAssessmentComplianceDrifts(input: ListAppAssessmentComplianceDriftsInput) async throws -> ListAppAssessmentComplianceDriftsOutput
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     ///
     /// - Parameter ListAppAssessmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppAssessmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppAssessmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,12 +448,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppAssessments(input: ListAppAssessmentsInput) async throws -> ListAppAssessmentsOutputResponse
+    func listAppAssessments(input: ListAppAssessmentsInput) async throws -> ListAppAssessmentsOutput
     /// Lists the compliances for an Resilience Hub Application Component.
     ///
     /// - Parameter ListAppComponentCompliancesInput : [no documentation found]
     ///
-    /// - Returns: `ListAppComponentCompliancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppComponentCompliancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -463,12 +463,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppComponentCompliances(input: ListAppComponentCompliancesInput) async throws -> ListAppComponentCompliancesOutputResponse
+    func listAppComponentCompliances(input: ListAppComponentCompliancesInput) async throws -> ListAppComponentCompliancesOutput
     /// Lists the recommendations for an Resilience Hub Application Component.
     ///
     /// - Parameter ListAppComponentRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppComponentRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppComponentRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,12 +478,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppComponentRecommendations(input: ListAppComponentRecommendationsInput) async throws -> ListAppComponentRecommendationsOutputResponse
+    func listAppComponentRecommendations(input: ListAppComponentRecommendationsInput) async throws -> ListAppComponentRecommendationsOutput
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
     /// - Parameter ListAppInputSourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListAppInputSourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppInputSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,12 +493,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppInputSources(input: ListAppInputSourcesInput) async throws -> ListAppInputSourcesOutputResponse
+    func listAppInputSources(input: ListAppInputSourcesInput) async throws -> ListAppInputSourcesOutput
     /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     ///
     /// - Parameter ListAppsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,12 +507,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
+    func listApps(input: ListAppsInput) async throws -> ListAppsOutput
     /// Lists all the Application Components in the Resilience Hub application.
     ///
     /// - Parameter ListAppVersionAppComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppVersionAppComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppVersionAppComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,12 +523,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppVersionAppComponents(input: ListAppVersionAppComponentsInput) async throws -> ListAppVersionAppComponentsOutputResponse
+    func listAppVersionAppComponents(input: ListAppVersionAppComponentsInput) async throws -> ListAppVersionAppComponentsOutput
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
     ///
     /// - Parameter ListAppVersionResourceMappingsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppVersionResourceMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppVersionResourceMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,12 +538,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppVersionResourceMappings(input: ListAppVersionResourceMappingsInput) async throws -> ListAppVersionResourceMappingsOutputResponse
+    func listAppVersionResourceMappings(input: ListAppVersionResourceMappingsInput) async throws -> ListAppVersionResourceMappingsOutput
     /// Lists all the resources in an Resilience Hub application.
     ///
     /// - Parameter ListAppVersionResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListAppVersionResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppVersionResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,12 +554,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppVersionResources(input: ListAppVersionResourcesInput) async throws -> ListAppVersionResourcesOutputResponse
+    func listAppVersionResources(input: ListAppVersionResourcesInput) async throws -> ListAppVersionResourcesOutput
     /// Lists the different versions for the Resilience Hub applications.
     ///
     /// - Parameter ListAppVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListAppVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAppVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -568,12 +568,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listAppVersions(input: ListAppVersionsInput) async throws -> ListAppVersionsOutputResponse
+    func listAppVersions(input: ListAppVersionsInput) async throws -> ListAppVersionsOutput
     /// Lists the recommendation templates for the Resilience Hub applications.
     ///
     /// - Parameter ListRecommendationTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListRecommendationTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecommendationTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,12 +582,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Resilience Hub service.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listRecommendationTemplates(input: ListRecommendationTemplatesInput) async throws -> ListRecommendationTemplatesOutputResponse
+    func listRecommendationTemplates(input: ListRecommendationTemplatesInput) async throws -> ListRecommendationTemplatesOutput
     /// Lists the resiliency policies for the Resilience Hub applications.
     ///
     /// - Parameter ListResiliencyPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListResiliencyPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListResiliencyPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,12 +597,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listResiliencyPolicies(input: ListResiliencyPoliciesInput) async throws -> ListResiliencyPoliciesOutputResponse
+    func listResiliencyPolicies(input: ListResiliencyPoliciesInput) async throws -> ListResiliencyPoliciesOutput
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     ///
     /// - Parameter ListSopRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `ListSopRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSopRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,12 +613,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listSopRecommendations(input: ListSopRecommendationsInput) async throws -> ListSopRecommendationsOutputResponse
+    func listSopRecommendations(input: ListSopRecommendationsInput) async throws -> ListSopRecommendationsOutput
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
     ///
     /// - Parameter ListSuggestedResiliencyPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListSuggestedResiliencyPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSuggestedResiliencyPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,12 +628,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listSuggestedResiliencyPolicies(input: ListSuggestedResiliencyPoliciesInput) async throws -> ListSuggestedResiliencyPoliciesOutputResponse
+    func listSuggestedResiliencyPolicies(input: ListSuggestedResiliencyPoliciesInput) async throws -> ListSuggestedResiliencyPoliciesOutput
     /// Lists the tags for your resources in your Resilience Hub applications.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,12 +643,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists the test recommendations for the Resilience Hub application.
     ///
     /// - Parameter ListTestRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `ListTestRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTestRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,12 +659,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listTestRecommendations(input: ListTestRecommendationsInput) async throws -> ListTestRecommendationsOutputResponse
+    func listTestRecommendations(input: ListTestRecommendationsInput) async throws -> ListTestRecommendationsOutput
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     ///
     /// - Parameter ListUnsupportedAppVersionResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListUnsupportedAppVersionResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListUnsupportedAppVersionResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -675,12 +675,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func listUnsupportedAppVersionResources(input: ListUnsupportedAppVersionResourcesInput) async throws -> ListUnsupportedAppVersionResourcesOutputResponse
+    func listUnsupportedAppVersionResources(input: ListUnsupportedAppVersionResourcesInput) async throws -> ListUnsupportedAppVersionResourcesOutput
     /// Publishes a new version of a specific Resilience Hub application.
     ///
     /// - Parameter PublishAppVersionInput : [no documentation found]
     ///
-    /// - Returns: `PublishAppVersionOutputResponse` : [no documentation found]
+    /// - Returns: `PublishAppVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,12 +691,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func publishAppVersion(input: PublishAppVersionInput) async throws -> PublishAppVersionOutputResponse
+    func publishAppVersion(input: PublishAppVersionInput) async throws -> PublishAppVersionOutput
     /// Adds or updates the app template for an Resilience Hub application draft version.
     ///
     /// - Parameter PutDraftAppVersionTemplateInput : [no documentation found]
     ///
-    /// - Returns: `PutDraftAppVersionTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `PutDraftAppVersionTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,12 +707,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func putDraftAppVersionTemplate(input: PutDraftAppVersionTemplateInput) async throws -> PutDraftAppVersionTemplateOutputResponse
+    func putDraftAppVersionTemplate(input: PutDraftAppVersionTemplateInput) async throws -> PutDraftAppVersionTemplateOutput
     /// Removes resource mappings from a draft application version.
     ///
     /// - Parameter RemoveDraftAppVersionResourceMappingsInput : [no documentation found]
     ///
-    /// - Returns: `RemoveDraftAppVersionResourceMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveDraftAppVersionResourceMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,12 +723,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func removeDraftAppVersionResourceMappings(input: RemoveDraftAppVersionResourceMappingsInput) async throws -> RemoveDraftAppVersionResourceMappingsOutputResponse
+    func removeDraftAppVersionResourceMappings(input: RemoveDraftAppVersionResourceMappingsInput) async throws -> RemoveDraftAppVersionResourceMappingsOutput
     /// Resolves the resources for an application version.
     ///
     /// - Parameter ResolveAppVersionResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ResolveAppVersionResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ResolveAppVersionResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,12 +739,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func resolveAppVersionResources(input: ResolveAppVersionResourcesInput) async throws -> ResolveAppVersionResourcesOutputResponse
+    func resolveAppVersionResources(input: ResolveAppVersionResourcesInput) async throws -> ResolveAppVersionResourcesOutput
     /// Creates a new application assessment for an application.
     ///
     /// - Parameter StartAppAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `StartAppAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `StartAppAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,12 +756,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func startAppAssessment(input: StartAppAssessmentInput) async throws -> StartAppAssessmentOutputResponse
+    func startAppAssessment(input: StartAppAssessmentInput) async throws -> StartAppAssessmentOutput
     /// Applies one or more tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,12 +771,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,12 +786,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an application.
     ///
     /// - Parameter UpdateAppInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,12 +802,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutputResponse
+    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
     /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter UpdateAppVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -818,12 +818,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func updateAppVersion(input: UpdateAppVersionInput) async throws -> UpdateAppVersionOutputResponse
+    func updateAppVersion(input: UpdateAppVersionInput) async throws -> UpdateAppVersionOutput
     /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter UpdateAppVersionAppComponentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppVersionAppComponentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppVersionAppComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,7 +834,7 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func updateAppVersionAppComponent(input: UpdateAppVersionAppComponentInput) async throws -> UpdateAppVersionAppComponentOutputResponse
+    func updateAppVersionAppComponent(input: UpdateAppVersionAppComponentInput) async throws -> UpdateAppVersionAppComponentOutput
     /// Updates the resource details in the Resilience Hub application.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -845,7 +845,7 @@ public protocol ResiliencehubClientProtocol {
     ///
     /// - Parameter UpdateAppVersionResourceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppVersionResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppVersionResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,12 +857,12 @@ public protocol ResiliencehubClientProtocol {
     /// - `ServiceQuotaExceededException` : This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func updateAppVersionResource(input: UpdateAppVersionResourceInput) async throws -> UpdateAppVersionResourceOutputResponse
+    func updateAppVersionResource(input: UpdateAppVersionResourceInput) async throws -> UpdateAppVersionResourceOutput
     /// Updates a resiliency policy.
     ///
     /// - Parameter UpdateResiliencyPolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdateResiliencyPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateResiliencyPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,7 +873,7 @@ public protocol ResiliencehubClientProtocol {
     /// - `ResourceNotFoundException` : This exception occurs when the specified resource could not be found.
     /// - `ThrottlingException` : This exception occurs when you have exceeded the limit on the number of requests per second.
     /// - `ValidationException` : This exception occurs when a request is not valid.
-    func updateResiliencyPolicy(input: UpdateResiliencyPolicyInput) async throws -> UpdateResiliencyPolicyOutputResponse
+    func updateResiliencyPolicy(input: UpdateResiliencyPolicyInput) async throws -> UpdateResiliencyPolicyOutput
 }
 
 public enum ResiliencehubClientTypes {}

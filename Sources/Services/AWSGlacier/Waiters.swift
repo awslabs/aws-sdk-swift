@@ -4,20 +4,20 @@ import ClientRuntime
 
 extension GlacierClientProtocol {
 
-    static func vaultExistsWaiterConfig() throws -> WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutputResponse, Error>) -> Bool in
+    static func vaultExistsWaiterConfig() throws -> WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput> {
+        let acceptors: [WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .retry, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the VaultExists event on the describeVault operation.
@@ -31,25 +31,25 @@ extension GlacierClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilVaultExists(options: WaiterOptions, input: DescribeVaultInput) async throws -> WaiterOutcome<DescribeVaultOutputResponse> {
+    public func waitUntilVaultExists(options: WaiterOptions, input: DescribeVaultInput) async throws -> WaiterOutcome<DescribeVaultOutput> {
         let waiter = Waiter(config: try Self.vaultExistsWaiterConfig(), operation: self.describeVault(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func vaultNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse>.Acceptor] = [
-            .init(state: .retry, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutputResponse, Error>) -> Bool in
+    static func vaultNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput> {
+        let acceptors: [WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput>.Acceptor] = [
+            .init(state: .retry, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .success, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeVaultInput, result: Result<DescribeVaultOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeVaultInput, DescribeVaultOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeVaultInput, DescribeVaultOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the VaultNotExists event on the describeVault operation.
@@ -63,7 +63,7 @@ extension GlacierClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilVaultNotExists(options: WaiterOptions, input: DescribeVaultInput) async throws -> WaiterOutcome<DescribeVaultOutputResponse> {
+    public func waitUntilVaultNotExists(options: WaiterOptions, input: DescribeVaultInput) async throws -> WaiterOutcome<DescribeVaultOutput> {
         let waiter = Waiter(config: try Self.vaultNotExistsWaiterConfig(), operation: self.describeVault(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

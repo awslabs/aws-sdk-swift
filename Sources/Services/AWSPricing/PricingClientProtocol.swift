@@ -23,7 +23,7 @@ public protocol PricingClientProtocol {
     ///
     /// - Parameter DescribeServicesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServicesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutputResponse
+    func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput
     /// Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see [Offer File Definitions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/reading-an-offer.html#pps-defs) in the [Billing and Cost Management User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html).
     ///
     /// - Parameter GetAttributeValuesInput : [no documentation found]
     ///
-    /// - Returns: `GetAttributeValuesOutputResponse` : [no documentation found]
+    /// - Returns: `GetAttributeValuesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,12 +48,12 @@ public protocol PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutputResponse
+    func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutput
     /// This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Section 1.10). This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
     ///
     /// - Parameter GetPriceListFileUrlInput : [no documentation found]
     ///
-    /// - Returns: `GetPriceListFileUrlOutputResponse` : [no documentation found]
+    /// - Returns: `GetPriceListFileUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -62,12 +62,12 @@ public protocol PricingClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutputResponse
+    func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutput
     /// Returns a list of all products that match the filter criteria.
     ///
     /// - Parameter GetProductsInput : [no documentation found]
     ///
-    /// - Returns: `GetProductsOutputResponse` : [no documentation found]
+    /// - Returns: `GetProductsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -77,12 +77,12 @@ public protocol PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    func getProducts(input: GetProductsInput) async throws -> GetProductsOutputResponse
+    func getProducts(input: GetProductsInput) async throws -> GetProductsOutput
     /// This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Section 1.10). This returns a list of Price List references that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an EffectiveDate. Use without a RegionCode filter to list Price List references from all available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the PriceListArn from the response to get your preferred Price List files through the [GetPriceListFileUrl](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetPriceListFileUrl.html) API.
     ///
     /// - Parameter ListPriceListsInput : [no documentation found]
     ///
-    /// - Returns: `ListPriceListsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPriceListsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -93,7 +93,7 @@ public protocol PricingClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
-    func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutputResponse
+    func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutput
 }
 
 public enum PricingClientTypes {}

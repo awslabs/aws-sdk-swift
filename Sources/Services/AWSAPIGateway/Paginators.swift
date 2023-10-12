@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension APIGatewayClient {
-    /// Paginate over `[GetApiKeysOutputResponse]` results.
+    /// Paginate over `[GetApiKeysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetApiKeysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetApiKeysOutputResponse`
-    public func getApiKeysPaginated(input: GetApiKeysInput) -> ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutputResponse>(input: input, inputKey: \GetApiKeysInput.position, outputKey: \GetApiKeysOutputResponse.position, paginationFunction: self.getApiKeys(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetApiKeysOutput`
+    public func getApiKeysPaginated(input: GetApiKeysInput) -> ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutput> {
+        return ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutput>(input: input, inputKey: \GetApiKeysInput.position, outputKey: \GetApiKeysOutput.position, paginationFunction: self.getApiKeys(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension GetApiKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetApiKeysInput, Output == GetApiKeysOutputResponse {
+extension PaginatorSequence where Input == GetApiKeysInput, Output == GetApiKeysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getApiKeysPaginated`
     /// to access the nested member `[APIGatewayClientTypes.ApiKey]`
     /// - Returns: `[APIGatewayClientTypes.ApiKey]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == GetApiKeysInput, Output == GetApiKeys
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetBasePathMappingsOutputResponse]` results.
+    /// Paginate over `[GetBasePathMappingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetBasePathMappingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBasePathMappingsOutputResponse`
-    public func getBasePathMappingsPaginated(input: GetBasePathMappingsInput) -> ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutputResponse>(input: input, inputKey: \GetBasePathMappingsInput.position, outputKey: \GetBasePathMappingsOutputResponse.position, paginationFunction: self.getBasePathMappings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBasePathMappingsOutput`
+    public func getBasePathMappingsPaginated(input: GetBasePathMappingsInput) -> ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutput> {
+        return ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutput>(input: input, inputKey: \GetBasePathMappingsInput.position, outputKey: \GetBasePathMappingsOutput.position, paginationFunction: self.getBasePathMappings(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension GetBasePathMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetBasePathMappingsInput, Output == GetBasePathMappingsOutputResponse {
+extension PaginatorSequence where Input == GetBasePathMappingsInput, Output == GetBasePathMappingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getBasePathMappingsPaginated`
     /// to access the nested member `[APIGatewayClientTypes.BasePathMapping]`
     /// - Returns: `[APIGatewayClientTypes.BasePathMapping]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == GetBasePathMappingsInput, Output == G
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetClientCertificatesOutputResponse]` results.
+    /// Paginate over `[GetClientCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetClientCertificatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetClientCertificatesOutputResponse`
-    public func getClientCertificatesPaginated(input: GetClientCertificatesInput) -> ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutputResponse>(input: input, inputKey: \GetClientCertificatesInput.position, outputKey: \GetClientCertificatesOutputResponse.position, paginationFunction: self.getClientCertificates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetClientCertificatesOutput`
+    public func getClientCertificatesPaginated(input: GetClientCertificatesInput) -> ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutput> {
+        return ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutput>(input: input, inputKey: \GetClientCertificatesInput.position, outputKey: \GetClientCertificatesOutput.position, paginationFunction: self.getClientCertificates(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension GetClientCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetClientCertificatesInput, Output == GetClientCertificatesOutputResponse {
+extension PaginatorSequence where Input == GetClientCertificatesInput, Output == GetClientCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getClientCertificatesPaginated`
     /// to access the nested member `[APIGatewayClientTypes.ClientCertificate]`
     /// - Returns: `[APIGatewayClientTypes.ClientCertificate]`
@@ -97,16 +97,16 @@ extension PaginatorSequence where Input == GetClientCertificatesInput, Output ==
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetDeploymentsOutputResponse]` results.
+    /// Paginate over `[GetDeploymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetDeploymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetDeploymentsOutputResponse`
-    public func getDeploymentsPaginated(input: GetDeploymentsInput) -> ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutputResponse>(input: input, inputKey: \GetDeploymentsInput.position, outputKey: \GetDeploymentsOutputResponse.position, paginationFunction: self.getDeployments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDeploymentsOutput`
+    public func getDeploymentsPaginated(input: GetDeploymentsInput) -> ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutput> {
+        return ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutput>(input: input, inputKey: \GetDeploymentsInput.position, outputKey: \GetDeploymentsOutput.position, paginationFunction: self.getDeployments(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension GetDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetDeploymentsInput, Output == GetDeploymentsOutputResponse {
+extension PaginatorSequence where Input == GetDeploymentsInput, Output == GetDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getDeploymentsPaginated`
     /// to access the nested member `[APIGatewayClientTypes.Deployment]`
     /// - Returns: `[APIGatewayClientTypes.Deployment]`
@@ -128,16 +128,16 @@ extension PaginatorSequence where Input == GetDeploymentsInput, Output == GetDep
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetDomainNamesOutputResponse]` results.
+    /// Paginate over `[GetDomainNamesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetDomainNamesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetDomainNamesOutputResponse`
-    public func getDomainNamesPaginated(input: GetDomainNamesInput) -> ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutputResponse>(input: input, inputKey: \GetDomainNamesInput.position, outputKey: \GetDomainNamesOutputResponse.position, paginationFunction: self.getDomainNames(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDomainNamesOutput`
+    public func getDomainNamesPaginated(input: GetDomainNamesInput) -> ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutput> {
+        return ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutput>(input: input, inputKey: \GetDomainNamesInput.position, outputKey: \GetDomainNamesOutput.position, paginationFunction: self.getDomainNames(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension GetDomainNamesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetDomainNamesInput, Output == GetDomainNamesOutputResponse {
+extension PaginatorSequence where Input == GetDomainNamesInput, Output == GetDomainNamesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getDomainNamesPaginated`
     /// to access the nested member `[APIGatewayClientTypes.DomainName]`
     /// - Returns: `[APIGatewayClientTypes.DomainName]`
@@ -158,16 +158,16 @@ extension PaginatorSequence where Input == GetDomainNamesInput, Output == GetDom
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetModelsOutputResponse]` results.
+    /// Paginate over `[GetModelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetModelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetModelsOutputResponse`
-    public func getModelsPaginated(input: GetModelsInput) -> ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutputResponse>(input: input, inputKey: \GetModelsInput.position, outputKey: \GetModelsOutputResponse.position, paginationFunction: self.getModels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetModelsOutput`
+    public func getModelsPaginated(input: GetModelsInput) -> ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput> {
+        return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput>(input: input, inputKey: \GetModelsInput.position, outputKey: \GetModelsOutput.position, paginationFunction: self.getModels(input:))
     }
 }
 
@@ -180,7 +180,7 @@ extension GetModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetModelsInput, Output == GetModelsOutputResponse {
+extension PaginatorSequence where Input == GetModelsInput, Output == GetModelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getModelsPaginated`
     /// to access the nested member `[APIGatewayClientTypes.Model]`
     /// - Returns: `[APIGatewayClientTypes.Model]`
@@ -189,16 +189,16 @@ extension PaginatorSequence where Input == GetModelsInput, Output == GetModelsOu
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetResourcesOutputResponse]` results.
+    /// Paginate over `[GetResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesOutputResponse`
-    public func getResourcesPaginated(input: GetResourcesInput) -> ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutputResponse>(input: input, inputKey: \GetResourcesInput.position, outputKey: \GetResourcesOutputResponse.position, paginationFunction: self.getResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesOutput`
+    public func getResourcesPaginated(input: GetResourcesInput) -> ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput>(input: input, inputKey: \GetResourcesInput.position, outputKey: \GetResourcesOutput.position, paginationFunction: self.getResources(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension GetResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetResourcesInput, Output == GetResourcesOutputResponse {
+extension PaginatorSequence where Input == GetResourcesInput, Output == GetResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getResourcesPaginated`
     /// to access the nested member `[APIGatewayClientTypes.Resource]`
     /// - Returns: `[APIGatewayClientTypes.Resource]`
@@ -221,16 +221,16 @@ extension PaginatorSequence where Input == GetResourcesInput, Output == GetResou
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetRestApisOutputResponse]` results.
+    /// Paginate over `[GetRestApisOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetRestApisInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetRestApisOutputResponse`
-    public func getRestApisPaginated(input: GetRestApisInput) -> ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutputResponse>(input: input, inputKey: \GetRestApisInput.position, outputKey: \GetRestApisOutputResponse.position, paginationFunction: self.getRestApis(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRestApisOutput`
+    public func getRestApisPaginated(input: GetRestApisInput) -> ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutput> {
+        return ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutput>(input: input, inputKey: \GetRestApisInput.position, outputKey: \GetRestApisOutput.position, paginationFunction: self.getRestApis(input:))
     }
 }
 
@@ -242,7 +242,7 @@ extension GetRestApisInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetRestApisInput, Output == GetRestApisOutputResponse {
+extension PaginatorSequence where Input == GetRestApisInput, Output == GetRestApisOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getRestApisPaginated`
     /// to access the nested member `[APIGatewayClientTypes.RestApi]`
     /// - Returns: `[APIGatewayClientTypes.RestApi]`
@@ -251,16 +251,16 @@ extension PaginatorSequence where Input == GetRestApisInput, Output == GetRestAp
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetUsageOutputResponse]` results.
+    /// Paginate over `[GetUsageOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetUsageInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetUsageOutputResponse`
-    public func getUsagePaginated(input: GetUsageInput) -> ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutputResponse>(input: input, inputKey: \GetUsageInput.position, outputKey: \GetUsageOutputResponse.position, paginationFunction: self.getUsage(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUsageOutput`
+    public func getUsagePaginated(input: GetUsageInput) -> ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutput> {
+        return ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutput>(input: input, inputKey: \GetUsageInput.position, outputKey: \GetUsageOutput.position, paginationFunction: self.getUsage(input:))
     }
 }
 
@@ -276,7 +276,7 @@ extension GetUsageInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetUsageInput, Output == GetUsageOutputResponse {
+extension PaginatorSequence where Input == GetUsageInput, Output == GetUsageOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getUsagePaginated`
     /// to access the nested member `[(String, [[Swift.Int]])]`
     /// - Returns: `[(String, [[Swift.Int]])]`
@@ -285,16 +285,16 @@ extension PaginatorSequence where Input == GetUsageInput, Output == GetUsageOutp
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetUsagePlanKeysOutputResponse]` results.
+    /// Paginate over `[GetUsagePlanKeysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetUsagePlanKeysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetUsagePlanKeysOutputResponse`
-    public func getUsagePlanKeysPaginated(input: GetUsagePlanKeysInput) -> ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutputResponse>(input: input, inputKey: \GetUsagePlanKeysInput.position, outputKey: \GetUsagePlanKeysOutputResponse.position, paginationFunction: self.getUsagePlanKeys(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUsagePlanKeysOutput`
+    public func getUsagePlanKeysPaginated(input: GetUsagePlanKeysInput) -> ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutput> {
+        return ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutput>(input: input, inputKey: \GetUsagePlanKeysInput.position, outputKey: \GetUsagePlanKeysOutput.position, paginationFunction: self.getUsagePlanKeys(input:))
     }
 }
 
@@ -308,7 +308,7 @@ extension GetUsagePlanKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetUsagePlanKeysInput, Output == GetUsagePlanKeysOutputResponse {
+extension PaginatorSequence where Input == GetUsagePlanKeysInput, Output == GetUsagePlanKeysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getUsagePlanKeysPaginated`
     /// to access the nested member `[APIGatewayClientTypes.UsagePlanKey]`
     /// - Returns: `[APIGatewayClientTypes.UsagePlanKey]`
@@ -317,16 +317,16 @@ extension PaginatorSequence where Input == GetUsagePlanKeysInput, Output == GetU
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetUsagePlansOutputResponse]` results.
+    /// Paginate over `[GetUsagePlansOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetUsagePlansInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetUsagePlansOutputResponse`
-    public func getUsagePlansPaginated(input: GetUsagePlansInput) -> ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutputResponse>(input: input, inputKey: \GetUsagePlansInput.position, outputKey: \GetUsagePlansOutputResponse.position, paginationFunction: self.getUsagePlans(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUsagePlansOutput`
+    public func getUsagePlansPaginated(input: GetUsagePlansInput) -> ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutput> {
+        return ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutput>(input: input, inputKey: \GetUsagePlansInput.position, outputKey: \GetUsagePlansOutput.position, paginationFunction: self.getUsagePlans(input:))
     }
 }
 
@@ -339,7 +339,7 @@ extension GetUsagePlansInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetUsagePlansInput, Output == GetUsagePlansOutputResponse {
+extension PaginatorSequence where Input == GetUsagePlansInput, Output == GetUsagePlansOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getUsagePlansPaginated`
     /// to access the nested member `[APIGatewayClientTypes.UsagePlan]`
     /// - Returns: `[APIGatewayClientTypes.UsagePlan]`
@@ -348,16 +348,16 @@ extension PaginatorSequence where Input == GetUsagePlansInput, Output == GetUsag
     }
 }
 extension APIGatewayClient {
-    /// Paginate over `[GetVpcLinksOutputResponse]` results.
+    /// Paginate over `[GetVpcLinksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetVpcLinksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetVpcLinksOutputResponse`
-    public func getVpcLinksPaginated(input: GetVpcLinksInput) -> ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutputResponse>(input: input, inputKey: \GetVpcLinksInput.position, outputKey: \GetVpcLinksOutputResponse.position, paginationFunction: self.getVpcLinks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetVpcLinksOutput`
+    public func getVpcLinksPaginated(input: GetVpcLinksInput) -> ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutput> {
+        return ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutput>(input: input, inputKey: \GetVpcLinksInput.position, outputKey: \GetVpcLinksOutput.position, paginationFunction: self.getVpcLinks(input:))
     }
 }
 
@@ -369,7 +369,7 @@ extension GetVpcLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetVpcLinksInput, Output == GetVpcLinksOutputResponse {
+extension PaginatorSequence where Input == GetVpcLinksInput, Output == GetVpcLinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getVpcLinksPaginated`
     /// to access the nested member `[APIGatewayClientTypes.VpcLink]`
     /// - Returns: `[APIGatewayClientTypes.VpcLink]`

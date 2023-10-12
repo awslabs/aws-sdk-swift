@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[AdminListGroupsForUserOutputResponse]` results.
+    /// Paginate over `[AdminListGroupsForUserOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[AdminListGroupsForUserInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `AdminListGroupsForUserOutputResponse`
-    public func adminListGroupsForUserPaginated(input: AdminListGroupsForUserInput) -> ClientRuntime.PaginatorSequence<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse> {
-        return ClientRuntime.PaginatorSequence<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse>(input: input, inputKey: \AdminListGroupsForUserInput.nextToken, outputKey: \AdminListGroupsForUserOutputResponse.nextToken, paginationFunction: self.adminListGroupsForUser(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `AdminListGroupsForUserOutput`
+    public func adminListGroupsForUserPaginated(input: AdminListGroupsForUserInput) -> ClientRuntime.PaginatorSequence<AdminListGroupsForUserInput, AdminListGroupsForUserOutput> {
+        return ClientRuntime.PaginatorSequence<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(input: input, inputKey: \AdminListGroupsForUserInput.nextToken, outputKey: \AdminListGroupsForUserOutput.nextToken, paginationFunction: self.adminListGroupsForUser(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension AdminListGroupsForUserInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == AdminListGroupsForUserInput, Output == AdminListGroupsForUserOutputResponse {
+extension PaginatorSequence where Input == AdminListGroupsForUserInput, Output == AdminListGroupsForUserOutput {
     /// This paginator transforms the `AsyncSequence` returned by `adminListGroupsForUserPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.GroupType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.GroupType]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == AdminListGroupsForUserInput, Output =
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[AdminListUserAuthEventsOutputResponse]` results.
+    /// Paginate over `[AdminListUserAuthEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[AdminListUserAuthEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `AdminListUserAuthEventsOutputResponse`
-    public func adminListUserAuthEventsPaginated(input: AdminListUserAuthEventsInput) -> ClientRuntime.PaginatorSequence<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse>(input: input, inputKey: \AdminListUserAuthEventsInput.nextToken, outputKey: \AdminListUserAuthEventsOutputResponse.nextToken, paginationFunction: self.adminListUserAuthEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `AdminListUserAuthEventsOutput`
+    public func adminListUserAuthEventsPaginated(input: AdminListUserAuthEventsInput) -> ClientRuntime.PaginatorSequence<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput> {
+        return ClientRuntime.PaginatorSequence<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(input: input, inputKey: \AdminListUserAuthEventsInput.nextToken, outputKey: \AdminListUserAuthEventsOutput.nextToken, paginationFunction: self.adminListUserAuthEvents(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension AdminListUserAuthEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == AdminListUserAuthEventsInput, Output == AdminListUserAuthEventsOutputResponse {
+extension PaginatorSequence where Input == AdminListUserAuthEventsInput, Output == AdminListUserAuthEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `adminListUserAuthEventsPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.AuthEventType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.AuthEventType]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == AdminListUserAuthEventsInput, Output 
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListGroupsOutputResponse]` results.
+    /// Paginate over `[ListGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
-    public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutputResponse.nextToken, paginationFunction: self.listGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
+    public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutput.nextToken, paginationFunction: self.listGroups(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutputResponse {
+extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.GroupType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.GroupType]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroups
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListIdentityProvidersOutputResponse]` results.
+    /// Paginate over `[ListIdentityProvidersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIdentityProvidersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProvidersOutputResponse`
-    public func listIdentityProvidersPaginated(input: ListIdentityProvidersInput) -> ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>(input: input, inputKey: \ListIdentityProvidersInput.nextToken, outputKey: \ListIdentityProvidersOutputResponse.nextToken, paginationFunction: self.listIdentityProviders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProvidersOutput`
+    public func listIdentityProvidersPaginated(input: ListIdentityProvidersInput) -> ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput> {
+        return ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput>(input: input, inputKey: \ListIdentityProvidersInput.nextToken, outputKey: \ListIdentityProvidersOutput.nextToken, paginationFunction: self.listIdentityProviders(input:))
     }
 }
 
@@ -120,7 +120,7 @@ extension ListIdentityProvidersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIdentityProvidersInput, Output == ListIdentityProvidersOutputResponse {
+extension PaginatorSequence where Input == ListIdentityProvidersInput, Output == ListIdentityProvidersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIdentityProvidersPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.ProviderDescription]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.ProviderDescription]`
@@ -129,16 +129,16 @@ extension PaginatorSequence where Input == ListIdentityProvidersInput, Output ==
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListResourceServersOutputResponse]` results.
+    /// Paginate over `[ListResourceServersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceServersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceServersOutputResponse`
-    public func listResourceServersPaginated(input: ListResourceServersInput) -> ClientRuntime.PaginatorSequence<ListResourceServersInput, ListResourceServersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceServersInput, ListResourceServersOutputResponse>(input: input, inputKey: \ListResourceServersInput.nextToken, outputKey: \ListResourceServersOutputResponse.nextToken, paginationFunction: self.listResourceServers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceServersOutput`
+    public func listResourceServersPaginated(input: ListResourceServersInput) -> ClientRuntime.PaginatorSequence<ListResourceServersInput, ListResourceServersOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceServersInput, ListResourceServersOutput>(input: input, inputKey: \ListResourceServersInput.nextToken, outputKey: \ListResourceServersOutput.nextToken, paginationFunction: self.listResourceServers(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListResourceServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourceServersInput, Output == ListResourceServersOutputResponse {
+extension PaginatorSequence where Input == ListResourceServersInput, Output == ListResourceServersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourceServersPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.ResourceServerType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.ResourceServerType]`
@@ -160,16 +160,16 @@ extension PaginatorSequence where Input == ListResourceServersInput, Output == L
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListUserPoolClientsOutputResponse]` results.
+    /// Paginate over `[ListUserPoolClientsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUserPoolClientsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUserPoolClientsOutputResponse`
-    public func listUserPoolClientsPaginated(input: ListUserPoolClientsInput) -> ClientRuntime.PaginatorSequence<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse>(input: input, inputKey: \ListUserPoolClientsInput.nextToken, outputKey: \ListUserPoolClientsOutputResponse.nextToken, paginationFunction: self.listUserPoolClients(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUserPoolClientsOutput`
+    public func listUserPoolClientsPaginated(input: ListUserPoolClientsInput) -> ClientRuntime.PaginatorSequence<ListUserPoolClientsInput, ListUserPoolClientsOutput> {
+        return ClientRuntime.PaginatorSequence<ListUserPoolClientsInput, ListUserPoolClientsOutput>(input: input, inputKey: \ListUserPoolClientsInput.nextToken, outputKey: \ListUserPoolClientsOutput.nextToken, paginationFunction: self.listUserPoolClients(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListUserPoolClientsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUserPoolClientsInput, Output == ListUserPoolClientsOutputResponse {
+extension PaginatorSequence where Input == ListUserPoolClientsInput, Output == ListUserPoolClientsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUserPoolClientsPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.UserPoolClientDescription]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.UserPoolClientDescription]`
@@ -191,16 +191,16 @@ extension PaginatorSequence where Input == ListUserPoolClientsInput, Output == L
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListUserPoolsOutputResponse]` results.
+    /// Paginate over `[ListUserPoolsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUserPoolsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUserPoolsOutputResponse`
-    public func listUserPoolsPaginated(input: ListUserPoolsInput) -> ClientRuntime.PaginatorSequence<ListUserPoolsInput, ListUserPoolsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUserPoolsInput, ListUserPoolsOutputResponse>(input: input, inputKey: \ListUserPoolsInput.nextToken, outputKey: \ListUserPoolsOutputResponse.nextToken, paginationFunction: self.listUserPools(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUserPoolsOutput`
+    public func listUserPoolsPaginated(input: ListUserPoolsInput) -> ClientRuntime.PaginatorSequence<ListUserPoolsInput, ListUserPoolsOutput> {
+        return ClientRuntime.PaginatorSequence<ListUserPoolsInput, ListUserPoolsOutput>(input: input, inputKey: \ListUserPoolsInput.nextToken, outputKey: \ListUserPoolsOutput.nextToken, paginationFunction: self.listUserPools(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension ListUserPoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUserPoolsInput, Output == ListUserPoolsOutputResponse {
+extension PaginatorSequence where Input == ListUserPoolsInput, Output == ListUserPoolsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUserPoolsPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.UserPoolDescriptionType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.UserPoolDescriptionType]`
@@ -221,16 +221,16 @@ extension PaginatorSequence where Input == ListUserPoolsInput, Output == ListUse
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListUsersOutputResponse]` results.
+    /// Paginate over `[ListUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUsersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
-    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.paginationToken, outputKey: \ListUsersOutputResponse.paginationToken, paginationFunction: self.listUsers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
+    public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.paginationToken, outputKey: \ListUsersOutput.paginationToken, paginationFunction: self.listUsers(input:))
     }
 }
 
@@ -245,7 +245,7 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.UserType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.UserType]`
@@ -254,16 +254,16 @@ extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOu
     }
 }
 extension CognitoIdentityProviderClient {
-    /// Paginate over `[ListUsersInGroupOutputResponse]` results.
+    /// Paginate over `[ListUsersInGroupOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUsersInGroupInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersInGroupOutputResponse`
-    public func listUsersInGroupPaginated(input: ListUsersInGroupInput) -> ClientRuntime.PaginatorSequence<ListUsersInGroupInput, ListUsersInGroupOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUsersInGroupInput, ListUsersInGroupOutputResponse>(input: input, inputKey: \ListUsersInGroupInput.nextToken, outputKey: \ListUsersInGroupOutputResponse.nextToken, paginationFunction: self.listUsersInGroup(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersInGroupOutput`
+    public func listUsersInGroupPaginated(input: ListUsersInGroupInput) -> ClientRuntime.PaginatorSequence<ListUsersInGroupInput, ListUsersInGroupOutput> {
+        return ClientRuntime.PaginatorSequence<ListUsersInGroupInput, ListUsersInGroupOutput>(input: input, inputKey: \ListUsersInGroupInput.nextToken, outputKey: \ListUsersInGroupOutput.nextToken, paginationFunction: self.listUsersInGroup(input:))
     }
 }
 
@@ -277,7 +277,7 @@ extension ListUsersInGroupInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUsersInGroupInput, Output == ListUsersInGroupOutputResponse {
+extension PaginatorSequence where Input == ListUsersInGroupInput, Output == ListUsersInGroupOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUsersInGroupPaginated`
     /// to access the nested member `[CognitoIdentityProviderClientTypes.UserType]`
     /// - Returns: `[CognitoIdentityProviderClientTypes.UserType]`

@@ -296,7 +296,7 @@ extension WellArchitectedClientTypes {
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
         public var isApplicable: Swift.Bool
-        /// The notes associated with the workload.
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
@@ -620,6 +620,16 @@ extension AssociateLensesInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateLensesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateLensesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateLensesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -634,16 +644,6 @@ enum AssociateLensesOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AssociateLensesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateLensesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AssociateProfilesInput: Swift.Encodable {
@@ -714,6 +714,16 @@ extension AssociateProfilesInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateProfilesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateProfilesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -728,16 +738,6 @@ enum AssociateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AssociateProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateProfilesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WellArchitectedClientTypes.BestPractice: Swift.Codable {
@@ -1885,7 +1885,7 @@ public struct CreateLensShareInput: Swift.Equatable {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
     /// This member is required.
     public var sharedWith: Swift.String?
 
@@ -1921,6 +1921,46 @@ extension CreateLensShareInputBody: Swift.Decodable {
     }
 }
 
+extension CreateLensShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLensShareOutputBody = try responseDecoder.decode(responseBody: data)
+            self.shareId = output.shareId
+        } else {
+            self.shareId = nil
+        }
+    }
+}
+
+public struct CreateLensShareOutput: Swift.Equatable {
+    /// The ID associated with the share.
+    public var shareId: Swift.String?
+
+    public init(
+        shareId: Swift.String? = nil
+    )
+    {
+        self.shareId = shareId
+    }
+}
+
+struct CreateLensShareOutputBody: Swift.Equatable {
+    let shareId: Swift.String?
+}
+
+extension CreateLensShareOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case shareId = "ShareId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+    }
+}
+
 enum CreateLensShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1935,46 +1975,6 @@ enum CreateLensShareOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateLensShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateLensShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.shareId = output.shareId
-        } else {
-            self.shareId = nil
-        }
-    }
-}
-
-public struct CreateLensShareOutputResponse: Swift.Equatable {
-    /// The ID associated with the share.
-    public var shareId: Swift.String?
-
-    public init(
-        shareId: Swift.String? = nil
-    )
-    {
-        self.shareId = shareId
-    }
-}
-
-struct CreateLensShareOutputResponseBody: Swift.Equatable {
-    let shareId: Swift.String?
-}
-
-extension CreateLensShareOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case shareId = "ShareId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
-        shareId = shareIdDecoded
     }
 }
 
@@ -2059,28 +2059,11 @@ extension CreateLensVersionInputBody: Swift.Decodable {
     }
 }
 
-enum CreateLensVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateLensVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateLensVersionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateLensVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateLensVersionOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensArn = output.lensArn
             self.lensVersion = output.lensVersion
         } else {
@@ -2090,7 +2073,7 @@ extension CreateLensVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLensVersionOutputResponse: Swift.Equatable {
+public struct CreateLensVersionOutput: Swift.Equatable {
     /// The ARN for the lens.
     public var lensArn: Swift.String?
     /// The version of the lens.
@@ -2106,12 +2089,12 @@ public struct CreateLensVersionOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateLensVersionOutputResponseBody: Swift.Equatable {
+struct CreateLensVersionOutputBody: Swift.Equatable {
     let lensArn: Swift.String?
     let lensVersion: Swift.String?
 }
 
-extension CreateLensVersionOutputResponseBody: Swift.Decodable {
+extension CreateLensVersionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensArn = "LensArn"
         case lensVersion = "LensVersion"
@@ -2123,6 +2106,23 @@ extension CreateLensVersionOutputResponseBody: Swift.Decodable {
         lensArn = lensArnDecoded
         let lensVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensVersion)
         lensVersion = lensVersionDecoded
+    }
+}
+
+enum CreateLensVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2196,28 +2196,11 @@ extension CreateMilestoneInputBody: Swift.Decodable {
     }
 }
 
-enum CreateMilestoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateMilestoneOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMilestoneOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMilestoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMilestoneOutputBody = try responseDecoder.decode(responseBody: data)
             self.milestoneNumber = output.milestoneNumber
             self.workloadId = output.workloadId
         } else {
@@ -2228,7 +2211,7 @@ extension CreateMilestoneOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a create milestone call.
-public struct CreateMilestoneOutputResponse: Swift.Equatable {
+public struct CreateMilestoneOutput: Swift.Equatable {
     /// The milestone number. A workload can have a maximum of 100 milestones.
     public var milestoneNumber: Swift.Int
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -2244,12 +2227,12 @@ public struct CreateMilestoneOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMilestoneOutputResponseBody: Swift.Equatable {
+struct CreateMilestoneOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
 }
 
-extension CreateMilestoneOutputResponseBody: Swift.Decodable {
+extension CreateMilestoneOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case milestoneNumber = "MilestoneNumber"
         case workloadId = "WorkloadId"
@@ -2261,6 +2244,23 @@ extension CreateMilestoneOutputResponseBody: Swift.Decodable {
         workloadId = workloadIdDecoded
         let milestoneNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .milestoneNumber) ?? 0
         milestoneNumber = milestoneNumberDecoded
+    }
+}
+
+enum CreateMilestoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2387,27 +2387,11 @@ extension CreateProfileInputBody: Swift.Decodable {
     }
 }
 
-enum CreateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateProfileOutputBody = try responseDecoder.decode(responseBody: data)
             self.profileArn = output.profileArn
             self.profileVersion = output.profileVersion
         } else {
@@ -2417,7 +2401,7 @@ extension CreateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutputResponse: Swift.Equatable {
+public struct CreateProfileOutput: Swift.Equatable {
     /// The profile ARN.
     public var profileArn: Swift.String?
     /// Version of the profile.
@@ -2433,12 +2417,12 @@ public struct CreateProfileOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputResponseBody: Swift.Equatable {
+struct CreateProfileOutputBody: Swift.Equatable {
     let profileArn: Swift.String?
     let profileVersion: Swift.String?
 }
 
-extension CreateProfileOutputResponseBody: Swift.Decodable {
+extension CreateProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case profileArn = "ProfileArn"
         case profileVersion = "ProfileVersion"
@@ -2450,6 +2434,22 @@ extension CreateProfileOutputResponseBody: Swift.Decodable {
         profileArn = profileArnDecoded
         let profileVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileVersion)
         profileVersion = profileVersionDecoded
+    }
+}
+
+enum CreateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2486,7 +2486,7 @@ public struct CreateProfileShareInput: Swift.Equatable {
     /// The profile ARN.
     /// This member is required.
     public var profileArn: Swift.String?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
     /// This member is required.
     public var sharedWith: Swift.String?
 
@@ -2522,6 +2522,56 @@ extension CreateProfileShareInputBody: Swift.Decodable {
     }
 }
 
+extension CreateProfileShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateProfileShareOutputBody = try responseDecoder.decode(responseBody: data)
+            self.profileArn = output.profileArn
+            self.shareId = output.shareId
+        } else {
+            self.profileArn = nil
+            self.shareId = nil
+        }
+    }
+}
+
+public struct CreateProfileShareOutput: Swift.Equatable {
+    /// The profile ARN.
+    public var profileArn: Swift.String?
+    /// The ID associated with the share.
+    public var shareId: Swift.String?
+
+    public init(
+        profileArn: Swift.String? = nil,
+        shareId: Swift.String? = nil
+    )
+    {
+        self.profileArn = profileArn
+        self.shareId = shareId
+    }
+}
+
+struct CreateProfileShareOutputBody: Swift.Equatable {
+    let shareId: Swift.String?
+    let profileArn: Swift.String?
+}
+
+extension CreateProfileShareOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileArn = "ProfileArn"
+        case shareId = "ShareId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
+        profileArn = profileArnDecoded
+    }
+}
+
 enum CreateProfileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2539,53 +2589,331 @@ enum CreateProfileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateProfileShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateProfileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.profileArn = output.profileArn
-            self.shareId = output.shareId
-        } else {
-            self.profileArn = nil
-            self.shareId = nil
+extension CreateReviewTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case description = "Description"
+        case lenses = "Lenses"
+        case notes = "Notes"
+        case tags = "Tags"
+        case templateName = "TemplateName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lenses = lenses {
+            var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
+            for lensalias0 in lenses {
+                try lensesContainer.encode(lensalias0)
+            }
+        }
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
         }
     }
 }
 
-public struct CreateProfileShareOutputResponse: Swift.Equatable {
-    /// The profile ARN.
-    public var profileArn: Swift.String?
-    /// The ID associated with the share.
-    public var shareId: Swift.String?
-
-    public init(
-        profileArn: Swift.String? = nil,
-        shareId: Swift.String? = nil
-    )
-    {
-        self.profileArn = profileArn
-        self.shareId = shareId
+extension CreateReviewTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/reviewTemplates"
     }
 }
 
-struct CreateProfileShareOutputResponseBody: Swift.Equatable {
-    let shareId: Swift.String?
-    let profileArn: Swift.String?
+public struct CreateReviewTemplateInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The review template description.
+    /// This member is required.
+    public var description: Swift.String?
+    /// Lenses applied to the review template.
+    /// This member is required.
+    public var lenses: [Swift.String]?
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+    public var notes: Swift.String?
+    /// The tags assigned to the review template.
+    public var tags: [Swift.String:Swift.String]?
+    /// Name of the review template.
+    /// This member is required.
+    public var templateName: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lenses: [Swift.String]? = nil,
+        notes: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        templateName: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.lenses = lenses
+        self.notes = notes
+        self.tags = tags
+        self.templateName = templateName
+    }
 }
 
-extension CreateProfileShareOutputResponseBody: Swift.Decodable {
+struct CreateReviewTemplateInputBody: Swift.Equatable {
+    let templateName: Swift.String?
+    let description: Swift.String?
+    let lenses: [Swift.String]?
+    let notes: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateReviewTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case profileArn = "ProfileArn"
-        case shareId = "ShareId"
+        case clientRequestToken = "ClientRequestToken"
+        case description = "Description"
+        case lenses = "Lenses"
+        case notes = "Notes"
+        case tags = "Tags"
+        case templateName = "TemplateName"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lensesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .lenses)
+        var lensesDecoded0:[Swift.String]? = nil
+        if let lensesContainer = lensesContainer {
+            lensesDecoded0 = [Swift.String]()
+            for string0 in lensesContainer {
+                if let string0 = string0 {
+                    lensesDecoded0?.append(string0)
+                }
+            }
+        }
+        lenses = lensesDecoded0
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension CreateReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateReviewTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.templateArn = output.templateArn
+        } else {
+            self.templateArn = nil
+        }
+    }
+}
+
+public struct CreateReviewTemplateOutput: Swift.Equatable {
+    /// The review template ARN.
+    public var templateArn: Swift.String?
+
+    public init(
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.templateArn = templateArn
+    }
+}
+
+struct CreateReviewTemplateOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+}
+
+extension CreateReviewTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case templateArn = "TemplateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+    }
+}
+
+enum CreateReviewTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateTemplateShareInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case sharedWith = "SharedWith"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let sharedWith = self.sharedWith {
+            try encodeContainer.encode(sharedWith, forKey: .sharedWith)
+        }
+    }
+}
+
+extension CreateTemplateShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        return "/templates/shares/\(templateArn.urlPercentEncoding())"
+    }
+}
+
+public struct CreateTemplateShareInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
+    /// This member is required.
+    public var sharedWith: Swift.String?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        sharedWith: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.sharedWith = sharedWith
+        self.templateArn = templateArn
+    }
+}
+
+struct CreateTemplateShareInputBody: Swift.Equatable {
+    let sharedWith: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateTemplateShareInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case sharedWith = "SharedWith"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sharedWithDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sharedWith)
+        sharedWith = sharedWithDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension CreateTemplateShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTemplateShareOutputBody = try responseDecoder.decode(responseBody: data)
+            self.shareId = output.shareId
+            self.templateArn = output.templateArn
+        } else {
+            self.shareId = nil
+            self.templateArn = nil
+        }
+    }
+}
+
+public struct CreateTemplateShareOutput: Swift.Equatable {
+    /// The ID associated with the share.
+    public var shareId: Swift.String?
+    /// The review template ARN.
+    public var templateArn: Swift.String?
+
+    public init(
+        shareId: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.shareId = shareId
+        self.templateArn = templateArn
+    }
+}
+
+struct CreateTemplateShareOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let shareId: Swift.String?
+}
+
+extension CreateTemplateShareOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case shareId = "ShareId"
+        case templateArn = "TemplateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
         let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
         shareId = shareIdDecoded
-        let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
-        profileArn = profileArnDecoded
+    }
+}
+
+enum CreateTemplateShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2607,6 +2935,7 @@ extension CreateWorkloadInput: Swift.Encodable {
         case pillarPriorities = "PillarPriorities"
         case profileArns = "ProfileArns"
         case reviewOwner = "ReviewOwner"
+        case reviewTemplateArns = "ReviewTemplateArns"
         case tags = "Tags"
         case workloadName = "WorkloadName"
     }
@@ -2681,6 +3010,12 @@ extension CreateWorkloadInput: Swift.Encodable {
         }
         if let reviewOwner = self.reviewOwner {
             try encodeContainer.encode(reviewOwner, forKey: .reviewOwner)
+        }
+        if let reviewTemplateArns = reviewTemplateArns {
+            var reviewTemplateArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reviewTemplateArns)
+            for templatearn0 in reviewTemplateArns {
+                try reviewTemplateArnsContainer.encode(templatearn0)
+            }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -2779,12 +3114,12 @@ public struct CreateWorkloadInput: Swift.Equatable {
     ///
     /// * Other
     public var industryType: Swift.String?
-    /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias].
+    /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.
     /// This member is required.
     public var lenses: [Swift.String]?
     /// The list of non-Amazon Web Services Regions associated with the workload.
     public var nonAwsRegions: [Swift.String]?
-    /// The notes associated with the workload.
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
     public var notes: Swift.String?
     /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its [PillarReviewSummary$PillarId].
     public var pillarPriorities: [Swift.String]?
@@ -2792,6 +3127,8 @@ public struct CreateWorkloadInput: Swift.Equatable {
     public var profileArns: [Swift.String]?
     /// The review owner of the workload. The name, email address, or identifier for the primary group or individual that owns the workload review process.
     public var reviewOwner: Swift.String?
+    /// The list of review template ARNs to associate with the workload.
+    public var reviewTemplateArns: [Swift.String]?
     /// The tags to be associated with the workload.
     public var tags: [Swift.String:Swift.String]?
     /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness.
@@ -2815,6 +3152,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
         pillarPriorities: [Swift.String]? = nil,
         profileArns: [Swift.String]? = nil,
         reviewOwner: Swift.String? = nil,
+        reviewTemplateArns: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workloadName: Swift.String? = nil
     )
@@ -2835,6 +3173,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
         self.pillarPriorities = pillarPriorities
         self.profileArns = profileArns
         self.reviewOwner = reviewOwner
+        self.reviewTemplateArns = reviewTemplateArns
         self.tags = tags
         self.workloadName = workloadName
     }
@@ -2859,6 +3198,7 @@ struct CreateWorkloadInputBody: Swift.Equatable {
     let discoveryConfig: WellArchitectedClientTypes.WorkloadDiscoveryConfig?
     let applications: [Swift.String]?
     let profileArns: [Swift.String]?
+    let reviewTemplateArns: [Swift.String]?
 }
 
 extension CreateWorkloadInputBody: Swift.Decodable {
@@ -2879,6 +3219,7 @@ extension CreateWorkloadInputBody: Swift.Decodable {
         case pillarPriorities = "PillarPriorities"
         case profileArns = "ProfileArns"
         case reviewOwner = "ReviewOwner"
+        case reviewTemplateArns = "ReviewTemplateArns"
         case tags = "Tags"
         case workloadName = "WorkloadName"
     }
@@ -2993,6 +3334,68 @@ extension CreateWorkloadInputBody: Swift.Decodable {
             }
         }
         profileArns = profileArnsDecoded0
+        let reviewTemplateArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .reviewTemplateArns)
+        var reviewTemplateArnsDecoded0:[Swift.String]? = nil
+        if let reviewTemplateArnsContainer = reviewTemplateArnsContainer {
+            reviewTemplateArnsDecoded0 = [Swift.String]()
+            for string0 in reviewTemplateArnsContainer {
+                if let string0 = string0 {
+                    reviewTemplateArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        reviewTemplateArns = reviewTemplateArnsDecoded0
+    }
+}
+
+extension CreateWorkloadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateWorkloadOutputBody = try responseDecoder.decode(responseBody: data)
+            self.workloadArn = output.workloadArn
+            self.workloadId = output.workloadId
+        } else {
+            self.workloadArn = nil
+            self.workloadId = nil
+        }
+    }
+}
+
+/// Output of a create workload call.
+public struct CreateWorkloadOutput: Swift.Equatable {
+    /// The ARN for the workload.
+    public var workloadArn: Swift.String?
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+    public var workloadId: Swift.String?
+
+    public init(
+        workloadArn: Swift.String? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.workloadArn = workloadArn
+        self.workloadId = workloadId
+    }
+}
+
+struct CreateWorkloadOutputBody: Swift.Equatable {
+    let workloadId: Swift.String?
+    let workloadArn: Swift.String?
+}
+
+extension CreateWorkloadOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workloadArn = "WorkloadArn"
+        case workloadId = "WorkloadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadArn)
+        workloadArn = workloadArnDecoded
     }
 }
 
@@ -3010,57 +3413,6 @@ enum CreateWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.workloadArn = output.workloadArn
-            self.workloadId = output.workloadId
-        } else {
-            self.workloadArn = nil
-            self.workloadId = nil
-        }
-    }
-}
-
-/// Output of a create workload call.
-public struct CreateWorkloadOutputResponse: Swift.Equatable {
-    /// The ARN for the workload.
-    public var workloadArn: Swift.String?
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
-    public var workloadId: Swift.String?
-
-    public init(
-        workloadArn: Swift.String? = nil,
-        workloadId: Swift.String? = nil
-    )
-    {
-        self.workloadArn = workloadArn
-        self.workloadId = workloadId
-    }
-}
-
-struct CreateWorkloadOutputResponseBody: Swift.Equatable {
-    let workloadId: Swift.String?
-    let workloadArn: Swift.String?
-}
-
-extension CreateWorkloadOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case workloadArn = "WorkloadArn"
-        case workloadId = "WorkloadId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
-        workloadId = workloadIdDecoded
-        let workloadArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadArn)
-        workloadArn = workloadArnDecoded
     }
 }
 
@@ -3102,7 +3454,7 @@ public struct CreateWorkloadShareInput: Swift.Equatable {
     /// Permission granted on a share request.
     /// This member is required.
     public var permissionType: WellArchitectedClientTypes.PermissionType?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
     /// This member is required.
     public var sharedWith: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -3147,28 +3499,11 @@ extension CreateWorkloadShareInputBody: Swift.Decodable {
     }
 }
 
-enum CreateWorkloadShareOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateWorkloadShareOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateWorkloadShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateWorkloadShareOutputBody = try responseDecoder.decode(responseBody: data)
             self.shareId = output.shareId
             self.workloadId = output.workloadId
         } else {
@@ -3179,7 +3514,7 @@ extension CreateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for Create Workload Share
-public struct CreateWorkloadShareOutputResponse: Swift.Equatable {
+public struct CreateWorkloadShareOutput: Swift.Equatable {
     /// The ID associated with the share.
     public var shareId: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -3195,12 +3530,12 @@ public struct CreateWorkloadShareOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateWorkloadShareOutputResponseBody: Swift.Equatable {
+struct CreateWorkloadShareOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let shareId: Swift.String?
 }
 
-extension CreateWorkloadShareOutputResponseBody: Swift.Decodable {
+extension CreateWorkloadShareOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shareId = "ShareId"
         case workloadId = "WorkloadId"
@@ -3212,6 +3547,23 @@ extension CreateWorkloadShareOutputResponseBody: Swift.Decodable {
         workloadId = workloadIdDecoded
         let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
         shareId = shareIdDecoded
+    }
+}
+
+enum CreateWorkloadShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3309,6 +3661,16 @@ extension DeleteLensInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteLensOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLensOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteLensOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3323,16 +3685,6 @@ enum DeleteLensOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteLensOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLensOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteLensShareInput: ClientRuntime.QueryItemProvider {
@@ -3394,6 +3746,16 @@ extension DeleteLensShareInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteLensShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLensShareOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteLensShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3408,16 +3770,6 @@ enum DeleteLensShareOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteLensShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteLensShareOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteProfileInput: ClientRuntime.QueryItemProvider {
@@ -3471,6 +3823,16 @@ extension DeleteProfileInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteProfileOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3485,16 +3847,6 @@ enum DeleteProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteProfileOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteProfileShareInput: ClientRuntime.QueryItemProvider {
@@ -3556,6 +3908,16 @@ extension DeleteProfileShareInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteProfileShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteProfileShareOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteProfileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3572,14 +3934,166 @@ enum DeleteProfileShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProfileShareOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteReviewTemplateInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
+            items.append(clientRequestTokenQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteReviewTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteReviewTemplateInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.templateArn = templateArn
+    }
+}
+
+struct DeleteReviewTemplateInputBody: Swift.Equatable {
+}
+
+extension DeleteReviewTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteProfileShareOutputResponse: Swift.Equatable {
+public struct DeleteReviewTemplateOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteReviewTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteTemplateShareInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientRequestToken = clientRequestToken else {
+                let message = "Creating a URL Query Item failed. clientRequestToken is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clientRequestTokenQueryItem = ClientRuntime.URLQueryItem(name: "ClientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
+            items.append(clientRequestTokenQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteTemplateShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let shareId = shareId else {
+            return nil
+        }
+        return "/templates/shares/\(templateArn.urlPercentEncoding())/\(shareId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTemplateShareInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// The ID associated with the share.
+    /// This member is required.
+    public var shareId: Swift.String?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        shareId: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.shareId = shareId
+        self.templateArn = templateArn
+    }
+}
+
+struct DeleteTemplateShareInputBody: Swift.Equatable {
+}
+
+extension DeleteTemplateShareInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTemplateShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTemplateShareOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTemplateShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeleteWorkloadInput: ClientRuntime.QueryItemProvider {
@@ -3634,6 +4148,16 @@ extension DeleteWorkloadInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteWorkloadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteWorkloadOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3648,16 +4172,6 @@ enum DeleteWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteWorkloadOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteWorkloadShareInput: ClientRuntime.QueryItemProvider {
@@ -3720,6 +4234,16 @@ extension DeleteWorkloadShareInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteWorkloadShareOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteWorkloadShareOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteWorkloadShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3734,16 +4258,6 @@ enum DeleteWorkloadShareOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteWorkloadShareOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WellArchitectedClientTypes {
@@ -3850,6 +4364,16 @@ extension DisassociateLensesInputBody: Swift.Decodable {
     }
 }
 
+extension DisassociateLensesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateLensesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisassociateLensesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3864,16 +4388,6 @@ enum DisassociateLensesOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateLensesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateLensesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateProfilesInput: Swift.Encodable {
@@ -3944,6 +4458,16 @@ extension DisassociateProfilesInputBody: Swift.Decodable {
     }
 }
 
+extension DisassociateProfilesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateProfilesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisassociateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3958,16 +4482,6 @@ enum DisassociateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateProfilesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WellArchitectedClientTypes {
@@ -4050,6 +4564,46 @@ extension ExportLensInputBody: Swift.Decodable {
     }
 }
 
+extension ExportLensOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportLensOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lensJSON = output.lensJSON
+        } else {
+            self.lensJSON = nil
+        }
+    }
+}
+
+public struct ExportLensOutput: Swift.Equatable {
+    /// The JSON representation of a lens.
+    public var lensJSON: Swift.String?
+
+    public init(
+        lensJSON: Swift.String? = nil
+    )
+    {
+        self.lensJSON = lensJSON
+    }
+}
+
+struct ExportLensOutputBody: Swift.Equatable {
+    let lensJSON: Swift.String?
+}
+
+extension ExportLensOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensJSON = "LensJSON"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lensJSONDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensJSON)
+        lensJSON = lensJSONDecoded
+    }
+}
+
 enum ExportLensOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4062,46 +4616,6 @@ enum ExportLensOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExportLensOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExportLensOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.lensJSON = output.lensJSON
-        } else {
-            self.lensJSON = nil
-        }
-    }
-}
-
-public struct ExportLensOutputResponse: Swift.Equatable {
-    /// The JSON representation of a lens.
-    public var lensJSON: Swift.String?
-
-    public init(
-        lensJSON: Swift.String? = nil
-    )
-    {
-        self.lensJSON = lensJSON
-    }
-}
-
-struct ExportLensOutputResponseBody: Swift.Equatable {
-    let lensJSON: Swift.String?
-}
-
-extension ExportLensOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case lensJSON = "LensJSON"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lensJSONDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensJSON)
-        lensJSON = lensJSONDecoded
     }
 }
 
@@ -4170,26 +4684,11 @@ extension GetAnswerInputBody: Swift.Decodable {
     }
 }
 
-enum GetAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAnswerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAnswerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAnswerOutputBody = try responseDecoder.decode(responseBody: data)
             self.answer = output.answer
             self.lensAlias = output.lensAlias
             self.lensArn = output.lensArn
@@ -4206,7 +4705,7 @@ extension GetAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get answer call.
-public struct GetAnswerOutputResponse: Swift.Equatable {
+public struct GetAnswerOutput: Swift.Equatable {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.Answer?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -4234,7 +4733,7 @@ public struct GetAnswerOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetAnswerOutputResponseBody: Swift.Equatable {
+struct GetAnswerOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
     let lensAlias: Swift.String?
@@ -4242,7 +4741,7 @@ struct GetAnswerOutputResponseBody: Swift.Equatable {
     let answer: WellArchitectedClientTypes.Answer?
 }
 
-extension GetAnswerOutputResponseBody: Swift.Decodable {
+extension GetAnswerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case answer = "Answer"
         case lensAlias = "LensAlias"
@@ -4263,6 +4762,21 @@ extension GetAnswerOutputResponseBody: Swift.Decodable {
         lensArn = lensArnDecoded
         let answerDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Answer.self, forKey: .answer)
         answer = answerDecoded
+    }
+}
+
+enum GetAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4333,26 +4847,11 @@ extension GetConsolidatedReportInputBody: Swift.Decodable {
     }
 }
 
-enum GetConsolidatedReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetConsolidatedReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetConsolidatedReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetConsolidatedReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetConsolidatedReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.base64String = output.base64String
             self.metrics = output.metrics
             self.nextToken = output.nextToken
@@ -4364,7 +4863,7 @@ extension GetConsolidatedReportOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetConsolidatedReportOutputResponse: Swift.Equatable {
+public struct GetConsolidatedReportOutput: Swift.Equatable {
     /// The Base64-encoded string representation of a lens review report. This data can be used to create a PDF file. Only returned by [GetConsolidatedReport] when PDF format is requested.
     public var base64String: Swift.String?
     /// The metrics that make up the consolidated report. Only returned when JSON format is requested.
@@ -4384,13 +4883,13 @@ public struct GetConsolidatedReportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetConsolidatedReportOutputResponseBody: Swift.Equatable {
+struct GetConsolidatedReportOutputBody: Swift.Equatable {
     let metrics: [WellArchitectedClientTypes.ConsolidatedReportMetric]?
     let nextToken: Swift.String?
     let base64String: Swift.String?
 }
 
-extension GetConsolidatedReportOutputResponseBody: Swift.Decodable {
+extension GetConsolidatedReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case base64String = "Base64String"
         case metrics = "Metrics"
@@ -4414,6 +4913,21 @@ extension GetConsolidatedReportOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let base64StringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .base64String)
         base64String = base64StringDecoded
+    }
+}
+
+enum GetConsolidatedReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4465,6 +4979,46 @@ extension GetLensInputBody: Swift.Decodable {
     }
 }
 
+extension GetLensOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLensOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lens = output.lens
+        } else {
+            self.lens = nil
+        }
+    }
+}
+
+public struct GetLensOutput: Swift.Equatable {
+    /// A lens return object.
+    public var lens: WellArchitectedClientTypes.Lens?
+
+    public init(
+        lens: WellArchitectedClientTypes.Lens? = nil
+    )
+    {
+        self.lens = lens
+    }
+}
+
+struct GetLensOutputBody: Swift.Equatable {
+    let lens: WellArchitectedClientTypes.Lens?
+}
+
+extension GetLensOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lens = "Lens"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lensDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Lens.self, forKey: .lens)
+        lens = lensDecoded
+    }
+}
+
 enum GetLensOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4477,46 +5031,6 @@ enum GetLensOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetLensOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetLensOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.lens = output.lens
-        } else {
-            self.lens = nil
-        }
-    }
-}
-
-public struct GetLensOutputResponse: Swift.Equatable {
-    /// A lens return object.
-    public var lens: WellArchitectedClientTypes.Lens?
-
-    public init(
-        lens: WellArchitectedClientTypes.Lens? = nil
-    )
-    {
-        self.lens = lens
-    }
-}
-
-struct GetLensOutputResponseBody: Swift.Equatable {
-    let lens: WellArchitectedClientTypes.Lens?
-}
-
-extension GetLensOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case lens = "Lens"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lensDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Lens.self, forKey: .lens)
-        lens = lensDecoded
     }
 }
 
@@ -4577,26 +5091,11 @@ extension GetLensReviewInputBody: Swift.Decodable {
     }
 }
 
-enum GetLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLensReviewOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLensReviewOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLensReviewOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensReview = output.lensReview
             self.milestoneNumber = output.milestoneNumber
             self.workloadId = output.workloadId
@@ -4609,7 +5108,7 @@ extension GetLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get lens review call.
-public struct GetLensReviewOutputResponse: Swift.Equatable {
+public struct GetLensReviewOutput: Swift.Equatable {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.LensReview?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -4629,13 +5128,13 @@ public struct GetLensReviewOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLensReviewOutputResponseBody: Swift.Equatable {
+struct GetLensReviewOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
     let lensReview: WellArchitectedClientTypes.LensReview?
 }
 
-extension GetLensReviewOutputResponseBody: Swift.Decodable {
+extension GetLensReviewOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensReview = "LensReview"
         case milestoneNumber = "MilestoneNumber"
@@ -4650,6 +5149,21 @@ extension GetLensReviewOutputResponseBody: Swift.Decodable {
         milestoneNumber = milestoneNumberDecoded
         let lensReviewDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.LensReview.self, forKey: .lensReview)
         lensReview = lensReviewDecoded
+    }
+}
+
+enum GetLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4710,26 +5224,11 @@ extension GetLensReviewReportInputBody: Swift.Decodable {
     }
 }
 
-enum GetLensReviewReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLensReviewReportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLensReviewReportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLensReviewReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLensReviewReportOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensReviewReport = output.lensReviewReport
             self.milestoneNumber = output.milestoneNumber
             self.workloadId = output.workloadId
@@ -4742,7 +5241,7 @@ extension GetLensReviewReportOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get lens review report call.
-public struct GetLensReviewReportOutputResponse: Swift.Equatable {
+public struct GetLensReviewReportOutput: Swift.Equatable {
     /// A report of a lens review.
     public var lensReviewReport: WellArchitectedClientTypes.LensReviewReport?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -4762,13 +5261,13 @@ public struct GetLensReviewReportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLensReviewReportOutputResponseBody: Swift.Equatable {
+struct GetLensReviewReportOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
     let lensReviewReport: WellArchitectedClientTypes.LensReviewReport?
 }
 
-extension GetLensReviewReportOutputResponseBody: Swift.Decodable {
+extension GetLensReviewReportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensReviewReport = "LensReviewReport"
         case milestoneNumber = "MilestoneNumber"
@@ -4783,6 +5282,21 @@ extension GetLensReviewReportOutputResponseBody: Swift.Decodable {
         milestoneNumber = milestoneNumberDecoded
         let lensReviewReportDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.LensReviewReport.self, forKey: .lensReviewReport)
         lensReviewReport = lensReviewReportDecoded
+    }
+}
+
+enum GetLensReviewReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4842,26 +5356,11 @@ extension GetLensVersionDifferenceInputBody: Swift.Decodable {
     }
 }
 
-enum GetLensVersionDifferenceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLensVersionDifferenceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLensVersionDifferenceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLensVersionDifferenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLensVersionDifferenceOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseLensVersion = output.baseLensVersion
             self.latestLensVersion = output.latestLensVersion
             self.lensAlias = output.lensAlias
@@ -4879,7 +5378,7 @@ extension GetLensVersionDifferenceOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetLensVersionDifferenceOutputResponse: Swift.Equatable {
+public struct GetLensVersionDifferenceOutput: Swift.Equatable {
     /// The base version of the lens.
     public var baseLensVersion: Swift.String?
     /// The latest version of the lens.
@@ -4911,7 +5410,7 @@ public struct GetLensVersionDifferenceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLensVersionDifferenceOutputResponseBody: Swift.Equatable {
+struct GetLensVersionDifferenceOutputBody: Swift.Equatable {
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
     let baseLensVersion: Swift.String?
@@ -4920,7 +5419,7 @@ struct GetLensVersionDifferenceOutputResponseBody: Swift.Equatable {
     let versionDifferences: WellArchitectedClientTypes.VersionDifferences?
 }
 
-extension GetLensVersionDifferenceOutputResponseBody: Swift.Decodable {
+extension GetLensVersionDifferenceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseLensVersion = "BaseLensVersion"
         case latestLensVersion = "LatestLensVersion"
@@ -4944,6 +5443,21 @@ extension GetLensVersionDifferenceOutputResponseBody: Swift.Decodable {
         latestLensVersion = latestLensVersionDecoded
         let versionDifferencesDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.VersionDifferences.self, forKey: .versionDifferences)
         versionDifferences = versionDifferencesDecoded
+    }
+}
+
+enum GetLensVersionDifferenceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4987,26 +5501,11 @@ extension GetMilestoneInputBody: Swift.Decodable {
     }
 }
 
-enum GetMilestoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMilestoneOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMilestoneOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMilestoneOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMilestoneOutputBody = try responseDecoder.decode(responseBody: data)
             self.milestone = output.milestone
             self.workloadId = output.workloadId
         } else {
@@ -5017,7 +5516,7 @@ extension GetMilestoneOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get milestone call.
-public struct GetMilestoneOutputResponse: Swift.Equatable {
+public struct GetMilestoneOutput: Swift.Equatable {
     /// A milestone return object.
     public var milestone: WellArchitectedClientTypes.Milestone?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -5033,12 +5532,12 @@ public struct GetMilestoneOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMilestoneOutputResponseBody: Swift.Equatable {
+struct GetMilestoneOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestone: WellArchitectedClientTypes.Milestone?
 }
 
-extension GetMilestoneOutputResponseBody: Swift.Decodable {
+extension GetMilestoneOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case milestone = "Milestone"
         case workloadId = "WorkloadId"
@@ -5050,6 +5549,21 @@ extension GetMilestoneOutputResponseBody: Swift.Decodable {
         workloadId = workloadIdDecoded
         let milestoneDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Milestone.self, forKey: .milestone)
         milestone = milestoneDecoded
+    }
+}
+
+enum GetMilestoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5101,6 +5615,46 @@ extension GetProfileInputBody: Swift.Decodable {
     }
 }
 
+extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.profile = output.profile
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
+public struct GetProfileOutput: Swift.Equatable {
+    /// The profile.
+    public var profile: WellArchitectedClientTypes.Profile?
+
+    public init(
+        profile: WellArchitectedClientTypes.Profile? = nil
+    )
+    {
+        self.profile = profile
+    }
+}
+
+struct GetProfileOutputBody: Swift.Equatable {
+    let profile: WellArchitectedClientTypes.Profile?
+}
+
+extension GetProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profile = "Profile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Profile.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
 enum GetProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5113,46 +5667,6 @@ enum GetProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.profile = output.profile
-        } else {
-            self.profile = nil
-        }
-    }
-}
-
-public struct GetProfileOutputResponse: Swift.Equatable {
-    /// The profile.
-    public var profile: WellArchitectedClientTypes.Profile?
-
-    public init(
-        profile: WellArchitectedClientTypes.Profile? = nil
-    )
-    {
-        self.profile = profile
-    }
-}
-
-struct GetProfileOutputResponseBody: Swift.Equatable {
-    let profile: WellArchitectedClientTypes.Profile?
-}
-
-extension GetProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case profile = "Profile"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let profileDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Profile.self, forKey: .profile)
-        profile = profileDecoded
     }
 }
 
@@ -5176,6 +5690,46 @@ extension GetProfileTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension GetProfileTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetProfileTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.profileTemplate = output.profileTemplate
+        } else {
+            self.profileTemplate = nil
+        }
+    }
+}
+
+public struct GetProfileTemplateOutput: Swift.Equatable {
+    /// The profile template.
+    public var profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
+
+    public init(
+        profileTemplate: WellArchitectedClientTypes.ProfileTemplate? = nil
+    )
+    {
+        self.profileTemplate = profileTemplate
+    }
+}
+
+struct GetProfileTemplateOutputBody: Swift.Equatable {
+    let profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
+}
+
+extension GetProfileTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profileTemplate = "ProfileTemplate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileTemplateDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ProfileTemplate.self, forKey: .profileTemplate)
+        profileTemplate = profileTemplateDecoded
+    }
+}
+
 enum GetProfileTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5191,43 +5745,315 @@ enum GetProfileTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProfileTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetReviewTemplateAnswerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let lensAlias = lensAlias else {
+            return nil
+        }
+        guard let questionId = questionId else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())/lensReviews/\(lensAlias.urlPercentEncoding())/answers/\(questionId.urlPercentEncoding())"
+    }
+}
+
+public struct GetReviewTemplateAnswerInput: Swift.Equatable {
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    /// This member is required.
+    public var lensAlias: Swift.String?
+    /// The ID of the question.
+    /// This member is required.
+    public var questionId: Swift.String?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        lensAlias: Swift.String? = nil,
+        questionId: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.lensAlias = lensAlias
+        self.questionId = questionId
+        self.templateArn = templateArn
+    }
+}
+
+struct GetReviewTemplateAnswerInputBody: Swift.Equatable {
+}
+
+extension GetReviewTemplateAnswerInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetReviewTemplateAnswerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetProfileTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.profileTemplate = output.profileTemplate
+            let output: GetReviewTemplateAnswerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.answer = output.answer
+            self.lensAlias = output.lensAlias
+            self.templateArn = output.templateArn
         } else {
-            self.profileTemplate = nil
+            self.answer = nil
+            self.lensAlias = nil
+            self.templateArn = nil
         }
     }
 }
 
-public struct GetProfileTemplateOutputResponse: Swift.Equatable {
-    /// The profile template.
-    public var profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
+public struct GetReviewTemplateAnswerOutput: Swift.Equatable {
+    /// An answer of the question.
+    public var answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    public var lensAlias: Swift.String?
+    /// The review template ARN.
+    public var templateArn: Swift.String?
 
     public init(
-        profileTemplate: WellArchitectedClientTypes.ProfileTemplate? = nil
+        answer: WellArchitectedClientTypes.ReviewTemplateAnswer? = nil,
+        lensAlias: Swift.String? = nil,
+        templateArn: Swift.String? = nil
     )
     {
-        self.profileTemplate = profileTemplate
+        self.answer = answer
+        self.lensAlias = lensAlias
+        self.templateArn = templateArn
     }
 }
 
-struct GetProfileTemplateOutputResponseBody: Swift.Equatable {
-    let profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
+struct GetReviewTemplateAnswerOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let lensAlias: Swift.String?
+    let answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
 }
 
-extension GetProfileTemplateOutputResponseBody: Swift.Decodable {
+extension GetReviewTemplateAnswerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case profileTemplate = "ProfileTemplate"
+        case answer = "Answer"
+        case lensAlias = "LensAlias"
+        case templateArn = "TemplateArn"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let profileTemplateDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ProfileTemplate.self, forKey: .profileTemplate)
-        profileTemplate = profileTemplateDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
+        lensAlias = lensAliasDecoded
+        let answerDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateAnswer.self, forKey: .answer)
+        answer = answerDecoded
+    }
+}
+
+enum GetReviewTemplateAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetReviewTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())"
+    }
+}
+
+public struct GetReviewTemplateInput: Swift.Equatable {
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.templateArn = templateArn
+    }
+}
+
+struct GetReviewTemplateInputBody: Swift.Equatable {
+}
+
+extension GetReviewTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetReviewTemplateLensReviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let lensAlias = lensAlias else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())/lensReviews/\(lensAlias.urlPercentEncoding())"
+    }
+}
+
+public struct GetReviewTemplateLensReviewInput: Swift.Equatable {
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    /// This member is required.
+    public var lensAlias: Swift.String?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        lensAlias: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.lensAlias = lensAlias
+        self.templateArn = templateArn
+    }
+}
+
+struct GetReviewTemplateLensReviewInputBody: Swift.Equatable {
+}
+
+extension GetReviewTemplateLensReviewInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetReviewTemplateLensReviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetReviewTemplateLensReviewOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lensReview = output.lensReview
+            self.templateArn = output.templateArn
+        } else {
+            self.lensReview = nil
+            self.templateArn = nil
+        }
+    }
+}
+
+public struct GetReviewTemplateLensReviewOutput: Swift.Equatable {
+    /// A lens review of a question.
+    public var lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
+    /// The review template ARN.
+    public var templateArn: Swift.String?
+
+    public init(
+        lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.lensReview = lensReview
+        self.templateArn = templateArn
+    }
+}
+
+struct GetReviewTemplateLensReviewOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
+}
+
+extension GetReviewTemplateLensReviewOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensReview = "LensReview"
+        case templateArn = "TemplateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let lensReviewDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateLensReview.self, forKey: .lensReview)
+        lensReview = lensReviewDecoded
+    }
+}
+
+enum GetReviewTemplateLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetReviewTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.reviewTemplate = output.reviewTemplate
+        } else {
+            self.reviewTemplate = nil
+        }
+    }
+}
+
+public struct GetReviewTemplateOutput: Swift.Equatable {
+    /// The review template.
+    public var reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
+
+    public init(
+        reviewTemplate: WellArchitectedClientTypes.ReviewTemplate? = nil
+    )
+    {
+        self.reviewTemplate = reviewTemplate
+    }
+}
+
+struct GetReviewTemplateOutputBody: Swift.Equatable {
+    let reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
+}
+
+extension GetReviewTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reviewTemplate = "ReviewTemplate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reviewTemplateDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplate.self, forKey: .reviewTemplate)
+        reviewTemplate = reviewTemplateDecoded
+    }
+}
+
+enum GetReviewTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5263,6 +6089,47 @@ extension GetWorkloadInputBody: Swift.Decodable {
     }
 }
 
+extension GetWorkloadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetWorkloadOutputBody = try responseDecoder.decode(responseBody: data)
+            self.workload = output.workload
+        } else {
+            self.workload = nil
+        }
+    }
+}
+
+/// Output of a get workload call.
+public struct GetWorkloadOutput: Swift.Equatable {
+    /// A workload return object.
+    public var workload: WellArchitectedClientTypes.Workload?
+
+    public init(
+        workload: WellArchitectedClientTypes.Workload? = nil
+    )
+    {
+        self.workload = workload
+    }
+}
+
+struct GetWorkloadOutputBody: Swift.Equatable {
+    let workload: WellArchitectedClientTypes.Workload?
+}
+
+extension GetWorkloadOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workload = "Workload"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Workload.self, forKey: .workload)
+        workload = workloadDecoded
+    }
+}
+
 enum GetWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5275,47 +6142,6 @@ enum GetWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.workload = output.workload
-        } else {
-            self.workload = nil
-        }
-    }
-}
-
-/// Output of a get workload call.
-public struct GetWorkloadOutputResponse: Swift.Equatable {
-    /// A workload return object.
-    public var workload: WellArchitectedClientTypes.Workload?
-
-    public init(
-        workload: WellArchitectedClientTypes.Workload? = nil
-    )
-    {
-        self.workload = workload
-    }
-}
-
-struct GetWorkloadOutputResponseBody: Swift.Equatable {
-    let workload: WellArchitectedClientTypes.Workload?
-}
-
-extension GetWorkloadOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case workload = "Workload"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let workloadDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Workload.self, forKey: .workload)
-        workload = workloadDecoded
     }
 }
 
@@ -5416,28 +6242,11 @@ extension ImportLensInputBody: Swift.Decodable {
     }
 }
 
-enum ImportLensOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ImportLensOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ImportLensOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ImportLensOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ImportLensOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensArn = output.lensArn
             self.status = output.status
         } else {
@@ -5447,7 +6256,7 @@ extension ImportLensOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportLensOutputResponse: Swift.Equatable {
+public struct ImportLensOutput: Swift.Equatable {
     /// The ARN for the lens that was created or updated.
     public var lensArn: Swift.String?
     /// The status of the imported lens.
@@ -5463,12 +6272,12 @@ public struct ImportLensOutputResponse: Swift.Equatable {
     }
 }
 
-struct ImportLensOutputResponseBody: Swift.Equatable {
+struct ImportLensOutputBody: Swift.Equatable {
     let lensArn: Swift.String?
     let status: WellArchitectedClientTypes.ImportLensStatus?
 }
 
-extension ImportLensOutputResponseBody: Swift.Decodable {
+extension ImportLensOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensArn = "LensArn"
         case status = "Status"
@@ -5480,6 +6289,23 @@ extension ImportLensOutputResponseBody: Swift.Decodable {
         lensArn = lensArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ImportLensStatus.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+enum ImportLensOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6006,7 +6832,7 @@ extension WellArchitectedClientTypes {
         public var lensVersion: Swift.String?
         /// The token to use to retrieve the next set of results.
         public var nextToken: Swift.String?
-        /// The notes associated with the workload.
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// List of pillar review summaries of lens review in a workload.
         public var pillarReviewSummaries: [WellArchitectedClientTypes.PillarReviewSummary]?
@@ -6299,7 +7125,7 @@ extension WellArchitectedClientTypes {
     public struct LensShareSummary: Swift.Equatable {
         /// The ID associated with the share.
         public var shareId: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
         public var sharedWith: Swift.String?
         /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
@@ -6564,6 +7390,8 @@ extension WellArchitectedClientTypes.LensUpgradeSummary: Swift.Codable {
         case latestLensVersion = "LatestLensVersion"
         case lensAlias = "LensAlias"
         case lensArn = "LensArn"
+        case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case workloadId = "WorkloadId"
         case workloadName = "WorkloadName"
     }
@@ -6581,6 +7409,12 @@ extension WellArchitectedClientTypes.LensUpgradeSummary: Swift.Codable {
         }
         if let lensArn = self.lensArn {
             try encodeContainer.encode(lensArn, forKey: .lensArn)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
         }
         if let workloadId = self.workloadId {
             try encodeContainer.encode(workloadId, forKey: .workloadId)
@@ -6604,6 +7438,10 @@ extension WellArchitectedClientTypes.LensUpgradeSummary: Swift.Codable {
         currentLensVersion = currentLensVersionDecoded
         let latestLensVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestLensVersion)
         latestLensVersion = latestLensVersionDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -6618,6 +7456,10 @@ extension WellArchitectedClientTypes {
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
+        /// ResourceArn of the lens being upgraded
+        public var resourceArn: Swift.String?
+        /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness.
+        public var resourceName: Swift.String?
         /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
         public var workloadId: Swift.String?
         /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness.
@@ -6628,6 +7470,8 @@ extension WellArchitectedClientTypes {
             latestLensVersion: Swift.String? = nil,
             lensAlias: Swift.String? = nil,
             lensArn: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
         )
@@ -6636,6 +7480,8 @@ extension WellArchitectedClientTypes {
             self.latestLensVersion = latestLensVersion
             self.lensAlias = lensAlias
             self.lensArn = lensArn
+            self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
@@ -6732,26 +7578,11 @@ extension ListAnswersInputBody: Swift.Decodable {
     }
 }
 
-enum ListAnswersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAnswersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAnswersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAnswersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAnswersOutputBody = try responseDecoder.decode(responseBody: data)
             self.answerSummaries = output.answerSummaries
             self.lensAlias = output.lensAlias
             self.lensArn = output.lensArn
@@ -6770,7 +7601,7 @@ extension ListAnswersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list answers call.
-public struct ListAnswersOutputResponse: Swift.Equatable {
+public struct ListAnswersOutput: Swift.Equatable {
     /// List of answer summaries of lens review in a workload.
     public var answerSummaries: [WellArchitectedClientTypes.AnswerSummary]?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -6802,7 +7633,7 @@ public struct ListAnswersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAnswersOutputResponseBody: Swift.Equatable {
+struct ListAnswersOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
     let lensAlias: Swift.String?
@@ -6811,7 +7642,7 @@ struct ListAnswersOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
 }
 
-extension ListAnswersOutputResponseBody: Swift.Decodable {
+extension ListAnswersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case answerSummaries = "AnswerSummaries"
         case lensAlias = "LensAlias"
@@ -6844,6 +7675,21 @@ extension ListAnswersOutputResponseBody: Swift.Decodable {
         answerSummaries = answerSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAnswersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6966,26 +7812,11 @@ extension ListCheckDetailsInputBody: Swift.Decodable {
     }
 }
 
-enum ListCheckDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCheckDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCheckDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCheckDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCheckDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.checkDetails = output.checkDetails
             self.nextToken = output.nextToken
         } else {
@@ -6995,7 +7826,7 @@ extension ListCheckDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCheckDetailsOutputResponse: Swift.Equatable {
+public struct ListCheckDetailsOutput: Swift.Equatable {
     /// The details about the Trusted Advisor checks related to the Well-Architected best practice.
     public var checkDetails: [WellArchitectedClientTypes.CheckDetail]?
     /// The token to use to retrieve the next set of results.
@@ -7011,12 +7842,12 @@ public struct ListCheckDetailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCheckDetailsOutputResponseBody: Swift.Equatable {
+struct ListCheckDetailsOutputBody: Swift.Equatable {
     let checkDetails: [WellArchitectedClientTypes.CheckDetail]?
     let nextToken: Swift.String?
 }
 
-extension ListCheckDetailsOutputResponseBody: Swift.Decodable {
+extension ListCheckDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checkDetails = "CheckDetails"
         case nextToken = "NextToken"
@@ -7037,6 +7868,21 @@ extension ListCheckDetailsOutputResponseBody: Swift.Decodable {
         checkDetails = checkDetailsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCheckDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7159,26 +8005,11 @@ extension ListCheckSummariesInputBody: Swift.Decodable {
     }
 }
 
-enum ListCheckSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCheckSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCheckSummariesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCheckSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCheckSummariesOutputBody = try responseDecoder.decode(responseBody: data)
             self.checkSummaries = output.checkSummaries
             self.nextToken = output.nextToken
         } else {
@@ -7188,7 +8019,7 @@ extension ListCheckSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCheckSummariesOutputResponse: Swift.Equatable {
+public struct ListCheckSummariesOutput: Swift.Equatable {
     /// List of Trusted Advisor summaries related to the Well-Architected best practice.
     public var checkSummaries: [WellArchitectedClientTypes.CheckSummary]?
     /// The token to use to retrieve the next set of results.
@@ -7204,12 +8035,12 @@ public struct ListCheckSummariesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCheckSummariesOutputResponseBody: Swift.Equatable {
+struct ListCheckSummariesOutputBody: Swift.Equatable {
     let checkSummaries: [WellArchitectedClientTypes.CheckSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListCheckSummariesOutputResponseBody: Swift.Decodable {
+extension ListCheckSummariesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checkSummaries = "CheckSummaries"
         case nextToken = "NextToken"
@@ -7230,6 +8061,21 @@ extension ListCheckSummariesOutputResponseBody: Swift.Decodable {
         checkSummaries = checkSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCheckSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7322,26 +8168,11 @@ extension ListLensReviewImprovementsInputBody: Swift.Decodable {
     }
 }
 
-enum ListLensReviewImprovementsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLensReviewImprovementsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLensReviewImprovementsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLensReviewImprovementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLensReviewImprovementsOutputBody = try responseDecoder.decode(responseBody: data)
             self.improvementSummaries = output.improvementSummaries
             self.lensAlias = output.lensAlias
             self.lensArn = output.lensArn
@@ -7360,7 +8191,7 @@ extension ListLensReviewImprovementsOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 /// Output of a list lens review improvements call.
-public struct ListLensReviewImprovementsOutputResponse: Swift.Equatable {
+public struct ListLensReviewImprovementsOutput: Swift.Equatable {
     /// List of improvement summaries of lens review in a workload.
     public var improvementSummaries: [WellArchitectedClientTypes.ImprovementSummary]?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -7392,7 +8223,7 @@ public struct ListLensReviewImprovementsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLensReviewImprovementsOutputResponseBody: Swift.Equatable {
+struct ListLensReviewImprovementsOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
     let lensAlias: Swift.String?
@@ -7401,7 +8232,7 @@ struct ListLensReviewImprovementsOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
 }
 
-extension ListLensReviewImprovementsOutputResponseBody: Swift.Decodable {
+extension ListLensReviewImprovementsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case improvementSummaries = "ImprovementSummaries"
         case lensAlias = "LensAlias"
@@ -7434,6 +8265,21 @@ extension ListLensReviewImprovementsOutputResponseBody: Swift.Decodable {
         improvementSummaries = improvementSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLensReviewImprovementsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7502,26 +8348,11 @@ extension ListLensReviewsInputBody: Swift.Decodable {
     }
 }
 
-enum ListLensReviewsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLensReviewsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLensReviewsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLensReviewsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLensReviewsOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensReviewSummaries = output.lensReviewSummaries
             self.milestoneNumber = output.milestoneNumber
             self.nextToken = output.nextToken
@@ -7536,7 +8367,7 @@ extension ListLensReviewsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list lens reviews call.
-public struct ListLensReviewsOutputResponse: Swift.Equatable {
+public struct ListLensReviewsOutput: Swift.Equatable {
     /// List of lens summaries of lens reviews of a workload.
     public var lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -7560,14 +8391,14 @@ public struct ListLensReviewsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLensReviewsOutputResponseBody: Swift.Equatable {
+struct ListLensReviewsOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int
     let lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListLensReviewsOutputResponseBody: Swift.Decodable {
+extension ListLensReviewsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensReviewSummaries = "LensReviewSummaries"
         case milestoneNumber = "MilestoneNumber"
@@ -7594,6 +8425,21 @@ extension ListLensReviewsOutputResponseBody: Swift.Decodable {
         lensReviewSummaries = lensReviewSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLensReviewsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7639,7 +8485,7 @@ public struct ListLensSharesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the lens is shared.
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the lens is shared.
     public var sharedWithPrefix: Swift.String?
     /// The status of the share request.
     public var status: WellArchitectedClientTypes.ShareStatus?
@@ -7669,26 +8515,11 @@ extension ListLensSharesInputBody: Swift.Decodable {
     }
 }
 
-enum ListLensSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLensSharesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLensSharesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLensSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLensSharesOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensShareSummaries = output.lensShareSummaries
             self.nextToken = output.nextToken
         } else {
@@ -7698,7 +8529,7 @@ extension ListLensSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLensSharesOutputResponse: Swift.Equatable {
+public struct ListLensSharesOutput: Swift.Equatable {
     /// A list of lens share summaries.
     public var lensShareSummaries: [WellArchitectedClientTypes.LensShareSummary]?
     /// The token to use to retrieve the next set of results.
@@ -7714,12 +8545,12 @@ public struct ListLensSharesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLensSharesOutputResponseBody: Swift.Equatable {
+struct ListLensSharesOutputBody: Swift.Equatable {
     let lensShareSummaries: [WellArchitectedClientTypes.LensShareSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListLensSharesOutputResponseBody: Swift.Decodable {
+extension ListLensSharesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensShareSummaries = "LensShareSummaries"
         case nextToken = "NextToken"
@@ -7740,6 +8571,21 @@ extension ListLensSharesOutputResponseBody: Swift.Decodable {
         lensShareSummaries = lensShareSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLensSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7816,25 +8662,11 @@ extension ListLensesInputBody: Swift.Decodable {
     }
 }
 
-enum ListLensesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLensesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLensesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLensesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLensesOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensSummaries = output.lensSummaries
             self.nextToken = output.nextToken
         } else {
@@ -7845,7 +8677,7 @@ extension ListLensesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list lenses call.
-public struct ListLensesOutputResponse: Swift.Equatable {
+public struct ListLensesOutput: Swift.Equatable {
     /// List of lens summaries of available lenses.
     public var lensSummaries: [WellArchitectedClientTypes.LensSummary]?
     /// The token to use to retrieve the next set of results.
@@ -7861,12 +8693,12 @@ public struct ListLensesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLensesOutputResponseBody: Swift.Equatable {
+struct ListLensesOutputBody: Swift.Equatable {
     let lensSummaries: [WellArchitectedClientTypes.LensSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListLensesOutputResponseBody: Swift.Decodable {
+extension ListLensesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensSummaries = "LensSummaries"
         case nextToken = "NextToken"
@@ -7887,6 +8719,20 @@ extension ListLensesOutputResponseBody: Swift.Decodable {
         lensSummaries = lensSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLensesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7958,26 +8804,11 @@ extension ListMilestonesInputBody: Swift.Decodable {
     }
 }
 
-enum ListMilestonesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMilestonesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMilestonesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMilestonesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMilestonesOutputBody = try responseDecoder.decode(responseBody: data)
             self.milestoneSummaries = output.milestoneSummaries
             self.nextToken = output.nextToken
             self.workloadId = output.workloadId
@@ -7990,7 +8821,7 @@ extension ListMilestonesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list milestones call.
-public struct ListMilestonesOutputResponse: Swift.Equatable {
+public struct ListMilestonesOutput: Swift.Equatable {
     /// A list of milestone summaries.
     public var milestoneSummaries: [WellArchitectedClientTypes.MilestoneSummary]?
     /// The token to use to retrieve the next set of results.
@@ -8010,13 +8841,13 @@ public struct ListMilestonesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMilestonesOutputResponseBody: Swift.Equatable {
+struct ListMilestonesOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let milestoneSummaries: [WellArchitectedClientTypes.MilestoneSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListMilestonesOutputResponseBody: Swift.Decodable {
+extension ListMilestonesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case milestoneSummaries = "MilestoneSummaries"
         case nextToken = "NextToken"
@@ -8043,10 +8874,26 @@ extension ListMilestonesOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ListMilestonesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListNotificationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
         case workloadId = "WorkloadId"
     }
 
@@ -8057,6 +8904,9 @@ extension ListNotificationsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
         if let workloadId = self.workloadId {
             try encodeContainer.encode(workloadId, forKey: .workloadId)
@@ -8075,17 +8925,21 @@ public struct ListNotificationsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
+    /// The ARN for the related resource for the notification. Only one of WorkloadID or ResourceARN should be specified.
+    public var resourceArn: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.resourceArn = resourceArn
         self.workloadId = workloadId
     }
 }
@@ -8094,12 +8948,14 @@ struct ListNotificationsInputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let resourceArn: Swift.String?
 }
 
 extension ListNotificationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
         case workloadId = "WorkloadId"
     }
 
@@ -8111,28 +8967,16 @@ extension ListNotificationsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
     }
 }
 
-enum ListNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListNotificationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListNotificationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notificationSummaries = output.notificationSummaries
         } else {
@@ -8142,7 +8986,7 @@ extension ListNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotificationsOutputResponse: Swift.Equatable {
+public struct ListNotificationsOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// List of lens notification summaries in a workload.
@@ -8158,12 +9002,12 @@ public struct ListNotificationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListNotificationsOutputResponseBody: Swift.Equatable {
+struct ListNotificationsOutputBody: Swift.Equatable {
     let notificationSummaries: [WellArchitectedClientTypes.NotificationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListNotificationsOutputResponseBody: Swift.Decodable {
+extension ListNotificationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case notificationSummaries = "NotificationSummaries"
@@ -8184,6 +9028,20 @@ extension ListNotificationsOutputResponseBody: Swift.Decodable {
         notificationSummaries = notificationSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8243,25 +9101,11 @@ extension ListProfileNotificationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListProfileNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProfileNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProfileNotificationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProfileNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProfileNotificationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notificationSummaries = output.notificationSummaries
         } else {
@@ -8271,7 +9115,7 @@ extension ListProfileNotificationsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListProfileNotificationsOutputResponse: Swift.Equatable {
+public struct ListProfileNotificationsOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Notification summaries.
@@ -8287,12 +9131,12 @@ public struct ListProfileNotificationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProfileNotificationsOutputResponseBody: Swift.Equatable {
+struct ListProfileNotificationsOutputBody: Swift.Equatable {
     let notificationSummaries: [WellArchitectedClientTypes.ProfileNotificationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListProfileNotificationsOutputResponseBody: Swift.Decodable {
+extension ListProfileNotificationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case notificationSummaries = "NotificationSummaries"
@@ -8313,6 +9157,20 @@ extension ListProfileNotificationsOutputResponseBody: Swift.Decodable {
         notificationSummaries = notificationSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProfileNotificationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8358,7 +9216,7 @@ public struct ListProfileSharesInput: Swift.Equatable {
     /// The profile ARN.
     /// This member is required.
     public var profileArn: Swift.String?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the profile is shared.
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the profile is shared.
     public var sharedWithPrefix: Swift.String?
     /// The status of the share request.
     public var status: WellArchitectedClientTypes.ShareStatus?
@@ -8388,26 +9246,11 @@ extension ListProfileSharesInputBody: Swift.Decodable {
     }
 }
 
-enum ListProfileSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProfileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProfileSharesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProfileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProfileSharesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.profileShareSummaries = output.profileShareSummaries
         } else {
@@ -8417,7 +9260,7 @@ extension ListProfileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfileSharesOutputResponse: Swift.Equatable {
+public struct ListProfileSharesOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Profile share summaries.
@@ -8433,12 +9276,12 @@ public struct ListProfileSharesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProfileSharesOutputResponseBody: Swift.Equatable {
+struct ListProfileSharesOutputBody: Swift.Equatable {
     let profileShareSummaries: [WellArchitectedClientTypes.ProfileShareSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListProfileSharesOutputResponseBody: Swift.Decodable {
+extension ListProfileSharesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case profileShareSummaries = "ProfileShareSummaries"
@@ -8459,6 +9302,21 @@ extension ListProfileSharesOutputResponseBody: Swift.Decodable {
         profileShareSummaries = profileShareSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProfileSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8498,7 +9356,7 @@ public struct ListProfilesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// Prefix for profile name.
+    /// An optional string added to the beginning of each profile name returned in the results.
     public var profileNamePrefix: Swift.String?
     /// Profile owner type.
     public var profileOwnerType: WellArchitectedClientTypes.ProfileOwnerType?
@@ -8526,25 +9384,11 @@ extension ListProfilesInputBody: Swift.Decodable {
     }
 }
 
-enum ListProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListProfilesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListProfilesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.profileSummaries = output.profileSummaries
         } else {
@@ -8554,7 +9398,7 @@ extension ListProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilesOutputResponse: Swift.Equatable {
+public struct ListProfilesOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Profile summaries.
@@ -8570,12 +9414,12 @@ public struct ListProfilesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListProfilesOutputResponseBody: Swift.Equatable {
+struct ListProfilesOutputBody: Swift.Equatable {
     let profileSummaries: [WellArchitectedClientTypes.ProfileSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListProfilesOutputResponseBody: Swift.Decodable {
+extension ListProfilesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case profileSummaries = "ProfileSummaries"
@@ -8596,6 +9440,307 @@ extension ListProfilesOutputResponseBody: Swift.Decodable {
         profileSummaries = profileSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListReviewTemplateAnswersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let pillarId = pillarId {
+                let pillarIdQueryItem = ClientRuntime.URLQueryItem(name: "PillarId".urlPercentEncoding(), value: Swift.String(pillarId).urlPercentEncoding())
+                items.append(pillarIdQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListReviewTemplateAnswersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let lensAlias = lensAlias else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())/lensReviews/\(lensAlias.urlPercentEncoding())/answers"
+    }
+}
+
+public struct ListReviewTemplateAnswersInput: Swift.Equatable {
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    /// This member is required.
+    public var lensAlias: Swift.String?
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
+    public var pillarId: Swift.String?
+    /// The ARN of the review template.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        lensAlias: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pillarId: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.lensAlias = lensAlias
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pillarId = pillarId
+        self.templateArn = templateArn
+    }
+}
+
+struct ListReviewTemplateAnswersInputBody: Swift.Equatable {
+}
+
+extension ListReviewTemplateAnswersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListReviewTemplateAnswersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListReviewTemplateAnswersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.answerSummaries = output.answerSummaries
+            self.lensAlias = output.lensAlias
+            self.nextToken = output.nextToken
+            self.templateArn = output.templateArn
+        } else {
+            self.answerSummaries = nil
+            self.lensAlias = nil
+            self.nextToken = nil
+            self.templateArn = nil
+        }
+    }
+}
+
+public struct ListReviewTemplateAnswersOutput: Swift.Equatable {
+    /// List of answer summaries of a lens review in a review template.
+    public var answerSummaries: [WellArchitectedClientTypes.ReviewTemplateAnswerSummary]?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    public var lensAlias: Swift.String?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The ARN of the review template.
+    public var templateArn: Swift.String?
+
+    public init(
+        answerSummaries: [WellArchitectedClientTypes.ReviewTemplateAnswerSummary]? = nil,
+        lensAlias: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.answerSummaries = answerSummaries
+        self.lensAlias = lensAlias
+        self.nextToken = nextToken
+        self.templateArn = templateArn
+    }
+}
+
+struct ListReviewTemplateAnswersOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let lensAlias: Swift.String?
+    let answerSummaries: [WellArchitectedClientTypes.ReviewTemplateAnswerSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListReviewTemplateAnswersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answerSummaries = "AnswerSummaries"
+        case lensAlias = "LensAlias"
+        case nextToken = "NextToken"
+        case templateArn = "TemplateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
+        lensAlias = lensAliasDecoded
+        let answerSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ReviewTemplateAnswerSummary?].self, forKey: .answerSummaries)
+        var answerSummariesDecoded0:[WellArchitectedClientTypes.ReviewTemplateAnswerSummary]? = nil
+        if let answerSummariesContainer = answerSummariesContainer {
+            answerSummariesDecoded0 = [WellArchitectedClientTypes.ReviewTemplateAnswerSummary]()
+            for structure0 in answerSummariesContainer {
+                if let structure0 = structure0 {
+                    answerSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        answerSummaries = answerSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListReviewTemplateAnswersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListReviewTemplatesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListReviewTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/reviewTemplates"
+    }
+}
+
+public struct ListReviewTemplatesInput: Swift.Equatable {
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListReviewTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListReviewTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListReviewTemplatesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListReviewTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.reviewTemplates = output.reviewTemplates
+        } else {
+            self.nextToken = nil
+            self.reviewTemplates = nil
+        }
+    }
+}
+
+public struct ListReviewTemplatesOutput: Swift.Equatable {
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// List of review templates.
+    public var reviewTemplates: [WellArchitectedClientTypes.ReviewTemplateSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reviewTemplates: [WellArchitectedClientTypes.ReviewTemplateSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.reviewTemplates = reviewTemplates
+    }
+}
+
+struct ListReviewTemplatesOutputBody: Swift.Equatable {
+    let reviewTemplates: [WellArchitectedClientTypes.ReviewTemplateSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListReviewTemplatesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case reviewTemplates = "ReviewTemplates"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reviewTemplatesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ReviewTemplateSummary?].self, forKey: .reviewTemplates)
+        var reviewTemplatesDecoded0:[WellArchitectedClientTypes.ReviewTemplateSummary]? = nil
+        if let reviewTemplatesContainer = reviewTemplatesContainer {
+            reviewTemplatesDecoded0 = [WellArchitectedClientTypes.ReviewTemplateSummary]()
+            for structure0 in reviewTemplatesContainer {
+                if let structure0 = structure0 {
+                    reviewTemplatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        reviewTemplates = reviewTemplatesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListReviewTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8627,6 +9772,10 @@ extension ListShareInvitationsInput: ClientRuntime.QueryItemProvider {
                 let workloadNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "WorkloadNamePrefix".urlPercentEncoding(), value: Swift.String(workloadNamePrefix).urlPercentEncoding())
                 items.append(workloadNamePrefixQueryItem)
             }
+            if let templateNamePrefix = templateNamePrefix {
+                let templateNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "TemplateNamePrefix".urlPercentEncoding(), value: Swift.String(templateNamePrefix).urlPercentEncoding())
+                items.append(templateNamePrefixQueryItem)
+            }
             return items
         }
     }
@@ -8646,10 +9795,12 @@ public struct ListShareInvitationsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// Profile name prefix.
+    /// An optional string added to the beginning of each profile name returned in the results.
     public var profileNamePrefix: Swift.String?
     /// The type of share invitations to be returned.
     public var shareResourceType: WellArchitectedClientTypes.ShareResourceType?
+    /// An optional string added to the beginning of each review template name returned in the results.
+    public var templateNamePrefix: Swift.String?
     /// An optional string added to the beginning of each workload name returned in the results.
     public var workloadNamePrefix: Swift.String?
 
@@ -8659,6 +9810,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
         nextToken: Swift.String? = nil,
         profileNamePrefix: Swift.String? = nil,
         shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
+        templateNamePrefix: Swift.String? = nil,
         workloadNamePrefix: Swift.String? = nil
     )
     {
@@ -8667,6 +9819,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
         self.nextToken = nextToken
         self.profileNamePrefix = profileNamePrefix
         self.shareResourceType = shareResourceType
+        self.templateNamePrefix = templateNamePrefix
         self.workloadNamePrefix = workloadNamePrefix
     }
 }
@@ -8680,25 +9833,11 @@ extension ListShareInvitationsInputBody: Swift.Decodable {
     }
 }
 
-enum ListShareInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListShareInvitationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListShareInvitationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListShareInvitationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListShareInvitationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.shareInvitationSummaries = output.shareInvitationSummaries
         } else {
@@ -8709,7 +9848,7 @@ extension ListShareInvitationsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Input for List Share Invitations
-public struct ListShareInvitationsOutputResponse: Swift.Equatable {
+public struct ListShareInvitationsOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// List of share invitation summaries in a workload.
@@ -8725,12 +9864,12 @@ public struct ListShareInvitationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListShareInvitationsOutputResponseBody: Swift.Equatable {
+struct ListShareInvitationsOutputBody: Swift.Equatable {
     let shareInvitationSummaries: [WellArchitectedClientTypes.ShareInvitationSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListShareInvitationsOutputResponseBody: Swift.Decodable {
+extension ListShareInvitationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case shareInvitationSummaries = "ShareInvitationSummaries"
@@ -8751,6 +9890,20 @@ extension ListShareInvitationsOutputResponseBody: Swift.Decodable {
         shareInvitationSummaries = shareInvitationSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListShareInvitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8785,23 +9938,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -8809,7 +9950,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -8821,11 +9962,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -8843,6 +9984,174 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTemplateSharesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let sharedWithPrefix = sharedWithPrefix {
+                let sharedWithPrefixQueryItem = ClientRuntime.URLQueryItem(name: "SharedWithPrefix".urlPercentEncoding(), value: Swift.String(sharedWithPrefix).urlPercentEncoding())
+                items.append(sharedWithPrefixQueryItem)
+            }
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListTemplateSharesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        return "/templates/shares/\(templateArn.urlPercentEncoding())"
+    }
+}
+
+public struct ListTemplateSharesInput: Swift.Equatable {
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the profile is shared.
+    public var sharedWithPrefix: Swift.String?
+    /// The status of the share request.
+    public var status: WellArchitectedClientTypes.ShareStatus?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sharedWithPrefix: Swift.String? = nil,
+        status: WellArchitectedClientTypes.ShareStatus? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sharedWithPrefix = sharedWithPrefix
+        self.status = status
+        self.templateArn = templateArn
+    }
+}
+
+struct ListTemplateSharesInputBody: Swift.Equatable {
+}
+
+extension ListTemplateSharesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTemplateSharesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTemplateSharesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.templateArn = output.templateArn
+            self.templateShareSummaries = output.templateShareSummaries
+        } else {
+            self.nextToken = nil
+            self.templateArn = nil
+            self.templateShareSummaries = nil
+        }
+    }
+}
+
+public struct ListTemplateSharesOutput: Swift.Equatable {
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The review template ARN.
+    public var templateArn: Swift.String?
+    /// A review template share summary return object.
+    public var templateShareSummaries: [WellArchitectedClientTypes.TemplateShareSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        templateArn: Swift.String? = nil,
+        templateShareSummaries: [WellArchitectedClientTypes.TemplateShareSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.templateArn = templateArn
+        self.templateShareSummaries = templateShareSummaries
+    }
+}
+
+struct ListTemplateSharesOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let templateShareSummaries: [WellArchitectedClientTypes.TemplateShareSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListTemplateSharesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case templateArn = "TemplateArn"
+        case templateShareSummaries = "TemplateShareSummaries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let templateShareSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.TemplateShareSummary?].self, forKey: .templateShareSummaries)
+        var templateShareSummariesDecoded0:[WellArchitectedClientTypes.TemplateShareSummary]? = nil
+        if let templateShareSummariesContainer = templateShareSummariesContainer {
+            templateShareSummariesDecoded0 = [WellArchitectedClientTypes.TemplateShareSummary]()
+            for structure0 in templateShareSummariesContainer {
+                if let structure0 = structure0 {
+                    templateShareSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        templateShareSummaries = templateShareSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTemplateSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8886,7 +10195,7 @@ public struct ListWorkloadSharesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
+    /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload is shared.
     public var sharedWithPrefix: Swift.String?
     /// The status of the share request.
     public var status: WellArchitectedClientTypes.ShareStatus?
@@ -8919,26 +10228,11 @@ extension ListWorkloadSharesInputBody: Swift.Decodable {
     }
 }
 
-enum ListWorkloadSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorkloadSharesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorkloadSharesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorkloadSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorkloadSharesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.workloadId = output.workloadId
             self.workloadShareSummaries = output.workloadShareSummaries
@@ -8951,7 +10245,7 @@ extension ListWorkloadSharesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for List Workload Share
-public struct ListWorkloadSharesOutputResponse: Swift.Equatable {
+public struct ListWorkloadSharesOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -8971,13 +10265,13 @@ public struct ListWorkloadSharesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorkloadSharesOutputResponseBody: Swift.Equatable {
+struct ListWorkloadSharesOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let workloadShareSummaries: [WellArchitectedClientTypes.WorkloadShareSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorkloadSharesOutputResponseBody: Swift.Decodable {
+extension ListWorkloadSharesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case workloadId = "WorkloadId"
@@ -9001,6 +10295,21 @@ extension ListWorkloadSharesOutputResponseBody: Swift.Decodable {
         workloadShareSummaries = workloadShareSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorkloadSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9076,25 +10385,11 @@ extension ListWorkloadsInputBody: Swift.Decodable {
     }
 }
 
-enum ListWorkloadsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListWorkloadsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListWorkloadsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListWorkloadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListWorkloadsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.workloadSummaries = output.workloadSummaries
         } else {
@@ -9105,7 +10400,7 @@ extension ListWorkloadsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list workloads call.
-public struct ListWorkloadsOutputResponse: Swift.Equatable {
+public struct ListWorkloadsOutput: Swift.Equatable {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of workload summaries.
@@ -9121,12 +10416,12 @@ public struct ListWorkloadsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsOutputResponseBody: Swift.Equatable {
+struct ListWorkloadsOutputBody: Swift.Equatable {
     let workloadSummaries: [WellArchitectedClientTypes.WorkloadSummary]?
     let nextToken: Swift.String?
 }
 
-extension ListWorkloadsOutputResponseBody: Swift.Decodable {
+extension ListWorkloadsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case workloadSummaries = "WorkloadSummaries"
@@ -9147,6 +10442,20 @@ extension ListWorkloadsOutputResponseBody: Swift.Decodable {
         workloadSummaries = workloadSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorkloadsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9677,7 +10986,7 @@ extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A pillar review summary of a lens review.
     public struct PillarReviewSummary: Swift.Equatable {
-        /// The notes associated with the workload.
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
@@ -10287,7 +11596,7 @@ extension WellArchitectedClientTypes {
     public struct ProfileShareSummary: Swift.Equatable {
         /// The ID associated with the share.
         public var shareId: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
         public var sharedWith: Swift.String?
         /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
@@ -10634,6 +11943,38 @@ extension WellArchitectedClientTypes {
 
 }
 
+extension WellArchitectedClientTypes {
+    public enum Question: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case answered
+        case unanswered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Question] {
+            return [
+                .answered,
+                .unanswered,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .answered: return "ANSWERED"
+            case .unanswered: return "UNANSWERED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Question(rawValue: rawValue) ?? Question.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension WellArchitectedClientTypes.QuestionDifference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case differenceStatus = "DifferenceStatus"
@@ -10931,6 +12272,936 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension WellArchitectedClientTypes.ReviewTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case lenses = "Lenses"
+        case notes = "Notes"
+        case owner = "Owner"
+        case questionCounts = "QuestionCounts"
+        case shareInvitationId = "ShareInvitationId"
+        case tags = "Tags"
+        case templateArn = "TemplateArn"
+        case templateName = "TemplateName"
+        case updateStatus = "UpdateStatus"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lenses = lenses {
+            var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
+            for lensalias0 in lenses {
+                try lensesContainer.encode(lensalias0)
+            }
+        }
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let questionCounts = questionCounts {
+            var questionCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .questionCounts)
+            for (dictKey0, questionCounts0) in questionCounts {
+                try questionCountsContainer.encode(questionCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let shareInvitationId = self.shareInvitationId {
+            try encodeContainer.encode(shareInvitationId, forKey: .shareInvitationId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let templateArn = self.templateArn {
+            try encodeContainer.encode(templateArn, forKey: .templateArn)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus.rawValue, forKey: .updateStatus)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lensesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .lenses)
+        var lensesDecoded0:[Swift.String]? = nil
+        if let lensesContainer = lensesContainer {
+            lensesDecoded0 = [Swift.String]()
+            for string0 in lensesContainer {
+                if let string0 = string0 {
+                    lensesDecoded0?.append(string0)
+                }
+            }
+        }
+        lenses = lensesDecoded0
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let questionCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .questionCounts)
+        var questionCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let questionCountsContainer = questionCountsContainer {
+            questionCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in questionCountsContainer {
+                if let count0 = count0 {
+                    questionCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        questionCounts = questionCountsDecoded0
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let updateStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateUpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
+        let shareInvitationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareInvitationId)
+        shareInvitationId = shareInvitationIdDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A review template.
+    public struct ReviewTemplate: Swift.Equatable {
+        /// The review template description.
+        public var description: Swift.String?
+        /// The lenses applied to the review template.
+        public var lenses: [Swift.String]?
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+        public var notes: Swift.String?
+        /// An Amazon Web Services account ID.
+        public var owner: Swift.String?
+        /// A count of how many total questions are answered and unanswered in the review template.
+        public var questionCounts: [Swift.String:Swift.Int]?
+        /// The ID assigned to the template share invitation.
+        public var shareInvitationId: Swift.String?
+        /// The tags assigned to the review template.
+        public var tags: [Swift.String:Swift.String]?
+        /// The review template ARN.
+        public var templateArn: Swift.String?
+        /// The name of the review template.
+        public var templateName: Swift.String?
+        /// The latest status of a review template.
+        public var updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            lenses: [Swift.String]? = nil,
+            notes: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            questionCounts: [Swift.String:Swift.Int]? = nil,
+            shareInvitationId: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            templateArn: Swift.String? = nil,
+            templateName: Swift.String? = nil,
+            updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.description = description
+            self.lenses = lenses
+            self.notes = notes
+            self.owner = owner
+            self.questionCounts = questionCounts
+            self.shareInvitationId = shareInvitationId
+            self.tags = tags
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.updateStatus = updateStatus
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ReviewTemplateAnswer: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answerStatus = "AnswerStatus"
+        case choiceAnswers = "ChoiceAnswers"
+        case choices = "Choices"
+        case helpfulResourceDisplayText = "HelpfulResourceDisplayText"
+        case helpfulResourceUrl = "HelpfulResourceUrl"
+        case improvementPlanUrl = "ImprovementPlanUrl"
+        case isApplicable = "IsApplicable"
+        case notes = "Notes"
+        case pillarId = "PillarId"
+        case questionDescription = "QuestionDescription"
+        case questionId = "QuestionId"
+        case questionTitle = "QuestionTitle"
+        case reason = "Reason"
+        case selectedChoices = "SelectedChoices"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let answerStatus = self.answerStatus {
+            try encodeContainer.encode(answerStatus.rawValue, forKey: .answerStatus)
+        }
+        if let choiceAnswers = choiceAnswers {
+            var choiceAnswersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choiceAnswers)
+            for choiceanswer0 in choiceAnswers {
+                try choiceAnswersContainer.encode(choiceanswer0)
+            }
+        }
+        if let choices = choices {
+            var choicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choices)
+            for choice0 in choices {
+                try choicesContainer.encode(choice0)
+            }
+        }
+        if let helpfulResourceDisplayText = self.helpfulResourceDisplayText {
+            try encodeContainer.encode(helpfulResourceDisplayText, forKey: .helpfulResourceDisplayText)
+        }
+        if let helpfulResourceUrl = self.helpfulResourceUrl {
+            try encodeContainer.encode(helpfulResourceUrl, forKey: .helpfulResourceUrl)
+        }
+        if let improvementPlanUrl = self.improvementPlanUrl {
+            try encodeContainer.encode(improvementPlanUrl, forKey: .improvementPlanUrl)
+        }
+        if isApplicable != false {
+            try encodeContainer.encode(isApplicable, forKey: .isApplicable)
+        }
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let pillarId = self.pillarId {
+            try encodeContainer.encode(pillarId, forKey: .pillarId)
+        }
+        if let questionDescription = self.questionDescription {
+            try encodeContainer.encode(questionDescription, forKey: .questionDescription)
+        }
+        if let questionId = self.questionId {
+            try encodeContainer.encode(questionId, forKey: .questionId)
+        }
+        if let questionTitle = self.questionTitle {
+            try encodeContainer.encode(questionTitle, forKey: .questionTitle)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason.rawValue, forKey: .reason)
+        }
+        if let selectedChoices = selectedChoices {
+            var selectedChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoices)
+            for choiceid0 in selectedChoices {
+                try selectedChoicesContainer.encode(choiceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionId)
+        questionId = questionIdDecoded
+        let pillarIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pillarId)
+        pillarId = pillarIdDecoded
+        let questionTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionTitle)
+        questionTitle = questionTitleDecoded
+        let questionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionDescription)
+        questionDescription = questionDescriptionDecoded
+        let improvementPlanUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .improvementPlanUrl)
+        improvementPlanUrl = improvementPlanUrlDecoded
+        let helpfulResourceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .helpfulResourceUrl)
+        helpfulResourceUrl = helpfulResourceUrlDecoded
+        let helpfulResourceDisplayTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .helpfulResourceDisplayText)
+        helpfulResourceDisplayText = helpfulResourceDisplayTextDecoded
+        let choicesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.Choice?].self, forKey: .choices)
+        var choicesDecoded0:[WellArchitectedClientTypes.Choice]? = nil
+        if let choicesContainer = choicesContainer {
+            choicesDecoded0 = [WellArchitectedClientTypes.Choice]()
+            for structure0 in choicesContainer {
+                if let structure0 = structure0 {
+                    choicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        choices = choicesDecoded0
+        let selectedChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectedChoices)
+        var selectedChoicesDecoded0:[Swift.String]? = nil
+        if let selectedChoicesContainer = selectedChoicesContainer {
+            selectedChoicesDecoded0 = [Swift.String]()
+            for string0 in selectedChoicesContainer {
+                if let string0 = string0 {
+                    selectedChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectedChoices = selectedChoicesDecoded0
+        let choiceAnswersContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ChoiceAnswer?].self, forKey: .choiceAnswers)
+        var choiceAnswersDecoded0:[WellArchitectedClientTypes.ChoiceAnswer]? = nil
+        if let choiceAnswersContainer = choiceAnswersContainer {
+            choiceAnswersDecoded0 = [WellArchitectedClientTypes.ChoiceAnswer]()
+            for structure0 in choiceAnswersContainer {
+                if let structure0 = structure0 {
+                    choiceAnswersDecoded0?.append(structure0)
+                }
+            }
+        }
+        choiceAnswers = choiceAnswersDecoded0
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        isApplicable = isApplicableDecoded
+        let answerStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateAnswerStatus.self, forKey: .answerStatus)
+        answerStatus = answerStatusDecoded
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AnswerReason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// An answer of the question.
+    public struct ReviewTemplateAnswer: Swift.Equatable {
+        /// The status of whether or not this question has been answered.
+        public var answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus?
+        /// A list of selected choices to a question in your review template.
+        public var choiceAnswers: [WellArchitectedClientTypes.ChoiceAnswer]?
+        /// List of choices available for a question.
+        public var choices: [WellArchitectedClientTypes.Choice]?
+        /// The helpful resource text to be displayed for a custom lens. This field does not apply to Amazon Web Services official lenses.
+        public var helpfulResourceDisplayText: Swift.String?
+        /// The helpful resource URL. For Amazon Web Services official lenses, this is the helpful resource URL for a question or choice. For custom lenses, this is the helpful resource URL for a question and is only provided if HelpfulResourceDisplayText was specified for the question.
+        public var helpfulResourceUrl: Swift.String?
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
+        public var improvementPlanUrl: Swift.String?
+        /// Defines whether this question is applicable to a lens review.
+        public var isApplicable: Swift.Bool
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+        public var notes: Swift.String?
+        /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
+        public var pillarId: Swift.String?
+        /// The description of the question.
+        public var questionDescription: Swift.String?
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The title of the question.
+        public var questionTitle: Swift.String?
+        /// The reason why the question is not applicable to your review template.
+        public var reason: WellArchitectedClientTypes.AnswerReason?
+        /// List of selected choice IDs in a question answer. The values entered replace the previously selected choices.
+        public var selectedChoices: [Swift.String]?
+
+        public init(
+            answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus? = nil,
+            choiceAnswers: [WellArchitectedClientTypes.ChoiceAnswer]? = nil,
+            choices: [WellArchitectedClientTypes.Choice]? = nil,
+            helpfulResourceDisplayText: Swift.String? = nil,
+            helpfulResourceUrl: Swift.String? = nil,
+            improvementPlanUrl: Swift.String? = nil,
+            isApplicable: Swift.Bool = false,
+            notes: Swift.String? = nil,
+            pillarId: Swift.String? = nil,
+            questionDescription: Swift.String? = nil,
+            questionId: Swift.String? = nil,
+            questionTitle: Swift.String? = nil,
+            reason: WellArchitectedClientTypes.AnswerReason? = nil,
+            selectedChoices: [Swift.String]? = nil
+        )
+        {
+            self.answerStatus = answerStatus
+            self.choiceAnswers = choiceAnswers
+            self.choices = choices
+            self.helpfulResourceDisplayText = helpfulResourceDisplayText
+            self.helpfulResourceUrl = helpfulResourceUrl
+            self.improvementPlanUrl = improvementPlanUrl
+            self.isApplicable = isApplicable
+            self.notes = notes
+            self.pillarId = pillarId
+            self.questionDescription = questionDescription
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.reason = reason
+            self.selectedChoices = selectedChoices
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes {
+    public enum ReviewTemplateAnswerStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case answered
+        case unanswered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReviewTemplateAnswerStatus] {
+            return [
+                .answered,
+                .unanswered,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .answered: return "ANSWERED"
+            case .unanswered: return "UNANSWERED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReviewTemplateAnswerStatus(rawValue: rawValue) ?? ReviewTemplateAnswerStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answerStatus = "AnswerStatus"
+        case choiceAnswerSummaries = "ChoiceAnswerSummaries"
+        case choices = "Choices"
+        case isApplicable = "IsApplicable"
+        case pillarId = "PillarId"
+        case questionId = "QuestionId"
+        case questionTitle = "QuestionTitle"
+        case questionType = "QuestionType"
+        case reason = "Reason"
+        case selectedChoices = "SelectedChoices"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let answerStatus = self.answerStatus {
+            try encodeContainer.encode(answerStatus.rawValue, forKey: .answerStatus)
+        }
+        if let choiceAnswerSummaries = choiceAnswerSummaries {
+            var choiceAnswerSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choiceAnswerSummaries)
+            for choiceanswersummary0 in choiceAnswerSummaries {
+                try choiceAnswerSummariesContainer.encode(choiceanswersummary0)
+            }
+        }
+        if let choices = choices {
+            var choicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choices)
+            for choice0 in choices {
+                try choicesContainer.encode(choice0)
+            }
+        }
+        if isApplicable != false {
+            try encodeContainer.encode(isApplicable, forKey: .isApplicable)
+        }
+        if let pillarId = self.pillarId {
+            try encodeContainer.encode(pillarId, forKey: .pillarId)
+        }
+        if let questionId = self.questionId {
+            try encodeContainer.encode(questionId, forKey: .questionId)
+        }
+        if let questionTitle = self.questionTitle {
+            try encodeContainer.encode(questionTitle, forKey: .questionTitle)
+        }
+        if let questionType = self.questionType {
+            try encodeContainer.encode(questionType.rawValue, forKey: .questionType)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason.rawValue, forKey: .reason)
+        }
+        if let selectedChoices = selectedChoices {
+            var selectedChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoices)
+            for choiceid0 in selectedChoices {
+                try selectedChoicesContainer.encode(choiceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionId)
+        questionId = questionIdDecoded
+        let pillarIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pillarId)
+        pillarId = pillarIdDecoded
+        let questionTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionTitle)
+        questionTitle = questionTitleDecoded
+        let choicesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.Choice?].self, forKey: .choices)
+        var choicesDecoded0:[WellArchitectedClientTypes.Choice]? = nil
+        if let choicesContainer = choicesContainer {
+            choicesDecoded0 = [WellArchitectedClientTypes.Choice]()
+            for structure0 in choicesContainer {
+                if let structure0 = structure0 {
+                    choicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        choices = choicesDecoded0
+        let selectedChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectedChoices)
+        var selectedChoicesDecoded0:[Swift.String]? = nil
+        if let selectedChoicesContainer = selectedChoicesContainer {
+            selectedChoicesDecoded0 = [Swift.String]()
+            for string0 in selectedChoicesContainer {
+                if let string0 = string0 {
+                    selectedChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectedChoices = selectedChoicesDecoded0
+        let choiceAnswerSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ChoiceAnswerSummary?].self, forKey: .choiceAnswerSummaries)
+        var choiceAnswerSummariesDecoded0:[WellArchitectedClientTypes.ChoiceAnswerSummary]? = nil
+        if let choiceAnswerSummariesContainer = choiceAnswerSummariesContainer {
+            choiceAnswerSummariesDecoded0 = [WellArchitectedClientTypes.ChoiceAnswerSummary]()
+            for structure0 in choiceAnswerSummariesContainer {
+                if let structure0 = structure0 {
+                    choiceAnswerSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        choiceAnswerSummaries = choiceAnswerSummariesDecoded0
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        isApplicable = isApplicableDecoded
+        let answerStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateAnswerStatus.self, forKey: .answerStatus)
+        answerStatus = answerStatusDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AnswerReason.self, forKey: .reason)
+        reason = reasonDecoded
+        let questionTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.QuestionType.self, forKey: .questionType)
+        questionType = questionTypeDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The summary of review template answers.
+    public struct ReviewTemplateAnswerSummary: Swift.Equatable {
+        /// The status of whether or not this question has been answered.
+        public var answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus?
+        /// A list of selected choices to a question in the review template.
+        public var choiceAnswerSummaries: [WellArchitectedClientTypes.ChoiceAnswerSummary]?
+        /// List of choices available for a question.
+        public var choices: [WellArchitectedClientTypes.Choice]?
+        /// Defines whether this question is applicable to a lens review.
+        public var isApplicable: Swift.Bool
+        /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
+        public var pillarId: Swift.String?
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The title of the question.
+        public var questionTitle: Swift.String?
+        /// The type of question.
+        public var questionType: WellArchitectedClientTypes.QuestionType?
+        /// The reason why a choice is not-applicable to a question in the review template.
+        public var reason: WellArchitectedClientTypes.AnswerReason?
+        /// List of selected choice IDs in a question answer. The values entered replace the previously selected choices.
+        public var selectedChoices: [Swift.String]?
+
+        public init(
+            answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus? = nil,
+            choiceAnswerSummaries: [WellArchitectedClientTypes.ChoiceAnswerSummary]? = nil,
+            choices: [WellArchitectedClientTypes.Choice]? = nil,
+            isApplicable: Swift.Bool = false,
+            pillarId: Swift.String? = nil,
+            questionId: Swift.String? = nil,
+            questionTitle: Swift.String? = nil,
+            questionType: WellArchitectedClientTypes.QuestionType? = nil,
+            reason: WellArchitectedClientTypes.AnswerReason? = nil,
+            selectedChoices: [Swift.String]? = nil
+        )
+        {
+            self.answerStatus = answerStatus
+            self.choiceAnswerSummaries = choiceAnswerSummaries
+            self.choices = choices
+            self.isApplicable = isApplicable
+            self.pillarId = pillarId
+            self.questionId = questionId
+            self.questionTitle = questionTitle
+            self.questionType = questionType
+            self.reason = reason
+            self.selectedChoices = selectedChoices
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ReviewTemplateLensReview: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensAlias = "LensAlias"
+        case lensArn = "LensArn"
+        case lensName = "LensName"
+        case lensStatus = "LensStatus"
+        case lensVersion = "LensVersion"
+        case nextToken = "NextToken"
+        case notes = "Notes"
+        case pillarReviewSummaries = "PillarReviewSummaries"
+        case questionCounts = "QuestionCounts"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lensAlias = self.lensAlias {
+            try encodeContainer.encode(lensAlias, forKey: .lensAlias)
+        }
+        if let lensArn = self.lensArn {
+            try encodeContainer.encode(lensArn, forKey: .lensArn)
+        }
+        if let lensName = self.lensName {
+            try encodeContainer.encode(lensName, forKey: .lensName)
+        }
+        if let lensStatus = self.lensStatus {
+            try encodeContainer.encode(lensStatus.rawValue, forKey: .lensStatus)
+        }
+        if let lensVersion = self.lensVersion {
+            try encodeContainer.encode(lensVersion, forKey: .lensVersion)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let pillarReviewSummaries = pillarReviewSummaries {
+            var pillarReviewSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarReviewSummaries)
+            for reviewtemplatepillarreviewsummary0 in pillarReviewSummaries {
+                try pillarReviewSummariesContainer.encode(reviewtemplatepillarreviewsummary0)
+            }
+        }
+        if let questionCounts = questionCounts {
+            var questionCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .questionCounts)
+            for (dictKey0, questionCounts0) in questionCounts {
+                try questionCountsContainer.encode(questionCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
+        lensAlias = lensAliasDecoded
+        let lensArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensArn)
+        lensArn = lensArnDecoded
+        let lensVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensVersion)
+        lensVersion = lensVersionDecoded
+        let lensNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensName)
+        lensName = lensNameDecoded
+        let lensStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.LensStatus.self, forKey: .lensStatus)
+        lensStatus = lensStatusDecoded
+        let pillarReviewSummariesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary?].self, forKey: .pillarReviewSummaries)
+        var pillarReviewSummariesDecoded0:[WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary]? = nil
+        if let pillarReviewSummariesContainer = pillarReviewSummariesContainer {
+            pillarReviewSummariesDecoded0 = [WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary]()
+            for structure0 in pillarReviewSummariesContainer {
+                if let structure0 = structure0 {
+                    pillarReviewSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        pillarReviewSummaries = pillarReviewSummariesDecoded0
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let questionCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .questionCounts)
+        var questionCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let questionCountsContainer = questionCountsContainer {
+            questionCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in questionCountsContainer {
+                if let count0 = count0 {
+                    questionCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        questionCounts = questionCountsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The lens review of a review template.
+    public struct ReviewTemplateLensReview: Swift.Equatable {
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+        public var lensAlias: Swift.String?
+        /// The lens ARN.
+        public var lensArn: Swift.String?
+        /// The full name of the lens.
+        public var lensName: Swift.String?
+        /// The status of the lens.
+        public var lensStatus: WellArchitectedClientTypes.LensStatus?
+        /// The version of the lens.
+        public var lensVersion: Swift.String?
+        /// The token to use to retrieve the next set of results.
+        public var nextToken: Swift.String?
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+        public var notes: Swift.String?
+        /// Pillar review summaries of a lens review.
+        public var pillarReviewSummaries: [WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary]?
+        /// A count of how many questions are answered and unanswered in the lens review.
+        public var questionCounts: [Swift.String:Swift.Int]?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            lensAlias: Swift.String? = nil,
+            lensArn: Swift.String? = nil,
+            lensName: Swift.String? = nil,
+            lensStatus: WellArchitectedClientTypes.LensStatus? = nil,
+            lensVersion: Swift.String? = nil,
+            nextToken: Swift.String? = nil,
+            notes: Swift.String? = nil,
+            pillarReviewSummaries: [WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary]? = nil,
+            questionCounts: [Swift.String:Swift.Int]? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.lensAlias = lensAlias
+            self.lensArn = lensArn
+            self.lensName = lensName
+            self.lensStatus = lensStatus
+            self.lensVersion = lensVersion
+            self.nextToken = nextToken
+            self.notes = notes
+            self.pillarReviewSummaries = pillarReviewSummaries
+            self.questionCounts = questionCounts
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notes = "Notes"
+        case pillarId = "PillarId"
+        case pillarName = "PillarName"
+        case questionCounts = "QuestionCounts"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let pillarId = self.pillarId {
+            try encodeContainer.encode(pillarId, forKey: .pillarId)
+        }
+        if let pillarName = self.pillarName {
+            try encodeContainer.encode(pillarName, forKey: .pillarName)
+        }
+        if let questionCounts = questionCounts {
+            var questionCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .questionCounts)
+            for (dictKey0, questionCounts0) in questionCounts {
+                try questionCountsContainer.encode(questionCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pillarIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pillarId)
+        pillarId = pillarIdDecoded
+        let pillarNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pillarName)
+        pillarName = pillarNameDecoded
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let questionCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .questionCounts)
+        var questionCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let questionCountsContainer = questionCountsContainer {
+            questionCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in questionCountsContainer {
+                if let count0 = count0 {
+                    questionCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        questionCounts = questionCountsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Summary of a review template.
+    public struct ReviewTemplatePillarReviewSummary: Swift.Equatable {
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+        public var notes: Swift.String?
+        /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
+        public var pillarId: Swift.String?
+        /// The name of the pillar.
+        public var pillarName: Swift.String?
+        /// A count of how many questions are answered and unanswered in the requested pillar of the lens review.
+        public var questionCounts: [Swift.String:Swift.Int]?
+
+        public init(
+            notes: Swift.String? = nil,
+            pillarId: Swift.String? = nil,
+            pillarName: Swift.String? = nil,
+            questionCounts: [Swift.String:Swift.Int]? = nil
+        )
+        {
+            self.notes = notes
+            self.pillarId = pillarId
+            self.pillarName = pillarName
+            self.questionCounts = questionCounts
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.ReviewTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case lenses = "Lenses"
+        case owner = "Owner"
+        case templateArn = "TemplateArn"
+        case templateName = "TemplateName"
+        case updateStatus = "UpdateStatus"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lenses = lenses {
+            var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
+            for lensalias0 in lenses {
+                try lensesContainer.encode(lensalias0)
+            }
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let templateArn = self.templateArn {
+            try encodeContainer.encode(templateArn, forKey: .templateArn)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus.rawValue, forKey: .updateStatus)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lensesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .lenses)
+        var lensesDecoded0:[Swift.String]? = nil
+        if let lensesContainer = lensesContainer {
+            lensesDecoded0 = [Swift.String]()
+            for string0 in lensesContainer {
+                if let string0 = string0 {
+                    lensesDecoded0?.append(string0)
+                }
+            }
+        }
+        lenses = lensesDecoded0
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateUpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Summary of a review template.
+    public struct ReviewTemplateSummary: Swift.Equatable {
+        /// Description of the review template.
+        public var description: Swift.String?
+        /// Lenses associated with the review template.
+        public var lenses: [Swift.String]?
+        /// An Amazon Web Services account ID.
+        public var owner: Swift.String?
+        /// The review template ARN.
+        public var templateArn: Swift.String?
+        /// The name of the review template.
+        public var templateName: Swift.String?
+        /// The latest status of a review template.
+        public var updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            lenses: [Swift.String]? = nil,
+            owner: Swift.String? = nil,
+            templateArn: Swift.String? = nil,
+            templateName: Swift.String? = nil,
+            updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.description = description
+            self.lenses = lenses
+            self.owner = owner
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.updateStatus = updateStatus
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes {
+    public enum ReviewTemplateUpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case current
+        case lensNotCurrent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReviewTemplateUpdateStatus] {
+            return [
+                .current,
+                .lensNotCurrent,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .current: return "CURRENT"
+            case .lensNotCurrent: return "LENS_NOT_CURRENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReviewTemplateUpdateStatus(rawValue: rawValue) ?? ReviewTemplateUpdateStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension WellArchitectedClientTypes {
     /// The risk for a given workload, lens review, pillar, or question.
     public enum Risk: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -11079,6 +13350,7 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
         case profileArn = "ProfileArn"
         case shareInvitationId = "ShareInvitationId"
         case shareResourceType = "ShareResourceType"
+        case templateArn = "TemplateArn"
         case workloadId = "WorkloadId"
     }
 
@@ -11099,6 +13371,9 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
         if let shareResourceType = self.shareResourceType {
             try encodeContainer.encode(shareResourceType.rawValue, forKey: .shareResourceType)
         }
+        if let templateArn = self.templateArn {
+            try encodeContainer.encode(templateArn, forKey: .templateArn)
+        }
         if let workloadId = self.workloadId {
             try encodeContainer.encode(workloadId, forKey: .workloadId)
         }
@@ -11118,6 +13393,8 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
         lensArn = lensArnDecoded
         let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
         profileArn = profileArnDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
     }
 }
 
@@ -11134,6 +13411,8 @@ extension WellArchitectedClientTypes {
         public var shareInvitationId: Swift.String?
         /// The resource type of the share invitation.
         public var shareResourceType: WellArchitectedClientTypes.ShareResourceType?
+        /// The review template ARN.
+        public var templateArn: Swift.String?
         /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
         public var workloadId: Swift.String?
 
@@ -11143,6 +13422,7 @@ extension WellArchitectedClientTypes {
             profileArn: Swift.String? = nil,
             shareInvitationId: Swift.String? = nil,
             shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
+            templateArn: Swift.String? = nil,
             workloadId: Swift.String? = nil
         )
         {
@@ -11151,6 +13431,7 @@ extension WellArchitectedClientTypes {
             self.profileArn = profileArn
             self.shareInvitationId = shareInvitationId
             self.shareResourceType = shareResourceType
+            self.templateArn = templateArn
             self.workloadId = workloadId
         }
     }
@@ -11201,6 +13482,8 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
         case shareResourceType = "ShareResourceType"
         case sharedBy = "SharedBy"
         case sharedWith = "SharedWith"
+        case templateArn = "TemplateArn"
+        case templateName = "TemplateName"
         case workloadId = "WorkloadId"
         case workloadName = "WorkloadName"
     }
@@ -11234,6 +13517,12 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
         if let sharedWith = self.sharedWith {
             try encodeContainer.encode(sharedWith, forKey: .sharedWith)
         }
+        if let templateArn = self.templateArn {
+            try encodeContainer.encode(templateArn, forKey: .templateArn)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
         if let workloadId = self.workloadId {
             try encodeContainer.encode(workloadId, forKey: .workloadId)
         }
@@ -11266,6 +13555,10 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
         profileName = profileNameDecoded
         let profileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileArn)
         profileArn = profileArnDecoded
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
     }
 }
 
@@ -11288,8 +13581,12 @@ extension WellArchitectedClientTypes {
         public var shareResourceType: WellArchitectedClientTypes.ShareResourceType?
         /// An Amazon Web Services account ID.
         public var sharedBy: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
         public var sharedWith: Swift.String?
+        /// The review template ARN.
+        public var templateArn: Swift.String?
+        /// The name of the review template.
+        public var templateName: Swift.String?
         /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
         public var workloadId: Swift.String?
         /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness.
@@ -11305,6 +13602,8 @@ extension WellArchitectedClientTypes {
             shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
             sharedBy: Swift.String? = nil,
             sharedWith: Swift.String? = nil,
+            templateArn: Swift.String? = nil,
+            templateName: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
         )
@@ -11318,6 +13617,8 @@ extension WellArchitectedClientTypes {
             self.shareResourceType = shareResourceType
             self.sharedBy = sharedBy
             self.sharedWith = sharedWith
+            self.templateArn = templateArn
+            self.templateName = templateName
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
@@ -11329,6 +13630,7 @@ extension WellArchitectedClientTypes {
     public enum ShareResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case lens
         case profile
+        case template
         case workload
         case sdkUnknown(Swift.String)
 
@@ -11336,6 +13638,7 @@ extension WellArchitectedClientTypes {
             return [
                 .lens,
                 .profile,
+                .template,
                 .workload,
                 .sdkUnknown("")
             ]
@@ -11348,6 +13651,7 @@ extension WellArchitectedClientTypes {
             switch self {
             case .lens: return "LENS"
             case .profile: return "PROFILE"
+            case .template: return "TEMPLATE"
             case .workload: return "WORKLOAD"
             case let .sdkUnknown(s): return s
             }
@@ -11479,6 +13783,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11491,14 +13805,69 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension WellArchitectedClientTypes.TemplateShareSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case shareId = "ShareId"
+        case sharedWith = "SharedWith"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let shareId = self.shareId {
+            try encodeContainer.encode(shareId, forKey: .shareId)
+        }
+        if let sharedWith = self.sharedWith {
+            try encodeContainer.encode(sharedWith, forKey: .sharedWith)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+        let sharedWithDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sharedWith)
+        sharedWith = sharedWithDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ShareStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
     }
 }
 
-public struct TagResourceOutputResponse: Swift.Equatable {
+extension WellArchitectedClientTypes {
+    /// Summary of a review template share.
+    public struct TemplateShareSummary: Swift.Equatable {
+        /// The ID associated with the share.
+        public var shareId: Swift.String?
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
+        public var sharedWith: Swift.String?
+        /// The status of the share request.
+        public var status: WellArchitectedClientTypes.ShareStatus?
+        /// Review template share invitation status message.
+        public var statusMessage: Swift.String?
 
-    public init() { }
+        public init(
+            shareId: Swift.String? = nil,
+            sharedWith: Swift.String? = nil,
+            status: WellArchitectedClientTypes.ShareStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.shareId = shareId
+            self.sharedWith = sharedWith
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
 }
 
 extension ThrottlingException {
@@ -11663,6 +14032,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11673,16 +14052,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAnswerInput: Swift.Encodable {
@@ -11744,7 +14113,7 @@ public struct UpdateAnswerInput: Swift.Equatable {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
-    /// The notes associated with the workload.
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
     public var notes: Swift.String?
     /// The ID of the question.
     /// This member is required.
@@ -11829,27 +14198,11 @@ extension UpdateAnswerInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAnswerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAnswerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAnswerOutputBody = try responseDecoder.decode(responseBody: data)
             self.answer = output.answer
             self.lensAlias = output.lensAlias
             self.lensArn = output.lensArn
@@ -11864,7 +14217,7 @@ extension UpdateAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a update answer call.
-public struct UpdateAnswerOutputResponse: Swift.Equatable {
+public struct UpdateAnswerOutput: Swift.Equatable {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.Answer?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -11888,14 +14241,14 @@ public struct UpdateAnswerOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAnswerOutputResponseBody: Swift.Equatable {
+struct UpdateAnswerOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
     let answer: WellArchitectedClientTypes.Answer?
 }
 
-extension UpdateAnswerOutputResponseBody: Swift.Decodable {
+extension UpdateAnswerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case answer = "Answer"
         case lensAlias = "LensAlias"
@@ -11913,6 +14266,22 @@ extension UpdateAnswerOutputResponseBody: Swift.Decodable {
         lensArn = lensArnDecoded
         let answerDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Answer.self, forKey: .answer)
         answer = answerDecoded
+    }
+}
+
+enum UpdateAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11975,6 +14344,16 @@ extension UpdateGlobalSettingsInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateGlobalSettingsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11988,16 +14367,6 @@ enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateGlobalSettingsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateLensReviewInput: Swift.Encodable {
@@ -12037,9 +14406,9 @@ public struct UpdateLensReviewInput: Swift.Equatable {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
-    /// The notes associated with the workload.
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
     public var lensNotes: Swift.String?
-    /// List of pillar notes of a lens review in a workload.
+    /// List of pillar notes of a lens review in a workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
     public var pillarNotes: [Swift.String:Swift.String]?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
@@ -12088,27 +14457,11 @@ extension UpdateLensReviewInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateLensReviewOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateLensReviewOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateLensReviewOutputBody = try responseDecoder.decode(responseBody: data)
             self.lensReview = output.lensReview
             self.workloadId = output.workloadId
         } else {
@@ -12119,7 +14472,7 @@ extension UpdateLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a update lens review call.
-public struct UpdateLensReviewOutputResponse: Swift.Equatable {
+public struct UpdateLensReviewOutput: Swift.Equatable {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.LensReview?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -12135,12 +14488,12 @@ public struct UpdateLensReviewOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateLensReviewOutputResponseBody: Swift.Equatable {
+struct UpdateLensReviewOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let lensReview: WellArchitectedClientTypes.LensReview?
 }
 
-extension UpdateLensReviewOutputResponseBody: Swift.Decodable {
+extension UpdateLensReviewOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensReview = "LensReview"
         case workloadId = "WorkloadId"
@@ -12152,6 +14505,22 @@ extension UpdateLensReviewOutputResponseBody: Swift.Decodable {
         workloadId = workloadIdDecoded
         let lensReviewDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.LensReview.self, forKey: .lensReview)
         lensReview = lensReviewDecoded
+    }
+}
+
+enum UpdateLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12234,6 +14603,46 @@ extension UpdateProfileInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.profile = output.profile
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
+public struct UpdateProfileOutput: Swift.Equatable {
+    /// The profile.
+    public var profile: WellArchitectedClientTypes.Profile?
+
+    public init(
+        profile: WellArchitectedClientTypes.Profile? = nil
+    )
+    {
+        self.profile = profile
+    }
+}
+
+struct UpdateProfileOutputBody: Swift.Equatable {
+    let profile: WellArchitectedClientTypes.Profile?
+}
+
+extension UpdateProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profile = "Profile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Profile.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
 enum UpdateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12250,43 +14659,558 @@ enum UpdateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.profile = output.profile
-        } else {
-            self.profile = nil
+extension UpdateReviewTemplateAnswerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case choiceUpdates = "ChoiceUpdates"
+        case isApplicable = "IsApplicable"
+        case notes = "Notes"
+        case reason = "Reason"
+        case selectedChoices = "SelectedChoices"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let choiceUpdates = choiceUpdates {
+            var choiceUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .choiceUpdates)
+            for (dictKey0, choiceUpdates0) in choiceUpdates {
+                try choiceUpdatesContainer.encode(choiceUpdates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let isApplicable = self.isApplicable {
+            try encodeContainer.encode(isApplicable, forKey: .isApplicable)
+        }
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason.rawValue, forKey: .reason)
+        }
+        if let selectedChoices = selectedChoices {
+            var selectedChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoices)
+            for choiceid0 in selectedChoices {
+                try selectedChoicesContainer.encode(choiceid0)
+            }
         }
     }
 }
 
-public struct UpdateProfileOutputResponse: Swift.Equatable {
-    /// The profile.
-    public var profile: WellArchitectedClientTypes.Profile?
-
-    public init(
-        profile: WellArchitectedClientTypes.Profile? = nil
-    )
-    {
-        self.profile = profile
+extension UpdateReviewTemplateAnswerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let lensAlias = lensAlias else {
+            return nil
+        }
+        guard let questionId = questionId else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())/lensReviews/\(lensAlias.urlPercentEncoding())/answers/\(questionId.urlPercentEncoding())"
     }
 }
 
-struct UpdateProfileOutputResponseBody: Swift.Equatable {
-    let profile: WellArchitectedClientTypes.Profile?
+public struct UpdateReviewTemplateAnswerInput: Swift.Equatable {
+    /// A list of choices to be updated.
+    public var choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
+    /// Defines whether this question is applicable to a lens review.
+    public var isApplicable: Swift.Bool?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    /// This member is required.
+    public var lensAlias: Swift.String?
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+    public var notes: Swift.String?
+    /// The ID of the question.
+    /// This member is required.
+    public var questionId: Swift.String?
+    /// The update reason.
+    public var reason: WellArchitectedClientTypes.AnswerReason?
+    /// List of selected choice IDs in a question answer. The values entered replace the previously selected choices.
+    public var selectedChoices: [Swift.String]?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]? = nil,
+        isApplicable: Swift.Bool? = nil,
+        lensAlias: Swift.String? = nil,
+        notes: Swift.String? = nil,
+        questionId: Swift.String? = nil,
+        reason: WellArchitectedClientTypes.AnswerReason? = nil,
+        selectedChoices: [Swift.String]? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.choiceUpdates = choiceUpdates
+        self.isApplicable = isApplicable
+        self.lensAlias = lensAlias
+        self.notes = notes
+        self.questionId = questionId
+        self.reason = reason
+        self.selectedChoices = selectedChoices
+        self.templateArn = templateArn
+    }
 }
 
-extension UpdateProfileOutputResponseBody: Swift.Decodable {
+struct UpdateReviewTemplateAnswerInputBody: Swift.Equatable {
+    let selectedChoices: [Swift.String]?
+    let choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
+    let notes: Swift.String?
+    let isApplicable: Swift.Bool?
+    let reason: WellArchitectedClientTypes.AnswerReason?
+}
+
+extension UpdateReviewTemplateAnswerInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case profile = "Profile"
+        case choiceUpdates = "ChoiceUpdates"
+        case isApplicable = "IsApplicable"
+        case notes = "Notes"
+        case reason = "Reason"
+        case selectedChoices = "SelectedChoices"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let profileDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Profile.self, forKey: .profile)
-        profile = profileDecoded
+        let selectedChoicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectedChoices)
+        var selectedChoicesDecoded0:[Swift.String]? = nil
+        if let selectedChoicesContainer = selectedChoicesContainer {
+            selectedChoicesDecoded0 = [Swift.String]()
+            for string0 in selectedChoicesContainer {
+                if let string0 = string0 {
+                    selectedChoicesDecoded0?.append(string0)
+                }
+            }
+        }
+        selectedChoices = selectedChoicesDecoded0
+        let choiceUpdatesContainer = try containerValues.decodeIfPresent([Swift.String: WellArchitectedClientTypes.ChoiceUpdate?].self, forKey: .choiceUpdates)
+        var choiceUpdatesDecoded0: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]? = nil
+        if let choiceUpdatesContainer = choiceUpdatesContainer {
+            choiceUpdatesDecoded0 = [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]()
+            for (key0, choiceupdate0) in choiceUpdatesContainer {
+                if let choiceupdate0 = choiceupdate0 {
+                    choiceUpdatesDecoded0?[key0] = choiceupdate0
+                }
+            }
+        }
+        choiceUpdates = choiceUpdatesDecoded0
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable)
+        isApplicable = isApplicableDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AnswerReason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension UpdateReviewTemplateAnswerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateReviewTemplateAnswerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.answer = output.answer
+            self.lensAlias = output.lensAlias
+            self.templateArn = output.templateArn
+        } else {
+            self.answer = nil
+            self.lensAlias = nil
+            self.templateArn = nil
+        }
+    }
+}
+
+public struct UpdateReviewTemplateAnswerOutput: Swift.Equatable {
+    /// An answer of the question.
+    public var answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    public var lensAlias: Swift.String?
+    /// The review template ARN.
+    public var templateArn: Swift.String?
+
+    public init(
+        answer: WellArchitectedClientTypes.ReviewTemplateAnswer? = nil,
+        lensAlias: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.answer = answer
+        self.lensAlias = lensAlias
+        self.templateArn = templateArn
+    }
+}
+
+struct UpdateReviewTemplateAnswerOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let lensAlias: Swift.String?
+    let answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
+}
+
+extension UpdateReviewTemplateAnswerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answer = "Answer"
+        case lensAlias = "LensAlias"
+        case templateArn = "TemplateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let lensAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensAlias)
+        lensAlias = lensAliasDecoded
+        let answerDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateAnswer.self, forKey: .answer)
+        answer = answerDecoded
+    }
+}
+
+enum UpdateReviewTemplateAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateReviewTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case lensesToAssociate = "LensesToAssociate"
+        case lensesToDisassociate = "LensesToDisassociate"
+        case notes = "Notes"
+        case templateName = "TemplateName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lensesToAssociate = lensesToAssociate {
+            var lensesToAssociateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lensesToAssociate)
+            for lensalias0 in lensesToAssociate {
+                try lensesToAssociateContainer.encode(lensalias0)
+            }
+        }
+        if let lensesToDisassociate = lensesToDisassociate {
+            var lensesToDisassociateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lensesToDisassociate)
+            for lensalias0 in lensesToDisassociate {
+                try lensesToDisassociateContainer.encode(lensalias0)
+            }
+        }
+        if let notes = self.notes {
+            try encodeContainer.encode(notes, forKey: .notes)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+    }
+}
+
+extension UpdateReviewTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateReviewTemplateInput: Swift.Equatable {
+    /// The review template description.
+    public var description: Swift.String?
+    /// A list of lens aliases or ARNs to apply to the review template.
+    public var lensesToAssociate: [Swift.String]?
+    /// A list of lens aliases or ARNs to unapply to the review template. The wellarchitected lens cannot be unapplied.
+    public var lensesToDisassociate: [Swift.String]?
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+    public var notes: Swift.String?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+    /// The review template name.
+    public var templateName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        lensesToAssociate: [Swift.String]? = nil,
+        lensesToDisassociate: [Swift.String]? = nil,
+        notes: Swift.String? = nil,
+        templateArn: Swift.String? = nil,
+        templateName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.lensesToAssociate = lensesToAssociate
+        self.lensesToDisassociate = lensesToDisassociate
+        self.notes = notes
+        self.templateArn = templateArn
+        self.templateName = templateName
+    }
+}
+
+struct UpdateReviewTemplateInputBody: Swift.Equatable {
+    let templateName: Swift.String?
+    let description: Swift.String?
+    let notes: Swift.String?
+    let lensesToAssociate: [Swift.String]?
+    let lensesToDisassociate: [Swift.String]?
+}
+
+extension UpdateReviewTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case lensesToAssociate = "LensesToAssociate"
+        case lensesToDisassociate = "LensesToDisassociate"
+        case notes = "Notes"
+        case templateName = "TemplateName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
+        notes = notesDecoded
+        let lensesToAssociateContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .lensesToAssociate)
+        var lensesToAssociateDecoded0:[Swift.String]? = nil
+        if let lensesToAssociateContainer = lensesToAssociateContainer {
+            lensesToAssociateDecoded0 = [Swift.String]()
+            for string0 in lensesToAssociateContainer {
+                if let string0 = string0 {
+                    lensesToAssociateDecoded0?.append(string0)
+                }
+            }
+        }
+        lensesToAssociate = lensesToAssociateDecoded0
+        let lensesToDisassociateContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .lensesToDisassociate)
+        var lensesToDisassociateDecoded0:[Swift.String]? = nil
+        if let lensesToDisassociateContainer = lensesToDisassociateContainer {
+            lensesToDisassociateDecoded0 = [Swift.String]()
+            for string0 in lensesToDisassociateContainer {
+                if let string0 = string0 {
+                    lensesToDisassociateDecoded0?.append(string0)
+                }
+            }
+        }
+        lensesToDisassociate = lensesToDisassociateDecoded0
+    }
+}
+
+extension UpdateReviewTemplateLensReviewInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensNotes = "LensNotes"
+        case pillarNotes = "PillarNotes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lensNotes = self.lensNotes {
+            try encodeContainer.encode(lensNotes, forKey: .lensNotes)
+        }
+        if let pillarNotes = pillarNotes {
+            var pillarNotesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .pillarNotes)
+            for (dictKey0, pillarNotes0) in pillarNotes {
+                try pillarNotesContainer.encode(pillarNotes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension UpdateReviewTemplateLensReviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let lensAlias = lensAlias else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())/lensReviews/\(lensAlias.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateReviewTemplateLensReviewInput: Swift.Equatable {
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    /// This member is required.
+    public var lensAlias: Swift.String?
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+    public var lensNotes: Swift.String?
+    /// List of pillar notes of a lens review in a workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
+    public var pillarNotes: [Swift.String:Swift.String]?
+    /// The review template ARN.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        lensAlias: Swift.String? = nil,
+        lensNotes: Swift.String? = nil,
+        pillarNotes: [Swift.String:Swift.String]? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.lensAlias = lensAlias
+        self.lensNotes = lensNotes
+        self.pillarNotes = pillarNotes
+        self.templateArn = templateArn
+    }
+}
+
+struct UpdateReviewTemplateLensReviewInputBody: Swift.Equatable {
+    let lensNotes: Swift.String?
+    let pillarNotes: [Swift.String:Swift.String]?
+}
+
+extension UpdateReviewTemplateLensReviewInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensNotes = "LensNotes"
+        case pillarNotes = "PillarNotes"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lensNotesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensNotes)
+        lensNotes = lensNotesDecoded
+        let pillarNotesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .pillarNotes)
+        var pillarNotesDecoded0: [Swift.String:Swift.String]? = nil
+        if let pillarNotesContainer = pillarNotesContainer {
+            pillarNotesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, notes0) in pillarNotesContainer {
+                if let notes0 = notes0 {
+                    pillarNotesDecoded0?[key0] = notes0
+                }
+            }
+        }
+        pillarNotes = pillarNotesDecoded0
+    }
+}
+
+extension UpdateReviewTemplateLensReviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateReviewTemplateLensReviewOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lensReview = output.lensReview
+            self.templateArn = output.templateArn
+        } else {
+            self.lensReview = nil
+            self.templateArn = nil
+        }
+    }
+}
+
+public struct UpdateReviewTemplateLensReviewOutput: Swift.Equatable {
+    /// A lens review of a question.
+    public var lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
+    /// The review template ARN.
+    public var templateArn: Swift.String?
+
+    public init(
+        lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.lensReview = lensReview
+        self.templateArn = templateArn
+    }
+}
+
+struct UpdateReviewTemplateLensReviewOutputBody: Swift.Equatable {
+    let templateArn: Swift.String?
+    let lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
+}
+
+extension UpdateReviewTemplateLensReviewOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensReview = "LensReview"
+        case templateArn = "TemplateArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let lensReviewDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplateLensReview.self, forKey: .lensReview)
+        lensReview = lensReviewDecoded
+    }
+}
+
+enum UpdateReviewTemplateLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateReviewTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.reviewTemplate = output.reviewTemplate
+        } else {
+            self.reviewTemplate = nil
+        }
+    }
+}
+
+public struct UpdateReviewTemplateOutput: Swift.Equatable {
+    /// A review template.
+    public var reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
+
+    public init(
+        reviewTemplate: WellArchitectedClientTypes.ReviewTemplate? = nil
+    )
+    {
+        self.reviewTemplate = reviewTemplate
+    }
+}
+
+struct UpdateReviewTemplateOutputBody: Swift.Equatable {
+    let reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
+}
+
+extension UpdateReviewTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reviewTemplate = "ReviewTemplate"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reviewTemplateDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ReviewTemplate.self, forKey: .reviewTemplate)
+        reviewTemplate = reviewTemplateDecoded
+    }
+}
+
+enum UpdateReviewTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12347,6 +15271,46 @@ extension UpdateShareInvitationInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateShareInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateShareInvitationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.shareInvitation = output.shareInvitation
+        } else {
+            self.shareInvitation = nil
+        }
+    }
+}
+
+public struct UpdateShareInvitationOutput: Swift.Equatable {
+    /// The updated workload or custom lens share invitation.
+    public var shareInvitation: WellArchitectedClientTypes.ShareInvitation?
+
+    public init(
+        shareInvitation: WellArchitectedClientTypes.ShareInvitation? = nil
+    )
+    {
+        self.shareInvitation = shareInvitation
+    }
+}
+
+struct UpdateShareInvitationOutputBody: Swift.Equatable {
+    let shareInvitation: WellArchitectedClientTypes.ShareInvitation?
+}
+
+extension UpdateShareInvitationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case shareInvitation = "ShareInvitation"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareInvitationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ShareInvitation.self, forKey: .shareInvitation)
+        shareInvitation = shareInvitationDecoded
+    }
+}
+
 enum UpdateShareInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12360,46 +15324,6 @@ enum UpdateShareInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateShareInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateShareInvitationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.shareInvitation = output.shareInvitation
-        } else {
-            self.shareInvitation = nil
-        }
-    }
-}
-
-public struct UpdateShareInvitationOutputResponse: Swift.Equatable {
-    /// The updated workload or custom lens share invitation.
-    public var shareInvitation: WellArchitectedClientTypes.ShareInvitation?
-
-    public init(
-        shareInvitation: WellArchitectedClientTypes.ShareInvitation? = nil
-    )
-    {
-        self.shareInvitation = shareInvitation
-    }
-}
-
-struct UpdateShareInvitationOutputResponseBody: Swift.Equatable {
-    let shareInvitation: WellArchitectedClientTypes.ShareInvitation?
-}
-
-extension UpdateShareInvitationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case shareInvitation = "ShareInvitation"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let shareInvitationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.ShareInvitation.self, forKey: .shareInvitation)
-        shareInvitation = shareInvitationDecoded
     }
 }
 
@@ -12580,7 +15504,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
     public var isReviewOwnerUpdateAcknowledged: Swift.Bool?
     /// The list of non-Amazon Web Services Regions associated with the workload.
     public var nonAwsRegions: [Swift.String]?
-    /// The notes associated with the workload.
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
     public var notes: Swift.String?
     /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its [PillarReviewSummary$PillarId].
     public var pillarPriorities: [Swift.String]?
@@ -12753,6 +15677,47 @@ extension UpdateWorkloadInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateWorkloadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateWorkloadOutputBody = try responseDecoder.decode(responseBody: data)
+            self.workload = output.workload
+        } else {
+            self.workload = nil
+        }
+    }
+}
+
+/// Output of an update workload call.
+public struct UpdateWorkloadOutput: Swift.Equatable {
+    /// A workload return object.
+    public var workload: WellArchitectedClientTypes.Workload?
+
+    public init(
+        workload: WellArchitectedClientTypes.Workload? = nil
+    )
+    {
+        self.workload = workload
+    }
+}
+
+struct UpdateWorkloadOutputBody: Swift.Equatable {
+    let workload: WellArchitectedClientTypes.Workload?
+}
+
+extension UpdateWorkloadOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workload = "Workload"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workloadDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Workload.self, forKey: .workload)
+        workload = workloadDecoded
+    }
+}
+
 enum UpdateWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12766,47 +15731,6 @@ enum UpdateWorkloadOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateWorkloadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateWorkloadOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.workload = output.workload
-        } else {
-            self.workload = nil
-        }
-    }
-}
-
-/// Output of an update workload call.
-public struct UpdateWorkloadOutputResponse: Swift.Equatable {
-    /// A workload return object.
-    public var workload: WellArchitectedClientTypes.Workload?
-
-    public init(
-        workload: WellArchitectedClientTypes.Workload? = nil
-    )
-    {
-        self.workload = workload
-    }
-}
-
-struct UpdateWorkloadOutputResponseBody: Swift.Equatable {
-    let workload: WellArchitectedClientTypes.Workload?
-}
-
-extension UpdateWorkloadOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case workload = "Workload"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let workloadDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Workload.self, forKey: .workload)
-        workload = workloadDecoded
     }
 }
 
@@ -12875,27 +15799,11 @@ extension UpdateWorkloadShareInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateWorkloadShareOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateWorkloadShareOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateWorkloadShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateWorkloadShareOutputBody = try responseDecoder.decode(responseBody: data)
             self.workloadId = output.workloadId
             self.workloadShare = output.workloadShare
         } else {
@@ -12906,7 +15814,7 @@ extension UpdateWorkloadShareOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for Update Workload Share
-public struct UpdateWorkloadShareOutputResponse: Swift.Equatable {
+public struct UpdateWorkloadShareOutput: Swift.Equatable {
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
     /// A workload share return object.
@@ -12922,12 +15830,12 @@ public struct UpdateWorkloadShareOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadShareOutputResponseBody: Swift.Equatable {
+struct UpdateWorkloadShareOutputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let workloadShare: WellArchitectedClientTypes.WorkloadShare?
 }
 
-extension UpdateWorkloadShareOutputResponseBody: Swift.Decodable {
+extension UpdateWorkloadShareOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case workloadId = "WorkloadId"
         case workloadShare = "WorkloadShare"
@@ -12939,6 +15847,22 @@ extension UpdateWorkloadShareOutputResponseBody: Swift.Decodable {
         workloadId = workloadIdDecoded
         let workloadShareDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadShare.self, forKey: .workloadShare)
         workloadShare = workloadShareDecoded
+    }
+}
+
+enum UpdateWorkloadShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13018,6 +15942,16 @@ extension UpgradeLensReviewInputBody: Swift.Decodable {
     }
 }
 
+extension UpgradeLensReviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpgradeLensReviewOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpgradeLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13032,16 +15966,6 @@ enum UpgradeLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpgradeLensReviewOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpgradeLensReviewOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpgradeProfileVersionInput: Swift.Encodable {
@@ -13119,6 +16043,16 @@ extension UpgradeProfileVersionInputBody: Swift.Decodable {
     }
 }
 
+extension UpgradeProfileVersionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpgradeProfileVersionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpgradeProfileVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13135,14 +16069,93 @@ enum UpgradeProfileVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpgradeProfileVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpgradeReviewTemplateLensReviewInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+    }
+}
+
+extension UpgradeReviewTemplateLensReviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let templateArn = templateArn else {
+            return nil
+        }
+        guard let lensAlias = lensAlias else {
+            return nil
+        }
+        return "/reviewTemplates/\(templateArn.urlPercentEncoding())/lensReviews/\(lensAlias.urlPercentEncoding())/upgrade"
+    }
+}
+
+public struct UpgradeReviewTemplateLensReviewInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    public var clientRequestToken: Swift.String?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
+    /// This member is required.
+    public var lensAlias: Swift.String?
+    /// The ARN of the review template.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        lensAlias: Swift.String? = nil,
+        templateArn: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.lensAlias = lensAlias
+        self.templateArn = templateArn
+    }
+}
+
+struct UpgradeReviewTemplateLensReviewInputBody: Swift.Equatable {
+    let clientRequestToken: Swift.String?
+}
+
+extension UpgradeReviewTemplateLensReviewInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension UpgradeReviewTemplateLensReviewOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct UpgradeProfileVersionOutputResponse: Swift.Equatable {
+public struct UpgradeReviewTemplateLensReviewOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum UpgradeReviewTemplateLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ValidationException {
@@ -13738,11 +16751,11 @@ extension WellArchitectedClientTypes {
         public var industryType: Swift.String?
         /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
         public var isReviewOwnerUpdateAcknowledged: Swift.Bool
-        /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias].
+        /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.
         public var lenses: [Swift.String]?
         /// The list of non-Amazon Web Services Regions associated with the workload.
         public var nonAwsRegions: [Swift.String]?
-        /// The notes associated with the workload.
+        /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?
@@ -14074,7 +17087,7 @@ extension WellArchitectedClientTypes {
         public var shareId: Swift.String?
         /// An Amazon Web Services account ID.
         public var sharedBy: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
         public var sharedWith: Swift.String?
         /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
@@ -14155,7 +17168,7 @@ extension WellArchitectedClientTypes {
         public var permissionType: WellArchitectedClientTypes.PermissionType?
         /// The ID associated with the share.
         public var shareId: Swift.String?
-        /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload, lens, or profile is shared.
+        /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
         public var sharedWith: Swift.String?
         /// The status of the share request.
         public var status: WellArchitectedClientTypes.ShareStatus?
@@ -14306,7 +17319,7 @@ extension WellArchitectedClientTypes {
     public struct WorkloadSummary: Swift.Equatable {
         /// The improvement status for a workload.
         public var improvementStatus: WellArchitectedClientTypes.WorkloadImprovementStatus?
-        /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias].
+        /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.
         public var lenses: [Swift.String]?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?

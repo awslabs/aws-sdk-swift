@@ -71,7 +71,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter AcceptPortfolioShareInput : [no documentation found]
     ///
-    /// - Returns: `AcceptPortfolioShareOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptPortfolioShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,7 +79,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func acceptPortfolioShare(input: AcceptPortfolioShareInput) async throws -> AcceptPortfolioShareOutputResponse
+    public func acceptPortfolioShare(input: AcceptPortfolioShareInput) async throws -> AcceptPortfolioShareOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -95,21 +95,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AcceptPortfolioShareInput, AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>(id: "acceptPortfolioShare")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AcceptPortfolioShareInput, AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>(id: "acceptPortfolioShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.AcceptPortfolioShare"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutputResponse>(xmlName: "AcceptPortfolioShareInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.AcceptPortfolioShare"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(xmlName: "AcceptPortfolioShareInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptPortfolioShareInput, AcceptPortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptPortfolioShareOutputResponse, AcceptPortfolioShareOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptPortfolioShareOutput, AcceptPortfolioShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -118,7 +118,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter AssociateBudgetWithResourceInput : [no documentation found]
     ///
-    /// - Returns: `AssociateBudgetWithResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateBudgetWithResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateBudgetWithResource(input: AssociateBudgetWithResourceInput) async throws -> AssociateBudgetWithResourceOutputResponse
+    public func associateBudgetWithResource(input: AssociateBudgetWithResourceInput) async throws -> AssociateBudgetWithResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -143,21 +143,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>(id: "associateBudgetWithResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>(id: "associateBudgetWithResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.AssociateBudgetWithResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutputResponse>(xmlName: "AssociateBudgetWithResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateBudgetWithResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(xmlName: "AssociateBudgetWithResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateBudgetWithResourceInput, AssociateBudgetWithResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBudgetWithResourceOutputResponse, AssociateBudgetWithResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBudgetWithResourceOutput, AssociateBudgetWithResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -166,7 +166,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter AssociatePrincipalWithPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `AssociatePrincipalWithPortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `AssociatePrincipalWithPortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,7 +174,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutputResponse
+    public func associatePrincipalWithPortfolio(input: AssociatePrincipalWithPortfolioInput) async throws -> AssociatePrincipalWithPortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -190,21 +190,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>(id: "associatePrincipalWithPortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>(id: "associatePrincipalWithPortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.AssociatePrincipalWithPortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutputResponse>(xmlName: "AssociatePrincipalWithPortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociatePrincipalWithPortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(xmlName: "AssociatePrincipalWithPortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociatePrincipalWithPortfolioInput, AssociatePrincipalWithPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePrincipalWithPortfolioOutputResponse, AssociatePrincipalWithPortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePrincipalWithPortfolioOutput, AssociatePrincipalWithPortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -213,7 +213,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter AssociateProductWithPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `AssociateProductWithPortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateProductWithPortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -221,7 +221,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput) async throws -> AssociateProductWithPortfolioOutputResponse
+    public func associateProductWithPortfolio(input: AssociateProductWithPortfolioInput) async throws -> AssociateProductWithPortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -237,21 +237,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>(id: "associateProductWithPortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>(id: "associateProductWithPortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.AssociateProductWithPortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutputResponse>(xmlName: "AssociateProductWithPortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateProductWithPortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(xmlName: "AssociateProductWithPortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateProductWithPortfolioInput, AssociateProductWithPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateProductWithPortfolioOutputResponse, AssociateProductWithPortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateProductWithPortfolioOutput, AssociateProductWithPortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -260,7 +260,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter AssociateServiceActionWithProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `AssociateServiceActionWithProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateServiceActionWithProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -269,7 +269,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func associateServiceActionWithProvisioningArtifact(input: AssociateServiceActionWithProvisioningArtifactInput) async throws -> AssociateServiceActionWithProvisioningArtifactOutputResponse
+    public func associateServiceActionWithProvisioningArtifact(input: AssociateServiceActionWithProvisioningArtifactInput) async throws -> AssociateServiceActionWithProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -285,21 +285,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>(id: "associateServiceActionWithProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>(id: "associateServiceActionWithProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.AssociateServiceActionWithProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutputResponse>(xmlName: "AssociateServiceActionWithProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateServiceActionWithProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(xmlName: "AssociateServiceActionWithProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateServiceActionWithProvisioningArtifactInput, AssociateServiceActionWithProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateServiceActionWithProvisioningArtifactOutputResponse, AssociateServiceActionWithProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateServiceActionWithProvisioningArtifactOutput, AssociateServiceActionWithProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -308,7 +308,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter AssociateTagOptionWithResourceInput : [no documentation found]
     ///
-    /// - Returns: `AssociateTagOptionWithResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateTagOptionWithResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,7 +319,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func associateTagOptionWithResource(input: AssociateTagOptionWithResourceInput) async throws -> AssociateTagOptionWithResourceOutputResponse
+    public func associateTagOptionWithResource(input: AssociateTagOptionWithResourceInput) async throws -> AssociateTagOptionWithResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -335,21 +335,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>(id: "associateTagOptionWithResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>(id: "associateTagOptionWithResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.AssociateTagOptionWithResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutputResponse>(xmlName: "AssociateTagOptionWithResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.AssociateTagOptionWithResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(xmlName: "AssociateTagOptionWithResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateTagOptionWithResourceInput, AssociateTagOptionWithResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTagOptionWithResourceOutputResponse, AssociateTagOptionWithResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTagOptionWithResourceOutput, AssociateTagOptionWithResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -358,13 +358,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter BatchAssociateServiceActionWithProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `BatchAssociateServiceActionWithProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `BatchAssociateServiceActionWithProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func batchAssociateServiceActionWithProvisioningArtifact(input: BatchAssociateServiceActionWithProvisioningArtifactInput) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutputResponse
+    public func batchAssociateServiceActionWithProvisioningArtifact(input: BatchAssociateServiceActionWithProvisioningArtifactInput) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -380,21 +380,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(id: "batchAssociateServiceActionWithProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(id: "batchAssociateServiceActionWithProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.BatchAssociateServiceActionWithProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse>(xmlName: "BatchAssociateServiceActionWithProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.BatchAssociateServiceActionWithProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(xmlName: "BatchAssociateServiceActionWithProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchAssociateServiceActionWithProvisioningArtifactInput, BatchAssociateServiceActionWithProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutputResponse, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateServiceActionWithProvisioningArtifactOutput, BatchAssociateServiceActionWithProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -403,13 +403,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter BatchDisassociateServiceActionFromProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDisassociateServiceActionFromProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchDisassociateServiceActionFromProvisioningArtifactInput) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse
+    public func batchDisassociateServiceActionFromProvisioningArtifact(input: BatchDisassociateServiceActionFromProvisioningArtifactInput) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -425,21 +425,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(id: "batchDisassociateServiceActionFromProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(id: "batchDisassociateServiceActionFromProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.BatchDisassociateServiceActionFromProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse>(xmlName: "BatchDisassociateServiceActionFromProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.BatchDisassociateServiceActionFromProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(xmlName: "BatchDisassociateServiceActionFromProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactInput, BatchDisassociateServiceActionFromProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateServiceActionFromProvisioningArtifactOutput, BatchDisassociateServiceActionFromProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -448,14 +448,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CopyProductInput : [no documentation found]
     ///
-    /// - Returns: `CopyProductOutputResponse` : [no documentation found]
+    /// - Returns: `CopyProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func copyProduct(input: CopyProductInput) async throws -> CopyProductOutputResponse
+    public func copyProduct(input: CopyProductInput) async throws -> CopyProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -471,8 +471,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CopyProductInput, CopyProductOutputResponse, CopyProductOutputError>(id: "copyProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CopyProductOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CopyProductInput, CopyProductOutput, CopyProductOutputError>(id: "copyProduct")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CopyProductOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -480,20 +480,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyProductInput, CopyProductOutputResponse, CopyProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyProductInput, CopyProductOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyProductInput, CopyProductOutput, CopyProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyProductInput, CopyProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyProductOutputResponse, CopyProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyProductOutput, CopyProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CopyProductInput, CopyProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CopyProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopyProductInput, CopyProductOutputResponse>(xmlName: "CopyProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopyProductInput, CopyProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CopyProductInput, CopyProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.CopyProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopyProductInput, CopyProductOutput>(xmlName: "CopyProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopyProductInput, CopyProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyProductOutputResponse, CopyProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyProductOutput, CopyProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyProductOutputResponse, CopyProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyProductOutputResponse, CopyProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyProductOutputResponse, CopyProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyProductOutput, CopyProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyProductOutput, CopyProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyProductOutput, CopyProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -502,7 +502,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreateConstraintInput : [no documentation found]
     ///
-    /// - Returns: `CreateConstraintOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConstraintOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,7 +511,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createConstraint(input: CreateConstraintInput) async throws -> CreateConstraintOutputResponse
+    public func createConstraint(input: CreateConstraintInput) async throws -> CreateConstraintOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -527,8 +527,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateConstraintInput, CreateConstraintOutputResponse, CreateConstraintOutputError>(id: "createConstraint")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConstraintOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CreateConstraintInput, CreateConstraintOutput, CreateConstraintOutputError>(id: "createConstraint")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConstraintOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -536,20 +536,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConstraintInput, CreateConstraintOutputResponse, CreateConstraintOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConstraintInput, CreateConstraintOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConstraintInput, CreateConstraintOutput, CreateConstraintOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConstraintInput, CreateConstraintOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConstraintOutputResponse, CreateConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConstraintOutput, CreateConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConstraintInput, CreateConstraintOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreateConstraint"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConstraintInput, CreateConstraintOutputResponse>(xmlName: "CreateConstraintInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConstraintInput, CreateConstraintOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateConstraintInput, CreateConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateConstraint"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateConstraintInput, CreateConstraintOutput>(xmlName: "CreateConstraintInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConstraintInput, CreateConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConstraintOutputResponse, CreateConstraintOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConstraintOutput, CreateConstraintOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConstraintOutputResponse, CreateConstraintOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConstraintOutputResponse, CreateConstraintOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConstraintOutputResponse, CreateConstraintOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConstraintOutput, CreateConstraintOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConstraintOutput, CreateConstraintOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConstraintOutput, CreateConstraintOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -558,7 +558,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreatePortfolioInput : [no documentation found]
     ///
-    /// - Returns: `CreatePortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,7 +566,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func createPortfolio(input: CreatePortfolioInput) async throws -> CreatePortfolioOutputResponse
+    public func createPortfolio(input: CreatePortfolioInput) async throws -> CreatePortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -582,8 +582,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePortfolioInput, CreatePortfolioOutputResponse, CreatePortfolioOutputError>(id: "createPortfolio")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePortfolioOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CreatePortfolioInput, CreatePortfolioOutput, CreatePortfolioOutputError>(id: "createPortfolio")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePortfolioOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -591,20 +591,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortfolioInput, CreatePortfolioOutputResponse, CreatePortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortfolioInput, CreatePortfolioOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortfolioInput, CreatePortfolioOutput, CreatePortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortfolioInput, CreatePortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortfolioOutputResponse, CreatePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortfolioOutput, CreatePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePortfolioInput, CreatePortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreatePortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePortfolioInput, CreatePortfolioOutputResponse>(xmlName: "CreatePortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortfolioInput, CreatePortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreatePortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(xmlName: "CreatePortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortfolioInput, CreatePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortfolioOutputResponse, CreatePortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortfolioOutput, CreatePortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortfolioOutputResponse, CreatePortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortfolioOutputResponse, CreatePortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortfolioOutputResponse, CreatePortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortfolioOutput, CreatePortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortfolioOutput, CreatePortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortfolioOutput, CreatePortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -613,7 +613,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreatePortfolioShareInput : [no documentation found]
     ///
-    /// - Returns: `CreatePortfolioShareOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePortfolioShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,7 +623,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutputResponse
+    public func createPortfolioShare(input: CreatePortfolioShareInput) async throws -> CreatePortfolioShareOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -639,21 +639,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePortfolioShareInput, CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>(id: "createPortfolioShare")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePortfolioShareInput, CreatePortfolioShareOutput, CreatePortfolioShareOutputError>(id: "createPortfolioShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput, CreatePortfolioShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortfolioShareOutput, CreatePortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreatePortfolioShare"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutputResponse>(xmlName: "CreatePortfolioShareInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreatePortfolioShare"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(xmlName: "CreatePortfolioShareInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortfolioShareInput, CreatePortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortfolioShareOutput, CreatePortfolioShareOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortfolioShareOutputResponse, CreatePortfolioShareOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortfolioShareOutput, CreatePortfolioShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortfolioShareOutput, CreatePortfolioShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortfolioShareOutput, CreatePortfolioShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -662,7 +662,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreateProductInput : [no documentation found]
     ///
-    /// - Returns: `CreateProductOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,7 +670,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func createProduct(input: CreateProductInput) async throws -> CreateProductOutputResponse
+    public func createProduct(input: CreateProductInput) async throws -> CreateProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -686,8 +686,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProductInput, CreateProductOutputResponse, CreateProductOutputError>(id: "createProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProductOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CreateProductInput, CreateProductOutput, CreateProductOutputError>(id: "createProduct")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProductOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -695,20 +695,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProductInput, CreateProductOutputResponse, CreateProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProductInput, CreateProductOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProductInput, CreateProductOutput, CreateProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProductInput, CreateProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProductOutputResponse, CreateProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProductOutput, CreateProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProductInput, CreateProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreateProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProductInput, CreateProductOutputResponse>(xmlName: "CreateProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProductInput, CreateProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProductInput, CreateProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProductInput, CreateProductOutput>(xmlName: "CreateProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProductInput, CreateProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProductOutputResponse, CreateProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProductOutput, CreateProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProductOutputResponse, CreateProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProductOutputResponse, CreateProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProductOutputResponse, CreateProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProductOutput, CreateProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProductOutput, CreateProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProductOutput, CreateProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -717,7 +717,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreateProvisionedProductPlanInput : [no documentation found]
     ///
-    /// - Returns: `CreateProvisionedProductPlanOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProvisionedProductPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -725,7 +725,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput) async throws -> CreateProvisionedProductPlanOutputResponse
+    public func createProvisionedProductPlan(input: CreateProvisionedProductPlanInput) async throws -> CreateProvisionedProductPlanOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -741,8 +741,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>(id: "createProvisionedProductPlan")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProvisionedProductPlanOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(id: "createProvisionedProductPlan")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProvisionedProductPlanOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -750,20 +750,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreateProvisionedProductPlan"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutputResponse>(xmlName: "CreateProvisionedProductPlanInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateProvisionedProductPlan"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(xmlName: "CreateProvisionedProductPlanInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProvisionedProductPlanOutputResponse, CreateProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -772,7 +772,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreateProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `CreateProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,7 +780,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func createProvisioningArtifact(input: CreateProvisioningArtifactInput) async throws -> CreateProvisioningArtifactOutputResponse
+    public func createProvisioningArtifact(input: CreateProvisioningArtifactInput) async throws -> CreateProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -796,8 +796,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>(id: "createProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProvisioningArtifactOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(id: "createProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProvisioningArtifactOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -805,20 +805,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreateProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutputResponse>(xmlName: "CreateProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(xmlName: "CreateProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProvisioningArtifactOutputResponse, CreateProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -827,14 +827,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreateServiceActionInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceActionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
-    public func createServiceAction(input: CreateServiceActionInput) async throws -> CreateServiceActionOutputResponse
+    public func createServiceAction(input: CreateServiceActionInput) async throws -> CreateServiceActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -850,8 +850,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateServiceActionInput, CreateServiceActionOutputResponse, CreateServiceActionOutputError>(id: "createServiceAction")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateServiceActionOutputResponse> in
+        var operation = ClientRuntime.OperationStack<CreateServiceActionInput, CreateServiceActionOutput, CreateServiceActionOutputError>(id: "createServiceAction")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateServiceActionOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -859,20 +859,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceActionInput, CreateServiceActionOutputResponse, CreateServiceActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceActionInput, CreateServiceActionOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceActionInput, CreateServiceActionOutput, CreateServiceActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceActionInput, CreateServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceActionOutputResponse, CreateServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceActionOutput, CreateServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateServiceActionInput, CreateServiceActionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreateServiceAction"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateServiceActionInput, CreateServiceActionOutputResponse>(xmlName: "CreateServiceActionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateServiceActionInput, CreateServiceActionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateServiceAction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(xmlName: "CreateServiceActionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateServiceActionInput, CreateServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceActionOutputResponse, CreateServiceActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceActionOutput, CreateServiceActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceActionOutputResponse, CreateServiceActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceActionOutputResponse, CreateServiceActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceActionOutputResponse, CreateServiceActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceActionOutput, CreateServiceActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceActionOutput, CreateServiceActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceActionOutput, CreateServiceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -881,7 +881,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter CreateTagOptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateTagOptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTagOptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,7 +889,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `DuplicateResourceException` : The specified resource is a duplicate.
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func createTagOption(input: CreateTagOptionInput) async throws -> CreateTagOptionOutputResponse
+    public func createTagOption(input: CreateTagOptionInput) async throws -> CreateTagOptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -905,21 +905,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTagOptionInput, CreateTagOptionOutputResponse, CreateTagOptionOutputError>(id: "createTagOption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagOptionInput, CreateTagOptionOutputResponse, CreateTagOptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagOptionInput, CreateTagOptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTagOptionInput, CreateTagOptionOutput, CreateTagOptionOutputError>(id: "createTagOption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagOptionInput, CreateTagOptionOutput, CreateTagOptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagOptionInput, CreateTagOptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagOptionOutputResponse, CreateTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagOptionOutput, CreateTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTagOptionInput, CreateTagOptionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.CreateTagOption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTagOptionInput, CreateTagOptionOutputResponse>(xmlName: "CreateTagOptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTagOptionInput, CreateTagOptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.CreateTagOption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(xmlName: "CreateTagOptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTagOptionInput, CreateTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTagOptionOutputResponse, CreateTagOptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTagOptionOutput, CreateTagOptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagOptionOutputResponse, CreateTagOptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagOptionOutputResponse, CreateTagOptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagOptionOutputResponse, CreateTagOptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagOptionOutput, CreateTagOptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagOptionOutput, CreateTagOptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagOptionOutput, CreateTagOptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -928,14 +928,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeleteConstraintInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConstraintOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConstraintOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteConstraint(input: DeleteConstraintInput) async throws -> DeleteConstraintOutputResponse
+    public func deleteConstraint(input: DeleteConstraintInput) async throws -> DeleteConstraintOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -951,21 +951,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteConstraintInput, DeleteConstraintOutputResponse, DeleteConstraintOutputError>(id: "deleteConstraint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConstraintInput, DeleteConstraintOutputResponse, DeleteConstraintOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConstraintInput, DeleteConstraintOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteConstraintInput, DeleteConstraintOutput, DeleteConstraintOutputError>(id: "deleteConstraint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConstraintInput, DeleteConstraintOutput, DeleteConstraintOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConstraintInput, DeleteConstraintOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConstraintOutputResponse, DeleteConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConstraintOutput, DeleteConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConstraintInput, DeleteConstraintOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeleteConstraint"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConstraintInput, DeleteConstraintOutputResponse>(xmlName: "DeleteConstraintInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConstraintInput, DeleteConstraintOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteConstraint"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(xmlName: "DeleteConstraintInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteConstraintInput, DeleteConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConstraintOutputResponse, DeleteConstraintOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConstraintOutput, DeleteConstraintOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConstraintOutputResponse, DeleteConstraintOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConstraintOutputResponse, DeleteConstraintOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConstraintOutputResponse, DeleteConstraintOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConstraintOutput, DeleteConstraintOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConstraintOutput, DeleteConstraintOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConstraintOutput, DeleteConstraintOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -974,7 +974,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeletePortfolioInput : [no documentation found]
     ///
-    /// - Returns: `DeletePortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,7 +983,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func deletePortfolio(input: DeletePortfolioInput) async throws -> DeletePortfolioOutputResponse
+    public func deletePortfolio(input: DeletePortfolioInput) async throws -> DeletePortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -999,21 +999,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePortfolioInput, DeletePortfolioOutputResponse, DeletePortfolioOutputError>(id: "deletePortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortfolioInput, DeletePortfolioOutputResponse, DeletePortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortfolioInput, DeletePortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePortfolioInput, DeletePortfolioOutput, DeletePortfolioOutputError>(id: "deletePortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortfolioInput, DeletePortfolioOutput, DeletePortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortfolioInput, DeletePortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortfolioOutputResponse, DeletePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortfolioOutput, DeletePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePortfolioInput, DeletePortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeletePortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePortfolioInput, DeletePortfolioOutputResponse>(xmlName: "DeletePortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePortfolioInput, DeletePortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeletePortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(xmlName: "DeletePortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePortfolioInput, DeletePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortfolioOutputResponse, DeletePortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortfolioOutput, DeletePortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortfolioOutputResponse, DeletePortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortfolioOutputResponse, DeletePortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortfolioOutputResponse, DeletePortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortfolioOutput, DeletePortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortfolioOutput, DeletePortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortfolioOutput, DeletePortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1022,7 +1022,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeletePortfolioShareInput : [no documentation found]
     ///
-    /// - Returns: `DeletePortfolioShareOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePortfolioShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,7 +1031,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deletePortfolioShare(input: DeletePortfolioShareInput) async throws -> DeletePortfolioShareOutputResponse
+    public func deletePortfolioShare(input: DeletePortfolioShareInput) async throws -> DeletePortfolioShareOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1047,21 +1047,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePortfolioShareInput, DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>(id: "deletePortfolioShare")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePortfolioShareInput, DeletePortfolioShareOutput, DeletePortfolioShareOutputError>(id: "deletePortfolioShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput, DeletePortfolioShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortfolioShareOutput, DeletePortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeletePortfolioShare"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutputResponse>(xmlName: "DeletePortfolioShareInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeletePortfolioShare"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(xmlName: "DeletePortfolioShareInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePortfolioShareInput, DeletePortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortfolioShareOutput, DeletePortfolioShareOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortfolioShareOutputResponse, DeletePortfolioShareOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortfolioShareOutput, DeletePortfolioShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortfolioShareOutput, DeletePortfolioShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortfolioShareOutput, DeletePortfolioShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1070,7 +1070,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeleteProductInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProductOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,7 +1079,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func deleteProduct(input: DeleteProductInput) async throws -> DeleteProductOutputResponse
+    public func deleteProduct(input: DeleteProductInput) async throws -> DeleteProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1095,21 +1095,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProductInput, DeleteProductOutputResponse, DeleteProductOutputError>(id: "deleteProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProductInput, DeleteProductOutputResponse, DeleteProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProductInput, DeleteProductOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProductInput, DeleteProductOutput, DeleteProductOutputError>(id: "deleteProduct")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProductInput, DeleteProductOutput, DeleteProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProductInput, DeleteProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProductOutputResponse, DeleteProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProductOutput, DeleteProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProductInput, DeleteProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProductInput, DeleteProductOutputResponse>(xmlName: "DeleteProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProductInput, DeleteProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProductInput, DeleteProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProductInput, DeleteProductOutput>(xmlName: "DeleteProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProductInput, DeleteProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProductOutputResponse, DeleteProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProductOutput, DeleteProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProductOutputResponse, DeleteProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProductOutputResponse, DeleteProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProductOutputResponse, DeleteProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProductOutput, DeleteProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProductOutput, DeleteProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProductOutput, DeleteProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1118,14 +1118,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeleteProvisionedProductPlanInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProvisionedProductPlanOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProvisionedProductPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInput) async throws -> DeleteProvisionedProductPlanOutputResponse
+    public func deleteProvisionedProductPlan(input: DeleteProvisionedProductPlanInput) async throws -> DeleteProvisionedProductPlanOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1141,21 +1141,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>(id: "deleteProvisionedProductPlan")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>(id: "deleteProvisionedProductPlan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProvisionedProductPlan"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutputResponse>(xmlName: "DeleteProvisionedProductPlanInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProvisionedProductPlan"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(xmlName: "DeleteProvisionedProductPlanInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProvisionedProductPlanInput, DeleteProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisionedProductPlanOutputResponse, DeleteProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisionedProductPlanOutput, DeleteProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1164,7 +1164,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeleteProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,7 +1172,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput) async throws -> DeleteProvisioningArtifactOutputResponse
+    public func deleteProvisioningArtifact(input: DeleteProvisioningArtifactInput) async throws -> DeleteProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1188,21 +1188,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>(id: "deleteProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>(id: "deleteProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutputResponse>(xmlName: "DeleteProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(xmlName: "DeleteProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProvisioningArtifactInput, DeleteProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisioningArtifactOutputResponse, DeleteProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisioningArtifactOutput, DeleteProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1211,14 +1211,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeleteServiceActionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceActionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutputResponse
+    public func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1234,21 +1234,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteServiceActionInput, DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>(id: "deleteServiceAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceActionInput, DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceActionInput, DeleteServiceActionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteServiceActionInput, DeleteServiceActionOutput, DeleteServiceActionOutputError>(id: "deleteServiceAction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput, DeleteServiceActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceActionOutput, DeleteServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceActionInput, DeleteServiceActionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeleteServiceAction"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteServiceActionInput, DeleteServiceActionOutputResponse>(xmlName: "DeleteServiceActionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteServiceActionInput, DeleteServiceActionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteServiceAction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(xmlName: "DeleteServiceActionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteServiceActionInput, DeleteServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceActionOutput, DeleteServiceActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceActionOutputResponse, DeleteServiceActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceActionOutput, DeleteServiceActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceActionOutput, DeleteServiceActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceActionOutput, DeleteServiceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1257,7 +1257,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DeleteTagOptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTagOptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTagOptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,7 +1265,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func deleteTagOption(input: DeleteTagOptionInput) async throws -> DeleteTagOptionOutputResponse
+    public func deleteTagOption(input: DeleteTagOptionInput) async throws -> DeleteTagOptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1281,21 +1281,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTagOptionInput, DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>(id: "deleteTagOption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagOptionInput, DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagOptionInput, DeleteTagOptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTagOptionInput, DeleteTagOptionOutput, DeleteTagOptionOutputError>(id: "deleteTagOption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput, DeleteTagOptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagOptionOutput, DeleteTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTagOptionInput, DeleteTagOptionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DeleteTagOption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTagOptionInput, DeleteTagOptionOutputResponse>(xmlName: "DeleteTagOptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTagOptionInput, DeleteTagOptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DeleteTagOption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(xmlName: "DeleteTagOptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTagOptionInput, DeleteTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTagOptionOutput, DeleteTagOptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagOptionOutputResponse, DeleteTagOptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagOptionOutput, DeleteTagOptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagOptionOutput, DeleteTagOptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagOptionOutput, DeleteTagOptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1304,13 +1304,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeConstraintInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConstraintOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConstraintOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeConstraint(input: DescribeConstraintInput) async throws -> DescribeConstraintOutputResponse
+    public func describeConstraint(input: DescribeConstraintInput) async throws -> DescribeConstraintOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1326,21 +1326,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeConstraintInput, DescribeConstraintOutputResponse, DescribeConstraintOutputError>(id: "describeConstraint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConstraintInput, DescribeConstraintOutputResponse, DescribeConstraintOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConstraintInput, DescribeConstraintOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeConstraintInput, DescribeConstraintOutput, DescribeConstraintOutputError>(id: "describeConstraint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConstraintInput, DescribeConstraintOutput, DescribeConstraintOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConstraintInput, DescribeConstraintOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConstraintOutputResponse, DescribeConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConstraintOutput, DescribeConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConstraintInput, DescribeConstraintOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeConstraint"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConstraintInput, DescribeConstraintOutputResponse>(xmlName: "DescribeConstraintInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConstraintInput, DescribeConstraintOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeConstraint"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(xmlName: "DescribeConstraintInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeConstraintInput, DescribeConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConstraintOutputResponse, DescribeConstraintOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeConstraintOutput, DescribeConstraintOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConstraintOutputResponse, DescribeConstraintOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConstraintOutputResponse, DescribeConstraintOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConstraintOutputResponse, DescribeConstraintOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConstraintOutput, DescribeConstraintOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConstraintOutput, DescribeConstraintOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConstraintOutput, DescribeConstraintOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1349,13 +1349,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeCopyProductStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCopyProductStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCopyProductStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeCopyProductStatus(input: DescribeCopyProductStatusInput) async throws -> DescribeCopyProductStatusOutputResponse
+    public func describeCopyProductStatus(input: DescribeCopyProductStatusInput) async throws -> DescribeCopyProductStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1371,21 +1371,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>(id: "describeCopyProductStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>(id: "describeCopyProductStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeCopyProductStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutputResponse>(xmlName: "DescribeCopyProductStatusInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeCopyProductStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(xmlName: "DescribeCopyProductStatusInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCopyProductStatusInput, DescribeCopyProductStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCopyProductStatusOutputResponse, DescribeCopyProductStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCopyProductStatusOutput, DescribeCopyProductStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1394,13 +1394,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribePortfolioInput : [no documentation found]
     ///
-    /// - Returns: `DescribePortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describePortfolio(input: DescribePortfolioInput) async throws -> DescribePortfolioOutputResponse
+    public func describePortfolio(input: DescribePortfolioInput) async throws -> DescribePortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1416,21 +1416,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePortfolioInput, DescribePortfolioOutputResponse, DescribePortfolioOutputError>(id: "describePortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePortfolioInput, DescribePortfolioOutputResponse, DescribePortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePortfolioInput, DescribePortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribePortfolioInput, DescribePortfolioOutput, DescribePortfolioOutputError>(id: "describePortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePortfolioInput, DescribePortfolioOutput, DescribePortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePortfolioInput, DescribePortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePortfolioOutputResponse, DescribePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePortfolioOutput, DescribePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioInput, DescribePortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePortfolioInput, DescribePortfolioOutputResponse>(xmlName: "DescribePortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePortfolioInput, DescribePortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(xmlName: "DescribePortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePortfolioInput, DescribePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePortfolioOutputResponse, DescribePortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePortfolioOutput, DescribePortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePortfolioOutputResponse, DescribePortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePortfolioOutputResponse, DescribePortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePortfolioOutputResponse, DescribePortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePortfolioOutput, DescribePortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePortfolioOutput, DescribePortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePortfolioOutput, DescribePortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1439,7 +1439,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribePortfolioShareStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribePortfolioShareStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePortfolioShareStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1447,7 +1447,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput) async throws -> DescribePortfolioShareStatusOutputResponse
+    public func describePortfolioShareStatus(input: DescribePortfolioShareStatusInput) async throws -> DescribePortfolioShareStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1463,21 +1463,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>(id: "describePortfolioShareStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>(id: "describePortfolioShareStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolioShareStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutputResponse>(xmlName: "DescribePortfolioShareStatusInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolioShareStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(xmlName: "DescribePortfolioShareStatusInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePortfolioShareStatusInput, DescribePortfolioShareStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePortfolioShareStatusOutputResponse, DescribePortfolioShareStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePortfolioShareStatusOutput, DescribePortfolioShareStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1486,14 +1486,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribePortfolioSharesInput : [no documentation found]
     ///
-    /// - Returns: `DescribePortfolioSharesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePortfolioSharesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describePortfolioShares(input: DescribePortfolioSharesInput) async throws -> DescribePortfolioSharesOutputResponse
+    public func describePortfolioShares(input: DescribePortfolioSharesInput) async throws -> DescribePortfolioSharesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1509,21 +1509,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>(id: "describePortfolioShares")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribePortfolioSharesInput, DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>(id: "describePortfolioShares")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolioShares"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse>(xmlName: "DescribePortfolioSharesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribePortfolioShares"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(xmlName: "DescribePortfolioSharesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePortfolioSharesOutputResponse, DescribePortfolioSharesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePortfolioSharesOutput, DescribePortfolioSharesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1532,14 +1532,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProductInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProductOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProduct(input: DescribeProductInput) async throws -> DescribeProductOutputResponse
+    public func describeProduct(input: DescribeProductInput) async throws -> DescribeProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1555,21 +1555,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProductInput, DescribeProductOutputResponse, DescribeProductOutputError>(id: "describeProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductInput, DescribeProductOutputResponse, DescribeProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductInput, DescribeProductOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProductInput, DescribeProductOutput, DescribeProductOutputError>(id: "describeProduct")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductInput, DescribeProductOutput, DescribeProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductInput, DescribeProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductOutputResponse, DescribeProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductOutput, DescribeProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProductInput, DescribeProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProductInput, DescribeProductOutputResponse>(xmlName: "DescribeProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProductInput, DescribeProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProductInput, DescribeProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProductInput, DescribeProductOutput>(xmlName: "DescribeProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProductInput, DescribeProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductOutputResponse, DescribeProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductOutput, DescribeProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductOutputResponse, DescribeProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductOutputResponse, DescribeProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductOutputResponse, DescribeProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductOutput, DescribeProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductOutput, DescribeProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductOutput, DescribeProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1578,14 +1578,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProductAsAdminInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProductAsAdminOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProductAsAdminOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProductAsAdmin(input: DescribeProductAsAdminInput) async throws -> DescribeProductAsAdminOutputResponse
+    public func describeProductAsAdmin(input: DescribeProductAsAdminInput) async throws -> DescribeProductAsAdminOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1601,21 +1601,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProductAsAdminInput, DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>(id: "describeProductAsAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProductAsAdminInput, DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>(id: "describeProductAsAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProductAsAdmin"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutputResponse>(xmlName: "DescribeProductAsAdminInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProductAsAdmin"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(xmlName: "DescribeProductAsAdminInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProductAsAdminInput, DescribeProductAsAdminOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductAsAdminOutputResponse, DescribeProductAsAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductAsAdminOutput, DescribeProductAsAdminOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1624,14 +1624,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProductViewInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProductViewOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProductViewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProductView(input: DescribeProductViewInput) async throws -> DescribeProductViewOutputResponse
+    public func describeProductView(input: DescribeProductViewInput) async throws -> DescribeProductViewOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1647,21 +1647,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProductViewInput, DescribeProductViewOutputResponse, DescribeProductViewOutputError>(id: "describeProductView")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductViewInput, DescribeProductViewOutputResponse, DescribeProductViewOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductViewInput, DescribeProductViewOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProductViewInput, DescribeProductViewOutput, DescribeProductViewOutputError>(id: "describeProductView")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProductViewInput, DescribeProductViewOutput, DescribeProductViewOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProductViewInput, DescribeProductViewOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductViewOutputResponse, DescribeProductViewOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProductViewOutput, DescribeProductViewOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProductViewInput, DescribeProductViewOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProductView"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProductViewInput, DescribeProductViewOutputResponse>(xmlName: "DescribeProductViewInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProductViewInput, DescribeProductViewOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProductView"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(xmlName: "DescribeProductViewInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProductViewInput, DescribeProductViewOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductViewOutputResponse, DescribeProductViewOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProductViewOutput, DescribeProductViewOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductViewOutputResponse, DescribeProductViewOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductViewOutputResponse, DescribeProductViewOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductViewOutputResponse, DescribeProductViewOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProductViewOutput, DescribeProductViewOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProductViewOutput, DescribeProductViewOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProductViewOutput, DescribeProductViewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1670,14 +1670,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProvisionedProductInput : DescribeProvisionedProductAPI input structure. AcceptLanguage - [Optional] The language code for localization. Id - [Optional] The provisioned product identifier. Name - [Optional] Another provisioned product identifier. Customers must provide either Id or Name.
     ///
-    /// - Returns: `DescribeProvisionedProductOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProvisionedProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisionedProduct(input: DescribeProvisionedProductInput) async throws -> DescribeProvisionedProductOutputResponse
+    public func describeProvisionedProduct(input: DescribeProvisionedProductInput) async throws -> DescribeProvisionedProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1693,21 +1693,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProvisionedProductInput, DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>(id: "describeProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProvisionedProductInput, DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>(id: "describeProvisionedProduct")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisionedProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutputResponse>(xmlName: "DescribeProvisionedProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisionedProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(xmlName: "DescribeProvisionedProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisionedProductInput, DescribeProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisionedProductOutputResponse, DescribeProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisionedProductOutput, DescribeProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1716,14 +1716,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProvisionedProductPlanInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProvisionedProductPlanOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProvisionedProductPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisionedProductPlan(input: DescribeProvisionedProductPlanInput) async throws -> DescribeProvisionedProductPlanOutputResponse
+    public func describeProvisionedProductPlan(input: DescribeProvisionedProductPlanInput) async throws -> DescribeProvisionedProductPlanOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1739,21 +1739,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>(id: "describeProvisionedProductPlan")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>(id: "describeProvisionedProductPlan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisionedProductPlan"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutputResponse>(xmlName: "DescribeProvisionedProductPlanInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisionedProductPlan"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(xmlName: "DescribeProvisionedProductPlanInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisionedProductPlanInput, DescribeProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisionedProductPlanOutputResponse, DescribeProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisionedProductPlanOutput, DescribeProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1762,14 +1762,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisioningArtifact(input: DescribeProvisioningArtifactInput) async throws -> DescribeProvisioningArtifactOutputResponse
+    public func describeProvisioningArtifact(input: DescribeProvisioningArtifactInput) async throws -> DescribeProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1785,21 +1785,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>(id: "describeProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>(id: "describeProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutputResponse>(xmlName: "DescribeProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(xmlName: "DescribeProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisioningArtifactInput, DescribeProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisioningArtifactOutputResponse, DescribeProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisioningArtifactOutput, DescribeProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1808,14 +1808,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeProvisioningParametersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProvisioningParametersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProvisioningParametersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeProvisioningParameters(input: DescribeProvisioningParametersInput) async throws -> DescribeProvisioningParametersOutputResponse
+    public func describeProvisioningParameters(input: DescribeProvisioningParametersInput) async throws -> DescribeProvisioningParametersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1831,21 +1831,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>(id: "describeProvisioningParameters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>(id: "describeProvisioningParameters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisioningParameters"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutputResponse>(xmlName: "DescribeProvisioningParametersInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeProvisioningParameters"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(xmlName: "DescribeProvisioningParametersInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeProvisioningParametersInput, DescribeProvisioningParametersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisioningParametersOutputResponse, DescribeProvisioningParametersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProvisioningParametersOutput, DescribeProvisioningParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1854,13 +1854,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeRecordInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecordOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeRecord(input: DescribeRecordInput) async throws -> DescribeRecordOutputResponse
+    public func describeRecord(input: DescribeRecordInput) async throws -> DescribeRecordOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1876,21 +1876,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeRecordInput, DescribeRecordOutputResponse, DescribeRecordOutputError>(id: "describeRecord")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecordInput, DescribeRecordOutputResponse, DescribeRecordOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecordInput, DescribeRecordOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeRecordInput, DescribeRecordOutput, DescribeRecordOutputError>(id: "describeRecord")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecordInput, DescribeRecordOutput, DescribeRecordOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecordInput, DescribeRecordOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRecordOutputResponse, DescribeRecordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRecordOutput, DescribeRecordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRecordInput, DescribeRecordOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeRecord"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRecordInput, DescribeRecordOutputResponse>(xmlName: "DescribeRecordInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRecordInput, DescribeRecordOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRecordInput, DescribeRecordOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeRecord"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRecordInput, DescribeRecordOutput>(xmlName: "DescribeRecordInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRecordInput, DescribeRecordOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRecordOutputResponse, DescribeRecordOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRecordOutput, DescribeRecordOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecordOutputResponse, DescribeRecordOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecordOutputResponse, DescribeRecordOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRecordOutputResponse, DescribeRecordOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecordOutput, DescribeRecordOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecordOutput, DescribeRecordOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRecordOutput, DescribeRecordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1899,13 +1899,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeServiceActionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceActionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServiceActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeServiceAction(input: DescribeServiceActionInput) async throws -> DescribeServiceActionOutputResponse
+    public func describeServiceAction(input: DescribeServiceActionInput) async throws -> DescribeServiceActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1921,21 +1921,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeServiceActionInput, DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>(id: "describeServiceAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceActionInput, DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceActionInput, DescribeServiceActionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeServiceActionInput, DescribeServiceActionOutput, DescribeServiceActionOutputError>(id: "describeServiceAction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput, DescribeServiceActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceActionOutput, DescribeServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceActionInput, DescribeServiceActionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeServiceAction"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceActionInput, DescribeServiceActionOutputResponse>(xmlName: "DescribeServiceActionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceActionInput, DescribeServiceActionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeServiceAction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(xmlName: "DescribeServiceActionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceActionInput, DescribeServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceActionOutput, DescribeServiceActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceActionOutputResponse, DescribeServiceActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceActionOutput, DescribeServiceActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceActionOutput, DescribeServiceActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceActionOutput, DescribeServiceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1944,14 +1944,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeServiceActionExecutionParametersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceActionExecutionParametersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServiceActionExecutionParametersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func describeServiceActionExecutionParameters(input: DescribeServiceActionExecutionParametersInput) async throws -> DescribeServiceActionExecutionParametersOutputResponse
+    public func describeServiceActionExecutionParameters(input: DescribeServiceActionExecutionParametersInput) async throws -> DescribeServiceActionExecutionParametersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1967,21 +1967,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>(id: "describeServiceActionExecutionParameters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>(id: "describeServiceActionExecutionParameters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeServiceActionExecutionParameters"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutputResponse>(xmlName: "DescribeServiceActionExecutionParametersInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeServiceActionExecutionParameters"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(xmlName: "DescribeServiceActionExecutionParametersInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceActionExecutionParametersInput, DescribeServiceActionExecutionParametersOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceActionExecutionParametersOutputResponse, DescribeServiceActionExecutionParametersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceActionExecutionParametersOutput, DescribeServiceActionExecutionParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1990,14 +1990,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DescribeTagOptionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTagOptionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTagOptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func describeTagOption(input: DescribeTagOptionInput) async throws -> DescribeTagOptionOutputResponse
+    public func describeTagOption(input: DescribeTagOptionInput) async throws -> DescribeTagOptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2013,21 +2013,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTagOptionInput, DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>(id: "describeTagOption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagOptionInput, DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagOptionInput, DescribeTagOptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeTagOptionInput, DescribeTagOptionOutput, DescribeTagOptionOutputError>(id: "describeTagOption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput, DescribeTagOptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTagOptionOutput, DescribeTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTagOptionInput, DescribeTagOptionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DescribeTagOption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTagOptionInput, DescribeTagOptionOutputResponse>(xmlName: "DescribeTagOptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTagOptionInput, DescribeTagOptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.DescribeTagOption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(xmlName: "DescribeTagOptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTagOptionInput, DescribeTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTagOptionOutput, DescribeTagOptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagOptionOutputResponse, DescribeTagOptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagOptionOutput, DescribeTagOptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagOptionOutput, DescribeTagOptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagOptionOutput, DescribeTagOptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2036,7 +2036,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DisableAWSOrganizationsAccessInput : [no documentation found]
     ///
-    /// - Returns: `DisableAWSOrganizationsAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DisableAWSOrganizationsAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2044,7 +2044,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput) async throws -> DisableAWSOrganizationsAccessOutputResponse
+    public func disableAWSOrganizationsAccess(input: DisableAWSOrganizationsAccessInput) async throws -> DisableAWSOrganizationsAccessOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2060,21 +2060,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>(id: "disableAWSOrganizationsAccess")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>(id: "disableAWSOrganizationsAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DisableAWSOrganizationsAccess"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutputResponse>(xmlName: "DisableAWSOrganizationsAccessInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisableAWSOrganizationsAccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(xmlName: "DisableAWSOrganizationsAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableAWSOrganizationsAccessInput, DisableAWSOrganizationsAccessOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableAWSOrganizationsAccessOutputResponse, DisableAWSOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableAWSOrganizationsAccessOutput, DisableAWSOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2083,13 +2083,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DisassociateBudgetFromResourceInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateBudgetFromResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateBudgetFromResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateBudgetFromResource(input: DisassociateBudgetFromResourceInput) async throws -> DisassociateBudgetFromResourceOutputResponse
+    public func disassociateBudgetFromResource(input: DisassociateBudgetFromResourceInput) async throws -> DisassociateBudgetFromResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2105,21 +2105,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>(id: "disassociateBudgetFromResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>(id: "disassociateBudgetFromResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateBudgetFromResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutputResponse>(xmlName: "DisassociateBudgetFromResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateBudgetFromResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(xmlName: "DisassociateBudgetFromResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateBudgetFromResourceInput, DisassociateBudgetFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBudgetFromResourceOutputResponse, DisassociateBudgetFromResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBudgetFromResourceOutput, DisassociateBudgetFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2128,14 +2128,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DisassociatePrincipalFromPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `DisassociatePrincipalFromPortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociatePrincipalFromPortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutputResponse
+    public func disassociatePrincipalFromPortfolio(input: DisassociatePrincipalFromPortfolioInput) async throws -> DisassociatePrincipalFromPortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2151,21 +2151,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>(id: "disassociatePrincipalFromPortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>(id: "disassociatePrincipalFromPortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DisassociatePrincipalFromPortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutputResponse>(xmlName: "DisassociatePrincipalFromPortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociatePrincipalFromPortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(xmlName: "DisassociatePrincipalFromPortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociatePrincipalFromPortfolioInput, DisassociatePrincipalFromPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePrincipalFromPortfolioOutputResponse, DisassociatePrincipalFromPortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePrincipalFromPortfolioOutput, DisassociatePrincipalFromPortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2174,7 +2174,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DisassociateProductFromPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateProductFromPortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateProductFromPortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2182,7 +2182,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput) async throws -> DisassociateProductFromPortfolioOutputResponse
+    public func disassociateProductFromPortfolio(input: DisassociateProductFromPortfolioInput) async throws -> DisassociateProductFromPortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2198,21 +2198,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>(id: "disassociateProductFromPortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>(id: "disassociateProductFromPortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateProductFromPortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutputResponse>(xmlName: "DisassociateProductFromPortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateProductFromPortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(xmlName: "DisassociateProductFromPortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateProductFromPortfolioInput, DisassociateProductFromPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateProductFromPortfolioOutputResponse, DisassociateProductFromPortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateProductFromPortfolioOutput, DisassociateProductFromPortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2221,13 +2221,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DisassociateServiceActionFromProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateServiceActionFromProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateServiceActionFromProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutputResponse
+    public func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2243,21 +2243,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>(id: "disassociateServiceActionFromProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>(id: "disassociateServiceActionFromProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateServiceActionFromProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutputResponse>(xmlName: "DisassociateServiceActionFromProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateServiceActionFromProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(xmlName: "DisassociateServiceActionFromProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateServiceActionFromProvisioningArtifactInput, DisassociateServiceActionFromProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateServiceActionFromProvisioningArtifactOutputResponse, DisassociateServiceActionFromProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateServiceActionFromProvisioningArtifactOutput, DisassociateServiceActionFromProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2266,14 +2266,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter DisassociateTagOptionFromResourceInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateTagOptionFromResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateTagOptionFromResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func disassociateTagOptionFromResource(input: DisassociateTagOptionFromResourceInput) async throws -> DisassociateTagOptionFromResourceOutputResponse
+    public func disassociateTagOptionFromResource(input: DisassociateTagOptionFromResourceInput) async throws -> DisassociateTagOptionFromResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2289,21 +2289,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>(id: "disassociateTagOptionFromResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>(id: "disassociateTagOptionFromResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateTagOptionFromResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutputResponse>(xmlName: "DisassociateTagOptionFromResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.DisassociateTagOptionFromResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(xmlName: "DisassociateTagOptionFromResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateTagOptionFromResourceInput, DisassociateTagOptionFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTagOptionFromResourceOutputResponse, DisassociateTagOptionFromResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTagOptionFromResourceOutput, DisassociateTagOptionFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2312,7 +2312,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter EnableAWSOrganizationsAccessInput : [no documentation found]
     ///
-    /// - Returns: `EnableAWSOrganizationsAccessOutputResponse` : [no documentation found]
+    /// - Returns: `EnableAWSOrganizationsAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2320,7 +2320,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput) async throws -> EnableAWSOrganizationsAccessOutputResponse
+    public func enableAWSOrganizationsAccess(input: EnableAWSOrganizationsAccessInput) async throws -> EnableAWSOrganizationsAccessOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2336,21 +2336,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>(id: "enableAWSOrganizationsAccess")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutputResponse>())
+        var operation = ClientRuntime.OperationStack<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>(id: "enableAWSOrganizationsAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.EnableAWSOrganizationsAccess"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutputResponse>(xmlName: "EnableAWSOrganizationsAccessInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.EnableAWSOrganizationsAccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(xmlName: "EnableAWSOrganizationsAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableAWSOrganizationsAccessInput, EnableAWSOrganizationsAccessOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAWSOrganizationsAccessOutputResponse, EnableAWSOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAWSOrganizationsAccessOutput, EnableAWSOrganizationsAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2359,7 +2359,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ExecuteProvisionedProductPlanInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteProvisionedProductPlanOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteProvisionedProductPlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2367,7 +2367,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func executeProvisionedProductPlan(input: ExecuteProvisionedProductPlanInput) async throws -> ExecuteProvisionedProductPlanOutputResponse
+    public func executeProvisionedProductPlan(input: ExecuteProvisionedProductPlanInput) async throws -> ExecuteProvisionedProductPlanOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2383,8 +2383,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>(id: "executeProvisionedProductPlan")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteProvisionedProductPlanOutputResponse> in
+        var operation = ClientRuntime.OperationStack<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(id: "executeProvisionedProductPlan")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteProvisionedProductPlanOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -2392,20 +2392,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ExecuteProvisionedProductPlan"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutputResponse>(xmlName: "ExecuteProvisionedProductPlanInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(xAmzTarget: "AWS242ServiceCatalogService.ExecuteProvisionedProductPlan"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(xmlName: "ExecuteProvisionedProductPlanInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteProvisionedProductPlanOutputResponse, ExecuteProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2414,7 +2414,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ExecuteProvisionedProductServiceActionInput : [no documentation found]
     ///
-    /// - Returns: `ExecuteProvisionedProductServiceActionOutputResponse` : [no documentation found]
+    /// - Returns: `ExecuteProvisionedProductServiceActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,7 +2422,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func executeProvisionedProductServiceAction(input: ExecuteProvisionedProductServiceActionInput) async throws -> ExecuteProvisionedProductServiceActionOutputResponse
+    public func executeProvisionedProductServiceAction(input: ExecuteProvisionedProductServiceActionInput) async throws -> ExecuteProvisionedProductServiceActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2438,8 +2438,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>(id: "executeProvisionedProductServiceAction")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteProvisionedProductServiceActionOutputResponse> in
+        var operation = ClientRuntime.OperationStack<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(id: "executeProvisionedProductServiceAction")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteProvisionedProductServiceActionOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.executeToken == nil {
@@ -2447,20 +2447,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ExecuteProvisionedProductServiceAction"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutputResponse>(xmlName: "ExecuteProvisionedProductServiceActionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.ExecuteProvisionedProductServiceAction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(xmlName: "ExecuteProvisionedProductServiceActionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteProvisionedProductServiceActionOutputResponse, ExecuteProvisionedProductServiceActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2469,14 +2469,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter GetAWSOrganizationsAccessStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetAWSOrganizationsAccessStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetAWSOrganizationsAccessStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput) async throws -> GetAWSOrganizationsAccessStatusOutputResponse
+    public func getAWSOrganizationsAccessStatus(input: GetAWSOrganizationsAccessStatusInput) async throws -> GetAWSOrganizationsAccessStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2492,21 +2492,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>(id: "getAWSOrganizationsAccessStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>(id: "getAWSOrganizationsAccessStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.GetAWSOrganizationsAccessStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutputResponse>(xmlName: "GetAWSOrganizationsAccessStatusInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(xAmzTarget: "AWS242ServiceCatalogService.GetAWSOrganizationsAccessStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(xmlName: "GetAWSOrganizationsAccessStatusInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAWSOrganizationsAccessStatusInput, GetAWSOrganizationsAccessStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAWSOrganizationsAccessStatusOutputResponse, GetAWSOrganizationsAccessStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAWSOrganizationsAccessStatusOutput, GetAWSOrganizationsAccessStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2515,14 +2515,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter GetProvisionedProductOutputsInput : [no documentation found]
     ///
-    /// - Returns: `GetProvisionedProductOutputsOutputResponse` : [no documentation found]
+    /// - Returns: `GetProvisionedProductOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInput) async throws -> GetProvisionedProductOutputsOutputResponse
+    public func getProvisionedProductOutputs(input: GetProvisionedProductOutputsInput) async throws -> GetProvisionedProductOutputsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2538,21 +2538,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>(id: "getProvisionedProductOutputs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>(id: "getProvisionedProductOutputs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.GetProvisionedProductOutputs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse>(xmlName: "GetProvisionedProductOutputsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(xAmzTarget: "AWS242ServiceCatalogService.GetProvisionedProductOutputs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(xmlName: "GetProvisionedProductOutputsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProvisionedProductOutputsOutputResponse, GetProvisionedProductOutputsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProvisionedProductOutputsOutput, GetProvisionedProductOutputsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2561,7 +2561,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ImportAsProvisionedProductInput : [no documentation found]
     ///
-    /// - Returns: `ImportAsProvisionedProductOutputResponse` : [no documentation found]
+    /// - Returns: `ImportAsProvisionedProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,7 +2570,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutputResponse
+    public func importAsProvisionedProduct(input: ImportAsProvisionedProductInput) async throws -> ImportAsProvisionedProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2586,8 +2586,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>(id: "importAsProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportAsProvisionedProductOutputResponse> in
+        var operation = ClientRuntime.OperationStack<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(id: "importAsProvisionedProduct")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportAsProvisionedProductOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -2595,20 +2595,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ImportAsProvisionedProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutputResponse>(xmlName: "ImportAsProvisionedProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ImportAsProvisionedProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(xmlName: "ImportAsProvisionedProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportAsProvisionedProductOutputResponse, ImportAsProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2617,14 +2617,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListAcceptedPortfolioSharesInput : [no documentation found]
     ///
-    /// - Returns: `ListAcceptedPortfolioSharesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAcceptedPortfolioSharesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `OperationNotSupportedException` : The operation is not supported.
-    public func listAcceptedPortfolioShares(input: ListAcceptedPortfolioSharesInput) async throws -> ListAcceptedPortfolioSharesOutputResponse
+    public func listAcceptedPortfolioShares(input: ListAcceptedPortfolioSharesInput) async throws -> ListAcceptedPortfolioSharesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2640,21 +2640,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>(id: "listAcceptedPortfolioShares")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>(id: "listAcceptedPortfolioShares")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListAcceptedPortfolioShares"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse>(xmlName: "ListAcceptedPortfolioSharesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListAcceptedPortfolioShares"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(xmlName: "ListAcceptedPortfolioSharesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAcceptedPortfolioSharesOutputResponse, ListAcceptedPortfolioSharesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAcceptedPortfolioSharesOutput, ListAcceptedPortfolioSharesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2663,14 +2663,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListBudgetsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListBudgetsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListBudgetsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listBudgetsForResource(input: ListBudgetsForResourceInput) async throws -> ListBudgetsForResourceOutputResponse
+    public func listBudgetsForResource(input: ListBudgetsForResourceInput) async throws -> ListBudgetsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2686,21 +2686,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>(id: "listBudgetsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListBudgetsForResourceInput, ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>(id: "listBudgetsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListBudgetsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse>(xmlName: "ListBudgetsForResourceInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListBudgetsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(xmlName: "ListBudgetsForResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBudgetsForResourceOutputResponse, ListBudgetsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBudgetsForResourceOutput, ListBudgetsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2709,14 +2709,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListConstraintsForPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `ListConstraintsForPortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `ListConstraintsForPortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput) async throws -> ListConstraintsForPortfolioOutputResponse
+    public func listConstraintsForPortfolio(input: ListConstraintsForPortfolioInput) async throws -> ListConstraintsForPortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2732,21 +2732,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>(id: "listConstraintsForPortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>(id: "listConstraintsForPortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListConstraintsForPortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse>(xmlName: "ListConstraintsForPortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListConstraintsForPortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(xmlName: "ListConstraintsForPortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConstraintsForPortfolioOutputResponse, ListConstraintsForPortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConstraintsForPortfolioOutput, ListConstraintsForPortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2755,14 +2755,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListLaunchPathsInput : [no documentation found]
     ///
-    /// - Returns: `ListLaunchPathsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLaunchPathsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listLaunchPaths(input: ListLaunchPathsInput) async throws -> ListLaunchPathsOutputResponse
+    public func listLaunchPaths(input: ListLaunchPathsInput) async throws -> ListLaunchPathsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2778,21 +2778,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLaunchPathsInput, ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>(id: "listLaunchPaths")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLaunchPathsInput, ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLaunchPathsInput, ListLaunchPathsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListLaunchPathsInput, ListLaunchPathsOutput, ListLaunchPathsOutputError>(id: "listLaunchPaths")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput, ListLaunchPathsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLaunchPathsOutput, ListLaunchPathsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLaunchPathsInput, ListLaunchPathsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListLaunchPaths"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLaunchPathsInput, ListLaunchPathsOutputResponse>(xmlName: "ListLaunchPathsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLaunchPathsInput, ListLaunchPathsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListLaunchPaths"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(xmlName: "ListLaunchPathsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLaunchPathsInput, ListLaunchPathsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLaunchPathsOutput, ListLaunchPathsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLaunchPathsOutputResponse, ListLaunchPathsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLaunchPathsOutput, ListLaunchPathsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLaunchPathsOutput, ListLaunchPathsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLaunchPathsOutput, ListLaunchPathsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2801,7 +2801,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListOrganizationPortfolioAccessInput : [no documentation found]
     ///
-    /// - Returns: `ListOrganizationPortfolioAccessOutputResponse` : [no documentation found]
+    /// - Returns: `ListOrganizationPortfolioAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2809,7 +2809,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput) async throws -> ListOrganizationPortfolioAccessOutputResponse
+    public func listOrganizationPortfolioAccess(input: ListOrganizationPortfolioAccessInput) async throws -> ListOrganizationPortfolioAccessOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2825,21 +2825,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>(id: "listOrganizationPortfolioAccess")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>(id: "listOrganizationPortfolioAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListOrganizationPortfolioAccess"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse>(xmlName: "ListOrganizationPortfolioAccessInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListOrganizationPortfolioAccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(xmlName: "ListOrganizationPortfolioAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationPortfolioAccessOutputResponse, ListOrganizationPortfolioAccessOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationPortfolioAccessOutput, ListOrganizationPortfolioAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2848,14 +2848,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListPortfolioAccessInput : [no documentation found]
     ///
-    /// - Returns: `ListPortfolioAccessOutputResponse` : [no documentation found]
+    /// - Returns: `ListPortfolioAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPortfolioAccess(input: ListPortfolioAccessInput) async throws -> ListPortfolioAccessOutputResponse
+    public func listPortfolioAccess(input: ListPortfolioAccessInput) async throws -> ListPortfolioAccessOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2871,21 +2871,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>(id: "listPortfolioAccess")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPortfolioAccessInput, ListPortfolioAccessOutput, ListPortfolioAccessOutputError>(id: "listPortfolioAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput, ListPortfolioAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortfolioAccessOutput, ListPortfolioAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfolioAccess"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse>(xmlName: "ListPortfolioAccessInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfolioAccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(xmlName: "ListPortfolioAccessInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPortfolioAccessInput, ListPortfolioAccessOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortfolioAccessOutput, ListPortfolioAccessOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortfolioAccessOutputResponse, ListPortfolioAccessOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortfolioAccessOutput, ListPortfolioAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortfolioAccessOutput, ListPortfolioAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortfolioAccessOutput, ListPortfolioAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2894,13 +2894,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListPortfoliosInput : [no documentation found]
     ///
-    /// - Returns: `ListPortfoliosOutputResponse` : [no documentation found]
+    /// - Returns: `ListPortfoliosOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func listPortfolios(input: ListPortfoliosInput) async throws -> ListPortfoliosOutputResponse
+    public func listPortfolios(input: ListPortfoliosInput) async throws -> ListPortfoliosOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2916,21 +2916,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPortfoliosInput, ListPortfoliosOutputResponse, ListPortfoliosOutputError>(id: "listPortfolios")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortfoliosInput, ListPortfoliosOutputResponse, ListPortfoliosOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortfoliosInput, ListPortfoliosOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPortfoliosInput, ListPortfoliosOutput, ListPortfoliosOutputError>(id: "listPortfolios")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortfoliosInput, ListPortfoliosOutput, ListPortfoliosOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortfoliosInput, ListPortfoliosOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortfoliosOutputResponse, ListPortfoliosOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortfoliosOutput, ListPortfoliosOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPortfoliosInput, ListPortfoliosOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfolios"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPortfoliosInput, ListPortfoliosOutputResponse>(xmlName: "ListPortfoliosInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPortfoliosInput, ListPortfoliosOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfolios"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(xmlName: "ListPortfoliosInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPortfoliosInput, ListPortfoliosOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortfoliosOutputResponse, ListPortfoliosOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortfoliosOutput, ListPortfoliosOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortfoliosOutputResponse, ListPortfoliosOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortfoliosOutputResponse, ListPortfoliosOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortfoliosOutputResponse, ListPortfoliosOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortfoliosOutput, ListPortfoliosOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortfoliosOutput, ListPortfoliosOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortfoliosOutput, ListPortfoliosOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2939,14 +2939,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListPortfoliosForProductInput : [no documentation found]
     ///
-    /// - Returns: `ListPortfoliosForProductOutputResponse` : [no documentation found]
+    /// - Returns: `ListPortfoliosForProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPortfoliosForProduct(input: ListPortfoliosForProductInput) async throws -> ListPortfoliosForProductOutputResponse
+    public func listPortfoliosForProduct(input: ListPortfoliosForProductInput) async throws -> ListPortfoliosForProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2962,21 +2962,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>(id: "listPortfoliosForProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPortfoliosForProductInput, ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>(id: "listPortfoliosForProduct")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfoliosForProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse>(xmlName: "ListPortfoliosForProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPortfoliosForProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(xmlName: "ListPortfoliosForProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortfoliosForProductOutputResponse, ListPortfoliosForProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortfoliosForProductOutput, ListPortfoliosForProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2985,14 +2985,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListPrincipalsForPortfolioInput : [no documentation found]
     ///
-    /// - Returns: `ListPrincipalsForPortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `ListPrincipalsForPortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutputResponse
+    public func listPrincipalsForPortfolio(input: ListPrincipalsForPortfolioInput) async throws -> ListPrincipalsForPortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3008,21 +3008,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>(id: "listPrincipalsForPortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>(id: "listPrincipalsForPortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListPrincipalsForPortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse>(xmlName: "ListPrincipalsForPortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListPrincipalsForPortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(xmlName: "ListPrincipalsForPortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPrincipalsForPortfolioOutputResponse, ListPrincipalsForPortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPrincipalsForPortfolioOutput, ListPrincipalsForPortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3031,14 +3031,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListProvisionedProductPlansInput : [no documentation found]
     ///
-    /// - Returns: `ListProvisionedProductPlansOutputResponse` : [no documentation found]
+    /// - Returns: `ListProvisionedProductPlansOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProvisionedProductPlans(input: ListProvisionedProductPlansInput) async throws -> ListProvisionedProductPlansOutputResponse
+    public func listProvisionedProductPlans(input: ListProvisionedProductPlansInput) async throws -> ListProvisionedProductPlansOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3054,21 +3054,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>(id: "listProvisionedProductPlans")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>(id: "listProvisionedProductPlans")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisionedProductPlans"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutputResponse>(xmlName: "ListProvisionedProductPlansInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisionedProductPlans"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(xmlName: "ListProvisionedProductPlansInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProvisionedProductPlansInput, ListProvisionedProductPlansOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedProductPlansOutputResponse, ListProvisionedProductPlansOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedProductPlansOutput, ListProvisionedProductPlansOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3077,14 +3077,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListProvisioningArtifactsInput : [no documentation found]
     ///
-    /// - Returns: `ListProvisioningArtifactsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProvisioningArtifactsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProvisioningArtifacts(input: ListProvisioningArtifactsInput) async throws -> ListProvisioningArtifactsOutputResponse
+    public func listProvisioningArtifacts(input: ListProvisioningArtifactsInput) async throws -> ListProvisioningArtifactsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3100,21 +3100,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>(id: "listProvisioningArtifacts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>(id: "listProvisioningArtifacts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisioningArtifacts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutputResponse>(xmlName: "ListProvisioningArtifactsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisioningArtifacts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(xmlName: "ListProvisioningArtifactsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProvisioningArtifactsInput, ListProvisioningArtifactsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisioningArtifactsOutputResponse, ListProvisioningArtifactsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisioningArtifactsOutput, ListProvisioningArtifactsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3123,14 +3123,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListProvisioningArtifactsForServiceActionInput : [no documentation found]
     ///
-    /// - Returns: `ListProvisioningArtifactsForServiceActionOutputResponse` : [no documentation found]
+    /// - Returns: `ListProvisioningArtifactsForServiceActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listProvisioningArtifactsForServiceAction(input: ListProvisioningArtifactsForServiceActionInput) async throws -> ListProvisioningArtifactsForServiceActionOutputResponse
+    public func listProvisioningArtifactsForServiceAction(input: ListProvisioningArtifactsForServiceActionInput) async throws -> ListProvisioningArtifactsForServiceActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3146,21 +3146,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>(id: "listProvisioningArtifactsForServiceAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>(id: "listProvisioningArtifactsForServiceAction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisioningArtifactsForServiceAction"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse>(xmlName: "ListProvisioningArtifactsForServiceActionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListProvisioningArtifactsForServiceAction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(xmlName: "ListProvisioningArtifactsForServiceActionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisioningArtifactsForServiceActionOutputResponse, ListProvisioningArtifactsForServiceActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisioningArtifactsForServiceActionOutput, ListProvisioningArtifactsForServiceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3169,13 +3169,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListRecordHistoryInput : [no documentation found]
     ///
-    /// - Returns: `ListRecordHistoryOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecordHistoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func listRecordHistory(input: ListRecordHistoryInput) async throws -> ListRecordHistoryOutputResponse
+    public func listRecordHistory(input: ListRecordHistoryInput) async throws -> ListRecordHistoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3191,21 +3191,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRecordHistoryInput, ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>(id: "listRecordHistory")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecordHistoryInput, ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecordHistoryInput, ListRecordHistoryOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRecordHistoryInput, ListRecordHistoryOutput, ListRecordHistoryOutputError>(id: "listRecordHistory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput, ListRecordHistoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecordHistoryOutput, ListRecordHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRecordHistoryInput, ListRecordHistoryOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListRecordHistory"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRecordHistoryInput, ListRecordHistoryOutputResponse>(xmlName: "ListRecordHistoryInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRecordHistoryInput, ListRecordHistoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListRecordHistory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(xmlName: "ListRecordHistoryInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRecordHistoryInput, ListRecordHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecordHistoryOutput, ListRecordHistoryOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecordHistoryOutputResponse, ListRecordHistoryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecordHistoryOutput, ListRecordHistoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecordHistoryOutput, ListRecordHistoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecordHistoryOutput, ListRecordHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3214,7 +3214,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListResourcesForTagOptionInput : [no documentation found]
     ///
-    /// - Returns: `ListResourcesForTagOptionOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourcesForTagOptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3222,7 +3222,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func listResourcesForTagOption(input: ListResourcesForTagOptionInput) async throws -> ListResourcesForTagOptionOutputResponse
+    public func listResourcesForTagOption(input: ListResourcesForTagOptionInput) async throws -> ListResourcesForTagOptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3238,21 +3238,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>(id: "listResourcesForTagOption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>(id: "listResourcesForTagOption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListResourcesForTagOption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse>(xmlName: "ListResourcesForTagOptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListResourcesForTagOption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(xmlName: "ListResourcesForTagOptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourcesForTagOptionOutputResponse, ListResourcesForTagOptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourcesForTagOptionOutput, ListResourcesForTagOptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3261,13 +3261,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListServiceActionsInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceActionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceActionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func listServiceActions(input: ListServiceActionsInput) async throws -> ListServiceActionsOutputResponse
+    public func listServiceActions(input: ListServiceActionsInput) async throws -> ListServiceActionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3283,21 +3283,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServiceActionsInput, ListServiceActionsOutputResponse, ListServiceActionsOutputError>(id: "listServiceActions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceActionsInput, ListServiceActionsOutputResponse, ListServiceActionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceActionsInput, ListServiceActionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListServiceActionsInput, ListServiceActionsOutput, ListServiceActionsOutputError>(id: "listServiceActions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceActionsInput, ListServiceActionsOutput, ListServiceActionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceActionsInput, ListServiceActionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceActionsOutputResponse, ListServiceActionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceActionsOutput, ListServiceActionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListServiceActionsInput, ListServiceActionsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListServiceActions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServiceActionsInput, ListServiceActionsOutputResponse>(xmlName: "ListServiceActionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServiceActionsInput, ListServiceActionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListServiceActions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(xmlName: "ListServiceActionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServiceActionsInput, ListServiceActionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceActionsOutputResponse, ListServiceActionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceActionsOutput, ListServiceActionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceActionsOutputResponse, ListServiceActionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceActionsOutputResponse, ListServiceActionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceActionsOutputResponse, ListServiceActionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceActionsOutput, ListServiceActionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceActionsOutput, ListServiceActionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceActionsOutput, ListServiceActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3306,14 +3306,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListServiceActionsForProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceActionsForProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceActionsForProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listServiceActionsForProvisioningArtifact(input: ListServiceActionsForProvisioningArtifactInput) async throws -> ListServiceActionsForProvisioningArtifactOutputResponse
+    public func listServiceActionsForProvisioningArtifact(input: ListServiceActionsForProvisioningArtifactInput) async throws -> ListServiceActionsForProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3329,21 +3329,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>(id: "listServiceActionsForProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>(id: "listServiceActionsForProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListServiceActionsForProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse>(xmlName: "ListServiceActionsForProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListServiceActionsForProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(xmlName: "ListServiceActionsForProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceActionsForProvisioningArtifactOutputResponse, ListServiceActionsForProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceActionsForProvisioningArtifactOutput, ListServiceActionsForProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3352,14 +3352,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListStackInstancesForProvisionedProductInput : [no documentation found]
     ///
-    /// - Returns: `ListStackInstancesForProvisionedProductOutputResponse` : [no documentation found]
+    /// - Returns: `ListStackInstancesForProvisionedProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutputResponse
+    public func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3375,21 +3375,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>(id: "listStackInstancesForProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>(id: "listStackInstancesForProvisionedProduct")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListStackInstancesForProvisionedProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutputResponse>(xmlName: "ListStackInstancesForProvisionedProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListStackInstancesForProvisionedProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(xmlName: "ListStackInstancesForProvisionedProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStackInstancesForProvisionedProductInput, ListStackInstancesForProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackInstancesForProvisionedProductOutputResponse, ListStackInstancesForProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackInstancesForProvisionedProductOutput, ListStackInstancesForProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3398,14 +3398,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ListTagOptionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagOptionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagOptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutputResponse
+    public func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3421,21 +3421,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagOptionsInput, ListTagOptionsOutputResponse, ListTagOptionsOutputError>(id: "listTagOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagOptionsInput, ListTagOptionsOutputResponse, ListTagOptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagOptionsInput, ListTagOptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagOptionsInput, ListTagOptionsOutput, ListTagOptionsOutputError>(id: "listTagOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagOptionsInput, ListTagOptionsOutput, ListTagOptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagOptionsInput, ListTagOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagOptionsOutputResponse, ListTagOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagOptionsOutput, ListTagOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagOptionsInput, ListTagOptionsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ListTagOptions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagOptionsInput, ListTagOptionsOutputResponse>(xmlName: "ListTagOptionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagOptionsInput, ListTagOptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ListTagOptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(xmlName: "ListTagOptionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagOptionsInput, ListTagOptionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagOptionsOutputResponse, ListTagOptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagOptionsOutput, ListTagOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagOptionsOutputResponse, ListTagOptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagOptionsOutputResponse, ListTagOptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagOptionsOutputResponse, ListTagOptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagOptionsOutput, ListTagOptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagOptionsOutput, ListTagOptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagOptionsOutput, ListTagOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3444,14 +3444,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter NotifyProvisionProductEngineWorkflowResultInput : [no documentation found]
     ///
-    /// - Returns: `NotifyProvisionProductEngineWorkflowResultOutputResponse` : [no documentation found]
+    /// - Returns: `NotifyProvisionProductEngineWorkflowResultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutputResponse
+    public func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3467,8 +3467,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(id: "notifyProvisionProductEngineWorkflowResult")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyProvisionProductEngineWorkflowResultOutputResponse> in
+        var operation = ClientRuntime.OperationStack<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(id: "notifyProvisionProductEngineWorkflowResult")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyProvisionProductEngineWorkflowResultOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -3476,20 +3476,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.NotifyProvisionProductEngineWorkflowResult"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>(xmlName: "NotifyProvisionProductEngineWorkflowResultInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(xAmzTarget: "AWS242ServiceCatalogService.NotifyProvisionProductEngineWorkflowResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(xmlName: "NotifyProvisionProductEngineWorkflowResultInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3498,14 +3498,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter NotifyTerminateProvisionedProductEngineWorkflowResultInput : [no documentation found]
     ///
-    /// - Returns: `NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse` : [no documentation found]
+    /// - Returns: `NotifyTerminateProvisionedProductEngineWorkflowResultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse
+    public func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3521,8 +3521,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyTerminateProvisionedProductEngineWorkflowResult")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse> in
+        var operation = ClientRuntime.OperationStack<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyTerminateProvisionedProductEngineWorkflowResult")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyTerminateProvisionedProductEngineWorkflowResultOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -3530,20 +3530,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.NotifyTerminateProvisionedProductEngineWorkflowResult"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>(xmlName: "NotifyTerminateProvisionedProductEngineWorkflowResultInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(xAmzTarget: "AWS242ServiceCatalogService.NotifyTerminateProvisionedProductEngineWorkflowResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(xmlName: "NotifyTerminateProvisionedProductEngineWorkflowResultInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3552,14 +3552,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter NotifyUpdateProvisionedProductEngineWorkflowResultInput : [no documentation found]
     ///
-    /// - Returns: `NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse` : [no documentation found]
+    /// - Returns: `NotifyUpdateProvisionedProductEngineWorkflowResultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse
+    public func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3575,8 +3575,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyUpdateProvisionedProductEngineWorkflowResult")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse> in
+        var operation = ClientRuntime.OperationStack<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyUpdateProvisionedProductEngineWorkflowResult")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyUpdateProvisionedProductEngineWorkflowResultOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -3584,20 +3584,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.NotifyUpdateProvisionedProductEngineWorkflowResult"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>(xmlName: "NotifyUpdateProvisionedProductEngineWorkflowResultInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(xAmzTarget: "AWS242ServiceCatalogService.NotifyUpdateProvisionedProductEngineWorkflowResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(xmlName: "NotifyUpdateProvisionedProductEngineWorkflowResultInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3606,7 +3606,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ProvisionProductInput : [no documentation found]
     ///
-    /// - Returns: `ProvisionProductOutputResponse` : [no documentation found]
+    /// - Returns: `ProvisionProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3614,7 +3614,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `DuplicateResourceException` : The specified resource is a duplicate.
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutputResponse
+    public func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3630,8 +3630,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ProvisionProductInput, ProvisionProductOutputResponse, ProvisionProductOutputError>(id: "provisionProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ProvisionProductOutputResponse> in
+        var operation = ClientRuntime.OperationStack<ProvisionProductInput, ProvisionProductOutput, ProvisionProductOutputError>(id: "provisionProduct")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ProvisionProductOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.provisionToken == nil {
@@ -3639,20 +3639,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionProductInput, ProvisionProductOutputResponse, ProvisionProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionProductInput, ProvisionProductOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionProductInput, ProvisionProductOutput, ProvisionProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionProductInput, ProvisionProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ProvisionProductOutputResponse, ProvisionProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ProvisionProductOutput, ProvisionProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ProvisionProductInput, ProvisionProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ProvisionProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ProvisionProductInput, ProvisionProductOutputResponse>(xmlName: "ProvisionProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ProvisionProductInput, ProvisionProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ProvisionProductInput, ProvisionProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.ProvisionProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ProvisionProductInput, ProvisionProductOutput>(xmlName: "ProvisionProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ProvisionProductInput, ProvisionProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ProvisionProductOutputResponse, ProvisionProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ProvisionProductOutput, ProvisionProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionProductOutputResponse, ProvisionProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionProductOutputResponse, ProvisionProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionProductOutputResponse, ProvisionProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionProductOutput, ProvisionProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionProductOutput, ProvisionProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionProductOutput, ProvisionProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3661,13 +3661,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter RejectPortfolioShareInput : [no documentation found]
     ///
-    /// - Returns: `RejectPortfolioShareOutputResponse` : [no documentation found]
+    /// - Returns: `RejectPortfolioShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func rejectPortfolioShare(input: RejectPortfolioShareInput) async throws -> RejectPortfolioShareOutputResponse
+    public func rejectPortfolioShare(input: RejectPortfolioShareInput) async throws -> RejectPortfolioShareOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3683,21 +3683,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RejectPortfolioShareInput, RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>(id: "rejectPortfolioShare")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RejectPortfolioShareInput, RejectPortfolioShareOutput, RejectPortfolioShareOutputError>(id: "rejectPortfolioShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput, RejectPortfolioShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectPortfolioShareOutput, RejectPortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.RejectPortfolioShare"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutputResponse>(xmlName: "RejectPortfolioShareInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.RejectPortfolioShare"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(xmlName: "RejectPortfolioShareInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RejectPortfolioShareInput, RejectPortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectPortfolioShareOutput, RejectPortfolioShareOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectPortfolioShareOutputResponse, RejectPortfolioShareOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectPortfolioShareOutput, RejectPortfolioShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectPortfolioShareOutput, RejectPortfolioShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectPortfolioShareOutput, RejectPortfolioShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3706,13 +3706,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter ScanProvisionedProductsInput : [no documentation found]
     ///
-    /// - Returns: `ScanProvisionedProductsOutputResponse` : [no documentation found]
+    /// - Returns: `ScanProvisionedProductsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func scanProvisionedProducts(input: ScanProvisionedProductsInput) async throws -> ScanProvisionedProductsOutputResponse
+    public func scanProvisionedProducts(input: ScanProvisionedProductsInput) async throws -> ScanProvisionedProductsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3728,21 +3728,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ScanProvisionedProductsInput, ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>(id: "scanProvisionedProducts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ScanProvisionedProductsInput, ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>(id: "scanProvisionedProducts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.ScanProvisionedProducts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutputResponse>(xmlName: "ScanProvisionedProductsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(xAmzTarget: "AWS242ServiceCatalogService.ScanProvisionedProducts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(xmlName: "ScanProvisionedProductsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ScanProvisionedProductsInput, ScanProvisionedProductsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScanProvisionedProductsOutputResponse, ScanProvisionedProductsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScanProvisionedProductsOutput, ScanProvisionedProductsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3751,13 +3751,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter SearchProductsInput : [no documentation found]
     ///
-    /// - Returns: `SearchProductsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchProductsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func searchProducts(input: SearchProductsInput) async throws -> SearchProductsOutputResponse
+    public func searchProducts(input: SearchProductsInput) async throws -> SearchProductsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3773,21 +3773,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchProductsInput, SearchProductsOutputResponse, SearchProductsOutputError>(id: "searchProducts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProductsInput, SearchProductsOutputResponse, SearchProductsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProductsInput, SearchProductsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchProductsInput, SearchProductsOutput, SearchProductsOutputError>(id: "searchProducts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProductsInput, SearchProductsOutput, SearchProductsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProductsInput, SearchProductsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProductsOutputResponse, SearchProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProductsOutput, SearchProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProductsInput, SearchProductsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.SearchProducts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProductsInput, SearchProductsOutputResponse>(xmlName: "SearchProductsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProductsInput, SearchProductsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProductsInput, SearchProductsOutput>(xAmzTarget: "AWS242ServiceCatalogService.SearchProducts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProductsInput, SearchProductsOutput>(xmlName: "SearchProductsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProductsInput, SearchProductsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProductsOutputResponse, SearchProductsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProductsOutput, SearchProductsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProductsOutputResponse, SearchProductsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProductsOutputResponse, SearchProductsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProductsOutputResponse, SearchProductsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProductsOutput, SearchProductsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProductsOutput, SearchProductsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProductsOutput, SearchProductsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3796,14 +3796,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter SearchProductsAsAdminInput : [no documentation found]
     ///
-    /// - Returns: `SearchProductsAsAdminOutputResponse` : [no documentation found]
+    /// - Returns: `SearchProductsAsAdminOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func searchProductsAsAdmin(input: SearchProductsAsAdminInput) async throws -> SearchProductsAsAdminOutputResponse
+    public func searchProductsAsAdmin(input: SearchProductsAsAdminInput) async throws -> SearchProductsAsAdminOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3819,21 +3819,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>(id: "searchProductsAsAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchProductsAsAdminInput, SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>(id: "searchProductsAsAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.SearchProductsAsAdmin"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse>(xmlName: "SearchProductsAsAdminInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(xAmzTarget: "AWS242ServiceCatalogService.SearchProductsAsAdmin"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(xmlName: "SearchProductsAsAdminInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProductsAsAdminOutputResponse, SearchProductsAsAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProductsAsAdminOutput, SearchProductsAsAdminOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3842,13 +3842,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter SearchProvisionedProductsInput : [no documentation found]
     ///
-    /// - Returns: `SearchProvisionedProductsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchProvisionedProductsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
-    public func searchProvisionedProducts(input: SearchProvisionedProductsInput) async throws -> SearchProvisionedProductsOutputResponse
+    public func searchProvisionedProducts(input: SearchProvisionedProductsInput) async throws -> SearchProvisionedProductsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3864,21 +3864,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>(id: "searchProvisionedProducts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SearchProvisionedProductsInput, SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>(id: "searchProvisionedProducts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.SearchProvisionedProducts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse>(xmlName: "SearchProvisionedProductsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(xAmzTarget: "AWS242ServiceCatalogService.SearchProvisionedProducts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(xmlName: "SearchProvisionedProductsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProvisionedProductsOutputResponse, SearchProvisionedProductsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchProvisionedProductsOutput, SearchProvisionedProductsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3887,13 +3887,13 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter TerminateProvisionedProductInput : [no documentation found]
     ///
-    /// - Returns: `TerminateProvisionedProductOutputResponse` : [no documentation found]
+    /// - Returns: `TerminateProvisionedProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func terminateProvisionedProduct(input: TerminateProvisionedProductInput) async throws -> TerminateProvisionedProductOutputResponse
+    public func terminateProvisionedProduct(input: TerminateProvisionedProductInput) async throws -> TerminateProvisionedProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3909,8 +3909,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TerminateProvisionedProductInput, TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>(id: "terminateProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<TerminateProvisionedProductOutputResponse> in
+        var operation = ClientRuntime.OperationStack<TerminateProvisionedProductInput, TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(id: "terminateProvisionedProduct")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<TerminateProvisionedProductOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.terminateToken == nil {
@@ -3918,20 +3918,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.TerminateProvisionedProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutputResponse>(xmlName: "TerminateProvisionedProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.TerminateProvisionedProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(xmlName: "TerminateProvisionedProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateProvisionedProductOutputResponse, TerminateProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3940,14 +3940,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateConstraintInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConstraintOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConstraintOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateConstraint(input: UpdateConstraintInput) async throws -> UpdateConstraintOutputResponse
+    public func updateConstraint(input: UpdateConstraintInput) async throws -> UpdateConstraintOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3963,21 +3963,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateConstraintInput, UpdateConstraintOutputResponse, UpdateConstraintOutputError>(id: "updateConstraint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConstraintInput, UpdateConstraintOutputResponse, UpdateConstraintOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConstraintInput, UpdateConstraintOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateConstraintInput, UpdateConstraintOutput, UpdateConstraintOutputError>(id: "updateConstraint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConstraintInput, UpdateConstraintOutput, UpdateConstraintOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConstraintInput, UpdateConstraintOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConstraintOutputResponse, UpdateConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConstraintOutput, UpdateConstraintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateConstraintInput, UpdateConstraintOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateConstraint"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConstraintInput, UpdateConstraintOutputResponse>(xmlName: "UpdateConstraintInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConstraintInput, UpdateConstraintOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateConstraint"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(xmlName: "UpdateConstraintInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConstraintInput, UpdateConstraintOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConstraintOutputResponse, UpdateConstraintOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConstraintOutput, UpdateConstraintOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConstraintOutputResponse, UpdateConstraintOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConstraintOutputResponse, UpdateConstraintOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConstraintOutputResponse, UpdateConstraintOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConstraintOutput, UpdateConstraintOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConstraintOutput, UpdateConstraintOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConstraintOutput, UpdateConstraintOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3986,7 +3986,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdatePortfolioInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePortfolioOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePortfolioOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3995,7 +3995,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `LimitExceededException` : The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func updatePortfolio(input: UpdatePortfolioInput) async throws -> UpdatePortfolioOutputResponse
+    public func updatePortfolio(input: UpdatePortfolioInput) async throws -> UpdatePortfolioOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4011,21 +4011,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePortfolioInput, UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>(id: "updatePortfolio")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortfolioInput, UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortfolioInput, UpdatePortfolioOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePortfolioInput, UpdatePortfolioOutput, UpdatePortfolioOutputError>(id: "updatePortfolio")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput, UpdatePortfolioOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortfolioOutput, UpdatePortfolioOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePortfolioInput, UpdatePortfolioOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdatePortfolio"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePortfolioInput, UpdatePortfolioOutputResponse>(xmlName: "UpdatePortfolioInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortfolioInput, UpdatePortfolioOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdatePortfolio"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(xmlName: "UpdatePortfolioInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortfolioInput, UpdatePortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortfolioOutput, UpdatePortfolioOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortfolioOutputResponse, UpdatePortfolioOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortfolioOutput, UpdatePortfolioOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortfolioOutput, UpdatePortfolioOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortfolioOutput, UpdatePortfolioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4034,7 +4034,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdatePortfolioShareInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePortfolioShareOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePortfolioShareOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4043,7 +4043,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `OperationNotSupportedException` : The operation is not supported.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutputResponse
+    public func updatePortfolioShare(input: UpdatePortfolioShareInput) async throws -> UpdatePortfolioShareOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4059,21 +4059,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePortfolioShareInput, UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>(id: "updatePortfolioShare")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdatePortfolioShareInput, UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>(id: "updatePortfolioShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdatePortfolioShare"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutputResponse>(xmlName: "UpdatePortfolioShareInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdatePortfolioShare"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(xmlName: "UpdatePortfolioShareInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortfolioShareInput, UpdatePortfolioShareOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortfolioShareOutputResponse, UpdatePortfolioShareOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortfolioShareOutput, UpdatePortfolioShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4082,7 +4082,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateProductInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProductOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4090,7 +4090,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func updateProduct(input: UpdateProductInput) async throws -> UpdateProductOutputResponse
+    public func updateProduct(input: UpdateProductInput) async throws -> UpdateProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4106,21 +4106,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProductInput, UpdateProductOutputResponse, UpdateProductOutputError>(id: "updateProduct")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProductInput, UpdateProductOutputResponse, UpdateProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProductInput, UpdateProductOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProductInput, UpdateProductOutput, UpdateProductOutputError>(id: "updateProduct")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProductInput, UpdateProductOutput, UpdateProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProductInput, UpdateProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProductOutputResponse, UpdateProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProductOutput, UpdateProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProductInput, UpdateProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProductInput, UpdateProductOutputResponse>(xmlName: "UpdateProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProductInput, UpdateProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProductInput, UpdateProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProductInput, UpdateProductOutput>(xmlName: "UpdateProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProductInput, UpdateProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProductOutputResponse, UpdateProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProductOutput, UpdateProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProductOutputResponse, UpdateProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProductOutputResponse, UpdateProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProductOutputResponse, UpdateProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProductOutput, UpdateProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProductOutput, UpdateProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProductOutput, UpdateProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4129,14 +4129,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateProvisionedProductInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProvisionedProductOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProvisionedProductOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateProvisionedProduct(input: UpdateProvisionedProductInput) async throws -> UpdateProvisionedProductOutputResponse
+    public func updateProvisionedProduct(input: UpdateProvisionedProductInput) async throws -> UpdateProvisionedProductOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4152,8 +4152,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProvisionedProductInput, UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>(id: "updateProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateProvisionedProductOutputResponse> in
+        var operation = ClientRuntime.OperationStack<UpdateProvisionedProductInput, UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(id: "updateProvisionedProduct")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateProvisionedProductOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.updateToken == nil {
@@ -4161,20 +4161,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisionedProduct"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutputResponse>(xmlName: "UpdateProvisionedProductInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisionedProduct"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(xmlName: "UpdateProvisionedProductInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProvisionedProductOutputResponse, UpdateProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4183,7 +4183,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateProvisionedProductPropertiesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProvisionedProductPropertiesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProvisionedProductPropertiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4191,7 +4191,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `InvalidStateException` : An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateProvisionedProductProperties(input: UpdateProvisionedProductPropertiesInput) async throws -> UpdateProvisionedProductPropertiesOutputResponse
+    public func updateProvisionedProductProperties(input: UpdateProvisionedProductPropertiesInput) async throws -> UpdateProvisionedProductPropertiesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4207,8 +4207,8 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>(id: "updateProvisionedProductProperties")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateProvisionedProductPropertiesOutputResponse> in
+        var operation = ClientRuntime.OperationStack<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(id: "updateProvisionedProductProperties")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateProvisionedProductPropertiesOutput> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
             var copiedInput = input
             if input.idempotencyToken == nil {
@@ -4216,20 +4216,20 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
             }
             return try await next.handle(context: context, input: copiedInput)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutputResponse>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisionedProductProperties"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutputResponse>(xmlName: "UpdateProvisionedProductPropertiesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisionedProductProperties"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(xmlName: "UpdateProvisionedProductPropertiesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProvisionedProductPropertiesOutputResponse, UpdateProvisionedProductPropertiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4238,14 +4238,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateProvisioningArtifactInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProvisioningArtifactOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProvisioningArtifactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput) async throws -> UpdateProvisioningArtifactOutputResponse
+    public func updateProvisioningArtifact(input: UpdateProvisioningArtifactInput) async throws -> UpdateProvisioningArtifactOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4261,21 +4261,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>(id: "updateProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>(id: "updateProvisioningArtifact")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisioningArtifact"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutputResponse>(xmlName: "UpdateProvisioningArtifactInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateProvisioningArtifact"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(xmlName: "UpdateProvisioningArtifactInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProvisioningArtifactInput, UpdateProvisioningArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProvisioningArtifactOutputResponse, UpdateProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProvisioningArtifactOutput, UpdateProvisioningArtifactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4284,14 +4284,14 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateServiceActionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceActionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceActionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
-    public func updateServiceAction(input: UpdateServiceActionInput) async throws -> UpdateServiceActionOutputResponse
+    public func updateServiceAction(input: UpdateServiceActionInput) async throws -> UpdateServiceActionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4307,21 +4307,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateServiceActionInput, UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>(id: "updateServiceAction")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceActionInput, UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceActionInput, UpdateServiceActionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateServiceActionInput, UpdateServiceActionOutput, UpdateServiceActionOutputError>(id: "updateServiceAction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput, UpdateServiceActionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceActionOutput, UpdateServiceActionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceActionInput, UpdateServiceActionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateServiceAction"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServiceActionInput, UpdateServiceActionOutputResponse>(xmlName: "UpdateServiceActionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServiceActionInput, UpdateServiceActionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateServiceAction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(xmlName: "UpdateServiceActionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServiceActionInput, UpdateServiceActionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceActionOutput, UpdateServiceActionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceActionOutputResponse, UpdateServiceActionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceActionOutput, UpdateServiceActionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceActionOutput, UpdateServiceActionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceActionOutput, UpdateServiceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4330,7 +4330,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     ///
     /// - Parameter UpdateTagOptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTagOptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTagOptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4339,7 +4339,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
     /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TagOptionNotMigratedException` : An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Use the Amazon Web Services Management Console to perform the migration process before retrying the operation.
-    public func updateTagOption(input: UpdateTagOptionInput) async throws -> UpdateTagOptionOutputResponse
+    public func updateTagOption(input: UpdateTagOptionInput) async throws -> UpdateTagOptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -4355,21 +4355,21 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTagOptionInput, UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>(id: "updateTagOption")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTagOptionInput, UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTagOptionInput, UpdateTagOptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateTagOptionInput, UpdateTagOptionOutput, UpdateTagOptionOutputError>(id: "updateTagOption")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput, UpdateTagOptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTagOptionOutput, UpdateTagOptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTagOptionInput, UpdateTagOptionOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.UpdateTagOption"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTagOptionInput, UpdateTagOptionOutputResponse>(xmlName: "UpdateTagOptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTagOptionInput, UpdateTagOptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(xAmzTarget: "AWS242ServiceCatalogService.UpdateTagOption"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(xmlName: "UpdateTagOptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTagOptionInput, UpdateTagOptionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTagOptionOutput, UpdateTagOptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTagOptionOutputResponse, UpdateTagOptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTagOptionOutput, UpdateTagOptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTagOptionOutput, UpdateTagOptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTagOptionOutput, UpdateTagOptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

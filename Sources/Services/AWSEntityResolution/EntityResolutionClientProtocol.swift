@@ -8,7 +8,7 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// - Parameter CreateMatchingWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `CreateMatchingWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMatchingWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func createMatchingWorkflow(input: CreateMatchingWorkflowInput) async throws -> CreateMatchingWorkflowOutputResponse
+    func createMatchingWorkflow(input: CreateMatchingWorkflowInput) async throws -> CreateMatchingWorkflowOutput
     /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
     ///
     /// - Parameter CreateSchemaMappingInput : [no documentation found]
     ///
-    /// - Returns: `CreateSchemaMappingOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSchemaMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func createSchemaMapping(input: CreateSchemaMappingInput) async throws -> CreateSchemaMappingOutputResponse
+    func createSchemaMapping(input: CreateSchemaMappingInput) async throws -> CreateSchemaMappingOutput
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
     /// - Parameter DeleteMatchingWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMatchingWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMatchingWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutputResponse
+    func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutput
     /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a DataIntegrationWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
     /// - Parameter DeleteSchemaMappingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSchemaMappingOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSchemaMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,12 +64,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutputResponse
+    func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutput
     /// Returns the corresponding Match ID of a customer record if the record has been processed.
     ///
     /// - Parameter GetMatchIdInput : [no documentation found]
     ///
-    /// - Returns: `GetMatchIdOutputResponse` : [no documentation found]
+    /// - Returns: `GetMatchIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,12 +79,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutputResponse
+    func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutput
     /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
     ///
     /// - Parameter GetMatchingJobInput : [no documentation found]
     ///
-    /// - Returns: `GetMatchingJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetMatchingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -94,12 +94,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutputResponse
+    func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutput
     /// Returns the MatchingWorkflow with a given name, if it exists.
     ///
     /// - Parameter GetMatchingWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `GetMatchingWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `GetMatchingWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -109,12 +109,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutputResponse
+    func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutput
     /// Returns the SchemaMapping of a given name.
     ///
     /// - Parameter GetSchemaMappingInput : [no documentation found]
     ///
-    /// - Returns: `GetSchemaMappingOutputResponse` : [no documentation found]
+    /// - Returns: `GetSchemaMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -124,12 +124,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutputResponse
+    func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutput
     /// Lists all jobs for a given workflow.
     ///
     /// - Parameter ListMatchingJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListMatchingJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMatchingJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutputResponse
+    func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutput
     /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListMatchingWorkflowsInput : [no documentation found]
     ///
-    /// - Returns: `ListMatchingWorkflowsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMatchingWorkflowsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -153,12 +153,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func listMatchingWorkflows(input: ListMatchingWorkflowsInput) async throws -> ListMatchingWorkflowsOutputResponse
+    func listMatchingWorkflows(input: ListMatchingWorkflowsInput) async throws -> ListMatchingWorkflowsOutput
     /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListSchemaMappingsInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemaMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemaMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -167,12 +167,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func listSchemaMappings(input: ListSchemaMappingsInput) async throws -> ListSchemaMappingsOutputResponse
+    func listSchemaMappings(input: ListSchemaMappingsInput) async throws -> ListSchemaMappingsOutput
     /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,12 +180,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint.
     ///
     /// - Parameter StartMatchingJobInput : [no documentation found]
     ///
-    /// - Returns: `StartMatchingJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartMatchingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -197,12 +197,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutputResponse
+    func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutput
     /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -210,24 +210,24 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
     ///
     /// - Parameter UpdateMatchingWorkflowInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMatchingWorkflowOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMatchingWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,7 +237,7 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
-    func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutputResponse
+    func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutput
 }
 
 public enum EntityResolutionClientTypes {}

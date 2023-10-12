@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension KMSClient {
-    /// Paginate over `[DescribeCustomKeyStoresOutputResponse]` results.
+    /// Paginate over `[DescribeCustomKeyStoresOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCustomKeyStoresInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomKeyStoresOutputResponse`
-    public func describeCustomKeyStoresPaginated(input: DescribeCustomKeyStoresInput) -> ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse>(input: input, inputKey: \DescribeCustomKeyStoresInput.marker, outputKey: \DescribeCustomKeyStoresOutputResponse.nextMarker, paginationFunction: self.describeCustomKeyStores(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomKeyStoresOutput`
+    public func describeCustomKeyStoresPaginated(input: DescribeCustomKeyStoresInput) -> ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(input: input, inputKey: \DescribeCustomKeyStoresInput.marker, outputKey: \DescribeCustomKeyStoresOutput.nextMarker, paginationFunction: self.describeCustomKeyStores(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeCustomKeyStoresInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCustomKeyStoresInput, Output == DescribeCustomKeyStoresOutputResponse {
+extension PaginatorSequence where Input == DescribeCustomKeyStoresInput, Output == DescribeCustomKeyStoresOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCustomKeyStoresPaginated`
     /// to access the nested member `[KMSClientTypes.CustomKeyStoresListEntry]`
     /// - Returns: `[KMSClientTypes.CustomKeyStoresListEntry]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == DescribeCustomKeyStoresInput, Output 
     }
 }
 extension KMSClient {
-    /// Paginate over `[ListAliasesOutputResponse]` results.
+    /// Paginate over `[ListAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAliasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutputResponse`
-    public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse>(input: input, inputKey: \ListAliasesInput.marker, outputKey: \ListAliasesOutputResponse.nextMarker, paginationFunction: self.listAliases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
+    public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.marker, outputKey: \ListAliasesOutput.nextMarker, paginationFunction: self.listAliases(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutputResponse {
+extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[KMSClientTypes.AliasListEntry]`
     /// - Returns: `[KMSClientTypes.AliasListEntry]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == ListAliasesInput, Output == ListAlias
     }
 }
 extension KMSClient {
-    /// Paginate over `[ListGrantsOutputResponse]` results.
+    /// Paginate over `[ListGrantsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListGrantsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListGrantsOutputResponse`
-    public func listGrantsPaginated(input: ListGrantsInput) -> ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutputResponse>(input: input, inputKey: \ListGrantsInput.marker, outputKey: \ListGrantsOutputResponse.nextMarker, paginationFunction: self.listGrants(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGrantsOutput`
+    public func listGrantsPaginated(input: ListGrantsInput) -> ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGrantsInput, ListGrantsOutput>(input: input, inputKey: \ListGrantsInput.marker, outputKey: \ListGrantsOutput.nextMarker, paginationFunction: self.listGrants(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGrantsInput, Output == ListGrantsOutputResponse {
+extension PaginatorSequence where Input == ListGrantsInput, Output == ListGrantsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGrantsPaginated`
     /// to access the nested member `[KMSClientTypes.GrantListEntry]`
     /// - Returns: `[KMSClientTypes.GrantListEntry]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == ListGrantsInput, Output == ListGrants
     }
 }
 extension KMSClient {
-    /// Paginate over `[ListKeyPoliciesOutputResponse]` results.
+    /// Paginate over `[ListKeyPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKeyPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyPoliciesOutputResponse`
-    public func listKeyPoliciesPaginated(input: ListKeyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse>(input: input, inputKey: \ListKeyPoliciesInput.marker, outputKey: \ListKeyPoliciesOutputResponse.nextMarker, paginationFunction: self.listKeyPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyPoliciesOutput`
+    public func listKeyPoliciesPaginated(input: ListKeyPoliciesInput) -> ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListKeyPoliciesInput, ListKeyPoliciesOutput>(input: input, inputKey: \ListKeyPoliciesInput.marker, outputKey: \ListKeyPoliciesOutput.nextMarker, paginationFunction: self.listKeyPolicies(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension ListKeyPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListKeyPoliciesInput, Output == ListKeyPoliciesOutputResponse {
+extension PaginatorSequence where Input == ListKeyPoliciesInput, Output == ListKeyPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKeyPoliciesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -130,16 +130,16 @@ extension PaginatorSequence where Input == ListKeyPoliciesInput, Output == ListK
     }
 }
 extension KMSClient {
-    /// Paginate over `[ListKeysOutputResponse]` results.
+    /// Paginate over `[ListKeysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListKeysInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKeysOutputResponse`
-    public func listKeysPaginated(input: ListKeysInput) -> ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutputResponse>(input: input, inputKey: \ListKeysInput.marker, outputKey: \ListKeysOutputResponse.nextMarker, paginationFunction: self.listKeys(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKeysOutput`
+    public func listKeysPaginated(input: ListKeysInput) -> ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput> {
+        return ClientRuntime.PaginatorSequence<ListKeysInput, ListKeysOutput>(input: input, inputKey: \ListKeysInput.marker, outputKey: \ListKeysOutput.nextMarker, paginationFunction: self.listKeys(input:))
     }
 }
 
@@ -151,7 +151,7 @@ extension ListKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutputResponse {
+extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listKeysPaginated`
     /// to access the nested member `[KMSClientTypes.KeyListEntry]`
     /// - Returns: `[KMSClientTypes.KeyListEntry]`
@@ -160,16 +160,16 @@ extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutp
     }
 }
 extension KMSClient {
-    /// Paginate over `[ListResourceTagsOutputResponse]` results.
+    /// Paginate over `[ListResourceTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTagsOutputResponse`
-    public func listResourceTagsPaginated(input: ListResourceTagsInput) -> ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutputResponse>(input: input, inputKey: \ListResourceTagsInput.marker, outputKey: \ListResourceTagsOutputResponse.nextMarker, paginationFunction: self.listResourceTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTagsOutput`
+    public func listResourceTagsPaginated(input: ListResourceTagsInput) -> ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceTagsInput, ListResourceTagsOutput>(input: input, inputKey: \ListResourceTagsInput.marker, outputKey: \ListResourceTagsOutput.nextMarker, paginationFunction: self.listResourceTags(input:))
     }
 }
 
@@ -182,7 +182,7 @@ extension ListResourceTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListResourceTagsInput, Output == ListResourceTagsOutputResponse {
+extension PaginatorSequence where Input == ListResourceTagsInput, Output == ListResourceTagsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listResourceTagsPaginated`
     /// to access the nested member `[KMSClientTypes.Tag]`
     /// - Returns: `[KMSClientTypes.Tag]`
@@ -191,16 +191,16 @@ extension PaginatorSequence where Input == ListResourceTagsInput, Output == List
     }
 }
 extension KMSClient {
-    /// Paginate over `[ListRetirableGrantsOutputResponse]` results.
+    /// Paginate over `[ListRetirableGrantsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRetirableGrantsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRetirableGrantsOutputResponse`
-    public func listRetirableGrantsPaginated(input: ListRetirableGrantsInput) -> ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse>(input: input, inputKey: \ListRetirableGrantsInput.marker, outputKey: \ListRetirableGrantsOutputResponse.nextMarker, paginationFunction: self.listRetirableGrants(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRetirableGrantsOutput`
+    public func listRetirableGrantsPaginated(input: ListRetirableGrantsInput) -> ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRetirableGrantsInput, ListRetirableGrantsOutput>(input: input, inputKey: \ListRetirableGrantsInput.marker, outputKey: \ListRetirableGrantsOutput.nextMarker, paginationFunction: self.listRetirableGrants(input:))
     }
 }
 
@@ -213,7 +213,7 @@ extension ListRetirableGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRetirableGrantsInput, Output == ListRetirableGrantsOutputResponse {
+extension PaginatorSequence where Input == ListRetirableGrantsInput, Output == ListRetirableGrantsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRetirableGrantsPaginated`
     /// to access the nested member `[KMSClientTypes.GrantListEntry]`
     /// - Returns: `[KMSClientTypes.GrantListEntry]`
