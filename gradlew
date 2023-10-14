@@ -16,6 +16,9 @@
 # limitations under the License.
 #
 
+echo "Hello!!!!!'
+exit 0
+
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
