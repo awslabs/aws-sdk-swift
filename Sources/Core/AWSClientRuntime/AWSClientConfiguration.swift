@@ -128,7 +128,11 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 
         self.credentialsProvider = credentialsProvider
         self.endpoint = endpoint
-        self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(endpointResolver: nil)
+        self.serviceSpecific = try serviceSpecific ?? ServiceSpecificConfiguration(
+            endpointResolver: nil,
+            authSchemeResolver: nil,
+            authSchemes: nil
+        )
         self.region = region
         self.signingRegion = signingRegion ?? region
         self.useDualStack = useDualStack
