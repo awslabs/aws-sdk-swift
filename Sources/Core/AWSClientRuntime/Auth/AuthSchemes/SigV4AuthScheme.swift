@@ -27,7 +27,7 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
         // Out of all AWSSignatureType cases, only two are used. .requestHeaders and .requestQueryParams.
         // .requestHeaders is the deafult signing used for all AWS operations except S3 customizations.
         copy.set(key: AttributeKeys.signatureType, value: .requestHeaders)
-        
+
         // SigningFlags
         let serviceName = context.getServiceName()
         // Set useDoubleURIEncode to false IFF service is S3
@@ -44,7 +44,6 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
          *   the returned auth option's signing properties.
          *   By the time the call chain arrives here, code-generated flags are already included in signingProperties.
          */
-        
         return copy
     }
 }
