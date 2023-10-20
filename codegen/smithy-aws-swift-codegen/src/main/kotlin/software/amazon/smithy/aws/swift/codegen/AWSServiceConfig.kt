@@ -105,7 +105,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         // service specific AuthSchemeResolver
         configs.add(ConfigField(AUTH_SCHEME_RESOLVER, ServiceTypes.AuthSchemeResolver, "\$N"))
         // service specific AuthSchemes
-        configs.add(ConfigField(AUTH_SCHEMES, ServiceTypes.AuthScheme, "\$N"))
+        configs.add(ConfigField(AUTH_SCHEMES, ServiceTypes.AuthSchemes, "\$N"))
 
 
         val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()

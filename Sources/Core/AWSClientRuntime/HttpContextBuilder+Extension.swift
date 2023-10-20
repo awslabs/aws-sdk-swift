@@ -10,28 +10,20 @@ import struct Foundation.Date
 import struct Foundation.TimeInterval
 
 extension HttpContext {
-    func getCredentialsProvider() -> (any CredentialsProviding)? {
+    public func getCredentialsProvider() -> (any CredentialsProviding)? {
         return attributes.get(key: AttributeKeys.credentialsProvider)
     }
 
-    func getRegion() -> String? {
+    public func getRegion() -> String? {
         return attributes.get(key: AttributeKeys.region)
     }
 
-    func getRequestSignature() -> String {
+    public func getRequestSignature() -> String {
         return attributes.get(key: AttributeKeys.requestSignature)!
     }
 
-    func getSigningAlgorithm() -> AWSSigningAlgorithm? {
+    public func getSigningAlgorithm() -> AWSSigningAlgorithm? {
         return attributes.get(key: AttributeKeys.signingAlgorithm)
-    }
-
-    func getSigningName() -> String? {
-        return attributes.get(key: AttributeKeys.signingName)
-    }
-
-    func getSigningRegion() -> String? {
-        return attributes.get(key: AttributeKeys.signingRegion)
     }
 
     /// Returns the signing config for the event stream message
@@ -104,18 +96,6 @@ extension HttpContextBuilder {
     @discardableResult
     public func withSigningAlgorithm(value: AWSSigningAlgorithm) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKeys.signingAlgorithm, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningName(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKeys.signingName, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningRegion(value: String?) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKeys.signingRegion, value: value)
         return self
     }
 }
