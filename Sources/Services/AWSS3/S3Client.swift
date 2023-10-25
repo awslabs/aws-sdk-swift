@@ -5012,7 +5012,7 @@ extension S3Client: S3ClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: WriteGetObjectResponseInputBodyMiddleware())
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware(requiresLength: false, unsignedPayload: true))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, WriteGetObjectResponseOutput, WriteGetObjectResponseOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WriteGetObjectResponseOutput, WriteGetObjectResponseOutputError>(config: sigv4Config))

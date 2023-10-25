@@ -185,19 +185,19 @@ extension ConnectContactLensClientTypes.CharacterOffsets: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if beginOffsetChar != 0 {
+        if let beginOffsetChar = self.beginOffsetChar {
             try encodeContainer.encode(beginOffsetChar, forKey: .beginOffsetChar)
         }
-        if endOffsetChar != 0 {
+        if let endOffsetChar = self.endOffsetChar {
             try encodeContainer.encode(endOffsetChar, forKey: .endOffsetChar)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let beginOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetChar) ?? 0
+        let beginOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetChar)
         beginOffsetChar = beginOffsetCharDecoded
-        let endOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetChar) ?? 0
+        let endOffsetCharDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetChar)
         endOffsetChar = endOffsetCharDecoded
     }
 }
@@ -207,14 +207,14 @@ extension ConnectContactLensClientTypes {
     public struct CharacterOffsets: Swift.Equatable {
         /// The beginning of the issue.
         /// This member is required.
-        public var beginOffsetChar: Swift.Int
+        public var beginOffsetChar: Swift.Int?
         /// The end of the issue.
         /// This member is required.
-        public var endOffsetChar: Swift.Int
+        public var endOffsetChar: Swift.Int?
 
         public init(
-            beginOffsetChar: Swift.Int = 0,
-            endOffsetChar: Swift.Int = 0
+            beginOffsetChar: Swift.Int? = nil,
+            endOffsetChar: Swift.Int? = nil
         )
         {
             self.beginOffsetChar = beginOffsetChar
@@ -545,19 +545,19 @@ extension ConnectContactLensClientTypes.PointOfInterest: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if beginOffsetMillis != 0 {
+        if let beginOffsetMillis = self.beginOffsetMillis {
             try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
         }
-        if endOffsetMillis != 0 {
+        if let endOffsetMillis = self.endOffsetMillis {
             try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis) ?? 0
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
         beginOffsetMillis = beginOffsetMillisDecoded
-        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis) ?? 0
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
         endOffsetMillis = endOffsetMillisDecoded
     }
 }
@@ -567,14 +567,14 @@ extension ConnectContactLensClientTypes {
     public struct PointOfInterest: Swift.Equatable {
         /// The beginning offset in milliseconds where the category rule was detected.
         /// This member is required.
-        public var beginOffsetMillis: Swift.Int
+        public var beginOffsetMillis: Swift.Int?
         /// The ending offset in milliseconds where the category rule was detected.
         /// This member is required.
-        public var endOffsetMillis: Swift.Int
+        public var endOffsetMillis: Swift.Int?
 
         public init(
-            beginOffsetMillis: Swift.Int = 0,
-            endOffsetMillis: Swift.Int = 0
+            beginOffsetMillis: Swift.Int? = nil,
+            endOffsetMillis: Swift.Int? = nil
         )
         {
             self.beginOffsetMillis = beginOffsetMillis
@@ -789,13 +789,13 @@ extension ConnectContactLensClientTypes.Transcript: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if beginOffsetMillis != 0 {
+        if let beginOffsetMillis = self.beginOffsetMillis {
             try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
         }
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
         }
-        if endOffsetMillis != 0 {
+        if let endOffsetMillis = self.endOffsetMillis {
             try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
         }
         if let id = self.id {
@@ -828,9 +828,9 @@ extension ConnectContactLensClientTypes.Transcript: Swift.Codable {
         participantRole = participantRoleDecoded
         let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
         content = contentDecoded
-        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis) ?? 0
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
         beginOffsetMillis = beginOffsetMillisDecoded
-        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis) ?? 0
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
         endOffsetMillis = endOffsetMillisDecoded
         let sentimentDecoded = try containerValues.decodeIfPresent(ConnectContactLensClientTypes.SentimentValue.self, forKey: .sentiment)
         sentiment = sentimentDecoded
@@ -853,13 +853,13 @@ extension ConnectContactLensClientTypes {
     public struct Transcript: Swift.Equatable {
         /// The beginning offset in the contact for this transcript.
         /// This member is required.
-        public var beginOffsetMillis: Swift.Int
+        public var beginOffsetMillis: Swift.Int?
         /// The content of the transcript.
         /// This member is required.
         public var content: Swift.String?
         /// The end offset in the contact for this transcript.
         /// This member is required.
-        public var endOffsetMillis: Swift.Int
+        public var endOffsetMillis: Swift.Int?
         /// The identifier of the transcript.
         /// This member is required.
         public var id: Swift.String?
@@ -876,9 +876,9 @@ extension ConnectContactLensClientTypes {
         public var sentiment: ConnectContactLensClientTypes.SentimentValue?
 
         public init(
-            beginOffsetMillis: Swift.Int = 0,
+            beginOffsetMillis: Swift.Int? = nil,
             content: Swift.String? = nil,
-            endOffsetMillis: Swift.Int = 0,
+            endOffsetMillis: Swift.Int? = nil,
             id: Swift.String? = nil,
             issuesDetected: [ConnectContactLensClientTypes.IssueDetected]? = nil,
             participantId: Swift.String? = nil,

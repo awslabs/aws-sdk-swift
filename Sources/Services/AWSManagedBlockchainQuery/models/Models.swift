@@ -59,6 +59,64 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ManagedBlockchainQueryClientTypes.AssetContract: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractIdentifier
+        case deployerAddress
+        case tokenStandard
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contractIdentifier = self.contractIdentifier {
+            try encodeContainer.encode(contractIdentifier, forKey: .contractIdentifier)
+        }
+        if let deployerAddress = self.deployerAddress {
+            try encodeContainer.encode(deployerAddress, forKey: .deployerAddress)
+        }
+        if let tokenStandard = self.tokenStandard {
+            try encodeContainer.encode(tokenStandard.rawValue, forKey: .tokenStandard)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contractIdentifierDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ContractIdentifier.self, forKey: .contractIdentifier)
+        contractIdentifier = contractIdentifierDecoded
+        let tokenStandardDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryTokenStandard.self, forKey: .tokenStandard)
+        tokenStandard = tokenStandardDecoded
+        let deployerAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deployerAddress)
+        deployerAddress = deployerAddressDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// This container contains information about an contract.
+    public struct AssetContract: Swift.Equatable {
+        /// The container for the contract identifier containing its blockchain network and address.
+        /// This member is required.
+        public var contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
+        /// The address of the contract deployer.
+        /// This member is required.
+        public var deployerAddress: Swift.String?
+        /// The token standard of the contract.
+        /// This member is required.
+        public var tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard?
+
+        public init(
+            contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier? = nil,
+            deployerAddress: Swift.String? = nil,
+            tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
+        )
+        {
+            self.contractIdentifier = contractIdentifier
+            self.deployerAddress = deployerAddress
+            self.tokenStandard = tokenStandard
+        }
+    }
+
+}
+
 extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case atBlockchainInstant
@@ -170,7 +228,7 @@ extension BatchGetTokenBalanceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchGetTokenBalanceInput: Swift.Equatable {
-    /// An array of GetTokenBalanceInput objects whose balance is being requested.
+    /// An array of BatchGetTokenBalanceInputItem objects whose balance is being requested.
     public var getTokenBalanceInputs: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem]?
 
     public init(
@@ -461,6 +519,166 @@ extension ManagedBlockchainQueryClientTypes {
 
 }
 
+extension ManagedBlockchainQueryClientTypes.ContractFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deployerAddress
+        case network
+        case tokenStandard
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deployerAddress = self.deployerAddress {
+            try encodeContainer.encode(deployerAddress, forKey: .deployerAddress)
+        }
+        if let network = self.network {
+            try encodeContainer.encode(network.rawValue, forKey: .network)
+        }
+        if let tokenStandard = self.tokenStandard {
+            try encodeContainer.encode(tokenStandard.rawValue, forKey: .tokenStandard)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
+        network = networkDecoded
+        let tokenStandardDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryTokenStandard.self, forKey: .tokenStandard)
+        tokenStandard = tokenStandardDecoded
+        let deployerAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deployerAddress)
+        deployerAddress = deployerAddressDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// The contract or wallet address by which to filter the request.
+    public struct ContractFilter: Swift.Equatable {
+        /// The network address of the deployer.
+        /// This member is required.
+        public var deployerAddress: Swift.String?
+        /// The blockchain network of the contract.
+        /// This member is required.
+        public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
+        /// The container for the token standard.
+        /// This member is required.
+        public var tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard?
+
+        public init(
+            deployerAddress: Swift.String? = nil,
+            network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
+            tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
+        )
+        {
+            self.deployerAddress = deployerAddress
+            self.network = network
+            self.tokenStandard = tokenStandard
+        }
+    }
+
+}
+
+extension ManagedBlockchainQueryClientTypes.ContractIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractAddress
+        case network
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contractAddress = self.contractAddress {
+            try encodeContainer.encode(contractAddress, forKey: .contractAddress)
+        }
+        if let network = self.network {
+            try encodeContainer.encode(network.rawValue, forKey: .network)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
+        network = networkDecoded
+        let contractAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contractAddress)
+        contractAddress = contractAddressDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// Container for the blockchain address and network information about a contract.
+    public struct ContractIdentifier: Swift.Equatable {
+        /// Container for the blockchain address about a contract.
+        /// This member is required.
+        public var contractAddress: Swift.String?
+        /// The blockchain network of the contract.
+        /// This member is required.
+        public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
+
+        public init(
+            contractAddress: Swift.String? = nil,
+            network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil
+        )
+        {
+            self.contractAddress = contractAddress
+            self.network = network
+        }
+    }
+
+}
+
+extension ManagedBlockchainQueryClientTypes.ContractMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case decimals
+        case name
+        case symbol
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let decimals = self.decimals {
+            try encodeContainer.encode(decimals, forKey: .decimals)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let symbol = self.symbol {
+            try encodeContainer.encode(symbol, forKey: .symbol)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let symbolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .symbol)
+        symbol = symbolDecoded
+        let decimalsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .decimals)
+        decimals = decimalsDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// The metadata of the contract.
+    public struct ContractMetadata: Swift.Equatable {
+        /// The decimals used by the token contract.
+        public var decimals: Swift.Int?
+        /// The name of the token contract.
+        public var name: Swift.String?
+        /// The symbol of the token contract.
+        public var symbol: Swift.String?
+
+        public init(
+            decimals: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            symbol: Swift.String? = nil
+        )
+        {
+            self.decimals = decimals
+            self.name = name
+            self.symbol = symbol
+        }
+    }
+
+}
+
 extension ManagedBlockchainQueryClientTypes {
     public enum ErrorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         /// An API request retrieving an item that can't be found
@@ -491,6 +709,143 @@ extension ManagedBlockchainQueryClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ErrorType(rawValue: rawValue) ?? ErrorType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GetAssetContractInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contractIdentifier = self.contractIdentifier {
+            try encodeContainer.encode(contractIdentifier, forKey: .contractIdentifier)
+        }
+    }
+}
+
+extension GetAssetContractInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/get-asset-contract"
+    }
+}
+
+public struct GetAssetContractInput: Swift.Equatable {
+    /// Contains the blockchain address and network information about the contract.
+    /// This member is required.
+    public var contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
+
+    public init(
+        contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier? = nil
+    )
+    {
+        self.contractIdentifier = contractIdentifier
+    }
+}
+
+struct GetAssetContractInputBody: Swift.Equatable {
+    let contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
+}
+
+extension GetAssetContractInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contractIdentifierDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ContractIdentifier.self, forKey: .contractIdentifier)
+        contractIdentifier = contractIdentifierDecoded
+    }
+}
+
+extension GetAssetContractOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAssetContractOutputBody = try responseDecoder.decode(responseBody: data)
+            self.contractIdentifier = output.contractIdentifier
+            self.deployerAddress = output.deployerAddress
+            self.metadata = output.metadata
+            self.tokenStandard = output.tokenStandard
+        } else {
+            self.contractIdentifier = nil
+            self.deployerAddress = nil
+            self.metadata = nil
+            self.tokenStandard = nil
+        }
+    }
+}
+
+public struct GetAssetContractOutput: Swift.Equatable {
+    /// Contains the blockchain address and network information about the contract.
+    /// This member is required.
+    public var contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
+    /// The address of the deployer of contract.
+    /// This member is required.
+    public var deployerAddress: Swift.String?
+    /// The metadata of the contract.
+    public var metadata: ManagedBlockchainQueryClientTypes.ContractMetadata?
+    /// The token standard of the contract requested.
+    /// This member is required.
+    public var tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard?
+
+    public init(
+        contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier? = nil,
+        deployerAddress: Swift.String? = nil,
+        metadata: ManagedBlockchainQueryClientTypes.ContractMetadata? = nil,
+        tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
+    )
+    {
+        self.contractIdentifier = contractIdentifier
+        self.deployerAddress = deployerAddress
+        self.metadata = metadata
+        self.tokenStandard = tokenStandard
+    }
+}
+
+struct GetAssetContractOutputBody: Swift.Equatable {
+    let contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier?
+    let tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard?
+    let deployerAddress: Swift.String?
+    let metadata: ManagedBlockchainQueryClientTypes.ContractMetadata?
+}
+
+extension GetAssetContractOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractIdentifier
+        case deployerAddress
+        case metadata
+        case tokenStandard
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contractIdentifierDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ContractIdentifier.self, forKey: .contractIdentifier)
+        contractIdentifier = contractIdentifierDecoded
+        let tokenStandardDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryTokenStandard.self, forKey: .tokenStandard)
+        tokenStandard = tokenStandardDecoded
+        let deployerAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deployerAddress)
+        deployerAddress = deployerAddressDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ContractMetadata.self, forKey: .metadata)
+        metadata = metadataDecoded
+    }
+}
+
+enum GetAssetContractOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -847,6 +1202,153 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListAssetContractsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractFilter
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contractFilter = self.contractFilter {
+            try encodeContainer.encode(contractFilter, forKey: .contractFilter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListAssetContractsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/list-asset-contracts"
+    }
+}
+
+public struct ListAssetContractsInput: Swift.Equatable {
+    /// Contains the filter parameter for the request.
+    /// This member is required.
+    public var contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter?
+    /// The maximum number of contracts to list.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contractFilter = contractFilter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAssetContractsInputBody: Swift.Equatable {
+    let contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAssetContractsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contractFilter
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contractFilterDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ContractFilter.self, forKey: .contractFilter)
+        contractFilter = contractFilterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListAssetContractsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAssetContractsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.contracts = output.contracts
+            self.nextToken = output.nextToken
+        } else {
+            self.contracts = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAssetContractsOutput: Swift.Equatable {
+    /// An array of contract objects that contain the properties for each contract.
+    /// This member is required.
+    public var contracts: [ManagedBlockchainQueryClientTypes.AssetContract]?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        contracts: [ManagedBlockchainQueryClientTypes.AssetContract]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contracts = contracts
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAssetContractsOutputBody: Swift.Equatable {
+    let contracts: [ManagedBlockchainQueryClientTypes.AssetContract]?
+    let nextToken: Swift.String?
+}
+
+extension ListAssetContractsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contracts
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contractsContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.AssetContract?].self, forKey: .contracts)
+        var contractsDecoded0:[ManagedBlockchainQueryClientTypes.AssetContract]? = nil
+        if let contractsContainer = contractsContainer {
+            contractsDecoded0 = [ManagedBlockchainQueryClientTypes.AssetContract]()
+            for structure0 in contractsContainer {
+                if let structure0 = structure0 {
+                    contractsDecoded0?.append(structure0)
+                }
+            }
+        }
+        contracts = contractsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAssetContractsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1516,14 +2018,20 @@ extension ManagedBlockchainQueryClientTypes {
     public enum QueryNetwork: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         /// Bitcoin main network
         case bitcoinMainnet
+        /// Bitcoin test network
+        case bitcoinTestnet
         /// Ethereum main network
         case ethereumMainnet
+        /// SEPOLIA network (ethereum testnet)
+        case ethereumSepoliaTestnet
         case sdkUnknown(Swift.String)
 
         public static var allCases: [QueryNetwork] {
             return [
                 .bitcoinMainnet,
+                .bitcoinTestnet,
                 .ethereumMainnet,
+                .ethereumSepoliaTestnet,
                 .sdkUnknown("")
             ]
         }
@@ -1534,7 +2042,9 @@ extension ManagedBlockchainQueryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bitcoinMainnet: return "BITCOIN_MAINNET"
+            case .bitcoinTestnet: return "BITCOIN_TESTNET"
             case .ethereumMainnet: return "ETHEREUM_MAINNET"
+            case .ethereumSepoliaTestnet: return "ETHEREUM_SEPOLIA_TESTNET"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1542,6 +2052,41 @@ extension ManagedBlockchainQueryClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = QueryNetwork(rawValue: rawValue) ?? QueryNetwork.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    public enum QueryTokenStandard: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case erc1155
+        case erc20
+        case erc721
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryTokenStandard] {
+            return [
+                .erc1155,
+                .erc20,
+                .erc721,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .erc1155: return "ERC1155"
+            case .erc20: return "ERC20"
+            case .erc721: return "ERC721"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryTokenStandard(rawValue: rawValue) ?? QueryTokenStandard.sdkUnknown(rawValue)
         }
     }
 }
@@ -2033,7 +2578,7 @@ extension ManagedBlockchainQueryClientTypes {
         /// The container of the token balance.
         /// This member is required.
         public var balance: Swift.String?
-        /// The timestamp of the last transaction at which the balance for the token in the wallet was updated.
+        /// The Timestamp of the last transaction at which the balance for the token in the wallet was updated.
         public var lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant?
         /// The container for the identifier of the owner.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
@@ -2153,7 +2698,7 @@ extension ManagedBlockchainQueryClientTypes {
         /// The blockchain network of the token.
         /// This member is required.
         public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
-        /// The unique identifier of the token.
+        /// The unique identifier of the token. You must specify this container with btc for the native BTC token, and eth for the native ETH token. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format.
         public var tokenId: Swift.String?
 
         public init(
@@ -2318,7 +2863,7 @@ extension ManagedBlockchainQueryClientTypes {
         public var from: Swift.String?
         /// The amount of gas used for the transaction.
         public var gasUsed: Swift.String?
-        /// The blockchain network where the transaction occured.
+        /// The blockchain network where the transaction occurred.
         /// This member is required.
         public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
         /// The number of transactions in the block.

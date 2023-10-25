@@ -114,6 +114,15 @@ extension ListCustomRoutingEndpointGroupsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListCustomRoutingEndpointGroupsInput, Output == ListCustomRoutingEndpointGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCustomRoutingEndpointGroupsPaginated`
+    /// to access the nested member `[GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]`
+    /// - Returns: `[GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]`
+    public func endpointGroups() async throws -> [GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup] {
+        return try await self.asyncCompactMap { item in item.endpointGroups }
+    }
+}
 extension GlobalAcceleratorClient {
     /// Paginate over `[ListCustomRoutingListenersOutput]` results.
     ///

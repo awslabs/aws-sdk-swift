@@ -4368,7 +4368,7 @@ public struct GetPropertygraphStatisticsOutput: Swift.Equatable {
     /// Statistics for property-graph data.
     /// This member is required.
     public var payload: NeptunedataClientTypes.Statistics?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
+    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-dfe-statistics.html#neptune-dfe-statistics-errors) for a list of common errors.
     /// This member is required.
     public var status: Swift.String?
 
@@ -4898,7 +4898,7 @@ public struct GetSparqlStatisticsOutput: Swift.Equatable {
     /// Statistics for RDF data.
     /// This member is required.
     public var payload: NeptunedataClientTypes.Statistics?
-    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request] for a list of common errors.
+    /// The HTTP return code of the request. If the request succeeded, the code is 200. See [Common error codes for DFE statistics request](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-dfe-statistics.html#neptune-dfe-statistics-errors) for a list of common errors. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStatisticsStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstatisticsstatus) IAM action in that cluster.
     /// This member is required.
     public var status: Swift.String?
 
@@ -8863,7 +8863,7 @@ extension NeptunedataClientTypes.RDFGraphSummaryValueMap: Swift.Codable {
 extension NeptunedataClientTypes {
     /// Payload for an RDF graph summary response.
     public struct RDFGraphSummaryValueMap: Swift.Equatable {
-        /// The graph summary of an RDF graph. See [Graph summary response for an RDF graph](https://docs.aws.amazon.com/neptune-graph-summary.html#neptune-graph-summary-rdf-response).
+        /// The graph summary of an RDF graph. See [Graph summary response for an RDF graph](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-graph-summary.html#neptune-graph-summary-rdf-response).
         public var graphSummary: NeptunedataClientTypes.RDFGraphSummary?
         /// The timestamp, in ISO 8601 format, of the time at which Neptune last computed statistics.
         public var lastStatisticsComputationTime: ClientRuntime.Date?

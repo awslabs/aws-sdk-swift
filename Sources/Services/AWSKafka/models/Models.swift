@@ -2,6 +2,42 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension KafkaClientTypes.AmazonMskCluster: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mskClusterArn = "mskClusterArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mskClusterArn = self.mskClusterArn {
+            try encodeContainer.encode(mskClusterArn, forKey: .mskClusterArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mskClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mskClusterArn)
+        mskClusterArn = mskClusterArnDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details of an Amazon MSK Cluster.
+    public struct AmazonMskCluster: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of an Amazon MSK cluster.
+        /// This member is required.
+        public var mskClusterArn: Swift.String?
+
+        public init(
+            mskClusterArn: Swift.String? = nil
+        )
+        {
+            self.mskClusterArn = mskClusterArn
+        }
+    }
+
+}
+
 extension BadRequestException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2437,6 +2473,189 @@ extension KafkaClientTypes {
 
 }
 
+extension KafkaClientTypes.ConsumerGroupReplication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerGroupsToExclude = "consumerGroupsToExclude"
+        case consumerGroupsToReplicate = "consumerGroupsToReplicate"
+        case detectAndCopyNewConsumerGroups = "detectAndCopyNewConsumerGroups"
+        case synchroniseConsumerGroupOffsets = "synchroniseConsumerGroupOffsets"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let consumerGroupsToExclude = consumerGroupsToExclude {
+            var consumerGroupsToExcludeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .consumerGroupsToExclude)
+            for __stringmax2560 in consumerGroupsToExclude {
+                try consumerGroupsToExcludeContainer.encode(__stringmax2560)
+            }
+        }
+        if let consumerGroupsToReplicate = consumerGroupsToReplicate {
+            var consumerGroupsToReplicateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .consumerGroupsToReplicate)
+            for __stringmax2560 in consumerGroupsToReplicate {
+                try consumerGroupsToReplicateContainer.encode(__stringmax2560)
+            }
+        }
+        if let detectAndCopyNewConsumerGroups = self.detectAndCopyNewConsumerGroups {
+            try encodeContainer.encode(detectAndCopyNewConsumerGroups, forKey: .detectAndCopyNewConsumerGroups)
+        }
+        if let synchroniseConsumerGroupOffsets = self.synchroniseConsumerGroupOffsets {
+            try encodeContainer.encode(synchroniseConsumerGroupOffsets, forKey: .synchroniseConsumerGroupOffsets)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let consumerGroupsToExcludeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .consumerGroupsToExclude)
+        var consumerGroupsToExcludeDecoded0:[Swift.String]? = nil
+        if let consumerGroupsToExcludeContainer = consumerGroupsToExcludeContainer {
+            consumerGroupsToExcludeDecoded0 = [Swift.String]()
+            for string0 in consumerGroupsToExcludeContainer {
+                if let string0 = string0 {
+                    consumerGroupsToExcludeDecoded0?.append(string0)
+                }
+            }
+        }
+        consumerGroupsToExclude = consumerGroupsToExcludeDecoded0
+        let consumerGroupsToReplicateContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .consumerGroupsToReplicate)
+        var consumerGroupsToReplicateDecoded0:[Swift.String]? = nil
+        if let consumerGroupsToReplicateContainer = consumerGroupsToReplicateContainer {
+            consumerGroupsToReplicateDecoded0 = [Swift.String]()
+            for string0 in consumerGroupsToReplicateContainer {
+                if let string0 = string0 {
+                    consumerGroupsToReplicateDecoded0?.append(string0)
+                }
+            }
+        }
+        consumerGroupsToReplicate = consumerGroupsToReplicateDecoded0
+        let detectAndCopyNewConsumerGroupsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detectAndCopyNewConsumerGroups)
+        detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroupsDecoded
+        let synchroniseConsumerGroupOffsetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .synchroniseConsumerGroupOffsets)
+        synchroniseConsumerGroupOffsets = synchroniseConsumerGroupOffsetsDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details about consumer group replication.
+    public struct ConsumerGroupReplication: Swift.Equatable {
+        /// List of regular expression patterns indicating the consumer groups that should not be replicated.
+        public var consumerGroupsToExclude: [Swift.String]?
+        /// List of regular expression patterns indicating the consumer groups to copy.
+        /// This member is required.
+        public var consumerGroupsToReplicate: [Swift.String]?
+        /// Enables synchronization of consumer groups to target cluster.
+        public var detectAndCopyNewConsumerGroups: Swift.Bool?
+        /// Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __consumer_offsets.
+        public var synchroniseConsumerGroupOffsets: Swift.Bool?
+
+        public init(
+            consumerGroupsToExclude: [Swift.String]? = nil,
+            consumerGroupsToReplicate: [Swift.String]? = nil,
+            detectAndCopyNewConsumerGroups: Swift.Bool? = nil,
+            synchroniseConsumerGroupOffsets: Swift.Bool? = nil
+        )
+        {
+            self.consumerGroupsToExclude = consumerGroupsToExclude
+            self.consumerGroupsToReplicate = consumerGroupsToReplicate
+            self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
+            self.synchroniseConsumerGroupOffsets = synchroniseConsumerGroupOffsets
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ConsumerGroupReplicationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerGroupsToExclude = "consumerGroupsToExclude"
+        case consumerGroupsToReplicate = "consumerGroupsToReplicate"
+        case detectAndCopyNewConsumerGroups = "detectAndCopyNewConsumerGroups"
+        case synchroniseConsumerGroupOffsets = "synchroniseConsumerGroupOffsets"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let consumerGroupsToExclude = consumerGroupsToExclude {
+            var consumerGroupsToExcludeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .consumerGroupsToExclude)
+            for __stringmax2560 in consumerGroupsToExclude {
+                try consumerGroupsToExcludeContainer.encode(__stringmax2560)
+            }
+        }
+        if let consumerGroupsToReplicate = consumerGroupsToReplicate {
+            var consumerGroupsToReplicateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .consumerGroupsToReplicate)
+            for __stringmax2560 in consumerGroupsToReplicate {
+                try consumerGroupsToReplicateContainer.encode(__stringmax2560)
+            }
+        }
+        if let detectAndCopyNewConsumerGroups = self.detectAndCopyNewConsumerGroups {
+            try encodeContainer.encode(detectAndCopyNewConsumerGroups, forKey: .detectAndCopyNewConsumerGroups)
+        }
+        if let synchroniseConsumerGroupOffsets = self.synchroniseConsumerGroupOffsets {
+            try encodeContainer.encode(synchroniseConsumerGroupOffsets, forKey: .synchroniseConsumerGroupOffsets)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let consumerGroupsToExcludeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .consumerGroupsToExclude)
+        var consumerGroupsToExcludeDecoded0:[Swift.String]? = nil
+        if let consumerGroupsToExcludeContainer = consumerGroupsToExcludeContainer {
+            consumerGroupsToExcludeDecoded0 = [Swift.String]()
+            for string0 in consumerGroupsToExcludeContainer {
+                if let string0 = string0 {
+                    consumerGroupsToExcludeDecoded0?.append(string0)
+                }
+            }
+        }
+        consumerGroupsToExclude = consumerGroupsToExcludeDecoded0
+        let consumerGroupsToReplicateContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .consumerGroupsToReplicate)
+        var consumerGroupsToReplicateDecoded0:[Swift.String]? = nil
+        if let consumerGroupsToReplicateContainer = consumerGroupsToReplicateContainer {
+            consumerGroupsToReplicateDecoded0 = [Swift.String]()
+            for string0 in consumerGroupsToReplicateContainer {
+                if let string0 = string0 {
+                    consumerGroupsToReplicateDecoded0?.append(string0)
+                }
+            }
+        }
+        consumerGroupsToReplicate = consumerGroupsToReplicateDecoded0
+        let detectAndCopyNewConsumerGroupsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detectAndCopyNewConsumerGroups)
+        detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroupsDecoded
+        let synchroniseConsumerGroupOffsetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .synchroniseConsumerGroupOffsets)
+        synchroniseConsumerGroupOffsets = synchroniseConsumerGroupOffsetsDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details about consumer group replication.
+    public struct ConsumerGroupReplicationUpdate: Swift.Equatable {
+        /// List of regular expression patterns indicating the consumer groups that should not be replicated.
+        /// This member is required.
+        public var consumerGroupsToExclude: [Swift.String]?
+        /// List of regular expression patterns indicating the consumer groups to copy.
+        /// This member is required.
+        public var consumerGroupsToReplicate: [Swift.String]?
+        /// Enables synchronization of consumer groups to target cluster.
+        /// This member is required.
+        public var detectAndCopyNewConsumerGroups: Swift.Bool?
+        /// Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __consumer_offsets.
+        /// This member is required.
+        public var synchroniseConsumerGroupOffsets: Swift.Bool?
+
+        public init(
+            consumerGroupsToExclude: [Swift.String]? = nil,
+            consumerGroupsToReplicate: [Swift.String]? = nil,
+            detectAndCopyNewConsumerGroups: Swift.Bool? = nil,
+            synchroniseConsumerGroupOffsets: Swift.Bool? = nil
+        )
+        {
+            self.consumerGroupsToExclude = consumerGroupsToExclude
+            self.consumerGroupsToReplicate = consumerGroupsToReplicate
+            self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
+            self.synchroniseConsumerGroupOffsets = synchroniseConsumerGroupOffsets
+        }
+    }
+
+}
+
 extension CreateClusterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case brokerNodeGroupInfo = "brokerNodeGroupInfo"
@@ -3085,6 +3304,232 @@ enum CreateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateReplicatorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case kafkaClusters = "kafkaClusters"
+        case replicationInfoList = "replicationInfoList"
+        case replicatorName = "replicatorName"
+        case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kafkaClusters = kafkaClusters {
+            var kafkaClustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .kafkaClusters)
+            for kafkacluster0 in kafkaClusters {
+                try kafkaClustersContainer.encode(kafkacluster0)
+            }
+        }
+        if let replicationInfoList = replicationInfoList {
+            var replicationInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationInfoList)
+            for replicationinfo0 in replicationInfoList {
+                try replicationInfoListContainer.encode(replicationinfo0)
+            }
+        }
+        if let replicatorName = self.replicatorName {
+            try encodeContainer.encode(replicatorName, forKey: .replicatorName)
+        }
+        if let serviceExecutionRoleArn = self.serviceExecutionRoleArn {
+            try encodeContainer.encode(serviceExecutionRoleArn, forKey: .serviceExecutionRoleArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateReplicatorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/replication/v1/replicators"
+    }
+}
+
+/// Creates a replicator using the specified configuration.
+public struct CreateReplicatorInput: Swift.Equatable {
+    /// A summary description of the replicator.
+    public var description: Swift.String?
+    /// Kafka Clusters to use in setting up sources / targets for replication.
+    /// This member is required.
+    public var kafkaClusters: [KafkaClientTypes.KafkaCluster]?
+    /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
+    /// This member is required.
+    public var replicationInfoList: [KafkaClientTypes.ReplicationInfo]?
+    /// The name of the replicator. Alpha-numeric characters with '-' are allowed.
+    /// This member is required.
+    public var replicatorName: Swift.String?
+    /// The ARN of the IAM role used by the replicator to access resources in the customer's account (e.g source and target clusters)
+    /// This member is required.
+    public var serviceExecutionRoleArn: Swift.String?
+    /// List of tags to attach to created Replicator.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        kafkaClusters: [KafkaClientTypes.KafkaCluster]? = nil,
+        replicationInfoList: [KafkaClientTypes.ReplicationInfo]? = nil,
+        replicatorName: Swift.String? = nil,
+        serviceExecutionRoleArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.kafkaClusters = kafkaClusters
+        self.replicationInfoList = replicationInfoList
+        self.replicatorName = replicatorName
+        self.serviceExecutionRoleArn = serviceExecutionRoleArn
+        self.tags = tags
+    }
+}
+
+struct CreateReplicatorInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let kafkaClusters: [KafkaClientTypes.KafkaCluster]?
+    let replicationInfoList: [KafkaClientTypes.ReplicationInfo]?
+    let replicatorName: Swift.String?
+    let serviceExecutionRoleArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateReplicatorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case kafkaClusters = "kafkaClusters"
+        case replicationInfoList = "replicationInfoList"
+        case replicatorName = "replicatorName"
+        case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let kafkaClustersContainer = try containerValues.decodeIfPresent([KafkaClientTypes.KafkaCluster?].self, forKey: .kafkaClusters)
+        var kafkaClustersDecoded0:[KafkaClientTypes.KafkaCluster]? = nil
+        if let kafkaClustersContainer = kafkaClustersContainer {
+            kafkaClustersDecoded0 = [KafkaClientTypes.KafkaCluster]()
+            for structure0 in kafkaClustersContainer {
+                if let structure0 = structure0 {
+                    kafkaClustersDecoded0?.append(structure0)
+                }
+            }
+        }
+        kafkaClusters = kafkaClustersDecoded0
+        let replicationInfoListContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ReplicationInfo?].self, forKey: .replicationInfoList)
+        var replicationInfoListDecoded0:[KafkaClientTypes.ReplicationInfo]? = nil
+        if let replicationInfoListContainer = replicationInfoListContainer {
+            replicationInfoListDecoded0 = [KafkaClientTypes.ReplicationInfo]()
+            for structure0 in replicationInfoListContainer {
+                if let structure0 = structure0 {
+                    replicationInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicationInfoList = replicationInfoListDecoded0
+        let replicatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorName)
+        replicatorName = replicatorNameDecoded
+        let serviceExecutionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceExecutionRoleArn)
+        serviceExecutionRoleArn = serviceExecutionRoleArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateReplicatorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateReplicatorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicatorArn = output.replicatorArn
+            self.replicatorName = output.replicatorName
+            self.replicatorState = output.replicatorState
+        } else {
+            self.replicatorArn = nil
+            self.replicatorName = nil
+            self.replicatorState = nil
+        }
+    }
+}
+
+public struct CreateReplicatorOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the replicator.
+    public var replicatorArn: Swift.String?
+    /// Name of the replicator provided by the customer.
+    public var replicatorName: Swift.String?
+    /// State of the replicator.
+    public var replicatorState: KafkaClientTypes.ReplicatorState?
+
+    public init(
+        replicatorArn: Swift.String? = nil,
+        replicatorName: Swift.String? = nil,
+        replicatorState: KafkaClientTypes.ReplicatorState? = nil
+    )
+    {
+        self.replicatorArn = replicatorArn
+        self.replicatorName = replicatorName
+        self.replicatorState = replicatorState
+    }
+}
+
+struct CreateReplicatorOutputBody: Swift.Equatable {
+    let replicatorArn: Swift.String?
+    let replicatorName: Swift.String?
+    let replicatorState: KafkaClientTypes.ReplicatorState?
+}
+
+extension CreateReplicatorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicatorArn = "replicatorArn"
+        case replicatorName = "replicatorName"
+        case replicatorState = "replicatorState"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorArn)
+        replicatorArn = replicatorArnDecoded
+        let replicatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorName)
+        replicatorName = replicatorNameDecoded
+        let replicatorStateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicatorState.self, forKey: .replicatorState)
+        replicatorState = replicatorStateDecoded
+    }
+}
+
+enum CreateReplicatorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateVpcConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authentication = "authentication"
@@ -3643,6 +4088,121 @@ enum DeleteConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteReplicatorInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let currentVersion = currentVersion {
+                let currentVersionQueryItem = ClientRuntime.URLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
+                items.append(currentVersionQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteReplicatorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let replicatorArn = replicatorArn else {
+            return nil
+        }
+        return "/replication/v1/replicators/\(replicatorArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteReplicatorInput: Swift.Equatable {
+    /// The current version of the replicator.
+    public var currentVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the replicator to be deleted.
+    /// This member is required.
+    public var replicatorArn: Swift.String?
+
+    public init(
+        currentVersion: Swift.String? = nil,
+        replicatorArn: Swift.String? = nil
+    )
+    {
+        self.currentVersion = currentVersion
+        self.replicatorArn = replicatorArn
+    }
+}
+
+struct DeleteReplicatorInputBody: Swift.Equatable {
+}
+
+extension DeleteReplicatorInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteReplicatorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteReplicatorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicatorArn = output.replicatorArn
+            self.replicatorState = output.replicatorState
+        } else {
+            self.replicatorArn = nil
+            self.replicatorState = nil
+        }
+    }
+}
+
+public struct DeleteReplicatorOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the replicator.
+    public var replicatorArn: Swift.String?
+    /// The state of the replicator.
+    public var replicatorState: KafkaClientTypes.ReplicatorState?
+
+    public init(
+        replicatorArn: Swift.String? = nil,
+        replicatorState: KafkaClientTypes.ReplicatorState? = nil
+    )
+    {
+        self.replicatorArn = replicatorArn
+        self.replicatorState = replicatorState
+    }
+}
+
+struct DeleteReplicatorOutputBody: Swift.Equatable {
+    let replicatorArn: Swift.String?
+    let replicatorState: KafkaClientTypes.ReplicatorState?
+}
+
+extension DeleteReplicatorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicatorArn = "replicatorArn"
+        case replicatorState = "replicatorState"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorArn)
+        replicatorArn = replicatorArnDecoded
+        let replicatorStateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicatorState.self, forKey: .replicatorState)
+        replicatorState = replicatorStateDecoded
+    }
+}
+
+enum DeleteReplicatorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -4374,6 +4934,241 @@ enum DescribeConfigurationRevisionOutputError: ClientRuntime.HttpResponseErrorBi
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeReplicatorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let replicatorArn = replicatorArn else {
+            return nil
+        }
+        return "/replication/v1/replicators/\(replicatorArn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeReplicatorInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the replicator to be described.
+    /// This member is required.
+    public var replicatorArn: Swift.String?
+
+    public init(
+        replicatorArn: Swift.String? = nil
+    )
+    {
+        self.replicatorArn = replicatorArn
+    }
+}
+
+struct DescribeReplicatorInputBody: Swift.Equatable {
+}
+
+extension DescribeReplicatorInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeReplicatorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeReplicatorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.currentVersion = output.currentVersion
+            self.isReplicatorReference = output.isReplicatorReference
+            self.kafkaClusters = output.kafkaClusters
+            self.replicationInfoList = output.replicationInfoList
+            self.replicatorArn = output.replicatorArn
+            self.replicatorDescription = output.replicatorDescription
+            self.replicatorName = output.replicatorName
+            self.replicatorResourceArn = output.replicatorResourceArn
+            self.replicatorState = output.replicatorState
+            self.serviceExecutionRoleArn = output.serviceExecutionRoleArn
+            self.stateInfo = output.stateInfo
+            self.tags = output.tags
+        } else {
+            self.creationTime = nil
+            self.currentVersion = nil
+            self.isReplicatorReference = nil
+            self.kafkaClusters = nil
+            self.replicationInfoList = nil
+            self.replicatorArn = nil
+            self.replicatorDescription = nil
+            self.replicatorName = nil
+            self.replicatorResourceArn = nil
+            self.replicatorState = nil
+            self.serviceExecutionRoleArn = nil
+            self.stateInfo = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct DescribeReplicatorOutput: Swift.Equatable {
+    /// The time when the replicator was created.
+    public var creationTime: ClientRuntime.Date?
+    /// The current version number of the replicator.
+    public var currentVersion: Swift.String?
+    /// Whether this resource is a replicator reference.
+    public var isReplicatorReference: Swift.Bool?
+    /// Kafka Clusters used in setting up sources / targets for replication.
+    public var kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]?
+    /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
+    public var replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]?
+    /// The Amazon Resource Name (ARN) of the replicator.
+    public var replicatorArn: Swift.String?
+    /// The description of the replicator.
+    public var replicatorDescription: Swift.String?
+    /// The name of the replicator.
+    public var replicatorName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the replicator resource in the region where the replicator was created.
+    public var replicatorResourceArn: Swift.String?
+    /// State of the replicator.
+    public var replicatorState: KafkaClientTypes.ReplicatorState?
+    /// The Amazon Resource Name (ARN) of the IAM role used by the replicator to access resources in the customer's account (e.g source and target clusters)
+    public var serviceExecutionRoleArn: Swift.String?
+    /// Details about the state of the replicator.
+    public var stateInfo: KafkaClientTypes.ReplicationStateInfo?
+    /// List of tags attached to the Replicator.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        currentVersion: Swift.String? = nil,
+        isReplicatorReference: Swift.Bool? = nil,
+        kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]? = nil,
+        replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]? = nil,
+        replicatorArn: Swift.String? = nil,
+        replicatorDescription: Swift.String? = nil,
+        replicatorName: Swift.String? = nil,
+        replicatorResourceArn: Swift.String? = nil,
+        replicatorState: KafkaClientTypes.ReplicatorState? = nil,
+        serviceExecutionRoleArn: Swift.String? = nil,
+        stateInfo: KafkaClientTypes.ReplicationStateInfo? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.currentVersion = currentVersion
+        self.isReplicatorReference = isReplicatorReference
+        self.kafkaClusters = kafkaClusters
+        self.replicationInfoList = replicationInfoList
+        self.replicatorArn = replicatorArn
+        self.replicatorDescription = replicatorDescription
+        self.replicatorName = replicatorName
+        self.replicatorResourceArn = replicatorResourceArn
+        self.replicatorState = replicatorState
+        self.serviceExecutionRoleArn = serviceExecutionRoleArn
+        self.stateInfo = stateInfo
+        self.tags = tags
+    }
+}
+
+struct DescribeReplicatorOutputBody: Swift.Equatable {
+    let creationTime: ClientRuntime.Date?
+    let currentVersion: Swift.String?
+    let isReplicatorReference: Swift.Bool?
+    let kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]?
+    let replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]?
+    let replicatorArn: Swift.String?
+    let replicatorDescription: Swift.String?
+    let replicatorName: Swift.String?
+    let replicatorResourceArn: Swift.String?
+    let replicatorState: KafkaClientTypes.ReplicatorState?
+    let serviceExecutionRoleArn: Swift.String?
+    let stateInfo: KafkaClientTypes.ReplicationStateInfo?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension DescribeReplicatorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "creationTime"
+        case currentVersion = "currentVersion"
+        case isReplicatorReference = "isReplicatorReference"
+        case kafkaClusters = "kafkaClusters"
+        case replicationInfoList = "replicationInfoList"
+        case replicatorArn = "replicatorArn"
+        case replicatorDescription = "replicatorDescription"
+        case replicatorName = "replicatorName"
+        case replicatorResourceArn = "replicatorResourceArn"
+        case replicatorState = "replicatorState"
+        case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+        case stateInfo = "stateInfo"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
+        currentVersion = currentVersionDecoded
+        let isReplicatorReferenceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isReplicatorReference)
+        isReplicatorReference = isReplicatorReferenceDecoded
+        let kafkaClustersContainer = try containerValues.decodeIfPresent([KafkaClientTypes.KafkaClusterDescription?].self, forKey: .kafkaClusters)
+        var kafkaClustersDecoded0:[KafkaClientTypes.KafkaClusterDescription]? = nil
+        if let kafkaClustersContainer = kafkaClustersContainer {
+            kafkaClustersDecoded0 = [KafkaClientTypes.KafkaClusterDescription]()
+            for structure0 in kafkaClustersContainer {
+                if let structure0 = structure0 {
+                    kafkaClustersDecoded0?.append(structure0)
+                }
+            }
+        }
+        kafkaClusters = kafkaClustersDecoded0
+        let replicationInfoListContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ReplicationInfoDescription?].self, forKey: .replicationInfoList)
+        var replicationInfoListDecoded0:[KafkaClientTypes.ReplicationInfoDescription]? = nil
+        if let replicationInfoListContainer = replicationInfoListContainer {
+            replicationInfoListDecoded0 = [KafkaClientTypes.ReplicationInfoDescription]()
+            for structure0 in replicationInfoListContainer {
+                if let structure0 = structure0 {
+                    replicationInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicationInfoList = replicationInfoListDecoded0
+        let replicatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorArn)
+        replicatorArn = replicatorArnDecoded
+        let replicatorDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorDescription)
+        replicatorDescription = replicatorDescriptionDecoded
+        let replicatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorName)
+        replicatorName = replicatorNameDecoded
+        let replicatorResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorResourceArn)
+        replicatorResourceArn = replicatorResourceArnDecoded
+        let replicatorStateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicatorState.self, forKey: .replicatorState)
+        replicatorState = replicatorStateDecoded
+        let serviceExecutionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceExecutionRoleArn)
+        serviceExecutionRoleArn = serviceExecutionRoleArnDecoded
+        let stateInfoDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicationStateInfo.self, forKey: .stateInfo)
+        stateInfo = stateInfoDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum DescribeReplicatorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5483,6 +6278,223 @@ extension KafkaClientTypes {
         )
         {
             self.enabledInBroker = enabledInBroker
+        }
+    }
+
+}
+
+extension KafkaClientTypes.KafkaCluster: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonMskCluster = "amazonMskCluster"
+        case vpcConfig = "vpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let amazonMskCluster = self.amazonMskCluster {
+            try encodeContainer.encode(amazonMskCluster, forKey: .amazonMskCluster)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let amazonMskClusterDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.AmazonMskCluster.self, forKey: .amazonMskCluster)
+        amazonMskCluster = amazonMskClusterDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.KafkaClusterClientVpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Information about Kafka Cluster to be used as source / target for replication.
+    public struct KafkaCluster: Swift.Equatable {
+        /// Details of an Amazon MSK Cluster.
+        /// This member is required.
+        public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
+        /// This member is required.
+        public var vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig?
+
+        public init(
+            amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
+        )
+        {
+            self.amazonMskCluster = amazonMskCluster
+            self.vpcConfig = vpcConfig
+        }
+    }
+
+}
+
+extension KafkaClientTypes.KafkaClusterClientVpcConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityGroupIds = "securityGroupIds"
+        case subnetIds = "subnetIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityGroupIds = securityGroupIds {
+            var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
+            }
+        }
+        if let subnetIds = subnetIds {
+            var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIds)
+        var securityGroupIdsDecoded0:[Swift.String]? = nil
+        if let securityGroupIdsContainer = securityGroupIdsContainer {
+            securityGroupIdsDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdsContainer {
+                if let string0 = string0 {
+                    securityGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIds = securityGroupIdsDecoded0
+        let subnetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subnetIds)
+        var subnetIdsDecoded0:[Swift.String]? = nil
+        if let subnetIdsContainer = subnetIdsContainer {
+            subnetIdsDecoded0 = [Swift.String]()
+            for string0 in subnetIdsContainer {
+                if let string0 = string0 {
+                    subnetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        subnetIds = subnetIdsDecoded0
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
+    public struct KafkaClusterClientVpcConfig: Swift.Equatable {
+        /// The security groups to attach to the ENIs for the broker nodes.
+        public var securityGroupIds: [Swift.String]?
+        /// The list of subnets in the client VPC to connect to.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        )
+        {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+
+}
+
+extension KafkaClientTypes.KafkaClusterDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonMskCluster = "amazonMskCluster"
+        case kafkaClusterAlias = "kafkaClusterAlias"
+        case vpcConfig = "vpcConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let amazonMskCluster = self.amazonMskCluster {
+            try encodeContainer.encode(amazonMskCluster, forKey: .amazonMskCluster)
+        }
+        if let kafkaClusterAlias = self.kafkaClusterAlias {
+            try encodeContainer.encode(kafkaClusterAlias, forKey: .kafkaClusterAlias)
+        }
+        if let vpcConfig = self.vpcConfig {
+            try encodeContainer.encode(vpcConfig, forKey: .vpcConfig)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let amazonMskClusterDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.AmazonMskCluster.self, forKey: .amazonMskCluster)
+        amazonMskCluster = amazonMskClusterDecoded
+        let kafkaClusterAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kafkaClusterAlias)
+        kafkaClusterAlias = kafkaClusterAliasDecoded
+        let vpcConfigDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.KafkaClusterClientVpcConfig.self, forKey: .vpcConfig)
+        vpcConfig = vpcConfigDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Information about Kafka Cluster used as source / target for replication.
+    public struct KafkaClusterDescription: Swift.Equatable {
+        /// Details of an Amazon MSK Cluster.
+        public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
+        public var kafkaClusterAlias: Swift.String?
+        /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
+        public var vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig?
+
+        public init(
+            amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            kafkaClusterAlias: Swift.String? = nil,
+            vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
+        )
+        {
+            self.amazonMskCluster = amazonMskCluster
+            self.kafkaClusterAlias = kafkaClusterAlias
+            self.vpcConfig = vpcConfig
+        }
+    }
+
+}
+
+extension KafkaClientTypes.KafkaClusterSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case amazonMskCluster = "amazonMskCluster"
+        case kafkaClusterAlias = "kafkaClusterAlias"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let amazonMskCluster = self.amazonMskCluster {
+            try encodeContainer.encode(amazonMskCluster, forKey: .amazonMskCluster)
+        }
+        if let kafkaClusterAlias = self.kafkaClusterAlias {
+            try encodeContainer.encode(kafkaClusterAlias, forKey: .kafkaClusterAlias)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let amazonMskClusterDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.AmazonMskCluster.self, forKey: .amazonMskCluster)
+        amazonMskCluster = amazonMskClusterDecoded
+        let kafkaClusterAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kafkaClusterAlias)
+        kafkaClusterAlias = kafkaClusterAliasDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Summarized information about Kafka Cluster used as source / target for replication.
+    public struct KafkaClusterSummary: Swift.Equatable {
+        /// Details of an Amazon MSK Cluster.
+        public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
+        public var kafkaClusterAlias: Swift.String?
+
+        public init(
+            amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            kafkaClusterAlias: Swift.String? = nil
+        )
+        {
+            self.amazonMskCluster = amazonMskCluster
+            self.kafkaClusterAlias = kafkaClusterAlias
         }
     }
 
@@ -6715,6 +7727,138 @@ enum ListNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListReplicatorsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let replicatorNameFilter = replicatorNameFilter {
+                let replicatorNameFilterQueryItem = ClientRuntime.URLQueryItem(name: "replicatorNameFilter".urlPercentEncoding(), value: Swift.String(replicatorNameFilter).urlPercentEncoding())
+                items.append(replicatorNameFilterQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListReplicatorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/replication/v1/replicators"
+    }
+}
+
+public struct ListReplicatorsInput: Swift.Equatable {
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// If the response of ListReplicators is truncated, it returns a NextToken in the response. This NextToken should be sent in the subsequent request to ListReplicators.
+    public var nextToken: Swift.String?
+    /// Returns replicators starting with given name.
+    public var replicatorNameFilter: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        replicatorNameFilter: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.replicatorNameFilter = replicatorNameFilter
+    }
+}
+
+struct ListReplicatorsInputBody: Swift.Equatable {
+}
+
+extension ListReplicatorsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListReplicatorsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListReplicatorsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.replicators = output.replicators
+        } else {
+            self.nextToken = nil
+            self.replicators = nil
+        }
+    }
+}
+
+public struct ListReplicatorsOutput: Swift.Equatable {
+    /// If the response of ListReplicators is truncated, it returns a NextToken in the response. This NextToken should be sent in the subsequent request to ListReplicators.
+    public var nextToken: Swift.String?
+    /// List containing information of each of the replicators in the account.
+    public var replicators: [KafkaClientTypes.ReplicatorSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        replicators: [KafkaClientTypes.ReplicatorSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.replicators = replicators
+    }
+}
+
+struct ListReplicatorsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let replicators: [KafkaClientTypes.ReplicatorSummary]?
+}
+
+extension ListReplicatorsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "nextToken"
+        case replicators = "replicators"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let replicatorsContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ReplicatorSummary?].self, forKey: .replicators)
+        var replicatorsDecoded0:[KafkaClientTypes.ReplicatorSummary]? = nil
+        if let replicatorsContainer = replicatorsContainer {
+            replicatorsDecoded0 = [KafkaClientTypes.ReplicatorSummary]()
+            for structure0 in replicatorsContainer {
+                if let structure0 = structure0 {
+                    replicatorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicators = replicatorsDecoded0
+    }
+}
+
+enum ListReplicatorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -8356,6 +9500,432 @@ enum RejectClientVpcConnectionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension KafkaClientTypes.ReplicationInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerGroupReplication = "consumerGroupReplication"
+        case sourceKafkaClusterArn = "sourceKafkaClusterArn"
+        case targetCompressionType = "targetCompressionType"
+        case targetKafkaClusterArn = "targetKafkaClusterArn"
+        case topicReplication = "topicReplication"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let consumerGroupReplication = self.consumerGroupReplication {
+            try encodeContainer.encode(consumerGroupReplication, forKey: .consumerGroupReplication)
+        }
+        if let sourceKafkaClusterArn = self.sourceKafkaClusterArn {
+            try encodeContainer.encode(sourceKafkaClusterArn, forKey: .sourceKafkaClusterArn)
+        }
+        if let targetCompressionType = self.targetCompressionType {
+            try encodeContainer.encode(targetCompressionType.rawValue, forKey: .targetCompressionType)
+        }
+        if let targetKafkaClusterArn = self.targetKafkaClusterArn {
+            try encodeContainer.encode(targetKafkaClusterArn, forKey: .targetKafkaClusterArn)
+        }
+        if let topicReplication = self.topicReplication {
+            try encodeContainer.encode(topicReplication, forKey: .topicReplication)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let consumerGroupReplicationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ConsumerGroupReplication.self, forKey: .consumerGroupReplication)
+        consumerGroupReplication = consumerGroupReplicationDecoded
+        let sourceKafkaClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceKafkaClusterArn)
+        sourceKafkaClusterArn = sourceKafkaClusterArnDecoded
+        let targetCompressionTypeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.TargetCompressionType.self, forKey: .targetCompressionType)
+        targetCompressionType = targetCompressionTypeDecoded
+        let targetKafkaClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetKafkaClusterArn)
+        targetKafkaClusterArn = targetKafkaClusterArnDecoded
+        let topicReplicationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.TopicReplication.self, forKey: .topicReplication)
+        topicReplication = topicReplicationDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Specifies configuration for replication between a source and target Kafka cluster.
+    public struct ReplicationInfo: Swift.Equatable {
+        /// Configuration relating to consumer group replication.
+        /// This member is required.
+        public var consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication?
+        /// The ARN of the source Kafka cluster.
+        /// This member is required.
+        public var sourceKafkaClusterArn: Swift.String?
+        /// The compression type to use when producing records to target cluster.
+        /// This member is required.
+        public var targetCompressionType: KafkaClientTypes.TargetCompressionType?
+        /// The ARN of the target Kafka cluster.
+        /// This member is required.
+        public var targetKafkaClusterArn: Swift.String?
+        /// Configuration relating to topic replication.
+        /// This member is required.
+        public var topicReplication: KafkaClientTypes.TopicReplication?
+
+        public init(
+            consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication? = nil,
+            sourceKafkaClusterArn: Swift.String? = nil,
+            targetCompressionType: KafkaClientTypes.TargetCompressionType? = nil,
+            targetKafkaClusterArn: Swift.String? = nil,
+            topicReplication: KafkaClientTypes.TopicReplication? = nil
+        )
+        {
+            self.consumerGroupReplication = consumerGroupReplication
+            self.sourceKafkaClusterArn = sourceKafkaClusterArn
+            self.targetCompressionType = targetCompressionType
+            self.targetKafkaClusterArn = targetKafkaClusterArn
+            self.topicReplication = topicReplication
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ReplicationInfoDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerGroupReplication = "consumerGroupReplication"
+        case sourceKafkaClusterAlias = "sourceKafkaClusterAlias"
+        case targetCompressionType = "targetCompressionType"
+        case targetKafkaClusterAlias = "targetKafkaClusterAlias"
+        case topicReplication = "topicReplication"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let consumerGroupReplication = self.consumerGroupReplication {
+            try encodeContainer.encode(consumerGroupReplication, forKey: .consumerGroupReplication)
+        }
+        if let sourceKafkaClusterAlias = self.sourceKafkaClusterAlias {
+            try encodeContainer.encode(sourceKafkaClusterAlias, forKey: .sourceKafkaClusterAlias)
+        }
+        if let targetCompressionType = self.targetCompressionType {
+            try encodeContainer.encode(targetCompressionType.rawValue, forKey: .targetCompressionType)
+        }
+        if let targetKafkaClusterAlias = self.targetKafkaClusterAlias {
+            try encodeContainer.encode(targetKafkaClusterAlias, forKey: .targetKafkaClusterAlias)
+        }
+        if let topicReplication = self.topicReplication {
+            try encodeContainer.encode(topicReplication, forKey: .topicReplication)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let consumerGroupReplicationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ConsumerGroupReplication.self, forKey: .consumerGroupReplication)
+        consumerGroupReplication = consumerGroupReplicationDecoded
+        let sourceKafkaClusterAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceKafkaClusterAlias)
+        sourceKafkaClusterAlias = sourceKafkaClusterAliasDecoded
+        let targetCompressionTypeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.TargetCompressionType.self, forKey: .targetCompressionType)
+        targetCompressionType = targetCompressionTypeDecoded
+        let targetKafkaClusterAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetKafkaClusterAlias)
+        targetKafkaClusterAlias = targetKafkaClusterAliasDecoded
+        let topicReplicationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.TopicReplication.self, forKey: .topicReplication)
+        topicReplication = topicReplicationDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Specifies configuration for replication between a source and target Kafka cluster (sourceKafkaClusterAlias -> targetKafkaClusterAlias)
+    public struct ReplicationInfoDescription: Swift.Equatable {
+        /// Configuration relating to consumer group replication.
+        public var consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication?
+        /// The alias of the source Kafka cluster.
+        public var sourceKafkaClusterAlias: Swift.String?
+        /// The compression type to use when producing records to target cluster.
+        public var targetCompressionType: KafkaClientTypes.TargetCompressionType?
+        /// The alias of the target Kafka cluster.
+        public var targetKafkaClusterAlias: Swift.String?
+        /// Configuration relating to topic replication.
+        public var topicReplication: KafkaClientTypes.TopicReplication?
+
+        public init(
+            consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication? = nil,
+            sourceKafkaClusterAlias: Swift.String? = nil,
+            targetCompressionType: KafkaClientTypes.TargetCompressionType? = nil,
+            targetKafkaClusterAlias: Swift.String? = nil,
+            topicReplication: KafkaClientTypes.TopicReplication? = nil
+        )
+        {
+            self.consumerGroupReplication = consumerGroupReplication
+            self.sourceKafkaClusterAlias = sourceKafkaClusterAlias
+            self.targetCompressionType = targetCompressionType
+            self.targetKafkaClusterAlias = targetKafkaClusterAlias
+            self.topicReplication = topicReplication
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ReplicationInfoSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceKafkaClusterAlias = "sourceKafkaClusterAlias"
+        case targetKafkaClusterAlias = "targetKafkaClusterAlias"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceKafkaClusterAlias = self.sourceKafkaClusterAlias {
+            try encodeContainer.encode(sourceKafkaClusterAlias, forKey: .sourceKafkaClusterAlias)
+        }
+        if let targetKafkaClusterAlias = self.targetKafkaClusterAlias {
+            try encodeContainer.encode(targetKafkaClusterAlias, forKey: .targetKafkaClusterAlias)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceKafkaClusterAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceKafkaClusterAlias)
+        sourceKafkaClusterAlias = sourceKafkaClusterAliasDecoded
+        let targetKafkaClusterAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetKafkaClusterAlias)
+        targetKafkaClusterAlias = targetKafkaClusterAliasDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Summarized information of replication between clusters.
+    public struct ReplicationInfoSummary: Swift.Equatable {
+        /// The alias of the source Kafka cluster.
+        public var sourceKafkaClusterAlias: Swift.String?
+        /// The alias of the target Kafka cluster.
+        public var targetKafkaClusterAlias: Swift.String?
+
+        public init(
+            sourceKafkaClusterAlias: Swift.String? = nil,
+            targetKafkaClusterAlias: Swift.String? = nil
+        )
+        {
+            self.sourceKafkaClusterAlias = sourceKafkaClusterAlias
+            self.targetKafkaClusterAlias = targetKafkaClusterAlias
+        }
+    }
+
+}
+
+extension KafkaClientTypes.ReplicationStateInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "code"
+        case message = "message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details about the state of a replicator
+    public struct ReplicationStateInfo: Swift.Equatable {
+        /// Code that describes the current state of the replicator.
+        public var code: Swift.String?
+        /// Message that describes the state of the replicator.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension KafkaClientTypes {
+    /// The state of a replicator.
+    public enum ReplicatorState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case running
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicatorState] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .running,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicatorState(rawValue: rawValue) ?? ReplicatorState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KafkaClientTypes.ReplicatorSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "creationTime"
+        case currentVersion = "currentVersion"
+        case isReplicatorReference = "isReplicatorReference"
+        case kafkaClustersSummary = "kafkaClustersSummary"
+        case replicationInfoSummaryList = "replicationInfoSummaryList"
+        case replicatorArn = "replicatorArn"
+        case replicatorName = "replicatorName"
+        case replicatorResourceArn = "replicatorResourceArn"
+        case replicatorState = "replicatorState"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let currentVersion = self.currentVersion {
+            try encodeContainer.encode(currentVersion, forKey: .currentVersion)
+        }
+        if let isReplicatorReference = self.isReplicatorReference {
+            try encodeContainer.encode(isReplicatorReference, forKey: .isReplicatorReference)
+        }
+        if let kafkaClustersSummary = kafkaClustersSummary {
+            var kafkaClustersSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .kafkaClustersSummary)
+            for kafkaclustersummary0 in kafkaClustersSummary {
+                try kafkaClustersSummaryContainer.encode(kafkaclustersummary0)
+            }
+        }
+        if let replicationInfoSummaryList = replicationInfoSummaryList {
+            var replicationInfoSummaryListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationInfoSummaryList)
+            for replicationinfosummary0 in replicationInfoSummaryList {
+                try replicationInfoSummaryListContainer.encode(replicationinfosummary0)
+            }
+        }
+        if let replicatorArn = self.replicatorArn {
+            try encodeContainer.encode(replicatorArn, forKey: .replicatorArn)
+        }
+        if let replicatorName = self.replicatorName {
+            try encodeContainer.encode(replicatorName, forKey: .replicatorName)
+        }
+        if let replicatorResourceArn = self.replicatorResourceArn {
+            try encodeContainer.encode(replicatorResourceArn, forKey: .replicatorResourceArn)
+        }
+        if let replicatorState = self.replicatorState {
+            try encodeContainer.encode(replicatorState.rawValue, forKey: .replicatorState)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
+        currentVersion = currentVersionDecoded
+        let isReplicatorReferenceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isReplicatorReference)
+        isReplicatorReference = isReplicatorReferenceDecoded
+        let kafkaClustersSummaryContainer = try containerValues.decodeIfPresent([KafkaClientTypes.KafkaClusterSummary?].self, forKey: .kafkaClustersSummary)
+        var kafkaClustersSummaryDecoded0:[KafkaClientTypes.KafkaClusterSummary]? = nil
+        if let kafkaClustersSummaryContainer = kafkaClustersSummaryContainer {
+            kafkaClustersSummaryDecoded0 = [KafkaClientTypes.KafkaClusterSummary]()
+            for structure0 in kafkaClustersSummaryContainer {
+                if let structure0 = structure0 {
+                    kafkaClustersSummaryDecoded0?.append(structure0)
+                }
+            }
+        }
+        kafkaClustersSummary = kafkaClustersSummaryDecoded0
+        let replicationInfoSummaryListContainer = try containerValues.decodeIfPresent([KafkaClientTypes.ReplicationInfoSummary?].self, forKey: .replicationInfoSummaryList)
+        var replicationInfoSummaryListDecoded0:[KafkaClientTypes.ReplicationInfoSummary]? = nil
+        if let replicationInfoSummaryListContainer = replicationInfoSummaryListContainer {
+            replicationInfoSummaryListDecoded0 = [KafkaClientTypes.ReplicationInfoSummary]()
+            for structure0 in replicationInfoSummaryListContainer {
+                if let structure0 = structure0 {
+                    replicationInfoSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicationInfoSummaryList = replicationInfoSummaryListDecoded0
+        let replicatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorArn)
+        replicatorArn = replicatorArnDecoded
+        let replicatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorName)
+        replicatorName = replicatorNameDecoded
+        let replicatorResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorResourceArn)
+        replicatorResourceArn = replicatorResourceArnDecoded
+        let replicatorStateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicatorState.self, forKey: .replicatorState)
+        replicatorState = replicatorStateDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Information about a replicator.
+    public struct ReplicatorSummary: Swift.Equatable {
+        /// The time the replicator was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The current version of the replicator.
+        public var currentVersion: Swift.String?
+        /// Whether this resource is a replicator reference.
+        public var isReplicatorReference: Swift.Bool?
+        /// Kafka Clusters used in setting up sources / targets for replication.
+        public var kafkaClustersSummary: [KafkaClientTypes.KafkaClusterSummary]?
+        /// A list of summarized information of replications between clusters.
+        public var replicationInfoSummaryList: [KafkaClientTypes.ReplicationInfoSummary]?
+        /// The Amazon Resource Name (ARN) of the replicator.
+        public var replicatorArn: Swift.String?
+        /// The name of the replicator.
+        public var replicatorName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the replicator resource in the region where the replicator was created.
+        public var replicatorResourceArn: Swift.String?
+        /// State of the replicator.
+        public var replicatorState: KafkaClientTypes.ReplicatorState?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            currentVersion: Swift.String? = nil,
+            isReplicatorReference: Swift.Bool? = nil,
+            kafkaClustersSummary: [KafkaClientTypes.KafkaClusterSummary]? = nil,
+            replicationInfoSummaryList: [KafkaClientTypes.ReplicationInfoSummary]? = nil,
+            replicatorArn: Swift.String? = nil,
+            replicatorName: Swift.String? = nil,
+            replicatorResourceArn: Swift.String? = nil,
+            replicatorState: KafkaClientTypes.ReplicatorState? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.currentVersion = currentVersion
+            self.isReplicatorReference = isReplicatorReference
+            self.kafkaClustersSummary = kafkaClustersSummary
+            self.replicationInfoSummaryList = replicationInfoSummaryList
+            self.replicatorArn = replicatorArn
+            self.replicatorName = replicatorName
+            self.replicatorResourceArn = replicatorResourceArn
+            self.replicatorState = replicatorState
+        }
+    }
+
+}
+
 extension KafkaClientTypes.S3: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "bucket"
@@ -8941,6 +10511,48 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension KafkaClientTypes {
+    /// The type of compression to use producing records to the target cluster.
+    public enum TargetCompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case gzip
+        case lz4
+        case `none`
+        case snappy
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetCompressionType] {
+            return [
+                .gzip,
+                .lz4,
+                .none,
+                .snappy,
+                .zstd,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .lz4: return "LZ4"
+            case .none: return "NONE"
+            case .snappy: return "SNAPPY"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TargetCompressionType(rawValue: rawValue) ?? TargetCompressionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KafkaClientTypes.Tls: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateAuthorityArnList = "certificateAuthorityArnList"
@@ -9062,6 +10674,210 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension KafkaClientTypes.TopicReplication: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyAccessControlListsForTopics = "copyAccessControlListsForTopics"
+        case copyTopicConfigurations = "copyTopicConfigurations"
+        case detectAndCopyNewTopics = "detectAndCopyNewTopics"
+        case topicsToExclude = "topicsToExclude"
+        case topicsToReplicate = "topicsToReplicate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copyAccessControlListsForTopics = self.copyAccessControlListsForTopics {
+            try encodeContainer.encode(copyAccessControlListsForTopics, forKey: .copyAccessControlListsForTopics)
+        }
+        if let copyTopicConfigurations = self.copyTopicConfigurations {
+            try encodeContainer.encode(copyTopicConfigurations, forKey: .copyTopicConfigurations)
+        }
+        if let detectAndCopyNewTopics = self.detectAndCopyNewTopics {
+            try encodeContainer.encode(detectAndCopyNewTopics, forKey: .detectAndCopyNewTopics)
+        }
+        if let topicsToExclude = topicsToExclude {
+            var topicsToExcludeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicsToExclude)
+            for __stringmax2490 in topicsToExclude {
+                try topicsToExcludeContainer.encode(__stringmax2490)
+            }
+        }
+        if let topicsToReplicate = topicsToReplicate {
+            var topicsToReplicateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicsToReplicate)
+            for __stringmax2490 in topicsToReplicate {
+                try topicsToReplicateContainer.encode(__stringmax2490)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let copyAccessControlListsForTopicsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyAccessControlListsForTopics)
+        copyAccessControlListsForTopics = copyAccessControlListsForTopicsDecoded
+        let copyTopicConfigurationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTopicConfigurations)
+        copyTopicConfigurations = copyTopicConfigurationsDecoded
+        let detectAndCopyNewTopicsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detectAndCopyNewTopics)
+        detectAndCopyNewTopics = detectAndCopyNewTopicsDecoded
+        let topicsToExcludeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .topicsToExclude)
+        var topicsToExcludeDecoded0:[Swift.String]? = nil
+        if let topicsToExcludeContainer = topicsToExcludeContainer {
+            topicsToExcludeDecoded0 = [Swift.String]()
+            for string0 in topicsToExcludeContainer {
+                if let string0 = string0 {
+                    topicsToExcludeDecoded0?.append(string0)
+                }
+            }
+        }
+        topicsToExclude = topicsToExcludeDecoded0
+        let topicsToReplicateContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .topicsToReplicate)
+        var topicsToReplicateDecoded0:[Swift.String]? = nil
+        if let topicsToReplicateContainer = topicsToReplicateContainer {
+            topicsToReplicateDecoded0 = [Swift.String]()
+            for string0 in topicsToReplicateContainer {
+                if let string0 = string0 {
+                    topicsToReplicateDecoded0?.append(string0)
+                }
+            }
+        }
+        topicsToReplicate = topicsToReplicateDecoded0
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details about topic replication.
+    public struct TopicReplication: Swift.Equatable {
+        /// Whether to periodically configure remote topic ACLs to match their corresponding upstream topics.
+        public var copyAccessControlListsForTopics: Swift.Bool?
+        /// Whether to periodically configure remote topics to match their corresponding upstream topics.
+        public var copyTopicConfigurations: Swift.Bool?
+        /// Whether to periodically check for new topics and partitions.
+        public var detectAndCopyNewTopics: Swift.Bool?
+        /// List of regular expression patterns indicating the topics that should not be replicated.
+        public var topicsToExclude: [Swift.String]?
+        /// List of regular expression patterns indicating the topics to copy.
+        /// This member is required.
+        public var topicsToReplicate: [Swift.String]?
+
+        public init(
+            copyAccessControlListsForTopics: Swift.Bool? = nil,
+            copyTopicConfigurations: Swift.Bool? = nil,
+            detectAndCopyNewTopics: Swift.Bool? = nil,
+            topicsToExclude: [Swift.String]? = nil,
+            topicsToReplicate: [Swift.String]? = nil
+        )
+        {
+            self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
+            self.copyTopicConfigurations = copyTopicConfigurations
+            self.detectAndCopyNewTopics = detectAndCopyNewTopics
+            self.topicsToExclude = topicsToExclude
+            self.topicsToReplicate = topicsToReplicate
+        }
+    }
+
+}
+
+extension KafkaClientTypes.TopicReplicationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyAccessControlListsForTopics = "copyAccessControlListsForTopics"
+        case copyTopicConfigurations = "copyTopicConfigurations"
+        case detectAndCopyNewTopics = "detectAndCopyNewTopics"
+        case topicsToExclude = "topicsToExclude"
+        case topicsToReplicate = "topicsToReplicate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copyAccessControlListsForTopics = self.copyAccessControlListsForTopics {
+            try encodeContainer.encode(copyAccessControlListsForTopics, forKey: .copyAccessControlListsForTopics)
+        }
+        if let copyTopicConfigurations = self.copyTopicConfigurations {
+            try encodeContainer.encode(copyTopicConfigurations, forKey: .copyTopicConfigurations)
+        }
+        if let detectAndCopyNewTopics = self.detectAndCopyNewTopics {
+            try encodeContainer.encode(detectAndCopyNewTopics, forKey: .detectAndCopyNewTopics)
+        }
+        if let topicsToExclude = topicsToExclude {
+            var topicsToExcludeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicsToExclude)
+            for __stringmax2490 in topicsToExclude {
+                try topicsToExcludeContainer.encode(__stringmax2490)
+            }
+        }
+        if let topicsToReplicate = topicsToReplicate {
+            var topicsToReplicateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicsToReplicate)
+            for __stringmax2490 in topicsToReplicate {
+                try topicsToReplicateContainer.encode(__stringmax2490)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let copyAccessControlListsForTopicsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyAccessControlListsForTopics)
+        copyAccessControlListsForTopics = copyAccessControlListsForTopicsDecoded
+        let copyTopicConfigurationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTopicConfigurations)
+        copyTopicConfigurations = copyTopicConfigurationsDecoded
+        let detectAndCopyNewTopicsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detectAndCopyNewTopics)
+        detectAndCopyNewTopics = detectAndCopyNewTopicsDecoded
+        let topicsToExcludeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .topicsToExclude)
+        var topicsToExcludeDecoded0:[Swift.String]? = nil
+        if let topicsToExcludeContainer = topicsToExcludeContainer {
+            topicsToExcludeDecoded0 = [Swift.String]()
+            for string0 in topicsToExcludeContainer {
+                if let string0 = string0 {
+                    topicsToExcludeDecoded0?.append(string0)
+                }
+            }
+        }
+        topicsToExclude = topicsToExcludeDecoded0
+        let topicsToReplicateContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .topicsToReplicate)
+        var topicsToReplicateDecoded0:[Swift.String]? = nil
+        if let topicsToReplicateContainer = topicsToReplicateContainer {
+            topicsToReplicateDecoded0 = [Swift.String]()
+            for string0 in topicsToReplicateContainer {
+                if let string0 = string0 {
+                    topicsToReplicateDecoded0?.append(string0)
+                }
+            }
+        }
+        topicsToReplicate = topicsToReplicateDecoded0
+    }
+}
+
+extension KafkaClientTypes {
+    /// Details for updating the topic replication of a replicator.
+    public struct TopicReplicationUpdate: Swift.Equatable {
+        /// Whether to periodically configure remote topic ACLs to match their corresponding upstream topics.
+        /// This member is required.
+        public var copyAccessControlListsForTopics: Swift.Bool?
+        /// Whether to periodically configure remote topics to match their corresponding upstream topics.
+        /// This member is required.
+        public var copyTopicConfigurations: Swift.Bool?
+        /// Whether to periodically check for new topics and partitions.
+        /// This member is required.
+        public var detectAndCopyNewTopics: Swift.Bool?
+        /// List of regular expression patterns indicating the topics that should not be replicated.
+        /// This member is required.
+        public var topicsToExclude: [Swift.String]?
+        /// List of regular expression patterns indicating the topics to copy.
+        /// This member is required.
+        public var topicsToReplicate: [Swift.String]?
+
+        public init(
+            copyAccessControlListsForTopics: Swift.Bool? = nil,
+            copyTopicConfigurations: Swift.Bool? = nil,
+            detectAndCopyNewTopics: Swift.Bool? = nil,
+            topicsToExclude: [Swift.String]? = nil,
+            topicsToReplicate: [Swift.String]? = nil
+        )
+        {
+            self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
+            self.copyTopicConfigurations = copyTopicConfigurations
+            self.detectAndCopyNewTopics = detectAndCopyNewTopics
+            self.topicsToExclude = topicsToExclude
+            self.topicsToReplicate = topicsToReplicate
+        }
+    }
+
 }
 
 extension KafkaClientTypes.Unauthenticated: Swift.Codable {
@@ -10423,6 +12239,180 @@ enum UpdateMonitoringOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateReplicationInfoInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerGroupReplication = "consumerGroupReplication"
+        case currentVersion = "currentVersion"
+        case sourceKafkaClusterArn = "sourceKafkaClusterArn"
+        case targetKafkaClusterArn = "targetKafkaClusterArn"
+        case topicReplication = "topicReplication"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let consumerGroupReplication = self.consumerGroupReplication {
+            try encodeContainer.encode(consumerGroupReplication, forKey: .consumerGroupReplication)
+        }
+        if let currentVersion = self.currentVersion {
+            try encodeContainer.encode(currentVersion, forKey: .currentVersion)
+        }
+        if let sourceKafkaClusterArn = self.sourceKafkaClusterArn {
+            try encodeContainer.encode(sourceKafkaClusterArn, forKey: .sourceKafkaClusterArn)
+        }
+        if let targetKafkaClusterArn = self.targetKafkaClusterArn {
+            try encodeContainer.encode(targetKafkaClusterArn, forKey: .targetKafkaClusterArn)
+        }
+        if let topicReplication = self.topicReplication {
+            try encodeContainer.encode(topicReplication, forKey: .topicReplication)
+        }
+    }
+}
+
+extension UpdateReplicationInfoInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let replicatorArn = replicatorArn else {
+            return nil
+        }
+        return "/replication/v1/replicators/\(replicatorArn.urlPercentEncoding())/replication-info"
+    }
+}
+
+/// Update information relating to replication between a given source and target Kafka cluster.
+public struct UpdateReplicationInfoInput: Swift.Equatable {
+    /// Updated consumer group replication information.
+    public var consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplicationUpdate?
+    /// Current replicator version.
+    /// This member is required.
+    public var currentVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the replicator to be updated.
+    /// This member is required.
+    public var replicatorArn: Swift.String?
+    /// The ARN of the source Kafka cluster.
+    /// This member is required.
+    public var sourceKafkaClusterArn: Swift.String?
+    /// The ARN of the target Kafka cluster.
+    /// This member is required.
+    public var targetKafkaClusterArn: Swift.String?
+    /// Updated topic replication information.
+    public var topicReplication: KafkaClientTypes.TopicReplicationUpdate?
+
+    public init(
+        consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplicationUpdate? = nil,
+        currentVersion: Swift.String? = nil,
+        replicatorArn: Swift.String? = nil,
+        sourceKafkaClusterArn: Swift.String? = nil,
+        targetKafkaClusterArn: Swift.String? = nil,
+        topicReplication: KafkaClientTypes.TopicReplicationUpdate? = nil
+    )
+    {
+        self.consumerGroupReplication = consumerGroupReplication
+        self.currentVersion = currentVersion
+        self.replicatorArn = replicatorArn
+        self.sourceKafkaClusterArn = sourceKafkaClusterArn
+        self.targetKafkaClusterArn = targetKafkaClusterArn
+        self.topicReplication = topicReplication
+    }
+}
+
+struct UpdateReplicationInfoInputBody: Swift.Equatable {
+    let consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplicationUpdate?
+    let currentVersion: Swift.String?
+    let sourceKafkaClusterArn: Swift.String?
+    let targetKafkaClusterArn: Swift.String?
+    let topicReplication: KafkaClientTypes.TopicReplicationUpdate?
+}
+
+extension UpdateReplicationInfoInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumerGroupReplication = "consumerGroupReplication"
+        case currentVersion = "currentVersion"
+        case sourceKafkaClusterArn = "sourceKafkaClusterArn"
+        case targetKafkaClusterArn = "targetKafkaClusterArn"
+        case topicReplication = "topicReplication"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let consumerGroupReplicationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ConsumerGroupReplicationUpdate.self, forKey: .consumerGroupReplication)
+        consumerGroupReplication = consumerGroupReplicationDecoded
+        let currentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currentVersion)
+        currentVersion = currentVersionDecoded
+        let sourceKafkaClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceKafkaClusterArn)
+        sourceKafkaClusterArn = sourceKafkaClusterArnDecoded
+        let targetKafkaClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetKafkaClusterArn)
+        targetKafkaClusterArn = targetKafkaClusterArnDecoded
+        let topicReplicationDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.TopicReplicationUpdate.self, forKey: .topicReplication)
+        topicReplication = topicReplicationDecoded
+    }
+}
+
+extension UpdateReplicationInfoOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateReplicationInfoOutputBody = try responseDecoder.decode(responseBody: data)
+            self.replicatorArn = output.replicatorArn
+            self.replicatorState = output.replicatorState
+        } else {
+            self.replicatorArn = nil
+            self.replicatorState = nil
+        }
+    }
+}
+
+public struct UpdateReplicationInfoOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the replicator.
+    public var replicatorArn: Swift.String?
+    /// State of the replicator.
+    public var replicatorState: KafkaClientTypes.ReplicatorState?
+
+    public init(
+        replicatorArn: Swift.String? = nil,
+        replicatorState: KafkaClientTypes.ReplicatorState? = nil
+    )
+    {
+        self.replicatorArn = replicatorArn
+        self.replicatorState = replicatorState
+    }
+}
+
+struct UpdateReplicationInfoOutputBody: Swift.Equatable {
+    let replicatorArn: Swift.String?
+    let replicatorState: KafkaClientTypes.ReplicatorState?
+}
+
+extension UpdateReplicationInfoOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicatorArn = "replicatorArn"
+        case replicatorState = "replicatorState"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicatorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicatorArn)
+        replicatorArn = replicatorArnDecoded
+        let replicatorStateDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicatorState.self, forKey: .replicatorState)
+        replicatorState = replicatorStateDecoded
+    }
+}
+
+enum UpdateReplicationInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

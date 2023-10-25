@@ -20860,7 +20860,7 @@ extension IoTClientTypes.ExponentialRolloutRate: Swift.Codable {
         if let baseRatePerMinute = self.baseRatePerMinute {
             try encodeContainer.encode(baseRatePerMinute, forKey: .baseRatePerMinute)
         }
-        if incrementFactor != 0.0 {
+        if let incrementFactor = self.incrementFactor {
             try encodeContainer.encode(incrementFactor, forKey: .incrementFactor)
         }
         if let rateIncreaseCriteria = self.rateIncreaseCriteria {
@@ -20872,7 +20872,7 @@ extension IoTClientTypes.ExponentialRolloutRate: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let baseRatePerMinuteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .baseRatePerMinute)
         baseRatePerMinute = baseRatePerMinuteDecoded
-        let incrementFactorDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .incrementFactor) ?? 0.0
+        let incrementFactorDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .incrementFactor)
         incrementFactor = incrementFactorDecoded
         let rateIncreaseCriteriaDecoded = try containerValues.decodeIfPresent(IoTClientTypes.RateIncreaseCriteria.self, forKey: .rateIncreaseCriteria)
         rateIncreaseCriteria = rateIncreaseCriteriaDecoded
@@ -20887,14 +20887,14 @@ extension IoTClientTypes {
         public var baseRatePerMinute: Swift.Int?
         /// The exponential factor to increase the rate of rollout for a job. Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55).
         /// This member is required.
-        public var incrementFactor: Swift.Double
+        public var incrementFactor: Swift.Double?
         /// The criteria to initiate the increase in rate of rollout for a job.
         /// This member is required.
         public var rateIncreaseCriteria: IoTClientTypes.RateIncreaseCriteria?
 
         public init(
             baseRatePerMinute: Swift.Int? = nil,
-            incrementFactor: Swift.Double = 0.0,
+            incrementFactor: Swift.Double? = nil,
             rateIncreaseCriteria: IoTClientTypes.RateIncreaseCriteria? = nil
         )
         {
@@ -42937,14 +42937,14 @@ extension IoTClientTypes.TermsAggregation: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxBuckets != 0 {
+        if let maxBuckets = self.maxBuckets {
             try encodeContainer.encode(maxBuckets, forKey: .maxBuckets)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxBucketsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBuckets) ?? 0
+        let maxBucketsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBuckets)
         maxBuckets = maxBucketsDecoded
     }
 }
@@ -42953,10 +42953,10 @@ extension IoTClientTypes {
     /// Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value.
     public struct TermsAggregation: Swift.Equatable {
         /// The number of buckets to return in the response. Default to 10.
-        public var maxBuckets: Swift.Int
+        public var maxBuckets: Swift.Int?
 
         public init(
-            maxBuckets: Swift.Int = 0
+            maxBuckets: Swift.Int? = nil
         )
         {
             self.maxBuckets = maxBuckets

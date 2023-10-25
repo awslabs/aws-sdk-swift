@@ -3919,7 +3919,7 @@ public struct GetTraceSummariesInput: Swift.Equatable {
     /// The start of the time frame for which to retrieve traces.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
-    /// A parameter to indicate whether to query trace summaries by TraceId or Event time.
+    /// A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
     public var timeRangeType: XRayClientTypes.TimeRangeType?
 
     public init(
@@ -6714,7 +6714,7 @@ extension XRayClientTypes.SamplingRule: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if reservoirSize != 0 {
@@ -6738,7 +6738,7 @@ extension XRayClientTypes.SamplingRule: Swift.Codable {
         if let urlPath = self.urlPath {
             try encodeContainer.encode(urlPath, forKey: .urlPath)
         }
-        if version != 0 {
+        if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
         }
     }
@@ -6751,7 +6751,7 @@ extension XRayClientTypes.SamplingRule: Swift.Codable {
         ruleARN = ruleARNDecoded
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let fixedRateDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedRate) ?? 0.0
         fixedRate = fixedRateDecoded
@@ -6767,7 +6767,7 @@ extension XRayClientTypes.SamplingRule: Swift.Codable {
         httpMethod = httpMethodDecoded
         let urlPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .urlPath)
         urlPath = urlPathDecoded
-        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version) ?? 0
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version)
         version = versionDecoded
         let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
         var attributesDecoded0: [Swift.String:Swift.String]? = nil
@@ -6799,7 +6799,7 @@ extension XRayClientTypes {
         public var httpMethod: Swift.String?
         /// The priority of the sampling rule.
         /// This member is required.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
         /// This member is required.
         public var reservoirSize: Swift.Int
@@ -6821,14 +6821,14 @@ extension XRayClientTypes {
         public var urlPath: Swift.String?
         /// The version of the sampling rule format (1).
         /// This member is required.
-        public var version: Swift.Int
+        public var version: Swift.Int?
 
         public init(
             attributes: [Swift.String:Swift.String]? = nil,
             fixedRate: Swift.Double = 0.0,
             host: Swift.String? = nil,
             httpMethod: Swift.String? = nil,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             reservoirSize: Swift.Int = 0,
             resourceARN: Swift.String? = nil,
             ruleARN: Swift.String? = nil,
@@ -6836,7 +6836,7 @@ extension XRayClientTypes {
             serviceName: Swift.String? = nil,
             serviceType: Swift.String? = nil,
             urlPath: Swift.String? = nil,
-            version: Swift.Int = 0
+            version: Swift.Int? = nil
         )
         {
             self.attributes = attributes
@@ -8100,12 +8100,14 @@ extension ThrottledExceptionBody: Swift.Decodable {
 extension XRayClientTypes {
     public enum TimeRangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case event
+        case service
         case traceid
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TimeRangeType] {
             return [
                 .event,
+                .service,
                 .traceid,
                 .sdkUnknown("")
             ]
@@ -8117,6 +8119,7 @@ extension XRayClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .event: return "Event"
+            case .service: return "Service"
             case .traceid: return "TraceId"
             case let .sdkUnknown(s): return s
             }

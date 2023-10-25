@@ -2677,7 +2677,7 @@ extension RedshiftClient: RedshiftClientProtocol {
         return result
     }
 
-    /// Contains information for custom domain associations for a cluster.
+    /// Contains information about custom domain associations for a cluster.
     ///
     /// - Parameter DescribeCustomDomainAssociationsInput : [no documentation found]
     ///

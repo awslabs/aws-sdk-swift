@@ -1470,6 +1470,7 @@ extension NetworkManagerClientTypes.ConnectPeer: Swift.Codable {
         case createdAt = "CreatedAt"
         case edgeLocation = "EdgeLocation"
         case state = "State"
+        case subnetArn = "SubnetArn"
         case tags = "Tags"
     }
 
@@ -1495,6 +1496,9 @@ extension NetworkManagerClientTypes.ConnectPeer: Swift.Codable {
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let subnetArn = self.subnetArn {
+            try encodeContainer.encode(subnetArn, forKey: .subnetArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -1531,6 +1535,8 @@ extension NetworkManagerClientTypes.ConnectPeer: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let subnetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetArn)
+        subnetArn = subnetArnDecoded
     }
 }
 
@@ -1551,6 +1557,8 @@ extension NetworkManagerClientTypes {
         public var edgeLocation: Swift.String?
         /// The state of the Connect peer.
         public var state: NetworkManagerClientTypes.ConnectPeerState?
+        /// The subnet ARN for the Connect peer.
+        public var subnetArn: Swift.String?
         /// The list of key-value tags associated with the Connect peer.
         public var tags: [NetworkManagerClientTypes.Tag]?
 
@@ -1562,6 +1570,7 @@ extension NetworkManagerClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             edgeLocation: Swift.String? = nil,
             state: NetworkManagerClientTypes.ConnectPeerState? = nil,
+            subnetArn: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
         )
         {
@@ -1572,6 +1581,7 @@ extension NetworkManagerClientTypes {
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
             self.state = state
+            self.subnetArn = subnetArn
             self.tags = tags
         }
     }
@@ -1901,6 +1911,7 @@ extension NetworkManagerClientTypes.ConnectPeerSummary: Swift.Codable {
         case coreNetworkId = "CoreNetworkId"
         case createdAt = "CreatedAt"
         case edgeLocation = "EdgeLocation"
+        case subnetArn = "SubnetArn"
         case tags = "Tags"
     }
 
@@ -1923,6 +1934,9 @@ extension NetworkManagerClientTypes.ConnectPeerSummary: Swift.Codable {
         }
         if let edgeLocation = self.edgeLocation {
             try encodeContainer.encode(edgeLocation, forKey: .edgeLocation)
+        }
+        if let subnetArn = self.subnetArn {
+            try encodeContainer.encode(subnetArn, forKey: .subnetArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -1957,6 +1971,8 @@ extension NetworkManagerClientTypes.ConnectPeerSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let subnetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetArn)
+        subnetArn = subnetArnDecoded
     }
 }
 
@@ -1975,6 +1991,8 @@ extension NetworkManagerClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The Region where the edge is located.
         public var edgeLocation: Swift.String?
+        /// The subnet ARN for the Connect peer summary.
+        public var subnetArn: Swift.String?
         /// The list of key-value tags associated with the Connect peer summary.
         public var tags: [NetworkManagerClientTypes.Tag]?
 
@@ -1985,6 +2003,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             edgeLocation: Swift.String? = nil,
+            subnetArn: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
         )
         {
@@ -1994,6 +2013,7 @@ extension NetworkManagerClientTypes {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.subnetArn = subnetArn
             self.tags = tags
         }
     }
@@ -3720,6 +3740,7 @@ extension CreateConnectPeerInput: Swift.Encodable {
         case coreNetworkAddress = "CoreNetworkAddress"
         case insideCidrBlocks = "InsideCidrBlocks"
         case peerAddress = "PeerAddress"
+        case subnetArn = "SubnetArn"
         case tags = "Tags"
     }
 
@@ -3745,6 +3766,9 @@ extension CreateConnectPeerInput: Swift.Encodable {
         }
         if let peerAddress = self.peerAddress {
             try encodeContainer.encode(peerAddress, forKey: .peerAddress)
+        }
+        if let subnetArn = self.subnetArn {
+            try encodeContainer.encode(subnetArn, forKey: .subnetArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -3772,11 +3796,12 @@ public struct CreateConnectPeerInput: Swift.Equatable {
     /// A Connect peer core network address.
     public var coreNetworkAddress: Swift.String?
     /// The inside IP addresses used for BGP peering.
-    /// This member is required.
     public var insideCidrBlocks: [Swift.String]?
     /// The Connect peer address.
     /// This member is required.
     public var peerAddress: Swift.String?
+    /// The subnet ARN for the Connect peer.
+    public var subnetArn: Swift.String?
     /// The tags associated with the peer request.
     public var tags: [NetworkManagerClientTypes.Tag]?
 
@@ -3787,6 +3812,7 @@ public struct CreateConnectPeerInput: Swift.Equatable {
         coreNetworkAddress: Swift.String? = nil,
         insideCidrBlocks: [Swift.String]? = nil,
         peerAddress: Swift.String? = nil,
+        subnetArn: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
     )
     {
@@ -3796,6 +3822,7 @@ public struct CreateConnectPeerInput: Swift.Equatable {
         self.coreNetworkAddress = coreNetworkAddress
         self.insideCidrBlocks = insideCidrBlocks
         self.peerAddress = peerAddress
+        self.subnetArn = subnetArn
         self.tags = tags
     }
 }
@@ -3808,6 +3835,7 @@ struct CreateConnectPeerInputBody: Swift.Equatable {
     let insideCidrBlocks: [Swift.String]?
     let tags: [NetworkManagerClientTypes.Tag]?
     let clientToken: Swift.String?
+    let subnetArn: Swift.String?
 }
 
 extension CreateConnectPeerInputBody: Swift.Decodable {
@@ -3818,6 +3846,7 @@ extension CreateConnectPeerInputBody: Swift.Decodable {
         case coreNetworkAddress = "CoreNetworkAddress"
         case insideCidrBlocks = "InsideCidrBlocks"
         case peerAddress = "PeerAddress"
+        case subnetArn = "SubnetArn"
         case tags = "Tags"
     }
 
@@ -3855,6 +3884,8 @@ extension CreateConnectPeerInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let subnetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetArn)
+        subnetArn = subnetArnDecoded
     }
 }
 
@@ -14931,7 +14962,7 @@ extension NetworkManagerClientTypes {
     public struct RouteTableIdentifier: Swift.Equatable {
         /// The segment edge in a core network.
         public var coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?
-        /// The ARN of the transit gateway route table.
+        /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public var transitGatewayRouteTableArn: Swift.String?
 
         public init(
@@ -16139,11 +16170,13 @@ extension NetworkManagerClientTypes {
 extension NetworkManagerClientTypes {
     public enum TunnelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case gre
+        case noEncap
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TunnelProtocol] {
             return [
                 .gre,
+                .noEncap,
                 .sdkUnknown("")
             ]
         }
@@ -16154,6 +16187,7 @@ extension NetworkManagerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .gre: return "GRE"
+            case .noEncap: return "NO_ENCAP"
             case let .sdkUnknown(s): return s
             }
         }

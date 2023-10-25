@@ -10372,22 +10372,22 @@ extension RoboMakerClientTypes.PortMapping: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if applicationPort != 0 {
+        if let applicationPort = self.applicationPort {
             try encodeContainer.encode(applicationPort, forKey: .applicationPort)
         }
         if enableOnPublicIp != false {
             try encodeContainer.encode(enableOnPublicIp, forKey: .enableOnPublicIp)
         }
-        if jobPort != 0 {
+        if let jobPort = self.jobPort {
             try encodeContainer.encode(jobPort, forKey: .jobPort)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let jobPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .jobPort) ?? 0
+        let jobPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .jobPort)
         jobPort = jobPortDecoded
-        let applicationPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .applicationPort) ?? 0
+        let applicationPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .applicationPort)
         applicationPort = applicationPortDecoded
         let enableOnPublicIpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableOnPublicIp) ?? false
         enableOnPublicIp = enableOnPublicIpDecoded
@@ -10399,17 +10399,17 @@ extension RoboMakerClientTypes {
     public struct PortMapping: Swift.Equatable {
         /// The port number on the application.
         /// This member is required.
-        public var applicationPort: Swift.Int
+        public var applicationPort: Swift.Int?
         /// A Boolean indicating whether to enable this port mapping on public IP.
         public var enableOnPublicIp: Swift.Bool
         /// The port number on the simulation job instance to use as a remote connection point.
         /// This member is required.
-        public var jobPort: Swift.Int
+        public var jobPort: Swift.Int?
 
         public init(
-            applicationPort: Swift.Int = 0,
+            applicationPort: Swift.Int? = nil,
             enableOnPublicIp: Swift.Bool = false,
-            jobPort: Swift.Int = 0
+            jobPort: Swift.Int? = nil
         )
         {
             self.applicationPort = applicationPort

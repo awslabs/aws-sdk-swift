@@ -2212,7 +2212,7 @@ extension OpenSearchClientTypes {
         public var dedicatedMasterEnabled: Swift.Bool?
         /// OpenSearch Service instance type of the dedicated master nodes in the cluster.
         public var dedicatedMasterType: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
-        /// Number of dedicated master nodes in the cluster. This number must be greater than 1, otherwise you receive a validation exception.
+        /// Number of data nodes in the cluster. This number must be greater than 1, otherwise you receive a validation exception.
         public var instanceCount: Swift.Int?
         /// Instance type of data nodes in the cluster.
         public var instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
@@ -3517,9 +3517,9 @@ extension OpenSearchClientTypes.CrossClusterSearchConnectionProperties: Swift.Co
 }
 
 extension OpenSearchClientTypes {
-    /// Cross cluster search specific connection properties.
+    /// Cross-cluster search specific connection properties.
     public struct CrossClusterSearchConnectionProperties: Swift.Equatable {
-        /// Status of SkipUnavailable param for outbound connection.
+        /// The status of the SkipUnavailable setting for the outbound connection. This feature allows you to specify some clusters as optional and ensure that your cross-cluster queries return partial results despite failures on one or more remote clusters.
         public var skipUnavailable: OpenSearchClientTypes.SkipUnavailableStatus?
 
         public init(
@@ -4838,7 +4838,7 @@ extension DescribeDomainsInput: ClientRuntime.URLPathProvider {
 
 /// Container for the parameters to the DescribeDomains operation.
 public struct DescribeDomainsInput: Swift.Equatable {
-    /// Array of OpenSearch Service domain names that you want information about. If you don't specify any domains, OpenSearch Service returns information about all domains owned by the account.
+    /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name.
     /// This member is required.
     public var domainNames: [Swift.String]?
 
@@ -5564,16 +5564,20 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
     public enum DescribePackagesFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case engineversion
         case packageid
         case packagename
         case packagestatus
+        case packagetype
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DescribePackagesFilterName] {
             return [
+                .engineversion,
                 .packageid,
                 .packagename,
                 .packagestatus,
+                .packagetype,
                 .sdkUnknown("")
             ]
         }
@@ -5583,9 +5587,11 @@ extension OpenSearchClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .engineversion: return "EngineVersion"
             case .packageid: return "PackageID"
             case .packagename: return "PackageName"
             case .packagestatus: return "PackageStatus"
+            case .packagetype: return "PackageType"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6754,6 +6760,111 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes.DomainMaintenanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case createdAt = "CreatedAt"
+        case domainName = "DomainName"
+        case maintenanceId = "MaintenanceId"
+        case nodeId = "NodeId"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let maintenanceId = self.maintenanceId {
+            try encodeContainer.encode(maintenanceId, forKey: .maintenanceId)
+        }
+        if let nodeId = self.nodeId {
+            try encodeContainer.encode(nodeId, forKey: .nodeId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maintenanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceId)
+        maintenanceId = maintenanceIdDecoded
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.MaintenanceType.self, forKey: .action)
+        action = actionDecoded
+        let nodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeId)
+        nodeId = nodeIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.MaintenanceStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Container for the domain maintenance details.
+    public struct DomainMaintenanceDetails: Swift.Equatable {
+        /// The name of the action.
+        public var action: OpenSearchClientTypes.MaintenanceType?
+        /// Contains time at which action created.
+        public var createdAt: ClientRuntime.Date?
+        /// The name of the domain.
+        public var domainName: Swift.String?
+        /// Id of the requested action.
+        public var maintenanceId: Swift.String?
+        /// Id of the data node.
+        public var nodeId: Swift.String?
+        /// The status of the action.
+        public var status: OpenSearchClientTypes.MaintenanceStatus?
+        /// The status message of the action.
+        public var statusMessage: Swift.String?
+        /// Contains time at which action updated.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            action: OpenSearchClientTypes.MaintenanceType? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            domainName: Swift.String? = nil,
+            maintenanceId: Swift.String? = nil,
+            nodeId: Swift.String? = nil,
+            status: OpenSearchClientTypes.MaintenanceStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.action = action
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.maintenanceId = maintenanceId
+            self.nodeId = nodeId
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
 extension OpenSearchClientTypes.DomainNodesStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZone = "AvailabilityZone"
@@ -7572,14 +7683,14 @@ extension OpenSearchClientTypes.Duration: Swift.Codable {
         if let unit = self.unit {
             try encodeContainer.encode(unit.rawValue, forKey: .unit)
         }
-        if value != 0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
         let unitDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.TimeUnit.self, forKey: .unit)
         unit = unitDecoded
@@ -7592,11 +7703,11 @@ extension OpenSearchClientTypes {
         /// The unit of measurement for the duration of a maintenance schedule.
         public var unit: OpenSearchClientTypes.TimeUnit?
         /// Integer to specify the value of a maintenance schedule duration.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             unit: OpenSearchClientTypes.TimeUnit? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.unit = unit
@@ -8093,6 +8204,164 @@ extension GetCompatibleVersionsOutputBody: Swift.Decodable {
 }
 
 enum GetCompatibleVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDomainMaintenanceStatusInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let maintenanceId = maintenanceId else {
+                let message = "Creating a URL Query Item failed. maintenanceId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let maintenanceIdQueryItem = ClientRuntime.URLQueryItem(name: "maintenanceId".urlPercentEncoding(), value: Swift.String(maintenanceId).urlPercentEncoding())
+            items.append(maintenanceIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetDomainMaintenanceStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenance"
+    }
+}
+
+/// Container for the parameters to the GetDomainMaintenanceStatus operation.
+public struct GetDomainMaintenanceStatusInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The request id of the maintenance action.
+    /// This member is required.
+    public var maintenanceId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maintenanceId: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maintenanceId = maintenanceId
+    }
+}
+
+struct GetDomainMaintenanceStatusInputBody: Swift.Equatable {
+}
+
+extension GetDomainMaintenanceStatusInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetDomainMaintenanceStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDomainMaintenanceStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.action = output.action
+            self.createdAt = output.createdAt
+            self.nodeId = output.nodeId
+            self.status = output.status
+            self.statusMessage = output.statusMessage
+            self.updatedAt = output.updatedAt
+        } else {
+            self.action = nil
+            self.createdAt = nil
+            self.nodeId = nil
+            self.status = nil
+            self.statusMessage = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+/// The result of a GetDomainMaintenanceStatus request. Contains information about the requested action.
+public struct GetDomainMaintenanceStatusOutput: Swift.Equatable {
+    /// Contains action name.
+    public var action: OpenSearchClientTypes.MaintenanceType?
+    /// Contains time at which action created.
+    public var createdAt: ClientRuntime.Date?
+    /// Contains node id of maintenance action.
+    public var nodeId: Swift.String?
+    /// Contains status of the maintenance action.
+    public var status: OpenSearchClientTypes.MaintenanceStatus?
+    /// Contains status message of the maintenance action.
+    public var statusMessage: Swift.String?
+    /// Contains time at which action updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        action: OpenSearchClientTypes.MaintenanceType? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        nodeId: Swift.String? = nil,
+        status: OpenSearchClientTypes.MaintenanceStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.action = action
+        self.createdAt = createdAt
+        self.nodeId = nodeId
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updatedAt = updatedAt
+    }
+}
+
+struct GetDomainMaintenanceStatusOutputBody: Swift.Equatable {
+    let status: OpenSearchClientTypes.MaintenanceStatus?
+    let statusMessage: Swift.String?
+    let nodeId: Swift.String?
+    let action: OpenSearchClientTypes.MaintenanceType?
+    let createdAt: ClientRuntime.Date?
+    let updatedAt: ClientRuntime.Date?
+}
+
+extension GetDomainMaintenanceStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case createdAt = "CreatedAt"
+        case nodeId = "NodeId"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.MaintenanceStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let nodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeId)
+        nodeId = nodeIdDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.MaintenanceType.self, forKey: .action)
+        action = actionDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+enum GetDomainMaintenanceStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -9185,6 +9454,154 @@ extension OpenSearchClientTypes {
         }
     }
 
+}
+
+extension ListDomainMaintenancesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let action = action {
+                let actionQueryItem = ClientRuntime.URLQueryItem(name: "action".urlPercentEncoding(), value: Swift.String(action.rawValue).urlPercentEncoding())
+                items.append(actionQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListDomainMaintenancesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenances"
+    }
+}
+
+/// Container for the parameters to the ListDomainMaintenances operation.
+public struct ListDomainMaintenancesInput: Swift.Equatable {
+    /// The name of the action.
+    public var action: OpenSearchClientTypes.MaintenanceType?
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    public var maxResults: Swift.Int?
+    /// If your initial ListDomainMaintenances operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainMaintenances operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+    /// The status of the action.
+    public var status: OpenSearchClientTypes.MaintenanceStatus?
+
+    public init(
+        action: OpenSearchClientTypes.MaintenanceType? = nil,
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: OpenSearchClientTypes.MaintenanceStatus? = nil
+    )
+    {
+        self.action = action
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+struct ListDomainMaintenancesInputBody: Swift.Equatable {
+}
+
+extension ListDomainMaintenancesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListDomainMaintenancesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListDomainMaintenancesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.domainMaintenances = output.domainMaintenances
+            self.nextToken = output.nextToken
+        } else {
+            self.domainMaintenances = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// The result of a ListDomainMaintenances request. Contains information about the requested actions.
+public struct ListDomainMaintenancesOutput: Swift.Equatable {
+    /// List of the submitted maintenance actions.
+    public var domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainMaintenances = domainMaintenances
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDomainMaintenancesOutputBody: Swift.Equatable {
+    let domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
+    let nextToken: Swift.String?
+}
+
+extension ListDomainMaintenancesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainMaintenances = "DomainMaintenances"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainMaintenancesContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.DomainMaintenanceDetails?].self, forKey: .domainMaintenances)
+        var domainMaintenancesDecoded0:[OpenSearchClientTypes.DomainMaintenanceDetails]? = nil
+        if let domainMaintenancesContainer = domainMaintenancesContainer {
+            domainMaintenancesDecoded0 = [OpenSearchClientTypes.DomainMaintenanceDetails]()
+            for structure0 in domainMaintenancesContainer {
+                if let structure0 = structure0 {
+                    domainMaintenancesDecoded0?.append(structure0)
+                }
+            }
+        }
+        domainMaintenances = domainMaintenancesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListDomainMaintenancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ListDomainNamesInput: ClientRuntime.QueryItemProvider {
@@ -10578,6 +10995,82 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+    public enum MaintenanceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaintenanceStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .pending,
+                .timedOut,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MaintenanceStatus(rawValue: rawValue) ?? MaintenanceStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    public enum MaintenanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case rebootNode
+        case restartDashboard
+        case restartSearchProcess
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaintenanceType] {
+            return [
+                .rebootNode,
+                .restartDashboard,
+                .restartSearchProcess,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .rebootNode: return "REBOOT_NODE"
+            case .restartDashboard: return "RESTART_DASHBOARD"
+            case .restartSearchProcess: return "RESTART_SEARCH_PROCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MaintenanceType(rawValue: rawValue) ?? MaintenanceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
     public enum MasterNodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
         case unavailable
@@ -11668,7 +12161,9 @@ extension OpenSearchClientTypes {
 extension OpenSearchClientTypes.PackageDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availablePackageVersion = "AvailablePackageVersion"
+        case availablePluginProperties = "AvailablePluginProperties"
         case createdAt = "CreatedAt"
+        case engineVersion = "EngineVersion"
         case errorDetails = "ErrorDetails"
         case lastUpdatedAt = "LastUpdatedAt"
         case packageDescription = "PackageDescription"
@@ -11683,8 +12178,14 @@ extension OpenSearchClientTypes.PackageDetails: Swift.Codable {
         if let availablePackageVersion = self.availablePackageVersion {
             try encodeContainer.encode(availablePackageVersion, forKey: .availablePackageVersion)
         }
+        if let availablePluginProperties = self.availablePluginProperties {
+            try encodeContainer.encode(availablePluginProperties, forKey: .availablePluginProperties)
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let engineVersion = self.engineVersion {
+            try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
         if let errorDetails = self.errorDetails {
             try encodeContainer.encode(errorDetails, forKey: .errorDetails)
@@ -11729,6 +12230,10 @@ extension OpenSearchClientTypes.PackageDetails: Swift.Codable {
         availablePackageVersion = availablePackageVersionDecoded
         let errorDetailsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ErrorDetails.self, forKey: .errorDetails)
         errorDetails = errorDetailsDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
+        let availablePluginPropertiesDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.PluginProperties.self, forKey: .availablePluginProperties)
+        availablePluginProperties = availablePluginPropertiesDecoded
     }
 }
 
@@ -11737,8 +12242,12 @@ extension OpenSearchClientTypes {
     public struct PackageDetails: Swift.Equatable {
         /// The package version.
         public var availablePackageVersion: Swift.String?
+        /// If the package is a ZIP-PLUGIN package, additional information about plugin properties.
+        public var availablePluginProperties: OpenSearchClientTypes.PluginProperties?
         /// The timestamp when the package was created.
         public var createdAt: ClientRuntime.Date?
+        /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
+        public var engineVersion: Swift.String?
         /// Additional information if the package is in an error state. Null otherwise.
         public var errorDetails: OpenSearchClientTypes.ErrorDetails?
         /// Date and time when the package was last updated.
@@ -11756,7 +12265,9 @@ extension OpenSearchClientTypes {
 
         public init(
             availablePackageVersion: Swift.String? = nil,
+            availablePluginProperties: OpenSearchClientTypes.PluginProperties? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            engineVersion: Swift.String? = nil,
             errorDetails: OpenSearchClientTypes.ErrorDetails? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             packageDescription: Swift.String? = nil,
@@ -11767,7 +12278,9 @@ extension OpenSearchClientTypes {
         )
         {
             self.availablePackageVersion = availablePackageVersion
+            self.availablePluginProperties = availablePluginProperties
             self.createdAt = createdAt
+            self.engineVersion = engineVersion
             self.errorDetails = errorDetails
             self.lastUpdatedAt = lastUpdatedAt
             self.packageDescription = packageDescription
@@ -11878,11 +12391,13 @@ extension OpenSearchClientTypes {
 extension OpenSearchClientTypes {
     public enum PackageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case txtDictionary
+        case zipPlugin
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PackageType] {
             return [
                 .txtDictionary,
+                .zipPlugin,
                 .sdkUnknown("")
             ]
         }
@@ -11893,6 +12408,7 @@ extension OpenSearchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .txtDictionary: return "TXT-DICTIONARY"
+            case .zipPlugin: return "ZIP-PLUGIN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11909,6 +12425,7 @@ extension OpenSearchClientTypes.PackageVersionHistory: Swift.Codable {
         case commitMessage = "CommitMessage"
         case createdAt = "CreatedAt"
         case packageVersion = "PackageVersion"
+        case pluginProperties = "PluginProperties"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11922,6 +12439,9 @@ extension OpenSearchClientTypes.PackageVersionHistory: Swift.Codable {
         if let packageVersion = self.packageVersion {
             try encodeContainer.encode(packageVersion, forKey: .packageVersion)
         }
+        if let pluginProperties = self.pluginProperties {
+            try encodeContainer.encode(pluginProperties, forKey: .pluginProperties)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11932,6 +12452,8 @@ extension OpenSearchClientTypes.PackageVersionHistory: Swift.Codable {
         commitMessage = commitMessageDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let pluginPropertiesDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.PluginProperties.self, forKey: .pluginProperties)
+        pluginProperties = pluginPropertiesDecoded
     }
 }
 
@@ -11944,16 +12466,95 @@ extension OpenSearchClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The package version.
         public var packageVersion: Swift.String?
+        /// Additional information about plugin properties if the package is a ZIP-PLUGIN package.
+        public var pluginProperties: OpenSearchClientTypes.PluginProperties?
 
         public init(
             commitMessage: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
-            packageVersion: Swift.String? = nil
+            packageVersion: Swift.String? = nil,
+            pluginProperties: OpenSearchClientTypes.PluginProperties? = nil
         )
         {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
             self.packageVersion = packageVersion
+            self.pluginProperties = pluginProperties
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.PluginProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case className = "ClassName"
+        case description = "Description"
+        case name = "Name"
+        case uncompressedSizeInBytes = "UncompressedSizeInBytes"
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let className = self.className {
+            try encodeContainer.encode(className, forKey: .className)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let uncompressedSizeInBytes = self.uncompressedSizeInBytes {
+            try encodeContainer.encode(uncompressedSizeInBytes, forKey: .uncompressedSizeInBytes)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let classNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .className)
+        className = classNameDecoded
+        let uncompressedSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uncompressedSizeInBytes)
+        uncompressedSizeInBytes = uncompressedSizeInBytesDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Basic information about the plugin.
+    public struct PluginProperties: Swift.Equatable {
+        /// The name of the class to load.
+        public var className: Swift.String?
+        /// The description of the plugin.
+        public var description: Swift.String?
+        /// The name of the plugin.
+        public var name: Swift.String?
+        /// The uncompressed size of the plugin.
+        public var uncompressedSizeInBytes: Swift.Int?
+        /// The version of the plugin.
+        public var version: Swift.String?
+
+        public init(
+            className: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            uncompressedSizeInBytes: Swift.Int? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.className = className
+            self.description = description
+            self.name = name
+            self.uncompressedSizeInBytes = uncompressedSizeInBytes
+            self.version = version
         }
     }
 
@@ -13562,11 +14163,11 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
-    /// Status of SkipUnavailable param for outbound connection.
+    /// The status of SkipUnavailable setting for the outbound connection.
     ///
-    /// * ENABLED - The SkipUnavailable param is enabled for the connection.
+    /// * ENABLED - The SkipUnavailable setting is enabled for the connection.
     ///
-    /// * DISABLED - The SkipUnavailable param is disabled for the connection.
+    /// * DISABLED - The SkipUnavailable setting is disabled for the connection.
     public enum SkipUnavailableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -13833,6 +14434,131 @@ extension OpenSearchClientTypes {
         }
     }
 
+}
+
+extension StartDomainMaintenanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case nodeId = "NodeId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let nodeId = self.nodeId {
+            try encodeContainer.encode(nodeId, forKey: .nodeId)
+        }
+    }
+}
+
+extension StartDomainMaintenanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenance"
+    }
+}
+
+/// Container for the parameters to the StartDomainMaintenance operation.
+public struct StartDomainMaintenanceInput: Swift.Equatable {
+    /// The name of the action.
+    /// This member is required.
+    public var action: OpenSearchClientTypes.MaintenanceType?
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// Id of the data node.
+    public var nodeId: Swift.String?
+
+    public init(
+        action: OpenSearchClientTypes.MaintenanceType? = nil,
+        domainName: Swift.String? = nil,
+        nodeId: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.domainName = domainName
+        self.nodeId = nodeId
+    }
+}
+
+struct StartDomainMaintenanceInputBody: Swift.Equatable {
+    let action: OpenSearchClientTypes.MaintenanceType?
+    let nodeId: Swift.String?
+}
+
+extension StartDomainMaintenanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case nodeId = "NodeId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.MaintenanceType.self, forKey: .action)
+        action = actionDecoded
+        let nodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeId)
+        nodeId = nodeIdDecoded
+    }
+}
+
+extension StartDomainMaintenanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartDomainMaintenanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.maintenanceId = output.maintenanceId
+        } else {
+            self.maintenanceId = nil
+        }
+    }
+}
+
+/// The result of a StartDomainMaintenance request. Contains information about the requested action.
+public struct StartDomainMaintenanceOutput: Swift.Equatable {
+    /// Contains request id of requested action.
+    public var maintenanceId: Swift.String?
+
+    public init(
+        maintenanceId: Swift.String? = nil
+    )
+    {
+        self.maintenanceId = maintenanceId
+    }
+}
+
+struct StartDomainMaintenanceOutputBody: Swift.Equatable {
+    let maintenanceId: Swift.String?
+}
+
+extension StartDomainMaintenanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maintenanceId = "MaintenanceId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maintenanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceId)
+        maintenanceId = maintenanceIdDecoded
+    }
+}
+
+enum StartDomainMaintenanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension StartServiceSoftwareUpdateInput: Swift.Encodable {

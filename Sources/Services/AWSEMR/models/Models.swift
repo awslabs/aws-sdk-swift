@@ -1030,14 +1030,14 @@ extension EMRClientTypes.AutoTerminationPolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if idleTimeout != 0 {
+        if let idleTimeout = self.idleTimeout {
             try encodeContainer.encode(idleTimeout, forKey: .idleTimeout)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout) ?? 0
+        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout)
         idleTimeout = idleTimeoutDecoded
     }
 }
@@ -1046,10 +1046,10 @@ extension EMRClientTypes {
     /// An auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
     public struct AutoTerminationPolicy: Swift.Equatable {
         /// Specifies the amount of idle time in seconds after which the cluster automatically terminates. You can specify a minimum of 60 seconds and a maximum of 604800 seconds (seven days).
-        public var idleTimeout: Swift.Int
+        public var idleTimeout: Swift.Int?
 
         public init(
-            idleTimeout: Swift.Int = 0
+            idleTimeout: Swift.Int? = nil
         )
         {
             self.idleTimeout = idleTimeout
@@ -1069,7 +1069,7 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if blockPublicSecurityGroupRules != false {
+        if let blockPublicSecurityGroupRules = self.blockPublicSecurityGroupRules {
             try encodeContainer.encode(blockPublicSecurityGroupRules, forKey: .blockPublicSecurityGroupRules)
         }
         if let classification = self.classification {
@@ -1097,7 +1097,7 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockPublicSecurityGroupRulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicSecurityGroupRules) ?? false
+        let blockPublicSecurityGroupRulesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicSecurityGroupRules)
         blockPublicSecurityGroupRules = blockPublicSecurityGroupRulesDecoded
         let permittedPublicSecurityGroupRuleRangesContainer = try containerValues.decodeIfPresent([EMRClientTypes.PortRange?].self, forKey: .permittedPublicSecurityGroupRuleRanges)
         var permittedPublicSecurityGroupRuleRangesDecoded0:[EMRClientTypes.PortRange]? = nil
@@ -1142,7 +1142,7 @@ extension EMRClientTypes {
     public struct BlockPublicAccessConfiguration: Swift.Equatable {
         /// Indicates whether Amazon EMR block public access is enabled (true) or disabled (false). By default, the value is false for accounts that have created Amazon EMR clusters before July 2019. For accounts created after this, the default is true.
         /// This member is required.
-        public var blockPublicSecurityGroupRules: Swift.Bool
+        public var blockPublicSecurityGroupRules: Swift.Bool?
         /// The classification within a configuration.
         public var classification: Swift.String?
         /// A list of additional configurations to apply within a configuration object.
@@ -1153,7 +1153,7 @@ extension EMRClientTypes {
         public var properties: [Swift.String:Swift.String]?
 
         public init(
-            blockPublicSecurityGroupRules: Swift.Bool = false,
+            blockPublicSecurityGroupRules: Swift.Bool? = nil,
             classification: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             permittedPublicSecurityGroupRuleRanges: [EMRClientTypes.PortRange]? = nil,
@@ -1711,7 +1711,7 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         if let autoScalingRole = self.autoScalingRole {
             try encodeContainer.encode(autoScalingRole, forKey: .autoScalingRole)
         }
-        if autoTerminate != false {
+        if let autoTerminate = self.autoTerminate {
             try encodeContainer.encode(autoTerminate, forKey: .autoTerminate)
         }
         if let clusterArn = self.clusterArn {
@@ -1801,10 +1801,10 @@ extension EMRClientTypes.Cluster: Swift.Codable {
                 try tagsContainer.encode(tag0)
             }
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -1831,11 +1831,11 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         runningAmiVersion = runningAmiVersionDecoded
         let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
         releaseLabel = releaseLabelDecoded
-        let autoTerminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoTerminate) ?? false
+        let autoTerminateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoTerminate)
         autoTerminate = autoTerminateDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let applicationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Application?].self, forKey: .applications)
         var applicationsDecoded0:[EMRClientTypes.Application]? = nil
@@ -1920,7 +1920,7 @@ extension EMRClientTypes {
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate Amazon EC2 instances in an instance group.
         public var autoScalingRole: Swift.String?
         /// Specifies whether the cluster should terminate after completing all steps.
-        public var autoTerminate: Swift.Bool
+        public var autoTerminate: Swift.Bool?
         /// The Amazon Resource Name of the cluster.
         public var clusterArn: Swift.String?
         /// Applies only to Amazon EMR releases 4.x and later. The list of configurations that are supplied to the Amazon EMR cluster.
@@ -1974,14 +1974,14 @@ extension EMRClientTypes {
         /// A list of tags associated with a cluster.
         public var tags: [EMRClientTypes.Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the Amazon EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions on the cluster that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
-        public var visibleToAllUsers: Swift.Bool
+        public var visibleToAllUsers: Swift.Bool?
 
         public init(
             applications: [EMRClientTypes.Application]? = nil,
             autoScalingRole: Swift.String? = nil,
-            autoTerminate: Swift.Bool = false,
+            autoTerminate: Swift.Bool? = nil,
             clusterArn: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             customAmiId: Swift.String? = nil,
@@ -2008,8 +2008,8 @@ extension EMRClientTypes {
             status: EMRClientTypes.ClusterStatus? = nil,
             stepConcurrencyLevel: Swift.Int? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
-            terminationProtected: Swift.Bool = false,
-            visibleToAllUsers: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil,
+            visibleToAllUsers: Swift.Bool? = nil
         )
         {
             self.applications = applications
@@ -6684,7 +6684,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
                 try configurationsContainer.encode(configuration0)
             }
         }
-        if configurationsVersion != 0 {
+        if let configurationsVersion = self.configurationsVersion {
             try encodeContainer.encode(configurationsVersion, forKey: .configurationsVersion)
         }
         if let customAmiId = self.customAmiId {
@@ -6714,7 +6714,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
                 try lastSuccessfullyAppliedConfigurationsContainer.encode(configuration0)
             }
         }
-        if lastSuccessfullyAppliedConfigurationsVersion != 0 {
+        if let lastSuccessfullyAppliedConfigurationsVersion = self.lastSuccessfullyAppliedConfigurationsVersion {
             try encodeContainer.encode(lastSuccessfullyAppliedConfigurationsVersion, forKey: .lastSuccessfullyAppliedConfigurationsVersion)
         }
         if let market = self.market {
@@ -6768,7 +6768,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
             }
         }
         configurations = configurationsDecoded0
-        let configurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .configurationsVersion) ?? 0
+        let configurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .configurationsVersion)
         configurationsVersion = configurationsVersionDecoded
         let lastSuccessfullyAppliedConfigurationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Configuration?].self, forKey: .lastSuccessfullyAppliedConfigurations)
         var lastSuccessfullyAppliedConfigurationsDecoded0:[EMRClientTypes.Configuration]? = nil
@@ -6781,7 +6781,7 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
             }
         }
         lastSuccessfullyAppliedConfigurations = lastSuccessfullyAppliedConfigurationsDecoded0
-        let lastSuccessfullyAppliedConfigurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSuccessfullyAppliedConfigurationsVersion) ?? 0
+        let lastSuccessfullyAppliedConfigurationsVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSuccessfullyAppliedConfigurationsVersion)
         lastSuccessfullyAppliedConfigurationsVersion = lastSuccessfullyAppliedConfigurationsVersionDecoded
         let ebsBlockDevicesContainer = try containerValues.decodeIfPresent([EMRClientTypes.EbsBlockDevice?].self, forKey: .ebsBlockDevices)
         var ebsBlockDevicesDecoded0:[EMRClientTypes.EbsBlockDevice]? = nil
@@ -6815,7 +6815,7 @@ extension EMRClientTypes {
         /// Amazon EMR releases 4.x or later. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public var configurations: [EMRClientTypes.Configuration]?
         /// The version number of the requested configuration specification for this instance group.
-        public var configurationsVersion: Swift.Int
+        public var configurationsVersion: Swift.Int?
         /// The custom AMI ID to use for the provisioned instance group.
         public var customAmiId: Swift.String?
         /// The EBS block devices that are mapped to this instance group.
@@ -6831,7 +6831,7 @@ extension EMRClientTypes {
         /// A list of configurations that were successfully applied for an instance group last time.
         public var lastSuccessfullyAppliedConfigurations: [EMRClientTypes.Configuration]?
         /// The version number of a configuration specification that was successfully applied for an instance group last time.
-        public var lastSuccessfullyAppliedConfigurationsVersion: Swift.Int
+        public var lastSuccessfullyAppliedConfigurationsVersion: Swift.Int?
         /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
         public var market: EMRClientTypes.MarketType?
         /// The name of the instance group.
@@ -6849,7 +6849,7 @@ extension EMRClientTypes {
             autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription? = nil,
             bidPrice: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
-            configurationsVersion: Swift.Int = 0,
+            configurationsVersion: Swift.Int? = nil,
             customAmiId: Swift.String? = nil,
             ebsBlockDevices: [EMRClientTypes.EbsBlockDevice]? = nil,
             ebsOptimized: Swift.Bool? = nil,
@@ -6857,7 +6857,7 @@ extension EMRClientTypes {
             instanceGroupType: EMRClientTypes.InstanceGroupType? = nil,
             instanceType: Swift.String? = nil,
             lastSuccessfullyAppliedConfigurations: [EMRClientTypes.Configuration]? = nil,
-            lastSuccessfullyAppliedConfigurationsVersion: Swift.Int = 0,
+            lastSuccessfullyAppliedConfigurationsVersion: Swift.Int? = nil,
             market: EMRClientTypes.MarketType? = nil,
             name: Swift.String? = nil,
             requestedInstanceCount: Swift.Int? = nil,
@@ -8411,7 +8411,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
                 try supportedProductsContainer.encode(xmlstringmaxlen2560)
             }
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -8465,7 +8465,7 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
             }
         }
         supportedProducts = supportedProductsDecoded0
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let jobFlowRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobFlowRole)
         jobFlowRole = jobFlowRoleDecoded
@@ -8514,7 +8514,7 @@ extension EMRClientTypes {
         /// A list of strings set by third-party software when the job flow is launched. If you are not using third-party software to manage the job flow, this value is empty.
         public var supportedProducts: [Swift.String]?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
-        public var visibleToAllUsers: Swift.Bool
+        public var visibleToAllUsers: Swift.Bool?
 
         public init(
             amiVersion: Swift.String? = nil,
@@ -8531,7 +8531,7 @@ extension EMRClientTypes {
             serviceRole: Swift.String? = nil,
             steps: [EMRClientTypes.StepDetail]? = nil,
             supportedProducts: [Swift.String]? = nil,
-            visibleToAllUsers: Swift.Bool = false
+            visibleToAllUsers: Swift.Bool? = nil
         )
         {
             self.amiVersion = amiVersion
@@ -8763,7 +8763,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
                 try instanceGroupsContainer.encode(instancegroupconfig0)
             }
         }
-        if keepJobFlowAliveWhenNoSteps != false {
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
             try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
         }
         if let masterInstanceType = self.masterInstanceType {
@@ -8778,7 +8778,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         if let slaveInstanceType = self.slaveInstanceType {
             try encodeContainer.encode(slaveInstanceType, forKey: .slaveInstanceType)
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -8817,9 +8817,9 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         ec2KeyName = ec2KeyNameDecoded
         let placementDecoded = try containerValues.decodeIfPresent(EMRClientTypes.PlacementType.self, forKey: .placement)
         placement = placementDecoded
-        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps) ?? false
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
@@ -8893,7 +8893,7 @@ extension EMRClientTypes {
         /// Configuration for the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupConfig]?
         /// Specifies whether the cluster should remain available after completing all steps. Defaults to true. For more information about configuring cluster termination, see [Control Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html) in the EMR Management Guide.
-        public var keepJobFlowAliveWhenNoSteps: Swift.Bool
+        public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance type of the master node.
         public var masterInstanceType: Swift.String?
         /// The Availability Zone in which the cluster runs.
@@ -8903,7 +8903,7 @@ extension EMRClientTypes {
         /// The Amazon EC2 instance type of the core and task nodes.
         public var slaveInstanceType: Swift.String?
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
 
         public init(
             additionalMasterSecurityGroups: [Swift.String]? = nil,
@@ -8917,12 +8917,12 @@ extension EMRClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceFleets: [EMRClientTypes.InstanceFleetConfig]? = nil,
             instanceGroups: [EMRClientTypes.InstanceGroupConfig]? = nil,
-            keepJobFlowAliveWhenNoSteps: Swift.Bool = false,
+            keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil,
             masterInstanceType: Swift.String? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             serviceAccessSecurityGroup: Swift.String? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil
         )
         {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
@@ -8984,7 +8984,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
                 try instanceGroupsContainer.encode(instancegroupdetail0)
             }
         }
-        if keepJobFlowAliveWhenNoSteps != false {
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
             try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
         }
         if let masterInstanceId = self.masterInstanceId {
@@ -9005,7 +9005,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         if let slaveInstanceType = self.slaveInstanceType {
             try encodeContainer.encode(slaveInstanceType, forKey: .slaveInstanceType)
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -9041,9 +9041,9 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         ec2SubnetId = ec2SubnetIdDecoded
         let placementDecoded = try containerValues.decodeIfPresent(EMRClientTypes.PlacementType.self, forKey: .placement)
         placement = placementDecoded
-        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps) ?? false
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
@@ -9065,7 +9065,7 @@ extension EMRClientTypes {
         /// Details about the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupDetail]?
         /// Specifies whether the cluster should remain available after completing all steps.
-        public var keepJobFlowAliveWhenNoSteps: Swift.Bool
+        public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance identifier of the master node.
         public var masterInstanceId: Swift.String?
         /// The Amazon EC2 master node instance type.
@@ -9081,7 +9081,7 @@ extension EMRClientTypes {
         /// This member is required.
         public var slaveInstanceType: Swift.String?
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Swift.Bool
+        public var terminationProtected: Swift.Bool?
 
         public init(
             ec2KeyName: Swift.String? = nil,
@@ -9089,14 +9089,14 @@ extension EMRClientTypes {
             hadoopVersion: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroups: [EMRClientTypes.InstanceGroupDetail]? = nil,
-            keepJobFlowAliveWhenNoSteps: Swift.Bool = false,
+            keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil,
             masterInstanceId: Swift.String? = nil,
             masterInstanceType: Swift.String? = nil,
             masterPublicDnsName: Swift.String? = nil,
             normalizedInstanceHours: Swift.Int? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool = false
+            terminationProtected: Swift.Bool? = nil
         )
         {
             self.ec2KeyName = ec2KeyName
@@ -16300,22 +16300,22 @@ extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
         if let architecture = self.architecture {
             try encodeContainer.encode(architecture, forKey: .architecture)
         }
-        if ebsOptimizedAvailable != false {
+        if let ebsOptimizedAvailable = self.ebsOptimizedAvailable {
             try encodeContainer.encode(ebsOptimizedAvailable, forKey: .ebsOptimizedAvailable)
         }
-        if ebsOptimizedByDefault != false {
+        if let ebsOptimizedByDefault = self.ebsOptimizedByDefault {
             try encodeContainer.encode(ebsOptimizedByDefault, forKey: .ebsOptimizedByDefault)
         }
-        if ebsStorageOnly != false {
+        if let ebsStorageOnly = self.ebsStorageOnly {
             try encodeContainer.encode(ebsStorageOnly, forKey: .ebsStorageOnly)
         }
         if let instanceFamilyId = self.instanceFamilyId {
             try encodeContainer.encode(instanceFamilyId, forKey: .instanceFamilyId)
         }
-        if is64BitsOnly != false {
+        if let is64BitsOnly = self.is64BitsOnly {
             try encodeContainer.encode(is64BitsOnly, forKey: .is64BitsOnly)
         }
-        if memoryGB != 0.0 {
+        if let memoryGB = self.memoryGB {
             try encodeContainer.encode(memoryGB, forKey: .memoryGB)
         }
         if let numberOfDisks = self.numberOfDisks {
@@ -16336,23 +16336,23 @@ extension EMRClientTypes.SupportedInstanceType: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
         type = typeDecoded
-        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB) ?? 0.0
+        let memoryGBDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .memoryGB)
         memoryGB = memoryGBDecoded
         let storageGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageGB)
         storageGB = storageGBDecoded
         let vcpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vcpu)
         vcpu = vcpuDecoded
-        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly) ?? false
+        let is64BitsOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .is64BitsOnly)
         is64BitsOnly = is64BitsOnlyDecoded
         let instanceFamilyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceFamilyId)
         instanceFamilyId = instanceFamilyIdDecoded
-        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable) ?? false
+        let ebsOptimizedAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedAvailable)
         ebsOptimizedAvailable = ebsOptimizedAvailableDecoded
-        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault) ?? false
+        let ebsOptimizedByDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimizedByDefault)
         ebsOptimizedByDefault = ebsOptimizedByDefaultDecoded
         let numberOfDisksDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfDisks)
         numberOfDisks = numberOfDisksDecoded
-        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly) ?? false
+        let ebsStorageOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsStorageOnly)
         ebsStorageOnly = ebsStorageOnlyDecoded
         let architectureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .architecture)
         architecture = architectureDecoded
@@ -16365,17 +16365,17 @@ extension EMRClientTypes {
         /// The CPU architecture, for example X86_64 or AARCH64.
         public var architecture: Swift.String?
         /// Indicates whether the SupportedInstanceType supports Amazon EBS optimization.
-        public var ebsOptimizedAvailable: Swift.Bool
+        public var ebsOptimizedAvailable: Swift.Bool?
         /// Indicates whether the SupportedInstanceType uses Amazon EBS optimization by default.
-        public var ebsOptimizedByDefault: Swift.Bool
+        public var ebsOptimizedByDefault: Swift.Bool?
         /// Indicates whether the SupportedInstanceType only supports Amazon EBS.
-        public var ebsStorageOnly: Swift.Bool
+        public var ebsStorageOnly: Swift.Bool?
         /// The Amazon EC2 family and generation for the SupportedInstanceType.
         public var instanceFamilyId: Swift.String?
         /// Indicates whether the SupportedInstanceType only supports 64-bit architecture.
-        public var is64BitsOnly: Swift.Bool
+        public var is64BitsOnly: Swift.Bool?
         /// The amount of memory that is available to Amazon EMR from the SupportedInstanceType. The kernel and hypervisor software consume some memory, so this value might be lower than the overall memory for the instance type.
-        public var memoryGB: Swift.Float
+        public var memoryGB: Swift.Float?
         /// Number of disks for the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
         public var numberOfDisks: Swift.Int?
         /// StorageGB represents the storage capacity of the SupportedInstanceType. This value is 0 for Amazon EBS-only instance types.
@@ -16387,12 +16387,12 @@ extension EMRClientTypes {
 
         public init(
             architecture: Swift.String? = nil,
-            ebsOptimizedAvailable: Swift.Bool = false,
-            ebsOptimizedByDefault: Swift.Bool = false,
-            ebsStorageOnly: Swift.Bool = false,
+            ebsOptimizedAvailable: Swift.Bool? = nil,
+            ebsOptimizedByDefault: Swift.Bool? = nil,
+            ebsStorageOnly: Swift.Bool? = nil,
             instanceFamilyId: Swift.String? = nil,
-            is64BitsOnly: Swift.Bool = false,
-            memoryGB: Swift.Float = 0.0,
+            is64BitsOnly: Swift.Bool? = nil,
+            memoryGB: Swift.Float? = nil,
             numberOfDisks: Swift.Int? = nil,
             storageGB: Swift.Int? = nil,
             type: Swift.String? = nil,

@@ -4021,7 +4021,7 @@ extension GetProgrammaticAccessCredentialsOutput: ClientRuntime.HttpResponseBind
             self.durationInMinutes = output.durationInMinutes
         } else {
             self.credentials = nil
-            self.durationInMinutes = 0
+            self.durationInMinutes = nil
         }
     }
 }
@@ -4031,11 +4031,11 @@ public struct GetProgrammaticAccessCredentialsOutput: Swift.Equatable {
     /// Returns the programmatic credentials.
     public var credentials: FinspacedataClientTypes.Credentials?
     /// Returns the duration in which the credentials will remain valid.
-    public var durationInMinutes: Swift.Int
+    public var durationInMinutes: Swift.Int?
 
     public init(
         credentials: FinspacedataClientTypes.Credentials? = nil,
-        durationInMinutes: Swift.Int = 0
+        durationInMinutes: Swift.Int? = nil
     )
     {
         self.credentials = credentials
@@ -4045,7 +4045,7 @@ public struct GetProgrammaticAccessCredentialsOutput: Swift.Equatable {
 
 struct GetProgrammaticAccessCredentialsOutputBody: Swift.Equatable {
     let credentials: FinspacedataClientTypes.Credentials?
-    let durationInMinutes: Swift.Int
+    let durationInMinutes: Swift.Int?
 }
 
 extension GetProgrammaticAccessCredentialsOutputBody: Swift.Decodable {
@@ -4058,7 +4058,7 @@ extension GetProgrammaticAccessCredentialsOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let credentialsDecoded = try containerValues.decodeIfPresent(FinspacedataClientTypes.Credentials.self, forKey: .credentials)
         credentials = credentialsDecoded
-        let durationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInMinutes) ?? 0
+        let durationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInMinutes)
         durationInMinutes = durationInMinutesDecoded
     }
 }

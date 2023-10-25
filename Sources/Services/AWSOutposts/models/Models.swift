@@ -2492,7 +2492,7 @@ extension OutpostsClientTypes.LineItem: Swift.Codable {
         if let previousOrderId = self.previousOrderId {
             try encodeContainer.encode(previousOrderId, forKey: .previousOrderId)
         }
-        if quantity != 0 {
+        if let quantity = self.quantity {
             try encodeContainer.encode(quantity, forKey: .quantity)
         }
         if let shipmentInformation = self.shipmentInformation {
@@ -2509,7 +2509,7 @@ extension OutpostsClientTypes.LineItem: Swift.Codable {
         catalogItemId = catalogItemIdDecoded
         let lineItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lineItemId)
         lineItemId = lineItemIdDecoded
-        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity) ?? 0
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
         quantity = quantityDecoded
         let statusDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.LineItemStatus.self, forKey: .status)
         status = statusDecoded
@@ -2547,7 +2547,7 @@ extension OutpostsClientTypes {
         /// The ID of the previous order.
         public var previousOrderId: Swift.String?
         /// The quantity of the line item.
-        public var quantity: Swift.Int
+        public var quantity: Swift.Int?
         /// Information about a line item shipment.
         public var shipmentInformation: OutpostsClientTypes.ShipmentInformation?
         /// The status of the line item.
@@ -2559,7 +2559,7 @@ extension OutpostsClientTypes {
             lineItemId: Swift.String? = nil,
             previousLineItemId: Swift.String? = nil,
             previousOrderId: Swift.String? = nil,
-            quantity: Swift.Int = 0,
+            quantity: Swift.Int? = nil,
             shipmentInformation: OutpostsClientTypes.ShipmentInformation? = nil,
             status: OutpostsClientTypes.LineItemStatus? = nil
         )
@@ -2645,7 +2645,7 @@ extension OutpostsClientTypes.LineItemRequest: Swift.Codable {
         if let catalogItemId = self.catalogItemId {
             try encodeContainer.encode(catalogItemId, forKey: .catalogItemId)
         }
-        if quantity != 0 {
+        if let quantity = self.quantity {
             try encodeContainer.encode(quantity, forKey: .quantity)
         }
     }
@@ -2654,7 +2654,7 @@ extension OutpostsClientTypes.LineItemRequest: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let catalogItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogItemId)
         catalogItemId = catalogItemIdDecoded
-        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity) ?? 0
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
         quantity = quantityDecoded
     }
 }
@@ -2665,11 +2665,11 @@ extension OutpostsClientTypes {
         /// The ID of the catalog item.
         public var catalogItemId: Swift.String?
         /// The quantity of a line item request.
-        public var quantity: Swift.Int
+        public var quantity: Swift.Int?
 
         public init(
             catalogItemId: Swift.String? = nil,
-            quantity: Swift.Int = 0
+            quantity: Swift.Int? = nil
         )
         {
             self.catalogItemId = catalogItemId

@@ -3531,14 +3531,14 @@ extension HoneycodeClientTypes.SourceDataColumnProperties: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if columnIndex != 0 {
+        if let columnIndex = self.columnIndex {
             try encodeContainer.encode(columnIndex, forKey: .columnIndex)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let columnIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .columnIndex) ?? 0
+        let columnIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .columnIndex)
         columnIndex = columnIndexDecoded
     }
 }
@@ -3547,10 +3547,10 @@ extension HoneycodeClientTypes {
     /// An object that contains the properties for importing data to a specific column in a table.
     public struct SourceDataColumnProperties: Swift.Equatable {
         /// The index of the column in the input file.
-        public var columnIndex: Swift.Int
+        public var columnIndex: Swift.Int?
 
         public init(
-            columnIndex: Swift.Int = 0
+            columnIndex: Swift.Int? = nil
         )
         {
             self.columnIndex = columnIndex

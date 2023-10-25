@@ -726,7 +726,7 @@ extension AssociateDataShareConsumerOutput: ClientRuntime.HttpResponseBinding {
             self.managedBy = output.managedBy
             self.producerArn = output.producerArn
         } else {
-            self.allowPubliclyAccessibleConsumers = false
+            self.allowPubliclyAccessibleConsumers = nil
             self.dataShareArn = nil
             self.dataShareAssociations = nil
             self.managedBy = nil
@@ -737,7 +737,7 @@ extension AssociateDataShareConsumerOutput: ClientRuntime.HttpResponseBinding {
 
 public struct AssociateDataShareConsumerOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
-    public var allowPubliclyAccessibleConsumers: Swift.Bool
+    public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
@@ -748,7 +748,7 @@ public struct AssociateDataShareConsumerOutput: Swift.Equatable {
     public var producerArn: Swift.String?
 
     public init(
-        allowPubliclyAccessibleConsumers: Swift.Bool = false,
+        allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
         managedBy: Swift.String? = nil,
@@ -766,7 +766,7 @@ public struct AssociateDataShareConsumerOutput: Swift.Equatable {
 struct AssociateDataShareConsumerOutputBody: Swift.Equatable {
     let dataShareArn: Swift.String?
     let producerArn: Swift.String?
-    let allowPubliclyAccessibleConsumers: Swift.Bool
+    let allowPubliclyAccessibleConsumers: Swift.Bool?
     let dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     let managedBy: Swift.String?
 }
@@ -787,7 +787,7 @@ extension AssociateDataShareConsumerOutputBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -1544,7 +1544,7 @@ extension AuthorizeDataShareOutput: ClientRuntime.HttpResponseBinding {
             self.managedBy = output.managedBy
             self.producerArn = output.producerArn
         } else {
-            self.allowPubliclyAccessibleConsumers = false
+            self.allowPubliclyAccessibleConsumers = nil
             self.dataShareArn = nil
             self.dataShareAssociations = nil
             self.managedBy = nil
@@ -1555,7 +1555,7 @@ extension AuthorizeDataShareOutput: ClientRuntime.HttpResponseBinding {
 
 public struct AuthorizeDataShareOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
-    public var allowPubliclyAccessibleConsumers: Swift.Bool
+    public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
@@ -1566,7 +1566,7 @@ public struct AuthorizeDataShareOutput: Swift.Equatable {
     public var producerArn: Swift.String?
 
     public init(
-        allowPubliclyAccessibleConsumers: Swift.Bool = false,
+        allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
         managedBy: Swift.String? = nil,
@@ -1584,7 +1584,7 @@ public struct AuthorizeDataShareOutput: Swift.Equatable {
 struct AuthorizeDataShareOutputBody: Swift.Equatable {
     let dataShareArn: Swift.String?
     let producerArn: Swift.String?
-    let allowPubliclyAccessibleConsumers: Swift.Bool
+    let allowPubliclyAccessibleConsumers: Swift.Bool?
     let dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     let managedBy: Swift.String?
 }
@@ -1605,7 +1605,7 @@ extension AuthorizeDataShareOutputBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -1750,12 +1750,12 @@ extension AuthorizeEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
             self.grantor = output.grantor
             self.status = output.status
         } else {
-            self.allowedAllVPCs = false
+            self.allowedAllVPCs = nil
             self.allowedVPCs = nil
             self.authorizeTime = nil
             self.clusterIdentifier = nil
             self.clusterStatus = nil
-            self.endpointCount = 0
+            self.endpointCount = nil
             self.grantee = nil
             self.grantor = nil
             self.status = nil
@@ -1766,7 +1766,7 @@ extension AuthorizeEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
 /// Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
 public struct AuthorizeEndpointAccessOutput: Swift.Equatable {
     /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
-    public var allowedAllVPCs: Swift.Bool
+    public var allowedAllVPCs: Swift.Bool?
     /// The VPCs allowed access to the cluster.
     public var allowedVPCs: [Swift.String]?
     /// The time (UTC) when the authorization was created.
@@ -1776,7 +1776,7 @@ public struct AuthorizeEndpointAccessOutput: Swift.Equatable {
     /// The status of the cluster.
     public var clusterStatus: Swift.String?
     /// The number of Redshift-managed VPC endpoints created for the authorization.
-    public var endpointCount: Swift.Int
+    public var endpointCount: Swift.Int?
     /// The Amazon Web Services account ID of the grantee of the cluster.
     public var grantee: Swift.String?
     /// The Amazon Web Services account ID of the cluster owner.
@@ -1785,12 +1785,12 @@ public struct AuthorizeEndpointAccessOutput: Swift.Equatable {
     public var status: RedshiftClientTypes.AuthorizationStatus?
 
     public init(
-        allowedAllVPCs: Swift.Bool = false,
+        allowedAllVPCs: Swift.Bool? = nil,
         allowedVPCs: [Swift.String]? = nil,
         authorizeTime: ClientRuntime.Date? = nil,
         clusterIdentifier: Swift.String? = nil,
         clusterStatus: Swift.String? = nil,
-        endpointCount: Swift.Int = 0,
+        endpointCount: Swift.Int? = nil,
         grantee: Swift.String? = nil,
         grantor: Swift.String? = nil,
         status: RedshiftClientTypes.AuthorizationStatus? = nil
@@ -1815,9 +1815,9 @@ struct AuthorizeEndpointAccessOutputBody: Swift.Equatable {
     let authorizeTime: ClientRuntime.Date?
     let clusterStatus: Swift.String?
     let status: RedshiftClientTypes.AuthorizationStatus?
-    let allowedAllVPCs: Swift.Bool
+    let allowedAllVPCs: Swift.Bool?
     let allowedVPCs: [Swift.String]?
-    let endpointCount: Swift.Int
+    let endpointCount: Swift.Int?
 }
 
 extension AuthorizeEndpointAccessOutputBody: Swift.Decodable {
@@ -1848,7 +1848,7 @@ extension AuthorizeEndpointAccessOutputBody: Swift.Decodable {
         clusterStatus = clusterStatusDecoded
         let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.AuthorizationStatus.self, forKey: .status)
         status = statusDecoded
-        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs) ?? false
+        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs)
         allowedAllVPCs = allowedAllVPCsDecoded
         if containerValues.contains(.allowedVPCs) {
             struct KeyVal0{struct VpcIdentifier{}}
@@ -1869,7 +1869,7 @@ extension AuthorizeEndpointAccessOutputBody: Swift.Decodable {
         } else {
             allowedVPCs = nil
         }
-        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount) ?? 0
+        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount)
         endpointCount = endpointCountDecoded
     }
 }
@@ -2407,7 +2407,7 @@ extension BatchModifyClusterSnapshotsInputBody: Swift.Decodable {
         }
         let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -3002,6 +3002,8 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         case kmsKeyId = "KmsKeyId"
         case maintenanceTrackName = "MaintenanceTrackName"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+        case masterPasswordSecretArn = "MasterPasswordSecretArn"
+        case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case modifyStatus = "ModifyStatus"
         case nextMaintenanceWindowStartTime = "NextMaintenanceWindowStartTime"
@@ -3024,13 +3026,13 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowVersionUpgrade != false {
+        if let allowVersionUpgrade = allowVersionUpgrade {
             try container.encode(allowVersionUpgrade, forKey: ClientRuntime.Key("AllowVersionUpgrade"))
         }
         if let aquaConfiguration = aquaConfiguration {
             try container.encode(aquaConfiguration, forKey: ClientRuntime.Key("AquaConfiguration"))
         }
-        if automatedSnapshotRetentionPeriod != 0 {
+        if let automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod {
             try container.encode(automatedSnapshotRetentionPeriod, forKey: ClientRuntime.Key("AutomatedSnapshotRetentionPeriod"))
         }
         if let availabilityZone = availabilityZone {
@@ -3141,13 +3143,13 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         if let elasticResizeNumberOfNodeOptions = elasticResizeNumberOfNodeOptions {
             try container.encode(elasticResizeNumberOfNodeOptions, forKey: ClientRuntime.Key("ElasticResizeNumberOfNodeOptions"))
         }
-        if encrypted != false {
+        if let encrypted = encrypted {
             try container.encode(encrypted, forKey: ClientRuntime.Key("Encrypted"))
         }
         if let endpoint = endpoint {
             try container.encode(endpoint, forKey: ClientRuntime.Key("Endpoint"))
         }
-        if enhancedVpcRouting != false {
+        if let enhancedVpcRouting = enhancedVpcRouting {
             try container.encode(enhancedVpcRouting, forKey: ClientRuntime.Key("EnhancedVpcRouting"))
         }
         if let expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime {
@@ -3177,8 +3179,14 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         if let maintenanceTrackName = maintenanceTrackName {
             try container.encode(maintenanceTrackName, forKey: ClientRuntime.Key("MaintenanceTrackName"))
         }
-        if manualSnapshotRetentionPeriod != 0 {
+        if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
             try container.encode(manualSnapshotRetentionPeriod, forKey: ClientRuntime.Key("ManualSnapshotRetentionPeriod"))
+        }
+        if let masterPasswordSecretArn = masterPasswordSecretArn {
+            try container.encode(masterPasswordSecretArn, forKey: ClientRuntime.Key("MasterPasswordSecretArn"))
+        }
+        if let masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId {
+            try container.encode(masterPasswordSecretKmsKeyId, forKey: ClientRuntime.Key("MasterPasswordSecretKmsKeyId"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -3192,7 +3200,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
         }
-        if numberOfNodes != 0 {
+        if let numberOfNodes = numberOfNodes {
             try container.encode(numberOfNodes, forKey: ClientRuntime.Key("NumberOfNodes"))
         }
         if let pendingActions = pendingActions {
@@ -3213,7 +3221,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         if let preferredMaintenanceWindow = preferredMaintenanceWindow {
             try container.encode(preferredMaintenanceWindow, forKey: ClientRuntime.Key("PreferredMaintenanceWindow"))
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let reservedNodeExchangeStatus = reservedNodeExchangeStatus {
@@ -3283,9 +3291,9 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         endpoint = endpointDecoded
         let clusterCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .clusterCreateTime)
         clusterCreateTime = clusterCreateTimeDecoded
-        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod) ?? 0
+        let automatedSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .automatedSnapshotRetentionPeriod)
         automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriodDecoded
-        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod) ?? 0
+        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
         if containerValues.contains(.clusterSecurityGroups) {
             struct KeyVal0{struct ClusterSecurityGroup{}}
@@ -3356,13 +3364,13 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let clusterVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterVersion)
         clusterVersion = clusterVersionDecoded
-        let allowVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowVersionUpgrade) ?? false
+        let allowVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowVersionUpgrade)
         allowVersionUpgrade = allowVersionUpgradeDecoded
-        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes)
         numberOfNodes = numberOfNodesDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
         let restoreStatusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.RestoreStatus.self, forKey: .restoreStatus)
         restoreStatus = restoreStatusDecoded
@@ -3418,7 +3426,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         }
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting) ?? false
+        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting)
         enhancedVpcRouting = enhancedVpcRoutingDecoded
         if containerValues.contains(.iamRoles) {
             struct KeyVal0{struct ClusterIamRole{}}
@@ -3511,6 +3519,10 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         customDomainCertificateArn = customDomainCertificateArnDecoded
         let customDomainCertificateExpiryDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .customDomainCertificateExpiryDate)
         customDomainCertificateExpiryDate = customDomainCertificateExpiryDateDecoded
+        let masterPasswordSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretArn)
+        masterPasswordSecretArn = masterPasswordSecretArnDecoded
+        let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
+        masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -3518,11 +3530,11 @@ extension RedshiftClientTypes {
     /// Describes a cluster.
     public struct Cluster: Swift.Equatable {
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window.
-        public var allowVersionUpgrade: Swift.Bool
+        public var allowVersionUpgrade: Swift.Bool?
         /// This field is retired. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public var aquaConfiguration: RedshiftClientTypes.AquaConfiguration?
         /// The number of days that automatic cluster snapshots are retained.
-        public var automatedSnapshotRetentionPeriod: Swift.Int
+        public var automatedSnapshotRetentionPeriod: Swift.Int?
         /// The name of the Availability Zone in which the cluster is located.
         public var availabilityZone: Swift.String?
         /// Describes the status of the Availability Zone relocation operation.
@@ -3622,11 +3634,11 @@ extension RedshiftClientTypes {
         /// The number of nodes that you can resize the cluster to with the elastic resize method.
         public var elasticResizeNumberOfNodeOptions: Swift.String?
         /// A boolean value that, if true, indicates that data in the cluster is encrypted at rest.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// The connection endpoint.
         public var endpoint: RedshiftClientTypes.Endpoint?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
-        public var enhancedVpcRouting: Swift.Bool
+        public var enhancedVpcRouting: Swift.Bool?
         /// The date and time when the next snapshot is expected to be taken for clusters with a valid snapshot schedule and backups enabled.
         public var expectedNextSnapshotScheduleTime: ClientRuntime.Date?
         /// The status of next expected snapshot for clusters having a valid snapshot schedule and backups enabled. Possible values are the following:
@@ -3644,7 +3656,11 @@ extension RedshiftClientTypes {
         /// The name of the maintenance track for the cluster.
         public var maintenanceTrackName: Swift.String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
-        public var manualSnapshotRetentionPeriod: Swift.Int
+        public var manualSnapshotRetentionPeriod: Swift.Int?
+        /// The Amazon Resource Name (ARN) for the cluster's admin user credentials secret.
+        public var masterPasswordSecretArn: Swift.String?
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret.
+        public var masterPasswordSecretKmsKeyId: Swift.String?
         /// The admin user name for the cluster. This name is used to connect to the database that is specified in the DBName parameter.
         public var masterUsername: Swift.String?
         /// The status of a modify operation, if any, initiated for the cluster.
@@ -3654,7 +3670,7 @@ extension RedshiftClientTypes {
         /// The node type for the nodes in the cluster.
         public var nodeType: Swift.String?
         /// The number of compute nodes in the cluster.
-        public var numberOfNodes: Swift.Int
+        public var numberOfNodes: Swift.Int?
         /// Cluster operations that are waiting to be started.
         public var pendingActions: [Swift.String]?
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
@@ -3662,7 +3678,7 @@ extension RedshiftClientTypes {
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur.
         public var preferredMaintenanceWindow: Swift.String?
         /// A boolean value that, if true, indicates that the cluster can be accessed from a public network.
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
         public var reservedNodeExchangeStatus: RedshiftClientTypes.ReservedNodeExchangeStatus?
         /// Returns the following:
@@ -3687,9 +3703,9 @@ extension RedshiftClientTypes {
         public var vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]?
 
         public init(
-            allowVersionUpgrade: Swift.Bool = false,
+            allowVersionUpgrade: Swift.Bool? = nil,
             aquaConfiguration: RedshiftClientTypes.AquaConfiguration? = nil,
-            automatedSnapshotRetentionPeriod: Swift.Int = 0,
+            automatedSnapshotRetentionPeriod: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             availabilityZoneRelocationStatus: Swift.String? = nil,
             clusterAvailabilityStatus: Swift.String? = nil,
@@ -3714,25 +3730,27 @@ extension RedshiftClientTypes {
             deferredMaintenanceWindows: [RedshiftClientTypes.DeferredMaintenanceWindow]? = nil,
             elasticIpStatus: RedshiftClientTypes.ElasticIpStatus? = nil,
             elasticResizeNumberOfNodeOptions: Swift.String? = nil,
-            encrypted: Swift.Bool = false,
+            encrypted: Swift.Bool? = nil,
             endpoint: RedshiftClientTypes.Endpoint? = nil,
-            enhancedVpcRouting: Swift.Bool = false,
+            enhancedVpcRouting: Swift.Bool? = nil,
             expectedNextSnapshotScheduleTime: ClientRuntime.Date? = nil,
             expectedNextSnapshotScheduleTimeStatus: Swift.String? = nil,
             hsmStatus: RedshiftClientTypes.HsmStatus? = nil,
             iamRoles: [RedshiftClientTypes.ClusterIamRole]? = nil,
             kmsKeyId: Swift.String? = nil,
             maintenanceTrackName: Swift.String? = nil,
-            manualSnapshotRetentionPeriod: Swift.Int = 0,
+            manualSnapshotRetentionPeriod: Swift.Int? = nil,
+            masterPasswordSecretArn: Swift.String? = nil,
+            masterPasswordSecretKmsKeyId: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             modifyStatus: Swift.String? = nil,
             nextMaintenanceWindowStartTime: ClientRuntime.Date? = nil,
             nodeType: Swift.String? = nil,
-            numberOfNodes: Swift.Int = 0,
+            numberOfNodes: Swift.Int? = nil,
             pendingActions: [Swift.String]? = nil,
             pendingModifiedValues: RedshiftClientTypes.PendingModifiedValues? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             reservedNodeExchangeStatus: RedshiftClientTypes.ReservedNodeExchangeStatus? = nil,
             resizeInfo: RedshiftClientTypes.ResizeInfo? = nil,
             restoreStatus: RedshiftClientTypes.RestoreStatus? = nil,
@@ -3781,6 +3799,8 @@ extension RedshiftClientTypes {
             self.kmsKeyId = kmsKeyId
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+            self.masterPasswordSecretArn = masterPasswordSecretArn
+            self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
             self.masterUsername = masterUsername
             self.modifyStatus = modifyStatus
             self.nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTime
@@ -5092,10 +5112,10 @@ extension RedshiftClientTypes.ClusterSnapshotCopyStatus: Swift.Codable {
         if let destinationRegion = destinationRegion {
             try container.encode(destinationRegion, forKey: ClientRuntime.Key("DestinationRegion"))
         }
-        if manualSnapshotRetentionPeriod != 0 {
+        if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
             try container.encode(manualSnapshotRetentionPeriod, forKey: ClientRuntime.Key("ManualSnapshotRetentionPeriod"))
         }
-        if retentionPeriod != 0 {
+        if let retentionPeriod = retentionPeriod {
             try container.encode(retentionPeriod, forKey: ClientRuntime.Key("RetentionPeriod"))
         }
         if let snapshotCopyGrantName = snapshotCopyGrantName {
@@ -5107,9 +5127,9 @@ extension RedshiftClientTypes.ClusterSnapshotCopyStatus: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationRegion)
         destinationRegion = destinationRegionDecoded
-        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod) ?? 0
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod)
         retentionPeriod = retentionPeriodDecoded
-        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod) ?? 0
+        let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
         let snapshotCopyGrantNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotCopyGrantName)
         snapshotCopyGrantName = snapshotCopyGrantNameDecoded
@@ -5122,16 +5142,16 @@ extension RedshiftClientTypes {
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public var destinationRegion: Swift.String?
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653.
-        public var manualSnapshotRetentionPeriod: Swift.Int
+        public var manualSnapshotRetentionPeriod: Swift.Int?
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region.
-        public var retentionPeriod: Swift.Int
+        public var retentionPeriod: Swift.Int?
         /// The name of the snapshot copy grant.
         public var snapshotCopyGrantName: Swift.String?
 
         public init(
             destinationRegion: Swift.String? = nil,
-            manualSnapshotRetentionPeriod: Swift.Int = 0,
-            retentionPeriod: Swift.Int = 0,
+            manualSnapshotRetentionPeriod: Swift.Int? = nil,
+            retentionPeriod: Swift.Int? = nil,
             snapshotCopyGrantName: Swift.String? = nil
         )
         {
@@ -5985,6 +6005,11 @@ enum CreateAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension CreateClusterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6075,8 +6100,14 @@ extension CreateClusterInput: Swift.Encodable {
         if let maintenanceTrackName = maintenanceTrackName {
             try container.encode(maintenanceTrackName, forKey: ClientRuntime.Key("MaintenanceTrackName"))
         }
+        if let manageMasterPassword = manageMasterPassword {
+            try container.encode(manageMasterPassword, forKey: ClientRuntime.Key("ManageMasterPassword"))
+        }
         if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
             try container.encode(manualSnapshotRetentionPeriod, forKey: ClientRuntime.Key("ManualSnapshotRetentionPeriod"))
+        }
+        if let masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId {
+            try container.encode(masterPasswordSecretKmsKeyId, forKey: ClientRuntime.Key("MasterPasswordSecretKmsKeyId"))
         }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
@@ -6218,9 +6249,13 @@ public struct CreateClusterInput: Swift.Equatable {
     public var loadSampleData: Swift.String?
     /// An optional parameter for the name of the maintenance track for the cluster. If you don't provide a maintenance track name, the cluster is assigned to the current track.
     public var maintenanceTrackName: Swift.String?
+    /// If true, Amazon Redshift uses Secrets Manager to manage this cluster's admin credentials. You can't use MasterUserPassword if ManageMasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    public var manageMasterPassword: Swift.Bool?
     /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The password associated with the admin user account for the cluster that is being created. Constraints:
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true.
+    public var masterPasswordSecretKmsKeyId: Swift.String?
+    /// The password associated with the admin user account for the cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is true. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -6231,7 +6266,6 @@ public struct CreateClusterInput: Swift.Equatable {
     /// * Must contain one number.
     ///
     /// * Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
-    /// This member is required.
     public var masterUserPassword: Swift.String?
     /// The user name associated with the admin user account for the cluster that is being created. Constraints:
     ///
@@ -6288,7 +6322,9 @@ public struct CreateClusterInput: Swift.Equatable {
         kmsKeyId: Swift.String? = nil,
         loadSampleData: Swift.String? = nil,
         maintenanceTrackName: Swift.String? = nil,
+        manageMasterPassword: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
+        masterPasswordSecretKmsKeyId: Swift.String? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         nodeType: Swift.String? = nil,
@@ -6324,7 +6360,9 @@ public struct CreateClusterInput: Swift.Equatable {
         self.kmsKeyId = kmsKeyId
         self.loadSampleData = loadSampleData
         self.maintenanceTrackName = maintenanceTrackName
+        self.manageMasterPassword = manageMasterPassword
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+        self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
         self.masterUserPassword = masterUserPassword
         self.masterUsername = masterUsername
         self.nodeType = nodeType
@@ -6373,6 +6411,8 @@ struct CreateClusterInputBody: Swift.Equatable {
     let aquaConfigurationStatus: RedshiftClientTypes.AquaConfigurationStatus?
     let defaultIamRoleArn: Swift.String?
     let loadSampleData: Swift.String?
+    let manageMasterPassword: Swift.Bool?
+    let masterPasswordSecretKmsKeyId: Swift.String?
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
@@ -6400,7 +6440,9 @@ extension CreateClusterInputBody: Swift.Decodable {
         case kmsKeyId = "KmsKeyId"
         case loadSampleData = "LoadSampleData"
         case maintenanceTrackName = "MaintenanceTrackName"
+        case manageMasterPassword = "ManageMasterPassword"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+        case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUserPassword = "MasterUserPassword"
         case masterUsername = "MasterUsername"
         case nodeType = "NodeType"
@@ -6551,6 +6593,10 @@ extension CreateClusterInputBody: Swift.Decodable {
         defaultIamRoleArn = defaultIamRoleArnDecoded
         let loadSampleDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadSampleData)
         loadSampleData = loadSampleDataDecoded
+        let manageMasterPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterPassword)
+        manageMasterPassword = manageMasterPasswordDecoded
+        let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
+        masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -7625,7 +7671,7 @@ extension CreateEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
             self.endpointCreateTime = nil
             self.endpointName = nil
             self.endpointStatus = nil
-            self.port = 0
+            self.port = nil
             self.resourceOwner = nil
             self.subnetGroupName = nil
             self.vpcEndpoint = nil
@@ -7647,7 +7693,7 @@ public struct CreateEndpointAccessOutput: Swift.Equatable {
     /// The status of the endpoint.
     public var endpointStatus: Swift.String?
     /// The port number on which the cluster accepts incoming connections.
-    public var port: Swift.Int
+    public var port: Swift.Int?
     /// The Amazon Web Services account ID of the owner of the cluster.
     public var resourceOwner: Swift.String?
     /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
@@ -7663,7 +7709,7 @@ public struct CreateEndpointAccessOutput: Swift.Equatable {
         endpointCreateTime: ClientRuntime.Date? = nil,
         endpointName: Swift.String? = nil,
         endpointStatus: Swift.String? = nil,
-        port: Swift.Int = 0,
+        port: Swift.Int? = nil,
         resourceOwner: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
@@ -7690,7 +7736,7 @@ struct CreateEndpointAccessOutputBody: Swift.Equatable {
     let endpointStatus: Swift.String?
     let endpointName: Swift.String?
     let endpointCreateTime: ClientRuntime.Date?
-    let port: Swift.Int
+    let port: Swift.Int?
     let address: Swift.String?
     let vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]?
     let vpcEndpoint: RedshiftClientTypes.VpcEndpoint?
@@ -7725,7 +7771,7 @@ extension CreateEndpointAccessOutputBody: Swift.Decodable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -9379,7 +9425,7 @@ extension CreateUsageLimitInputBody: Swift.Decodable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount)
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -9421,7 +9467,7 @@ extension CreateUsageLimitOutput: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
             self.usageLimitId = output.usageLimitId
         } else {
-            self.amount = 0
+            self.amount = nil
             self.breachAction = nil
             self.clusterIdentifier = nil
             self.featureType = nil
@@ -9436,7 +9482,7 @@ extension CreateUsageLimitOutput: ClientRuntime.HttpResponseBinding {
 /// Describes a usage limit object for a cluster.
 public struct CreateUsageLimitOutput: Swift.Equatable {
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
-    public var amount: Swift.Int
+    public var amount: Swift.Int?
     /// The action that Amazon Redshift takes when the limit is reached. Possible values are:
     ///
     /// * log - To log an event in a system table. The default is log.
@@ -9459,7 +9505,7 @@ public struct CreateUsageLimitOutput: Swift.Equatable {
     public var usageLimitId: Swift.String?
 
     public init(
-        amount: Swift.Int = 0,
+        amount: Swift.Int? = nil,
         breachAction: RedshiftClientTypes.UsageLimitBreachAction? = nil,
         clusterIdentifier: Swift.String? = nil,
         featureType: RedshiftClientTypes.UsageLimitFeatureType? = nil,
@@ -9485,7 +9531,7 @@ struct CreateUsageLimitOutputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
     let featureType: RedshiftClientTypes.UsageLimitFeatureType?
     let limitType: RedshiftClientTypes.UsageLimitLimitType?
-    let amount: Swift.Int
+    let amount: Swift.Int?
     let period: RedshiftClientTypes.UsageLimitPeriod?
     let breachAction: RedshiftClientTypes.UsageLimitBreachAction?
     let tags: [RedshiftClientTypes.Tag]?
@@ -9514,7 +9560,7 @@ extension CreateUsageLimitOutputBody: Swift.Decodable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount)
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -9677,7 +9723,7 @@ extension RedshiftClientTypes.DataShare: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowPubliclyAccessibleConsumers != false {
+        if let allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers {
             try container.encode(allowPubliclyAccessibleConsumers, forKey: ClientRuntime.Key("AllowPubliclyAccessibleConsumers"))
         }
         if let dataShareArn = dataShareArn {
@@ -9709,7 +9755,7 @@ extension RedshiftClientTypes.DataShare: Swift.Codable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -9738,7 +9784,7 @@ extension RedshiftClientTypes.DataShare: Swift.Codable {
 extension RedshiftClientTypes {
     public struct DataShare: Swift.Equatable {
         /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
-        public var allowPubliclyAccessibleConsumers: Swift.Bool
+        public var allowPubliclyAccessibleConsumers: Swift.Bool?
         /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
         public var dataShareArn: Swift.String?
         /// A value that specifies when the datashare has an association between producer and data consumers.
@@ -9749,7 +9795,7 @@ extension RedshiftClientTypes {
         public var producerArn: Swift.String?
 
         public init(
-            allowPubliclyAccessibleConsumers: Swift.Bool = false,
+            allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
             dataShareArn: Swift.String? = nil,
             dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
             managedBy: Swift.String? = nil,
@@ -9973,7 +10019,7 @@ extension RedshiftClientTypes.DataTransferProgress: Swift.Codable {
         if let currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecond {
             try container.encode(currentRateInMegaBytesPerSecond, forKey: ClientRuntime.Key("CurrentRateInMegaBytesPerSecond"))
         }
-        if dataTransferredInMegaBytes != 0 {
+        if let dataTransferredInMegaBytes = dataTransferredInMegaBytes {
             try container.encode(dataTransferredInMegaBytes, forKey: ClientRuntime.Key("DataTransferredInMegaBytes"))
         }
         if let elapsedTimeInSeconds = elapsedTimeInSeconds {
@@ -9985,7 +10031,7 @@ extension RedshiftClientTypes.DataTransferProgress: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if totalDataInMegaBytes != 0 {
+        if let totalDataInMegaBytes = totalDataInMegaBytes {
             try container.encode(totalDataInMegaBytes, forKey: ClientRuntime.Key("TotalDataInMegaBytes"))
         }
     }
@@ -9996,9 +10042,9 @@ extension RedshiftClientTypes.DataTransferProgress: Swift.Codable {
         status = statusDecoded
         let currentRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRateInMegaBytesPerSecond)
         currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecondDecoded
-        let totalDataInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDataInMegaBytes) ?? 0
+        let totalDataInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalDataInMegaBytes)
         totalDataInMegaBytes = totalDataInMegaBytesDecoded
-        let dataTransferredInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dataTransferredInMegaBytes) ?? 0
+        let dataTransferredInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dataTransferredInMegaBytes)
         dataTransferredInMegaBytes = dataTransferredInMegaBytesDecoded
         let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds)
         estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSecondsDecoded
@@ -10013,7 +10059,7 @@ extension RedshiftClientTypes {
         /// Describes the data transfer rate in MB's per second.
         public var currentRateInMegaBytesPerSecond: Swift.Double?
         /// Describes the total amount of data that has been transfered in MB's.
-        public var dataTransferredInMegaBytes: Swift.Int
+        public var dataTransferredInMegaBytes: Swift.Int?
         /// Describes the number of seconds that have elapsed during the data transfer.
         public var elapsedTimeInSeconds: Swift.Int?
         /// Describes the estimated number of seconds remaining to complete the transfer.
@@ -10021,15 +10067,15 @@ extension RedshiftClientTypes {
         /// Describes the status of the cluster. While the transfer is in progress the status is transferringdata.
         public var status: Swift.String?
         /// Describes the total amount of data to be transfered in megabytes.
-        public var totalDataInMegaBytes: Swift.Int
+        public var totalDataInMegaBytes: Swift.Int?
 
         public init(
             currentRateInMegaBytesPerSecond: Swift.Double? = nil,
-            dataTransferredInMegaBytes: Swift.Int = 0,
+            dataTransferredInMegaBytes: Swift.Int? = nil,
             elapsedTimeInSeconds: Swift.Int? = nil,
             estimatedTimeToCompletionInSeconds: Swift.Int? = nil,
             status: Swift.String? = nil,
-            totalDataInMegaBytes: Swift.Int = 0
+            totalDataInMegaBytes: Swift.Int? = nil
         )
         {
             self.currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecond
@@ -10112,7 +10158,7 @@ extension DeauthorizeDataShareOutput: ClientRuntime.HttpResponseBinding {
             self.managedBy = output.managedBy
             self.producerArn = output.producerArn
         } else {
-            self.allowPubliclyAccessibleConsumers = false
+            self.allowPubliclyAccessibleConsumers = nil
             self.dataShareArn = nil
             self.dataShareAssociations = nil
             self.managedBy = nil
@@ -10123,7 +10169,7 @@ extension DeauthorizeDataShareOutput: ClientRuntime.HttpResponseBinding {
 
 public struct DeauthorizeDataShareOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
-    public var allowPubliclyAccessibleConsumers: Swift.Bool
+    public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
@@ -10134,7 +10180,7 @@ public struct DeauthorizeDataShareOutput: Swift.Equatable {
     public var producerArn: Swift.String?
 
     public init(
-        allowPubliclyAccessibleConsumers: Swift.Bool = false,
+        allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
         managedBy: Swift.String? = nil,
@@ -10152,7 +10198,7 @@ public struct DeauthorizeDataShareOutput: Swift.Equatable {
 struct DeauthorizeDataShareOutputBody: Swift.Equatable {
     let dataShareArn: Swift.String?
     let producerArn: Swift.String?
-    let allowPubliclyAccessibleConsumers: Swift.Bool
+    let allowPubliclyAccessibleConsumers: Swift.Bool?
     let dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     let managedBy: Swift.String?
 }
@@ -10173,7 +10219,7 @@ extension DeauthorizeDataShareOutputBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -10528,7 +10574,7 @@ extension DeleteClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
         clusterIdentifier = clusterIdentifierDecoded
-        let skipFinalClusterSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalClusterSnapshot) ?? false
+        let skipFinalClusterSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalClusterSnapshot)
         skipFinalClusterSnapshot = skipFinalClusterSnapshotDecoded
         let finalClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalClusterSnapshotIdentifier)
         finalClusterSnapshotIdentifier = finalClusterSnapshotIdentifierDecoded
@@ -11092,7 +11138,7 @@ extension DeleteEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
             self.endpointCreateTime = nil
             self.endpointName = nil
             self.endpointStatus = nil
-            self.port = 0
+            self.port = nil
             self.resourceOwner = nil
             self.subnetGroupName = nil
             self.vpcEndpoint = nil
@@ -11114,7 +11160,7 @@ public struct DeleteEndpointAccessOutput: Swift.Equatable {
     /// The status of the endpoint.
     public var endpointStatus: Swift.String?
     /// The port number on which the cluster accepts incoming connections.
-    public var port: Swift.Int
+    public var port: Swift.Int?
     /// The Amazon Web Services account ID of the owner of the cluster.
     public var resourceOwner: Swift.String?
     /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
@@ -11130,7 +11176,7 @@ public struct DeleteEndpointAccessOutput: Swift.Equatable {
         endpointCreateTime: ClientRuntime.Date? = nil,
         endpointName: Swift.String? = nil,
         endpointStatus: Swift.String? = nil,
-        port: Swift.Int = 0,
+        port: Swift.Int? = nil,
         resourceOwner: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
@@ -11157,7 +11203,7 @@ struct DeleteEndpointAccessOutputBody: Swift.Equatable {
     let endpointStatus: Swift.String?
     let endpointName: Swift.String?
     let endpointCreateTime: ClientRuntime.Date?
-    let port: Swift.Int
+    let port: Swift.Int?
     let address: Swift.String?
     let vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]?
     let vpcEndpoint: RedshiftClientTypes.VpcEndpoint?
@@ -11192,7 +11238,7 @@ extension DeleteEndpointAccessOutputBody: Swift.Decodable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -16300,7 +16346,7 @@ extension DescribeLoggingStatusOutput: ClientRuntime.HttpResponseBinding {
             self.lastSuccessfulDeliveryTime = nil
             self.logDestinationType = nil
             self.logExports = nil
-            self.loggingEnabled = false
+            self.loggingEnabled = nil
             self.s3KeyPrefix = nil
         }
     }
@@ -16321,7 +16367,7 @@ public struct DescribeLoggingStatusOutput: Swift.Equatable {
     /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
-    public var loggingEnabled: Swift.Bool
+    public var loggingEnabled: Swift.Bool?
     /// The prefix applied to the log file names.
     public var s3KeyPrefix: Swift.String?
 
@@ -16332,7 +16378,7 @@ public struct DescribeLoggingStatusOutput: Swift.Equatable {
         lastSuccessfulDeliveryTime: ClientRuntime.Date? = nil,
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
-        loggingEnabled: Swift.Bool = false,
+        loggingEnabled: Swift.Bool? = nil,
         s3KeyPrefix: Swift.String? = nil
     )
     {
@@ -16348,7 +16394,7 @@ public struct DescribeLoggingStatusOutput: Swift.Equatable {
 }
 
 struct DescribeLoggingStatusOutputBody: Swift.Equatable {
-    let loggingEnabled: Swift.Bool
+    let loggingEnabled: Swift.Bool?
     let bucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
     let lastSuccessfulDeliveryTime: ClientRuntime.Date?
@@ -16373,7 +16419,7 @@ extension DescribeLoggingStatusOutputBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeLoggingStatusResult"))
-        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled)
         loggingEnabled = loggingEnabledDecoded
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -18417,21 +18463,21 @@ extension DescribeStorageOutput: ClientRuntime.HttpResponseBinding {
             self.totalBackupSizeInMegaBytes = output.totalBackupSizeInMegaBytes
             self.totalProvisionedStorageInMegaBytes = output.totalProvisionedStorageInMegaBytes
         } else {
-            self.totalBackupSizeInMegaBytes = 0.0
-            self.totalProvisionedStorageInMegaBytes = 0.0
+            self.totalBackupSizeInMegaBytes = nil
+            self.totalProvisionedStorageInMegaBytes = nil
         }
     }
 }
 
 public struct DescribeStorageOutput: Swift.Equatable {
     /// The total amount of storage currently used for snapshots.
-    public var totalBackupSizeInMegaBytes: Swift.Double
+    public var totalBackupSizeInMegaBytes: Swift.Double?
     /// The total amount of storage currently provisioned.
-    public var totalProvisionedStorageInMegaBytes: Swift.Double
+    public var totalProvisionedStorageInMegaBytes: Swift.Double?
 
     public init(
-        totalBackupSizeInMegaBytes: Swift.Double = 0.0,
-        totalProvisionedStorageInMegaBytes: Swift.Double = 0.0
+        totalBackupSizeInMegaBytes: Swift.Double? = nil,
+        totalProvisionedStorageInMegaBytes: Swift.Double? = nil
     )
     {
         self.totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytes
@@ -18440,8 +18486,8 @@ public struct DescribeStorageOutput: Swift.Equatable {
 }
 
 struct DescribeStorageOutputBody: Swift.Equatable {
-    let totalBackupSizeInMegaBytes: Swift.Double
-    let totalProvisionedStorageInMegaBytes: Swift.Double
+    let totalBackupSizeInMegaBytes: Swift.Double?
+    let totalProvisionedStorageInMegaBytes: Swift.Double?
 }
 
 extension DescribeStorageOutputBody: Swift.Decodable {
@@ -18453,9 +18499,9 @@ extension DescribeStorageOutputBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeStorageResult"))
-        let totalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes) ?? 0
+        let totalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes)
         totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytesDecoded
-        let totalProvisionedStorageInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalProvisionedStorageInMegaBytes) ?? 0
+        let totalProvisionedStorageInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalProvisionedStorageInMegaBytes)
         totalProvisionedStorageInMegaBytes = totalProvisionedStorageInMegaBytesDecoded
     }
 }
@@ -19193,7 +19239,7 @@ extension DisableLoggingOutput: ClientRuntime.HttpResponseBinding {
             self.lastSuccessfulDeliveryTime = nil
             self.logDestinationType = nil
             self.logExports = nil
-            self.loggingEnabled = false
+            self.loggingEnabled = nil
             self.s3KeyPrefix = nil
         }
     }
@@ -19214,7 +19260,7 @@ public struct DisableLoggingOutput: Swift.Equatable {
     /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
-    public var loggingEnabled: Swift.Bool
+    public var loggingEnabled: Swift.Bool?
     /// The prefix applied to the log file names.
     public var s3KeyPrefix: Swift.String?
 
@@ -19225,7 +19271,7 @@ public struct DisableLoggingOutput: Swift.Equatable {
         lastSuccessfulDeliveryTime: ClientRuntime.Date? = nil,
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
-        loggingEnabled: Swift.Bool = false,
+        loggingEnabled: Swift.Bool? = nil,
         s3KeyPrefix: Swift.String? = nil
     )
     {
@@ -19241,7 +19287,7 @@ public struct DisableLoggingOutput: Swift.Equatable {
 }
 
 struct DisableLoggingOutputBody: Swift.Equatable {
-    let loggingEnabled: Swift.Bool
+    let loggingEnabled: Swift.Bool?
     let bucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
     let lastSuccessfulDeliveryTime: ClientRuntime.Date?
@@ -19266,7 +19312,7 @@ extension DisableLoggingOutputBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DisableLoggingResult"))
-        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled)
         loggingEnabled = loggingEnabledDecoded
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -19504,7 +19550,7 @@ extension DisassociateDataShareConsumerOutput: ClientRuntime.HttpResponseBinding
             self.managedBy = output.managedBy
             self.producerArn = output.producerArn
         } else {
-            self.allowPubliclyAccessibleConsumers = false
+            self.allowPubliclyAccessibleConsumers = nil
             self.dataShareArn = nil
             self.dataShareAssociations = nil
             self.managedBy = nil
@@ -19515,7 +19561,7 @@ extension DisassociateDataShareConsumerOutput: ClientRuntime.HttpResponseBinding
 
 public struct DisassociateDataShareConsumerOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
-    public var allowPubliclyAccessibleConsumers: Swift.Bool
+    public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
@@ -19526,7 +19572,7 @@ public struct DisassociateDataShareConsumerOutput: Swift.Equatable {
     public var producerArn: Swift.String?
 
     public init(
-        allowPubliclyAccessibleConsumers: Swift.Bool = false,
+        allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
         managedBy: Swift.String? = nil,
@@ -19544,7 +19590,7 @@ public struct DisassociateDataShareConsumerOutput: Swift.Equatable {
 struct DisassociateDataShareConsumerOutputBody: Swift.Equatable {
     let dataShareArn: Swift.String?
     let producerArn: Swift.String?
-    let allowPubliclyAccessibleConsumers: Swift.Bool
+    let allowPubliclyAccessibleConsumers: Swift.Bool?
     let dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     let managedBy: Swift.String?
 }
@@ -19565,7 +19611,7 @@ extension DisassociateDataShareConsumerOutputBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -19893,7 +19939,7 @@ extension EnableLoggingOutput: ClientRuntime.HttpResponseBinding {
             self.lastSuccessfulDeliveryTime = nil
             self.logDestinationType = nil
             self.logExports = nil
-            self.loggingEnabled = false
+            self.loggingEnabled = nil
             self.s3KeyPrefix = nil
         }
     }
@@ -19914,7 +19960,7 @@ public struct EnableLoggingOutput: Swift.Equatable {
     /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
-    public var loggingEnabled: Swift.Bool
+    public var loggingEnabled: Swift.Bool?
     /// The prefix applied to the log file names.
     public var s3KeyPrefix: Swift.String?
 
@@ -19925,7 +19971,7 @@ public struct EnableLoggingOutput: Swift.Equatable {
         lastSuccessfulDeliveryTime: ClientRuntime.Date? = nil,
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
-        loggingEnabled: Swift.Bool = false,
+        loggingEnabled: Swift.Bool? = nil,
         s3KeyPrefix: Swift.String? = nil
     )
     {
@@ -19941,7 +19987,7 @@ public struct EnableLoggingOutput: Swift.Equatable {
 }
 
 struct EnableLoggingOutputBody: Swift.Equatable {
-    let loggingEnabled: Swift.Bool
+    let loggingEnabled: Swift.Bool?
     let bucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
     let lastSuccessfulDeliveryTime: ClientRuntime.Date?
@@ -19966,7 +20012,7 @@ extension EnableLoggingOutputBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("EnableLoggingResult"))
-        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled) ?? false
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .loggingEnabled)
         loggingEnabled = loggingEnabledDecoded
         let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
         bucketName = bucketNameDecoded
@@ -20182,7 +20228,7 @@ extension RedshiftClientTypes.Endpoint: Swift.Codable {
         if let address = address {
             try container.encode(address, forKey: ClientRuntime.Key("Address"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let vpcEndpoints = vpcEndpoints {
@@ -20203,7 +20249,7 @@ extension RedshiftClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         if containerValues.contains(.vpcEndpoints) {
             struct KeyVal0{struct VpcEndpoint{}}
@@ -20233,13 +20279,13 @@ extension RedshiftClientTypes {
         /// The DNS address of the Cluster.
         public var address: Swift.String?
         /// The port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Describes a connection endpoint.
         public var vpcEndpoints: [RedshiftClientTypes.VpcEndpoint]?
 
         public init(
             address: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             vpcEndpoints: [RedshiftClientTypes.VpcEndpoint]? = nil
         )
         {
@@ -20282,7 +20328,7 @@ extension RedshiftClientTypes.EndpointAccess: Swift.Codable {
         if let endpointStatus = endpointStatus {
             try container.encode(endpointStatus, forKey: ClientRuntime.Key("EndpointStatus"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let resourceOwner = resourceOwner {
@@ -20322,7 +20368,7 @@ extension RedshiftClientTypes.EndpointAccess: Swift.Codable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -20364,7 +20410,7 @@ extension RedshiftClientTypes {
         /// The status of the endpoint.
         public var endpointStatus: Swift.String?
         /// The port number on which the cluster accepts incoming connections.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The Amazon Web Services account ID of the owner of the cluster.
         public var resourceOwner: Swift.String?
         /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
@@ -20380,7 +20426,7 @@ extension RedshiftClientTypes {
             endpointCreateTime: ClientRuntime.Date? = nil,
             endpointName: Swift.String? = nil,
             endpointStatus: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             resourceOwner: Swift.String? = nil,
             subnetGroupName: Swift.String? = nil,
             vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
@@ -20471,7 +20517,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowedAllVPCs != false {
+        if let allowedAllVPCs = allowedAllVPCs {
             try container.encode(allowedAllVPCs, forKey: ClientRuntime.Key("AllowedAllVPCs"))
         }
         if let allowedVPCs = allowedVPCs {
@@ -20495,7 +20541,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
         if let clusterStatus = clusterStatus {
             try container.encode(clusterStatus, forKey: ClientRuntime.Key("ClusterStatus"))
         }
-        if endpointCount != 0 {
+        if let endpointCount = endpointCount {
             try container.encode(endpointCount, forKey: ClientRuntime.Key("EndpointCount"))
         }
         if let grantee = grantee {
@@ -20523,7 +20569,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
         clusterStatus = clusterStatusDecoded
         let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.AuthorizationStatus.self, forKey: .status)
         status = statusDecoded
-        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs) ?? false
+        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs)
         allowedAllVPCs = allowedAllVPCsDecoded
         if containerValues.contains(.allowedVPCs) {
             struct KeyVal0{struct VpcIdentifier{}}
@@ -20544,7 +20590,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
         } else {
             allowedVPCs = nil
         }
-        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount) ?? 0
+        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount)
         endpointCount = endpointCountDecoded
     }
 }
@@ -20553,7 +20599,7 @@ extension RedshiftClientTypes {
     /// Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
     public struct EndpointAuthorization: Swift.Equatable {
         /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
-        public var allowedAllVPCs: Swift.Bool
+        public var allowedAllVPCs: Swift.Bool?
         /// The VPCs allowed access to the cluster.
         public var allowedVPCs: [Swift.String]?
         /// The time (UTC) when the authorization was created.
@@ -20563,7 +20609,7 @@ extension RedshiftClientTypes {
         /// The status of the cluster.
         public var clusterStatus: Swift.String?
         /// The number of Redshift-managed VPC endpoints created for the authorization.
-        public var endpointCount: Swift.Int
+        public var endpointCount: Swift.Int?
         /// The Amazon Web Services account ID of the grantee of the cluster.
         public var grantee: Swift.String?
         /// The Amazon Web Services account ID of the cluster owner.
@@ -20572,12 +20618,12 @@ extension RedshiftClientTypes {
         public var status: RedshiftClientTypes.AuthorizationStatus?
 
         public init(
-            allowedAllVPCs: Swift.Bool = false,
+            allowedAllVPCs: Swift.Bool? = nil,
             allowedVPCs: [Swift.String]? = nil,
             authorizeTime: ClientRuntime.Date? = nil,
             clusterIdentifier: Swift.String? = nil,
             clusterStatus: Swift.String? = nil,
-            endpointCount: Swift.Int = 0,
+            endpointCount: Swift.Int? = nil,
             grantee: Swift.String? = nil,
             grantor: Swift.String? = nil,
             status: RedshiftClientTypes.AuthorizationStatus? = nil
@@ -21227,7 +21273,7 @@ extension RedshiftClientTypes.EventSubscription: Swift.Codable {
         if let customerAwsId = customerAwsId {
             try container.encode(customerAwsId, forKey: ClientRuntime.Key("CustomerAwsId"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -21337,7 +21383,7 @@ extension RedshiftClientTypes.EventSubscription: Swift.Codable {
         }
         let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
         severity = severityDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         if containerValues.contains(.tags) {
             struct KeyVal0{struct Tag{}}
@@ -21369,7 +21415,7 @@ extension RedshiftClientTypes {
         /// The Amazon Web Services account associated with the Amazon Redshift event notification subscription.
         public var customerAwsId: Swift.String?
         /// A boolean value indicating whether the subscription is enabled; true indicates that the subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security, Pending
         public var eventCategoriesList: [Swift.String]?
         /// The event severity specified in the Amazon Redshift event notification subscription. Values: ERROR, INFO
@@ -21394,7 +21440,7 @@ extension RedshiftClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             severity: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -25417,6 +25463,11 @@ enum ModifyClusterIamRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ModifyClusterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
 extension ModifyClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -25477,8 +25528,14 @@ extension ModifyClusterInput: Swift.Encodable {
         if let maintenanceTrackName = maintenanceTrackName {
             try container.encode(maintenanceTrackName, forKey: ClientRuntime.Key("MaintenanceTrackName"))
         }
+        if let manageMasterPassword = manageMasterPassword {
+            try container.encode(manageMasterPassword, forKey: ClientRuntime.Key("ManageMasterPassword"))
+        }
         if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
             try container.encode(manualSnapshotRetentionPeriod, forKey: ClientRuntime.Key("ManualSnapshotRetentionPeriod"))
+        }
+        if let masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId {
+            try container.encode(masterPasswordSecretKmsKeyId, forKey: ClientRuntime.Key("MasterPasswordSecretKmsKeyId"))
         }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
@@ -25565,9 +25622,13 @@ public struct ModifyClusterInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next maintenance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied.
     public var maintenanceTrackName: Swift.String?
+    /// If true, Amazon Redshift uses Secrets Manager to manage this cluster's admin credentials. You can't use MasterUserPassword if ManageMasterPassword is true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword for the admin user account's password.
+    public var manageMasterPassword: Swift.Bool?
     /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true.
+    public var masterPasswordSecretKmsKeyId: Swift.String?
+    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -25624,7 +25685,9 @@ public struct ModifyClusterInput: Swift.Equatable {
         hsmConfigurationIdentifier: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceTrackName: Swift.String? = nil,
+        manageMasterPassword: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
+        masterPasswordSecretKmsKeyId: Swift.String? = nil,
         masterUserPassword: Swift.String? = nil,
         newClusterIdentifier: Swift.String? = nil,
         nodeType: Swift.String? = nil,
@@ -25651,7 +25714,9 @@ public struct ModifyClusterInput: Swift.Equatable {
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.kmsKeyId = kmsKeyId
         self.maintenanceTrackName = maintenanceTrackName
+        self.manageMasterPassword = manageMasterPassword
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+        self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
         self.masterUserPassword = masterUserPassword
         self.newClusterIdentifier = newClusterIdentifier
         self.nodeType = nodeType
@@ -25689,6 +25754,8 @@ struct ModifyClusterInputBody: Swift.Equatable {
     let availabilityZoneRelocation: Swift.Bool?
     let availabilityZone: Swift.String?
     let port: Swift.Int?
+    let manageMasterPassword: Swift.Bool?
+    let masterPasswordSecretKmsKeyId: Swift.String?
 }
 
 extension ModifyClusterInputBody: Swift.Decodable {
@@ -25709,7 +25776,9 @@ extension ModifyClusterInputBody: Swift.Decodable {
         case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
         case kmsKeyId = "KmsKeyId"
         case maintenanceTrackName = "MaintenanceTrackName"
+        case manageMasterPassword = "ManageMasterPassword"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+        case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUserPassword = "MasterUserPassword"
         case newClusterIdentifier = "NewClusterIdentifier"
         case nodeType = "NodeType"
@@ -25806,6 +25875,10 @@ extension ModifyClusterInputBody: Swift.Decodable {
         availabilityZone = availabilityZoneDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
+        let manageMasterPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterPassword)
+        manageMasterPassword = manageMasterPasswordDecoded
+        let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
+        masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -26244,7 +26317,7 @@ extension ModifyClusterSnapshotInputBody: Swift.Decodable {
         snapshotIdentifier = snapshotIdentifierDecoded
         let manualSnapshotRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualSnapshotRetentionPeriod)
         manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriodDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -26799,7 +26872,7 @@ extension ModifyEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
             self.endpointCreateTime = nil
             self.endpointName = nil
             self.endpointStatus = nil
-            self.port = 0
+            self.port = nil
             self.resourceOwner = nil
             self.subnetGroupName = nil
             self.vpcEndpoint = nil
@@ -26821,7 +26894,7 @@ public struct ModifyEndpointAccessOutput: Swift.Equatable {
     /// The status of the endpoint.
     public var endpointStatus: Swift.String?
     /// The port number on which the cluster accepts incoming connections.
-    public var port: Swift.Int
+    public var port: Swift.Int?
     /// The Amazon Web Services account ID of the owner of the cluster.
     public var resourceOwner: Swift.String?
     /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
@@ -26837,7 +26910,7 @@ public struct ModifyEndpointAccessOutput: Swift.Equatable {
         endpointCreateTime: ClientRuntime.Date? = nil,
         endpointName: Swift.String? = nil,
         endpointStatus: Swift.String? = nil,
-        port: Swift.Int = 0,
+        port: Swift.Int? = nil,
         resourceOwner: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
@@ -26864,7 +26937,7 @@ struct ModifyEndpointAccessOutputBody: Swift.Equatable {
     let endpointStatus: Swift.String?
     let endpointName: Swift.String?
     let endpointCreateTime: ClientRuntime.Date?
-    let port: Swift.Int
+    let port: Swift.Int?
     let address: Swift.String?
     let vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]?
     let vpcEndpoint: RedshiftClientTypes.VpcEndpoint?
@@ -26899,7 +26972,7 @@ extension ModifyEndpointAccessOutputBody: Swift.Decodable {
         endpointName = endpointNameDecoded
         let endpointCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endpointCreateTime)
         endpointCreateTime = endpointCreateTimeDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
@@ -27505,9 +27578,9 @@ extension ModifySnapshotCopyRetentionPeriodInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
         clusterIdentifier = clusterIdentifierDecoded
-        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod) ?? 0
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriod)
         retentionPeriod = retentionPeriodDecoded
-        let manualDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manual) ?? false
+        let manualDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manual)
         manual = manualDecoded
     }
 }
@@ -27915,7 +27988,7 @@ extension ModifyUsageLimitOutput: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
             self.usageLimitId = output.usageLimitId
         } else {
-            self.amount = 0
+            self.amount = nil
             self.breachAction = nil
             self.clusterIdentifier = nil
             self.featureType = nil
@@ -27930,7 +28003,7 @@ extension ModifyUsageLimitOutput: ClientRuntime.HttpResponseBinding {
 /// Describes a usage limit object for a cluster.
 public struct ModifyUsageLimitOutput: Swift.Equatable {
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
-    public var amount: Swift.Int
+    public var amount: Swift.Int?
     /// The action that Amazon Redshift takes when the limit is reached. Possible values are:
     ///
     /// * log - To log an event in a system table. The default is log.
@@ -27953,7 +28026,7 @@ public struct ModifyUsageLimitOutput: Swift.Equatable {
     public var usageLimitId: Swift.String?
 
     public init(
-        amount: Swift.Int = 0,
+        amount: Swift.Int? = nil,
         breachAction: RedshiftClientTypes.UsageLimitBreachAction? = nil,
         clusterIdentifier: Swift.String? = nil,
         featureType: RedshiftClientTypes.UsageLimitFeatureType? = nil,
@@ -27979,7 +28052,7 @@ struct ModifyUsageLimitOutputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
     let featureType: RedshiftClientTypes.UsageLimitFeatureType?
     let limitType: RedshiftClientTypes.UsageLimitLimitType?
-    let amount: Swift.Int
+    let amount: Swift.Int?
     let period: RedshiftClientTypes.UsageLimitPeriod?
     let breachAction: RedshiftClientTypes.UsageLimitBreachAction?
     let tags: [RedshiftClientTypes.Tag]?
@@ -28008,7 +28081,7 @@ extension ModifyUsageLimitOutputBody: Swift.Decodable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount)
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -28132,7 +28205,7 @@ extension RedshiftClientTypes.NodeConfigurationOption: Swift.Codable {
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
         }
-        if numberOfNodes != 0 {
+        if let numberOfNodes = numberOfNodes {
             try container.encode(numberOfNodes, forKey: ClientRuntime.Key("NumberOfNodes"))
         }
     }
@@ -28141,7 +28214,7 @@ extension RedshiftClientTypes.NodeConfigurationOption: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes)
         numberOfNodes = numberOfNodesDecoded
         let estimatedDiskUtilizationPercentDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .estimatedDiskUtilizationPercent)
         estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercentDecoded
@@ -28160,13 +28233,13 @@ extension RedshiftClientTypes {
         /// The node type, such as, "ds2.8xlarge".
         public var nodeType: Swift.String?
         /// The number of nodes.
-        public var numberOfNodes: Swift.Int
+        public var numberOfNodes: Swift.Int?
 
         public init(
             estimatedDiskUtilizationPercent: Swift.Double? = nil,
             mode: RedshiftClientTypes.Mode? = nil,
             nodeType: Swift.String? = nil,
-            numberOfNodes: Swift.Int = 0
+            numberOfNodes: Swift.Int? = nil
         )
         {
             self.estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercent
@@ -28570,7 +28643,7 @@ extension RedshiftClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -28603,7 +28676,7 @@ extension RedshiftClientTypes.Parameter: Swift.Codable {
         allowedValues = allowedValuesDecoded
         let applyTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ParameterApplyType.self, forKey: .applyType)
         applyType = applyTypeDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -28622,7 +28695,7 @@ extension RedshiftClientTypes {
         /// A description of the parameter.
         public var description: Swift.String?
         /// If true, the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// The name of the parameter.
@@ -28637,7 +28710,7 @@ extension RedshiftClientTypes {
             applyType: RedshiftClientTypes.ParameterApplyType? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -29081,6 +29154,11 @@ extension RedshiftClientTypes.PendingModifiedValues: Swift.Codable {
     }
 }
 
+extension RedshiftClientTypes.PendingModifiedValues: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PendingModifiedValues(automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), encryptionType: \(Swift.String(describing: encryptionType)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
 extension RedshiftClientTypes {
     /// Describes cluster attributes that are in a pending state. A change to one or more the attributes was requested and is in progress or will be applied.
     public struct PendingModifiedValues: Swift.Equatable {
@@ -29356,8 +29434,8 @@ extension RedshiftClientTypes.RecurringCharge: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if recurringChargeAmount != 0.0 {
-            try container.encode(Swift.String(recurringChargeAmount), forKey: ClientRuntime.Key("RecurringChargeAmount"))
+        if let recurringChargeAmount = recurringChargeAmount {
+            try container.encode(recurringChargeAmount, forKey: ClientRuntime.Key("RecurringChargeAmount"))
         }
         if let recurringChargeFrequency = recurringChargeFrequency {
             try container.encode(recurringChargeFrequency, forKey: ClientRuntime.Key("RecurringChargeFrequency"))
@@ -29366,7 +29444,7 @@ extension RedshiftClientTypes.RecurringCharge: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount) ?? 0
+        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount)
         recurringChargeAmount = recurringChargeAmountDecoded
         let recurringChargeFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recurringChargeFrequency)
         recurringChargeFrequency = recurringChargeFrequencyDecoded
@@ -29377,12 +29455,12 @@ extension RedshiftClientTypes {
     /// Describes a recurring charge.
     public struct RecurringCharge: Swift.Equatable {
         /// The amount charged per the period of time specified by the recurring charge frequency.
-        public var recurringChargeAmount: Swift.Double
+        public var recurringChargeAmount: Swift.Double?
         /// The frequency at which the recurring charge amount is applied.
         public var recurringChargeFrequency: Swift.String?
 
         public init(
-            recurringChargeAmount: Swift.Double = 0.0,
+            recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
         )
         {
@@ -29450,7 +29528,7 @@ extension RejectDataShareOutput: ClientRuntime.HttpResponseBinding {
             self.managedBy = output.managedBy
             self.producerArn = output.producerArn
         } else {
-            self.allowPubliclyAccessibleConsumers = false
+            self.allowPubliclyAccessibleConsumers = nil
             self.dataShareArn = nil
             self.dataShareAssociations = nil
             self.managedBy = nil
@@ -29461,7 +29539,7 @@ extension RejectDataShareOutput: ClientRuntime.HttpResponseBinding {
 
 public struct RejectDataShareOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
-    public var allowPubliclyAccessibleConsumers: Swift.Bool
+    public var allowPubliclyAccessibleConsumers: Swift.Bool?
     /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
@@ -29472,7 +29550,7 @@ public struct RejectDataShareOutput: Swift.Equatable {
     public var producerArn: Swift.String?
 
     public init(
-        allowPubliclyAccessibleConsumers: Swift.Bool = false,
+        allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
         managedBy: Swift.String? = nil,
@@ -29490,7 +29568,7 @@ public struct RejectDataShareOutput: Swift.Equatable {
 struct RejectDataShareOutputBody: Swift.Equatable {
     let dataShareArn: Swift.String?
     let producerArn: Swift.String?
-    let allowPubliclyAccessibleConsumers: Swift.Bool
+    let allowPubliclyAccessibleConsumers: Swift.Bool?
     let dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     let managedBy: Swift.String?
 }
@@ -29511,7 +29589,7 @@ extension RejectDataShareOutputBody: Swift.Decodable {
         dataShareArn = dataShareArnDecoded
         let producerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .producerArn)
         producerArn = producerArnDecoded
-        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers) ?? false
+        let allowPubliclyAccessibleConsumersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPubliclyAccessibleConsumers)
         allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumersDecoded
         if containerValues.contains(.dataShareAssociations) {
             struct KeyVal0{struct member{}}
@@ -29569,13 +29647,13 @@ extension RedshiftClientTypes.ReservedNode: Swift.Codable {
         if let currencyCode = currencyCode {
             try container.encode(currencyCode, forKey: ClientRuntime.Key("CurrencyCode"))
         }
-        if duration != 0 {
+        if let duration = duration {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
-        if fixedPrice != 0.0 {
-            try container.encode(Swift.String(fixedPrice), forKey: ClientRuntime.Key("FixedPrice"))
+        if let fixedPrice = fixedPrice {
+            try container.encode(fixedPrice, forKey: ClientRuntime.Key("FixedPrice"))
         }
-        if nodeCount != 0 {
+        if let nodeCount = nodeCount {
             try container.encode(nodeCount, forKey: ClientRuntime.Key("NodeCount"))
         }
         if let nodeType = nodeType {
@@ -29611,8 +29689,8 @@ extension RedshiftClientTypes.ReservedNode: Swift.Codable {
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
         }
-        if usagePrice != 0.0 {
-            try container.encode(Swift.String(usagePrice), forKey: ClientRuntime.Key("UsagePrice"))
+        if let usagePrice = usagePrice {
+            try container.encode(usagePrice, forKey: ClientRuntime.Key("UsagePrice"))
         }
     }
 
@@ -29626,15 +29704,15 @@ extension RedshiftClientTypes.ReservedNode: Swift.Codable {
         nodeType = nodeTypeDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice)
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice)
         usagePrice = usagePriceDecoded
         let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
         currencyCode = currencyCodeDecoded
-        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount) ?? 0
+        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount)
         nodeCount = nodeCountDecoded
         let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
         state = stateDecoded
@@ -29670,11 +29748,11 @@ extension RedshiftClientTypes {
         /// The currency code for the reserved cluster.
         public var currencyCode: Swift.String?
         /// The duration of the node reservation in seconds.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// The fixed cost Amazon Redshift charges you for this reserved node.
-        public var fixedPrice: Swift.Double
+        public var fixedPrice: Swift.Double?
         /// The number of reserved compute nodes.
-        public var nodeCount: Swift.Int
+        public var nodeCount: Swift.Int?
         /// The node type of the reserved node.
         public var nodeType: Swift.String?
         /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
@@ -29702,13 +29780,13 @@ extension RedshiftClientTypes {
         /// * exchanging-The owner is exchanging the reserved node for another reserved node.
         public var state: Swift.String?
         /// The hourly rate Amazon Redshift charges you for this reserved node.
-        public var usagePrice: Swift.Double
+        public var usagePrice: Swift.Double?
 
         public init(
             currencyCode: Swift.String? = nil,
-            duration: Swift.Int = 0,
-            fixedPrice: Swift.Double = 0.0,
-            nodeCount: Swift.Int = 0,
+            duration: Swift.Int? = nil,
+            fixedPrice: Swift.Double? = nil,
+            nodeCount: Swift.Int? = nil,
             nodeType: Swift.String? = nil,
             offeringType: Swift.String? = nil,
             recurringCharges: [RedshiftClientTypes.RecurringCharge]? = nil,
@@ -29717,7 +29795,7 @@ extension RedshiftClientTypes {
             reservedNodeOfferingType: RedshiftClientTypes.ReservedNodeOfferingType? = nil,
             startTime: ClientRuntime.Date? = nil,
             state: Swift.String? = nil,
-            usagePrice: Swift.Double = 0.0
+            usagePrice: Swift.Double? = nil
         )
         {
             self.currencyCode = currencyCode
@@ -29858,7 +29936,7 @@ extension RedshiftClientTypes.ReservedNodeConfigurationOption: Swift.Codable {
         if let sourceReservedNode = sourceReservedNode {
             try container.encode(sourceReservedNode, forKey: ClientRuntime.Key("SourceReservedNode"))
         }
-        if targetReservedNodeCount != 0 {
+        if let targetReservedNodeCount = targetReservedNodeCount {
             try container.encode(targetReservedNodeCount, forKey: ClientRuntime.Key("TargetReservedNodeCount"))
         }
         if let targetReservedNodeOffering = targetReservedNodeOffering {
@@ -29870,7 +29948,7 @@ extension RedshiftClientTypes.ReservedNodeConfigurationOption: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceReservedNodeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ReservedNode.self, forKey: .sourceReservedNode)
         sourceReservedNode = sourceReservedNodeDecoded
-        let targetReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetReservedNodeCount) ?? 0
+        let targetReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetReservedNodeCount)
         targetReservedNodeCount = targetReservedNodeCountDecoded
         let targetReservedNodeOfferingDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ReservedNodeOffering.self, forKey: .targetReservedNodeOffering)
         targetReservedNodeOffering = targetReservedNodeOfferingDecoded
@@ -29883,13 +29961,13 @@ extension RedshiftClientTypes {
         /// Describes a reserved node. You can call the [DescribeReservedNodeOfferings] API to obtain the available reserved node offerings.
         public var sourceReservedNode: RedshiftClientTypes.ReservedNode?
         /// The target reserved-node count.
-        public var targetReservedNodeCount: Swift.Int
+        public var targetReservedNodeCount: Swift.Int?
         /// Describes a reserved node offering.
         public var targetReservedNodeOffering: RedshiftClientTypes.ReservedNodeOffering?
 
         public init(
             sourceReservedNode: RedshiftClientTypes.ReservedNode? = nil,
-            targetReservedNodeCount: Swift.Int = 0,
+            targetReservedNodeCount: Swift.Int? = nil,
             targetReservedNodeOffering: RedshiftClientTypes.ReservedNodeOffering? = nil
         )
         {
@@ -30008,7 +30086,7 @@ extension RedshiftClientTypes.ReservedNodeExchangeStatus: Swift.Codable {
         if let reservedNodeExchangeRequestId = reservedNodeExchangeRequestId {
             try container.encode(reservedNodeExchangeRequestId, forKey: ClientRuntime.Key("ReservedNodeExchangeRequestId"))
         }
-        if sourceReservedNodeCount != 0 {
+        if let sourceReservedNodeCount = sourceReservedNodeCount {
             try container.encode(sourceReservedNodeCount, forKey: ClientRuntime.Key("SourceReservedNodeCount"))
         }
         if let sourceReservedNodeId = sourceReservedNodeId {
@@ -30020,7 +30098,7 @@ extension RedshiftClientTypes.ReservedNodeExchangeStatus: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if targetReservedNodeCount != 0 {
+        if let targetReservedNodeCount = targetReservedNodeCount {
             try container.encode(targetReservedNodeCount, forKey: ClientRuntime.Key("TargetReservedNodeCount"))
         }
         if let targetReservedNodeOfferingId = targetReservedNodeOfferingId {
@@ -30043,13 +30121,13 @@ extension RedshiftClientTypes.ReservedNodeExchangeStatus: Swift.Codable {
         sourceReservedNodeId = sourceReservedNodeIdDecoded
         let sourceReservedNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceReservedNodeType)
         sourceReservedNodeType = sourceReservedNodeTypeDecoded
-        let sourceReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sourceReservedNodeCount) ?? 0
+        let sourceReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sourceReservedNodeCount)
         sourceReservedNodeCount = sourceReservedNodeCountDecoded
         let targetReservedNodeOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetReservedNodeOfferingId)
         targetReservedNodeOfferingId = targetReservedNodeOfferingIdDecoded
         let targetReservedNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetReservedNodeType)
         targetReservedNodeType = targetReservedNodeTypeDecoded
-        let targetReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetReservedNodeCount) ?? 0
+        let targetReservedNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetReservedNodeCount)
         targetReservedNodeCount = targetReservedNodeCountDecoded
     }
 }
@@ -30062,7 +30140,7 @@ extension RedshiftClientTypes {
         /// The identifier of the reserved-node exchange request.
         public var reservedNodeExchangeRequestId: Swift.String?
         /// The source reserved-node count in the cluster.
-        public var sourceReservedNodeCount: Swift.Int
+        public var sourceReservedNodeCount: Swift.Int?
         /// The identifier of the source reserved node.
         public var sourceReservedNodeId: Swift.String?
         /// The source reserved-node type, for example ds2.xlarge.
@@ -30070,7 +30148,7 @@ extension RedshiftClientTypes {
         /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
         public var status: RedshiftClientTypes.ReservedNodeExchangeStatusType?
         /// The count of target reserved nodes in the cluster.
-        public var targetReservedNodeCount: Swift.Int
+        public var targetReservedNodeCount: Swift.Int?
         /// The identifier of the target reserved node offering.
         public var targetReservedNodeOfferingId: Swift.String?
         /// The node type of the target reserved node, for example ra3.4xlarge.
@@ -30079,11 +30157,11 @@ extension RedshiftClientTypes {
         public init(
             requestTime: ClientRuntime.Date? = nil,
             reservedNodeExchangeRequestId: Swift.String? = nil,
-            sourceReservedNodeCount: Swift.Int = 0,
+            sourceReservedNodeCount: Swift.Int? = nil,
             sourceReservedNodeId: Swift.String? = nil,
             sourceReservedNodeType: Swift.String? = nil,
             status: RedshiftClientTypes.ReservedNodeExchangeStatusType? = nil,
-            targetReservedNodeCount: Swift.Int = 0,
+            targetReservedNodeCount: Swift.Int? = nil,
             targetReservedNodeOfferingId: Swift.String? = nil,
             targetReservedNodeType: Swift.String? = nil
         )
@@ -30218,11 +30296,11 @@ extension RedshiftClientTypes.ReservedNodeOffering: Swift.Codable {
         if let currencyCode = currencyCode {
             try container.encode(currencyCode, forKey: ClientRuntime.Key("CurrencyCode"))
         }
-        if duration != 0 {
+        if let duration = duration {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
-        if fixedPrice != 0.0 {
-            try container.encode(Swift.String(fixedPrice), forKey: ClientRuntime.Key("FixedPrice"))
+        if let fixedPrice = fixedPrice {
+            try container.encode(fixedPrice, forKey: ClientRuntime.Key("FixedPrice"))
         }
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
@@ -30248,8 +30326,8 @@ extension RedshiftClientTypes.ReservedNodeOffering: Swift.Codable {
         if let reservedNodeOfferingType = reservedNodeOfferingType {
             try container.encode(reservedNodeOfferingType, forKey: ClientRuntime.Key("ReservedNodeOfferingType"))
         }
-        if usagePrice != 0.0 {
-            try container.encode(Swift.String(usagePrice), forKey: ClientRuntime.Key("UsagePrice"))
+        if let usagePrice = usagePrice {
+            try container.encode(usagePrice, forKey: ClientRuntime.Key("UsagePrice"))
         }
     }
 
@@ -30259,11 +30337,11 @@ extension RedshiftClientTypes.ReservedNodeOffering: Swift.Codable {
         reservedNodeOfferingId = reservedNodeOfferingIdDecoded
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice)
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice)
         usagePrice = usagePriceDecoded
         let currencyCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currencyCode)
         currencyCode = currencyCodeDecoded
@@ -30299,9 +30377,9 @@ extension RedshiftClientTypes {
         /// The currency code for the compute nodes offering.
         public var currencyCode: Swift.String?
         /// The duration, in seconds, for which the offering will reserve the node.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// The upfront fixed charge you will pay to purchase the specific reserved node offering.
-        public var fixedPrice: Swift.Double
+        public var fixedPrice: Swift.Double?
         /// The node type offered by the reserved node offering.
         public var nodeType: Swift.String?
         /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
@@ -30313,18 +30391,18 @@ extension RedshiftClientTypes {
         ///
         public var reservedNodeOfferingType: RedshiftClientTypes.ReservedNodeOfferingType?
         /// The rate you are charged for each hour the cluster that is using the offering is running.
-        public var usagePrice: Swift.Double
+        public var usagePrice: Swift.Double?
 
         public init(
             currencyCode: Swift.String? = nil,
-            duration: Swift.Int = 0,
-            fixedPrice: Swift.Double = 0.0,
+            duration: Swift.Int? = nil,
+            fixedPrice: Swift.Double? = nil,
             nodeType: Swift.String? = nil,
             offeringType: Swift.String? = nil,
             recurringCharges: [RedshiftClientTypes.RecurringCharge]? = nil,
             reservedNodeOfferingId: Swift.String? = nil,
             reservedNodeOfferingType: RedshiftClientTypes.ReservedNodeOfferingType? = nil,
-            usagePrice: Swift.Double = 0.0
+            usagePrice: Swift.Double? = nil
         )
         {
             self.currencyCode = currencyCode
@@ -30552,7 +30630,7 @@ extension ResetClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let parameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterGroupName)
         parameterGroupName = parameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -30921,7 +30999,7 @@ extension RedshiftClientTypes.ResizeInfo: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowCancelResize != false {
+        if let allowCancelResize = allowCancelResize {
             try container.encode(allowCancelResize, forKey: ClientRuntime.Key("AllowCancelResize"))
         }
         if let resizeType = resizeType {
@@ -30933,7 +31011,7 @@ extension RedshiftClientTypes.ResizeInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resizeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resizeType)
         resizeType = resizeTypeDecoded
-        let allowCancelResizeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCancelResize) ?? false
+        let allowCancelResizeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowCancelResize)
         allowCancelResize = allowCancelResizeDecoded
     }
 }
@@ -30942,12 +31020,12 @@ extension RedshiftClientTypes {
     /// Describes a resize operation.
     public struct ResizeInfo: Swift.Equatable {
         /// A boolean value indicating if the resize operation can be cancelled.
-        public var allowCancelResize: Swift.Bool
+        public var allowCancelResize: Swift.Bool?
         /// Returns the value ClassicResize.
         public var resizeType: Swift.String?
 
         public init(
-            allowCancelResize: Swift.Bool = false,
+            allowCancelResize: Swift.Bool? = nil,
             resizeType: Swift.String? = nil
         )
         {
@@ -31144,8 +31222,14 @@ extension RestoreFromClusterSnapshotInput: Swift.Encodable {
         if let maintenanceTrackName = maintenanceTrackName {
             try container.encode(maintenanceTrackName, forKey: ClientRuntime.Key("MaintenanceTrackName"))
         }
+        if let manageMasterPassword = manageMasterPassword {
+            try container.encode(manageMasterPassword, forKey: ClientRuntime.Key("ManageMasterPassword"))
+        }
         if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
             try container.encode(manualSnapshotRetentionPeriod, forKey: ClientRuntime.Key("ManualSnapshotRetentionPeriod"))
+        }
+        if let masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId {
+            try container.encode(masterPasswordSecretKmsKeyId, forKey: ClientRuntime.Key("MasterPasswordSecretKmsKeyId"))
         }
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
@@ -31263,8 +31347,12 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks.
     public var maintenanceTrackName: Swift.String?
+    /// If true, Amazon Redshift uses Secrets Manager to manage the restored cluster's admin credentials. If ManageMasterPassword is false or not set, Amazon Redshift uses the admin credentials the cluster had at the time the snapshot was taken.
+    public var manageMasterPassword: Swift.Bool?
     /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
     public var manualSnapshotRetentionPeriod: Swift.Int?
+    /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true.
+    public var masterPasswordSecretKmsKeyId: Swift.String?
     /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more information about node types, see [ About Clusters and Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes) in the Amazon Redshift Cluster Management Guide.
     public var nodeType: Swift.String?
     /// The number of nodes specified when provisioning the restored cluster.
@@ -31312,7 +31400,9 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
         iamRoles: [Swift.String]? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceTrackName: Swift.String? = nil,
+        manageMasterPassword: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
+        masterPasswordSecretKmsKeyId: Swift.String? = nil,
         nodeType: Swift.String? = nil,
         numberOfNodes: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
@@ -31347,7 +31437,9 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
         self.iamRoles = iamRoles
         self.kmsKeyId = kmsKeyId
         self.maintenanceTrackName = maintenanceTrackName
+        self.manageMasterPassword = manageMasterPassword
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+        self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
         self.nodeType = nodeType
         self.numberOfNodes = numberOfNodes
         self.ownerAccount = ownerAccount
@@ -31398,6 +31490,8 @@ struct RestoreFromClusterSnapshotInputBody: Swift.Equatable {
     let reservedNodeId: Swift.String?
     let targetReservedNodeOfferingId: Swift.String?
     let encrypted: Swift.Bool?
+    let manageMasterPassword: Swift.Bool?
+    let masterPasswordSecretKmsKeyId: Swift.String?
 }
 
 extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
@@ -31421,7 +31515,9 @@ extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
         case iamRoles = "IamRoles"
         case kmsKeyId = "KmsKeyId"
         case maintenanceTrackName = "MaintenanceTrackName"
+        case manageMasterPassword = "ManageMasterPassword"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+        case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case nodeType = "NodeType"
         case numberOfNodes = "NumberOfNodes"
         case ownerAccount = "OwnerAccount"
@@ -31556,6 +31652,10 @@ extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
         targetReservedNodeOfferingId = targetReservedNodeOfferingIdDecoded
         let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
+        let manageMasterPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterPassword)
+        manageMasterPassword = manageMasterPasswordDecoded
+        let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
+        masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -31653,19 +31753,19 @@ extension RedshiftClientTypes.RestoreStatus: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if currentRestoreRateInMegaBytesPerSecond != 0.0 {
-            try container.encode(Swift.String(currentRestoreRateInMegaBytesPerSecond), forKey: ClientRuntime.Key("CurrentRestoreRateInMegaBytesPerSecond"))
+        if let currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond {
+            try container.encode(currentRestoreRateInMegaBytesPerSecond, forKey: ClientRuntime.Key("CurrentRestoreRateInMegaBytesPerSecond"))
         }
-        if elapsedTimeInSeconds != 0 {
+        if let elapsedTimeInSeconds = elapsedTimeInSeconds {
             try container.encode(elapsedTimeInSeconds, forKey: ClientRuntime.Key("ElapsedTimeInSeconds"))
         }
-        if estimatedTimeToCompletionInSeconds != 0 {
+        if let estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSeconds {
             try container.encode(estimatedTimeToCompletionInSeconds, forKey: ClientRuntime.Key("EstimatedTimeToCompletionInSeconds"))
         }
-        if progressInMegaBytes != 0 {
+        if let progressInMegaBytes = progressInMegaBytes {
             try container.encode(progressInMegaBytes, forKey: ClientRuntime.Key("ProgressInMegaBytes"))
         }
-        if snapshotSizeInMegaBytes != 0 {
+        if let snapshotSizeInMegaBytes = snapshotSizeInMegaBytes {
             try container.encode(snapshotSizeInMegaBytes, forKey: ClientRuntime.Key("SnapshotSizeInMegaBytes"))
         }
         if let status = status {
@@ -31677,15 +31777,15 @@ extension RedshiftClientTypes.RestoreStatus: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let currentRestoreRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRestoreRateInMegaBytesPerSecond) ?? 0
+        let currentRestoreRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentRestoreRateInMegaBytesPerSecond)
         currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecondDecoded
-        let snapshotSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotSizeInMegaBytes) ?? 0
+        let snapshotSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotSizeInMegaBytes)
         snapshotSizeInMegaBytes = snapshotSizeInMegaBytesDecoded
-        let progressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progressInMegaBytes) ?? 0
+        let progressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progressInMegaBytes)
         progressInMegaBytes = progressInMegaBytesDecoded
-        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds) ?? 0
+        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds)
         elapsedTimeInSeconds = elapsedTimeInSecondsDecoded
-        let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds) ?? 0
+        let estimatedTimeToCompletionInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedTimeToCompletionInSeconds)
         estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSecondsDecoded
     }
 }
@@ -31694,24 +31794,24 @@ extension RedshiftClientTypes {
     /// Describes the status of a cluster restore action. Returns null if the cluster was not created by restoring a snapshot.
     public struct RestoreStatus: Swift.Equatable {
         /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
-        public var currentRestoreRateInMegaBytesPerSecond: Swift.Double
+        public var currentRestoreRateInMegaBytesPerSecond: Swift.Double?
         /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
-        public var elapsedTimeInSeconds: Swift.Int
+        public var elapsedTimeInSeconds: Swift.Int?
         /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 and DS2 node types.
-        public var estimatedTimeToCompletionInSeconds: Swift.Int
+        public var estimatedTimeToCompletionInSeconds: Swift.Int?
         /// The number of megabytes that have been transferred from snapshot storage. This field is only updated when you restore to DC2 and DS2 node types.
-        public var progressInMegaBytes: Swift.Int
+        public var progressInMegaBytes: Swift.Int?
         /// The size of the set of snapshot data used to restore the cluster. This field is only updated when you restore to DC2 and DS2 node types.
-        public var snapshotSizeInMegaBytes: Swift.Int
+        public var snapshotSizeInMegaBytes: Swift.Int?
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public var status: Swift.String?
 
         public init(
-            currentRestoreRateInMegaBytesPerSecond: Swift.Double = 0.0,
-            elapsedTimeInSeconds: Swift.Int = 0,
-            estimatedTimeToCompletionInSeconds: Swift.Int = 0,
-            progressInMegaBytes: Swift.Int = 0,
-            snapshotSizeInMegaBytes: Swift.Int = 0,
+            currentRestoreRateInMegaBytesPerSecond: Swift.Double? = nil,
+            elapsedTimeInSeconds: Swift.Int? = nil,
+            estimatedTimeToCompletionInSeconds: Swift.Int? = nil,
+            progressInMegaBytes: Swift.Int? = nil,
+            snapshotSizeInMegaBytes: Swift.Int? = nil,
             status: Swift.String? = nil
         )
         {
@@ -32345,7 +32445,7 @@ extension RevokeEndpointAccessInputBody: Swift.Decodable {
         } else {
             vpcIds = nil
         }
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -32365,12 +32465,12 @@ extension RevokeEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
             self.grantor = output.grantor
             self.status = output.status
         } else {
-            self.allowedAllVPCs = false
+            self.allowedAllVPCs = nil
             self.allowedVPCs = nil
             self.authorizeTime = nil
             self.clusterIdentifier = nil
             self.clusterStatus = nil
-            self.endpointCount = 0
+            self.endpointCount = nil
             self.grantee = nil
             self.grantor = nil
             self.status = nil
@@ -32381,7 +32481,7 @@ extension RevokeEndpointAccessOutput: ClientRuntime.HttpResponseBinding {
 /// Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
 public struct RevokeEndpointAccessOutput: Swift.Equatable {
     /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
-    public var allowedAllVPCs: Swift.Bool
+    public var allowedAllVPCs: Swift.Bool?
     /// The VPCs allowed access to the cluster.
     public var allowedVPCs: [Swift.String]?
     /// The time (UTC) when the authorization was created.
@@ -32391,7 +32491,7 @@ public struct RevokeEndpointAccessOutput: Swift.Equatable {
     /// The status of the cluster.
     public var clusterStatus: Swift.String?
     /// The number of Redshift-managed VPC endpoints created for the authorization.
-    public var endpointCount: Swift.Int
+    public var endpointCount: Swift.Int?
     /// The Amazon Web Services account ID of the grantee of the cluster.
     public var grantee: Swift.String?
     /// The Amazon Web Services account ID of the cluster owner.
@@ -32400,12 +32500,12 @@ public struct RevokeEndpointAccessOutput: Swift.Equatable {
     public var status: RedshiftClientTypes.AuthorizationStatus?
 
     public init(
-        allowedAllVPCs: Swift.Bool = false,
+        allowedAllVPCs: Swift.Bool? = nil,
         allowedVPCs: [Swift.String]? = nil,
         authorizeTime: ClientRuntime.Date? = nil,
         clusterIdentifier: Swift.String? = nil,
         clusterStatus: Swift.String? = nil,
-        endpointCount: Swift.Int = 0,
+        endpointCount: Swift.Int? = nil,
         grantee: Swift.String? = nil,
         grantor: Swift.String? = nil,
         status: RedshiftClientTypes.AuthorizationStatus? = nil
@@ -32430,9 +32530,9 @@ struct RevokeEndpointAccessOutputBody: Swift.Equatable {
     let authorizeTime: ClientRuntime.Date?
     let clusterStatus: Swift.String?
     let status: RedshiftClientTypes.AuthorizationStatus?
-    let allowedAllVPCs: Swift.Bool
+    let allowedAllVPCs: Swift.Bool?
     let allowedVPCs: [Swift.String]?
-    let endpointCount: Swift.Int
+    let endpointCount: Swift.Int?
 }
 
 extension RevokeEndpointAccessOutputBody: Swift.Decodable {
@@ -32463,7 +32563,7 @@ extension RevokeEndpointAccessOutputBody: Swift.Decodable {
         clusterStatus = clusterStatusDecoded
         let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.AuthorizationStatus.self, forKey: .status)
         status = statusDecoded
-        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs) ?? false
+        let allowedAllVPCsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowedAllVPCs)
         allowedAllVPCs = allowedAllVPCsDecoded
         if containerValues.contains(.allowedVPCs) {
             struct KeyVal0{struct VpcIdentifier{}}
@@ -32484,7 +32584,7 @@ extension RevokeEndpointAccessOutputBody: Swift.Decodable {
         } else {
             allowedVPCs = nil
         }
-        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount) ?? 0
+        let endpointCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endpointCount)
         endpointCount = endpointCountDecoded
     }
 }
@@ -33595,6 +33695,8 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         case maintenanceTrackName = "MaintenanceTrackName"
         case manualSnapshotRemainingDays = "ManualSnapshotRemainingDays"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+        case masterPasswordSecretArn = "MasterPasswordSecretArn"
+        case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case nodeType = "NodeType"
         case numberOfNodes = "NumberOfNodes"
@@ -33626,14 +33728,14 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
                 try accountsWithRestoreAccessContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if actualIncrementalBackupSizeInMegaBytes != 0.0 {
-            try container.encode(Swift.String(actualIncrementalBackupSizeInMegaBytes), forKey: ClientRuntime.Key("ActualIncrementalBackupSizeInMegaBytes"))
+        if let actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes {
+            try container.encode(actualIncrementalBackupSizeInMegaBytes, forKey: ClientRuntime.Key("ActualIncrementalBackupSizeInMegaBytes"))
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
-        if backupProgressInMegaBytes != 0.0 {
-            try container.encode(Swift.String(backupProgressInMegaBytes), forKey: ClientRuntime.Key("BackupProgressInMegaBytes"))
+        if let backupProgressInMegaBytes = backupProgressInMegaBytes {
+            try container.encode(backupProgressInMegaBytes, forKey: ClientRuntime.Key("BackupProgressInMegaBytes"))
         }
         if let clusterCreateTime = clusterCreateTime {
             try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
@@ -33644,28 +33746,28 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         if let clusterVersion = clusterVersion {
             try container.encode(clusterVersion, forKey: ClientRuntime.Key("ClusterVersion"))
         }
-        if currentBackupRateInMegaBytesPerSecond != 0.0 {
-            try container.encode(Swift.String(currentBackupRateInMegaBytesPerSecond), forKey: ClientRuntime.Key("CurrentBackupRateInMegaBytesPerSecond"))
+        if let currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecond {
+            try container.encode(currentBackupRateInMegaBytesPerSecond, forKey: ClientRuntime.Key("CurrentBackupRateInMegaBytesPerSecond"))
         }
         if let dbName = dbName {
             try container.encode(dbName, forKey: ClientRuntime.Key("DBName"))
         }
-        if elapsedTimeInSeconds != 0 {
+        if let elapsedTimeInSeconds = elapsedTimeInSeconds {
             try container.encode(elapsedTimeInSeconds, forKey: ClientRuntime.Key("ElapsedTimeInSeconds"))
         }
-        if encrypted != false {
+        if let encrypted = encrypted {
             try container.encode(encrypted, forKey: ClientRuntime.Key("Encrypted"))
         }
-        if encryptedWithHSM != false {
+        if let encryptedWithHSM = encryptedWithHSM {
             try container.encode(encryptedWithHSM, forKey: ClientRuntime.Key("EncryptedWithHSM"))
         }
         if let engineFullVersion = engineFullVersion {
             try container.encode(engineFullVersion, forKey: ClientRuntime.Key("EngineFullVersion"))
         }
-        if enhancedVpcRouting != false {
+        if let enhancedVpcRouting = enhancedVpcRouting {
             try container.encode(enhancedVpcRouting, forKey: ClientRuntime.Key("EnhancedVpcRouting"))
         }
-        if estimatedSecondsToCompletion != 0 {
+        if let estimatedSecondsToCompletion = estimatedSecondsToCompletion {
             try container.encode(estimatedSecondsToCompletion, forKey: ClientRuntime.Key("EstimatedSecondsToCompletion"))
         }
         if let kmsKeyId = kmsKeyId {
@@ -33680,19 +33782,25 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
             try container.encode(manualSnapshotRetentionPeriod, forKey: ClientRuntime.Key("ManualSnapshotRetentionPeriod"))
         }
+        if let masterPasswordSecretArn = masterPasswordSecretArn {
+            try container.encode(masterPasswordSecretArn, forKey: ClientRuntime.Key("MasterPasswordSecretArn"))
+        }
+        if let masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId {
+            try container.encode(masterPasswordSecretKmsKeyId, forKey: ClientRuntime.Key("MasterPasswordSecretKmsKeyId"))
+        }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
         }
-        if numberOfNodes != 0 {
+        if let numberOfNodes = numberOfNodes {
             try container.encode(numberOfNodes, forKey: ClientRuntime.Key("NumberOfNodes"))
         }
         if let ownerAccount = ownerAccount {
             try container.encode(ownerAccount, forKey: ClientRuntime.Key("OwnerAccount"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let restorableNodeTypes = restorableNodeTypes {
@@ -33737,8 +33845,8 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
                 try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if totalBackupSizeInMegaBytes != 0.0 {
-            try container.encode(Swift.String(totalBackupSizeInMegaBytes), forKey: ClientRuntime.Key("TotalBackupSizeInMegaBytes"))
+        if let totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytes {
+            try container.encode(totalBackupSizeInMegaBytes, forKey: ClientRuntime.Key("TotalBackupSizeInMegaBytes"))
         }
         if let vpcId = vpcId {
             try container.encode(vpcId, forKey: ClientRuntime.Key("VpcId"))
@@ -33755,7 +33863,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
@@ -33771,17 +33879,17 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         snapshotType = snapshotTypeDecoded
         let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
         nodeType = nodeTypeDecoded
-        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes)
         numberOfNodes = numberOfNodesDecoded
         let dbNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbName)
         dbName = dbNameDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
-        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
         encrypted = encryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
-        let encryptedWithHSMDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptedWithHSM) ?? false
+        let encryptedWithHSMDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encryptedWithHSM)
         encryptedWithHSM = encryptedWithHSMDecoded
         if containerValues.contains(.accountsWithRestoreAccess) {
             struct KeyVal0{struct AccountWithRestoreAccess{}}
@@ -33804,17 +33912,17 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         }
         let ownerAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccount)
         ownerAccount = ownerAccountDecoded
-        let totalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes) ?? 0
+        let totalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalBackupSizeInMegaBytes)
         totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytesDecoded
-        let actualIncrementalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .actualIncrementalBackupSizeInMegaBytes) ?? 0
+        let actualIncrementalBackupSizeInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .actualIncrementalBackupSizeInMegaBytes)
         actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytesDecoded
-        let backupProgressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .backupProgressInMegaBytes) ?? 0
+        let backupProgressInMegaBytesDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .backupProgressInMegaBytes)
         backupProgressInMegaBytes = backupProgressInMegaBytesDecoded
-        let currentBackupRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentBackupRateInMegaBytesPerSecond) ?? 0
+        let currentBackupRateInMegaBytesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .currentBackupRateInMegaBytesPerSecond)
         currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecondDecoded
-        let estimatedSecondsToCompletionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedSecondsToCompletion) ?? 0
+        let estimatedSecondsToCompletionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedSecondsToCompletion)
         estimatedSecondsToCompletion = estimatedSecondsToCompletionDecoded
-        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds) ?? 0
+        let elapsedTimeInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsedTimeInSeconds)
         elapsedTimeInSeconds = elapsedTimeInSecondsDecoded
         let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
         sourceRegion = sourceRegionDecoded
@@ -33856,7 +33964,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         } else {
             restorableNodeTypes = nil
         }
-        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting) ?? false
+        let enhancedVpcRoutingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enhancedVpcRouting)
         enhancedVpcRouting = enhancedVpcRoutingDecoded
         let maintenanceTrackNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceTrackName)
         maintenanceTrackName = maintenanceTrackNameDecoded
@@ -33866,6 +33974,10 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
         manualSnapshotRemainingDays = manualSnapshotRemainingDaysDecoded
         let snapshotRetentionStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .snapshotRetentionStartTime)
         snapshotRetentionStartTime = snapshotRetentionStartTimeDecoded
+        let masterPasswordSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretArn)
+        masterPasswordSecretArn = masterPasswordSecretArnDecoded
+        let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
+        masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
     }
 }
 
@@ -33875,11 +33987,11 @@ extension RedshiftClientTypes {
         /// A list of the Amazon Web Services accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner.
         public var accountsWithRestoreAccess: [RedshiftClientTypes.AccountWithRestoreAccess]?
         /// The size of the incremental backup.
-        public var actualIncrementalBackupSizeInMegaBytes: Swift.Double
+        public var actualIncrementalBackupSizeInMegaBytes: Swift.Double?
         /// The Availability Zone in which the cluster was created.
         public var availabilityZone: Swift.String?
         /// The number of megabytes that have been transferred to the snapshot backup.
-        public var backupProgressInMegaBytes: Swift.Double
+        public var backupProgressInMegaBytes: Swift.Double?
         /// The time (UTC) when the cluster was originally created.
         public var clusterCreateTime: ClientRuntime.Date?
         /// The identifier of the cluster for which the snapshot was taken.
@@ -33887,21 +33999,21 @@ extension RedshiftClientTypes {
         /// The version ID of the Amazon Redshift engine that is running on the cluster.
         public var clusterVersion: Swift.String?
         /// The number of megabytes per second being transferred to the snapshot backup. Returns 0 for a completed backup.
-        public var currentBackupRateInMegaBytesPerSecond: Swift.Double
+        public var currentBackupRateInMegaBytesPerSecond: Swift.Double?
         /// The name of the database that was created when the cluster was created.
         public var dbName: Swift.String?
         /// The amount of time an in-progress snapshot backup has been running, or the amount of time it took a completed backup to finish.
-        public var elapsedTimeInSeconds: Swift.Int
+        public var elapsedTimeInSeconds: Swift.Int?
         /// If true, the data in the snapshot is encrypted at rest.
-        public var encrypted: Swift.Bool
+        public var encrypted: Swift.Bool?
         /// A boolean that indicates whether the snapshot data is encrypted using the HSM keys of the source cluster. true indicates that the data is encrypted using HSM keys.
-        public var encryptedWithHSM: Swift.Bool
+        public var encryptedWithHSM: Swift.Bool?
         /// The cluster version of the cluster used to create the snapshot. For example, 1.0.15503.
         public var engineFullVersion: Swift.String?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
-        public var enhancedVpcRouting: Swift.Bool
+        public var enhancedVpcRouting: Swift.Bool?
         /// The estimate of the time remaining before the snapshot backup will complete. Returns 0 for a completed backup.
-        public var estimatedSecondsToCompletion: Swift.Int
+        public var estimatedSecondsToCompletion: Swift.Int?
         /// The Key Management Service (KMS) key ID of the encryption key that was used to encrypt data in the cluster from which the snapshot was taken.
         public var kmsKeyId: Swift.String?
         /// The name of the maintenance track for the snapshot.
@@ -33910,16 +34022,20 @@ extension RedshiftClientTypes {
         public var manualSnapshotRemainingDays: Swift.Int?
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653.
         public var manualSnapshotRetentionPeriod: Swift.Int?
+        /// The Amazon Resource Name (ARN) for the cluster's admin user credentials secret.
+        public var masterPasswordSecretArn: Swift.String?
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret.
+        public var masterPasswordSecretKmsKeyId: Swift.String?
         /// The admin user name for the cluster.
         public var masterUsername: Swift.String?
         /// The node type of the nodes in the cluster.
         public var nodeType: Swift.String?
         /// The number of nodes in the cluster.
-        public var numberOfNodes: Swift.Int
+        public var numberOfNodes: Swift.Int?
         /// For manual snapshots, the Amazon Web Services account used to create or copy the snapshot. For automatic snapshots, the owner of the cluster. The owner can perform all snapshot actions, such as sharing a manual snapshot.
         public var ownerAccount: Swift.String?
         /// The port that the cluster is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The list of node types that this cluster snapshot is able to restore into.
         public var restorableNodeTypes: [Swift.String]?
         /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
@@ -33943,35 +34059,37 @@ extension RedshiftClientTypes {
         /// The list of tags for the cluster snapshot.
         public var tags: [RedshiftClientTypes.Tag]?
         /// The size of the complete set of backup data that would be used to restore the cluster.
-        public var totalBackupSizeInMegaBytes: Swift.Double
+        public var totalBackupSizeInMegaBytes: Swift.Double?
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public var vpcId: Swift.String?
 
         public init(
             accountsWithRestoreAccess: [RedshiftClientTypes.AccountWithRestoreAccess]? = nil,
-            actualIncrementalBackupSizeInMegaBytes: Swift.Double = 0.0,
+            actualIncrementalBackupSizeInMegaBytes: Swift.Double? = nil,
             availabilityZone: Swift.String? = nil,
-            backupProgressInMegaBytes: Swift.Double = 0.0,
+            backupProgressInMegaBytes: Swift.Double? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
             clusterIdentifier: Swift.String? = nil,
             clusterVersion: Swift.String? = nil,
-            currentBackupRateInMegaBytesPerSecond: Swift.Double = 0.0,
+            currentBackupRateInMegaBytesPerSecond: Swift.Double? = nil,
             dbName: Swift.String? = nil,
-            elapsedTimeInSeconds: Swift.Int = 0,
-            encrypted: Swift.Bool = false,
-            encryptedWithHSM: Swift.Bool = false,
+            elapsedTimeInSeconds: Swift.Int? = nil,
+            encrypted: Swift.Bool? = nil,
+            encryptedWithHSM: Swift.Bool? = nil,
             engineFullVersion: Swift.String? = nil,
-            enhancedVpcRouting: Swift.Bool = false,
-            estimatedSecondsToCompletion: Swift.Int = 0,
+            enhancedVpcRouting: Swift.Bool? = nil,
+            estimatedSecondsToCompletion: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             maintenanceTrackName: Swift.String? = nil,
             manualSnapshotRemainingDays: Swift.Int? = nil,
             manualSnapshotRetentionPeriod: Swift.Int? = nil,
+            masterPasswordSecretArn: Swift.String? = nil,
+            masterPasswordSecretKmsKeyId: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             nodeType: Swift.String? = nil,
-            numberOfNodes: Swift.Int = 0,
+            numberOfNodes: Swift.Int? = nil,
             ownerAccount: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             restorableNodeTypes: [Swift.String]? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotIdentifier: Swift.String? = nil,
@@ -33980,7 +34098,7 @@ extension RedshiftClientTypes {
             sourceRegion: Swift.String? = nil,
             status: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil,
-            totalBackupSizeInMegaBytes: Swift.Double = 0.0,
+            totalBackupSizeInMegaBytes: Swift.Double? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -34003,6 +34121,8 @@ extension RedshiftClientTypes {
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRemainingDays = manualSnapshotRemainingDays
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+            self.masterPasswordSecretArn = masterPasswordSecretArn
+            self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
             self.masterUsername = masterUsername
             self.nodeType = nodeType
             self.numberOfNodes = numberOfNodes
@@ -36587,7 +36707,7 @@ extension RedshiftClientTypes.UsageLimit: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if amount != 0 {
+        if let amount = amount {
             try container.encode(amount, forKey: ClientRuntime.Key("Amount"))
         }
         if let breachAction = breachAction {
@@ -36632,7 +36752,7 @@ extension RedshiftClientTypes.UsageLimit: Swift.Codable {
         featureType = featureTypeDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitLimitType.self, forKey: .limitType)
         limitType = limitTypeDecoded
-        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount) ?? 0
+        let amountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .amount)
         amount = amountDecoded
         let periodDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.UsageLimitPeriod.self, forKey: .period)
         period = periodDecoded
@@ -36664,7 +36784,7 @@ extension RedshiftClientTypes {
     /// Describes a usage limit object for a cluster.
     public struct UsageLimit: Swift.Equatable {
         /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB).
-        public var amount: Swift.Int
+        public var amount: Swift.Int?
         /// The action that Amazon Redshift takes when the limit is reached. Possible values are:
         ///
         /// * log - To log an event in a system table. The default is log.
@@ -36687,7 +36807,7 @@ extension RedshiftClientTypes {
         public var usageLimitId: Swift.String?
 
         public init(
-            amount: Swift.Int = 0,
+            amount: Swift.Int? = nil,
             breachAction: RedshiftClientTypes.UsageLimitBreachAction? = nil,
             clusterIdentifier: Swift.String? = nil,
             featureType: RedshiftClientTypes.UsageLimitFeatureType? = nil,

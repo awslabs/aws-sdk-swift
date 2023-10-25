@@ -5644,14 +5644,14 @@ extension ElasticsearchClientTypes.Duration: Swift.Codable {
         if let unit = self.unit {
             try encodeContainer.encode(unit.rawValue, forKey: .unit)
         }
-        if value != 0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value)
         value = valueDecoded
         let unitDecoded = try containerValues.decodeIfPresent(ElasticsearchClientTypes.TimeUnit.self, forKey: .unit)
         unit = unitDecoded
@@ -5664,11 +5664,11 @@ extension ElasticsearchClientTypes {
         /// Specifies the unit of a maintenance schedule duration. Valid value is HOURS. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information.
         public var unit: ElasticsearchClientTypes.TimeUnit?
         /// Integer to specify the value of a maintenance schedule duration. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information.
-        public var value: Swift.Int
+        public var value: Swift.Int?
 
         public init(
             unit: ElasticsearchClientTypes.TimeUnit? = nil,
-            value: Swift.Int = 0
+            value: Swift.Int? = nil
         )
         {
             self.unit = unit

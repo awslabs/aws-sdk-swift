@@ -5102,6 +5102,7 @@ extension TranscribeClientTypes {
     public enum MediaFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amr
         case flac
+        case m4a
         case mp3
         case mp4
         case ogg
@@ -5113,6 +5114,7 @@ extension TranscribeClientTypes {
             return [
                 .amr,
                 .flac,
+                .m4a,
                 .mp3,
                 .mp4,
                 .ogg,
@@ -5129,6 +5131,7 @@ extension TranscribeClientTypes {
             switch self {
             case .amr: return "amr"
             case .flac: return "flac"
+            case .m4a: return "m4a"
             case .mp3: return "mp3"
             case .mp4: return "mp4"
             case .ogg: return "ogg"

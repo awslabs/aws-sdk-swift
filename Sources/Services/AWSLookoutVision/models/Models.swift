@@ -1808,7 +1808,7 @@ extension LookoutVisionClientTypes.DetectAnomalyResult: Swift.Codable {
         if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
-        if isAnomalous != false {
+        if let isAnomalous = self.isAnomalous {
             try encodeContainer.encode(isAnomalous, forKey: .isAnomalous)
         }
         if let source = self.source {
@@ -1820,7 +1820,7 @@ extension LookoutVisionClientTypes.DetectAnomalyResult: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceDecoded = try containerValues.decodeIfPresent(LookoutVisionClientTypes.ImageSource.self, forKey: .source)
         source = sourceDecoded
-        let isAnomalousDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAnomalous) ?? false
+        let isAnomalousDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isAnomalous)
         isAnomalous = isAnomalousDecoded
         let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
         confidence = confidenceDecoded
@@ -1850,7 +1850,7 @@ extension LookoutVisionClientTypes {
         /// The confidence that Lookout for Vision has in the accuracy of the classification in IsAnomalous.
         public var confidence: Swift.Float?
         /// True if Amazon Lookout for Vision classifies the image as containing an anomaly, otherwise false.
-        public var isAnomalous: Swift.Bool
+        public var isAnomalous: Swift.Bool?
         /// The source of the image that was analyzed. direct means that the images was supplied from the local computer. No other values are supported.
         public var source: LookoutVisionClientTypes.ImageSource?
 
@@ -1858,7 +1858,7 @@ extension LookoutVisionClientTypes {
             anomalies: [LookoutVisionClientTypes.Anomaly]? = nil,
             anomalyMask: ClientRuntime.Data? = nil,
             confidence: Swift.Float? = nil,
-            isAnomalous: Swift.Bool = false,
+            isAnomalous: Swift.Bool? = nil,
             source: LookoutVisionClientTypes.ImageSource? = nil
         )
         {
@@ -2143,7 +2143,7 @@ extension InternalServerException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             self.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         } else {
-            self.properties.retryAfterSeconds = 0
+            self.properties.retryAfterSeconds = nil
         }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -2165,7 +2165,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The period of time, in seconds, before the operation can be retried.
-        public internal(set) var retryAfterSeconds: Swift.Int = 0
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -2179,7 +2179,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int = 0
+        retryAfterSeconds: Swift.Int? = nil
     )
     {
         self.properties.message = message
@@ -4900,7 +4900,7 @@ extension ThrottlingException {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
             self.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         } else {
-            self.properties.retryAfterSeconds = 0
+            self.properties.retryAfterSeconds = nil
         }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -4928,7 +4928,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         /// The quota code.
         public internal(set) var quotaCode: Swift.String? = nil
         /// The period of time, in seconds, before the operation can be retried.
-        public internal(set) var retryAfterSeconds: Swift.Int = 0
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
         /// The service code.
         public internal(set) var serviceCode: Swift.String? = nil
     }
@@ -4945,7 +4945,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int = 0,
+        retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
     )
     {

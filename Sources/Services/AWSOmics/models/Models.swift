@@ -7696,8 +7696,10 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = output.creationTime
             self.definition = output.definition
             self.digest = output.digest
+            self.failureReason = output.failureReason
             self.id = output.id
             self.logLevel = output.logLevel
+            self.logLocation = output.logLocation
             self.name = output.name
             self.outputUri = output.outputUri
             self.parameters = output.parameters
@@ -7722,8 +7724,10 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = nil
             self.definition = nil
             self.digest = nil
+            self.failureReason = nil
             self.id = nil
             self.logLevel = nil
+            self.logLocation = nil
             self.name = nil
             self.outputUri = nil
             self.parameters = nil
@@ -7757,10 +7761,14 @@ public struct GetRunOutput: Swift.Equatable {
     public var definition: Swift.String?
     /// The run's digest.
     public var digest: Swift.String?
+    /// The reason a run has failed.
+    public var failureReason: Swift.String?
     /// The run's ID.
     public var id: Swift.String?
     /// The run's log level.
     public var logLevel: OmicsClientTypes.RunLogLevel?
+    /// The location of the run log.
+    public var logLocation: OmicsClientTypes.RunLogLocation?
     /// The run's name.
     public var name: Swift.String?
     /// The run's output URI.
@@ -7804,8 +7812,10 @@ public struct GetRunOutput: Swift.Equatable {
         creationTime: ClientRuntime.Date? = nil,
         definition: Swift.String? = nil,
         digest: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
         id: Swift.String? = nil,
         logLevel: OmicsClientTypes.RunLogLevel? = nil,
+        logLocation: OmicsClientTypes.RunLogLocation? = nil,
         name: Swift.String? = nil,
         outputUri: Swift.String? = nil,
         parameters: ClientRuntime.Document? = nil,
@@ -7831,8 +7841,10 @@ public struct GetRunOutput: Swift.Equatable {
         self.creationTime = creationTime
         self.definition = definition
         self.digest = digest
+        self.failureReason = failureReason
         self.id = id
         self.logLevel = logLevel
+        self.logLocation = logLocation
         self.name = name
         self.outputUri = outputUri
         self.parameters = parameters
@@ -7880,6 +7892,8 @@ struct GetRunOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let accelerators: OmicsClientTypes.Accelerators?
     let retentionMode: OmicsClientTypes.RunRetentionMode?
+    let failureReason: Swift.String?
+    let logLocation: OmicsClientTypes.RunLogLocation?
 }
 
 extension GetRunOutputBody: Swift.Decodable {
@@ -7889,8 +7903,10 @@ extension GetRunOutputBody: Swift.Decodable {
         case creationTime
         case definition
         case digest
+        case failureReason
         case id
         case logLevel
+        case logLocation
         case name
         case outputUri
         case parameters
@@ -7981,6 +7997,10 @@ extension GetRunOutputBody: Swift.Decodable {
         accelerators = acceleratorsDecoded
         let retentionModeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunRetentionMode.self, forKey: .retentionMode)
         retentionMode = retentionModeDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let logLocationDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunLogLocation.self, forKey: .logLocation)
+        logLocation = logLocationDecoded
     }
 }
 
@@ -8015,7 +8035,7 @@ extension GetRunTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRunTaskInput: Swift.Equatable {
-    /// The task's ID.
+    /// The workflow run ID.
     /// This member is required.
     public var id: Swift.String?
     /// The task's ID.
@@ -8048,6 +8068,7 @@ extension GetRunTaskOutput: ClientRuntime.HttpResponseBinding {
             let output: GetRunTaskOutputBody = try responseDecoder.decode(responseBody: data)
             self.cpus = output.cpus
             self.creationTime = output.creationTime
+            self.failureReason = output.failureReason
             self.gpus = output.gpus
             self.instanceType = output.instanceType
             self.logStream = output.logStream
@@ -8061,6 +8082,7 @@ extension GetRunTaskOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.cpus = nil
             self.creationTime = nil
+            self.failureReason = nil
             self.gpus = nil
             self.instanceType = nil
             self.logStream = nil
@@ -8080,6 +8102,8 @@ public struct GetRunTaskOutput: Swift.Equatable {
     public var cpus: Swift.Int?
     /// When the task was created.
     public var creationTime: ClientRuntime.Date?
+    /// The reason a task has failed.
+    public var failureReason: Swift.String?
     /// The number of Graphics Processing Units (GPU) specified in the task.
     public var gpus: Swift.Int?
     /// The instance type for a task.
@@ -8104,6 +8128,7 @@ public struct GetRunTaskOutput: Swift.Equatable {
     public init(
         cpus: Swift.Int? = nil,
         creationTime: ClientRuntime.Date? = nil,
+        failureReason: Swift.String? = nil,
         gpus: Swift.Int? = nil,
         instanceType: Swift.String? = nil,
         logStream: Swift.String? = nil,
@@ -8118,6 +8143,7 @@ public struct GetRunTaskOutput: Swift.Equatable {
     {
         self.cpus = cpus
         self.creationTime = creationTime
+        self.failureReason = failureReason
         self.gpus = gpus
         self.instanceType = instanceType
         self.logStream = logStream
@@ -8144,12 +8170,14 @@ struct GetRunTaskOutputBody: Swift.Equatable {
     let logStream: Swift.String?
     let gpus: Swift.Int?
     let instanceType: Swift.String?
+    let failureReason: Swift.String?
 }
 
 extension GetRunTaskOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpus
         case creationTime
+        case failureReason
         case gpus
         case instanceType
         case logStream
@@ -8188,6 +8216,8 @@ extension GetRunTaskOutputBody: Swift.Decodable {
         gpus = gpusDecoded
         let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
     }
 }
 
@@ -15515,6 +15545,51 @@ extension OmicsClientTypes {
             self = RunLogLevel(rawValue: rawValue) ?? RunLogLevel.sdkUnknown(rawValue)
         }
     }
+}
+
+extension OmicsClientTypes.RunLogLocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case engineLogStream
+        case runLogStream
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let engineLogStream = self.engineLogStream {
+            try encodeContainer.encode(engineLogStream, forKey: .engineLogStream)
+        }
+        if let runLogStream = self.runLogStream {
+            try encodeContainer.encode(runLogStream, forKey: .runLogStream)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let engineLogStreamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineLogStream)
+        engineLogStream = engineLogStreamDecoded
+        let runLogStreamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runLogStream)
+        runLogStream = runLogStreamDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// The URI for the run log.
+    public struct RunLogLocation: Swift.Equatable {
+        /// The log stream ARN for the engine log.
+        public var engineLogStream: Swift.String?
+        /// The log stream ARN for the run log.
+        public var runLogStream: Swift.String?
+
+        public init(
+            engineLogStream: Swift.String? = nil,
+            runLogStream: Swift.String? = nil
+        )
+        {
+            self.engineLogStream = engineLogStream
+            self.runLogStream = runLogStream
+        }
+    }
+
 }
 
 extension OmicsClientTypes {

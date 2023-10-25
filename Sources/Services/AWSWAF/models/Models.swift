@@ -10149,7 +10149,7 @@ extension WAFClientTypes.RateBasedRule: Swift.Codable {
         if let rateKey = self.rateKey {
             try encodeContainer.encode(rateKey.rawValue, forKey: .rateKey)
         }
-        if rateLimit != 0 {
+        if let rateLimit = self.rateLimit {
             try encodeContainer.encode(rateLimit, forKey: .rateLimit)
         }
         if let ruleId = self.ruleId {
@@ -10178,7 +10178,7 @@ extension WAFClientTypes.RateBasedRule: Swift.Codable {
         matchPredicates = matchPredicatesDecoded0
         let rateKeyDecoded = try containerValues.decodeIfPresent(WAFClientTypes.RateKey.self, forKey: .rateKey)
         rateKey = rateKeyDecoded
-        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit) ?? 0
+        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit)
         rateLimit = rateLimitDecoded
     }
 }
@@ -10205,7 +10205,7 @@ extension WAFClientTypes {
         public var rateKey: WAFClientTypes.RateKey?
         /// The maximum number of requests, which have an identical value in the field specified by the RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
         /// This member is required.
-        public var rateLimit: Swift.Int
+        public var rateLimit: Swift.Int?
         /// A unique identifier for a RateBasedRule. You use RuleId to get more information about a RateBasedRule (see [GetRateBasedRule]), update a RateBasedRule (see [UpdateRateBasedRule]), insert a RateBasedRule into a WebACL or delete one from a WebACL (see [UpdateWebACL]), or delete a RateBasedRule from AWS WAF (see [DeleteRateBasedRule]).
         /// This member is required.
         public var ruleId: Swift.String?
@@ -10215,7 +10215,7 @@ extension WAFClientTypes {
             metricName: Swift.String? = nil,
             name: Swift.String? = nil,
             rateKey: WAFClientTypes.RateKey? = nil,
-            rateLimit: Swift.Int = 0,
+            rateLimit: Swift.Int? = nil,
             ruleId: Swift.String? = nil
         )
         {

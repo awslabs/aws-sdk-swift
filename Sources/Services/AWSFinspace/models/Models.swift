@@ -5614,7 +5614,7 @@ extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if size != 0 {
+        if let size = self.size {
             try encodeContainer.encode(size, forKey: .size)
         }
         if let type = self.type {
@@ -5626,7 +5626,7 @@ extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxSavedownStorageType.self, forKey: .type)
         type = typeDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
     }
 }
@@ -5636,7 +5636,7 @@ extension FinspaceClientTypes {
     public struct KxSavedownStorageConfiguration: Swift.Equatable {
         /// The size of temporary storage in gibibytes.
         /// This member is required.
-        public var size: Swift.Int
+        public var size: Swift.Int?
         /// The type of writeable storage space for temporarily storing your savedown data. The valid values are:
         ///
         /// * SDS01 – This type represents 3000 IOPS and io2 ebs volume type.
@@ -5644,7 +5644,7 @@ extension FinspaceClientTypes {
         public var type: FinspaceClientTypes.KxSavedownStorageType?
 
         public init(
-            size: Swift.Int = 0,
+            size: Swift.Int? = nil,
             type: FinspaceClientTypes.KxSavedownStorageType? = nil
         )
         {
@@ -6855,14 +6855,14 @@ extension FinspaceClientTypes.NetworkACLEntry: Swift.Codable {
         if let ruleAction = self.ruleAction {
             try encodeContainer.encode(ruleAction.rawValue, forKey: .ruleAction)
         }
-        if ruleNumber != 0 {
+        if let ruleNumber = self.ruleNumber {
             try encodeContainer.encode(ruleNumber, forKey: .ruleNumber)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ruleNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleNumber) ?? 0
+        let ruleNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleNumber)
         ruleNumber = ruleNumberDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
@@ -6895,7 +6895,7 @@ extension FinspaceClientTypes {
         public var ruleAction: FinspaceClientTypes.RuleAction?
         /// The rule number for the entry. For example 100. All the network ACL entries are processed in ascending order by rule number.
         /// This member is required.
-        public var ruleNumber: Swift.Int
+        public var ruleNumber: Swift.Int?
 
         public init(
             cidrBlock: Swift.String? = nil,
@@ -6903,7 +6903,7 @@ extension FinspaceClientTypes {
             portRange: FinspaceClientTypes.PortRange? = nil,
             `protocol`: Swift.String? = nil,
             ruleAction: FinspaceClientTypes.RuleAction? = nil,
-            ruleNumber: Swift.Int = 0
+            ruleNumber: Swift.Int? = nil
         )
         {
             self.cidrBlock = cidrBlock

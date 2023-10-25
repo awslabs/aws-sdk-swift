@@ -10413,7 +10413,7 @@ extension BatchClientTypes.UpdatePolicy: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if jobExecutionTimeoutMinutes != 0 {
+        if let jobExecutionTimeoutMinutes = self.jobExecutionTimeoutMinutes {
             try encodeContainer.encode(jobExecutionTimeoutMinutes, forKey: .jobExecutionTimeoutMinutes)
         }
         if let terminateJobsOnUpdate = self.terminateJobsOnUpdate {
@@ -10425,7 +10425,7 @@ extension BatchClientTypes.UpdatePolicy: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let terminateJobsOnUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminateJobsOnUpdate)
         terminateJobsOnUpdate = terminateJobsOnUpdateDecoded
-        let jobExecutionTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .jobExecutionTimeoutMinutes) ?? 0
+        let jobExecutionTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .jobExecutionTimeoutMinutes)
         jobExecutionTimeoutMinutes = jobExecutionTimeoutMinutesDecoded
     }
 }
@@ -10434,12 +10434,12 @@ extension BatchClientTypes {
     /// Specifies the infrastructure update policy for the compute environment. For more information about infrastructure updates, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public struct UpdatePolicy: Swift.Equatable {
         /// Specifies the job timeout (in minutes) when the compute environment infrastructure is updated. The default value is 30.
-        public var jobExecutionTimeoutMinutes: Swift.Int
+        public var jobExecutionTimeoutMinutes: Swift.Int?
         /// Specifies whether jobs are automatically terminated when the computer environment infrastructure is updated. The default value is false.
         public var terminateJobsOnUpdate: Swift.Bool?
 
         public init(
-            jobExecutionTimeoutMinutes: Swift.Int = 0,
+            jobExecutionTimeoutMinutes: Swift.Int? = nil,
             terminateJobsOnUpdate: Swift.Bool? = nil
         )
         {

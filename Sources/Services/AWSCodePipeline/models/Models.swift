@@ -9948,7 +9948,7 @@ public struct RetryStageExecutionInput: Swift.Equatable {
     /// The name of the pipeline that contains the failed stage.
     /// This member is required.
     public var pipelineName: Swift.String?
-    /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
+    /// The scope of the retry attempt.
     /// This member is required.
     public var retryMode: CodePipelineClientTypes.StageRetryMode?
     /// The name of the failed stage to be retried.
@@ -10533,11 +10533,13 @@ extension StageNotRetryableExceptionBody: Swift.Decodable {
 
 extension CodePipelineClientTypes {
     public enum StageRetryMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allActions
         case failedActions
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StageRetryMode] {
             return [
+                .allActions,
                 .failedActions,
                 .sdkUnknown("")
             ]
@@ -10548,6 +10550,7 @@ extension CodePipelineClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .allActions: return "ALL_ACTIONS"
             case .failedActions: return "FAILED_ACTIONS"
             case let .sdkUnknown(s): return s
             }

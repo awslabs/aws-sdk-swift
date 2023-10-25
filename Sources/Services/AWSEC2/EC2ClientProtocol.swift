@@ -2342,6 +2342,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `DisableFastSnapshotRestoresOutput` : [no documentation found]
     func disableFastSnapshotRestores(input: DisableFastSnapshotRestoresInput) async throws -> DisableFastSnapshotRestoresOutput
+    /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If a public or shared AMI was previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose access to the disabled AMI. A disabled AMI does not appear in [DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html) API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disabled AMI using [EnableImage](http://amazonaws.com/AWSEC2/latest/APIReference/API_EnableImage.html). For more information, see [Disable an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disable-an-ami.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DisableImageInput : [no documentation found]
+    ///
+    /// - Returns: `DisableImageOutput` : [no documentation found]
+    func disableImage(input: DisableImageInput) async throws -> DisableImageOutput
     /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be block-new-sharing. When the API has completed the configuration, the response will be unblocked. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DisableImageBlockPublicAccessInput : [no documentation found]
@@ -2512,6 +2518,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `EnableFastSnapshotRestoresOutput` : [no documentation found]
     func enableFastSnapshotRestores(input: EnableFastSnapshotRestoresInput) async throws -> EnableFastSnapshotRestoresOutput
+    /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Organizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see [Disable an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disable-an-ami.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter EnableImageInput : [no documentation found]
+    ///
+    /// - Returns: `EnableImageOutput` : [no documentation found]
+    func enableImage(input: EnableImageInput) async throws -> EnableImageOutput
     /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be unblocked. When the API has completed the configuration, the response will be block-new-sharing. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
     ///
     /// - Parameter EnableImageBlockPublicAccessInput : [no documentation found]

@@ -4288,7 +4288,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let kmsKeyId = kmsKeyId {
@@ -4300,7 +4300,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let pendingModifiedValues = pendingModifiedValues {
@@ -4342,7 +4342,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
@@ -4404,7 +4404,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         endpoint = endpointDecoded
         let readerEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readerEndpoint)
         readerEndpoint = readerEndpointDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
@@ -4500,7 +4500,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         }
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -4527,7 +4527,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         } else {
             associatedRoles = nil
         }
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let cloneGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloneGroupId)
         cloneGroupId = cloneGroupIdDecoded
@@ -4625,7 +4625,7 @@ extension NeptuneClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster.
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -4633,7 +4633,7 @@ extension NeptuneClientTypes {
         /// Not supported by Neptune.
         public var masterUsername: Swift.String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
         public var pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues?
         /// Specifies the progress of the operation as a percentage.
@@ -4655,7 +4655,7 @@ extension NeptuneClientTypes {
         /// Specifies the current state of this DB cluster.
         public var status: Swift.String?
         /// Specifies whether the DB cluster is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]?
 
@@ -4686,11 +4686,11 @@ extension NeptuneClientTypes {
             engineVersion: Swift.String? = nil,
             globalClusterIdentifier: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             masterUsername: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -4701,7 +4701,7 @@ extension NeptuneClientTypes {
             replicationSourceIdentifier: Swift.String? = nil,
             serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -5177,7 +5177,7 @@ extension NeptuneClientTypes.DBClusterMember: Swift.Codable {
         if let dbInstanceIdentifier = dbInstanceIdentifier {
             try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
         }
-        if isClusterWriter != false {
+        if let isClusterWriter = isClusterWriter {
             try container.encode(isClusterWriter, forKey: ClientRuntime.Key("IsClusterWriter"))
         }
         if let promotionTier = promotionTier {
@@ -5189,7 +5189,7 @@ extension NeptuneClientTypes.DBClusterMember: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter) ?? false
+        let isClusterWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isClusterWriter)
         isClusterWriter = isClusterWriterDecoded
         let dbClusterParameterGroupStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupStatus)
         dbClusterParameterGroupStatus = dbClusterParameterGroupStatusDecoded
@@ -5206,14 +5206,14 @@ extension NeptuneClientTypes {
         /// Specifies the instance identifier for this member of the DB cluster.
         public var dbInstanceIdentifier: Swift.String?
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
-        public var isClusterWriter: Swift.Bool
+        public var isClusterWriter: Swift.Bool?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
 
         public init(
             dbClusterParameterGroupStatus: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            isClusterWriter: Swift.Bool = false,
+            isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
         )
         {
@@ -5753,7 +5753,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
         if let availabilityZones = availabilityZones {
@@ -5786,7 +5786,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let kmsKeyId = kmsKeyId {
@@ -5798,10 +5798,10 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
         }
-        if percentProgress != 0 {
+        if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
@@ -5816,7 +5816,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let vpcId = vpcId {
@@ -5853,11 +5853,11 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         snapshotCreateTime = snapshotCreateTimeDecoded
         let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
         engine = engineDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
@@ -5871,9 +5871,9 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         licenseModel = licenseModelDecoded
         let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
         snapshotType = snapshotTypeDecoded
-        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress) ?? 0
+        let percentProgressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentProgress)
         percentProgress = percentProgressDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -5881,7 +5881,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         dbClusterSnapshotArn = dbClusterSnapshotArnDecoded
         let sourceDBClusterSnapshotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterSnapshotArn)
         sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArnDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
     }
 }
@@ -5890,7 +5890,7 @@ extension NeptuneClientTypes {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
     public struct DBClusterSnapshot: Swift.Equatable {
         /// Specifies the allocated storage size in gibibytes (GiB).
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
         public var availabilityZones: [Swift.String]?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
@@ -5906,7 +5906,7 @@ extension NeptuneClientTypes {
         /// Provides the version of the database engine for this DB cluster snapshot.
         public var engineVersion: Swift.String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster snapshot.
         public var kmsKeyId: Swift.String?
         /// Provides the license model information for this DB cluster snapshot.
@@ -5914,9 +5914,9 @@ extension NeptuneClientTypes {
         /// Not supported by Neptune.
         public var masterUsername: Swift.String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public var percentProgress: Swift.Int
+        public var percentProgress: Swift.Int?
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public var snapshotCreateTime: ClientRuntime.Date?
         /// Provides the type of the DB cluster snapshot.
@@ -5926,12 +5926,12 @@ extension NeptuneClientTypes {
         /// Specifies the status of this DB cluster snapshot.
         public var status: Swift.String?
         /// Specifies whether the DB cluster snapshot is encrypted.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public var vpcId: Swift.String?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
+            allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -5939,17 +5939,17 @@ extension NeptuneClientTypes {
             dbClusterSnapshotIdentifier: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
-            percentProgress: Swift.Int = 0,
-            port: Swift.Int = 0,
+            percentProgress: Swift.Int? = nil,
+            port: Swift.Int? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -6303,13 +6303,13 @@ extension NeptuneClientTypes.DBEngineVersion: Swift.Codable {
                 try supportedTimezonesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if supportsGlobalDatabases != false {
+        if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
         }
-        if supportsLogExportsToCloudwatchLogs != false {
+        if let supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs {
             try container.encode(supportsLogExportsToCloudwatchLogs, forKey: ClientRuntime.Key("SupportsLogExportsToCloudwatchLogs"))
         }
-        if supportsReadReplica != false {
+        if let supportsReadReplica = supportsReadReplica {
             try container.encode(supportsReadReplica, forKey: ClientRuntime.Key("SupportsReadReplica"))
         }
         if let validUpgradeTarget = validUpgradeTarget {
@@ -6416,11 +6416,11 @@ extension NeptuneClientTypes.DBEngineVersion: Swift.Codable {
         } else {
             exportableLogTypes = nil
         }
-        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs) ?? false
+        let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
-        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica) ?? false
+        let supportsReadReplicaDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsReadReplica)
         supportsReadReplica = supportsReadReplicaDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
     }
 }
@@ -6447,11 +6447,11 @@ extension NeptuneClientTypes {
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
         public var supportedTimezones: [NeptuneClientTypes.Timezone]?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
-        public var supportsGlobalDatabases: Swift.Bool
+        public var supportsGlobalDatabases: Swift.Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
-        public var supportsLogExportsToCloudwatchLogs: Swift.Bool
+        public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
         /// Indicates whether the database engine version supports read replicas.
-        public var supportsReadReplica: Swift.Bool
+        public var supportsReadReplica: Swift.Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
         public var validUpgradeTarget: [NeptuneClientTypes.UpgradeTarget]?
 
@@ -6465,9 +6465,9 @@ extension NeptuneClientTypes {
             exportableLogTypes: [Swift.String]? = nil,
             supportedCharacterSets: [NeptuneClientTypes.CharacterSet]? = nil,
             supportedTimezones: [NeptuneClientTypes.Timezone]? = nil,
-            supportsGlobalDatabases: Swift.Bool = false,
-            supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
-            supportsReadReplica: Swift.Bool = false,
+            supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
+            supportsReadReplica: Swift.Bool? = nil,
             validUpgradeTarget: [NeptuneClientTypes.UpgradeTarget]? = nil
         )
         {
@@ -6548,16 +6548,16 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allocatedStorage != 0 {
+        if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
-        if backupRetentionPeriod != 0 {
+        if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
@@ -6566,7 +6566,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
         }
-        if copyTagsToSnapshot != false {
+        if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
@@ -6614,7 +6614,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let dbSubnetGroup = dbSubnetGroup {
             try container.encode(dbSubnetGroup, forKey: ClientRuntime.Key("DBSubnetGroup"))
         }
-        if dbInstancePort != 0 {
+        if let dbInstancePort = dbInstancePort {
             try container.encode(dbInstancePort, forKey: ClientRuntime.Key("DbInstancePort"))
         }
         if let dbiResourceId = dbiResourceId {
@@ -6659,7 +6659,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let enhancedMonitoringResourceArn = enhancedMonitoringResourceArn {
             try container.encode(enhancedMonitoringResourceArn, forKey: ClientRuntime.Key("EnhancedMonitoringResourceArn"))
         }
-        if iamDatabaseAuthenticationEnabled != false {
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
@@ -6686,7 +6686,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let monitoringRoleArn = monitoringRoleArn {
             try container.encode(monitoringRoleArn, forKey: ClientRuntime.Key("MonitoringRoleArn"))
         }
-        if multiAZ != false {
+        if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let optionGroupMemberships = optionGroupMemberships {
@@ -6719,7 +6719,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         if let promotionTier = promotionTier {
             try container.encode(promotionTier, forKey: ClientRuntime.Key("PromotionTier"))
         }
-        if publiclyAccessible != false {
+        if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers {
@@ -6764,7 +6764,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
                 try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if storageEncrypted != false {
+        if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
         if let storageType = storageType {
@@ -6806,13 +6806,13 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         dbName = dbNameDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.Endpoint.self, forKey: .endpoint)
         endpoint = endpointDecoded
-        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage) ?? 0
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let instanceCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .instanceCreateTime)
         instanceCreateTime = instanceCreateTimeDecoded
         let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
         preferredBackupWindow = preferredBackupWindowDecoded
-        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod) ?? 0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
         if containerValues.contains(.dbSecurityGroups) {
             struct KeyVal0{struct DBSecurityGroup{}}
@@ -6881,11 +6881,11 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         pendingModifiedValues = pendingModifiedValuesDecoded
         let latestRestorableTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .latestRestorableTime)
         latestRestorableTime = latestRestorableTimeDecoded
-        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ) ?? false
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let readReplicaSourceDBInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readReplicaSourceDBInstanceIdentifier)
         readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifierDecoded
@@ -6954,7 +6954,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         characterSetName = characterSetNameDecoded
         let secondaryAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secondaryAvailabilityZone)
         secondaryAvailabilityZone = secondaryAvailabilityZoneDecoded
-        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible) ?? false
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
         publiclyAccessible = publiclyAccessibleDecoded
         if containerValues.contains(.statusInfos) {
             struct KeyVal0{struct DBInstanceStatusInfo{}}
@@ -6979,11 +6979,11 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         storageType = storageTypeDecoded
         let tdeCredentialArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tdeCredentialArn)
         tdeCredentialArn = tdeCredentialArnDecoded
-        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort) ?? 0
+        let dbInstancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dbInstancePort)
         dbInstancePort = dbInstancePortDecoded
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted) ?? false
+        let storageEncryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .storageEncrypted)
         storageEncrypted = storageEncryptedDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
@@ -7010,7 +7010,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         } else {
             domainMemberships = nil
         }
-        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot) ?? false
+        let copyTagsToSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTagsToSnapshot)
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
         let monitoringIntervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitoringInterval)
         monitoringInterval = monitoringIntervalDecoded
@@ -7024,7 +7024,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Codable {
         dbInstanceArn = dbInstanceArnDecoded
         let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
         timezone = timezoneDecoded
-        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled) ?? false
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
         let performanceInsightsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performanceInsightsEnabled)
         performanceInsightsEnabled = performanceInsightsEnabledDecoded
@@ -7058,19 +7058,19 @@ extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public struct DBInstance: Swift.Equatable {
         /// Not supported by Neptune.
-        public var allocatedStorage: Swift.Int
+        public var allocatedStorage: Swift.Int?
         /// Indicates that minor version patches are applied automatically.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// Specifies the name of the Availability Zone the DB instance is located in.
         public var availabilityZone: Swift.String?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public var backupRetentionPeriod: Swift.Int
+        public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for this DB instance.
         public var caCertificateIdentifier: Swift.String?
         /// (Not supported by Neptune)
         public var characterSetName: Swift.String?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
-        public var copyTagsToSnapshot: Swift.Bool
+        public var copyTagsToSnapshot: Swift.Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -7080,7 +7080,7 @@ extension NeptuneClientTypes {
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
         public var dbInstanceIdentifier: Swift.String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public var dbInstancePort: Swift.Int
+        public var dbInstancePort: Swift.Int?
         /// Specifies the current state of this database.
         public var dbInstanceStatus: Swift.String?
         /// The database name.
@@ -7108,7 +7108,7 @@ extension NeptuneClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public var enhancedMonitoringResourceArn: Swift.String?
         /// True if Amazon Identity and Access Management (IAM) authentication is enabled, and otherwise false.
-        public var iamDatabaseAuthenticationEnabled: Swift.Bool
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Provides the date and time the DB instance was created.
         public var instanceCreateTime: ClientRuntime.Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
@@ -7126,7 +7126,7 @@ extension NeptuneClientTypes {
         /// The ARN for the IAM role that permits Neptune to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.
         public var monitoringRoleArn: Swift.String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
-        public var multiAZ: Swift.Bool
+        public var multiAZ: Swift.Bool?
         /// (Not supported by Neptune)
         public var optionGroupMemberships: [NeptuneClientTypes.OptionGroupMembership]?
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
@@ -7143,7 +7143,7 @@ extension NeptuneClientTypes {
         public var promotionTier: Swift.Int?
         /// This flag should no longer be used.
         @available(*, deprecated)
-        public var publiclyAccessible: Swift.Bool
+        public var publiclyAccessible: Swift.Bool?
         /// Contains one or more identifiers of DB clusters that are Read Replicas of this DB instance.
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
         /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
@@ -7155,7 +7155,7 @@ extension NeptuneClientTypes {
         /// The status of a Read Replica. If the instance is not a Read Replica, this is blank.
         public var statusInfos: [NeptuneClientTypes.DBInstanceStatusInfo]?
         /// Not supported: The encryption for DB instances is managed by the DB cluster.
-        public var storageEncrypted: Swift.Bool
+        public var storageEncrypted: Swift.Bool?
         /// Specifies the storage type associated with DB instance.
         public var storageType: Swift.String?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
@@ -7166,18 +7166,18 @@ extension NeptuneClientTypes {
         public var vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]?
 
         public init(
-            allocatedStorage: Swift.Int = 0,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            allocatedStorage: Swift.Int? = nil,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             availabilityZone: Swift.String? = nil,
-            backupRetentionPeriod: Swift.Int = 0,
+            backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
             characterSetName: Swift.String? = nil,
-            copyTagsToSnapshot: Swift.Bool = false,
+            copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
-            dbInstancePort: Swift.Int = 0,
+            dbInstancePort: Swift.Int? = nil,
             dbInstanceStatus: Swift.String? = nil,
             dbName: Swift.String? = nil,
             dbParameterGroups: [NeptuneClientTypes.DBParameterGroupStatus]? = nil,
@@ -7191,7 +7191,7 @@ extension NeptuneClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             enhancedMonitoringResourceArn: Swift.String? = nil,
-            iamDatabaseAuthenticationEnabled: Swift.Bool = false,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: ClientRuntime.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -7200,7 +7200,7 @@ extension NeptuneClientTypes {
             masterUsername: Swift.String? = nil,
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
-            multiAZ: Swift.Bool = false,
+            multiAZ: Swift.Bool? = nil,
             optionGroupMemberships: [NeptuneClientTypes.OptionGroupMembership]? = nil,
             pendingModifiedValues: NeptuneClientTypes.PendingModifiedValues? = nil,
             performanceInsightsEnabled: Swift.Bool? = nil,
@@ -7208,13 +7208,13 @@ extension NeptuneClientTypes {
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             promotionTier: Swift.Int? = nil,
-            publiclyAccessible: Swift.Bool = false,
+            publiclyAccessible: Swift.Bool? = nil,
             readReplicaDBClusterIdentifiers: [Swift.String]? = nil,
             readReplicaDBInstanceIdentifiers: [Swift.String]? = nil,
             readReplicaSourceDBInstanceIdentifier: Swift.String? = nil,
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [NeptuneClientTypes.DBInstanceStatusInfo]? = nil,
-            storageEncrypted: Swift.Bool = false,
+            storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
@@ -7402,7 +7402,7 @@ extension NeptuneClientTypes.DBInstanceStatusInfo: Swift.Codable {
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
-        if normal != false {
+        if let normal = normal {
             try container.encode(normal, forKey: ClientRuntime.Key("Normal"))
         }
         if let status = status {
@@ -7417,7 +7417,7 @@ extension NeptuneClientTypes.DBInstanceStatusInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
         statusType = statusTypeDecoded
-        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal) ?? false
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
         normal = normalDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -7432,7 +7432,7 @@ extension NeptuneClientTypes {
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public var message: Swift.String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public var normal: Swift.Bool
+        public var normal: Swift.Bool?
         /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
         public var status: Swift.String?
         /// This value is currently "read replication."
@@ -7440,7 +7440,7 @@ extension NeptuneClientTypes {
 
         public init(
             message: Swift.String? = nil,
-            normal: Swift.Bool = false,
+            normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
         )
@@ -8692,7 +8692,7 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
         dbClusterIdentifier = dbClusterIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
@@ -8996,7 +8996,7 @@ extension DeleteDBInstanceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
         dbInstanceIdentifier = dbInstanceIdentifierDecoded
-        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot) ?? false
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
         skipFinalSnapshot = skipFinalSnapshotDecoded
         let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
         finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
@@ -10223,9 +10223,9 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared) ?? false
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
         includeShared = includeSharedDecoded
-        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic) ?? false
+        let includePublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePublic)
         includePublic = includePublicDecoded
     }
 }
@@ -10651,7 +10651,7 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
         let listSupportedCharacterSetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .listSupportedCharacterSets)
         listSupportedCharacterSets = listSupportedCharacterSetsDecoded
@@ -13188,19 +13188,19 @@ extension NeptuneClientTypes.DoubleRange: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if from != 0.0 {
-            try container.encode(Swift.String(from), forKey: ClientRuntime.Key("From"))
+        if let from = from {
+            try container.encode(from, forKey: ClientRuntime.Key("From"))
         }
-        if to != 0.0 {
-            try container.encode(Swift.String(to), forKey: ClientRuntime.Key("To"))
+        if let to = to {
+            try container.encode(to, forKey: ClientRuntime.Key("To"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .to)
         to = toDecoded
     }
 }
@@ -13209,13 +13209,13 @@ extension NeptuneClientTypes {
     /// A range of double values.
     public struct DoubleRange: Swift.Equatable {
         /// The minimum value in the range.
-        public var from: Swift.Double
+        public var from: Swift.Double?
         /// The maximum value in the range.
-        public var to: Swift.Double
+        public var to: Swift.Double?
 
         public init(
-            from: Swift.Double = 0.0,
-            to: Swift.Double = 0.0
+            from: Swift.Double? = nil,
+            to: Swift.Double? = nil
         )
         {
             self.from = from
@@ -13240,7 +13240,7 @@ extension NeptuneClientTypes.Endpoint: Swift.Codable {
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
     }
@@ -13249,7 +13249,7 @@ extension NeptuneClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
@@ -13264,12 +13264,12 @@ extension NeptuneClientTypes {
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -13565,7 +13565,7 @@ extension NeptuneClientTypes.EventSubscription: Swift.Codable {
         if let customerAwsId = customerAwsId {
             try container.encode(customerAwsId, forKey: ClientRuntime.Key("CustomerAwsId"))
         }
-        if enabled != false {
+        if let enabled = enabled {
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let eventCategoriesList = eventCategoriesList {
@@ -13661,7 +13661,7 @@ extension NeptuneClientTypes.EventSubscription: Swift.Codable {
         } else {
             eventCategoriesList = nil
         }
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let eventSubscriptionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSubscriptionArn)
         eventSubscriptionArn = eventSubscriptionArnDecoded
@@ -13676,7 +13676,7 @@ extension NeptuneClientTypes {
         /// The Amazon customer account associated with the event notification subscription.
         public var customerAwsId: Swift.String?
         /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// A list of event categories for the event notification subscription.
         public var eventCategoriesList: [Swift.String]?
         /// The Amazon Resource Name (ARN) for the event subscription.
@@ -13695,7 +13695,7 @@ extension NeptuneClientTypes {
         public init(
             custSubscriptionId: Swift.String? = nil,
             customerAwsId: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             eventCategoriesList: [Swift.String]? = nil,
             eventSubscriptionArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -14279,7 +14279,7 @@ extension NeptuneClientTypes.GlobalClusterMember: Swift.Codable {
         if let dbClusterArn = dbClusterArn {
             try container.encode(dbClusterArn, forKey: ClientRuntime.Key("DBClusterArn"))
         }
-        if isWriter != false {
+        if let isWriter = isWriter {
             try container.encode(isWriter, forKey: ClientRuntime.Key("IsWriter"))
         }
         if let readers = readers {
@@ -14319,7 +14319,7 @@ extension NeptuneClientTypes.GlobalClusterMember: Swift.Codable {
         } else {
             readers = nil
         }
-        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter) ?? false
+        let isWriterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isWriter)
         isWriter = isWriterDecoded
     }
 }
@@ -14330,13 +14330,13 @@ extension NeptuneClientTypes {
         /// The Amazon Resource Name (ARN) for each Neptune cluster.
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Neptune cluster is the primary cluster (that is, has read-write capability) for the Neptune global database with which it is associated.
-        public var isWriter: Swift.Bool
+        public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Neptune global database.
         public var readers: [Swift.String]?
 
         public init(
             dbClusterArn: Swift.String? = nil,
-            isWriter: Swift.Bool = false,
+            isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil
         )
         {
@@ -16219,7 +16219,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         dbClusterIdentifier = dbClusterIdentifierDecoded
         let newDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newDBClusterIdentifier)
         newDBClusterIdentifier = newDBClusterIdentifierDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
@@ -16260,7 +16260,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfigurationDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let dbInstanceParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceParameterGroupName)
         dbInstanceParameterGroupName = dbInstanceParameterGroupNameDecoded
@@ -17117,7 +17117,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         } else {
             vpcSecurityGroupIds = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
         masterUserPassword = masterUserPasswordDecoded
@@ -17133,7 +17133,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
@@ -18028,34 +18028,34 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Codable {
         if let minStorageSize = minStorageSize {
             try container.encode(minStorageSize, forKey: ClientRuntime.Key("MinStorageSize"))
         }
-        if multiAZCapable != false {
+        if let multiAZCapable = multiAZCapable {
             try container.encode(multiAZCapable, forKey: ClientRuntime.Key("MultiAZCapable"))
         }
-        if readReplicaCapable != false {
+        if let readReplicaCapable = readReplicaCapable {
             try container.encode(readReplicaCapable, forKey: ClientRuntime.Key("ReadReplicaCapable"))
         }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
-        if supportsEnhancedMonitoring != false {
+        if let supportsEnhancedMonitoring = supportsEnhancedMonitoring {
             try container.encode(supportsEnhancedMonitoring, forKey: ClientRuntime.Key("SupportsEnhancedMonitoring"))
         }
-        if supportsGlobalDatabases != false {
+        if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
         }
-        if supportsIAMDatabaseAuthentication != false {
+        if let supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication {
             try container.encode(supportsIAMDatabaseAuthentication, forKey: ClientRuntime.Key("SupportsIAMDatabaseAuthentication"))
         }
-        if supportsIops != false {
+        if let supportsIops = supportsIops {
             try container.encode(supportsIops, forKey: ClientRuntime.Key("SupportsIops"))
         }
-        if supportsPerformanceInsights != false {
+        if let supportsPerformanceInsights = supportsPerformanceInsights {
             try container.encode(supportsPerformanceInsights, forKey: ClientRuntime.Key("SupportsPerformanceInsights"))
         }
-        if supportsStorageEncryption != false {
+        if let supportsStorageEncryption = supportsStorageEncryption {
             try container.encode(supportsStorageEncryption, forKey: ClientRuntime.Key("SupportsStorageEncryption"))
         }
-        if vpc != false {
+        if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
         }
     }
@@ -18089,23 +18089,23 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Codable {
         } else {
             availabilityZones = nil
         }
-        let multiAZCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZCapable) ?? false
+        let multiAZCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZCapable)
         multiAZCapable = multiAZCapableDecoded
-        let readReplicaCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readReplicaCapable) ?? false
+        let readReplicaCapableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readReplicaCapable)
         readReplicaCapable = readReplicaCapableDecoded
-        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc) ?? false
+        let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc)
         vpc = vpcDecoded
-        let supportsStorageEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageEncryption) ?? false
+        let supportsStorageEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsStorageEncryption)
         supportsStorageEncryption = supportsStorageEncryptionDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
         storageType = storageTypeDecoded
-        let supportsIopsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIops) ?? false
+        let supportsIopsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIops)
         supportsIops = supportsIopsDecoded
-        let supportsEnhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsEnhancedMonitoring) ?? false
+        let supportsEnhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsEnhancedMonitoring)
         supportsEnhancedMonitoring = supportsEnhancedMonitoringDecoded
-        let supportsIAMDatabaseAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIAMDatabaseAuthentication) ?? false
+        let supportsIAMDatabaseAuthenticationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIAMDatabaseAuthentication)
         supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthenticationDecoded
-        let supportsPerformanceInsightsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsPerformanceInsights) ?? false
+        let supportsPerformanceInsightsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsPerformanceInsights)
         supportsPerformanceInsights = supportsPerformanceInsightsDecoded
         let minStorageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minStorageSize)
         minStorageSize = minStorageSizeDecoded
@@ -18119,7 +18119,7 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Codable {
         minIopsPerGib = minIopsPerGibDecoded
         let maxIopsPerGibDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxIopsPerGib)
         maxIopsPerGib = maxIopsPerGibDecoded
-        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases) ?? false
+        let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
     }
 }
@@ -18150,25 +18150,25 @@ extension NeptuneClientTypes {
         /// Minimum storage size for a DB instance.
         public var minStorageSize: Swift.Int?
         /// Indicates whether a DB instance is Multi-AZ capable.
-        public var multiAZCapable: Swift.Bool
+        public var multiAZCapable: Swift.Bool?
         /// Indicates whether a DB instance can have a Read Replica.
-        public var readReplicaCapable: Swift.Bool
+        public var readReplicaCapable: Swift.Bool?
         /// Indicates the storage type for a DB instance.
         public var storageType: Swift.String?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
-        public var supportsEnhancedMonitoring: Swift.Bool
+        public var supportsEnhancedMonitoring: Swift.Bool?
         /// A value that indicates whether you can use Neptune global databases with a specific combination of other DB engine attributes.
-        public var supportsGlobalDatabases: Swift.Bool
+        public var supportsGlobalDatabases: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
-        public var supportsIAMDatabaseAuthentication: Swift.Bool
+        public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
-        public var supportsIops: Swift.Bool
+        public var supportsIops: Swift.Bool?
         /// (Not supported by Neptune)
-        public var supportsPerformanceInsights: Swift.Bool
+        public var supportsPerformanceInsights: Swift.Bool?
         /// Indicates whether a DB instance supports encrypted storage.
-        public var supportsStorageEncryption: Swift.Bool
+        public var supportsStorageEncryption: Swift.Bool?
         /// Indicates whether a DB instance is in a VPC.
-        public var vpc: Swift.Bool
+        public var vpc: Swift.Bool?
 
         public init(
             availabilityZones: [NeptuneClientTypes.AvailabilityZone]? = nil,
@@ -18182,16 +18182,16 @@ extension NeptuneClientTypes {
             minIopsPerDbInstance: Swift.Int? = nil,
             minIopsPerGib: Swift.Double? = nil,
             minStorageSize: Swift.Int? = nil,
-            multiAZCapable: Swift.Bool = false,
-            readReplicaCapable: Swift.Bool = false,
+            multiAZCapable: Swift.Bool? = nil,
+            readReplicaCapable: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
-            supportsEnhancedMonitoring: Swift.Bool = false,
-            supportsGlobalDatabases: Swift.Bool = false,
-            supportsIAMDatabaseAuthentication: Swift.Bool = false,
-            supportsIops: Swift.Bool = false,
-            supportsPerformanceInsights: Swift.Bool = false,
-            supportsStorageEncryption: Swift.Bool = false,
-            vpc: Swift.Bool = false
+            supportsEnhancedMonitoring: Swift.Bool? = nil,
+            supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
+            supportsIops: Swift.Bool? = nil,
+            supportsPerformanceInsights: Swift.Bool? = nil,
+            supportsStorageEncryption: Swift.Bool? = nil,
+            vpc: Swift.Bool? = nil
         )
         {
             self.availabilityZones = availabilityZones
@@ -18251,7 +18251,7 @@ extension NeptuneClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -18284,7 +18284,7 @@ extension NeptuneClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -18307,7 +18307,7 @@ extension NeptuneClientTypes {
         /// Provides a description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// Specifies the name of the parameter.
@@ -18323,7 +18323,7 @@ extension NeptuneClientTypes {
             applyType: Swift.String? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -18854,22 +18854,22 @@ extension NeptuneClientTypes.Range: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if from != 0 {
+        if let from = from {
             try container.encode(from, forKey: ClientRuntime.Key("From"))
         }
         if let step = step {
             try container.encode(step, forKey: ClientRuntime.Key("Step"))
         }
-        if to != 0 {
+        if let to = to {
             try container.encode(to, forKey: ClientRuntime.Key("To"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from) ?? 0
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from)
         from = fromDecoded
-        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to) ?? 0
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to)
         to = toDecoded
         let stepDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .step)
         step = stepDecoded
@@ -18880,16 +18880,16 @@ extension NeptuneClientTypes {
     /// A range of integer values.
     public struct Range: Swift.Equatable {
         /// The minimum value in the range.
-        public var from: Swift.Int
+        public var from: Swift.Int?
         /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
         public var step: Swift.Int?
         /// The maximum value in the range.
-        public var to: Swift.Int
+        public var to: Swift.Int?
 
         public init(
-            from: Swift.Int = 0,
+            from: Swift.Int? = nil,
             step: Swift.Int? = nil,
-            to: Swift.Int = 0
+            to: Swift.Int? = nil
         )
         {
             self.from = from
@@ -19499,7 +19499,7 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -19656,7 +19656,7 @@ extension ResetDBParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dbParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbParameterGroupName)
         dbParameterGroupName = dbParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameters) {
             struct KeyVal0{struct Parameter{}}
@@ -20527,7 +20527,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
         let restoreToTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreToTime)
         restoreToTime = restoreToTimeDecoded
-        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime) ?? false
+        let useLatestRestorableTimeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useLatestRestorableTime)
         useLatestRestorableTime = useLatestRestorableTimeDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
@@ -21811,7 +21811,7 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if autoUpgrade != false {
+        if let autoUpgrade = autoUpgrade {
             try container.encode(autoUpgrade, forKey: ClientRuntime.Key("AutoUpgrade"))
         }
         if let description = description {
@@ -21823,7 +21823,7 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
-        if isMajorVersionUpgrade != false {
+        if let isMajorVersionUpgrade = isMajorVersionUpgrade {
             try container.encode(isMajorVersionUpgrade, forKey: ClientRuntime.Key("IsMajorVersionUpgrade"))
         }
         if let supportsGlobalDatabases = supportsGlobalDatabases {
@@ -21839,9 +21839,9 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Codable {
         engineVersion = engineVersionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade) ?? false
+        let autoUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpgrade)
         autoUpgrade = autoUpgradeDecoded
-        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade) ?? false
+        let isMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersionUpgrade)
         isMajorVersionUpgrade = isMajorVersionUpgradeDecoded
         let supportsGlobalDatabasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsGlobalDatabases)
         supportsGlobalDatabases = supportsGlobalDatabasesDecoded
@@ -21852,7 +21852,7 @@ extension NeptuneClientTypes {
     /// The version of the database engine that a DB instance can be upgraded to.
     public struct UpgradeTarget: Swift.Equatable {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        public var autoUpgrade: Swift.Bool
+        public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
         public var description: Swift.String?
         /// The name of the upgrade target database engine.
@@ -21860,16 +21860,16 @@ extension NeptuneClientTypes {
         /// The version number of the upgrade target database engine.
         public var engineVersion: Swift.String?
         /// A value that indicates whether a database engine is upgraded to a major version.
-        public var isMajorVersionUpgrade: Swift.Bool
+        public var isMajorVersionUpgrade: Swift.Bool?
         /// A value that indicates whether you can use Neptune global databases with the target engine version.
         public var supportsGlobalDatabases: Swift.Bool?
 
         public init(
-            autoUpgrade: Swift.Bool = false,
+            autoUpgrade: Swift.Bool? = nil,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
-            isMajorVersionUpgrade: Swift.Bool = false,
+            isMajorVersionUpgrade: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil
         )
         {

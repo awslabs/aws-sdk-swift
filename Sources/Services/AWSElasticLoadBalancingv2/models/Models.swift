@@ -1193,7 +1193,7 @@ extension ElasticLoadBalancingv2ClientTypes.Cipher: Swift.Codable {
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
         }
-        if priority != 0 {
+        if let priority = priority {
             try container.encode(priority, forKey: ClientRuntime.Key("Priority"))
         }
     }
@@ -1202,7 +1202,7 @@ extension ElasticLoadBalancingv2ClientTypes.Cipher: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
     }
 }
@@ -1213,11 +1213,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The name of the cipher.
         public var name: Swift.String?
         /// The priority of the cipher.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
 
         public init(
             name: Swift.String? = nil,
-            priority: Swift.Int = 0
+            priority: Swift.Int? = nil
         )
         {
             self.name = name
@@ -6317,6 +6317,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// * routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.
         ///
         /// * waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.
+        ///
+        ///
+        /// The following attributes are supported by only Network Load Balancers:
+        ///
+        /// * dns_record.client_routing_policy - Indicates how traffic is distributed among the load balancer Availability Zones. The possible values are availability_zone_affinity with 100 percent zonal affinity, partial_availability_zone_affinity with 85 percent zonal affinity, and any_availability_zone with 0 percent zonal affinity.
         public var key: Swift.String?
         /// The value of the attribute.
         public var value: Swift.String?
@@ -8475,7 +8480,7 @@ extension ElasticLoadBalancingv2ClientTypes.Rule: Swift.Codable {
                 try conditionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if isDefault != false {
+        if let isDefault = isDefault {
             try container.encode(isDefault, forKey: ClientRuntime.Key("IsDefault"))
         }
         if let priority = priority {
@@ -8530,7 +8535,7 @@ extension ElasticLoadBalancingv2ClientTypes.Rule: Swift.Codable {
         } else {
             actions = nil
         }
-        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
         isDefault = isDefaultDecoded
     }
 }
@@ -8543,7 +8548,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
         public var conditions: [ElasticLoadBalancingv2ClientTypes.RuleCondition]?
         /// Indicates whether this is the default rule.
-        public var isDefault: Swift.Bool
+        public var isDefault: Swift.Bool?
         /// The priority.
         public var priority: Swift.String?
         /// The Amazon Resource Name (ARN) of the rule.
@@ -8552,7 +8557,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             actions: [ElasticLoadBalancingv2ClientTypes.Action]? = nil,
             conditions: [ElasticLoadBalancingv2ClientTypes.RuleCondition]? = nil,
-            isDefault: Swift.Bool = false,
+            isDefault: Swift.Bool? = nil,
             priority: Swift.String? = nil,
             ruleArn: Swift.String? = nil
         )
@@ -9357,14 +9362,14 @@ extension SetSubnetsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetSubnetsInput: Swift.Equatable {
-    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
+    /// [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnets: [Swift.String]?
 
     public init(
@@ -9460,7 +9465,7 @@ extension SetSubnetsOutput: ClientRuntime.HttpResponseBinding {
 public struct SetSubnetsOutput: Swift.Equatable {
     /// Information about the subnets.
     public var availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
-    /// [Network Load Balancers] The IP address type.
+    /// [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 
     public init(

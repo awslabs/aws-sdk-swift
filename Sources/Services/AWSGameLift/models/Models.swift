@@ -17248,7 +17248,7 @@ extension GameLiftClientTypes.PlayerLatency: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if latencyInMilliseconds != 0.0 {
+        if let latencyInMilliseconds = self.latencyInMilliseconds {
             try encodeContainer.encode(latencyInMilliseconds, forKey: .latencyInMilliseconds)
         }
         if let playerId = self.playerId {
@@ -17265,7 +17265,7 @@ extension GameLiftClientTypes.PlayerLatency: Swift.Codable {
         playerId = playerIdDecoded
         let regionIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionIdentifier)
         regionIdentifier = regionIdentifierDecoded
-        let latencyInMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .latencyInMilliseconds) ?? 0.0
+        let latencyInMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .latencyInMilliseconds)
         latencyInMilliseconds = latencyInMillisecondsDecoded
     }
 }
@@ -17274,14 +17274,14 @@ extension GameLiftClientTypes {
     /// Regional latency information for a player, used when requesting a new game session. This value indicates the amount of time lag that exists when the player is connected to a fleet in the specified Region. The relative difference between a player's latency values for multiple Regions are used to determine which fleets are best suited to place a new game session for the player.
     public struct PlayerLatency: Swift.Equatable {
         /// Amount of time that represents the time lag experienced by the player when connected to the specified Region.
-        public var latencyInMilliseconds: Swift.Float
+        public var latencyInMilliseconds: Swift.Float?
         /// A unique identifier for a player associated with the latency data.
         public var playerId: Swift.String?
         /// Name of the Region that is associated with the latency value.
         public var regionIdentifier: Swift.String?
 
         public init(
-            latencyInMilliseconds: Swift.Float = 0.0,
+            latencyInMilliseconds: Swift.Float? = nil,
             playerId: Swift.String? = nil,
             regionIdentifier: Swift.String? = nil
         )
@@ -19015,7 +19015,7 @@ extension GameLiftClientTypes.ScalingPolicy: Swift.Codable {
         if let policyType = self.policyType {
             try encodeContainer.encode(policyType.rawValue, forKey: .policyType)
         }
-        if scalingAdjustment != 0 {
+        if let scalingAdjustment = self.scalingAdjustment {
             try encodeContainer.encode(scalingAdjustment, forKey: .scalingAdjustment)
         }
         if let scalingAdjustmentType = self.scalingAdjustmentType {
@@ -19027,7 +19027,7 @@ extension GameLiftClientTypes.ScalingPolicy: Swift.Codable {
         if let targetConfiguration = self.targetConfiguration {
             try encodeContainer.encode(targetConfiguration, forKey: .targetConfiguration)
         }
-        if threshold != 0.0 {
+        if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
         }
         if let updateStatus = self.updateStatus {
@@ -19045,13 +19045,13 @@ extension GameLiftClientTypes.ScalingPolicy: Swift.Codable {
         name = nameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ScalingStatusType.self, forKey: .status)
         status = statusDecoded
-        let scalingAdjustmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scalingAdjustment) ?? 0
+        let scalingAdjustmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scalingAdjustment)
         scalingAdjustment = scalingAdjustmentDecoded
         let scalingAdjustmentTypeDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ScalingAdjustmentType.self, forKey: .scalingAdjustmentType)
         scalingAdjustmentType = scalingAdjustmentTypeDecoded
         let comparisonOperatorDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ComparisonOperatorType.self, forKey: .comparisonOperator)
         comparisonOperator = comparisonOperatorDecoded
-        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold) ?? 0.0
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
         threshold = thresholdDecoded
         let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
         evaluationPeriods = evaluationPeriodsDecoded
@@ -19110,7 +19110,7 @@ extension GameLiftClientTypes {
         /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
         public var policyType: GameLiftClientTypes.PolicyType?
         /// Amount of adjustment to make, based on the scaling adjustment type.
-        public var scalingAdjustment: Swift.Int
+        public var scalingAdjustment: Swift.Int?
         /// The type of adjustment to make to a fleet's instance count.
         ///
         /// * ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.
@@ -19138,7 +19138,7 @@ extension GameLiftClientTypes {
         /// An object that contains settings for a target-based scaling policy.
         public var targetConfiguration: GameLiftClientTypes.TargetConfiguration?
         /// Metric value used to trigger a scaling event.
-        public var threshold: Swift.Double
+        public var threshold: Swift.Double?
         /// The current status of the fleet's scaling policies in a requested fleet location. The status PENDING_UPDATE indicates that an update was requested for the fleet but has not yet been completed for the location.
         public var updateStatus: GameLiftClientTypes.LocationUpdateStatus?
 
@@ -19151,11 +19151,11 @@ extension GameLiftClientTypes {
             metricName: GameLiftClientTypes.MetricName? = nil,
             name: Swift.String? = nil,
             policyType: GameLiftClientTypes.PolicyType? = nil,
-            scalingAdjustment: Swift.Int = 0,
+            scalingAdjustment: Swift.Int? = nil,
             scalingAdjustmentType: GameLiftClientTypes.ScalingAdjustmentType? = nil,
             status: GameLiftClientTypes.ScalingStatusType? = nil,
             targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
-            threshold: Swift.Double = 0.0,
+            threshold: Swift.Double? = nil,
             updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
         )
         {
@@ -20964,14 +20964,14 @@ extension GameLiftClientTypes.TargetConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if targetValue != 0.0 {
+        if let targetValue = self.targetValue {
             try encodeContainer.encode(targetValue, forKey: .targetValue)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue) ?? 0.0
+        let targetValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetValue)
         targetValue = targetValueDecoded
     }
 }
@@ -20981,10 +20981,10 @@ extension GameLiftClientTypes {
     public struct TargetConfiguration: Swift.Equatable {
         /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
         /// This member is required.
-        public var targetValue: Swift.Double
+        public var targetValue: Swift.Double?
 
         public init(
-            targetValue: Swift.Double = 0.0
+            targetValue: Swift.Double? = nil
         )
         {
             self.targetValue = targetValue

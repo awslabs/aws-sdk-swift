@@ -601,7 +601,7 @@ extension PersonalizeRuntimeClientTypes.Promotion: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if percentPromotedItems != 0 {
+        if let percentPromotedItems = self.percentPromotedItems {
             try encodeContainer.encode(percentPromotedItems, forKey: .percentPromotedItems)
         }
     }
@@ -610,7 +610,7 @@ extension PersonalizeRuntimeClientTypes.Promotion: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let percentPromotedItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentPromotedItems) ?? 0
+        let percentPromotedItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentPromotedItems)
         percentPromotedItems = percentPromotedItemsDecoded
         let filterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterArn)
         filterArn = filterArnDecoded
@@ -638,13 +638,13 @@ extension PersonalizeRuntimeClientTypes {
         /// The name of the promotion.
         public var name: Swift.String?
         /// The percentage of recommended items to apply the promotion to.
-        public var percentPromotedItems: Swift.Int
+        public var percentPromotedItems: Swift.Int?
 
         public init(
             filterArn: Swift.String? = nil,
             filterValues: [Swift.String:Swift.String]? = nil,
             name: Swift.String? = nil,
-            percentPromotedItems: Swift.Int = 0
+            percentPromotedItems: Swift.Int? = nil
         )
         {
             self.filterArn = filterArn

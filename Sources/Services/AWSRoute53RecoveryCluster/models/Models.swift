@@ -613,6 +613,7 @@ extension Route53RecoveryClusterClientTypes.RoutingControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlPanelArn = "ControlPanelArn"
         case controlPanelName = "ControlPanelName"
+        case owner = "Owner"
         case routingControlArn = "RoutingControlArn"
         case routingControlName = "RoutingControlName"
         case routingControlState = "RoutingControlState"
@@ -625,6 +626,9 @@ extension Route53RecoveryClusterClientTypes.RoutingControl: Swift.Codable {
         }
         if let controlPanelName = self.controlPanelName {
             try encodeContainer.encode(controlPanelName, forKey: .controlPanelName)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
         }
         if let routingControlArn = self.routingControlArn {
             try encodeContainer.encode(routingControlArn, forKey: .routingControlArn)
@@ -649,26 +653,31 @@ extension Route53RecoveryClusterClientTypes.RoutingControl: Swift.Codable {
         routingControlName = routingControlNameDecoded
         let routingControlStateDecoded = try containerValues.decodeIfPresent(Route53RecoveryClusterClientTypes.RoutingControlState.self, forKey: .routingControlState)
         routingControlState = routingControlStateDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
     }
 }
 
 extension Route53RecoveryClusterClientTypes {
-    /// A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow.
+    /// A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow.
     public struct RoutingControl: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the control panel where the routing control is located.
         public var controlPanelArn: Swift.String?
-        /// The name of the control panel where the routing control is located.
+        /// The name of the control panel where the routing control is located. Only ASCII characters are supported for control panel names.
         public var controlPanelName: Swift.String?
+        /// The Amazon Web Services account ID of the routing control owner.
+        public var owner: Swift.String?
         /// The Amazon Resource Name (ARN) of the routing control.
         public var routingControlArn: Swift.String?
         /// The name of the routing control.
         public var routingControlName: Swift.String?
-        /// The current state of the routing control. When a routing control state is On, traffic flows to a cell. When the state is Off, traffic does not flow.
+        /// The current state of the routing control. When a routing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow.
         public var routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState?
 
         public init(
             controlPanelArn: Swift.String? = nil,
             controlPanelName: Swift.String? = nil,
+            owner: Swift.String? = nil,
             routingControlArn: Swift.String? = nil,
             routingControlName: Swift.String? = nil,
             routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
@@ -676,6 +685,7 @@ extension Route53RecoveryClusterClientTypes {
         {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
+            self.owner = owner
             self.routingControlArn = routingControlArn
             self.routingControlName = routingControlName
             self.routingControlState = routingControlState
@@ -960,7 +970,7 @@ public struct UpdateRoutingControlStateInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for the routing control that you want to update the state for.
     /// This member is required.
     public var routingControlArn: Swift.String?
-    /// The state of the routing control. You can set the value to be On or Off.
+    /// The state of the routing control. You can set the value to ON or OFF.
     /// This member is required.
     public var routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState?
     /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating the state of a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas. For more information, see [ Override safety rules to reroute traffic](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.

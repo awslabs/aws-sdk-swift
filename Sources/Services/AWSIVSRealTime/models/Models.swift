@@ -1924,9 +1924,15 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension IVSRealTimeClientTypes.Participant: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes
+        case browserName
+        case browserVersion
         case firstJoinTime
+        case ispName
+        case osName
+        case osVersion
         case participantId
         case published
+        case sdkVersion
         case state
         case userId
     }
@@ -1939,14 +1945,32 @@ extension IVSRealTimeClientTypes.Participant: Swift.Codable {
                 try attributesContainer.encode(participantAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let browserName = self.browserName {
+            try encodeContainer.encode(browserName, forKey: .browserName)
+        }
+        if let browserVersion = self.browserVersion {
+            try encodeContainer.encode(browserVersion, forKey: .browserVersion)
+        }
         if let firstJoinTime = self.firstJoinTime {
             try encodeContainer.encodeTimestamp(firstJoinTime, format: .dateTime, forKey: .firstJoinTime)
+        }
+        if let ispName = self.ispName {
+            try encodeContainer.encode(ispName, forKey: .ispName)
+        }
+        if let osName = self.osName {
+            try encodeContainer.encode(osName, forKey: .osName)
+        }
+        if let osVersion = self.osVersion {
+            try encodeContainer.encode(osVersion, forKey: .osVersion)
         }
         if let participantId = self.participantId {
             try encodeContainer.encode(participantId, forKey: .participantId)
         }
         if published != false {
             try encodeContainer.encode(published, forKey: .published)
+        }
+        if let sdkVersion = self.sdkVersion {
+            try encodeContainer.encode(sdkVersion, forKey: .sdkVersion)
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -1979,6 +2003,18 @@ extension IVSRealTimeClientTypes.Participant: Swift.Codable {
         attributes = attributesDecoded0
         let publishedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .published) ?? false
         published = publishedDecoded
+        let ispNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ispName)
+        ispName = ispNameDecoded
+        let osNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osName)
+        osName = osNameDecoded
+        let osVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osVersion)
+        osVersion = osVersionDecoded
+        let browserNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .browserName)
+        browserName = browserNameDecoded
+        let browserVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .browserVersion)
+        browserVersion = browserVersionDecoded
+        let sdkVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sdkVersion)
+        sdkVersion = sdkVersionDecoded
     }
 }
 
@@ -1987,12 +2023,24 @@ extension IVSRealTimeClientTypes {
     public struct Participant: Swift.Equatable {
         /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public var attributes: [Swift.String:Swift.String]?
+        /// The participant’s browser.
+        public var browserName: Swift.String?
+        /// The participant’s browser version.
+        public var browserVersion: Swift.String?
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         public var firstJoinTime: ClientRuntime.Date?
+        /// The participant’s Internet Service Provider.
+        public var ispName: Swift.String?
+        /// The participant’s operating system.
+        public var osName: Swift.String?
+        /// The participant’s operating system version.
+        public var osVersion: Swift.String?
         /// Unique identifier for this participant, assigned by IVS.
         public var participantId: Swift.String?
         /// Whether the participant ever published to the stage session.
         public var published: Swift.Bool
+        /// The participant’s SDK version.
+        public var sdkVersion: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -2000,17 +2048,29 @@ extension IVSRealTimeClientTypes {
 
         public init(
             attributes: [Swift.String:Swift.String]? = nil,
+            browserName: Swift.String? = nil,
+            browserVersion: Swift.String? = nil,
             firstJoinTime: ClientRuntime.Date? = nil,
+            ispName: Swift.String? = nil,
+            osName: Swift.String? = nil,
+            osVersion: Swift.String? = nil,
             participantId: Swift.String? = nil,
             published: Swift.Bool = false,
+            sdkVersion: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
         )
         {
             self.attributes = attributes
+            self.browserName = browserName
+            self.browserVersion = browserVersion
             self.firstJoinTime = firstJoinTime
+            self.ispName = ispName
+            self.osName = osName
+            self.osVersion = osVersion
             self.participantId = participantId
             self.published = published
+            self.sdkVersion = sdkVersion
             self.state = state
             self.userId = userId
         }

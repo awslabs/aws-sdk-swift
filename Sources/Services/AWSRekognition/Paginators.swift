@@ -19,6 +19,7 @@ extension RekognitionClient {
 extension DescribeProjectsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeProjectsInput {
         return DescribeProjectsInput(
+            features: self.features,
             maxResults: self.maxResults,
             nextToken: token,
             projectNames: self.projectNames
@@ -376,6 +377,27 @@ extension PaginatorSequence where Input == ListFacesInput, Output == ListFacesOu
     public func faces() async throws -> [RekognitionClientTypes.Face] {
         return try await self.asyncCompactMap { item in item.faces }
     }
+}
+extension RekognitionClient {
+    /// Paginate over `[ListMediaAnalysisJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMediaAnalysisJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaAnalysisJobsOutput`
+    public func listMediaAnalysisJobsPaginated(input: ListMediaAnalysisJobsInput) -> ClientRuntime.PaginatorSequence<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(input: input, inputKey: \ListMediaAnalysisJobsInput.nextToken, outputKey: \ListMediaAnalysisJobsOutput.nextToken, paginationFunction: self.listMediaAnalysisJobs(input:))
+    }
+}
+
+extension ListMediaAnalysisJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMediaAnalysisJobsInput {
+        return ListMediaAnalysisJobsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
 }
 extension RekognitionClient {
     /// Paginate over `[ListProjectPoliciesOutput]` results.

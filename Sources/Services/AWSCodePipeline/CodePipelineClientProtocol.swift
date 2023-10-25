@@ -502,7 +502,7 @@ public protocol CodePipelineClientProtocol {
     /// - `ValidationException` : The validation was specified in an invalid format.
     /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
     func registerWebhookWithThirdParty(input: RegisterWebhookWithThirdPartyInput) async throws -> RegisterWebhookWithThirdPartyOutput
-    /// Resumes the pipeline execution by retrying the last failed actions in a stage. You can retry a stage immediately if any of the actions in the stage fail. When you retry, all actions that are still in progress continue working, and failed actions are triggered again.
+    /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
     ///
     /// - Parameter RetryStageExecutionInput : Represents the input of a RetryStageExecution action.
     ///

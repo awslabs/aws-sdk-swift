@@ -2607,6 +2607,158 @@ extension KendraClientTypes {
 
 }
 
+extension KendraClientTypes.CollapseConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentAttributeKey = "DocumentAttributeKey"
+        case expand = "Expand"
+        case expandConfiguration = "ExpandConfiguration"
+        case missingAttributeKeyStrategy = "MissingAttributeKeyStrategy"
+        case sortingConfigurations = "SortingConfigurations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentAttributeKey = self.documentAttributeKey {
+            try encodeContainer.encode(documentAttributeKey, forKey: .documentAttributeKey)
+        }
+        if expand != false {
+            try encodeContainer.encode(expand, forKey: .expand)
+        }
+        if let expandConfiguration = self.expandConfiguration {
+            try encodeContainer.encode(expandConfiguration, forKey: .expandConfiguration)
+        }
+        if let missingAttributeKeyStrategy = self.missingAttributeKeyStrategy {
+            try encodeContainer.encode(missingAttributeKeyStrategy.rawValue, forKey: .missingAttributeKeyStrategy)
+        }
+        if let sortingConfigurations = sortingConfigurations {
+            var sortingConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortingConfigurations)
+            for sortingconfiguration0 in sortingConfigurations {
+                try sortingConfigurationsContainer.encode(sortingconfiguration0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentAttributeKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentAttributeKey)
+        documentAttributeKey = documentAttributeKeyDecoded
+        let sortingConfigurationsContainer = try containerValues.decodeIfPresent([KendraClientTypes.SortingConfiguration?].self, forKey: .sortingConfigurations)
+        var sortingConfigurationsDecoded0:[KendraClientTypes.SortingConfiguration]? = nil
+        if let sortingConfigurationsContainer = sortingConfigurationsContainer {
+            sortingConfigurationsDecoded0 = [KendraClientTypes.SortingConfiguration]()
+            for structure0 in sortingConfigurationsContainer {
+                if let structure0 = structure0 {
+                    sortingConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sortingConfigurations = sortingConfigurationsDecoded0
+        let missingAttributeKeyStrategyDecoded = try containerValues.decodeIfPresent(KendraClientTypes.MissingAttributeKeyStrategy.self, forKey: .missingAttributeKeyStrategy)
+        missingAttributeKeyStrategy = missingAttributeKeyStrategyDecoded
+        let expandDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expand) ?? false
+        expand = expandDecoded
+        let expandConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ExpandConfiguration.self, forKey: .expandConfiguration)
+        expandConfiguration = expandConfigurationDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Specifies how to group results by document attribute value, and how to display them collapsed/expanded under a designated primary document for each group.
+    public struct CollapseConfiguration: Swift.Equatable {
+        /// The document attribute used to group search results. You can use any attribute that has the Sortable flag set to true. You can also sort by any of the following built-in attributes:"_category","_created_at", "_last_updated_at", "_version", "_view_count".
+        /// This member is required.
+        public var documentAttributeKey: Swift.String?
+        /// Specifies whether to expand the collapsed results.
+        public var expand: Swift.Bool
+        /// Provides configuration information to customize expansion options for a collapsed group.
+        public var expandConfiguration: KendraClientTypes.ExpandConfiguration?
+        /// Specifies the behavior for documents without a value for the collapse attribute. Amazon Kendra offers three customization options:
+        ///
+        /// * Choose to COLLAPSE all documents with null or missing values in one group. This is the default configuration.
+        ///
+        /// * Choose to IGNORE documents with null or missing values. Ignored documents will not appear in query results.
+        ///
+        /// * Choose to EXPAND each document with a null or missing value into a group of its own.
+        public var missingAttributeKeyStrategy: KendraClientTypes.MissingAttributeKeyStrategy?
+        /// A prioritized list of document attributes/fields that determine the primary document among those in a collapsed group.
+        public var sortingConfigurations: [KendraClientTypes.SortingConfiguration]?
+
+        public init(
+            documentAttributeKey: Swift.String? = nil,
+            expand: Swift.Bool = false,
+            expandConfiguration: KendraClientTypes.ExpandConfiguration? = nil,
+            missingAttributeKeyStrategy: KendraClientTypes.MissingAttributeKeyStrategy? = nil,
+            sortingConfigurations: [KendraClientTypes.SortingConfiguration]? = nil
+        )
+        {
+            self.documentAttributeKey = documentAttributeKey
+            self.expand = expand
+            self.expandConfiguration = expandConfiguration
+            self.missingAttributeKeyStrategy = missingAttributeKeyStrategy
+            self.sortingConfigurations = sortingConfigurations
+        }
+    }
+
+}
+
+extension KendraClientTypes.CollapsedResultDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentAttribute = "DocumentAttribute"
+        case expandedResults = "ExpandedResults"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentAttribute = self.documentAttribute {
+            try encodeContainer.encode(documentAttribute, forKey: .documentAttribute)
+        }
+        if let expandedResults = expandedResults {
+            var expandedResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expandedResults)
+            for expandedresultitem0 in expandedResults {
+                try expandedResultsContainer.encode(expandedresultitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let documentAttributeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.DocumentAttribute.self, forKey: .documentAttribute)
+        documentAttribute = documentAttributeDecoded
+        let expandedResultsContainer = try containerValues.decodeIfPresent([KendraClientTypes.ExpandedResultItem?].self, forKey: .expandedResults)
+        var expandedResultsDecoded0:[KendraClientTypes.ExpandedResultItem]? = nil
+        if let expandedResultsContainer = expandedResultsContainer {
+            expandedResultsDecoded0 = [KendraClientTypes.ExpandedResultItem]()
+            for structure0 in expandedResultsContainer {
+                if let structure0 = structure0 {
+                    expandedResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        expandedResults = expandedResultsDecoded0
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides details about a collapsed group of search results.
+    public struct CollapsedResultDetail: Swift.Equatable {
+        /// The value of the document attribute that results are collapsed on.
+        /// This member is required.
+        public var documentAttribute: KendraClientTypes.DocumentAttribute?
+        /// A list of results in the collapsed group.
+        public var expandedResults: [KendraClientTypes.ExpandedResultItem]?
+
+        public init(
+            documentAttribute: KendraClientTypes.DocumentAttribute? = nil,
+            expandedResults: [KendraClientTypes.ExpandedResultItem]? = nil
+        )
+        {
+            self.documentAttribute = documentAttribute
+            self.expandedResults = expandedResults
+        }
+    }
+
+}
+
 extension KendraClientTypes.ColumnConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeDetectingColumns = "ChangeDetectingColumns"
@@ -4590,7 +4742,7 @@ public struct CreateExperienceInput: Swift.Equatable {
     /// A name for your Amazon Kendra experience.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of an IAM role with permission to access Query API, GetQuerySuggestions API, and other required APIs. The role also must include permission to access IAM Identity Center (successor to Single Sign-On) that stores your user and group information. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access Query API, GetQuerySuggestions API, and other required APIs. The role also must include permission to access IAM Identity Center that stores your user and group information. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
     public init(
@@ -5227,7 +5379,7 @@ public struct CreateIndexInput: Swift.Equatable {
     public var tags: [KendraClientTypes.Tag]?
     /// The user context policy. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext. USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Gets users and groups from IAM Identity Center (successor to Single Sign-On) identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
+    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
@@ -8776,7 +8928,7 @@ public struct DescribeIndexOutput: Swift.Equatable {
     public var updatedAt: ClientRuntime.Date?
     /// The user context policy for the Amazon Kendra index.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Whether you have enabled the configuration for fetching access levels of groups and users from an IAM Identity Center (successor to Single Sign-On) identity source.
+    /// Whether you have enabled the configuration for fetching access levels of groups and users from an IAM Identity Center identity source.
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration for the Amazon Kendra index.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
@@ -11084,6 +11236,148 @@ extension KendraClientTypes {
             self = ErrorCode(rawValue: rawValue) ?? ErrorCode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension KendraClientTypes.ExpandConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxExpandedResultsPerItem = "MaxExpandedResultsPerItem"
+        case maxResultItemsToExpand = "MaxResultItemsToExpand"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxExpandedResultsPerItem = self.maxExpandedResultsPerItem {
+            try encodeContainer.encode(maxExpandedResultsPerItem, forKey: .maxExpandedResultsPerItem)
+        }
+        if let maxResultItemsToExpand = self.maxResultItemsToExpand {
+            try encodeContainer.encode(maxResultItemsToExpand, forKey: .maxResultItemsToExpand)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultItemsToExpandDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResultItemsToExpand)
+        maxResultItemsToExpand = maxResultItemsToExpandDecoded
+        let maxExpandedResultsPerItemDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxExpandedResultsPerItem)
+        maxExpandedResultsPerItem = maxExpandedResultsPerItemDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Specifies the configuration information needed to customize how collapsed search result groups expand.
+    public struct ExpandConfiguration: Swift.Equatable {
+        /// The number of expanded results to show per collapsed primary document. For instance, if you set this value to 3, then at most 3 results per collapsed group will be displayed.
+        public var maxExpandedResultsPerItem: Swift.Int?
+        /// The number of collapsed search result groups to expand. If you set this value to 10, for example, only the first 10 out of 100 result groups will have expand functionality.
+        public var maxResultItemsToExpand: Swift.Int?
+
+        public init(
+            maxExpandedResultsPerItem: Swift.Int? = nil,
+            maxResultItemsToExpand: Swift.Int? = nil
+        )
+        {
+            self.maxExpandedResultsPerItem = maxExpandedResultsPerItem
+            self.maxResultItemsToExpand = maxResultItemsToExpand
+        }
+    }
+
+}
+
+extension KendraClientTypes.ExpandedResultItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case documentAttributes = "DocumentAttributes"
+        case documentExcerpt = "DocumentExcerpt"
+        case documentId = "DocumentId"
+        case documentTitle = "DocumentTitle"
+        case documentURI = "DocumentURI"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let documentAttributes = documentAttributes {
+            var documentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentAttributes)
+            for documentattribute0 in documentAttributes {
+                try documentAttributesContainer.encode(documentattribute0)
+            }
+        }
+        if let documentExcerpt = self.documentExcerpt {
+            try encodeContainer.encode(documentExcerpt, forKey: .documentExcerpt)
+        }
+        if let documentId = self.documentId {
+            try encodeContainer.encode(documentId, forKey: .documentId)
+        }
+        if let documentTitle = self.documentTitle {
+            try encodeContainer.encode(documentTitle, forKey: .documentTitle)
+        }
+        if let documentURI = self.documentURI {
+            try encodeContainer.encode(documentURI, forKey: .documentURI)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
+        documentId = documentIdDecoded
+        let documentTitleDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TextWithHighlights.self, forKey: .documentTitle)
+        documentTitle = documentTitleDecoded
+        let documentExcerptDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TextWithHighlights.self, forKey: .documentExcerpt)
+        documentExcerpt = documentExcerptDecoded
+        let documentURIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentURI)
+        documentURI = documentURIDecoded
+        let documentAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.DocumentAttribute?].self, forKey: .documentAttributes)
+        var documentAttributesDecoded0:[KendraClientTypes.DocumentAttribute]? = nil
+        if let documentAttributesContainer = documentAttributesContainer {
+            documentAttributesDecoded0 = [KendraClientTypes.DocumentAttribute]()
+            for structure0 in documentAttributesContainer {
+                if let structure0 = structure0 {
+                    documentAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentAttributes = documentAttributesDecoded0
+    }
+}
+
+extension KendraClientTypes {
+    /// A single expanded result in a collapsed group of search results. An expanded result item contains information about an expanded result document within a collapsed group of search results. This includes the original location of the document, a list of attributes assigned to the document, and relevant text from the document that satisfies the query.
+    public struct ExpandedResultItem: Swift.Equatable {
+        /// An array of document attributes assigned to a document in the search results. For example, the document author ("_author") or the source URI ("_source_uri") of the document.
+        public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
+        /// Provides text and information about where to highlight the text.
+        public var documentExcerpt: KendraClientTypes.TextWithHighlights?
+        /// The idenitifier of the document.
+        public var documentId: Swift.String?
+        /// Provides text and information about where to highlight the text.
+        public var documentTitle: KendraClientTypes.TextWithHighlights?
+        /// The URI of the original location of the document.
+        public var documentURI: Swift.String?
+        /// The identifier for the expanded result.
+        public var id: Swift.String?
+
+        public init(
+            documentAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
+            documentExcerpt: KendraClientTypes.TextWithHighlights? = nil,
+            documentId: Swift.String? = nil,
+            documentTitle: KendraClientTypes.TextWithHighlights? = nil,
+            documentURI: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.documentAttributes = documentAttributes
+            self.documentExcerpt = documentExcerpt
+            self.documentId = documentId
+            self.documentTitle = documentTitle
+            self.documentURI = documentURI
+            self.id = id
+        }
+    }
+
 }
 
 extension KendraClientTypes.ExperienceConfiguration: Swift.Codable {
@@ -16983,6 +17277,41 @@ extension KendraClientTypes {
 }
 
 extension KendraClientTypes {
+    public enum MissingAttributeKeyStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case collapse
+        case expand
+        case ignore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MissingAttributeKeyStrategy] {
+            return [
+                .collapse,
+                .expand,
+                .ignore,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .collapse: return "COLLAPSE"
+            case .expand: return "EXPAND"
+            case .ignore: return "IGNORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MissingAttributeKeyStrategy(rawValue: rawValue) ?? MissingAttributeKeyStrategy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KendraClientTypes {
     public enum Mode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case enabled
         case learnOnly
@@ -17762,6 +18091,7 @@ extension KendraClientTypes {
 extension QueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeFilter = "AttributeFilter"
+        case collapseConfiguration = "CollapseConfiguration"
         case documentRelevanceOverrideConfigurations = "DocumentRelevanceOverrideConfigurations"
         case facets = "Facets"
         case indexId = "IndexId"
@@ -17771,6 +18101,7 @@ extension QueryInput: Swift.Encodable {
         case queryText = "QueryText"
         case requestedDocumentAttributes = "RequestedDocumentAttributes"
         case sortingConfiguration = "SortingConfiguration"
+        case sortingConfigurations = "SortingConfigurations"
         case spellCorrectionConfiguration = "SpellCorrectionConfiguration"
         case userContext = "UserContext"
         case visitorId = "VisitorId"
@@ -17780,6 +18111,9 @@ extension QueryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeFilter = self.attributeFilter {
             try encodeContainer.encode(attributeFilter, forKey: .attributeFilter)
+        }
+        if let collapseConfiguration = self.collapseConfiguration {
+            try encodeContainer.encode(collapseConfiguration, forKey: .collapseConfiguration)
         }
         if let documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations {
             var documentRelevanceOverrideConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentRelevanceOverrideConfigurations)
@@ -17817,6 +18151,12 @@ extension QueryInput: Swift.Encodable {
         if let sortingConfiguration = self.sortingConfiguration {
             try encodeContainer.encode(sortingConfiguration, forKey: .sortingConfiguration)
         }
+        if let sortingConfigurations = sortingConfigurations {
+            var sortingConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortingConfigurations)
+            for sortingconfiguration0 in sortingConfigurations {
+                try sortingConfigurationsContainer.encode(sortingconfiguration0)
+            }
+        }
         if let spellCorrectionConfiguration = self.spellCorrectionConfiguration {
             try encodeContainer.encode(spellCorrectionConfiguration, forKey: .spellCorrectionConfiguration)
         }
@@ -17838,6 +18178,8 @@ extension QueryInput: ClientRuntime.URLPathProvider {
 public struct QueryInput: Swift.Equatable {
     /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
     public var attributeFilter: KendraClientTypes.AttributeFilter?
+    /// Provides configuration to determine how to group results by document attribute value, and how to display them (collapsed or expanded) under a designated primary document for each group.
+    public var collapseConfiguration: KendraClientTypes.CollapseConfiguration?
     /// Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
     public var documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]?
     /// An array of documents fields/attributes for faceted search. Amazon Kendra returns a count for each field key specified. This helps your users narrow their search.
@@ -17857,6 +18199,8 @@ public struct QueryInput: Swift.Equatable {
     public var requestedDocumentAttributes: [Swift.String]?
     /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
     public var sortingConfiguration: KendraClientTypes.SortingConfiguration?
+    /// Provides configuration information to determine how the results of a query are sorted. You can set upto 3 fields that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. The sort field quota can be increased. If you don't provide a sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result. In the case of ties in sorting the results, the results are sorted by relevance.
+    public var sortingConfigurations: [KendraClientTypes.SortingConfiguration]?
     /// Enables suggested spell corrections for queries.
     public var spellCorrectionConfiguration: KendraClientTypes.SpellCorrectionConfiguration?
     /// The user context token or user and group information.
@@ -17866,6 +18210,7 @@ public struct QueryInput: Swift.Equatable {
 
     public init(
         attributeFilter: KendraClientTypes.AttributeFilter? = nil,
+        collapseConfiguration: KendraClientTypes.CollapseConfiguration? = nil,
         documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]? = nil,
         facets: [KendraClientTypes.Facet]? = nil,
         indexId: Swift.String? = nil,
@@ -17875,12 +18220,14 @@ public struct QueryInput: Swift.Equatable {
         queryText: Swift.String? = nil,
         requestedDocumentAttributes: [Swift.String]? = nil,
         sortingConfiguration: KendraClientTypes.SortingConfiguration? = nil,
+        sortingConfigurations: [KendraClientTypes.SortingConfiguration]? = nil,
         spellCorrectionConfiguration: KendraClientTypes.SpellCorrectionConfiguration? = nil,
         userContext: KendraClientTypes.UserContext? = nil,
         visitorId: Swift.String? = nil
     )
     {
         self.attributeFilter = attributeFilter
+        self.collapseConfiguration = collapseConfiguration
         self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations
         self.facets = facets
         self.indexId = indexId
@@ -17890,6 +18237,7 @@ public struct QueryInput: Swift.Equatable {
         self.queryText = queryText
         self.requestedDocumentAttributes = requestedDocumentAttributes
         self.sortingConfiguration = sortingConfiguration
+        self.sortingConfigurations = sortingConfigurations
         self.spellCorrectionConfiguration = spellCorrectionConfiguration
         self.userContext = userContext
         self.visitorId = visitorId
@@ -17907,14 +18255,17 @@ struct QueryInputBody: Swift.Equatable {
     let pageNumber: Swift.Int?
     let pageSize: Swift.Int?
     let sortingConfiguration: KendraClientTypes.SortingConfiguration?
+    let sortingConfigurations: [KendraClientTypes.SortingConfiguration]?
     let userContext: KendraClientTypes.UserContext?
     let visitorId: Swift.String?
     let spellCorrectionConfiguration: KendraClientTypes.SpellCorrectionConfiguration?
+    let collapseConfiguration: KendraClientTypes.CollapseConfiguration?
 }
 
 extension QueryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeFilter = "AttributeFilter"
+        case collapseConfiguration = "CollapseConfiguration"
         case documentRelevanceOverrideConfigurations = "DocumentRelevanceOverrideConfigurations"
         case facets = "Facets"
         case indexId = "IndexId"
@@ -17924,6 +18275,7 @@ extension QueryInputBody: Swift.Decodable {
         case queryText = "QueryText"
         case requestedDocumentAttributes = "RequestedDocumentAttributes"
         case sortingConfiguration = "SortingConfiguration"
+        case sortingConfigurations = "SortingConfigurations"
         case spellCorrectionConfiguration = "SpellCorrectionConfiguration"
         case userContext = "UserContext"
         case visitorId = "VisitorId"
@@ -17978,12 +18330,25 @@ extension QueryInputBody: Swift.Decodable {
         pageSize = pageSizeDecoded
         let sortingConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SortingConfiguration.self, forKey: .sortingConfiguration)
         sortingConfiguration = sortingConfigurationDecoded
+        let sortingConfigurationsContainer = try containerValues.decodeIfPresent([KendraClientTypes.SortingConfiguration?].self, forKey: .sortingConfigurations)
+        var sortingConfigurationsDecoded0:[KendraClientTypes.SortingConfiguration]? = nil
+        if let sortingConfigurationsContainer = sortingConfigurationsContainer {
+            sortingConfigurationsDecoded0 = [KendraClientTypes.SortingConfiguration]()
+            for structure0 in sortingConfigurationsContainer {
+                if let structure0 = structure0 {
+                    sortingConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sortingConfigurations = sortingConfigurationsDecoded0
         let userContextDecoded = try containerValues.decodeIfPresent(KendraClientTypes.UserContext.self, forKey: .userContext)
         userContext = userContextDecoded
         let visitorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .visitorId)
         visitorId = visitorIdDecoded
         let spellCorrectionConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.SpellCorrectionConfiguration.self, forKey: .spellCorrectionConfiguration)
         spellCorrectionConfiguration = spellCorrectionConfigurationDecoded
+        let collapseConfigurationDecoded = try containerValues.decodeIfPresent(KendraClientTypes.CollapseConfiguration.self, forKey: .collapseConfiguration)
+        collapseConfiguration = collapseConfigurationDecoded
     }
 }
 
@@ -18184,6 +18549,7 @@ extension KendraClientTypes {
 extension KendraClientTypes.QueryResultItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalAttributes = "AdditionalAttributes"
+        case collapsedResultDetail = "CollapsedResultDetail"
         case documentAttributes = "DocumentAttributes"
         case documentExcerpt = "DocumentExcerpt"
         case documentId = "DocumentId"
@@ -18204,6 +18570,9 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
             for additionalresultattribute0 in additionalAttributes {
                 try additionalAttributesContainer.encode(additionalresultattribute0)
             }
+        }
+        if let collapsedResultDetail = self.collapsedResultDetail {
+            try encodeContainer.encode(collapsedResultDetail, forKey: .collapsedResultDetail)
         }
         if let documentAttributes = documentAttributes {
             var documentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentAttributes)
@@ -18287,6 +18656,8 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         feedbackToken = feedbackTokenDecoded
         let tableExcerptDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TableExcerpt.self, forKey: .tableExcerpt)
         tableExcerpt = tableExcerptDecoded
+        let collapsedResultDetailDecoded = try containerValues.decodeIfPresent(KendraClientTypes.CollapsedResultDetail.self, forKey: .collapsedResultDetail)
+        collapsedResultDetail = collapsedResultDetailDecoded
     }
 }
 
@@ -18295,6 +18666,8 @@ extension KendraClientTypes {
     public struct QueryResultItem: Swift.Equatable {
         /// One or more additional fields/attributes associated with the query result.
         public var additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]?
+        /// Provides details about a collapsed group of search results.
+        public var collapsedResultDetail: KendraClientTypes.CollapsedResultDetail?
         /// An array of document fields/attributes assigned to a document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
         public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
         /// An extract of the text in the document. Contains information about highlighting the relevant terms in the excerpt.
@@ -18320,6 +18693,7 @@ extension KendraClientTypes {
 
         public init(
             additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]? = nil,
+            collapsedResultDetail: KendraClientTypes.CollapsedResultDetail? = nil,
             documentAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
             documentExcerpt: KendraClientTypes.TextWithHighlights? = nil,
             documentId: Swift.String? = nil,
@@ -18334,6 +18708,7 @@ extension KendraClientTypes {
         )
         {
             self.additionalAttributes = additionalAttributes
+            self.collapsedResultDetail = collapsedResultDetail
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
             self.documentId = documentId
@@ -24386,7 +24761,7 @@ public struct UpdateIndexInput: Swift.Equatable {
     public var roleArn: Swift.String?
     /// The user context policy.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Enables fetching access levels of groups and users from an IAM Identity Center (successor to Single Sign-On) identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
+    /// Enables fetching access levels of groups and users from an IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
@@ -25117,9 +25492,9 @@ extension KendraClientTypes.UserGroupResolutionConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to get users and groups from an IAM Identity Center (successor to Single Sign-On) identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration.
+    /// Provides the configuration information to get users and groups from an IAM Identity Center identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration.
     public struct UserGroupResolutionConfiguration: Swift.Equatable {
-        /// The identity store provider (mode) you want to use to get users and groups. IAM Identity Center (successor to Single Sign-On) is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
+        /// The identity store provider (mode) you want to use to get users and groups. IAM Identity Center is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
         /// This member is required.
         public var userGroupResolutionMode: KendraClientTypes.UserGroupResolutionMode?
 

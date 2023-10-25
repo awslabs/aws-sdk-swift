@@ -3955,7 +3955,7 @@ extension DeleteStackInstancesInputBody: Swift.Decodable {
         }
         let operationPreferencesDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackSetOperationPreferences.self, forKey: .operationPreferences)
         operationPreferences = operationPreferencesDecoded
-        let retainStacksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainStacks) ?? false
+        let retainStacksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainStacks)
         retainStacks = retainStacksDecoded
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -13556,6 +13556,7 @@ extension CloudFormationClientTypes {
         case properties
         case tags
         case updatepolicy
+        case updatereplacepolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceAttribute] {
@@ -13566,6 +13567,7 @@ extension CloudFormationClientTypes {
                 .properties,
                 .tags,
                 .updatepolicy,
+                .updatereplacepolicy,
                 .sdkUnknown("")
             ]
         }
@@ -13581,6 +13583,7 @@ extension CloudFormationClientTypes {
             case .properties: return "Properties"
             case .tags: return "Tags"
             case .updatepolicy: return "UpdatePolicy"
+            case .updatereplacepolicy: return "UpdateReplacePolicy"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17585,22 +17588,22 @@ extension CloudFormationClientTypes.StackSetDriftDetectionDetails: Swift.Codable
         if let driftStatus = driftStatus {
             try container.encode(driftStatus, forKey: ClientRuntime.Key("DriftStatus"))
         }
-        if driftedStackInstancesCount != 0 {
+        if let driftedStackInstancesCount = driftedStackInstancesCount {
             try container.encode(driftedStackInstancesCount, forKey: ClientRuntime.Key("DriftedStackInstancesCount"))
         }
-        if failedStackInstancesCount != 0 {
+        if let failedStackInstancesCount = failedStackInstancesCount {
             try container.encode(failedStackInstancesCount, forKey: ClientRuntime.Key("FailedStackInstancesCount"))
         }
-        if inProgressStackInstancesCount != 0 {
+        if let inProgressStackInstancesCount = inProgressStackInstancesCount {
             try container.encode(inProgressStackInstancesCount, forKey: ClientRuntime.Key("InProgressStackInstancesCount"))
         }
-        if inSyncStackInstancesCount != 0 {
+        if let inSyncStackInstancesCount = inSyncStackInstancesCount {
             try container.encode(inSyncStackInstancesCount, forKey: ClientRuntime.Key("InSyncStackInstancesCount"))
         }
         if let lastDriftCheckTimestamp = lastDriftCheckTimestamp {
             try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastDriftCheckTimestamp"))
         }
-        if totalStackInstancesCount != 0 {
+        if let totalStackInstancesCount = totalStackInstancesCount {
             try container.encode(totalStackInstancesCount, forKey: ClientRuntime.Key("TotalStackInstancesCount"))
         }
     }
@@ -17613,15 +17616,15 @@ extension CloudFormationClientTypes.StackSetDriftDetectionDetails: Swift.Codable
         driftDetectionStatus = driftDetectionStatusDecoded
         let lastDriftCheckTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDriftCheckTimestamp)
         lastDriftCheckTimestamp = lastDriftCheckTimestampDecoded
-        let totalStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStackInstancesCount) ?? 0
+        let totalStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStackInstancesCount)
         totalStackInstancesCount = totalStackInstancesCountDecoded
-        let driftedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .driftedStackInstancesCount) ?? 0
+        let driftedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .driftedStackInstancesCount)
         driftedStackInstancesCount = driftedStackInstancesCountDecoded
-        let inSyncStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inSyncStackInstancesCount) ?? 0
+        let inSyncStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inSyncStackInstancesCount)
         inSyncStackInstancesCount = inSyncStackInstancesCountDecoded
-        let inProgressStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inProgressStackInstancesCount) ?? 0
+        let inProgressStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inProgressStackInstancesCount)
         inProgressStackInstancesCount = inProgressStackInstancesCountDecoded
-        let failedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedStackInstancesCount) ?? 0
+        let failedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedStackInstancesCount)
         failedStackInstancesCount = failedStackInstancesCountDecoded
     }
 }
@@ -17650,13 +17653,13 @@ extension CloudFormationClientTypes {
         /// * IN_SYNC: All of the stack instances belonging to the stack set stack match from the expected template and parameter configuration.
         public var driftStatus: CloudFormationClientTypes.StackSetDriftStatus?
         /// The number of stack instances that have drifted from the expected template and parameter configuration of the stack set. A stack instance is considered to have drifted if one or more of the resources in the associated stack don't match their expected configuration.
-        public var driftedStackInstancesCount: Swift.Int
+        public var driftedStackInstancesCount: Swift.Int?
         /// The number of stack instances for which the drift detection operation failed.
-        public var failedStackInstancesCount: Swift.Int
+        public var failedStackInstancesCount: Swift.Int?
         /// The number of stack instances that are currently being checked for drift.
-        public var inProgressStackInstancesCount: Swift.Int
+        public var inProgressStackInstancesCount: Swift.Int?
         /// The number of stack instances which match the expected template and parameter configuration of the stack set.
-        public var inSyncStackInstancesCount: Swift.Int
+        public var inSyncStackInstancesCount: Swift.Int?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection hasn't yet been performed.
         public var lastDriftCheckTimestamp: ClientRuntime.Date?
         /// The total number of stack instances belonging to this stack set. The total number of stack instances is equal to the total of:
@@ -17668,17 +17671,17 @@ extension CloudFormationClientTypes {
         /// * Stack instances where the drift detection operation has failed.
         ///
         /// * Stack instances currently being checked for drift.
-        public var totalStackInstancesCount: Swift.Int
+        public var totalStackInstancesCount: Swift.Int?
 
         public init(
             driftDetectionStatus: CloudFormationClientTypes.StackSetDriftDetectionStatus? = nil,
             driftStatus: CloudFormationClientTypes.StackSetDriftStatus? = nil,
-            driftedStackInstancesCount: Swift.Int = 0,
-            failedStackInstancesCount: Swift.Int = 0,
-            inProgressStackInstancesCount: Swift.Int = 0,
-            inSyncStackInstancesCount: Swift.Int = 0,
+            driftedStackInstancesCount: Swift.Int? = nil,
+            failedStackInstancesCount: Swift.Int? = nil,
+            inProgressStackInstancesCount: Swift.Int? = nil,
+            inSyncStackInstancesCount: Swift.Int? = nil,
             lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
-            totalStackInstancesCount: Swift.Int = 0
+            totalStackInstancesCount: Swift.Int? = nil
         )
         {
             self.driftDetectionStatus = driftDetectionStatus
@@ -18391,14 +18394,14 @@ extension CloudFormationClientTypes.StackSetOperationStatusDetails: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if failedStackInstancesCount != 0 {
+        if let failedStackInstancesCount = failedStackInstancesCount {
             try container.encode(failedStackInstancesCount, forKey: ClientRuntime.Key("FailedStackInstancesCount"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let failedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedStackInstancesCount) ?? 0
+        let failedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedStackInstancesCount)
         failedStackInstancesCount = failedStackInstancesCountDecoded
     }
 }
@@ -18407,10 +18410,10 @@ extension CloudFormationClientTypes {
     /// Detailed information about the StackSet operation.
     public struct StackSetOperationStatusDetails: Swift.Equatable {
         /// The number of stack instances for which the StackSet operation failed.
-        public var failedStackInstancesCount: Swift.Int
+        public var failedStackInstancesCount: Swift.Int?
 
         public init(
-            failedStackInstancesCount: Swift.Int = 0
+            failedStackInstancesCount: Swift.Int? = nil
         )
         {
             self.failedStackInstancesCount = failedStackInstancesCount

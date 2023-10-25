@@ -81,6 +81,85 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func analyzeID(input: AnalyzeIDInput) async throws -> AnalyzeIDOutput
+    /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES. You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
+    ///
+    /// - Parameter CreateAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `LimitExceededException` : An Amazon Textract service limit was exceeded. For example, if you start too many asynchronous jobs concurrently, calls to start operations (StartDocumentTextDetection, for example) raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Textract service limit.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func createAdapter(input: CreateAdapterInput) async throws -> CreateAdapterOutput
+    /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Requires that you specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an optional ClientRequestToken, and optional tags.
+    ///
+    /// - Parameter CreateAdapterVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAdapterVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidKMSKeyException` : Indicates you do not have decrypt permissions with the KMS key entered, or the KMS key was entered incorrectly.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
+    /// - `LimitExceededException` : An Amazon Textract service limit was exceeded. For example, if you start too many asynchronous jobs concurrently, calls to start operations (StartDocumentTextDetection, for example) raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Textract service limit.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func createAdapterVersion(input: CreateAdapterVersionInput) async throws -> CreateAdapterVersionOutput
+    /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
+    ///
+    /// - Parameter DeleteAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func deleteAdapter(input: DeleteAdapterInput) async throws -> DeleteAdapterOutput
+    /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
+    ///
+    /// - Parameter DeleteAdapterVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAdapterVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func deleteAdapterVersion(input: DeleteAdapterVersionInput) async throws -> DeleteAdapterVersionOutput
     /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. DetectDocumentText is a synchronous operation. To analyze documents asynchronously, use [StartDocumentTextDetection]. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter DetectDocumentTextInput : [no documentation found]
@@ -100,6 +179,40 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func detectDocumentText(input: DetectDocumentTextInput) async throws -> DetectDocumentTextOutput
+    /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes.
+    ///
+    /// - Parameter GetAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func getAdapter(input: GetAdapterInput) async throws -> GetAdapterOutput
+    /// Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
+    ///
+    /// - Parameter GetAdapterVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdapterVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func getAdapterVersion(input: GetAdapterVersionInput) async throws -> GetAdapterVersionOutput
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a document. You start asynchronous text analysis by calling [StartDocumentAnalysis], which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis. To get the results of the text-detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. GetDocumentAnalysis returns an array of [Block] objects. The following types of information are returned:
     ///
     /// * Form data (key-value pairs). The related information is returned in two [Block] objects, each of type KEY_VALUE_SET: a KEY Block object and a VALUE Block object. For example, Name: Ana Silva Carolina contains a key and value. Name: is the key. Ana Silva Carolina is the value.
@@ -203,6 +316,56 @@ public protocol TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     func getLendingAnalysisSummary(input: GetLendingAnalysisSummaryInput) async throws -> GetLendingAnalysisSummaryOutput
+    /// Lists all adapters that match the specified filtration criteria.
+    ///
+    /// - Parameter ListAdaptersInput : [no documentation found]
+    ///
+    /// - Returns: `ListAdaptersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func listAdapters(input: ListAdaptersInput) async throws -> ListAdaptersOutput
+    /// List all version of an adapter that meet the specified filtration criteria.
+    ///
+    /// - Parameter ListAdapterVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAdapterVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func listAdapterVersions(input: ListAdapterVersionsInput) async throws -> ListAdapterVersionsOutput
+    /// Lists all tags for an Amazon Textract resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentAnalysis], and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
     ///
     /// - Parameter StartDocumentAnalysisInput : [no documentation found]
@@ -297,6 +460,59 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func startLendingAnalysis(input: StartLendingAnalysisInput) async throws -> StartLendingAnalysisOutput
+    /// Adds one or more tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Removes any tags with the specified keys from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Update the configuration for an adapter. FeatureTypes configurations cannot be updated. At least one new parameter must be specified as an argument.
+    ///
+    /// - Parameter UpdateAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    func updateAdapter(input: UpdateAdapterInput) async throws -> UpdateAdapterOutput
 }
 
 public enum TextractClientTypes {}

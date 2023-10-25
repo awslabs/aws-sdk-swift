@@ -308,7 +308,7 @@ extension AutoScalingClientTypes.Activity: Swift.Codable {
         if let endTime = endTime {
             try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
-        if progress != 0 {
+        if let progress = progress {
             try container.encode(progress, forKey: ClientRuntime.Key("Progress"))
         }
         if let startTime = startTime {
@@ -340,7 +340,7 @@ extension AutoScalingClientTypes.Activity: Swift.Codable {
         statusCode = statusCodeDecoded
         let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
         statusMessage = statusMessageDecoded
-        let progressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progress) ?? 0
+        let progressDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .progress)
         progress = progressDecoded
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
@@ -374,7 +374,7 @@ extension AutoScalingClientTypes {
         /// The end time of the activity.
         public var endTime: ClientRuntime.Date?
         /// A value between 0 and 100 that indicates the progress of the activity.
-        public var progress: Swift.Int
+        public var progress: Swift.Int?
         /// The start time of the activity.
         /// This member is required.
         public var startTime: ClientRuntime.Date?
@@ -393,7 +393,7 @@ extension AutoScalingClientTypes {
             description: Swift.String? = nil,
             details: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
-            progress: Swift.Int = 0,
+            progress: Swift.Int? = nil,
             startTime: ClientRuntime.Date? = nil,
             statusCode: AutoScalingClientTypes.ScalingActivityStatusCode? = nil,
             statusMessage: Swift.String? = nil

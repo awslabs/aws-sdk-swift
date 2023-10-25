@@ -188,6 +188,18 @@ public protocol Route53RecoveryControlConfigClientProtocol {
     /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
     /// - `ValidationException` : 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     func describeSafetyRule(input: DescribeSafetyRuleInput) async throws -> DescribeSafetyRuleOutput
+    /// Get information about the resource policy for a cluster.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : 500 response - InternalServiceError. Temporary service error. Retry the request.
+    /// - `ResourceNotFoundException` : 404 response - MalformedQueryString. The query string contains a syntax error or resource not found.
+    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
     /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
     ///
     /// - Parameter ListAssociatedRoute53HealthChecksInput : [no documentation found]

@@ -8038,7 +8038,7 @@ extension NetworkFirewallClientTypes.StatelessRule: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let ruleDefinition = self.ruleDefinition {
@@ -8050,7 +8050,7 @@ extension NetworkFirewallClientTypes.StatelessRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleDefinitionDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.RuleDefinition.self, forKey: .ruleDefinition)
         ruleDefinition = ruleDefinitionDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
     }
 }
@@ -8060,13 +8060,13 @@ extension NetworkFirewallClientTypes {
     public struct StatelessRule: Swift.Equatable {
         /// Indicates the order in which to run this rule relative to all of the rules that are defined for a stateless rule group. Network Firewall evaluates the rules in a rule group starting with the lowest priority setting. You must ensure that the priority settings are unique for the rule group. Each stateless rule group uses exactly one StatelessRulesAndCustomActions object, and each StatelessRulesAndCustomActions contains exactly one StatelessRules object. To ensure unique priority settings for your rule groups, set unique priorities for the stateless rules that you define inside any single StatelessRules object. You can change the priority settings of your rules at any time. To make it easier to insert rules later, number them so there's a wide range in between, for example use 100, 200, and so on.
         /// This member is required.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// Defines the stateless 5-tuple packet inspection criteria and the action to take on a packet that matches the criteria.
         /// This member is required.
         public var ruleDefinition: NetworkFirewallClientTypes.RuleDefinition?
 
         public init(
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             ruleDefinition: NetworkFirewallClientTypes.RuleDefinition? = nil
         )
         {
@@ -8085,7 +8085,7 @@ extension NetworkFirewallClientTypes.StatelessRuleGroupReference: Swift.Codable 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let resourceArn = self.resourceArn {
@@ -8097,7 +8097,7 @@ extension NetworkFirewallClientTypes.StatelessRuleGroupReference: Swift.Codable 
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
     }
 }
@@ -8107,13 +8107,13 @@ extension NetworkFirewallClientTypes {
     public struct StatelessRuleGroupReference: Swift.Equatable {
         /// An integer setting that indicates the order in which to run the stateless rule groups in a single [FirewallPolicy]. Network Firewall applies each stateless rule group to a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy.
         /// This member is required.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The Amazon Resource Name (ARN) of the stateless rule group.
         /// This member is required.
         public var resourceArn: Swift.String?
 
         public init(
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
         )
         {

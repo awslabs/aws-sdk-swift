@@ -8473,7 +8473,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration: Swift.Codabl
         if let sentimentType = self.sentimentType {
             try encodeContainer.encode(sentimentType.rawValue, forKey: .sentimentType)
         }
-        if timePeriod != 0 {
+        if let timePeriod = self.timePeriod {
             try encodeContainer.encode(timePeriod, forKey: .timePeriod)
         }
     }
@@ -8484,7 +8484,7 @@ extension ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration: Swift.Codabl
         ruleName = ruleNameDecoded
         let sentimentTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.SentimentType.self, forKey: .sentimentType)
         sentimentType = sentimentTypeDecoded
-        let timePeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timePeriod) ?? 0
+        let timePeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timePeriod)
         timePeriod = timePeriodDecoded
     }
 }
@@ -8500,12 +8500,12 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public var sentimentType: ChimeSDKMediaPipelinesClientTypes.SentimentType?
         /// Specifies the analysis interval.
         /// This member is required.
-        public var timePeriod: Swift.Int
+        public var timePeriod: Swift.Int?
 
         public init(
             ruleName: Swift.String? = nil,
             sentimentType: ChimeSDKMediaPipelinesClientTypes.SentimentType? = nil,
-            timePeriod: Swift.Int = 0
+            timePeriod: Swift.Int? = nil
         )
         {
             self.ruleName = ruleName

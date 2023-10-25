@@ -7096,7 +7096,7 @@ extension IoTAnalyticsClientTypes.ResourceConfiguration: Swift.Codable {
         if let computeType = self.computeType {
             try encodeContainer.encode(computeType.rawValue, forKey: .computeType)
         }
-        if volumeSizeInGB != 0 {
+        if let volumeSizeInGB = self.volumeSizeInGB {
             try encodeContainer.encode(volumeSizeInGB, forKey: .volumeSizeInGB)
         }
     }
@@ -7105,7 +7105,7 @@ extension IoTAnalyticsClientTypes.ResourceConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let computeTypeDecoded = try containerValues.decodeIfPresent(IoTAnalyticsClientTypes.ComputeType.self, forKey: .computeType)
         computeType = computeTypeDecoded
-        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB) ?? 0
+        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB)
         volumeSizeInGB = volumeSizeInGBDecoded
     }
 }
@@ -7118,11 +7118,11 @@ extension IoTAnalyticsClientTypes {
         public var computeType: IoTAnalyticsClientTypes.ComputeType?
         /// The size, in GB, of the persistent storage available to the resource instance used to execute the containerAction (min: 1, max: 50).
         /// This member is required.
-        public var volumeSizeInGB: Swift.Int
+        public var volumeSizeInGB: Swift.Int?
 
         public init(
             computeType: IoTAnalyticsClientTypes.ComputeType? = nil,
-            volumeSizeInGB: Swift.Int = 0
+            volumeSizeInGB: Swift.Int? = nil
         )
         {
             self.computeType = computeType

@@ -5232,7 +5232,7 @@ extension DataBrewClientTypes.FilesLimit: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxFiles != 0 {
+        if let maxFiles = self.maxFiles {
             try encodeContainer.encode(maxFiles, forKey: .maxFiles)
         }
         if let order = self.order {
@@ -5245,7 +5245,7 @@ extension DataBrewClientTypes.FilesLimit: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxFilesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxFiles) ?? 0
+        let maxFilesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxFiles)
         maxFiles = maxFilesDecoded
         let orderedByDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.OrderedBy.self, forKey: .orderedBy)
         orderedBy = orderedByDecoded
@@ -5259,14 +5259,14 @@ extension DataBrewClientTypes {
     public struct FilesLimit: Swift.Equatable {
         /// The number of Amazon S3 files to select.
         /// This member is required.
-        public var maxFiles: Swift.Int
+        public var maxFiles: Swift.Int?
         /// A criteria to use for Amazon S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Another possible value is ASCENDING.
         public var order: DataBrewClientTypes.Order?
         /// A criteria to use for Amazon S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the only allowed value.
         public var orderedBy: DataBrewClientTypes.OrderedBy?
 
         public init(
-            maxFiles: Swift.Int = 0,
+            maxFiles: Swift.Int? = nil,
             order: DataBrewClientTypes.Order? = nil,
             orderedBy: DataBrewClientTypes.OrderedBy? = nil
         )

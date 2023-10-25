@@ -6136,7 +6136,7 @@ extension DirectoryClientTypes.DirectoryDescription: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if desiredNumberOfDomainControllers != 0 {
+        if let desiredNumberOfDomainControllers = self.desiredNumberOfDomainControllers {
             try encodeContainer.encode(desiredNumberOfDomainControllers, forKey: .desiredNumberOfDomainControllers)
         }
         if let directoryId = self.directoryId {
@@ -6262,7 +6262,7 @@ extension DirectoryClientTypes.DirectoryDescription: Swift.Codable {
         stageReason = stageReasonDecoded
         let ssoEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ssoEnabled) ?? false
         ssoEnabled = ssoEnabledDecoded
-        let desiredNumberOfDomainControllersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredNumberOfDomainControllers) ?? 0
+        let desiredNumberOfDomainControllersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredNumberOfDomainControllers)
         desiredNumberOfDomainControllers = desiredNumberOfDomainControllersDecoded
         let ownerDirectoryDescriptionDecoded = try containerValues.decodeIfPresent(DirectoryClientTypes.OwnerDirectoryDescription.self, forKey: .ownerDirectoryDescription)
         ownerDirectoryDescription = ownerDirectoryDescriptionDecoded
@@ -6290,7 +6290,7 @@ extension DirectoryClientTypes {
         /// The description for the directory.
         public var description: Swift.String?
         /// The desired number of domain controllers in the directory if the directory is Microsoft AD.
-        public var desiredNumberOfDomainControllers: Swift.Int
+        public var desiredNumberOfDomainControllers: Swift.Int?
         /// The directory identifier.
         public var directoryId: Swift.String?
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in your self-managed directory to which the AD Connector is connected.
@@ -6339,7 +6339,7 @@ extension DirectoryClientTypes {
             alias: Swift.String? = nil,
             connectSettings: DirectoryClientTypes.DirectoryConnectSettingsDescription? = nil,
             description: Swift.String? = nil,
-            desiredNumberOfDomainControllers: Swift.Int = 0,
+            desiredNumberOfDomainControllers: Swift.Int? = nil,
             directoryId: Swift.String? = nil,
             dnsIpAddrs: [Swift.String]? = nil,
             edition: DirectoryClientTypes.DirectoryEdition? = nil,
@@ -10593,7 +10593,7 @@ extension DirectoryClientTypes.RadiusSettings: Swift.Codable {
         if let displayLabel = self.displayLabel {
             try encodeContainer.encode(displayLabel, forKey: .displayLabel)
         }
-        if radiusPort != 0 {
+        if let radiusPort = self.radiusPort {
             try encodeContainer.encode(radiusPort, forKey: .radiusPort)
         }
         if radiusRetries != 0 {
@@ -10605,7 +10605,7 @@ extension DirectoryClientTypes.RadiusSettings: Swift.Codable {
                 try radiusServersContainer.encode(server0)
             }
         }
-        if radiusTimeout != 0 {
+        if let radiusTimeout = self.radiusTimeout {
             try encodeContainer.encode(radiusTimeout, forKey: .radiusTimeout)
         }
         if let sharedSecret = self.sharedSecret {
@@ -10629,9 +10629,9 @@ extension DirectoryClientTypes.RadiusSettings: Swift.Codable {
             }
         }
         radiusServers = radiusServersDecoded0
-        let radiusPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .radiusPort) ?? 0
+        let radiusPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .radiusPort)
         radiusPort = radiusPortDecoded
-        let radiusTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .radiusTimeout) ?? 0
+        let radiusTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .radiusTimeout)
         radiusTimeout = radiusTimeoutDecoded
         let radiusRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .radiusRetries) ?? 0
         radiusRetries = radiusRetriesDecoded
@@ -10659,13 +10659,13 @@ extension DirectoryClientTypes {
         /// Not currently used.
         public var displayLabel: Swift.String?
         /// The port that your RADIUS server is using for communications. Your self-managed network must allow inbound traffic over this port from the Directory Service servers.
-        public var radiusPort: Swift.Int
+        public var radiusPort: Swift.Int?
         /// The maximum number of times that communication with the RADIUS server is attempted.
         public var radiusRetries: Swift.Int
         /// An array of strings that contains the fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
         public var radiusServers: [Swift.String]?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
-        public var radiusTimeout: Swift.Int
+        public var radiusTimeout: Swift.Int?
         /// Required for enabling RADIUS on the directory.
         public var sharedSecret: Swift.String?
         /// Not currently used.
@@ -10674,10 +10674,10 @@ extension DirectoryClientTypes {
         public init(
             authenticationProtocol: DirectoryClientTypes.RadiusAuthenticationProtocol? = nil,
             displayLabel: Swift.String? = nil,
-            radiusPort: Swift.Int = 0,
+            radiusPort: Swift.Int? = nil,
             radiusRetries: Swift.Int = 0,
             radiusServers: [Swift.String]? = nil,
-            radiusTimeout: Swift.Int = 0,
+            radiusTimeout: Swift.Int? = nil,
             sharedSecret: Swift.String? = nil,
             useSameUsername: Swift.Bool = false
         )
@@ -10745,7 +10745,7 @@ extension DirectoryClientTypes.RegionDescription: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if desiredNumberOfDomainControllers != 0 {
+        if let desiredNumberOfDomainControllers = self.desiredNumberOfDomainControllers {
             try encodeContainer.encode(desiredNumberOfDomainControllers, forKey: .desiredNumberOfDomainControllers)
         }
         if let directoryId = self.directoryId {
@@ -10786,7 +10786,7 @@ extension DirectoryClientTypes.RegionDescription: Swift.Codable {
         status = statusDecoded
         let vpcSettingsDecoded = try containerValues.decodeIfPresent(DirectoryClientTypes.DirectoryVpcSettings.self, forKey: .vpcSettings)
         vpcSettings = vpcSettingsDecoded
-        let desiredNumberOfDomainControllersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredNumberOfDomainControllers) ?? 0
+        let desiredNumberOfDomainControllersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredNumberOfDomainControllers)
         desiredNumberOfDomainControllers = desiredNumberOfDomainControllersDecoded
         let launchTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .launchTime)
         launchTime = launchTimeDecoded
@@ -10801,7 +10801,7 @@ extension DirectoryClientTypes {
     /// The replicated Region information for a directory.
     public struct RegionDescription: Swift.Equatable {
         /// The desired number of domain controllers in the specified Region for the specified directory.
-        public var desiredNumberOfDomainControllers: Swift.Int
+        public var desiredNumberOfDomainControllers: Swift.Int?
         /// The identifier of the directory.
         public var directoryId: Swift.String?
         /// The date and time that the Region description was last updated.
@@ -10820,7 +10820,7 @@ extension DirectoryClientTypes {
         public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettings?
 
         public init(
-            desiredNumberOfDomainControllers: Swift.Int = 0,
+            desiredNumberOfDomainControllers: Swift.Int? = nil,
             directoryId: Swift.String? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
             launchTime: ClientRuntime.Date? = nil,

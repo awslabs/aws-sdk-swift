@@ -4231,7 +4231,7 @@ extension QuickSightClientTypes.AuroraParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -4240,7 +4240,7 @@ extension QuickSightClientTypes.AuroraParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -4258,12 +4258,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -4289,7 +4289,7 @@ extension QuickSightClientTypes.AuroraPostgreSqlParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -4298,7 +4298,7 @@ extension QuickSightClientTypes.AuroraPostgreSqlParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -4316,12 +4316,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// The port that Amazon Aurora PostgreSQL is listening on.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -10762,6 +10762,7 @@ enum CreateAccountSubscriptionOutputError: ClientRuntime.HttpResponseErrorBindin
 extension CreateAnalysisInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case definition = "Definition"
+        case folderArns = "FolderArns"
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -10775,6 +10776,12 @@ extension CreateAnalysisInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let definition = self.definition {
             try encodeContainer.encode(definition, forKey: .definition)
+        }
+        if let folderArns = folderArns {
+            var folderArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderArns)
+            for arn0 in folderArns {
+                try folderArnsContainer.encode(arn0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -10827,6 +10834,8 @@ public struct CreateAnalysisInput: Swift.Equatable {
     public var awsAccountId: Swift.String?
     /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.AnalysisDefinition?
+    /// When you create the analysis, Amazon QuickSight adds the analysis to these folders.
+    public var folderArns: [Swift.String]?
     /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
     /// This member is required.
     public var name: Swift.String?
@@ -10847,6 +10856,7 @@ public struct CreateAnalysisInput: Swift.Equatable {
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
         definition: QuickSightClientTypes.AnalysisDefinition? = nil,
+        folderArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
         parameters: QuickSightClientTypes.Parameters? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
@@ -10859,6 +10869,7 @@ public struct CreateAnalysisInput: Swift.Equatable {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
         self.definition = definition
+        self.folderArns = folderArns
         self.name = name
         self.parameters = parameters
         self.permissions = permissions
@@ -10878,11 +10889,13 @@ struct CreateAnalysisInputBody: Swift.Equatable {
     let tags: [QuickSightClientTypes.Tag]?
     let definition: QuickSightClientTypes.AnalysisDefinition?
     let validationStrategy: QuickSightClientTypes.ValidationStrategy?
+    let folderArns: [Swift.String]?
 }
 
 extension CreateAnalysisInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case definition = "Definition"
+        case folderArns = "FolderArns"
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -10928,6 +10941,17 @@ extension CreateAnalysisInputBody: Swift.Decodable {
         definition = definitionDecoded
         let validationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ValidationStrategy.self, forKey: .validationStrategy)
         validationStrategy = validationStrategyDecoded
+        let folderArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .folderArns)
+        var folderArnsDecoded0:[Swift.String]? = nil
+        if let folderArnsContainer = folderArnsContainer {
+            folderArnsDecoded0 = [Swift.String]()
+            for string0 in folderArnsContainer {
+                if let string0 = string0 {
+                    folderArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        folderArns = folderArnsDecoded0
     }
 }
 
@@ -11080,6 +11104,7 @@ extension CreateDashboardInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
+        case folderArns = "FolderArns"
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -11097,6 +11122,12 @@ extension CreateDashboardInput: Swift.Encodable {
         }
         if let definition = self.definition {
             try encodeContainer.encode(definition, forKey: .definition)
+        }
+        if let folderArns = folderArns {
+            var folderArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderArns)
+            for arn0 in folderArns {
+                try folderArnsContainer.encode(arn0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -11160,6 +11191,8 @@ public struct CreateDashboardInput: Swift.Equatable {
     public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
     /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
+    /// When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
+    public var folderArns: [Swift.String]?
     /// The display name of the dashboard.
     /// This member is required.
     public var name: Swift.String?
@@ -11183,6 +11216,7 @@ public struct CreateDashboardInput: Swift.Equatable {
         dashboardId: Swift.String? = nil,
         dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
         definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
+        folderArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
         parameters: QuickSightClientTypes.Parameters? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
@@ -11197,6 +11231,7 @@ public struct CreateDashboardInput: Swift.Equatable {
         self.dashboardId = dashboardId
         self.dashboardPublishOptions = dashboardPublishOptions
         self.definition = definition
+        self.folderArns = folderArns
         self.name = name
         self.parameters = parameters
         self.permissions = permissions
@@ -11219,12 +11254,14 @@ struct CreateDashboardInputBody: Swift.Equatable {
     let themeArn: Swift.String?
     let definition: QuickSightClientTypes.DashboardVersionDefinition?
     let validationStrategy: QuickSightClientTypes.ValidationStrategy?
+    let folderArns: [Swift.String]?
 }
 
 extension CreateDashboardInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
+        case folderArns = "FolderArns"
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -11275,6 +11312,17 @@ extension CreateDashboardInputBody: Swift.Decodable {
         definition = definitionDecoded
         let validationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ValidationStrategy.self, forKey: .validationStrategy)
         validationStrategy = validationStrategyDecoded
+        let folderArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .folderArns)
+        var folderArnsDecoded0:[Swift.String]? = nil
+        if let folderArnsContainer = folderArnsContainer {
+            folderArnsDecoded0 = [Swift.String]()
+            for string0 in folderArnsContainer {
+                if let string0 = string0 {
+                    folderArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        folderArns = folderArnsDecoded0
     }
 }
 
@@ -11393,6 +11441,7 @@ extension CreateDataSetInput: Swift.Encodable {
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
         case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
+        case folderArns = "FolderArns"
         case importMode = "ImportMode"
         case logicalTableMap = "LogicalTableMap"
         case name = "Name"
@@ -11433,6 +11482,12 @@ extension CreateDataSetInput: Swift.Encodable {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
             for (dictKey0, fieldFolderMap0) in fieldFolders {
                 try fieldFoldersContainer.encode(fieldFolderMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let folderArns = folderArns {
+            var folderArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderArns)
+            for arn0 in folderArns {
+                try folderArnsContainer.encode(arn0)
             }
         }
         if let importMode = self.importMode {
@@ -11500,6 +11555,8 @@ public struct CreateDataSetInput: Swift.Equatable {
     public var datasetParameters: [QuickSightClientTypes.DatasetParameter]?
     /// The folder that contains fields and nested subfolders for your dataset.
     public var fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]?
+    /// When you create the dataset, Amazon QuickSight adds the dataset to these folders.
+    public var folderArns: [Swift.String]?
     /// Indicates whether you want to import the data into SPICE.
     /// This member is required.
     public var importMode: QuickSightClientTypes.DataSetImportMode?
@@ -11528,6 +11585,7 @@ public struct CreateDataSetInput: Swift.Equatable {
         dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
         datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
         fieldFolders: [Swift.String:QuickSightClientTypes.FieldFolder]? = nil,
+        folderArns: [Swift.String]? = nil,
         importMode: QuickSightClientTypes.DataSetImportMode? = nil,
         logicalTableMap: [Swift.String:QuickSightClientTypes.LogicalTable]? = nil,
         name: Swift.String? = nil,
@@ -11545,6 +11603,7 @@ public struct CreateDataSetInput: Swift.Equatable {
         self.dataSetUsageConfiguration = dataSetUsageConfiguration
         self.datasetParameters = datasetParameters
         self.fieldFolders = fieldFolders
+        self.folderArns = folderArns
         self.importMode = importMode
         self.logicalTableMap = logicalTableMap
         self.name = name
@@ -11571,6 +11630,7 @@ struct CreateDataSetInputBody: Swift.Equatable {
     let tags: [QuickSightClientTypes.Tag]?
     let dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
     let datasetParameters: [QuickSightClientTypes.DatasetParameter]?
+    let folderArns: [Swift.String]?
 }
 
 extension CreateDataSetInputBody: Swift.Decodable {
@@ -11581,6 +11641,7 @@ extension CreateDataSetInputBody: Swift.Decodable {
         case dataSetUsageConfiguration = "DataSetUsageConfiguration"
         case datasetParameters = "DatasetParameters"
         case fieldFolders = "FieldFolders"
+        case folderArns = "FolderArns"
         case importMode = "ImportMode"
         case logicalTableMap = "LogicalTableMap"
         case name = "Name"
@@ -11693,6 +11754,17 @@ extension CreateDataSetInputBody: Swift.Decodable {
             }
         }
         datasetParameters = datasetParametersDecoded0
+        let folderArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .folderArns)
+        var folderArnsDecoded0:[Swift.String]? = nil
+        if let folderArnsContainer = folderArnsContainer {
+            folderArnsDecoded0 = [Swift.String]()
+            for string0 in folderArnsContainer {
+                if let string0 = string0 {
+                    folderArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        folderArns = folderArnsDecoded0
     }
 }
 
@@ -11806,7 +11878,7 @@ enum CreateDataSetOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateDataSourceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataSourceInput(awsAccountId: \(Swift.String(describing: awsAccountId)), dataSourceId: \(Swift.String(describing: dataSourceId)), dataSourceParameters: \(Swift.String(describing: dataSourceParameters)), name: \(Swift.String(describing: name)), permissions: \(Swift.String(describing: permissions)), sslProperties: \(Swift.String(describing: sslProperties)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), vpcConnectionProperties: \(Swift.String(describing: vpcConnectionProperties)), credentials: \"CONTENT_REDACTED\")"}
+        "CreateDataSourceInput(awsAccountId: \(Swift.String(describing: awsAccountId)), dataSourceId: \(Swift.String(describing: dataSourceId)), dataSourceParameters: \(Swift.String(describing: dataSourceParameters)), folderArns: \(Swift.String(describing: folderArns)), name: \(Swift.String(describing: name)), permissions: \(Swift.String(describing: permissions)), sslProperties: \(Swift.String(describing: sslProperties)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), vpcConnectionProperties: \(Swift.String(describing: vpcConnectionProperties)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateDataSourceInput: Swift.Encodable {
@@ -11814,6 +11886,7 @@ extension CreateDataSourceInput: Swift.Encodable {
         case credentials = "Credentials"
         case dataSourceId = "DataSourceId"
         case dataSourceParameters = "DataSourceParameters"
+        case folderArns = "FolderArns"
         case name = "Name"
         case permissions = "Permissions"
         case sslProperties = "SslProperties"
@@ -11832,6 +11905,12 @@ extension CreateDataSourceInput: Swift.Encodable {
         }
         if let dataSourceParameters = self.dataSourceParameters {
             try encodeContainer.encode(dataSourceParameters, forKey: .dataSourceParameters)
+        }
+        if let folderArns = folderArns {
+            var folderArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderArns)
+            for arn0 in folderArns {
+                try folderArnsContainer.encode(arn0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -11880,6 +11959,8 @@ public struct CreateDataSourceInput: Swift.Equatable {
     public var dataSourceId: Swift.String?
     /// The parameters that Amazon QuickSight uses to connect to your underlying source.
     public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
+    /// When you create the data source, Amazon QuickSight adds the data source to these folders.
+    public var folderArns: [Swift.String]?
     /// A display name for the data source.
     /// This member is required.
     public var name: Swift.String?
@@ -11900,6 +11981,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
         credentials: QuickSightClientTypes.DataSourceCredentials? = nil,
         dataSourceId: Swift.String? = nil,
         dataSourceParameters: QuickSightClientTypes.DataSourceParameters? = nil,
+        folderArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         sslProperties: QuickSightClientTypes.SslProperties? = nil,
@@ -11912,6 +11994,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
         self.credentials = credentials
         self.dataSourceId = dataSourceId
         self.dataSourceParameters = dataSourceParameters
+        self.folderArns = folderArns
         self.name = name
         self.permissions = permissions
         self.sslProperties = sslProperties
@@ -11931,6 +12014,7 @@ struct CreateDataSourceInputBody: Swift.Equatable {
     let vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
     let sslProperties: QuickSightClientTypes.SslProperties?
     let tags: [QuickSightClientTypes.Tag]?
+    let folderArns: [Swift.String]?
 }
 
 extension CreateDataSourceInputBody: Swift.Decodable {
@@ -11938,6 +12022,7 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         case credentials = "Credentials"
         case dataSourceId = "DataSourceId"
         case dataSourceParameters = "DataSourceParameters"
+        case folderArns = "FolderArns"
         case name = "Name"
         case permissions = "Permissions"
         case sslProperties = "SslProperties"
@@ -11984,6 +12069,17 @@ extension CreateDataSourceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let folderArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .folderArns)
+        var folderArnsDecoded0:[Swift.String]? = nil
+        if let folderArnsContainer = folderArnsContainer {
+            folderArnsDecoded0 = [Swift.String]()
+            for string0 in folderArnsContainer {
+                if let string0 = string0 {
+                    folderArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        folderArns = folderArnsDecoded0
     }
 }
 
@@ -18180,14 +18276,61 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.DataPathType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pivotTableDataPathType = "PivotTableDataPathType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pivotTableDataPathType = self.pivotTableDataPathType {
+            try encodeContainer.encode(pivotTableDataPathType.rawValue, forKey: .pivotTableDataPathType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pivotTableDataPathTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTableDataPathType.self, forKey: .pivotTableDataPathType)
+        pivotTableDataPathType = pivotTableDataPathTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The type of the data path value.
+    public struct DataPathType: Swift.Equatable {
+        /// The type of data path value utilized in a pivot table. Choose one of the following options:
+        ///
+        /// * HIERARCHY_ROWS_LAYOUT_COLUMN - The type of data path for the rows layout column, when RowsLayout is set to HIERARCHY.
+        ///
+        /// * MULTIPLE_ROW_METRICS_COLUMN - The type of data path for the metric column when the row is set to Metric Placement.
+        ///
+        /// * EMPTY_COLUMN_HEADER - The type of data path for the column with empty column header, when there is no field in ColumnsFieldWell and the row is set to Metric Placement.
+        ///
+        /// * COUNT_METRIC_COLUMN - The type of data path for the column with COUNT as the metric, when there is no field in the ValuesFieldWell.
+        public var pivotTableDataPathType: QuickSightClientTypes.PivotTableDataPathType?
+
+        public init(
+            pivotTableDataPathType: QuickSightClientTypes.PivotTableDataPathType? = nil
+        )
+        {
+            self.pivotTableDataPathType = pivotTableDataPathType
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DataPathValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataPathType = "DataPathType"
         case fieldId = "FieldId"
         case fieldValue = "FieldValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataPathType = self.dataPathType {
+            try encodeContainer.encode(dataPathType, forKey: .dataPathType)
+        }
         if let fieldId = self.fieldId {
             try encodeContainer.encode(fieldId, forKey: .fieldId)
         }
@@ -18202,29 +18345,33 @@ extension QuickSightClientTypes.DataPathValue: Swift.Codable {
         fieldId = fieldIdDecoded
         let fieldValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldValue)
         fieldValue = fieldValueDecoded
+        let dataPathTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataPathType.self, forKey: .dataPathType)
+        dataPathType = dataPathTypeDecoded
     }
 }
 
 extension QuickSightClientTypes.DataPathValue: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataPathValue(fieldId: \(Swift.String(describing: fieldId)), fieldValue: \"CONTENT_REDACTED\")"}
+        "DataPathValue(dataPathType: \(Swift.String(describing: dataPathType)), fieldId: \(Swift.String(describing: fieldId)), fieldValue: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
     /// The data path that needs to be sorted.
     public struct DataPathValue: Swift.Equatable {
+        /// The type configuration of the field.
+        public var dataPathType: QuickSightClientTypes.DataPathType?
         /// The field ID of the field that needs to be sorted.
-        /// This member is required.
         public var fieldId: Swift.String?
         /// The actual value of the field that needs to be sorted.
-        /// This member is required.
         public var fieldValue: Swift.String?
 
         public init(
+            dataPathType: QuickSightClientTypes.DataPathType? = nil,
             fieldId: Swift.String? = nil,
             fieldValue: Swift.String? = nil
         )
         {
+            self.dataPathType = dataPathType
             self.fieldId = fieldId
             self.fieldValue = fieldValue
         }
@@ -19550,7 +19697,9 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
         case snowflakeparameters = "SnowflakeParameters"
         case sparkparameters = "SparkParameters"
         case sqlserverparameters = "SqlServerParameters"
+        case starburstparameters = "StarburstParameters"
         case teradataparameters = "TeradataParameters"
+        case trinoparameters = "TrinoParameters"
         case twitterparameters = "TwitterParameters"
         case sdkUnknown
     }
@@ -19600,8 +19749,12 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
                 try container.encode(sparkparameters, forKey: .sparkparameters)
             case let .sqlserverparameters(sqlserverparameters):
                 try container.encode(sqlserverparameters, forKey: .sqlserverparameters)
+            case let .starburstparameters(starburstparameters):
+                try container.encode(starburstparameters, forKey: .starburstparameters)
             case let .teradataparameters(teradataparameters):
                 try container.encode(teradataparameters, forKey: .teradataparameters)
+            case let .trinoparameters(trinoparameters):
+                try container.encode(trinoparameters, forKey: .trinoparameters)
             case let .twitterparameters(twitterparameters):
                 try container.encode(twitterparameters, forKey: .twitterparameters)
             case let .sdkUnknown(sdkUnknown):
@@ -19726,6 +19879,16 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
             self = .databricksparameters(databricksparameters)
             return
         }
+        let starburstparametersDecoded = try values.decodeIfPresent(QuickSightClientTypes.StarburstParameters.self, forKey: .starburstparameters)
+        if let starburstparameters = starburstparametersDecoded {
+            self = .starburstparameters(starburstparameters)
+            return
+        }
+        let trinoparametersDecoded = try values.decodeIfPresent(QuickSightClientTypes.TrinoParameters.self, forKey: .trinoparameters)
+        if let trinoparameters = trinoparametersDecoded {
+            self = .trinoparameters(trinoparameters)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -19777,8 +19940,12 @@ extension QuickSightClientTypes {
         case amazonopensearchparameters(QuickSightClientTypes.AmazonOpenSearchParameters)
         /// The parameters for Exasol.
         case exasolparameters(QuickSightClientTypes.ExasolParameters)
-        /// The required parameters that are needed to connect to a Databricks data source.
+        /// The parameters that are required to connect to a Databricks data source.
         case databricksparameters(QuickSightClientTypes.DatabricksParameters)
+        /// The parameters that are required to connect to a Starburst data source.
+        case starburstparameters(QuickSightClientTypes.StarburstParameters)
+        /// The parameters that are required to connect to a Trino data source.
+        case trinoparameters(QuickSightClientTypes.TrinoParameters)
         case sdkUnknown(Swift.String)
     }
 
@@ -20051,7 +20218,7 @@ extension QuickSightClientTypes.DatabricksParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
         if let sqlEndpointPath = self.sqlEndpointPath {
@@ -20063,7 +20230,7 @@ extension QuickSightClientTypes.DatabricksParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let sqlEndpointPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sqlEndpointPath)
         sqlEndpointPath = sqlEndpointPathDecoded
@@ -20071,21 +20238,21 @@ extension QuickSightClientTypes.DatabricksParameters: Swift.Codable {
 }
 
 extension QuickSightClientTypes {
-    /// The required parameters that are needed to connect to a Databricks data source.
+    /// The parameters that are required to connect to a Databricks data source.
     public struct DatabricksParameters: Swift.Equatable {
         /// The host name of the Databricks data source.
         /// This member is required.
         public var host: Swift.String?
         /// The port for the Databricks data source.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
         /// The HTTP path of the Databricks data source.
         /// This member is required.
         public var sqlEndpointPath: Swift.String?
 
         public init(
             host: Swift.String? = nil,
-            port: Swift.Int = 0,
+            port: Swift.Int? = nil,
             sqlEndpointPath: Swift.String? = nil
         )
         {
@@ -31718,7 +31885,7 @@ extension QuickSightClientTypes.ExasolParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -31727,7 +31894,7 @@ extension QuickSightClientTypes.ExasolParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
     }
 }
@@ -31740,11 +31907,11 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// The port for the Exasol data source.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.host = host
@@ -34710,11 +34877,13 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
     public enum FolderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case restricted
         case shared
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FolderType] {
             return [
+                .restricted,
                 .shared,
                 .sdkUnknown("")
             ]
@@ -34725,6 +34894,7 @@ extension QuickSightClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .restricted: return "RESTRICTED"
             case .shared: return "SHARED"
             case let .sdkUnknown(s): return s
             }
@@ -39029,7 +39199,7 @@ extension QuickSightClientTypes.GrowthRateComputation: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if periodSize != 0 {
+        if let periodSize = self.periodSize {
             try encodeContainer.encode(periodSize, forKey: .periodSize)
         }
         if let time = self.time {
@@ -39050,7 +39220,7 @@ extension QuickSightClientTypes.GrowthRateComputation: Swift.Codable {
         time = timeDecoded
         let valueDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.MeasureField.self, forKey: .value)
         value = valueDecoded
-        let periodSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .periodSize) ?? 0
+        let periodSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .periodSize)
         periodSize = periodSizeDecoded
     }
 }
@@ -39064,7 +39234,7 @@ extension QuickSightClientTypes {
         /// The name of a computation.
         public var name: Swift.String?
         /// The period size setup of a growth rate computation.
-        public var periodSize: Swift.Int
+        public var periodSize: Swift.Int?
         /// The time field that is used in a computation.
         public var time: QuickSightClientTypes.DimensionField?
         /// The value field that is used in a computation.
@@ -39073,7 +39243,7 @@ extension QuickSightClientTypes {
         public init(
             computationId: Swift.String? = nil,
             name: Swift.String? = nil,
-            periodSize: Swift.Int = 0,
+            periodSize: Swift.Int? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
         )
@@ -49107,7 +49277,7 @@ extension QuickSightClientTypes.LookbackWindow: Swift.Codable {
         if let columnName = self.columnName {
             try encodeContainer.encode(columnName, forKey: .columnName)
         }
-        if size != 0 {
+        if let size = self.size {
             try encodeContainer.encode(size, forKey: .size)
         }
         if let sizeUnit = self.sizeUnit {
@@ -49119,7 +49289,7 @@ extension QuickSightClientTypes.LookbackWindow: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let columnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnName)
         columnName = columnNameDecoded
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
         let sizeUnitDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LookbackWindowSizeUnit.self, forKey: .sizeUnit)
         sizeUnit = sizeUnitDecoded
@@ -49134,14 +49304,14 @@ extension QuickSightClientTypes {
         public var columnName: Swift.String?
         /// The lookback window column size.
         /// This member is required.
-        public var size: Swift.Int
+        public var size: Swift.Int?
         /// The size unit that is used for the lookback window column. Valid values for this structure are HOUR, DAY, and WEEK.
         /// This member is required.
         public var sizeUnit: QuickSightClientTypes.LookbackWindowSizeUnit?
 
         public init(
             columnName: Swift.String? = nil,
-            size: Swift.Int = 0,
+            size: Swift.Int? = nil,
             sizeUnit: QuickSightClientTypes.LookbackWindowSizeUnit? = nil
         )
         {
@@ -49364,7 +49534,7 @@ extension QuickSightClientTypes.MariaDbParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -49373,7 +49543,7 @@ extension QuickSightClientTypes.MariaDbParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -49391,12 +49561,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -49908,7 +50078,7 @@ extension QuickSightClientTypes.MySqlParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -49917,7 +50087,7 @@ extension QuickSightClientTypes.MySqlParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -49935,12 +50105,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -51823,7 +51993,7 @@ extension QuickSightClientTypes.OracleParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -51832,7 +52002,7 @@ extension QuickSightClientTypes.OracleParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -51850,12 +52020,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// The port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -54579,6 +54749,44 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+    public enum PivotTableDataPathType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case countMetricColumn
+        case emptyColumnHeader
+        case hierarchyRowsLayoutColumn
+        case multipleRowMetricsColumn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PivotTableDataPathType] {
+            return [
+                .countMetricColumn,
+                .emptyColumnHeader,
+                .hierarchyRowsLayoutColumn,
+                .multipleRowMetricsColumn,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .countMetricColumn: return "COUNT_METRIC_COLUMN"
+            case .emptyColumnHeader: return "EMPTY_COLUMN_HEADER"
+            case .hierarchyRowsLayoutColumn: return "HIERARCHY_ROWS_LAYOUT_COLUMN"
+            case .multipleRowMetricsColumn: return "MULTIPLE_ROW_METRICS_COLUMN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PivotTableDataPathType(rawValue: rawValue) ?? PivotTableDataPathType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
     public enum PivotTableFieldCollapseState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case collapsed
         case expanded
@@ -55553,6 +55761,7 @@ extension QuickSightClientTypes.PivotTotalOptions: Swift.Codable {
         case metricHeaderCellStyle = "MetricHeaderCellStyle"
         case placement = "Placement"
         case scrollStatus = "ScrollStatus"
+        case totalAggregationOptions = "TotalAggregationOptions"
         case totalCellStyle = "TotalCellStyle"
         case totalsVisibility = "TotalsVisibility"
         case valueCellStyle = "ValueCellStyle"
@@ -55571,6 +55780,12 @@ extension QuickSightClientTypes.PivotTotalOptions: Swift.Codable {
         }
         if let scrollStatus = self.scrollStatus {
             try encodeContainer.encode(scrollStatus.rawValue, forKey: .scrollStatus)
+        }
+        if let totalAggregationOptions = totalAggregationOptions {
+            var totalAggregationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .totalAggregationOptions)
+            for totalaggregationoption0 in totalAggregationOptions {
+                try totalAggregationOptionsContainer.encode(totalaggregationoption0)
+            }
         }
         if let totalCellStyle = self.totalCellStyle {
             try encodeContainer.encode(totalCellStyle, forKey: .totalCellStyle)
@@ -55599,6 +55814,17 @@ extension QuickSightClientTypes.PivotTotalOptions: Swift.Codable {
         valueCellStyle = valueCellStyleDecoded
         let metricHeaderCellStyleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TableCellStyle.self, forKey: .metricHeaderCellStyle)
         metricHeaderCellStyle = metricHeaderCellStyleDecoded
+        let totalAggregationOptionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TotalAggregationOption?].self, forKey: .totalAggregationOptions)
+        var totalAggregationOptionsDecoded0:[QuickSightClientTypes.TotalAggregationOption]? = nil
+        if let totalAggregationOptionsContainer = totalAggregationOptionsContainer {
+            totalAggregationOptionsDecoded0 = [QuickSightClientTypes.TotalAggregationOption]()
+            for structure0 in totalAggregationOptionsContainer {
+                if let structure0 = structure0 {
+                    totalAggregationOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        totalAggregationOptions = totalAggregationOptionsDecoded0
     }
 }
 
@@ -55613,6 +55839,8 @@ extension QuickSightClientTypes {
         public var placement: QuickSightClientTypes.TableTotalsPlacement?
         /// The scroll status (pinned, scrolled) for the total cells.
         public var scrollStatus: QuickSightClientTypes.TableTotalsScrollStatus?
+        /// The total aggregation options for each value field.
+        public var totalAggregationOptions: [QuickSightClientTypes.TotalAggregationOption]?
         /// The cell styling options for the total cells.
         public var totalCellStyle: QuickSightClientTypes.TableCellStyle?
         /// The visibility configuration for the total cells.
@@ -55625,6 +55853,7 @@ extension QuickSightClientTypes {
             metricHeaderCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             placement: QuickSightClientTypes.TableTotalsPlacement? = nil,
             scrollStatus: QuickSightClientTypes.TableTotalsScrollStatus? = nil,
+            totalAggregationOptions: [QuickSightClientTypes.TotalAggregationOption]? = nil,
             totalCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil,
             valueCellStyle: QuickSightClientTypes.TableCellStyle? = nil
@@ -55634,6 +55863,7 @@ extension QuickSightClientTypes {
             self.metricHeaderCellStyle = metricHeaderCellStyle
             self.placement = placement
             self.scrollStatus = scrollStatus
+            self.totalAggregationOptions = totalAggregationOptions
             self.totalCellStyle = totalCellStyle
             self.totalsVisibility = totalsVisibility
             self.valueCellStyle = valueCellStyle
@@ -55657,7 +55887,7 @@ extension QuickSightClientTypes.PostgreSqlParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -55666,7 +55896,7 @@ extension QuickSightClientTypes.PostgreSqlParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -55684,12 +55914,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -55861,7 +56091,7 @@ extension QuickSightClientTypes.PrestoParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -55870,7 +56100,7 @@ extension QuickSightClientTypes.PrestoParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let catalogDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalog)
         catalog = catalogDecoded
@@ -55888,12 +56118,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             catalog: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.catalog = catalog
@@ -57361,6 +57591,7 @@ extension QuickSightClientTypes.ReferenceLineDataConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case axisBinding = "AxisBinding"
         case dynamicConfiguration = "DynamicConfiguration"
+        case seriesType = "SeriesType"
         case staticConfiguration = "StaticConfiguration"
     }
 
@@ -57371,6 +57602,9 @@ extension QuickSightClientTypes.ReferenceLineDataConfiguration: Swift.Codable {
         }
         if let dynamicConfiguration = self.dynamicConfiguration {
             try encodeContainer.encode(dynamicConfiguration, forKey: .dynamicConfiguration)
+        }
+        if let seriesType = self.seriesType {
+            try encodeContainer.encode(seriesType.rawValue, forKey: .seriesType)
         }
         if let staticConfiguration = self.staticConfiguration {
             try encodeContainer.encode(staticConfiguration, forKey: .staticConfiguration)
@@ -57385,6 +57619,8 @@ extension QuickSightClientTypes.ReferenceLineDataConfiguration: Swift.Codable {
         dynamicConfiguration = dynamicConfigurationDecoded
         let axisBindingDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AxisBinding.self, forKey: .axisBinding)
         axisBinding = axisBindingDecoded
+        let seriesTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ReferenceLineSeriesType.self, forKey: .seriesType)
+        seriesType = seriesTypeDecoded
     }
 }
 
@@ -57399,17 +57635,25 @@ extension QuickSightClientTypes {
         public var axisBinding: QuickSightClientTypes.AxisBinding?
         /// The dynamic configuration of the reference line data configuration.
         public var dynamicConfiguration: QuickSightClientTypes.ReferenceLineDynamicDataConfiguration?
+        /// The series type of the reference line data configuration. Choose one of the following options:
+        ///
+        /// * BAR
+        ///
+        /// * LINE
+        public var seriesType: QuickSightClientTypes.ReferenceLineSeriesType?
         /// The static data configuration of the reference line data configuration.
         public var staticConfiguration: QuickSightClientTypes.ReferenceLineStaticDataConfiguration?
 
         public init(
             axisBinding: QuickSightClientTypes.AxisBinding? = nil,
             dynamicConfiguration: QuickSightClientTypes.ReferenceLineDynamicDataConfiguration? = nil,
+            seriesType: QuickSightClientTypes.ReferenceLineSeriesType? = nil,
             staticConfiguration: QuickSightClientTypes.ReferenceLineStaticDataConfiguration? = nil
         )
         {
             self.axisBinding = axisBinding
             self.dynamicConfiguration = dynamicConfiguration
+            self.seriesType = seriesType
             self.staticConfiguration = staticConfiguration
         }
     }
@@ -57666,6 +57910,38 @@ extension QuickSightClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ReferenceLinePatternType(rawValue: rawValue) ?? ReferenceLinePatternType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum ReferenceLineSeriesType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bar
+        case line
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReferenceLineSeriesType] {
+            return [
+                .bar,
+                .line,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bar: return "BAR"
+            case .line: return "LINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReferenceLineSeriesType(rawValue: rawValue) ?? ReferenceLineSeriesType.sdkUnknown(rawValue)
         }
     }
 }
@@ -64575,6 +64851,50 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes {
+    public enum SimpleTotalAggregationFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case `default`
+        case max
+        case min
+        case `none`
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SimpleTotalAggregationFunction] {
+            return [
+                .average,
+                .default,
+                .max,
+                .min,
+                .none,
+                .sum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .default: return "DEFAULT"
+            case .max: return "MAX"
+            case .min: return "MIN"
+            case .none: return "NONE"
+            case .sum: return "SUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SimpleTotalAggregationFunction(rawValue: rawValue) ?? SimpleTotalAggregationFunction.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.SliderControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case infoIconLabelOptions = "InfoIconLabelOptions"
@@ -65870,7 +66190,7 @@ extension QuickSightClientTypes.SparkParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -65879,7 +66199,7 @@ extension QuickSightClientTypes.SparkParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
     }
 }
@@ -65892,11 +66212,11 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.host = host
@@ -65956,7 +66276,7 @@ extension QuickSightClientTypes.SqlServerParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -65965,7 +66285,7 @@ extension QuickSightClientTypes.SqlServerParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -65983,12 +66303,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -66032,6 +66352,106 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes.StarburstParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalog = "Catalog"
+        case host = "Host"
+        case port = "Port"
+        case productType = "ProductType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalog = self.catalog {
+            try encodeContainer.encode(catalog, forKey: .catalog)
+        }
+        if let host = self.host {
+            try encodeContainer.encode(host, forKey: .host)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let productType = self.productType {
+            try encodeContainer.encode(productType.rawValue, forKey: .productType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
+        host = hostDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let catalogDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalog)
+        catalog = catalogDecoded
+        let productTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StarburstProductType.self, forKey: .productType)
+        productType = productTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The parameters that are required to connect to a Starburst data source.
+    public struct StarburstParameters: Swift.Equatable {
+        /// The catalog name for the Starburst data source.
+        /// This member is required.
+        public var catalog: Swift.String?
+        /// The host name of the Starburst data source.
+        /// This member is required.
+        public var host: Swift.String?
+        /// The port for the Starburst data source.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The product type for the Starburst data source.
+        public var productType: QuickSightClientTypes.StarburstProductType?
+
+        public init(
+            catalog: Swift.String? = nil,
+            host: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            productType: QuickSightClientTypes.StarburstProductType? = nil
+        )
+        {
+            self.catalog = catalog
+            self.host = host
+            self.port = port
+            self.productType = productType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum StarburstProductType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enterprise
+        case galaxy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StarburstProductType] {
+            return [
+                .enterprise,
+                .galaxy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterprise: return "ENTERPRISE"
+            case .galaxy: return "GALAXY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StarburstProductType(rawValue: rawValue) ?? StarburstProductType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension StartAssetBundleExportJobInput: Swift.Encodable {
@@ -70141,7 +70561,7 @@ extension QuickSightClientTypes.TeradataParameters: Swift.Codable {
         if let host = self.host {
             try encodeContainer.encode(host, forKey: .host)
         }
-        if port != 0 {
+        if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
     }
@@ -70150,7 +70570,7 @@ extension QuickSightClientTypes.TeradataParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
         host = hostDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
         let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
         database = databaseDecoded
@@ -70168,12 +70588,12 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// Port.
         /// This member is required.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             database: Swift.String? = nil,
             host: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.database = database
@@ -71333,6 +71753,7 @@ extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
         case column = "Column"
         case filterId = "FilterId"
         case parameterName = "ParameterName"
+        case rollingDate = "RollingDate"
         case timeGranularity = "TimeGranularity"
         case value = "Value"
     }
@@ -71347,6 +71768,9 @@ extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
         }
         if let parameterName = self.parameterName {
             try encodeContainer.encode(parameterName, forKey: .parameterName)
+        }
+        if let rollingDate = self.rollingDate {
+            try encodeContainer.encode(rollingDate, forKey: .rollingDate)
         }
         if let timeGranularity = self.timeGranularity {
             try encodeContainer.encode(timeGranularity.rawValue, forKey: .timeGranularity)
@@ -71368,6 +71792,8 @@ extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
         parameterName = parameterNameDecoded
         let timeGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TimeGranularity.self, forKey: .timeGranularity)
         timeGranularity = timeGranularityDecoded
+        let rollingDateDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RollingDateConfiguration.self, forKey: .rollingDate)
+        rollingDate = rollingDateDecoded
     }
 }
 
@@ -71380,17 +71806,20 @@ extension QuickSightClientTypes {
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
         public var filterId: Swift.String?
-        /// The parameter whose value should be used for the filter value. This field is mutually exclusive to Value.
+        /// The parameter whose value should be used for the filter value. This field is mutually exclusive to Value and RollingDate.
         public var parameterName: Swift.String?
+        /// The rolling date input for the TimeEquality filter. This field is mutually exclusive to Value and ParameterName.
+        public var rollingDate: QuickSightClientTypes.RollingDateConfiguration?
         /// The level of time precision that is used to aggregate DateTime values.
         public var timeGranularity: QuickSightClientTypes.TimeGranularity?
-        /// The value of a TimeEquality filter. This field is mutually exclusive to ParameterName.
+        /// The value of a TimeEquality filter. This field is mutually exclusive to RollingDate and ParameterName.
         public var value: ClientRuntime.Date?
 
         public init(
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             filterId: Swift.String? = nil,
             parameterName: Swift.String? = nil,
+            rollingDate: QuickSightClientTypes.RollingDateConfiguration? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
             value: ClientRuntime.Date? = nil
         )
@@ -71398,6 +71827,7 @@ extension QuickSightClientTypes {
             self.column = column
             self.filterId = filterId
             self.parameterName = parameterName
+            self.rollingDate = rollingDate
             self.timeGranularity = timeGranularity
             self.value = value
         }
@@ -71994,7 +72424,7 @@ extension QuickSightClientTypes.TopBottomMoversComputation: Swift.Codable {
         if let computationId = self.computationId {
             try encodeContainer.encode(computationId, forKey: .computationId)
         }
-        if moverSize != 0 {
+        if let moverSize = self.moverSize {
             try encodeContainer.encode(moverSize, forKey: .moverSize)
         }
         if let name = self.name {
@@ -72026,7 +72456,7 @@ extension QuickSightClientTypes.TopBottomMoversComputation: Swift.Codable {
         category = categoryDecoded
         let valueDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.MeasureField.self, forKey: .value)
         value = valueDecoded
-        let moverSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .moverSize) ?? 0
+        let moverSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .moverSize)
         moverSize = moverSizeDecoded
         let sortOrderDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopBottomSortOrder.self, forKey: .sortOrder)
         sortOrder = sortOrderDecoded
@@ -72044,7 +72474,7 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var computationId: Swift.String?
         /// The mover size setup of the top and bottom movers computation.
-        public var moverSize: Swift.Int
+        public var moverSize: Swift.Int?
         /// The name of a computation.
         public var name: Swift.String?
         /// The sort order setup of the top and bottom movers computation.
@@ -72064,7 +72494,7 @@ extension QuickSightClientTypes {
         public init(
             category: QuickSightClientTypes.DimensionField? = nil,
             computationId: Swift.String? = nil,
-            moverSize: Swift.Int = 0,
+            moverSize: Swift.Int? = nil,
             name: Swift.String? = nil,
             sortOrder: QuickSightClientTypes.TopBottomSortOrder? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
@@ -72106,7 +72536,7 @@ extension QuickSightClientTypes.TopBottomRankedComputation: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if resultSize != 0 {
+        if let resultSize = self.resultSize {
             try encodeContainer.encode(resultSize, forKey: .resultSize)
         }
         if let type = self.type {
@@ -72127,7 +72557,7 @@ extension QuickSightClientTypes.TopBottomRankedComputation: Swift.Codable {
         category = categoryDecoded
         let valueDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.MeasureField.self, forKey: .value)
         value = valueDecoded
-        let resultSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultSize) ?? 0
+        let resultSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultSize)
         resultSize = resultSizeDecoded
         let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopBottomComputationType.self, forKey: .type)
         type = typeDecoded
@@ -72145,7 +72575,7 @@ extension QuickSightClientTypes {
         /// The name of a computation.
         public var name: Swift.String?
         /// The result size of a top and bottom ranked computation.
-        public var resultSize: Swift.Int
+        public var resultSize: Swift.Int?
         /// The computation type. Choose one of the following options:
         ///
         /// * TOP: A top ranked computation.
@@ -72160,7 +72590,7 @@ extension QuickSightClientTypes {
             category: QuickSightClientTypes.DimensionField? = nil,
             computationId: Swift.String? = nil,
             name: Swift.String? = nil,
-            resultSize: Swift.Int = 0,
+            resultSize: Swift.Int? = nil,
             type: QuickSightClientTypes.TopBottomComputationType? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
         )
@@ -73991,11 +74421,94 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.TotalAggregationFunction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case simpleTotalAggregationFunction = "SimpleTotalAggregationFunction"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let simpleTotalAggregationFunction = self.simpleTotalAggregationFunction {
+            try encodeContainer.encode(simpleTotalAggregationFunction.rawValue, forKey: .simpleTotalAggregationFunction)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let simpleTotalAggregationFunctionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SimpleTotalAggregationFunction.self, forKey: .simpleTotalAggregationFunction)
+        simpleTotalAggregationFunction = simpleTotalAggregationFunctionDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An aggregation function that aggregates the total values of a measure.
+    public struct TotalAggregationFunction: Swift.Equatable {
+        /// A built in aggregation function for total values.
+        public var simpleTotalAggregationFunction: QuickSightClientTypes.SimpleTotalAggregationFunction?
+
+        public init(
+            simpleTotalAggregationFunction: QuickSightClientTypes.SimpleTotalAggregationFunction? = nil
+        )
+        {
+            self.simpleTotalAggregationFunction = simpleTotalAggregationFunction
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TotalAggregationOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldId = "FieldId"
+        case totalAggregationFunction = "TotalAggregationFunction"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldId = self.fieldId {
+            try encodeContainer.encode(fieldId, forKey: .fieldId)
+        }
+        if let totalAggregationFunction = self.totalAggregationFunction {
+            try encodeContainer.encode(totalAggregationFunction, forKey: .totalAggregationFunction)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldId)
+        fieldId = fieldIdDecoded
+        let totalAggregationFunctionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TotalAggregationFunction.self, forKey: .totalAggregationFunction)
+        totalAggregationFunction = totalAggregationFunctionDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The total aggregation settings map of a field id.
+    public struct TotalAggregationOption: Swift.Equatable {
+        /// The field id that's associated with the total aggregation option.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// The total aggregation function that you want to set for a specified field id.
+        /// This member is required.
+        public var totalAggregationFunction: QuickSightClientTypes.TotalAggregationFunction?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            totalAggregationFunction: QuickSightClientTypes.TotalAggregationFunction? = nil
+        )
+        {
+            self.fieldId = fieldId
+            self.totalAggregationFunction = totalAggregationFunction
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.TotalOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customLabel = "CustomLabel"
         case placement = "Placement"
         case scrollStatus = "ScrollStatus"
+        case totalAggregationOptions = "TotalAggregationOptions"
         case totalCellStyle = "TotalCellStyle"
         case totalsVisibility = "TotalsVisibility"
     }
@@ -74010,6 +74523,12 @@ extension QuickSightClientTypes.TotalOptions: Swift.Codable {
         }
         if let scrollStatus = self.scrollStatus {
             try encodeContainer.encode(scrollStatus.rawValue, forKey: .scrollStatus)
+        }
+        if let totalAggregationOptions = totalAggregationOptions {
+            var totalAggregationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .totalAggregationOptions)
+            for totalaggregationoption0 in totalAggregationOptions {
+                try totalAggregationOptionsContainer.encode(totalaggregationoption0)
+            }
         }
         if let totalCellStyle = self.totalCellStyle {
             try encodeContainer.encode(totalCellStyle, forKey: .totalCellStyle)
@@ -74031,6 +74550,17 @@ extension QuickSightClientTypes.TotalOptions: Swift.Codable {
         customLabel = customLabelDecoded
         let totalCellStyleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TableCellStyle.self, forKey: .totalCellStyle)
         totalCellStyle = totalCellStyleDecoded
+        let totalAggregationOptionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TotalAggregationOption?].self, forKey: .totalAggregationOptions)
+        var totalAggregationOptionsDecoded0:[QuickSightClientTypes.TotalAggregationOption]? = nil
+        if let totalAggregationOptionsContainer = totalAggregationOptionsContainer {
+            totalAggregationOptionsDecoded0 = [QuickSightClientTypes.TotalAggregationOption]()
+            for structure0 in totalAggregationOptionsContainer {
+                if let structure0 = structure0 {
+                    totalAggregationOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        totalAggregationOptions = totalAggregationOptionsDecoded0
     }
 }
 
@@ -74043,6 +74573,8 @@ extension QuickSightClientTypes {
         public var placement: QuickSightClientTypes.TableTotalsPlacement?
         /// The scroll status (pinned, scrolled) for the total cells.
         public var scrollStatus: QuickSightClientTypes.TableTotalsScrollStatus?
+        /// The total aggregation settings for each value field.
+        public var totalAggregationOptions: [QuickSightClientTypes.TotalAggregationOption]?
         /// Cell styling options for the total cells.
         public var totalCellStyle: QuickSightClientTypes.TableCellStyle?
         /// The visibility configuration for the total cells.
@@ -74052,6 +74584,7 @@ extension QuickSightClientTypes {
             customLabel: Swift.String? = nil,
             placement: QuickSightClientTypes.TableTotalsPlacement? = nil,
             scrollStatus: QuickSightClientTypes.TableTotalsScrollStatus? = nil,
+            totalAggregationOptions: [QuickSightClientTypes.TotalAggregationOption]? = nil,
             totalCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil
         )
@@ -74059,6 +74592,7 @@ extension QuickSightClientTypes {
             self.customLabel = customLabel
             self.placement = placement
             self.scrollStatus = scrollStatus
+            self.totalAggregationOptions = totalAggregationOptions
             self.totalCellStyle = totalCellStyle
             self.totalsVisibility = totalsVisibility
         }
@@ -74616,6 +75150,64 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.TrinoParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalog = "Catalog"
+        case host = "Host"
+        case port = "Port"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalog = self.catalog {
+            try encodeContainer.encode(catalog, forKey: .catalog)
+        }
+        if let host = self.host {
+            try encodeContainer.encode(host, forKey: .host)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
+        host = hostDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let catalogDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalog)
+        catalog = catalogDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The parameters that are required to connect to a Trino data source.
+    public struct TrinoParameters: Swift.Equatable {
+        /// The catalog name for the Trino data source.
+        /// This member is required.
+        public var catalog: Swift.String?
+        /// The host name of the Trino data source.
+        /// This member is required.
+        public var host: Swift.String?
+        /// The port for the Trino data source.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init(
+            catalog: Swift.String? = nil,
+            host: Swift.String? = nil,
+            port: Swift.Int? = nil
+        )
+        {
+            self.catalog = catalog
+            self.host = host
+            self.port = port
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.TwitterParameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxRows = "MaxRows"
@@ -74624,7 +75216,7 @@ extension QuickSightClientTypes.TwitterParameters: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxRows != 0 {
+        if let maxRows = self.maxRows {
             try encodeContainer.encode(maxRows, forKey: .maxRows)
         }
         if let query = self.query {
@@ -74636,7 +75228,7 @@ extension QuickSightClientTypes.TwitterParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .query)
         query = queryDecoded
-        let maxRowsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRows) ?? 0
+        let maxRowsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRows)
         maxRows = maxRowsDecoded
     }
 }
@@ -74646,13 +75238,13 @@ extension QuickSightClientTypes {
     public struct TwitterParameters: Swift.Equatable {
         /// Maximum number of rows to query Twitter.
         /// This member is required.
-        public var maxRows: Swift.Int
+        public var maxRows: Swift.Int?
         /// Twitter query string.
         /// This member is required.
         public var query: Swift.String?
 
         public init(
-            maxRows: Swift.Int = 0,
+            maxRows: Swift.Int? = nil,
             query: Swift.String? = nil
         )
         {

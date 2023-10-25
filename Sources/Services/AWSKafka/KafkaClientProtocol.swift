@@ -89,6 +89,24 @@ public protocol KafkaClientProtocol {
     /// - `TooManyRequestsException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput
+    /// Creates the replicator.
+    ///
+    /// - Parameter CreateReplicatorInput : Creates a replicator using the specified configuration.
+    ///
+    /// - Returns: `CreateReplicatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    func createReplicator(input: CreateReplicatorInput) async throws -> CreateReplicatorOutput
     /// Creates a new MSK VPC connection.
     ///
     /// - Parameter CreateVpcConnectionInput : [no documentation found]
@@ -147,6 +165,23 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutput
+    /// Deletes a replicator.
+    ///
+    /// - Parameter DeleteReplicatorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    func deleteReplicator(input: DeleteReplicatorInput) async throws -> DeleteReplicatorOutput
     /// Deletes a MSK VPC connection.
     ///
     /// - Parameter DeleteVpcConnectionInput : [no documentation found]
@@ -255,6 +290,23 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput
+    /// Describes a replicator.
+    ///
+    /// - Parameter DescribeReplicatorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReplicatorOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    func describeReplicator(input: DescribeReplicatorInput) async throws -> DescribeReplicatorOutput
     /// Returns a description of this MSK VPC connection.
     ///
     /// - Parameter DescribeVpcConnectionInput : [no documentation found]
@@ -450,6 +502,23 @@ public protocol KafkaClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
+    /// Lists the replicators.
+    ///
+    /// - Parameter ListReplicatorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReplicatorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    func listReplicators(input: ListReplicatorsInput) async throws -> ListReplicatorsOutput
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     ///
     /// - Parameter ListScramSecretsInput : [no documentation found]
@@ -693,6 +762,23 @@ public protocol KafkaClientProtocol {
     /// - `ServiceUnavailableException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func updateMonitoring(input: UpdateMonitoringInput) async throws -> UpdateMonitoringOutput
+    /// Updates replication info of a replicator.
+    ///
+    /// - Parameter UpdateReplicationInfoInput : Update information relating to replication between a given source and target Kafka cluster.
+    ///
+    /// - Returns: `UpdateReplicationInfoOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    func updateReplicationInfo(input: UpdateReplicationInfoInput) async throws -> UpdateReplicationInfoOutput
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
     ///
     /// - Parameter UpdateSecurityInput : [no documentation found]

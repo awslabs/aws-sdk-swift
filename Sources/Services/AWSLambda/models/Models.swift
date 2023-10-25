@@ -20347,12 +20347,16 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes.VpcConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipv6AllowedForDualStack = "Ipv6AllowedForDualStack"
         case securityGroupIds = "SecurityGroupIds"
         case subnetIds = "SubnetIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipv6AllowedForDualStack = self.ipv6AllowedForDualStack {
+            try encodeContainer.encode(ipv6AllowedForDualStack, forKey: .ipv6AllowedForDualStack)
+        }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
             for securitygroupid0 in securityGroupIds {
@@ -20391,22 +20395,28 @@ extension LambdaClientTypes.VpcConfig: Swift.Codable {
             }
         }
         securityGroupIds = securityGroupIdsDecoded0
+        let ipv6AllowedForDualStackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ipv6AllowedForDualStack)
+        ipv6AllowedForDualStack = ipv6AllowedForDualStackDecoded
     }
 }
 
 extension LambdaClientTypes {
     /// The VPC security groups and subnets that are attached to a Lambda function. For more information, see [Configuring a Lambda function to access resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
     public struct VpcConfig: Swift.Equatable {
+        /// Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
+        public var ipv6AllowedForDualStack: Swift.Bool?
         /// A list of VPC security group IDs.
         public var securityGroupIds: [Swift.String]?
         /// A list of VPC subnet IDs.
         public var subnetIds: [Swift.String]?
 
         public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
         {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -20416,6 +20426,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes.VpcConfigResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipv6AllowedForDualStack = "Ipv6AllowedForDualStack"
         case securityGroupIds = "SecurityGroupIds"
         case subnetIds = "SubnetIds"
         case vpcId = "VpcId"
@@ -20423,6 +20434,9 @@ extension LambdaClientTypes.VpcConfigResponse: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipv6AllowedForDualStack = self.ipv6AllowedForDualStack {
+            try encodeContainer.encode(ipv6AllowedForDualStack, forKey: .ipv6AllowedForDualStack)
+        }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
             for securitygroupid0 in securityGroupIds {
@@ -20466,12 +20480,16 @@ extension LambdaClientTypes.VpcConfigResponse: Swift.Codable {
         securityGroupIds = securityGroupIdsDecoded0
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
+        let ipv6AllowedForDualStackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ipv6AllowedForDualStack)
+        ipv6AllowedForDualStack = ipv6AllowedForDualStackDecoded
     }
 }
 
 extension LambdaClientTypes {
     /// The VPC security groups and subnets that are attached to a Lambda function.
     public struct VpcConfigResponse: Swift.Equatable {
+        /// Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
+        public var ipv6AllowedForDualStack: Swift.Bool?
         /// A list of VPC security group IDs.
         public var securityGroupIds: [Swift.String]?
         /// A list of VPC subnet IDs.
@@ -20480,11 +20498,13 @@ extension LambdaClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         )
         {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId

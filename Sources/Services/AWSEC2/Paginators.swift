@@ -877,6 +877,7 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             imageIds: self.imageIds,
             includeDeprecated: self.includeDeprecated,
+            includeDisabled: self.includeDisabled,
             maxResults: self.maxResults,
             nextToken: token,
             owners: self.owners

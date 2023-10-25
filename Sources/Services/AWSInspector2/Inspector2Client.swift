@@ -493,7 +493,7 @@ extension Inspector2Client: Inspector2ClientProtocol {
         return result
     }
 
-    /// Creates a filter resource using specified filter criteria.
+    /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
     ///
     /// - Parameter CreateFilterInput : [no documentation found]
     ///

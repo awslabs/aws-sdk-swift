@@ -1356,6 +1356,8 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
+    /// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
+    ///
     ///
     /// DynamoDB cancels a TransactGetItems request under the following circumstances:
     ///
@@ -2397,6 +2399,8 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     ///
     /// * There is a user error, such as an invalid data format.
     ///
+    /// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
+    ///
     ///
     /// DynamoDB cancels a TransactGetItems request under the following circumstances:
     ///
@@ -2590,6 +2594,8 @@ extension DynamoDBClient: DynamoDBClientProtocol {
     /// * An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.
     ///
     /// * There is a user error, such as an invalid data format.
+    ///
+    /// * There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.
     ///
     ///
     /// DynamoDB cancels a TransactGetItems request under the following circumstances:

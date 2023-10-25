@@ -184,7 +184,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.32.0",
+    clientRuntimeVersion: "0.33.0",
     crtVersion: "0.15.0"
 )
 
@@ -326,7 +326,6 @@ let serviceTargets: [String] = [
     "AWSForecastquery",
     "AWSFraudDetector",
     "AWSGameLift",
-    "AWSGameSparks",
     "AWSGlacier",
     "AWSGlobalAccelerator",
     "AWSGlue",

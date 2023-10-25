@@ -1267,7 +1267,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         if let authTokenLastModifiedDate = authTokenLastModifiedDate {
             try container.encodeTimestamp(authTokenLastModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("AuthTokenLastModifiedDate"))
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let cacheClusterCreateTime = cacheClusterCreateTime {
@@ -1363,7 +1363,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         if let replicationGroupId = replicationGroupId {
             try container.encode(replicationGroupId, forKey: ClientRuntime.Key("ReplicationGroupId"))
         }
-        if replicationGroupLogDeliveryEnabled != false {
+        if let replicationGroupLogDeliveryEnabled = replicationGroupLogDeliveryEnabled {
             try container.encode(replicationGroupLogDeliveryEnabled, forKey: ClientRuntime.Key("ReplicationGroupLogDeliveryEnabled"))
         }
         if let securityGroups = securityGroups {
@@ -1464,7 +1464,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         } else {
             cacheNodes = nil
         }
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         if containerValues.contains(.securityGroups) {
             struct KeyVal0{struct member{}}
@@ -1501,7 +1501,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         atRestEncryptionEnabled = atRestEncryptionEnabledDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let replicationGroupLogDeliveryEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationGroupLogDeliveryEnabled) ?? false
+        let replicationGroupLogDeliveryEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationGroupLogDeliveryEnabled)
         replicationGroupLogDeliveryEnabled = replicationGroupLogDeliveryEnabledDecoded
         if containerValues.contains(.logDeliveryConfigurations) {
             struct KeyVal0{struct LogDeliveryConfiguration{}}
@@ -1543,7 +1543,7 @@ extension ElastiCacheClientTypes {
         /// The date the auth token was last modified
         public var authTokenLastModifiedDate: ClientRuntime.Date?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// The date and time when the cluster was created.
         public var cacheClusterCreateTime: ClientRuntime.Date?
         /// The user-supplied identifier of the cluster. This identifier is a unique key that identifies a cluster.
@@ -1645,7 +1645,7 @@ extension ElastiCacheClientTypes {
         /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
         public var replicationGroupId: Swift.String?
         /// A boolean value indicating whether log delivery is enabled for the replication group.
-        public var replicationGroupLogDeliveryEnabled: Swift.Bool
+        public var replicationGroupLogDeliveryEnabled: Swift.Bool?
         /// A list of VPC Security Groups associated with the cluster.
         public var securityGroups: [ElastiCacheClientTypes.SecurityGroupMembership]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
@@ -1662,7 +1662,7 @@ extension ElastiCacheClientTypes {
             atRestEncryptionEnabled: Swift.Bool? = nil,
             authTokenEnabled: Swift.Bool? = nil,
             authTokenLastModifiedDate: ClientRuntime.Date? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             cacheClusterCreateTime: ClientRuntime.Date? = nil,
             cacheClusterId: Swift.String? = nil,
             cacheClusterStatus: Swift.String? = nil,
@@ -1685,7 +1685,7 @@ extension ElastiCacheClientTypes {
             preferredMaintenanceWindow: Swift.String? = nil,
             preferredOutpostArn: Swift.String? = nil,
             replicationGroupId: Swift.String? = nil,
-            replicationGroupLogDeliveryEnabled: Swift.Bool = false,
+            replicationGroupLogDeliveryEnabled: Swift.Bool? = nil,
             securityGroups: [ElastiCacheClientTypes.SecurityGroupMembership]? = nil,
             snapshotRetentionLimit: Swift.Int? = nil,
             snapshotWindow: Swift.String? = nil,
@@ -2097,7 +2097,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificParameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -2123,7 +2123,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificParameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -2165,7 +2165,7 @@ extension ElastiCacheClientTypes {
         /// A description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest cache engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// The name of the parameter.
@@ -2179,7 +2179,7 @@ extension ElastiCacheClientTypes {
             changeType: ElastiCacheClientTypes.ChangeType? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             source: Swift.String? = nil
@@ -2372,7 +2372,7 @@ extension ElastiCacheClientTypes.CacheParameterGroup: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isGlobal != false {
+        if let isGlobal = isGlobal {
             try container.encode(isGlobal, forKey: ClientRuntime.Key("IsGlobal"))
         }
     }
@@ -2385,7 +2385,7 @@ extension ElastiCacheClientTypes.CacheParameterGroup: Swift.Codable {
         cacheParameterGroupFamily = cacheParameterGroupFamilyDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let isGlobalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isGlobal) ?? false
+        let isGlobalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isGlobal)
         isGlobal = isGlobalDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -2404,14 +2404,14 @@ extension ElastiCacheClientTypes {
         /// The description for this cache parameter group.
         public var description: Swift.String?
         /// Indicates whether the parameter group is associated with a Global datastore
-        public var isGlobal: Swift.Bool
+        public var isGlobal: Swift.Bool?
 
         public init(
             arn: Swift.String? = nil,
             cacheParameterGroupFamily: Swift.String? = nil,
             cacheParameterGroupName: Swift.String? = nil,
             description: Swift.String? = nil,
-            isGlobal: Swift.Bool = false
+            isGlobal: Swift.Bool? = nil
         )
         {
             self.arn = arn
@@ -3600,7 +3600,7 @@ extension CompleteMigrationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -3668,7 +3668,7 @@ extension ElastiCacheClientTypes.ConfigureShard: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if newReplicaCount != 0 {
+        if let newReplicaCount = newReplicaCount {
             try container.encode(newReplicaCount, forKey: ClientRuntime.Key("NewReplicaCount"))
         }
         if let nodeGroupId = nodeGroupId {
@@ -3704,7 +3704,7 @@ extension ElastiCacheClientTypes.ConfigureShard: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
-        let newReplicaCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicaCount) ?? 0
+        let newReplicaCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicaCount)
         newReplicaCount = newReplicaCountDecoded
         if containerValues.contains(.preferredAvailabilityZones) {
             struct KeyVal0{struct PreferredAvailabilityZone{}}
@@ -3763,7 +3763,7 @@ extension ElastiCacheClientTypes {
         ///
         /// * Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
         /// This member is required.
-        public var newReplicaCount: Swift.Int
+        public var newReplicaCount: Swift.Int?
         /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see [Finding a Shard's Id](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/shard-find-id.html).
         /// This member is required.
         public var nodeGroupId: Swift.String?
@@ -3773,7 +3773,7 @@ extension ElastiCacheClientTypes {
         public var preferredOutpostArns: [Swift.String]?
 
         public init(
-            newReplicaCount: Swift.Int = 0,
+            newReplicaCount: Swift.Int? = nil,
             nodeGroupId: Swift.String? = nil,
             preferredAvailabilityZones: [Swift.String]? = nil,
             preferredOutpostArns: [Swift.String]? = nil
@@ -7056,7 +7056,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount) ?? 0
+        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount)
         nodeGroupCount = nodeGroupCountDecoded
         if containerValues.contains(.globalNodeGroupsToRemove) {
             struct KeyVal0{struct GlobalNodeGroupId{}}
@@ -7096,7 +7096,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         } else {
             globalNodeGroupsToRetain = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -7306,7 +7306,7 @@ extension DecreaseReplicaCountInputBody: Swift.Decodable {
         } else {
             replicasToRemove = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -7857,7 +7857,7 @@ extension DeleteGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let retainPrimaryReplicationGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainPrimaryReplicationGroup) ?? false
+        let retainPrimaryReplicationGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainPrimaryReplicationGroup)
         retainPrimaryReplicationGroup = retainPrimaryReplicationGroupDecoded
     }
 }
@@ -8819,7 +8819,7 @@ extension DescribeCacheEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly)
         defaultOnly = defaultOnlyDecoded
     }
 }
@@ -12000,7 +12000,7 @@ extension ElastiCacheClientTypes.Endpoint: Swift.Codable {
         if let address = address {
             try container.encode(address, forKey: ClientRuntime.Key("Address"))
         }
-        if port != 0 {
+        if let port = port {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
     }
@@ -12009,7 +12009,7 @@ extension ElastiCacheClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
         port = portDecoded
     }
 }
@@ -12020,11 +12020,11 @@ extension ElastiCacheClientTypes {
         /// The DNS hostname of the cache node.
         public var address: Swift.String?
         /// The port number that the cache engine is listening on.
-        public var port: Swift.Int
+        public var port: Swift.Int?
 
         public init(
             address: Swift.String? = nil,
-            port: Swift.Int = 0
+            port: Swift.Int? = nil
         )
         {
             self.address = address
@@ -12978,7 +12978,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount) ?? 0
+        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount)
         nodeGroupCount = nodeGroupCountDecoded
         if containerValues.contains(.regionalConfigurations) {
             struct KeyVal0{struct RegionalConfiguration{}}
@@ -12999,7 +12999,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         } else {
             regionalConfigurations = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -13160,7 +13160,7 @@ extension IncreaseReplicaCountInputBody: Swift.Decodable {
         } else {
             replicaConfiguration = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -15128,7 +15128,7 @@ extension ModifyCacheClusterInputBody: Swift.Decodable {
         cacheParameterGroupName = cacheParameterGroupNameDecoded
         let notificationTopicStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationTopicStatus)
         notificationTopicStatus = notificationTopicStatusDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
@@ -15626,7 +15626,7 @@ extension ModifyGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let cacheNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeType)
         cacheNodeType = cacheNodeTypeDecoded
@@ -16129,7 +16129,7 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         cacheParameterGroupName = cacheParameterGroupNameDecoded
         let notificationTopicStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationTopicStatus)
         notificationTopicStatus = notificationTopicStatusDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
@@ -16399,9 +16399,9 @@ extension ModifyReplicationGroupShardConfigurationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
-        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount) ?? 0
+        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount)
         nodeGroupCount = nodeGroupCountDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         if containerValues.contains(.reshardingConfiguration) {
             struct KeyVal0{struct ReshardingConfiguration{}}
@@ -18225,7 +18225,7 @@ extension ElastiCacheClientTypes.Parameter: Swift.Codable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
-        if isModifiable != false {
+        if let isModifiable = isModifiable {
             try container.encode(isModifiable, forKey: ClientRuntime.Key("IsModifiable"))
         }
         if let minimumEngineVersion = minimumEngineVersion {
@@ -18256,7 +18256,7 @@ extension ElastiCacheClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable)
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -18277,7 +18277,7 @@ extension ElastiCacheClientTypes {
         /// A description of the parameter.
         public var description: Swift.String?
         /// Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
-        public var isModifiable: Swift.Bool
+        public var isModifiable: Swift.Bool?
         /// The earliest cache engine version to which the parameter can apply.
         public var minimumEngineVersion: Swift.String?
         /// The name of the parameter.
@@ -18292,7 +18292,7 @@ extension ElastiCacheClientTypes {
             changeType: ElastiCacheClientTypes.ChangeType? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
-            isModifiable: Swift.Bool = false,
+            isModifiable: Swift.Bool? = nil,
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
@@ -18892,7 +18892,7 @@ extension RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -19097,8 +19097,8 @@ extension ElastiCacheClientTypes.RecurringCharge: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if recurringChargeAmount != 0.0 {
-            try container.encode(Swift.String(recurringChargeAmount), forKey: ClientRuntime.Key("RecurringChargeAmount"))
+        if let recurringChargeAmount = recurringChargeAmount {
+            try container.encode(recurringChargeAmount, forKey: ClientRuntime.Key("RecurringChargeAmount"))
         }
         if let recurringChargeFrequency = recurringChargeFrequency {
             try container.encode(recurringChargeFrequency, forKey: ClientRuntime.Key("RecurringChargeFrequency"))
@@ -19107,7 +19107,7 @@ extension ElastiCacheClientTypes.RecurringCharge: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount) ?? 0
+        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount)
         recurringChargeAmount = recurringChargeAmountDecoded
         let recurringChargeFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recurringChargeFrequency)
         recurringChargeFrequency = recurringChargeFrequencyDecoded
@@ -19118,12 +19118,12 @@ extension ElastiCacheClientTypes {
     /// Contains the specific price and frequency of a recurring charges for a reserved cache node, or for a reserved cache node offering.
     public struct RecurringCharge: Swift.Equatable {
         /// The monetary amount of the recurring charge.
-        public var recurringChargeAmount: Swift.Double
+        public var recurringChargeAmount: Swift.Double?
         /// The frequency of the recurring charge.
         public var recurringChargeFrequency: Swift.String?
 
         public init(
-            recurringChargeAmount: Swift.Double = 0.0,
+            recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
         )
         {
@@ -19432,7 +19432,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         if let authTokenLastModifiedDate = authTokenLastModifiedDate {
             try container.encodeTimestamp(authTokenLastModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("AuthTokenLastModifiedDate"))
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let automaticFailover = automaticFailover {
@@ -19699,7 +19699,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         replicationGroupCreateTime = replicationGroupCreateTimeDecoded
         let dataTieringDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.DataTieringStatus.self, forKey: .dataTiering)
         dataTiering = dataTieringDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.NetworkType.self, forKey: .networkType)
         networkType = networkTypeDecoded
@@ -19724,7 +19724,7 @@ extension ElastiCacheClientTypes {
         /// The date the auth token was last modified
         public var authTokenLastModifiedDate: ClientRuntime.Date?
         /// If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// Indicates the status of automatic failover for this Redis replication group.
         public var automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus?
         /// The name of the compute and memory capacity node type for each node in the replication group.
@@ -19783,7 +19783,7 @@ extension ElastiCacheClientTypes {
             atRestEncryptionEnabled: Swift.Bool? = nil,
             authTokenEnabled: Swift.Bool? = nil,
             authTokenLastModifiedDate: ClientRuntime.Date? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus? = nil,
             cacheNodeType: Swift.String? = nil,
             clusterEnabled: Swift.Bool? = nil,
@@ -20224,17 +20224,17 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if cacheNodeCount != 0 {
+        if let cacheNodeCount = cacheNodeCount {
             try container.encode(cacheNodeCount, forKey: ClientRuntime.Key("CacheNodeCount"))
         }
         if let cacheNodeType = cacheNodeType {
             try container.encode(cacheNodeType, forKey: ClientRuntime.Key("CacheNodeType"))
         }
-        if duration != 0 {
+        if let duration = duration {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
-        if fixedPrice != 0.0 {
-            try container.encode(Swift.String(fixedPrice), forKey: ClientRuntime.Key("FixedPrice"))
+        if let fixedPrice = fixedPrice {
+            try container.encode(fixedPrice, forKey: ClientRuntime.Key("FixedPrice"))
         }
         if let offeringType = offeringType {
             try container.encode(offeringType, forKey: ClientRuntime.Key("OfferingType"))
@@ -20269,8 +20269,8 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Codable {
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
         }
-        if usagePrice != 0.0 {
-            try container.encode(Swift.String(usagePrice), forKey: ClientRuntime.Key("UsagePrice"))
+        if let usagePrice = usagePrice {
+            try container.encode(usagePrice, forKey: ClientRuntime.Key("UsagePrice"))
         }
     }
 
@@ -20284,13 +20284,13 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Codable {
         cacheNodeType = cacheNodeTypeDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice)
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice)
         usagePrice = usagePriceDecoded
-        let cacheNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cacheNodeCount) ?? 0
+        let cacheNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cacheNodeCount)
         cacheNodeCount = cacheNodeCountDecoded
         let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
         productDescription = productDescriptionDecoded
@@ -20326,7 +20326,7 @@ extension ElastiCacheClientTypes {
     /// Represents the output of a PurchaseReservedCacheNodesOffering operation.
     public struct ReservedCacheNode: Swift.Equatable {
         /// The number of cache nodes that have been reserved.
-        public var cacheNodeCount: Swift.Int
+        public var cacheNodeCount: Swift.Int?
         /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
         ///
         /// * General purpose:
@@ -20369,9 +20369,9 @@ extension ElastiCacheClientTypes {
         /// * Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public var cacheNodeType: Swift.String?
         /// The duration of the reservation in seconds.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// The fixed price charged for this reserved cache node.
-        public var fixedPrice: Swift.Double
+        public var fixedPrice: Swift.Double?
         /// The offering type of this reserved cache node.
         public var offeringType: Swift.String?
         /// The description of the reserved cache node.
@@ -20389,13 +20389,13 @@ extension ElastiCacheClientTypes {
         /// The state of the reserved cache node.
         public var state: Swift.String?
         /// The hourly price charged for this reserved cache node.
-        public var usagePrice: Swift.Double
+        public var usagePrice: Swift.Double?
 
         public init(
-            cacheNodeCount: Swift.Int = 0,
+            cacheNodeCount: Swift.Int? = nil,
             cacheNodeType: Swift.String? = nil,
-            duration: Swift.Int = 0,
-            fixedPrice: Swift.Double = 0.0,
+            duration: Swift.Int? = nil,
+            fixedPrice: Swift.Double? = nil,
             offeringType: Swift.String? = nil,
             productDescription: Swift.String? = nil,
             recurringCharges: [ElastiCacheClientTypes.RecurringCharge]? = nil,
@@ -20404,7 +20404,7 @@ extension ElastiCacheClientTypes {
             reservedCacheNodesOfferingId: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
             state: Swift.String? = nil,
-            usagePrice: Swift.Double = 0.0
+            usagePrice: Swift.Double? = nil
         )
         {
             self.cacheNodeCount = cacheNodeCount
@@ -20604,11 +20604,11 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering: Swift.Codable {
         if let cacheNodeType = cacheNodeType {
             try container.encode(cacheNodeType, forKey: ClientRuntime.Key("CacheNodeType"))
         }
-        if duration != 0 {
+        if let duration = duration {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
-        if fixedPrice != 0.0 {
-            try container.encode(Swift.String(fixedPrice), forKey: ClientRuntime.Key("FixedPrice"))
+        if let fixedPrice = fixedPrice {
+            try container.encode(fixedPrice, forKey: ClientRuntime.Key("FixedPrice"))
         }
         if let offeringType = offeringType {
             try container.encode(offeringType, forKey: ClientRuntime.Key("OfferingType"))
@@ -20631,8 +20631,8 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering: Swift.Codable {
         if let reservedCacheNodesOfferingId = reservedCacheNodesOfferingId {
             try container.encode(reservedCacheNodesOfferingId, forKey: ClientRuntime.Key("ReservedCacheNodesOfferingId"))
         }
-        if usagePrice != 0.0 {
-            try container.encode(Swift.String(usagePrice), forKey: ClientRuntime.Key("UsagePrice"))
+        if let usagePrice = usagePrice {
+            try container.encode(usagePrice, forKey: ClientRuntime.Key("UsagePrice"))
         }
     }
 
@@ -20642,11 +20642,11 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering: Swift.Codable {
         reservedCacheNodesOfferingId = reservedCacheNodesOfferingIdDecoded
         let cacheNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeType)
         cacheNodeType = cacheNodeTypeDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice)
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice)
         usagePrice = usagePriceDecoded
         let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
         productDescription = productDescriptionDecoded
@@ -20719,9 +20719,9 @@ extension ElastiCacheClientTypes {
         /// * Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
         public var cacheNodeType: Swift.String?
         /// The duration of the offering. in seconds.
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// The fixed price charged for this offering.
-        public var fixedPrice: Swift.Double
+        public var fixedPrice: Swift.Double?
         /// The offering type.
         public var offeringType: Swift.String?
         /// The cache engine used by the offering.
@@ -20731,17 +20731,17 @@ extension ElastiCacheClientTypes {
         /// A unique identifier for the reserved cache node offering.
         public var reservedCacheNodesOfferingId: Swift.String?
         /// The hourly price charged for this offering.
-        public var usagePrice: Swift.Double
+        public var usagePrice: Swift.Double?
 
         public init(
             cacheNodeType: Swift.String? = nil,
-            duration: Swift.Int = 0,
-            fixedPrice: Swift.Double = 0.0,
+            duration: Swift.Int? = nil,
+            fixedPrice: Swift.Double? = nil,
             offeringType: Swift.String? = nil,
             productDescription: Swift.String? = nil,
             recurringCharges: [ElastiCacheClientTypes.RecurringCharge]? = nil,
             reservedCacheNodesOfferingId: Swift.String? = nil,
-            usagePrice: Swift.Double = 0.0
+            usagePrice: Swift.Double? = nil
         )
         {
             self.cacheNodeType = cacheNodeType
@@ -20882,7 +20882,7 @@ extension ResetCacheParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters)
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameterNameValues) {
             struct KeyVal0{struct ParameterNameValue{}}
@@ -21646,14 +21646,14 @@ extension ElastiCacheClientTypes.SlotMigration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if progressPercentage != 0.0 {
-            try container.encode(Swift.String(progressPercentage), forKey: ClientRuntime.Key("ProgressPercentage"))
+        if let progressPercentage = progressPercentage {
+            try container.encode(progressPercentage, forKey: ClientRuntime.Key("ProgressPercentage"))
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let progressPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .progressPercentage) ?? 0
+        let progressPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .progressPercentage)
         progressPercentage = progressPercentageDecoded
     }
 }
@@ -21662,10 +21662,10 @@ extension ElastiCacheClientTypes {
     /// Represents the progress of an online resharding operation.
     public struct SlotMigration: Swift.Equatable {
         /// The percentage of the slot migration that is complete.
-        public var progressPercentage: Swift.Double
+        public var progressPercentage: Swift.Double?
 
         public init(
-            progressPercentage: Swift.Double = 0.0
+            progressPercentage: Swift.Double? = nil
         )
         {
             self.progressPercentage = progressPercentage
@@ -21711,7 +21711,7 @@ extension ElastiCacheClientTypes.Snapshot: Swift.Codable {
         if let arn = arn {
             try container.encode(arn, forKey: ClientRuntime.Key("ARN"))
         }
-        if autoMinorVersionUpgrade != false {
+        if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let automaticFailover = automaticFailover {
@@ -21843,7 +21843,7 @@ extension ElastiCacheClientTypes.Snapshot: Swift.Codable {
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let snapshotRetentionLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotRetentionLimit)
         snapshotRetentionLimit = snapshotRetentionLimitDecoded
@@ -21887,7 +21887,7 @@ extension ElastiCacheClientTypes {
         /// The ARN (Amazon Resource Name) of the snapshot.
         public var arn: Swift.String?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
-        public var autoMinorVersionUpgrade: Swift.Bool
+        public var autoMinorVersionUpgrade: Swift.Bool?
         /// Indicates the status of automatic failover for the source Redis replication group.
         public var automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus?
         /// The date and time when the source cluster was created.
@@ -21999,7 +21999,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            autoMinorVersionUpgrade: Swift.Bool = false,
+            autoMinorVersionUpgrade: Swift.Bool? = nil,
             automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus? = nil,
             cacheClusterCreateTime: ClientRuntime.Date? = nil,
             cacheClusterId: Swift.String? = nil,

@@ -26342,7 +26342,7 @@ extension LexModelsV2ClientTypes.RelativeAggregationDuration: Swift.Codable {
         if let timeDimension = self.timeDimension {
             try encodeContainer.encode(timeDimension.rawValue, forKey: .timeDimension)
         }
-        if timeValue != 0 {
+        if let timeValue = self.timeValue {
             try encodeContainer.encode(timeValue, forKey: .timeValue)
         }
     }
@@ -26351,7 +26351,7 @@ extension LexModelsV2ClientTypes.RelativeAggregationDuration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let timeDimensionDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.TimeDimension.self, forKey: .timeDimension)
         timeDimension = timeDimensionDecoded
-        let timeValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeValue) ?? 0
+        let timeValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeValue)
         timeValue = timeValueDecoded
     }
 }
@@ -26376,11 +26376,11 @@ extension LexModelsV2ClientTypes {
         ///
         /// * Weeks - 1/2
         /// This member is required.
-        public var timeValue: Swift.Int
+        public var timeValue: Swift.Int?
 
         public init(
             timeDimension: LexModelsV2ClientTypes.TimeDimension? = nil,
-            timeValue: Swift.Int = 0
+            timeValue: Swift.Int? = nil
         )
         {
             self.timeDimension = timeDimension

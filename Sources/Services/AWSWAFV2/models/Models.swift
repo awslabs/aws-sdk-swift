@@ -4761,7 +4761,7 @@ extension DescribeManagedRuleGroupOutput: ClientRuntime.HttpResponseBinding {
             self.versionName = output.versionName
         } else {
             self.availableLabels = nil
-            self.capacity = 0
+            self.capacity = nil
             self.consumedLabels = nil
             self.labelNamespace = nil
             self.rules = nil
@@ -4775,7 +4775,7 @@ public struct DescribeManagedRuleGroupOutput: Swift.Equatable {
     /// The labels that one or more rules in this rule group add to matching web requests. These labels are defined in the RuleLabels for a [Rule].
     public var availableLabels: [WAFV2ClientTypes.LabelSummary]?
     /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
-    public var capacity: Swift.Int
+    public var capacity: Swift.Int?
     /// The labels that one or more rules in this rule group match against in label match statements. These labels are defined in a LabelMatchStatement specification, in the [Statement] definition of a rule.
     public var consumedLabels: [WAFV2ClientTypes.LabelSummary]?
     /// The label namespace prefix for this rule group. All labels added by rules in this rule group have this prefix.
@@ -4793,7 +4793,7 @@ public struct DescribeManagedRuleGroupOutput: Swift.Equatable {
 
     public init(
         availableLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
-        capacity: Swift.Int = 0,
+        capacity: Swift.Int? = nil,
         consumedLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
         labelNamespace: Swift.String? = nil,
         rules: [WAFV2ClientTypes.RuleSummary]? = nil,
@@ -4814,7 +4814,7 @@ public struct DescribeManagedRuleGroupOutput: Swift.Equatable {
 struct DescribeManagedRuleGroupOutputBody: Swift.Equatable {
     let versionName: Swift.String?
     let snsTopicArn: Swift.String?
-    let capacity: Swift.Int
+    let capacity: Swift.Int?
     let rules: [WAFV2ClientTypes.RuleSummary]?
     let labelNamespace: Swift.String?
     let availableLabels: [WAFV2ClientTypes.LabelSummary]?
@@ -4838,7 +4838,7 @@ extension DescribeManagedRuleGroupOutputBody: Swift.Decodable {
         versionName = versionNameDecoded
         let snsTopicArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snsTopicArn)
         snsTopicArn = snsTopicArnDecoded
-        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity)
         capacity = capacityDecoded
         let rulesContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.RuleSummary?].self, forKey: .rules)
         var rulesDecoded0:[WAFV2ClientTypes.RuleSummary]? = nil
@@ -11250,7 +11250,7 @@ extension WAFV2ClientTypes.ManagedRuleSetVersion: Swift.Codable {
         if let associatedRuleGroupArn = self.associatedRuleGroupArn {
             try encodeContainer.encode(associatedRuleGroupArn, forKey: .associatedRuleGroupArn)
         }
-        if capacity != 0 {
+        if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
         if let expiryTimestamp = self.expiryTimestamp {
@@ -11271,7 +11271,7 @@ extension WAFV2ClientTypes.ManagedRuleSetVersion: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associatedRuleGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedRuleGroupArn)
         associatedRuleGroupArn = associatedRuleGroupArnDecoded
-        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity)
         capacity = capacityDecoded
         let forecastedLifetimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .forecastedLifetime)
         forecastedLifetime = forecastedLifetimeDecoded
@@ -11290,7 +11290,7 @@ extension WAFV2ClientTypes {
         /// The Amazon Resource Name (ARN) of the vendor rule group that's used to define the published version of your managed rule group.
         public var associatedRuleGroupArn: Swift.String?
         /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
-        public var capacity: Swift.Int
+        public var capacity: Swift.Int?
         /// The time that this version is set to expire. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
         public var expiryTimestamp: ClientRuntime.Date?
         /// The amount of time you expect this version of your managed rule group to last, in days.
@@ -11302,7 +11302,7 @@ extension WAFV2ClientTypes {
 
         public init(
             associatedRuleGroupArn: Swift.String? = nil,
-            capacity: Swift.Int = 0,
+            capacity: Swift.Int? = nil,
             expiryTimestamp: ClientRuntime.Date? = nil,
             forecastedLifetime: Swift.Int? = nil,
             lastUpdateTimestamp: ClientRuntime.Date? = nil,
@@ -12486,7 +12486,7 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
         if let forwardedIPConfig = self.forwardedIPConfig {
             try encodeContainer.encode(forwardedIPConfig, forKey: .forwardedIPConfig)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let scopeDownStatement = self.scopeDownStatement {
@@ -12496,7 +12496,7 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let aggregateKeyTypeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateBasedStatementAggregateKeyType.self, forKey: .aggregateKeyType)
         aggregateKeyType = aggregateKeyTypeDecoded
@@ -12585,7 +12585,7 @@ extension WAFV2ClientTypes {
         ///
         /// * If you aggregate on the HTTP method and the query argument name "city", then this is the limit on requests for any single method, city pair.
         /// This member is required.
-        public var limit: Swift.Int
+        public var limit: Swift.Int?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated and managed by the rate-based statement. When you use a scope-down statement, the rate-based rule only tracks and rate limits requests that match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
 
@@ -12593,7 +12593,7 @@ extension WAFV2ClientTypes {
             aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType? = nil,
             customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
-            limit: Swift.Int = 0,
+            limit: Swift.Int? = nil,
             scopeDownStatement: Box<WAFV2ClientTypes.Statement>? = nil
         )
         {
@@ -14544,7 +14544,7 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
                 try availableLabelsContainer.encode(labelsummary0)
             }
         }
-        if capacity != 0 {
+        if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
         if let consumedLabels = consumedLabels {
@@ -14588,7 +14588,7 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
         name = nameDecoded
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity)
         capacity = capacityDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -14655,7 +14655,7 @@ extension WAFV2ClientTypes {
         public var availableLabels: [WAFV2ClientTypes.LabelSummary]?
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity for a set of rules using [CheckCapacity]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         /// This member is required.
-        public var capacity: Swift.Int
+        public var capacity: Swift.Int?
         /// The labels that one or more rules in this rule group match against in label match statements. These labels are defined in a LabelMatchStatement specification, in the [Statement] definition of a rule.
         public var consumedLabels: [WAFV2ClientTypes.LabelSummary]?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
@@ -14683,7 +14683,7 @@ extension WAFV2ClientTypes {
         public init(
             arn: Swift.String? = nil,
             availableLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
-            capacity: Swift.Int = 0,
+            capacity: Swift.Int? = nil,
             consumedLabels: [WAFV2ClientTypes.LabelSummary]? = nil,
             customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]? = nil,
             description: Swift.String? = nil,

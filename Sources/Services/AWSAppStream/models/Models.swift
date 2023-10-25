@@ -791,7 +791,7 @@ extension AppStreamClientTypes.Application: Swift.Codable {
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let iconS3Location = self.iconS3Location {
@@ -844,7 +844,7 @@ extension AppStreamClientTypes.Application: Swift.Codable {
         launchPath = launchPathDecoded
         let launchParametersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchParameters)
         launchParameters = launchParametersDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
         var metadataDecoded0: [Swift.String:Swift.String]? = nil
@@ -908,7 +908,7 @@ extension AppStreamClientTypes {
         /// The application name to display.
         public var displayName: Swift.String?
         /// If there is a problem, the application can be disabled after image creation.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The S3 location of the application icon.
         public var iconS3Location: AppStreamClientTypes.S3Location?
         /// The URL for the application icon. This URL might be time-limited.
@@ -934,7 +934,7 @@ extension AppStreamClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             iconS3Location: AppStreamClientTypes.S3Location? = nil,
             iconURL: Swift.String? = nil,
             instanceFamilies: [Swift.String]? = nil,
@@ -1053,7 +1053,7 @@ extension AppStreamClientTypes.ApplicationSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let settingsGroup = self.settingsGroup {
@@ -1063,7 +1063,7 @@ extension AppStreamClientTypes.ApplicationSettings: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let settingsGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .settingsGroup)
         settingsGroup = settingsGroupDecoded
@@ -1075,12 +1075,12 @@ extension AppStreamClientTypes {
     public struct ApplicationSettings: Swift.Equatable {
         /// Enables or disables persistent application settings for users during their streaming sessions.
         /// This member is required.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack.
         public var settingsGroup: Swift.String?
 
         public init(
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             settingsGroup: Swift.String? = nil
         )
         {
@@ -1100,7 +1100,7 @@ extension AppStreamClientTypes.ApplicationSettingsResponse: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let s3BucketName = self.s3BucketName {
@@ -1113,7 +1113,7 @@ extension AppStreamClientTypes.ApplicationSettingsResponse: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let settingsGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .settingsGroup)
         settingsGroup = settingsGroupDecoded
@@ -1126,14 +1126,14 @@ extension AppStreamClientTypes {
     /// Describes the persistent application settings for users of a stack.
     public struct ApplicationSettingsResponse: Swift.Equatable {
         /// Specifies whether persistent application settings are enabled for users during their streaming sessions.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The S3 bucket where users’ persistent application settings are stored. When persistent application settings are enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region.
         public var s3BucketName: Swift.String?
         /// The path prefix for the S3 bucket where users’ persistent application settings are stored.
         public var settingsGroup: Swift.String?
 
         public init(
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             s3BucketName: Swift.String? = nil,
             settingsGroup: Swift.String? = nil
         )
@@ -4902,7 +4902,7 @@ extension CreateUpdatedImageOutput: ClientRuntime.HttpResponseBinding {
             self.canUpdateImage = output.canUpdateImage
             self.image = output.image
         } else {
-            self.canUpdateImage = false
+            self.canUpdateImage = nil
             self.image = nil
         }
     }
@@ -4910,12 +4910,12 @@ extension CreateUpdatedImageOutput: ClientRuntime.HttpResponseBinding {
 
 public struct CreateUpdatedImageOutput: Swift.Equatable {
     /// Indicates whether a new image can be created.
-    public var canUpdateImage: Swift.Bool
+    public var canUpdateImage: Swift.Bool?
     /// Describes an image.
     public var image: AppStreamClientTypes.Image?
 
     public init(
-        canUpdateImage: Swift.Bool = false,
+        canUpdateImage: Swift.Bool? = nil,
         image: AppStreamClientTypes.Image? = nil
     )
     {
@@ -4926,7 +4926,7 @@ public struct CreateUpdatedImageOutput: Swift.Equatable {
 
 struct CreateUpdatedImageOutputBody: Swift.Equatable {
     let image: AppStreamClientTypes.Image?
-    let canUpdateImage: Swift.Bool
+    let canUpdateImage: Swift.Bool?
 }
 
 extension CreateUpdatedImageOutputBody: Swift.Decodable {
@@ -4939,7 +4939,7 @@ extension CreateUpdatedImageOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.Image.self, forKey: .image)
         image = imageDecoded
-        let canUpdateImageDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .canUpdateImage) ?? false
+        let canUpdateImageDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .canUpdateImage)
         canUpdateImage = canUpdateImageDecoded
     }
 }
@@ -10400,7 +10400,7 @@ extension AppStreamClientTypes.Image: Swift.Codable {
         if let imageBuilderName = self.imageBuilderName {
             try encodeContainer.encode(imageBuilderName, forKey: .imageBuilderName)
         }
-        if imageBuilderSupported != false {
+        if let imageBuilderSupported = self.imageBuilderSupported {
             try encodeContainer.encode(imageBuilderSupported, forKey: .imageBuilderSupported)
         }
         if let imageErrors = imageErrors {
@@ -10446,7 +10446,7 @@ extension AppStreamClientTypes.Image: Swift.Codable {
         state = stateDecoded
         let visibilityDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.VisibilityType.self, forKey: .visibility)
         visibility = visibilityDecoded
-        let imageBuilderSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .imageBuilderSupported) ?? false
+        let imageBuilderSupportedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .imageBuilderSupported)
         imageBuilderSupported = imageBuilderSupportedDecoded
         let imageBuilderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuilderName)
         imageBuilderName = imageBuilderNameDecoded
@@ -10509,7 +10509,7 @@ extension AppStreamClientTypes {
         /// The name of the image builder that was used to create the private image. If the image is shared, this value is null.
         public var imageBuilderName: Swift.String?
         /// Indicates whether an image builder can be launched from this image.
-        public var imageBuilderSupported: Swift.Bool
+        public var imageBuilderSupported: Swift.Bool?
         /// Describes the errors that are returned when a new image can't be created.
         public var imageErrors: [AppStreamClientTypes.ResourceError]?
         /// The permissions to provide to the destination AWS account for the specified image.
@@ -10537,7 +10537,7 @@ extension AppStreamClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             imageBuilderName: Swift.String? = nil,
-            imageBuilderSupported: Swift.Bool = false,
+            imageBuilderSupported: Swift.Bool? = nil,
             imageErrors: [AppStreamClientTypes.ResourceError]? = nil,
             imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
             name: Swift.String? = nil,
@@ -16141,7 +16141,7 @@ extension AppStreamClientTypes.User: Swift.Codable {
         if let createdTime = self.createdTime {
             try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let firstName = self.firstName {
@@ -16164,7 +16164,7 @@ extension AppStreamClientTypes.User: Swift.Codable {
         arn = arnDecoded
         let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
         userName = userNameDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
@@ -16195,7 +16195,7 @@ extension AppStreamClientTypes {
         /// The date and time the user was created in the user pool.
         public var createdTime: ClientRuntime.Date?
         /// Specifies whether the user in the user pool is enabled.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The first name, or given name, of the user.
         public var firstName: Swift.String?
         /// The last name, or surname, of the user.
@@ -16219,7 +16219,7 @@ extension AppStreamClientTypes {
             arn: Swift.String? = nil,
             authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
             createdTime: ClientRuntime.Date? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil,
             status: Swift.String? = nil,
@@ -16299,7 +16299,7 @@ extension AppStreamClientTypes.UserStackAssociation: Swift.Codable {
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
         }
-        if sendEmailNotification != false {
+        if let sendEmailNotification = self.sendEmailNotification {
             try encodeContainer.encode(sendEmailNotification, forKey: .sendEmailNotification)
         }
         if let stackName = self.stackName {
@@ -16318,7 +16318,7 @@ extension AppStreamClientTypes.UserStackAssociation: Swift.Codable {
         userName = userNameDecoded
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
-        let sendEmailNotificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendEmailNotification) ?? false
+        let sendEmailNotificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendEmailNotification)
         sendEmailNotification = sendEmailNotificationDecoded
     }
 }
@@ -16335,7 +16335,7 @@ extension AppStreamClientTypes {
         /// This member is required.
         public var authenticationType: AppStreamClientTypes.AuthenticationType?
         /// Specifies whether a welcome email is sent to a user after the user is created in the user pool.
-        public var sendEmailNotification: Swift.Bool
+        public var sendEmailNotification: Swift.Bool?
         /// The name of the stack that is associated with the user.
         /// This member is required.
         public var stackName: Swift.String?
@@ -16345,7 +16345,7 @@ extension AppStreamClientTypes {
 
         public init(
             authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
-            sendEmailNotification: Swift.Bool = false,
+            sendEmailNotification: Swift.Bool? = nil,
             stackName: Swift.String? = nil,
             userName: Swift.String? = nil
         )

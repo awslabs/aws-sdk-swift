@@ -1113,7 +1113,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record. The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check [Amazon Web Services service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) to see the FeatureGroups quota for your Amazon Web Services account. You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
+    /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record. The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check [Amazon Web Services service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) to see the FeatureGroups quota for your Amazon Web Services account. Note that it can take approximately 10-15 minutes to provision an OnlineStoreFeatureGroup with the InMemoryStorageType. You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
     ///
     /// - Parameter CreateFeatureGroupInput : [no documentation found]
     ///
@@ -3492,7 +3492,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         return result
     }
 
-    /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted.
+    /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted. Note that it can take approximately 10-15 minutes to delete an OnlineStoreFeatureGroup with the InMemoryStorageType.
     ///
     /// - Parameter DeleteFeatureGroupInput : [no documentation found]
     ///

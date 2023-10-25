@@ -206,7 +206,7 @@ extension ActivateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.evaluationFormArn = nil
             self.evaluationFormId = nil
-            self.evaluationFormVersion = nil
+            self.evaluationFormVersion = 0
         }
     }
 }
@@ -220,12 +220,12 @@ public struct ActivateEvaluationFormOutput: Swift.Equatable {
     public var evaluationFormId: Swift.String?
     /// A version of the evaluation form.
     /// This member is required.
-    public var evaluationFormVersion: Swift.Int?
+    public var evaluationFormVersion: Swift.Int
 
     public init(
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil
+        evaluationFormVersion: Swift.Int = 0
     )
     {
         self.evaluationFormArn = evaluationFormArn
@@ -237,7 +237,7 @@ public struct ActivateEvaluationFormOutput: Swift.Equatable {
 struct ActivateEvaluationFormOutputBody: Swift.Equatable {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
-    let evaluationFormVersion: Swift.Int?
+    let evaluationFormVersion: Swift.Int
 }
 
 extension ActivateEvaluationFormOutputBody: Swift.Decodable {
@@ -253,7 +253,7 @@ extension ActivateEvaluationFormOutputBody: Swift.Decodable {
         evaluationFormId = evaluationFormIdDecoded
         let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
         evaluationFormArn = evaluationFormArnDecoded
-        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion) ?? 0
         evaluationFormVersion = evaluationFormVersionDecoded
     }
 }
@@ -2608,11 +2608,11 @@ extension ConnectClientTypes {
         public var phoneNumberId: Swift.String?
         /// The status of the phone number.
         ///
-        /// * CLAIMED means the previous [ClaimedPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation succeeded.
+        /// * CLAIMED means the previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation succeeded.
         ///
-        /// * IN_PROGRESS means a [ClaimedPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation is still in progress and has not yet completed. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) at a later time to verify if the previous operation has completed.
+        /// * IN_PROGRESS means a [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html), [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html), or [UpdatePhoneNumberMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumberMetadata.html) operation is still in progress and has not yet completed. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) at a later time to verify if the previous operation has completed.
         ///
-        /// * FAILED indicates that the previous [ClaimedPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation has failed. It will include a message indicating the failure reason. A common reason for a failure may be that the TargetArn value you are claiming or updating a phone number to has reached its limit of total claimed numbers. If you received a FAILED status from a ClaimPhoneNumber API call, you have one day to retry claiming the phone number before the number is released back to the inventory for other customers to claim.
+        /// * FAILED indicates that the previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation has failed. It will include a message indicating the failure reason. A common reason for a failure may be that the TargetArn value you are claiming or updating a phone number to has reached its limit of total claimed numbers. If you received a FAILED status from a ClaimPhoneNumber API call, you have one day to retry claiming the phone number before the number is released back to the inventory for other customers to claim.
         ///
         ///
         /// You will not be billed for the phone number during the 1-day period if number claiming fails.
@@ -2989,7 +2989,7 @@ extension ConnectClientTypes {
     public struct ContactFlow: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the flow.
         public var arn: Swift.String?
-        /// The JSON string that represents the content of the flow. For an example, see [Example contact flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+        /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
         public var content: Swift.String?
         /// The description of the flow.
         public var description: Swift.String?
@@ -3106,7 +3106,7 @@ extension ConnectClientTypes {
     public struct ContactFlowModule: Swift.Equatable {
         /// The Amazon Resource Name (ARN).
         public var arn: Swift.String?
-        /// The JSON string that represents the content of the flow. For an example, see [Example contact flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
+        /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
         public var content: Swift.String?
         /// The description of the flow module.
         public var description: Swift.String?
@@ -3972,7 +3972,7 @@ extension CreateContactFlowInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateContactFlowInput: Swift.Equatable {
-    /// The JSON string that represents the content of the flow. For an example, see [Example contact flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
     /// This member is required.
     public var content: Swift.String?
     /// The description of the flow.
@@ -4092,7 +4092,7 @@ extension CreateContactFlowModuleInput: ClientRuntime.URLPathProvider {
 public struct CreateContactFlowModuleInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The content of the flow module.
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
     /// This member is required.
     public var content: Swift.String?
     /// The description of the flow module.
@@ -8428,7 +8428,7 @@ extension DeactivateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.evaluationFormArn = nil
             self.evaluationFormId = nil
-            self.evaluationFormVersion = nil
+            self.evaluationFormVersion = 0
         }
     }
 }
@@ -8442,12 +8442,12 @@ public struct DeactivateEvaluationFormOutput: Swift.Equatable {
     public var evaluationFormId: Swift.String?
     /// The version of the deactivated evaluation form resource.
     /// This member is required.
-    public var evaluationFormVersion: Swift.Int?
+    public var evaluationFormVersion: Swift.Int
 
     public init(
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil
+        evaluationFormVersion: Swift.Int = 0
     )
     {
         self.evaluationFormArn = evaluationFormArn
@@ -8459,7 +8459,7 @@ public struct DeactivateEvaluationFormOutput: Swift.Equatable {
 struct DeactivateEvaluationFormOutputBody: Swift.Equatable {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
-    let evaluationFormVersion: Swift.Int?
+    let evaluationFormVersion: Swift.Int
 }
 
 extension DeactivateEvaluationFormOutputBody: Swift.Decodable {
@@ -8475,7 +8475,7 @@ extension DeactivateEvaluationFormOutputBody: Swift.Decodable {
         evaluationFormId = evaluationFormIdDecoded
         let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
         evaluationFormArn = evaluationFormArnDecoded
-        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion) ?? 0
         evaluationFormVersion = evaluationFormVersionDecoded
     }
 }
@@ -13823,7 +13823,7 @@ extension ConnectClientTypes.EvaluationForm: Swift.Codable {
         if let evaluationFormId = self.evaluationFormId {
             try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
         }
-        if let evaluationFormVersion = self.evaluationFormVersion {
+        if evaluationFormVersion != 0 {
             try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
         }
         if let items = items {
@@ -13862,7 +13862,7 @@ extension ConnectClientTypes.EvaluationForm: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
         evaluationFormId = evaluationFormIdDecoded
-        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion) ?? 0
         evaluationFormVersion = evaluationFormVersionDecoded
         let lockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .locked) ?? false
         locked = lockedDecoded
@@ -13928,7 +13928,7 @@ extension ConnectClientTypes {
         public var evaluationFormId: Swift.String?
         /// A version of the evaluation form.
         /// This member is required.
-        public var evaluationFormVersion: Swift.Int?
+        public var evaluationFormVersion: Swift.Int
         /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
         /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
@@ -13958,7 +13958,7 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             evaluationFormArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int? = nil,
+            evaluationFormVersion: Swift.Int = 0,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
@@ -14010,7 +14010,7 @@ extension ConnectClientTypes.EvaluationFormContent: Swift.Codable {
         if let evaluationFormId = self.evaluationFormId {
             try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
         }
-        if let evaluationFormVersion = self.evaluationFormVersion {
+        if evaluationFormVersion != 0 {
             try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
         }
         if let items = items {
@@ -14029,7 +14029,7 @@ extension ConnectClientTypes.EvaluationFormContent: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion) ?? 0
         evaluationFormVersion = evaluationFormVersionDecoded
         let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
         evaluationFormId = evaluationFormIdDecoded
@@ -14068,7 +14068,7 @@ extension ConnectClientTypes {
         public var evaluationFormId: Swift.String?
         /// A version of the evaluation form.
         /// This member is required.
-        public var evaluationFormVersion: Swift.Int?
+        public var evaluationFormVersion: Swift.Int
         /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
         /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
@@ -14082,7 +14082,7 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             evaluationFormArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int? = nil,
+            evaluationFormVersion: Swift.Int = 0,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             title: Swift.String? = nil
@@ -15017,7 +15017,7 @@ extension ConnectClientTypes.EvaluationFormSummary: Swift.Codable {
         if let lastModifiedTime = self.lastModifiedTime {
             try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
-        if let latestVersion = self.latestVersion {
+        if latestVersion != 0 {
             try encodeContainer.encode(latestVersion, forKey: .latestVersion)
         }
         if let title = self.title {
@@ -15045,7 +15045,7 @@ extension ConnectClientTypes.EvaluationFormSummary: Swift.Codable {
         lastActivatedTime = lastActivatedTimeDecoded
         let lastActivatedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastActivatedBy)
         lastActivatedBy = lastActivatedByDecoded
-        let latestVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersion)
+        let latestVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersion) ?? 0
         latestVersion = latestVersionDecoded
         let activeVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeVersion)
         activeVersion = activeVersionDecoded
@@ -15081,7 +15081,7 @@ extension ConnectClientTypes {
         public var lastModifiedTime: ClientRuntime.Date?
         /// The version number of the latest evaluation form version.
         /// This member is required.
-        public var latestVersion: Swift.Int?
+        public var latestVersion: Swift.Int
         /// A title of the evaluation form.
         /// This member is required.
         public var title: Swift.String?
@@ -15096,7 +15096,7 @@ extension ConnectClientTypes {
             lastActivatedTime: ClientRuntime.Date? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
-            latestVersion: Swift.Int? = nil,
+            latestVersion: Swift.Int = 0,
             title: Swift.String? = nil
         )
         {
@@ -15175,7 +15175,7 @@ extension ConnectClientTypes.EvaluationFormVersionSummary: Swift.Codable {
         if let evaluationFormId = self.evaluationFormId {
             try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
         }
-        if let evaluationFormVersion = self.evaluationFormVersion {
+        if evaluationFormVersion != 0 {
             try encodeContainer.encode(evaluationFormVersion, forKey: .evaluationFormVersion)
         }
         if let lastModifiedBy = self.lastModifiedBy {
@@ -15198,7 +15198,7 @@ extension ConnectClientTypes.EvaluationFormVersionSummary: Swift.Codable {
         evaluationFormArn = evaluationFormArnDecoded
         let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
         evaluationFormId = evaluationFormIdDecoded
-        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion) ?? 0
         evaluationFormVersion = evaluationFormVersionDecoded
         let lockedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .locked) ?? false
         locked = lockedDecoded
@@ -15232,7 +15232,7 @@ extension ConnectClientTypes {
         public var evaluationFormId: Swift.String?
         /// A version of the evaluation form.
         /// This member is required.
-        public var evaluationFormVersion: Swift.Int?
+        public var evaluationFormVersion: Swift.Int
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
         /// This member is required.
         public var lastModifiedBy: Swift.String?
@@ -15251,7 +15251,7 @@ extension ConnectClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             evaluationFormArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int? = nil,
+            evaluationFormVersion: Swift.Int = 0,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
             locked: Swift.Bool = false,
@@ -17406,7 +17406,7 @@ public struct GetTrafficDistributionOutput: Swift.Equatable {
     public var arn: Swift.String?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     public var id: Swift.String?
-    /// The distribution of allowing signing in to the instance and its replica(s).
+    /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s).
     public var signInConfig: ConnectClientTypes.SignInConfig?
     /// The distribution of traffic between the instance and its replicas.
     public var telephonyConfig: ConnectClientTypes.TelephonyConfig?
@@ -25895,7 +25895,7 @@ extension ConnectClientTypes.MediaConcurrency: Swift.Codable {
         if let channel = self.channel {
             try encodeContainer.encode(channel.rawValue, forKey: .channel)
         }
-        if concurrency != 0 {
+        if let concurrency = self.concurrency {
             try encodeContainer.encode(concurrency, forKey: .concurrency)
         }
         if let crossChannelBehavior = self.crossChannelBehavior {
@@ -25907,7 +25907,7 @@ extension ConnectClientTypes.MediaConcurrency: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Channel.self, forKey: .channel)
         channel = channelDecoded
-        let concurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .concurrency) ?? 0
+        let concurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .concurrency)
         concurrency = concurrencyDecoded
         let crossChannelBehaviorDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CrossChannelBehavior.self, forKey: .crossChannelBehavior)
         crossChannelBehavior = crossChannelBehaviorDecoded
@@ -25922,13 +25922,13 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// The number of contacts an agent can have on a channel simultaneously. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 10. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
         /// This member is required.
-        public var concurrency: Swift.Int
+        public var concurrency: Swift.Int?
         /// Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For example, this allows you to offer an agent a different contact from another channel when they are currently working with a contact from a Voice channel.
         public var crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior?
 
         public init(
             channel: ConnectClientTypes.Channel? = nil,
-            concurrency: Swift.Int = 0,
+            concurrency: Swift.Int? = nil,
             crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil
         )
         {
@@ -28034,11 +28034,11 @@ extension ConnectClientTypes.PhoneNumberStatus: Swift.Codable {
 extension ConnectClientTypes {
     /// The status of the phone number.
     ///
-    /// * CLAIMED means the previous [ClaimedPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation succeeded.
+    /// * CLAIMED means the previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation succeeded.
     ///
-    /// * IN_PROGRESS means a [ClaimedPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation is still in progress and has not yet completed. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) at a later time to verify if the previous operation has completed.
+    /// * IN_PROGRESS means a [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html), [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html), or [UpdatePhoneNumberMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumberMetadata.html) operation is still in progress and has not yet completed. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) at a later time to verify if the previous operation has completed.
     ///
-    /// * FAILED indicates that the previous [ClaimedPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimedPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation has failed. It will include a message indicating the failure reason. A common reason for a failure may be that the TargetArn value you are claiming or updating a phone number to has reached its limit of total claimed numbers. If you received a FAILED status from a ClaimPhoneNumber API call, you have one day to retry claiming the phone number before the number is released back to the inventory for other customers to claim.
+    /// * FAILED indicates that the previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) or [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation has failed. It will include a message indicating the failure reason. A common reason for a failure may be that the TargetArn value you are claiming or updating a phone number to has reached its limit of total claimed numbers. If you received a FAILED status from a ClaimPhoneNumber API call, you have one day to retry claiming the phone number before the number is released back to the inventory for other customers to claim.
     public struct PhoneNumberStatus: Swift.Equatable {
         /// The status message.
         public var message: Swift.String?
@@ -30902,7 +30902,7 @@ extension ConnectClientTypes.RoutingProfileQueueConfigSummary: Swift.Codable {
         if delay != 0 {
             try encodeContainer.encode(delay, forKey: .delay)
         }
-        if priority != 0 {
+        if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
         if let queueArn = self.queueArn {
@@ -30924,7 +30924,7 @@ extension ConnectClientTypes.RoutingProfileQueueConfigSummary: Swift.Codable {
         queueArn = queueArnDecoded
         let queueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueName)
         queueName = queueNameDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority)
         priority = priorityDecoded
         let delayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delay) ?? 0
         delay = delayDecoded
@@ -30944,7 +30944,7 @@ extension ConnectClientTypes {
         public var delay: Swift.Int
         /// The order in which contacts are to be handled for the queue. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html).
         /// This member is required.
-        public var priority: Swift.Int
+        public var priority: Swift.Int?
         /// The Amazon Resource Name (ARN) of the queue.
         /// This member is required.
         public var queueArn: Swift.String?
@@ -30958,7 +30958,7 @@ extension ConnectClientTypes {
         public init(
             channel: ConnectClientTypes.Channel? = nil,
             delay: Swift.Int = 0,
-            priority: Swift.Int = 0,
+            priority: Swift.Int? = nil,
             queueArn: Swift.String? = nil,
             queueId: Swift.String? = nil,
             queueName: Swift.String? = nil
@@ -33227,7 +33227,7 @@ extension SearchUsersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchUsersInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. InstanceID is a required field. The "Required: No" below is incorrect.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -34207,7 +34207,7 @@ extension ConnectClientTypes.SignInConfig: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// The distribution of allowing signing in to the instance and its replica(s).
+    /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s).
     public struct SignInConfig: Swift.Equatable {
         /// Information about traffic distributions.
         /// This member is required.
@@ -35405,17 +35405,17 @@ public struct StartTaskContactInput: Swift.Equatable {
     /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
     /// This member is required.
     public var name: Swift.String?
-    /// The identifier of the previous chat, voice, or task contact.
+    /// The identifier of the previous chat, voice, or task contact. Any updates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain.
     public var previousContactId: Swift.String?
-    /// The identifier for the quick connect.
+    /// The identifier for the quick connect. Tasks that are created by using QuickConnectId will use the flow that is defined on agent or queue quick connect. For more information about quick connects, see [Create quick connects](https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html).
     public var quickConnectId: Swift.String?
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
     public var references: [Swift.String:ConnectClientTypes.Reference]?
-    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact.
+    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact. Linking tasks together by using RelatedContactID copies over contact attributes from the related task contact to the new task contact. All updates to user-defined attributes in the new task contact are limited to the individual contact ID, unlike what happens when tasks are linked by using PreviousContactID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
     public var relatedContactId: Swift.String?
     /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
     public var scheduledTime: ClientRuntime.Date?
-    /// A unique identifier for the task template.
+    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
     public var taskTemplateId: Swift.String?
 
     public init(
@@ -37510,7 +37510,7 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// The Amazon Resource Name (ARN).
         public var instanceArn: Swift.String?
-        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. You can change the SignInConfig distribution only for a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
+        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. The SignInConfig distribution is available only on the default TrafficDistributionGroup. If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
         public var isDefault: Swift.Bool
         /// The name of the traffic distribution group.
         public var name: Swift.String?
@@ -37526,7 +37526,7 @@ extension ConnectClientTypes {
         ///
         /// * DELETION_FAILED means the previous [DeleteTrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteTrafficDistributionGroup.html) operation has failed.
         ///
-        /// * UPDATE_IN_PROGRESS means the previous [UpdateTrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateTrafficDistributionGroup.html) operation is still in progress and has not yet completed.
+        /// * UPDATE_IN_PROGRESS means the previous [UpdateTrafficDistribution](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateTrafficDistribution.html) operation is still in progress and has not yet completed.
         public var status: ConnectClientTypes.TrafficDistributionGroupStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
@@ -38496,7 +38496,7 @@ public struct UpdateContactFlowContentInput: Swift.Equatable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The JSON string that represents the content of the flow. For an example, see [Example contact flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
     /// This member is required.
     public var content: Swift.String?
     /// The identifier of the Amazon Connect instance.
@@ -38699,7 +38699,7 @@ public struct UpdateContactFlowModuleContentInput: Swift.Equatable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The JSON string that represents the content of the flow. For an example, see [Example contact flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
     /// This member is required.
     public var content: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -39360,7 +39360,7 @@ extension UpdateEvaluationFormOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.evaluationFormArn = nil
             self.evaluationFormId = nil
-            self.evaluationFormVersion = nil
+            self.evaluationFormVersion = 0
         }
     }
 }
@@ -39374,12 +39374,12 @@ public struct UpdateEvaluationFormOutput: Swift.Equatable {
     public var evaluationFormId: Swift.String?
     /// The version of the updated evaluation form resource.
     /// This member is required.
-    public var evaluationFormVersion: Swift.Int?
+    public var evaluationFormVersion: Swift.Int
 
     public init(
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = nil
+        evaluationFormVersion: Swift.Int = 0
     )
     {
         self.evaluationFormArn = evaluationFormArn
@@ -39391,7 +39391,7 @@ public struct UpdateEvaluationFormOutput: Swift.Equatable {
 struct UpdateEvaluationFormOutputBody: Swift.Equatable {
     let evaluationFormId: Swift.String?
     let evaluationFormArn: Swift.String?
-    let evaluationFormVersion: Swift.Int?
+    let evaluationFormVersion: Swift.Int
 }
 
 extension UpdateEvaluationFormOutputBody: Swift.Decodable {
@@ -39407,7 +39407,7 @@ extension UpdateEvaluationFormOutputBody: Swift.Decodable {
         evaluationFormId = evaluationFormIdDecoded
         let evaluationFormArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormArn)
         evaluationFormArn = evaluationFormArnDecoded
-        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion)
+        let evaluationFormVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationFormVersion) ?? 0
         evaluationFormVersion = evaluationFormVersionDecoded
     }
 }
@@ -39955,6 +39955,101 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
         targetArn = targetArnDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdatePhoneNumberMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case phoneNumberDescription = "PhoneNumberDescription"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let phoneNumberDescription = self.phoneNumberDescription {
+            try encodeContainer.encode(phoneNumberDescription, forKey: .phoneNumberDescription)
+        }
+    }
+}
+
+extension UpdatePhoneNumberMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let phoneNumberId = phoneNumberId else {
+            return nil
+        }
+        return "/phone-number/\(phoneNumberId.urlPercentEncoding())/metadata"
+    }
+}
+
+public struct UpdatePhoneNumberMetadataInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The description of the phone number.
+    public var phoneNumberDescription: Swift.String?
+    /// The Amazon Resource Name (ARN) or resource ID of the phone number.
+    /// This member is required.
+    public var phoneNumberId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        phoneNumberDescription: Swift.String? = nil,
+        phoneNumberId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.phoneNumberDescription = phoneNumberDescription
+        self.phoneNumberId = phoneNumberId
+    }
+}
+
+struct UpdatePhoneNumberMetadataInputBody: Swift.Equatable {
+    let phoneNumberDescription: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension UpdatePhoneNumberMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case phoneNumberDescription = "PhoneNumberDescription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let phoneNumberDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumberDescription)
+        phoneNumberDescription = phoneNumberDescriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdatePhoneNumberMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePhoneNumberMetadataOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdatePhoneNumberMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotencyException": return try await IdempotencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -41986,7 +42081,7 @@ public struct UpdateTrafficDistributionInput: Swift.Equatable {
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     /// This member is required.
     public var id: Swift.String?
-    /// The distribution of allowing signing in to the instance and its replica(s).
+    /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s).
     public var signInConfig: ConnectClientTypes.SignInConfig?
     /// The distribution of traffic between the instance and its replica(s).
     public var telephonyConfig: ConnectClientTypes.TelephonyConfig?

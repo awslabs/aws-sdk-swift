@@ -1096,9 +1096,6 @@ extension ConfigClientTypes {
         /// * ResourceDeleted – The resource was deleted
         ///
         /// * ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type
-        ///
-        ///
-        /// The CIs do not incur any cost.
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
@@ -2825,9 +2822,6 @@ extension ConfigClientTypes {
         /// * ResourceDeleted – The resource was deleted
         ///
         /// * ResourceDeletedNotRecorded – The resource was deleted but its configuration was not recorded since the recorder excludes the recording of resources of this type
-        ///
-        ///
-        /// The CIs do not incur any cost.
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
@@ -9438,7 +9432,7 @@ extension ConfigClientTypes.EvaluationModeConfiguration: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// The configuration object for Config rule evaluation mode. The Supported valid values are Detective or Proactive.
+    /// The configuration object for Config rule evaluation mode. The supported valid values are Detective or Proactive.
     public struct EvaluationModeConfiguration: Swift.Equatable {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public var mode: ConfigClientTypes.EvaluationMode?
@@ -9765,7 +9759,19 @@ extension ConfigClientTypes.ExclusionByResourceTypes: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Specifies whether the configuration recorder excludes resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types to exclude as exemptions.
+    /// Specifies whether the configuration recorder excludes certain resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types you want to exclude from recording. By default, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. How to use To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES. Config will then record configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded. Globally recorded resources Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded automatically in all enabled Config Regions where Config was available before February 2022. This list does not include the following Regions:
+    ///
+    /// * Asia Pacific (Hyderabad)
+    ///
+    /// * Asia Pacific (Melbourne)
+    ///
+    /// * Europe (Spain)
+    ///
+    /// * Europe (Zurich)
+    ///
+    /// * Israel (Tel Aviv)
+    ///
+    /// * Middle East (UAE)
     public struct ExclusionByResourceTypes: Swift.Equatable {
         /// A comma-separated list of resource types to exclude from recording by the configuration recorder.
         public var resourceTypes: [ConfigClientTypes.ResourceType]?
@@ -12563,9 +12569,9 @@ extension GetResourceConfigHistoryInput: ClientRuntime.URLPathProvider {
 public struct GetResourceConfigHistoryInput: Swift.Equatable {
     /// The chronological order for configuration items listed. By default, the results are listed in reverse chronological order.
     public var chronologicalOrder: ConfigClientTypes.ChronologicalOrder?
-    /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start when the first configuration item was recorded.
+    /// The chronologically earliest time in the time range for which the history requested. If not specified, the action returns paginated results that contain configuration items that start when the first configuration item was recorded.
     public var earlierTime: ClientRuntime.Date?
-    /// The time stamp that indicates a later time. If not specified, current time is taken.
+    /// The chronologically latest time in the time range for which the history requested. If not specified, current time is taken.
     public var laterTime: ClientRuntime.Date?
     /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
     public var limit: Swift.Int?
@@ -17862,7 +17868,7 @@ extension ConfigClientTypes.OrganizationCustomRuleMetadata: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// organization custom rule metadata such as resource type, resource ID of Amazon Web Services resource, Lambda function ARN, and organization trigger types that trigger Config to evaluate your Amazon Web Services resources against a rule. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
+    /// An object that specifies organization custom rule metadata such as resource type, resource ID of Amazon Web Services resource, Lambda function ARN, and organization trigger types that trigger Config to evaluate your Amazon Web Services resources against a rule. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public struct OrganizationCustomRuleMetadata: Swift.Equatable {
         /// The description that you provide for your organization Config rule.
         public var description: Swift.String?
@@ -17991,7 +17997,7 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
+    /// An object that specifies organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public struct OrganizationManagedRuleMetadata: Swift.Equatable {
         /// The description that you provide for your organization Config rule.
         public var description: Swift.String?
@@ -18921,7 +18927,7 @@ public struct PutConformancePackInput: Swift.Equatable {
     public var deliveryS3KeyPrefix: Swift.String?
     /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     public var templateBody: Swift.String?
-    /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. You must have access to read Amazon S3 bucket.
+    /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
     public var templateS3Uri: Swift.String?
     /// An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
     public var templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails?
@@ -19587,7 +19593,7 @@ public struct PutOrganizationConformancePackInput: Swift.Equatable {
     public var organizationConformancePackName: Swift.String?
     /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
     public var templateBody: Swift.String?
-    /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket.
+    /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
     public var templateS3Uri: Swift.String?
 
     public init(
@@ -20515,24 +20521,65 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Specifies which resource types Config records for configuration changes. In the recording group, you specify whether you want to record all supported resource types or to include or exclude specific types of resources. By default, Config records configuration changes for all supported types of Regional resources that Config discovers in the Amazon Web Services Region in which it is running. Regional resources are tied to a Region and can be used only in that Region. Examples of Regional resources are Amazon EC2 instances and Amazon EBS volumes. You can also have Config record supported types of global resources. Global resources are not tied to a specific Region and can be used in all Regions. The global resource types that Config supports include IAM users, groups, roles, and customer managed policies. Global resource types onboarded to Config recording after February 2022 will be recorded only in the service's home Region for the commercial partition and Amazon Web Services GovCloud (US-West) for the Amazon Web Services GovCloud (US) partition. You can view the Configuration Items for these new global resource types only in their home Region and Amazon Web Services GovCloud (US-West). If you don't want Config to record all resources, you can specify which types of resources Config records with the resourceTypes parameter. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. For more information and a table of the Home Regions for Global Resource Types Onboarded after February 2022, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html) in the Config developer guide.
+    /// Specifies which resource types Config records for configuration changes. By default, Config records configuration changes for all current and future supported resource types in the Amazon Web Services Region where you have enabled Config (excluding the globally recorded IAM resource types: IAM users, groups, roles, and customer managed policies). In the recording group, you specify whether you want to record all supported current and future supported resource types or to include or exclude specific resources types. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. If you don't want Config to record all current and future supported resource types, use one of the following recording strategies:
+    ///
+    /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
+    ///
+    /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
+    ///
+    ///
+    /// Aurora global clusters are automatically globally recorded The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use the EXCLUSION_BY_RESOURCE_TYPES or INCLUSION_BY_RESOURCE_TYPES recording strategy.
     public struct RecordingGroup: Swift.Equatable {
-        /// Specifies whether Config records configuration changes for all supported regional resource types. If you set this field to true, when Config adds support for a new type of regional resource, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        /// Specifies whether Config records configuration changes for all supported regionally recorded resource types. If you set this field to true, when Config adds support for a new regionally recorded resource type, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Region Availability Check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if a resource type is supported in the Amazon Web Services Region where you set up Config.
         public var allSupported: Swift.Bool
         /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
         public var exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes?
-        /// Specifies whether Config records configuration changes for all supported global resources. Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. If you set this field to true, when Config adds support for a new type of global resource in the Region where you set up the configuration recorder, Config starts recording resources of that type automatically. If you set this field to false but list global resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to global resource types, make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
+        /// A legacy field which only applies to the globally recorded IAM resource types: IAM users, groups, roles, and customer managed policies. If you select this option, these resource types will be recorded in all enabled Config regions where Config was available before February 2022. This list does not include the following Regions:
+        ///
+        /// * Asia Pacific (Hyderabad)
+        ///
+        /// * Asia Pacific (Melbourne)
+        ///
+        /// * Europe (Spain)
+        ///
+        /// * Europe (Zurich)
+        ///
+        /// * Israel (Tel Aviv)
+        ///
+        /// * Middle East (UAE)
+        ///
+        ///
+        /// Aurora global clusters are automatically globally recorded The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is not set to true. includeGlobalResourceTypes is a legacy field which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
+        ///
+        /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
+        ///
+        /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
+        ///
+        ///
+        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. Required and optional fields Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list globally recorded IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the globally recorded IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
         public var includeGlobalResourceTypes: Swift.Bool
         /// An object that specifies the recording strategy for the configuration recorder.
         ///
-        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regional resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new type of regional resource, Config automatically starts recording resources of that type.
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regionally recorded resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new regionally recorded resource type, Config automatically starts recording resources of that type.
         ///
         /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
         ///
-        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types except the resource types that you specify as exemptions to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
         ///
         ///
-        /// The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global resource types will still be automatically recorded in this option unless those resource types are specifically listed as exemptions in the resourceTypes field of exclusionByResourceTypes. By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically.
+        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, globally recorded IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resources types and the resource exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. In addition, unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded automatically in all enabled Config Regions where Config was available before February 2022. This list does not include the following Regions:
+        ///
+        /// * Asia Pacific (Hyderabad)
+        ///
+        /// * Asia Pacific (Melbourne)
+        ///
+        /// * Europe (Spain)
+        ///
+        /// * Europe (Zurich)
+        ///
+        /// * Israel (Tel Aviv)
+        ///
+        /// * Middle East (UAE)
         public var recordingStrategy: ConfigClientTypes.RecordingStrategy?
         /// A comma-separated list that specifies which resource types Config records. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the Resource Type Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. Region Availability Before specifying a resource type for Config to track, check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if the resource type is supported in the Amazon Web Services Region where you set up Config. If a resource type is supported by Config in at least one Region, you can enable the recording of that resource type in all Regions supported by Config, even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
         public var resourceTypes: [ConfigClientTypes.ResourceType]?
@@ -20579,14 +20626,26 @@ extension ConfigClientTypes {
     public struct RecordingStrategy: Swift.Equatable {
         /// The recording strategy for the configuration recorder.
         ///
-        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regional resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new type of regional resource, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
+        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported regionally recorded resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new regionally recorded resource type, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
         ///
         /// * If you set this option to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types that you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
         ///
-        /// * If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types, except the resource types that you specify as exemptions to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        /// * If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
         ///
         ///
-        /// The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global resource types will still be automatically recorded in this option unless those resource types are specifically listed as exemptions in the resourceTypes field of exclusionByResourceTypes. By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically.
+        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, globally recorded IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resource types and the exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. In addition, unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded automatically in all enabled Config Regions where Config was available before February 2022. This list does not include the following Regions:
+        ///
+        /// * Asia Pacific (Hyderabad)
+        ///
+        /// * Asia Pacific (Melbourne)
+        ///
+        /// * Europe (Spain)
+        ///
+        /// * Europe (Zurich)
+        ///
+        /// * Israel (Tel Aviv)
+        ///
+        /// * Middle East (UAE)
         public var useOnly: ConfigClientTypes.RecordingStrategyType?
 
         public init(
@@ -22141,6 +22200,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 extension ConfigClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case acmpcacertificateauthority
+        case apsrulegroupsnamespace
         case accessanalyzeranalyzer
         case accountpublicaccessblock
         case alarm
@@ -22164,6 +22224,7 @@ extension ConfigClientTypes {
         case apprunnervpcconnector
         case appstreamapplication
         case appstreamdirectoryconfig
+        case appstreamstack
         case appsyncgraphqlapi
         case application
         case applicationversion
@@ -22181,6 +22242,7 @@ extension ConfigClientTypes {
         case backupvault
         case batchcomputeenvironment
         case batchjobqueue
+        case batchschedulingpolicy
         case bucket
         case budgetsbudgetsaction
         case cassandrakeyspace
@@ -22195,9 +22257,11 @@ extension ConfigClientTypes {
         case clustersnapshot
         case clustersubnetgroup
         case codeartifactrepository
+        case codebuildreportgroup
         case codedeployapplication
         case codedeploydeploymentconfig
         case codedeploydeploymentgroup
+        case codeguruprofilerprofilinggroup
         case codegurureviewerrepositoryassociation
         case conformancepackcompliance
         case connectphonenumber
@@ -22310,6 +22374,7 @@ extension ConfigClientTypes {
         case imagebuilderdistributionconfiguration
         case imagebuilderimagepipeline
         case imagebuilderinfrastructureconfiguration
+        case inspectorv2filter
         case instance
         case internetgateway
         case iotaccountauditconfiguration
@@ -22324,8 +22389,10 @@ extension ConfigClientTypes {
         case ioteventsdetectormodel
         case ioteventsinput
         case iotfleetmetric
+        case iotjobtemplate
         case iotmitigationaction
         case iotpolicy
+        case iotprovisioningtemplate
         case iotrolealias
         case iotscheduledaudit
         case iotsecurityprofile
@@ -22334,9 +22401,12 @@ extension ConfigClientTypes {
         case iotsitewisegateway
         case iotsitewiseportal
         case iotsitewiseproject
+        case iottwinmakercomponenttype
         case iottwinmakerentity
         case iottwinmakerscene
         case iottwinmakerworkspace
+        case iotwirelessfuotatask
+        case iotwirelessmulticastgroup
         case iotwirelessserviceprofile
         case kendraindex
         case key
@@ -22360,11 +22430,13 @@ extension ConfigClientTypes {
         case logsdestination
         case lookoutmetricsalert
         case lookoutvisionproject
+        case mskbatchscramsecret
         case mskcluster
         case mskconfiguration
         case managedinstanceinventory
         case managedrulesetv2
         case mediaconnectflowentitlement
+        case mediaconnectflowsource
         case mediaconnectflowvpcinterface
         case mediapackagepackagingconfiguration
         case mediapackagepackaginggroup
@@ -22387,6 +22459,7 @@ extension ConfigClientTypes {
         case panoramapackage
         case patchcompliance
         case personalizedataset
+        case personalizedatasetgroup
         case personalizeschema
         case personalizesolution
         case pinpointapp
@@ -22436,6 +22509,8 @@ extension ConfigClientTypes {
         case route53resolverfirewalldomainlist
         case route53resolverfirewallrulegroupassociation
         case route53resolverresolverendpoint
+        case route53resolverresolverqueryloggingconfig
+        case route53resolverresolverqueryloggingconfigassociation
         case route53resolverresolverrule
         case route53resolverresolverruleassociation
         case routetable
@@ -22453,6 +22528,7 @@ extension ConfigClientTypes {
         case sagemakerappimageconfig
         case sagemakercoderepository
         case sagemakerdomain
+        case sagemakerfeaturegroup
         case sagemakerimage
         case sagemakermodel
         case sagemakernotebookinstancelifecycleconfig
@@ -22462,6 +22538,7 @@ extension ConfigClientTypes {
         case secret
         case securitygroup
         case servicediscoveryhttpnamespace
+        case servicediscoveryinstance
         case servicediscoverypublicdnsnamespace
         case servicediscoveryservice
         case signersigningprofile
@@ -22476,6 +22553,7 @@ extension ConfigClientTypes {
         case topic
         case trail
         case transferagreement
+        case transfercertificate
         case transferconnector
         case transferworkflow
         case transitgateway
@@ -22498,6 +22576,7 @@ extension ConfigClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .acmpcacertificateauthority,
+                .apsrulegroupsnamespace,
                 .accessanalyzeranalyzer,
                 .accountpublicaccessblock,
                 .alarm,
@@ -22521,6 +22600,7 @@ extension ConfigClientTypes {
                 .apprunnervpcconnector,
                 .appstreamapplication,
                 .appstreamdirectoryconfig,
+                .appstreamstack,
                 .appsyncgraphqlapi,
                 .application,
                 .applicationversion,
@@ -22538,6 +22618,7 @@ extension ConfigClientTypes {
                 .backupvault,
                 .batchcomputeenvironment,
                 .batchjobqueue,
+                .batchschedulingpolicy,
                 .bucket,
                 .budgetsbudgetsaction,
                 .cassandrakeyspace,
@@ -22552,9 +22633,11 @@ extension ConfigClientTypes {
                 .clustersnapshot,
                 .clustersubnetgroup,
                 .codeartifactrepository,
+                .codebuildreportgroup,
                 .codedeployapplication,
                 .codedeploydeploymentconfig,
                 .codedeploydeploymentgroup,
+                .codeguruprofilerprofilinggroup,
                 .codegurureviewerrepositoryassociation,
                 .conformancepackcompliance,
                 .connectphonenumber,
@@ -22667,6 +22750,7 @@ extension ConfigClientTypes {
                 .imagebuilderdistributionconfiguration,
                 .imagebuilderimagepipeline,
                 .imagebuilderinfrastructureconfiguration,
+                .inspectorv2filter,
                 .instance,
                 .internetgateway,
                 .iotaccountauditconfiguration,
@@ -22681,8 +22765,10 @@ extension ConfigClientTypes {
                 .ioteventsdetectormodel,
                 .ioteventsinput,
                 .iotfleetmetric,
+                .iotjobtemplate,
                 .iotmitigationaction,
                 .iotpolicy,
+                .iotprovisioningtemplate,
                 .iotrolealias,
                 .iotscheduledaudit,
                 .iotsecurityprofile,
@@ -22691,9 +22777,12 @@ extension ConfigClientTypes {
                 .iotsitewisegateway,
                 .iotsitewiseportal,
                 .iotsitewiseproject,
+                .iottwinmakercomponenttype,
                 .iottwinmakerentity,
                 .iottwinmakerscene,
                 .iottwinmakerworkspace,
+                .iotwirelessfuotatask,
+                .iotwirelessmulticastgroup,
                 .iotwirelessserviceprofile,
                 .kendraindex,
                 .key,
@@ -22717,11 +22806,13 @@ extension ConfigClientTypes {
                 .logsdestination,
                 .lookoutmetricsalert,
                 .lookoutvisionproject,
+                .mskbatchscramsecret,
                 .mskcluster,
                 .mskconfiguration,
                 .managedinstanceinventory,
                 .managedrulesetv2,
                 .mediaconnectflowentitlement,
+                .mediaconnectflowsource,
                 .mediaconnectflowvpcinterface,
                 .mediapackagepackagingconfiguration,
                 .mediapackagepackaginggroup,
@@ -22744,6 +22835,7 @@ extension ConfigClientTypes {
                 .panoramapackage,
                 .patchcompliance,
                 .personalizedataset,
+                .personalizedatasetgroup,
                 .personalizeschema,
                 .personalizesolution,
                 .pinpointapp,
@@ -22793,6 +22885,8 @@ extension ConfigClientTypes {
                 .route53resolverfirewalldomainlist,
                 .route53resolverfirewallrulegroupassociation,
                 .route53resolverresolverendpoint,
+                .route53resolverresolverqueryloggingconfig,
+                .route53resolverresolverqueryloggingconfigassociation,
                 .route53resolverresolverrule,
                 .route53resolverresolverruleassociation,
                 .routetable,
@@ -22810,6 +22904,7 @@ extension ConfigClientTypes {
                 .sagemakerappimageconfig,
                 .sagemakercoderepository,
                 .sagemakerdomain,
+                .sagemakerfeaturegroup,
                 .sagemakerimage,
                 .sagemakermodel,
                 .sagemakernotebookinstancelifecycleconfig,
@@ -22819,6 +22914,7 @@ extension ConfigClientTypes {
                 .secret,
                 .securitygroup,
                 .servicediscoveryhttpnamespace,
+                .servicediscoveryinstance,
                 .servicediscoverypublicdnsnamespace,
                 .servicediscoveryservice,
                 .signersigningprofile,
@@ -22833,6 +22929,7 @@ extension ConfigClientTypes {
                 .topic,
                 .trail,
                 .transferagreement,
+                .transfercertificate,
                 .transferconnector,
                 .transferworkflow,
                 .transitgateway,
@@ -22860,6 +22957,7 @@ extension ConfigClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .acmpcacertificateauthority: return "AWS::ACMPCA::CertificateAuthority"
+            case .apsrulegroupsnamespace: return "AWS::APS::RuleGroupsNamespace"
             case .accessanalyzeranalyzer: return "AWS::AccessAnalyzer::Analyzer"
             case .accountpublicaccessblock: return "AWS::S3::AccountPublicAccessBlock"
             case .alarm: return "AWS::CloudWatch::Alarm"
@@ -22883,6 +22981,7 @@ extension ConfigClientTypes {
             case .apprunnervpcconnector: return "AWS::AppRunner::VpcConnector"
             case .appstreamapplication: return "AWS::AppStream::Application"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
+            case .appstreamstack: return "AWS::AppStream::Stack"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
             case .applicationversion: return "AWS::ElasticBeanstalk::ApplicationVersion"
@@ -22900,6 +22999,7 @@ extension ConfigClientTypes {
             case .backupvault: return "AWS::Backup::BackupVault"
             case .batchcomputeenvironment: return "AWS::Batch::ComputeEnvironment"
             case .batchjobqueue: return "AWS::Batch::JobQueue"
+            case .batchschedulingpolicy: return "AWS::Batch::SchedulingPolicy"
             case .bucket: return "AWS::S3::Bucket"
             case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
             case .cassandrakeyspace: return "AWS::Cassandra::Keyspace"
@@ -22914,9 +23014,11 @@ extension ConfigClientTypes {
             case .clustersnapshot: return "AWS::Redshift::ClusterSnapshot"
             case .clustersubnetgroup: return "AWS::Redshift::ClusterSubnetGroup"
             case .codeartifactrepository: return "AWS::CodeArtifact::Repository"
+            case .codebuildreportgroup: return "AWS::CodeBuild::ReportGroup"
             case .codedeployapplication: return "AWS::CodeDeploy::Application"
             case .codedeploydeploymentconfig: return "AWS::CodeDeploy::DeploymentConfig"
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
+            case .codeguruprofilerprofilinggroup: return "AWS::CodeGuruProfiler::ProfilingGroup"
             case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
@@ -23029,6 +23131,7 @@ extension ConfigClientTypes {
             case .imagebuilderdistributionconfiguration: return "AWS::ImageBuilder::DistributionConfiguration"
             case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
+            case .inspectorv2filter: return "AWS::InspectorV2::Filter"
             case .instance: return "AWS::EC2::Instance"
             case .internetgateway: return "AWS::EC2::InternetGateway"
             case .iotaccountauditconfiguration: return "AWS::IoT::AccountAuditConfiguration"
@@ -23043,8 +23146,10 @@ extension ConfigClientTypes {
             case .ioteventsdetectormodel: return "AWS::IoTEvents::DetectorModel"
             case .ioteventsinput: return "AWS::IoTEvents::Input"
             case .iotfleetmetric: return "AWS::IoT::FleetMetric"
+            case .iotjobtemplate: return "AWS::IoT::JobTemplate"
             case .iotmitigationaction: return "AWS::IoT::MitigationAction"
             case .iotpolicy: return "AWS::IoT::Policy"
+            case .iotprovisioningtemplate: return "AWS::IoT::ProvisioningTemplate"
             case .iotrolealias: return "AWS::IoT::RoleAlias"
             case .iotscheduledaudit: return "AWS::IoT::ScheduledAudit"
             case .iotsecurityprofile: return "AWS::IoT::SecurityProfile"
@@ -23053,9 +23158,12 @@ extension ConfigClientTypes {
             case .iotsitewisegateway: return "AWS::IoTSiteWise::Gateway"
             case .iotsitewiseportal: return "AWS::IoTSiteWise::Portal"
             case .iotsitewiseproject: return "AWS::IoTSiteWise::Project"
+            case .iottwinmakercomponenttype: return "AWS::IoTTwinMaker::ComponentType"
             case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
             case .iottwinmakerscene: return "AWS::IoTTwinMaker::Scene"
             case .iottwinmakerworkspace: return "AWS::IoTTwinMaker::Workspace"
+            case .iotwirelessfuotatask: return "AWS::IoTWireless::FuotaTask"
+            case .iotwirelessmulticastgroup: return "AWS::IoTWireless::MulticastGroup"
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
@@ -23079,11 +23187,13 @@ extension ConfigClientTypes {
             case .logsdestination: return "AWS::Logs::Destination"
             case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
             case .lookoutvisionproject: return "AWS::LookoutVision::Project"
+            case .mskbatchscramsecret: return "AWS::MSK::BatchScramSecret"
             case .mskcluster: return "AWS::MSK::Cluster"
             case .mskconfiguration: return "AWS::MSK::Configuration"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
             case .mediaconnectflowentitlement: return "AWS::MediaConnect::FlowEntitlement"
+            case .mediaconnectflowsource: return "AWS::MediaConnect::FlowSource"
             case .mediaconnectflowvpcinterface: return "AWS::MediaConnect::FlowVpcInterface"
             case .mediapackagepackagingconfiguration: return "AWS::MediaPackage::PackagingConfiguration"
             case .mediapackagepackaginggroup: return "AWS::MediaPackage::PackagingGroup"
@@ -23106,6 +23216,7 @@ extension ConfigClientTypes {
             case .panoramapackage: return "AWS::Panorama::Package"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
             case .personalizedataset: return "AWS::Personalize::Dataset"
+            case .personalizedatasetgroup: return "AWS::Personalize::DatasetGroup"
             case .personalizeschema: return "AWS::Personalize::Schema"
             case .personalizesolution: return "AWS::Personalize::Solution"
             case .pinpointapp: return "AWS::Pinpoint::App"
@@ -23155,6 +23266,8 @@ extension ConfigClientTypes {
             case .route53resolverfirewalldomainlist: return "AWS::Route53Resolver::FirewallDomainList"
             case .route53resolverfirewallrulegroupassociation: return "AWS::Route53Resolver::FirewallRuleGroupAssociation"
             case .route53resolverresolverendpoint: return "AWS::Route53Resolver::ResolverEndpoint"
+            case .route53resolverresolverqueryloggingconfig: return "AWS::Route53Resolver::ResolverQueryLoggingConfig"
+            case .route53resolverresolverqueryloggingconfigassociation: return "AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation"
             case .route53resolverresolverrule: return "AWS::Route53Resolver::ResolverRule"
             case .route53resolverresolverruleassociation: return "AWS::Route53Resolver::ResolverRuleAssociation"
             case .routetable: return "AWS::EC2::RouteTable"
@@ -23172,6 +23285,7 @@ extension ConfigClientTypes {
             case .sagemakerappimageconfig: return "AWS::SageMaker::AppImageConfig"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
             case .sagemakerdomain: return "AWS::SageMaker::Domain"
+            case .sagemakerfeaturegroup: return "AWS::SageMaker::FeatureGroup"
             case .sagemakerimage: return "AWS::SageMaker::Image"
             case .sagemakermodel: return "AWS::SageMaker::Model"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
@@ -23181,6 +23295,7 @@ extension ConfigClientTypes {
             case .secret: return "AWS::SecretsManager::Secret"
             case .securitygroup: return "AWS::EC2::SecurityGroup"
             case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
+            case .servicediscoveryinstance: return "AWS::ServiceDiscovery::Instance"
             case .servicediscoverypublicdnsnamespace: return "AWS::ServiceDiscovery::PublicDnsNamespace"
             case .servicediscoveryservice: return "AWS::ServiceDiscovery::Service"
             case .signersigningprofile: return "AWS::Signer::SigningProfile"
@@ -23195,6 +23310,7 @@ extension ConfigClientTypes {
             case .topic: return "AWS::SNS::Topic"
             case .trail: return "AWS::CloudTrail::Trail"
             case .transferagreement: return "AWS::Transfer::Agreement"
+            case .transfercertificate: return "AWS::Transfer::Certificate"
             case .transferconnector: return "AWS::Transfer::Connector"
             case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
@@ -23299,7 +23415,7 @@ extension ConfigClientTypes.RetentionConfiguration: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if retentionPeriodInDays != 0 {
+        if let retentionPeriodInDays = self.retentionPeriodInDays {
             try encodeContainer.encode(retentionPeriodInDays, forKey: .retentionPeriodInDays)
         }
     }
@@ -23308,7 +23424,7 @@ extension ConfigClientTypes.RetentionConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let retentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodInDays) ?? 0
+        let retentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodInDays)
         retentionPeriodInDays = retentionPeriodInDaysDecoded
     }
 }
@@ -23321,11 +23437,11 @@ extension ConfigClientTypes {
         public var name: Swift.String?
         /// Number of days Config stores your historical information. Currently, only applicable to the configuration item history.
         /// This member is required.
-        public var retentionPeriodInDays: Swift.Int
+        public var retentionPeriodInDays: Swift.Int?
 
         public init(
             name: Swift.String? = nil,
-            retentionPeriodInDays: Swift.Int = 0
+            retentionPeriodInDays: Swift.Int? = nil
         )
         {
             self.name = name

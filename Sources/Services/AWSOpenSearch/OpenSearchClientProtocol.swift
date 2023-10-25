@@ -452,6 +452,21 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getCompatibleVersions(input: GetCompatibleVersionsInput) async throws -> GetCompatibleVersionsOutput
+    /// Get the status of the maintenance action.
+    ///
+    /// - Parameter GetDomainMaintenanceStatusInput : Container for the parameters to the GetDomainMaintenanceStatus operation.
+    ///
+    /// - Returns: `GetDomainMaintenanceStatusOutput` : The result of a GetDomainMaintenanceStatus request. Contains information about the requested action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    func getDomainMaintenanceStatus(input: GetDomainMaintenanceStatusInput) async throws -> GetDomainMaintenanceStatusOutput
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
     /// - Parameter GetPackageVersionHistoryInput : Container for the request parameters to the GetPackageVersionHistory operation.
@@ -497,6 +512,21 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutput
+    /// Get the list of the maintenance action.
+    ///
+    /// - Parameter ListDomainMaintenancesInput : Container for the parameters to the ListDomainMaintenances operation.
+    ///
+    /// - Returns: `ListDomainMaintenancesOutput` : The result of a ListDomainMaintenances request. Contains information about the requested actions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    func listDomainMaintenances(input: ListDomainMaintenancesInput) async throws -> ListDomainMaintenancesOutput
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
     ///
     /// - Parameter ListDomainNamesInput : Container for the parameters to the ListDomainNames operation.
@@ -693,6 +723,21 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutput
+    /// Starts the node maintenance (Node restart, Node reboot, Opensearch/Elasticsearch process restart, Dashboard/kibana restart) on the data node.
+    ///
+    /// - Parameter StartDomainMaintenanceInput : Container for the parameters to the StartDomainMaintenance operation.
+    ///
+    /// - Returns: `StartDomainMaintenanceOutput` : The result of a StartDomainMaintenance request. Contains information about the requested action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    func startDomainMaintenance(input: StartDomainMaintenanceInput) async throws -> StartDomainMaintenanceOutput
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
     /// - Parameter StartServiceSoftwareUpdateInput : Container for the request parameters to the StartServiceSoftwareUpdate operation.
@@ -707,7 +752,7 @@ public protocol OpenSearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     func startServiceSoftwareUpdate(input: StartServiceSoftwareUpdateInput) async throws -> StartServiceSoftwareUpdateOutput
-    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
+    /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     ///
     /// - Parameter UpdateDomainConfigInput : Container for the request parameters to the UpdateDomain operation.
     ///
