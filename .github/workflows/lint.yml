@@ -21,10 +21,10 @@ jobs:
   swiftlint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/realm/swiftlint:0.52.3
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+      image: ghcr.io/realm/swiftlint:0.53.0
+      #credentials:
+        #username: ${{ github.actor }}
+        #password: ${{ secrets.github_token }}
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
