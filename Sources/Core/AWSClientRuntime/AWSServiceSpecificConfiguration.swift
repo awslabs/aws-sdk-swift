@@ -39,12 +39,12 @@ public protocol AWSServiceSpecificConfiguration {
         authSchemeResolver: ClientRuntime.AuthSchemeResolver?,
         authSchemes: Array<ClientRuntime.AuthScheme>?
     ) throws
-    
+
     /// List of configured auth schemes for the service.
     ///
     /// If none is provided at compile time, value will default to auth schemes supported by the service as defined in its model.
     var authSchemes: Array<ClientRuntime.AuthScheme> { get }
-    
+
     /// The auth scheme resolver to use for the service.
     ///
     /// If none is provided at compile time, value will default to default auth scheme resolver for the service generated based on its model.

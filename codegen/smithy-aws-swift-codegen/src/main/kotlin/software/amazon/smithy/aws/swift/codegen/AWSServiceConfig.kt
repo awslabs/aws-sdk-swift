@@ -58,7 +58,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 ) {
                     writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
                     writer.write("self.authSchemeResolver = authSchemeResolver ?? Default${serviceName}AuthSchemeResolver()")
-                    writer.write("var modeledAuthSchemes: Array<ClientRuntime.AuthScheme> = Array()")
+                    writer.write("var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()")
                     if (ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service).contains(SigV4Trait.ID)) {
                         writer.write("modeledAuthSchemes.append(SigV4AuthScheme())")
                     }
