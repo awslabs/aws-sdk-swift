@@ -53,7 +53,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 writer.openBlock(
                     "public init(endpointResolver: EndpointResolver? = nil, " +
                         "authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil, " +
-                        "authSchemes: Array<ClientRuntime.AuthScheme>? = nil) throws {",
+                        "authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {",
                     "}"
                 ) {
                     writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
@@ -106,8 +106,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         configs.add(ConfigField(AUTH_SCHEME_RESOLVER, ServiceTypes.AuthSchemeResolver, "\$N"))
         // service specific AuthSchemes
         configs.add(ConfigField(AUTH_SCHEMES, ServiceTypes.AuthSchemes, "\$N"))
-
-
+        
         val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
         clientContextParams?.parameters?.forEach {
             configs.add(ConfigField(it.key.toLowerCamelCase(), it.value.type.toSwiftType(), "\$T"))
