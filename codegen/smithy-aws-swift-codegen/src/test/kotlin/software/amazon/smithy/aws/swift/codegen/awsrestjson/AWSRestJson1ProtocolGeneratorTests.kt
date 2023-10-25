@@ -123,10 +123,16 @@ class RestJsonProtocolGeneratorTests {
             
                     public var serviceName: String { "Example" }
                     public var clientName: String { "ExampleClient" }
+                    public var authSchemeResolver: ClientRuntime.AuthSchemeResolver
+                    public var authSchemes: [ClientRuntime.AuthScheme]
                     public var endpointResolver: EndpointResolver
             
-                    public init(endpointResolver: EndpointResolver? = nil) throws {
+                    public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {
                         self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+                        self.authSchemeResolver = authSchemeResolver ?? DefaultExampleAuthSchemeResolver()
+                        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
+                        modeledAuthSchemes.append(SigV4AuthScheme())
+                        self.authSchemes = authSchemes ?? modeledAuthSchemes
                     }
                 }
             }
