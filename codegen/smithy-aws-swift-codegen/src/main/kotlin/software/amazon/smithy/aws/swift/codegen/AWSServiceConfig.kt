@@ -20,7 +20,6 @@ import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.clientName
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
-import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val ENDPOINT_RESOLVER = "endpointResolver"
