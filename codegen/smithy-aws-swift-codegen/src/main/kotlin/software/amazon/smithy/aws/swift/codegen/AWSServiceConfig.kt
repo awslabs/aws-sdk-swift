@@ -18,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.integration.ServiceTypes
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.utils.clientName
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
@@ -58,7 +59,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                     "}"
                 ) {
                     writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
-                    writer.write("self.authSchemeResolver = authSchemeResolver ?? Default${serviceName.toUpperCamelCase()}AuthSchemeResolver()")
+                    writer.write("self.authSchemeResolver = authSchemeResolver ?? Default${ctx.service.sdkId.clientName()}AuthSchemeResolver()")
                     writer.write("var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()")
                     if (ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service).contains(SigV4Trait.ID)) {
                         writer.write("modeledAuthSchemes.append(SigV4AuthScheme())")
