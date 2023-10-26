@@ -7,6 +7,7 @@
 
 import XCTest
 import AWSClientRuntime
+import ClientRuntime
 
 class AWSClientConfigurationTests: XCTestCase {
     typealias Subject = AWSClientConfiguration<TestAWSServiceSpecificConfiguration>
@@ -74,17 +75,40 @@ class AWSClientConfigurationTests: XCTestCase {
 }
 
 struct TestAWSServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
+    var authSchemes: Array<ClientRuntime.AuthScheme>
+    
+    var authSchemeResolver: ClientRuntime.AuthSchemeResolver
+    
     struct EndpointResolver {}
 
     typealias AWSServiceEndpointResolver = EndpointResolver
 
     var endpointResolver: EndpointResolver
 
-    init(endpointResolver: EndpointResolver?) throws {
+    init(endpointResolver: EndpointResolver?,
+         authSchemeResolver: ClientRuntime.AuthSchemeResolver?,
+         authSchemes: [ClientRuntime.AuthScheme]?
+    ) throws {
         self.endpointResolver = endpointResolver ?? EndpointResolver()
+        self.authSchemes = authSchemes ?? []
+        self.authSchemeResolver = authSchemeResolver ?? TestAuthSchemeResolver()
     }
 
     var serviceName: String { "TestAWSService" }
     var clientName: String { "TestAWSServiceClient" }
     var connectTimeoutMs: UInt32 { 10_000 }
+}
+
+struct TestAuthSchemeResolver: ClientRuntime.AuthSchemeResolver {
+    func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [ClientRuntime.AuthOption] {
+        return []
+    }
+    
+    func constructParameters(context: ClientRuntime.HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
+        return TestAuthSchemeResolverParameters(operation: "TEST")
+    }
+}
+
+struct TestAuthSchemeResolverParameters: ClientRuntime.AuthSchemeResolverParameters {
+    var operation: String
 }

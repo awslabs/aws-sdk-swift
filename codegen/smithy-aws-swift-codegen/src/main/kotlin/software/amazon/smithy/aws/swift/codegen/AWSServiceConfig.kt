@@ -19,6 +19,7 @@ import software.amazon.smithy.swift.codegen.integration.ServiceTypes
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
+import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val ENDPOINT_RESOLVER = "endpointResolver"
@@ -57,7 +58,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                     "}"
                 ) {
                     writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
-                    writer.write("self.authSchemeResolver = authSchemeResolver ?? Default${serviceName}AuthSchemeResolver()")
+                    writer.write("self.authSchemeResolver = authSchemeResolver ?? Default${serviceName.toUpperCamelCase()}AuthSchemeResolver()")
                     writer.write("var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()")
                     if (ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service).contains(SigV4Trait.ID)) {
                         writer.write("modeledAuthSchemes.append(SigV4AuthScheme())")
