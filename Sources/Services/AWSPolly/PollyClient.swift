@@ -483,20 +483,18 @@ extension PollyClient: PollyClientProtocol {
 }
 
 extension PollyClient {
-    public func presignURLSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL {
-        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
-        guard let presignedURL else {
-            throw ClientError.unknownError("Returned URL from input.presignURL() was nil.")
+    public func getPresignedURLForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
+        guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned URL from input.presignURL() was nil for the operation SynthesizeSpeech.")
         }
         return presignedURL
     }
 }
 
 extension PollyClient {
-    public func presignSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
-        let presignedRequest = try await input.presign(config: config, expiration: expiration)
-        guard let presignedRequest else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil.")
+    public func presignRequestForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation SynthesizeSpeech.")
         }
         return presignedRequest
     }

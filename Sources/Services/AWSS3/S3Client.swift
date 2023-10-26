@@ -5025,50 +5025,45 @@ extension S3Client: S3ClientProtocol {
 }
 
 extension S3Client {
-    public func presignURLGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL {
-        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
-        guard let presignedURL else {
-            throw ClientError.unknownError("Returned URL from input.presignURL() was nil.")
+    public func getPresignedURLForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
+        guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned URL from input.presignURL() was nil for the operation GetObject.")
         }
         return presignedURL
     }
 }
 
 extension S3Client {
-    public func presignURLPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL {
-        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
-        guard let presignedURL else {
-            throw ClientError.unknownError("Returned URL from input.presignURL() was nil.")
+    public func getPresignedURLForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
+        guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned URL from input.presignURL() was nil for the operation PutObject.")
         }
         return presignedURL
     }
 }
 
 extension S3Client {
-    public func presignGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
-        let presignedRequest = try await input.presign(config: config, expiration: expiration)
-        guard let presignedRequest else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil.")
+    public func presignRequestForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation GetObject.")
         }
         return presignedRequest
     }
 }
 
 extension S3Client {
-    public func presignPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
-        let presignedRequest = try await input.presign(config: config, expiration: expiration)
-        guard let presignedRequest else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil.")
+    public func presignRequestForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation PutObject.")
         }
         return presignedRequest
     }
 }
 
 extension S3Client {
-    public func presignUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
-        let presignedRequest = try await input.presign(config: config, expiration: expiration)
-        guard let presignedRequest else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil.")
+    public func presignRequestForUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation UploadPart.")
         }
         return presignedRequest
     }

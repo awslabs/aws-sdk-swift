@@ -121,10 +121,9 @@ class PresignerGenerator : SwiftIntegration {
             openBlock("extension $clientName {", "}") {
                 val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
                 val returnType = "ClientRuntime.SdkHttpRequest"
-                openBlock("public func presign${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
-                    write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
-                    openBlock("guard let presignedRequest else {", "}") {
-                        write("throw ClientError.unknownError(\"Returned request from input.presign() was nil.\")")
+                openBlock("public func presignRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
+                    openBlock("guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {", "}") {
+                        write("throw ClientError.unknownError(\"Returned request from input.presign() was nil for the operation ${op.toUpperCamelCase()}.\")")
                     }
                     write("return presignedRequest")
                 }
