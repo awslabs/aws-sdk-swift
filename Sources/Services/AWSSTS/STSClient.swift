@@ -462,3 +462,13 @@ extension STSClient: STSClientProtocol {
     }
 
 }
+
+extension STSClient {
+    public func presignGetCallerIdentity(input: GetCallerIdentityInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
+            throw ClientError.unknownError("Returned request from input.presign() was nil.")
+        }
+        return presignedRequest
+    }
+}

@@ -23,6 +23,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 
 data class PresignableOperation(
     val serviceId: String,
@@ -49,6 +50,11 @@ class PresignerGenerator : SwiftIntegration {
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
                 var serviceConfig = AWSServiceConfig(writer, protoCtx)
                 renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
+            }
+            // Expose presign-request as a method for service client object
+            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
+            protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+                renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
             }
         }
     }
@@ -101,6 +107,27 @@ class PresignerGenerator : SwiftIntegration {
                     writer.write("return nil")
                 }
                 writer.write("return $builtRequestName")
+            }
+        }
+    }
+
+    private fun renderPresignAPIInServiceClient(
+        writer: SwiftWriter,
+        clientName: String,
+        op: OperationShape,
+        inputType: String
+    ) {
+        writer.apply {
+            openBlock("extension $clientName {", "}") {
+                val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
+                val returnType = "ClientRuntime.SdkHttpRequest"
+                openBlock("public func presign${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
+                    write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
+                    openBlock("guard let presignedRequest else {", "}") {
+                        write("throw ClientError.unknownError(\"Returned request from input.presign() was nil.\")")
+                    }
+                    write("return presignedRequest")
+                }
             }
         }
     }
