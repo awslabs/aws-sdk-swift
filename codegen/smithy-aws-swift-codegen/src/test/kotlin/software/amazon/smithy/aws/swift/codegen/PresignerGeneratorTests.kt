@@ -11,16 +11,17 @@ class PresignerGeneratorTests {
 
     @Test
     fun `001 presignable on getFooInput`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GetFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
             import AWSClientRuntime
             import ClientRuntime
+            import typealias Foundation.TimeInterval
             
             extension GetFooInput {
-                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -37,23 +38,24 @@ class PresignerGeneratorTests {
                                   .withOperation(value: "getFoo")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                                   .withLogger(value: config.logger)
+                                  .withPartitionID(value: config.partitionID)
                                   .withCredentialsProvider(value: config.credentialsProvider)
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
-                    var operation = ClientRuntime.OperationStack<GetFooInput, GetFooOutputResponse, GetFooOutputError>(id: "getFoo")
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFooInput, GetFooOutputResponse, GetFooOutputError>())
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFooInput, GetFooOutputResponse>())
+                                  .build()
+                    var operation = ClientRuntime.OperationStack<GetFooInput, GetFooOutput, GetFooOutputError>(id: "getFoo")
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFooInput, GetFooOutput, GetFooOutputError>())
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFooInput, GetFooOutput>())
                     let endpointParams = EndpointParams()
-                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFooOutputResponse, GetFooOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-                    let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-                    operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetFooOutputResponse, GetFooOutputError>(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFooOutputResponse, GetFooOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFooOutputResponse, GetFooOutputError>(clientLogMode: config.clientLogMode))
-                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFooOutputResponse, GetFooOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFooOutput, GetFooOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
+                    operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFooOutput, GetFooOutputError>(options: config.retryStrategyOptions))
+                    let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFooOutput, GetFooOutputError>(config: sigv4Config))
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFooOutput, GetFooOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFooOutput, GetFooOutputError>(clientLogMode: config.clientLogMode))
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -66,16 +68,17 @@ class PresignerGeneratorTests {
 
     @Test
     fun `002 presignable on postFooInput`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PostFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
             import AWSClientRuntime
             import ClientRuntime
+            import typealias Foundation.TimeInterval
             
             extension PostFooInput {
-                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -92,26 +95,27 @@ class PresignerGeneratorTests {
                                   .withOperation(value: "postFoo")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                                   .withLogger(value: config.logger)
+                                  .withPartitionID(value: config.partitionID)
                                   .withCredentialsProvider(value: config.credentialsProvider)
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
-                    var operation = ClientRuntime.OperationStack<PostFooInput, PostFooOutputResponse, PostFooOutputError>(id: "postFoo")
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostFooInput, PostFooOutputResponse, PostFooOutputError>())
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostFooInput, PostFooOutputResponse>())
+                                  .build()
+                    var operation = ClientRuntime.OperationStack<PostFooInput, PostFooOutput, PostFooOutputError>(id: "postFoo")
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostFooInput, PostFooOutput, PostFooOutputError>())
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostFooInput, PostFooOutput>())
                     let endpointParams = EndpointParams()
-                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostFooOutputResponse, PostFooOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-                    let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostFooInput, PostFooOutputResponse>(contentType: "application/json"))
-                    operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PostFooInput, PostFooOutputResponse>(xmlName: "GetFooInput"))
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostFooOutput, PostFooOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
+                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostFooInput, PostFooOutput>(contentType: "application/json"))
+                    operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PostFooInput, PostFooOutput>(xmlName: "GetFooInput"))
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-                    operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PostFooOutputResponse, PostFooOutputError>(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostFooOutputResponse, PostFooOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PostFooOutputResponse, PostFooOutputError>(clientLogMode: config.clientLogMode))
-                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostFooOutputResponse, PostFooOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PostFooOutput, PostFooOutputError>(options: config.retryStrategyOptions))
+                    let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostFooOutput, PostFooOutputError>(config: sigv4Config))
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostFooOutput, PostFooOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostFooOutput, PostFooOutputError>(clientLogMode: config.clientLogMode))
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -124,16 +128,17 @@ class PresignerGeneratorTests {
 
     @Test
     fun `003 presignable on putFooInput`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
             import AWSClientRuntime
             import ClientRuntime
+            import typealias Foundation.TimeInterval
             
             extension PutFooInput {
-                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -150,26 +155,27 @@ class PresignerGeneratorTests {
                                   .withOperation(value: "putFoo")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                                   .withLogger(value: config.logger)
+                                  .withPartitionID(value: config.partitionID)
                                   .withCredentialsProvider(value: config.credentialsProvider)
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
-                    var operation = ClientRuntime.OperationStack<PutFooInput, PutFooOutputResponse, PutFooOutputError>(id: "putFoo")
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFooInput, PutFooOutputResponse, PutFooOutputError>())
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFooInput, PutFooOutputResponse>())
+                                  .build()
+                    var operation = ClientRuntime.OperationStack<PutFooInput, PutFooOutput, PutFooOutputError>(id: "putFoo")
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFooInput, PutFooOutput, PutFooOutputError>())
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFooInput, PutFooOutput>())
                     let endpointParams = EndpointParams()
-                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFooOutputResponse, PutFooOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-                    let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFooInput, PutFooOutputResponse>(contentType: "application/json"))
-                    operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFooInput, PutFooOutputResponse>(xmlName: "GetFooInput"))
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFooOutput, PutFooOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
+                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFooInput, PutFooOutput>(contentType: "application/json"))
+                    operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFooInput, PutFooOutput>(xmlName: "GetFooInput"))
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-                    operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutFooOutputResponse, PutFooOutputError>(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFooOutputResponse, PutFooOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutFooOutputResponse, PutFooOutputError>(clientLogMode: config.clientLogMode))
-                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFooOutputResponse, PutFooOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFooOutput, PutFooOutputError>(options: config.retryStrategyOptions))
+                    let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFooOutput, PutFooOutputError>(config: sigv4Config))
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFooOutput, PutFooOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFooOutput, PutFooOutputError>(clientLogMode: config.clientLogMode))
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -187,13 +193,12 @@ class PresignerGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            // Code generated by smithy-swift-codegen. DO NOT EDIT!
-
             import AWSClientRuntime
             import ClientRuntime
-
+            import typealias Foundation.TimeInterval
+            
             extension PutObjectInput {
-                public func presign(config: S3ClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "S3"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -210,26 +215,27 @@ class PresignerGeneratorTests {
                                   .withOperation(value: "putObject")
                                   .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                                   .withLogger(value: config.logger)
+                                  .withPartitionID(value: config.partitionID)
                                   .withCredentialsProvider(value: config.credentialsProvider)
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "s3")
                                   .withSigningRegion(value: config.signingRegion)
-                    var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
-                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
+                                  .build()
+                    var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput, PutObjectOutputError>(id: "putObject")
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput, PutObjectOutputError>())
+                    operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
                     let endpointParams = EndpointParams()
-                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-                    let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0.0")
-                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutputResponse>(contentType: "application/json"))
-                    operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutObjectInput, PutObjectOutputResponse>(xmlName: "PutObjectInput"))
+                    operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+                    operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
+                    operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/json"))
+                    operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutObjectInput, PutObjectOutput>(xmlName: "PutObjectInput"))
                     operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-                    operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(retryer: config.retryer))
-                    let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false)
-                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
-                    operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
-                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput, PutObjectOutputError>(options: config.retryStrategyOptions))
+                    let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
+                    operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput, PutObjectOutputError>(config: sigv4Config))
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput, PutObjectOutputError>())
+                    operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput, PutObjectOutputError>(clientLogMode: config.clientLogMode))
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }

@@ -8,11 +8,18 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
-import software.amazon.smithy.rulesengine.language.eval.Value
+import software.amazon.smithy.rulesengine.language.evaluation.value.ArrayValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.BooleanValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.EmptyValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.IntegerValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.RecordValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.StringValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
@@ -32,6 +39,7 @@ class EndpointTestGenerator(
         writer.addImport(ctx.settings.moduleName, isTestable = true)
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_COMMON_RUNTIME.target)
         writer.addImport(SwiftDependency.XCTest.target)
         writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
 
@@ -39,7 +47,13 @@ class EndpointTestGenerator(
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
 
         var count = 0
-        writer.openBlock("class EndpointResolverTest: \$L {", "}", ClientRuntimeTypes.Test.CrtXCBaseTestCase) {
+        writer.openBlock("class EndpointResolverTest: \$L {", "}", XCTestTypes.XCTestCase) {
+            writer.write("")
+            writer.openBlock("override class func setUp() {", "}") {
+                writer.write("\$L.initialize()", AWSClientRuntimeTypes.CRT.CommonRuntimeKit)
+            }
+            writer.write("")
+
             endpointTest.testCases.forEach { testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve${++count}() throws {", "}") {
@@ -128,23 +142,23 @@ class EndpointTestGenerator(
      */
     private fun generateValue(writer: SwiftWriter, value: Value, delimeter: String) {
         when (value) {
-            is Value.String -> {
-                writer.write("\$S$delimeter", value.value())
+            is StringValue -> {
+                writer.write("\$S$delimeter", value.toString())
             }
 
-            is Value.Integer -> {
+            is IntegerValue -> {
                 writer.write("\$L$delimeter", value.toString())
             }
 
-            is Value.Bool -> {
+            is BooleanValue -> {
                 writer.write("\$L$delimeter", value.toString())
             }
 
-            is Value.None -> {
+            is EmptyValue -> {
                 writer.write("nil$delimeter")
             }
 
-            is Value.Array -> {
+            is ArrayValue -> {
                 writer.openBlock("[", "] as [AnyHashable]$delimeter") {
                     value.values.forEachIndexed { idx, item ->
                         writer.call {
@@ -154,7 +168,7 @@ class EndpointTestGenerator(
                 }
             }
 
-            is Value.Record -> {
+            is RecordValue -> {
                 if (value.value.isEmpty()) {
                     writer.writeInline("[:]")
                 } else {

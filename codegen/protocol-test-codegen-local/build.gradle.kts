@@ -29,16 +29,20 @@ dependencies {
 data class CodegenTest(val service: String, val module: String, val extraConfig: String? = null)
 val codegenTests = listOf(
     CodegenTest(
-        "aws.protocoltests.restjson#RestJson",
-        "aws-restjson"
-    ),
-    CodegenTest(
         "aws.protocoltests.restjson#RestJsonExtras",
         "rest_json_extras"
     ),
     CodegenTest(
-        "aws.protocoltests.restjson#Waiters",
+        "aws.protocoltests.query#AwsQueryExtras",
+        "AwsQueryExtras"
+    ),
+    CodegenTest(
+        "aws.protocoltests.waiters#Waiters",
         "Waiters"
+    ),
+    CodegenTest(
+        "aws.protocoltests.restjson#TestService",
+        "EventStream"
     )
 )
 
@@ -54,7 +58,7 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                       "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                       "author": "Amazon Web Services",
                       "homepage": "https://docs.amplify.aws/",
-                      "swiftVersion": "5.5.0",
+                      "swiftVersion": "5.7.0",
                       "build": {
                         "rootProject": true
                       }
@@ -91,7 +95,7 @@ tasks["clean"].doFirst {
 
 
 fun exposeLocalTestsToMainGradleTestSuite() {
-    val enabledProtocols = listOf("rest_json_extras", "aws-restjson")
+    val enabledProtocols = listOf("rest_json_extras", "aws-restjson", "eventstream")
     enabledProtocols.forEach {
         tasks.register<ProtocolTestTask>("testProtocol-${it}") {
             dependsOn(tasks.build)

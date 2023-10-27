@@ -24,7 +24,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useDoubleURIEncode.shouldBeFalse()
@@ -37,7 +38,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useDoubleURIEncode.shouldBeTrue()
@@ -50,7 +52,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useDoubleURIEncode.shouldBeFalse()
@@ -63,7 +66,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useDoubleURIEncode.shouldBeTrue()
@@ -76,7 +80,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeFalse()
@@ -89,7 +94,8 @@ class SigV4ConfiguratorTests {
             operation = operation(true),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeTrue()
@@ -102,7 +108,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeTrue()
@@ -115,7 +122,8 @@ class SigV4ConfiguratorTests {
             operation = operation(true),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useUnsignedPayload.shouldBeTrue()
@@ -128,7 +136,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeFalse()
@@ -141,7 +150,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeFalse()
@@ -154,7 +164,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeTrue()
@@ -167,7 +178,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeFalse()
@@ -180,7 +192,8 @@ class SigV4ConfiguratorTests {
             operation = operation(),
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = SigV4Configurator(params)
         subject.useSignedBodyHeader.shouldBeTrue()
@@ -194,7 +207,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("signatureType: .requestQueryParams")
     }
@@ -207,7 +221,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldNotContain("signatureType:")
     }
@@ -220,7 +235,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("useDoubleURIEncode: false")
     }
@@ -233,7 +249,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = true,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldNotContain("useDoubleURIEncode:")
     }
@@ -246,7 +263,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("shouldNormalizeURIPath: false")
     }
@@ -259,7 +277,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = true,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldNotContain("shouldNormalizeURIPath:")
     }
@@ -272,7 +291,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("expiration: expiration")
     }
@@ -285,7 +305,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldNotContain("expiration:")
     }
@@ -298,7 +319,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = true
+            useSignedBodyHeader = true,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("signedBodyHeader: .contentSha256")
     }
@@ -311,7 +333,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldNotContain("signedBodyHeader:")
     }
@@ -324,7 +347,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = true,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("unsignedBody: true")
     }
@@ -337,7 +361,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = false,
-            useSignedBodyHeader = false
+            useSignedBodyHeader = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.shouldContain("unsignedBody: false")
     }
@@ -350,7 +375,8 @@ class SigV4ConfiguratorTests {
             useDoubleURIEncode = false,
             useURLPathNormalization = false,
             useUnsignedPayload = true,
-            useSignedBodyHeader = true
+            useSignedBodyHeader = true,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         subject.swiftParamsString.split(", ").shouldContainExactly(
             "signatureType: .requestQueryParams",
@@ -358,7 +384,8 @@ class SigV4ConfiguratorTests {
             "shouldNormalizeURIPath: false",
             "expiration: expiration",
             "signedBodyHeader: .contentSha256",
-            "unsignedBody: true"
+            "unsignedBody: true",
+            "signingAlgorithm: .sigv4"
         )
     }
 

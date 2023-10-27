@@ -20,8 +20,8 @@ class PresignableUrlIntegrationTests {
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/SynthesizeSpeechInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput, SynthesizeSpeechOutputError>(config: sigv4Config))
         """
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -32,8 +32,8 @@ class PresignableUrlIntegrationTests {
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GetObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput, GetObjectOutputError>(config: sigv4Config))
         """
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -44,9 +44,58 @@ class PresignableUrlIntegrationTests {
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput, PutObjectOutputError>(config: sigv4Config))
         """
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `S3 PutObject operation stack contains the PutObjectPresignedURLMiddleware`() {
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents = """
+        operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
+        """
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `S3 PutObject's PutObjectPresignedURLMiddleware is rendered`() {
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents = """
+public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PutObjectPresignedURLMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PutObjectInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        let metadata = input.operationInput.metadata ?? [:]
+        for (metadataKey, metadataValue) in metadata {
+            let queryItem = URLQueryItem(
+                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
+                value: metadataValue.urlPercentEncoding()
+            )
+            input.builder.withQueryItem(queryItem)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

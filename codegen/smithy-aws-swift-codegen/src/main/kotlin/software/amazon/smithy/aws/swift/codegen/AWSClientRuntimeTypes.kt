@@ -9,8 +9,10 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 
 object AWSClientRuntimeTypes {
+
     object EC2Query {
         val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse")
+        val Ec2QueryError = runtimeSymbol("Ec2QueryError")
     }
     object AWSJSON {
         val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware")
@@ -23,7 +25,7 @@ object AWSClientRuntimeTypes {
         val RestXMLError = runtimeSymbol("RestXMLError")
         val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer")
         object S3 {
-            val S3HttpServiceError = runtimeSymbol("S3HttpServiceError")
+            val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError")
         }
     }
 
@@ -34,24 +36,39 @@ object AWSClientRuntimeTypes {
 
     object Core {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata")
-        val APIMetadata = runtimeSymbol("APIMetadata")
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
-        val RetryerMiddleware = runtimeSymbol("RetryerMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
-        val CredentialsProvider = runtimeSymbol("CredentialsProvider")
-        val AWSCredentialsProvider = runtimeSymbol("AWSCredentialsProvider")
+        val CredentialsProviding = runtimeSymbol("CredentialsProviding")
         val AWSClientConfiguration = runtimeSymbol("AWSClientConfiguration")
         val AWSEndpoint = runtimeSymbol("AWSEndpoint")
         val Partition = runtimeSymbol("Partition")
         val ServiceEndpointMetadata = runtimeSymbol("ServiceEndpointMetadata")
         val CredentialScope = runtimeSymbol("CredentialScope")
-        val UnknownAWSHttpServiceError = runtimeSymbol("UnknownAWSHttpServiceError")
-        val AWSHttpServiceError = runtimeSymbol("AWSHttpServiceError")
+        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError")
+        val AWSServiceError = runtimeSymbol("AWSServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
         val AWSEndpointsRuleEngine = runtimeSymbol("AWSEndpointsRuleEngine")
         val AWSEndpointsRequestContext = runtimeSymbol("AWSEndpointsRequestContext")
+        val AuthSchemeResolver = runtimeSymbol("AuthSchemeResolver")
+        val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
+        val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider")
+    }
+
+    object CRT {
+        val CommonRuntimeKit = buildSymbol {
+            this.name = "CommonRuntimeKit"
+            this.namespace = AWSSwiftDependency.AWS_COMMON_RUNTIME.target
+            dependency(AWSSwiftDependency.AWS_COMMON_RUNTIME)
+        }
+    }
+
+    object AWSEventStream {
+
+        val AWSMessageDecoder = runtimeSymbol("AWSEventStream.AWSMessageDecoder")
+        val AWSMessageSigner = runtimeSymbol("AWSEventStream.AWSMessageSigner")
+        val AWSMessageEncoder = runtimeSymbol("AWSEventStream.AWSMessageEncoder")
     }
 }
 

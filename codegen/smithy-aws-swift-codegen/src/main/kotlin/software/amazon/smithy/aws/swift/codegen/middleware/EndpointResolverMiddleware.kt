@@ -5,6 +5,8 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.aws.swift.codegen.AUTH_SCHEME_RESOLVER
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.aws.swift.codegen.ENDPOINT_PARAMS
@@ -29,21 +31,26 @@ class EndpointResolverMiddleware(
     override val id: String = "EndpointResolverMiddleware"
 
     override val typeName =
-        "EndpointResolverMiddleware<$outputSymbol: ${ClientRuntimeTypes.Http.HttpResponseBinding}, $outputErrorSymbol: ${ClientRuntimeTypes.Http.HttpResponseBinding}>"
+        "EndpointResolverMiddleware<$outputSymbol: ${ClientRuntimeTypes.Http.HttpResponseBinding}, $outputErrorSymbol: ${ClientRuntimeTypes.Http.HttpResponseErrorBinding}>"
 
     override val properties: MutableMap<String, Symbol> = mutableMapOf(
-        ENDPOINT_RESOLVER to AWSServiceTypes.EndpointResolver, ENDPOINT_PARAMS to AWSServiceTypes.EndpointParams
+        ENDPOINT_RESOLVER to AWSServiceTypes.EndpointResolver,
+        ENDPOINT_PARAMS to AWSServiceTypes.EndpointParams,
+        AUTH_SCHEME_RESOLVER to AWSClientRuntimeTypes.Core.AuthSchemeResolver
     )
 
     override fun generateInit() {
         writer.openBlock(
-            "public init($ENDPOINT_RESOLVER: \$N, $ENDPOINT_PARAMS: \$N) {",
+            "public init($ENDPOINT_RESOLVER: \$N, $ENDPOINT_PARAMS: \$N, $AUTH_SCHEME_RESOLVER: \$N = \$N()) {",
             "}",
             AWSServiceTypes.EndpointResolver,
-            AWSServiceTypes.EndpointParams
+            AWSServiceTypes.EndpointParams,
+            AWSClientRuntimeTypes.Core.AuthSchemeResolver,
+            AWSClientRuntimeTypes.Core.DefaultAuthSchemeResolver
         ) {
             writer.write("self.\$L = \$L", ENDPOINT_RESOLVER, ENDPOINT_RESOLVER)
             writer.write("self.\$L = \$L", ENDPOINT_PARAMS, ENDPOINT_PARAMS)
+            writer.write("self.\$L = \$L", AUTH_SCHEME_RESOLVER, AUTH_SCHEME_RESOLVER)
         }
     }
 
@@ -53,9 +60,32 @@ class EndpointResolverMiddleware(
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
             .write("")
 
-        writer.write("""let authScheme = endpoint.authScheme(name: "sigv4")""")
-
-        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme?["signingName"] as? String, signingRegion: authScheme?["signingRegion"] as? String)""")
+        writer.write("var signingName: String? = nil")
+        writer.write("var signingRegion: String? = nil")
+        writer.write("var signingAlgorithm: String? = nil")
+        writer.openBlock("if let authSchemes = endpoint.authSchemes() {", "}") {
+            writer.write("let schemes = try authSchemes.map { try AuthScheme(from: \$$0) }")
+            writer.write("let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)")
+            writer.write("signingAlgorithm = authScheme.name")
+            writer.write("switch authScheme {")
+            writer.write("case .sigV4(let param):")
+            writer.indent()
+            writer.write("signingName = param.signingName")
+            writer.write("signingRegion = param.signingRegion")
+            writer.dedent()
+            writer.write("case .sigV4A(let param):")
+            writer.indent()
+            writer.write("signingName = param.signingName")
+            writer.write("signingRegion = param.signingRegionSet?.first")
+            writer.dedent()
+            writer.write("case .none:")
+            writer.indent()
+            writer.write("break")
+            writer.dedent()
+            writer.write("}")
+        }
+        writer.write("")
+        writer.write("let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)")
             .write("")
 
         writer.write("""var host = """"")
@@ -72,12 +102,14 @@ class EndpointResolverMiddleware(
             writer.write("input.withProtocol(protocolType)")
         }.write("")
 
-        writer.write("var updatedContext = context")
-            .openBlock("if let signingRegion = awsEndpoint.signingRegion {", "}") {
-                writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
-            }
-        writer.openBlock("if let signingName = awsEndpoint.signingName {", "}") {
-            writer.write("updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)")
+        writer.openBlock("if let signingRegion = signingRegion {", "}") {
+            writer.write("context.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
+        }
+        writer.openBlock("if let signingName = signingName {", "}") {
+            writer.write("context.attributes.set(key: HttpContext.signingName, value: signingName)")
+        }
+        writer.openBlock("if let signingAlgorithm = signingAlgorithm {", "}") {
+            writer.write("context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)")
         }.write("")
 
         writer.openBlock("if let headers = endpoint.headers {", "}") {
@@ -95,6 +127,6 @@ class EndpointResolverMiddleware(
     }
 
     override fun renderReturn() {
-        writer.write("return try await next.handle(context: updatedContext, input: input)")
+        writer.write("return try await next.handle(context: context, input: input)")
     }
 }

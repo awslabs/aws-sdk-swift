@@ -13,15 +13,15 @@ class S3ExpiresTest {
     @Test
     fun `001 test S3 output members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/FooOutputResponse.swift")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/FooOutput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct FooOutputResponse: Swift.Equatable {
+            public struct FooOutput: Swift.Equatable {
                 public var expires: Swift.String?
                 public var payload1: Swift.String?
             
-                public init (
+                public init(
                     expires: Swift.String? = nil,
                     payload1: Swift.String? = nil
                 )
@@ -45,7 +45,7 @@ class S3ExpiresTest {
                 public var expires: ClientRuntime.Date?
                 public var payload1: Swift.String?
             
-                public init (
+                public init(
                     expires: ClientRuntime.Date? = nil,
                     payload1: Swift.String? = nil
                 )
@@ -61,15 +61,15 @@ class S3ExpiresTest {
     @Test
     fun `003 test non-S3 output members named expires are not changed`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#Bar", "Bar")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/FooOutputResponse.swift")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/FooOutput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct FooOutputResponse: Swift.Equatable {
+            public struct FooOutput: Swift.Equatable {
                 public var expires: ClientRuntime.Date?
                 public var payload1: Swift.String?
             
-                public init (
+                public init(
                     expires: ClientRuntime.Date? = nil,
                     payload1: Swift.String? = nil
                 )

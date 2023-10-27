@@ -121,6 +121,7 @@
                 "CdnIdentifierSecret": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is used for CDN authorization.",
                         "smithy.api#jsonName": "cdnIdentifierSecret",
                         "smithy.api#required": {}
@@ -129,6 +130,7 @@
                 "SecretsRoleArn": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.",
                         "smithy.api#jsonName": "secretsRoleArn",
                         "smithy.api#required": {}
@@ -152,6 +154,7 @@
                 "SpekeKeyProvider": {
                     "target": "com.amazonaws.mediapackagevod#SpekeKeyProvider",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#jsonName": "spekeKeyProvider",
                         "smithy.api#required": {}
                     }
@@ -173,6 +176,7 @@
                 "HlsManifests": {
                     "target": "com.amazonaws.mediapackagevod#__listOfHlsManifest",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A list of HLS manifest configurations.",
                         "smithy.api#jsonName": "hlsManifests",
                         "smithy.api#required": {}
@@ -181,7 +185,6 @@
                 "IncludeEncoderConfigurationInSegments": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.",
                         "smithy.api#jsonName": "includeEncoderConfigurationInSegments"
                     }
@@ -189,7 +192,6 @@
                 "SegmentDurationSeconds": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Duration (in seconds) of each fragment. Actual fragments will be\nrounded to the nearest multiple of the source fragment duration.",
                         "smithy.api#jsonName": "segmentDurationSeconds"
                     }
@@ -255,7 +257,8 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "The option to configure log subscription."
+                "smithy.api#documentation": "The option to configure log subscription.",
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#ConfigureLogsResponse": {
@@ -272,6 +275,13 @@
                     "target": "com.amazonaws.mediapackagevod#Authorization",
                     "traits": {
                         "smithy.api#jsonName": "authorization"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingGroup was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DomainName": {
@@ -300,6 +310,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#CreateAsset": {
@@ -345,6 +358,7 @@
                 "Id": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The unique identifier for the Asset.",
                         "smithy.api#jsonName": "id",
                         "smithy.api#required": {}
@@ -353,6 +367,7 @@
                 "PackagingGroupId": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The ID of the PackagingGroup for the Asset.",
                         "smithy.api#jsonName": "packagingGroupId",
                         "smithy.api#required": {}
@@ -368,6 +383,7 @@
                 "SourceArn": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "ARN of the source object in S3.",
                         "smithy.api#jsonName": "sourceArn",
                         "smithy.api#required": {}
@@ -376,6 +392,7 @@
                 "SourceRoleArn": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The IAM role ARN used to access the source S3 bucket.",
                         "smithy.api#jsonName": "sourceRoleArn",
                         "smithy.api#required": {}
@@ -389,7 +406,8 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "A new MediaPackage VOD Asset configuration."
+                "smithy.api#documentation": "A new MediaPackage VOD Asset configuration.",
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#CreateAssetResponse": {
@@ -457,6 +475,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#CreatePackagingConfiguration": {
@@ -520,6 +541,7 @@
                 "Id": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The ID of the PackagingConfiguration.",
                         "smithy.api#jsonName": "id",
                         "smithy.api#required": {}
@@ -534,6 +556,7 @@
                 "PackagingGroupId": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The ID of a PackagingGroup.",
                         "smithy.api#jsonName": "packagingGroupId",
                         "smithy.api#required": {}
@@ -547,7 +570,8 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "A new MediaPackage VOD PackagingConfiguration resource configuration."
+                "smithy.api#documentation": "A new MediaPackage VOD PackagingConfiguration resource configuration.",
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#CreatePackagingConfigurationResponse": {
@@ -564,6 +588,13 @@
                     "target": "com.amazonaws.mediapackagevod#CmafPackage",
                     "traits": {
                         "smithy.api#jsonName": "cmafPackage"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingConfiguration was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DashPackage": {
@@ -604,6 +635,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#CreatePackagingGroup": {
@@ -661,6 +695,7 @@
                 "Id": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The ID of the PackagingGroup.",
                         "smithy.api#jsonName": "id",
                         "smithy.api#required": {}
@@ -674,7 +709,8 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "A new MediaPackage VOD PackagingGroup resource configuration."
+                "smithy.api#documentation": "A new MediaPackage VOD PackagingGroup resource configuration.",
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#CreatePackagingGroupResponse": {
@@ -691,6 +727,13 @@
                     "target": "com.amazonaws.mediapackagevod#Authorization",
                     "traits": {
                         "smithy.api#jsonName": "authorization"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingGroup was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DomainName": {
@@ -719,6 +762,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#DashEncryption": {
@@ -727,6 +773,7 @@
                 "SpekeKeyProvider": {
                     "target": "com.amazonaws.mediapackagevod#SpekeKeyProvider",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#jsonName": "spekeKeyProvider",
                         "smithy.api#required": {}
                     }
@@ -756,7 +803,6 @@
                 "MinBufferTimeSeconds": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Minimum duration (in seconds) that a player will buffer media before starting the presentation.",
                         "smithy.api#jsonName": "minBufferTimeSeconds"
                     }
@@ -771,7 +817,7 @@
                 "ScteMarkersSource": {
                     "target": "com.amazonaws.mediapackagevod#ScteMarkersSource",
                     "traits": {
-                        "smithy.api#documentation": "The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content. The MANIFEST value is compatible with source HLS playlists using the SCTE-35 Enhanced syntax (#EXT-OATCLS-SCTE35 tags). SCTE-35 Elemental and SCTE-35 Daterange syntaxes are not supported with this option.",
+                        "smithy.api#documentation": "The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content.",
                         "smithy.api#jsonName": "scteMarkersSource"
                     }
                 },
@@ -792,6 +838,7 @@
                 "DashManifests": {
                     "target": "com.amazonaws.mediapackagevod#__listOfDashManifest",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A list of DASH manifest configurations.",
                         "smithy.api#jsonName": "dashManifests",
                         "smithy.api#required": {}
@@ -806,7 +853,6 @@
                 "IncludeEncoderConfigurationInSegments": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.",
                         "smithy.api#jsonName": "includeEncoderConfigurationInSegments"
                     }
@@ -814,7 +860,6 @@
                 "IncludeIframeOnlyStream": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When enabled, an I-Frame only stream will be included in the output.",
                         "smithy.api#jsonName": "includeIframeOnlyStream"
                     }
@@ -829,7 +874,6 @@
                 "SegmentDurationSeconds": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Duration (in seconds) of each segment. Actual segments will be\nrounded to the nearest multiple of the source segment duration.",
                         "smithy.api#jsonName": "segmentDurationSeconds"
                     }
@@ -894,11 +938,17 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#DeleteAssetResponse": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.mediapackagevod#DeletePackagingConfiguration": {
             "type": "operation",
@@ -948,11 +998,17 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#DeletePackagingConfigurationResponse": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.mediapackagevod#DeletePackagingGroup": {
             "type": "operation",
@@ -1002,11 +1058,17 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#DeletePackagingGroupResponse": {
             "type": "structure",
-            "members": {}
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
         },
         "com.amazonaws.mediapackagevod#DescribeAsset": {
             "type": "operation",
@@ -1056,6 +1118,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#DescribeAssetResponse": {
@@ -1123,6 +1188,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#DescribePackagingConfiguration": {
@@ -1173,6 +1241,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#DescribePackagingConfigurationResponse": {
@@ -1189,6 +1260,13 @@
                     "target": "com.amazonaws.mediapackagevod#CmafPackage",
                     "traits": {
                         "smithy.api#jsonName": "cmafPackage"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingConfiguration was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DashPackage": {
@@ -1229,6 +1307,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#DescribePackagingGroup": {
@@ -1279,6 +1360,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#DescribePackagingGroupResponse": {
@@ -1287,7 +1371,6 @@
                 "ApproximateAssetCount": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The approximate asset count of the PackagingGroup.",
                         "smithy.api#jsonName": "approximateAssetCount"
                     }
@@ -1303,6 +1386,13 @@
                     "target": "com.amazonaws.mediapackagevod#Authorization",
                     "traits": {
                         "smithy.api#jsonName": "authorization"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingGroup was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DomainName": {
@@ -1331,6 +1421,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#EgressAccessLogs": {
@@ -1383,6 +1476,7 @@
                 "PresetSpeke20Audio": {
                     "target": "com.amazonaws.mediapackagevod#PresetSpeke20Audio",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A collection of audio encryption presets.",
                         "smithy.api#jsonName": "presetSpeke20Audio",
                         "smithy.api#required": {}
@@ -1391,6 +1485,7 @@
                 "PresetSpeke20Video": {
                     "target": "com.amazonaws.mediapackagevod#PresetSpeke20Video",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A collection of video encryption presets.",
                         "smithy.api#jsonName": "presetSpeke20Video",
                         "smithy.api#required": {}
@@ -1454,6 +1549,7 @@
                 "SpekeKeyProvider": {
                     "target": "com.amazonaws.mediapackagevod#SpekeKeyProvider",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#jsonName": "spekeKeyProvider",
                         "smithy.api#required": {}
                     }
@@ -1476,7 +1572,6 @@
                 "IncludeIframeOnlyStream": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When enabled, an I-Frame only stream will be included in the output.",
                         "smithy.api#jsonName": "includeIframeOnlyStream"
                     }
@@ -1491,7 +1586,6 @@
                 "ProgramDateTimeIntervalSeconds": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag\ninserted into manifests. Additionally, when an interval is specified\nID3Timed Metadata messages will be generated every 5 seconds using the\ningest time of the content.\nIf the interval is not specified, or set to 0, then\nno EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no\nID3Timed Metadata messages will be generated. Note that irrespective\nof this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,\nit will be passed through to HLS output.",
                         "smithy.api#jsonName": "programDateTimeIntervalSeconds"
                     }
@@ -1499,7 +1593,6 @@
                 "RepeatExtXKey": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When enabled, the EXT-X-KEY tag will be repeated in output manifests.",
                         "smithy.api#jsonName": "repeatExtXKey"
                     }
@@ -1527,6 +1620,7 @@
                 "HlsManifests": {
                     "target": "com.amazonaws.mediapackagevod#__listOfHlsManifest",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A list of HLS manifest configurations.",
                         "smithy.api#jsonName": "hlsManifests",
                         "smithy.api#required": {}
@@ -1535,7 +1629,6 @@
                 "IncludeDvbSubtitles": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When enabled, MediaPackage passes through digital video broadcasting (DVB) subtitles into the output.",
                         "smithy.api#jsonName": "includeDvbSubtitles"
                     }
@@ -1543,7 +1636,6 @@
                 "SegmentDurationSeconds": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Duration (in seconds) of each fragment. Actual fragments will be\nrounded to the nearest multiple of the source fragment duration.",
                         "smithy.api#jsonName": "segmentDurationSeconds"
                     }
@@ -1551,7 +1643,6 @@
                 "UseAudioRenditionGroup": {
                     "target": "com.amazonaws.mediapackagevod#__boolean",
                     "traits": {
-                        "smithy.api#default": false,
                         "smithy.api#documentation": "When enabled, audio streams will be placed in rendition groups in the output.",
                         "smithy.api#jsonName": "useAudioRenditionGroup"
                     }
@@ -1626,7 +1717,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediapackagevod#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Upper bound on number of records to return.",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -1645,6 +1735,9 @@
                         "smithy.api#httpQuery": "packagingGroupId"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListAssetsResponse": {
@@ -1664,6 +1757,9 @@
                         "smithy.api#jsonName": "nextToken"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListPackagingConfigurations": {
@@ -1715,7 +1811,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediapackagevod#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Upper bound on number of records to return.",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -1734,6 +1829,9 @@
                         "smithy.api#httpQuery": "packagingGroupId"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListPackagingConfigurationsResponse": {
@@ -1753,6 +1851,9 @@
                         "smithy.api#jsonName": "packagingConfigurations"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListPackagingGroups": {
@@ -1804,7 +1905,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.mediapackagevod#MaxResults",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "Upper bound on number of records to return.",
                         "smithy.api#httpQuery": "maxResults"
                     }
@@ -1816,6 +1916,9 @@
                         "smithy.api#httpQuery": "nextToken"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListPackagingGroupsResponse": {
@@ -1835,6 +1938,9 @@
                         "smithy.api#jsonName": "packagingGroups"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListTagsForResource": {
@@ -1865,6 +1971,9 @@
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#ListTagsForResourceResponse": {
@@ -1877,6 +1986,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#ManifestLayout": {
@@ -1899,7 +2011,6 @@
         "com.amazonaws.mediapackagevod#MaxResults": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 1000
@@ -2010,39 +2121,160 @@
                         {
                             "conditions": [
                                 {
-                                    "fn": "aws.partition",
+                                    "fn": "isSet",
                                     "argv": [
                                         {
-                                            "ref": "Region"
+                                            "ref": "Endpoint"
                                         }
-                                    ],
-                                    "assign": "PartitionResult"
+                                    ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
                                         {
-                                            "fn": "isSet",
+                                            "fn": "booleanEquals",
                                             "argv": [
                                                 {
-                                                    "ref": "Endpoint"
-                                                }
+                                                    "ref": "UseFIPS"
+                                                },
+                                                true
                                             ]
-                                        },
-                                        {
-                                            "fn": "parseURL",
-                                            "argv": [
-                                                {
-                                                    "ref": "Endpoint"
-                                                }
-                                            ],
-                                            "assign": "url"
                                         }
                                     ],
-                                    "type": "tree",
+                                    "error": "Invalid Configuration: FIPS and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "booleanEquals",
+                                            "argv": [
+                                                {
+                                                    "ref": "UseDualStack"
+                                                },
+                                                true
+                                            ]
+                                        }
+                                    ],
+                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                    "type": "error"
+                                },
+                                {
+                                    "conditions": [],
+                                    "endpoint": {
+                                        "url": {
+                                            "ref": "Endpoint"
+                                        },
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
+                                }
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [
+                                {
+                                    "fn": "isSet",
+                                    "argv": [
+                                        {
+                                            "ref": "Region"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "rules": [
+                                {
+                                    "conditions": [
+                                        {
+                                            "fn": "aws.partition",
+                                            "argv": [
+                                                {
+                                                    "ref": "Region"
+                                                }
+                                            ],
+                                            "assign": "PartitionResult"
+                                        }
+                                    ],
                                     "rules": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseFIPS"
+                                                        },
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "fn": "booleanEquals",
+                                                    "argv": [
+                                                        {
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
+                                                    ]
+                                                }
+                                            ],
+                                            "rules": [
+                                                {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://mediapackage-vod-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
                                         {
                                             "conditions": [
                                                 {
@@ -2055,12 +2287,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "error": "Invalid Configuration: FIPS and custom endpoint are not supported",
-                                            "type": "error"
-                                        },
-                                        {
-                                            "conditions": [],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -2068,143 +2294,18 @@
                                                             "fn": "booleanEquals",
                                                             "argv": [
                                                                 {
-                                                                    "ref": "UseDualStack"
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsFIPS"
+                                                                    ]
                                                                 },
                                                                 true
                                                             ]
                                                         }
                                                     ],
-                                                    "error": "Invalid Configuration: Dualstack and custom endpoint are not supported",
-                                                    "type": "error"
-                                                },
-                                                {
-                                                    "conditions": [],
-                                                    "endpoint": {
-                                                        "url": {
-                                                            "ref": "Endpoint"
-                                                        },
-                                                        "properties": {},
-                                                        "headers": {}
-                                                    },
-                                                    "type": "endpoint"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "booleanEquals",
-                                            "argv": [
-                                                {
-                                                    "ref": "UseFIPS"
-                                                },
-                                                true
-                                            ]
-                                        },
-                                        {
-                                            "fn": "booleanEquals",
-                                            "argv": [
-                                                {
-                                                    "ref": "UseDualStack"
-                                                },
-                                                true
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        true,
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "supportsFIPS"
-                                                            ]
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        true,
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "supportsDualStack"
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [],
-                                                    "endpoint": {
-                                                        "url": "https://mediapackage-vod-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                        "properties": {},
-                                                        "headers": {}
-                                                    },
-                                                    "type": "endpoint"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "conditions": [],
-                                            "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
-                                            "type": "error"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "booleanEquals",
-                                            "argv": [
-                                                {
-                                                    "ref": "UseFIPS"
-                                                },
-                                                true
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [
-                                                {
-                                                    "fn": "booleanEquals",
-                                                    "argv": [
-                                                        true,
-                                                        {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "supportsFIPS"
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "type": "tree",
-                                            "rules": [
-                                                {
-                                                    "conditions": [],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -2215,537 +2316,104 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "conditions": [],
-                                            "error": "FIPS is enabled but this partition does not support FIPS",
-                                            "type": "error"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "conditions": [
-                                        {
-                                            "fn": "booleanEquals",
-                                            "argv": [
-                                                {
-                                                    "ref": "UseDualStack"
+                                                    ],
+                                                    "type": "tree"
                                                 },
-                                                true
-                                            ]
-                                        }
-                                    ],
-                                    "type": "tree",
-                                    "rules": [
+                                                {
+                                                    "conditions": [],
+                                                    "error": "FIPS is enabled but this partition does not support FIPS",
+                                                    "type": "error"
+                                                }
+                                            ],
+                                            "type": "tree"
+                                        },
                                         {
                                             "conditions": [
                                                 {
                                                     "fn": "booleanEquals",
                                                     "argv": [
-                                                        true,
                                                         {
-                                                            "fn": "getAttr",
-                                                            "argv": [
-                                                                {
-                                                                    "ref": "PartitionResult"
-                                                                },
-                                                                "supportsDualStack"
-                                                            ]
-                                                        }
+                                                            "ref": "UseDualStack"
+                                                        },
+                                                        true
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
+                                                    "conditions": [
+                                                        {
+                                                            "fn": "booleanEquals",
+                                                            "argv": [
+                                                                true,
+                                                                {
+                                                                    "fn": "getAttr",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "PartitionResult"
+                                                                        },
+                                                                        "supportsDualStack"
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "rules": [
+                                                        {
+                                                            "conditions": [],
+                                                            "endpoint": {
+                                                                "url": "https://mediapackage-vod.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        }
+                                                    ],
+                                                    "type": "tree"
+                                                },
+                                                {
                                                     "conditions": [],
-                                                    "endpoint": {
-                                                        "url": "https://mediapackage-vod.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                        "properties": {},
-                                                        "headers": {}
-                                                    },
-                                                    "type": "endpoint"
+                                                    "error": "DualStack is enabled but this partition does not support DualStack",
+                                                    "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
-                                            "error": "DualStack is enabled but this partition does not support DualStack",
-                                            "type": "error"
+                                            "endpoint": {
+                                                "url": "https://mediapackage-vod.{Region}.{PartitionResult#dnsSuffix}",
+                                                "properties": {},
+                                                "headers": {}
+                                            },
+                                            "type": "endpoint"
                                         }
-                                    ]
-                                },
-                                {
-                                    "conditions": [],
-                                    "endpoint": {
-                                        "url": "https://mediapackage-vod.{Region}.{PartitionResult#dnsSuffix}",
-                                        "properties": {},
-                                        "headers": {}
-                                    },
-                                    "type": "endpoint"
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
+                        },
+                        {
+                            "conditions": [],
+                            "error": "Invalid Configuration: Missing Region",
+                            "type": "error"
                         }
                     ]
                 },
                 "smithy.rules#endpointTests": {
                     "testCases": [
                         {
-                            "documentation": "For region ap-south-1 with FIPS enabled and DualStack enabled",
+                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-south-1.api.aws"
+                                    "url": "https://mediapackage-vod.ap-northeast-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "ap-south-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-south-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-south-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "ap-south-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-south-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-south-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
+                                "Region": "ap-northeast-1",
                                 "UseFIPS": false,
-                                "Region": "ap-south-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-south-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-south-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "ap-south-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-central-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-central-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "eu-central-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-central-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-central-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "eu-central-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-central-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "eu-central-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-central-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "eu-central-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-west-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "us-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "us-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.us-west-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "us-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.us-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "us-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-2 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-west-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "us-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "us-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-2 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.us-west-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "us-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.us-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "us-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-north-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-north-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "eu-north-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-north-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-north-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "eu-north-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-north-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "eu-north-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-north-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "eu-north-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-3 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-west-3.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "eu-west-3"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-3 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-west-3.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "eu-west-3"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-west-3.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "eu-west-3"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-west-3.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "eu-west-3"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-2 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-west-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "eu-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "eu-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-west-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "eu-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "eu-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-west-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "eu-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.eu-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "eu-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-west-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "eu-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.eu-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "eu-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-2 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-northeast-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "ap-northeast-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-northeast-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "ap-northeast-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-2 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-northeast-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "ap-northeast-2"
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2756,152 +2424,22 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "ap-northeast-2",
                                 "UseFIPS": false,
-                                "Region": "ap-northeast-2"
+                                "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For region ap-northeast-1 with FIPS enabled and DualStack enabled",
+                            "documentation": "For region ap-south-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-northeast-1.api.aws"
+                                    "url": "https://mediapackage-vod.ap-south-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "ap-northeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-northeast-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "ap-northeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-northeast-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
+                                "Region": "ap-south-1",
                                 "UseFIPS": false,
-                                "Region": "ap-northeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-northeast-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "ap-northeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region sa-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.sa-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "sa-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region sa-east-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.sa-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "sa-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.sa-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "sa-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.sa-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
-                                "Region": "sa-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-southeast-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "ap-southeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-southeast-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "ap-southeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-southeast-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "ap-southeast-1"
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2912,48 +2450,9 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "ap-southeast-1",
                                 "UseFIPS": false,
-                                "Region": "ap-southeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-2 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-southeast-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "ap-southeast-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.ap-southeast-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "ap-southeast-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-2 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.ap-southeast-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "ap-southeast-2"
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -2964,96 +2463,87 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "ap-southeast-2",
                                 "UseFIPS": false,
-                                "Region": "ap-southeast-2"
+                                "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "us-iso-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-iso-east-1.c2s.ic.gov"
+                                    "url": "https://mediapackage-vod.eu-central-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "us-iso-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "UseDualStack": true,
+                                "Region": "eu-central-1",
                                 "UseFIPS": false,
-                                "Region": "us-iso-east-1"
+                                "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://mediapackage-vod.us-iso-east-1.c2s.ic.gov"
+                                    "url": "https://mediapackage-vod.eu-north-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "eu-north-1",
                                 "UseFIPS": false,
-                                "Region": "us-iso-east-1"
+                                "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
+                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-east-1.api.aws"
+                                    "url": "https://mediapackage-vod.eu-west-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.us-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
+                                "Region": "eu-west-1",
                                 "UseFIPS": false,
-                                "Region": "us-east-1"
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.eu-west-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-west-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.eu-west-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-west-3",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.sa-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "sa-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -3064,48 +2554,9 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "us-east-1",
                                 "UseFIPS": false,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-2 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-east-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": true,
-                                "Region": "us-east-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod-fips.us-east-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
-                                "Region": "us-east-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-2 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://mediapackage-vod.us-east-2.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
-                                "Region": "us-east-2"
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -3116,9 +2567,226 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "us-east-2",
                                 "UseFIPS": false,
-                                "Region": "us-east-2"
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.us-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.us-west-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-west-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.us-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.us-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.us-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.cn-north-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.cn-north-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.cn-north-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.cn-north-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.us-gov-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.us-gov-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.us-gov-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.us-gov-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod-fips.us-iso-east-1.c2s.ic.gov"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://mediapackage-vod.us-iso-east-1.c2s.ic.gov"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -3127,9 +2795,9 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
-                                "UseDualStack": true,
+                                "Region": "us-isob-east-1",
                                 "UseFIPS": true,
-                                "Region": "us-isob-east-1"
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -3140,9 +2808,9 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "us-isob-east-1",
                                 "UseFIPS": true,
-                                "Region": "us-isob-east-1"
+                                "UseDualStack": false
                             }
                         },
                         {
@@ -3151,9 +2819,9 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
-                                "UseDualStack": true,
+                                "Region": "us-isob-east-1",
                                 "UseFIPS": false,
-                                "Region": "us-isob-east-1"
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -3164,22 +2832,35 @@
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
+                                "Region": "us-isob-east-1",
                                 "UseFIPS": false,
-                                "Region": "us-isob-east-1"
+                                "UseDualStack": false
                             }
                         },
                         {
-                            "documentation": "For custom endpoint with fips disabled and dualstack disabled",
+                            "documentation": "For custom endpoint with region set and fips disabled and dualstack disabled",
                             "expect": {
                                 "endpoint": {
                                     "url": "https://example.com"
                                 }
                             },
                             "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+                                "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://example.com"
+                                }
+                            },
+                            "params": {
+                                "UseFIPS": false,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -3189,9 +2870,9 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseDualStack": false,
-                                "UseFIPS": true,
                                 "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -3201,10 +2882,16 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseDualStack": true,
-                                "UseFIPS": false,
                                 "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true,
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],
@@ -3218,6 +2905,7 @@
                 "SpekeKeyProvider": {
                     "target": "com.amazonaws.mediapackagevod#SpekeKeyProvider",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#jsonName": "spekeKeyProvider",
                         "smithy.api#required": {}
                     }
@@ -3260,6 +2948,7 @@
                 "MssManifests": {
                     "target": "com.amazonaws.mediapackagevod#__listOfMssManifest",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A list of MSS manifest configurations.",
                         "smithy.api#jsonName": "mssManifests",
                         "smithy.api#required": {}
@@ -3268,7 +2957,6 @@
                 "SegmentDurationSeconds": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The duration (in seconds) of each segment.",
                         "smithy.api#jsonName": "segmentDurationSeconds"
                     }
@@ -3308,6 +2996,13 @@
                     "target": "com.amazonaws.mediapackagevod#CmafPackage",
                     "traits": {
                         "smithy.api#jsonName": "cmafPackage"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingConfiguration was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DashPackage": {
@@ -3359,7 +3054,6 @@
                 "ApproximateAssetCount": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The approximate asset count of the PackagingGroup.",
                         "smithy.api#jsonName": "approximateAssetCount"
                     }
@@ -3375,6 +3069,13 @@
                     "target": "com.amazonaws.mediapackagevod#Authorization",
                     "traits": {
                         "smithy.api#jsonName": "authorization"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingGroup was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DomainName": {
@@ -3593,6 +3294,7 @@
                 "RoleArn": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "An Amazon Resource Name (ARN) of an IAM role that AWS Elemental\nMediaPackage will assume when accessing the key provider service.",
                         "smithy.api#jsonName": "roleArn",
                         "smithy.api#required": {}
@@ -3601,6 +3303,7 @@
                 "SystemIds": {
                     "target": "com.amazonaws.mediapackagevod#__listOf__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The system IDs to include in key requests.",
                         "smithy.api#jsonName": "systemIds",
                         "smithy.api#required": {}
@@ -3609,6 +3312,7 @@
                 "Url": {
                     "target": "com.amazonaws.mediapackagevod#__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "The URL of the external key provider service.",
                         "smithy.api#jsonName": "url",
                         "smithy.api#required": {}
@@ -3648,7 +3352,6 @@
                 "MaxVideoBitsPerSecond": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The maximum video bitrate (bps) to include in output.",
                         "smithy.api#jsonName": "maxVideoBitsPerSecond"
                     }
@@ -3656,7 +3359,6 @@
                 "MinVideoBitsPerSecond": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The minimum video bitrate (bps) to include in output.",
                         "smithy.api#jsonName": "minVideoBitsPerSecond"
                     }
@@ -3704,11 +3406,15 @@
                 "Tags": {
                     "target": "com.amazonaws.mediapackagevod#__mapOf__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A collection of tags associated with a resource",
                         "smithy.api#jsonName": "tags",
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#Tags": {
@@ -3786,11 +3492,15 @@
                 "TagKeys": {
                     "target": "com.amazonaws.mediapackagevod#__listOf__string",
                     "traits": {
+                        "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "A comma-separated list of the tag keys to remove from the resource.",
                         "smithy.api#httpQuery": "tagKeys",
                         "smithy.api#required": {}
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#UpdatePackagingGroup": {
@@ -3849,7 +3559,8 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "A MediaPackage VOD PackagingGroup resource configuration."
+                "smithy.api#documentation": "A MediaPackage VOD PackagingGroup resource configuration.",
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.mediapackagevod#UpdatePackagingGroupResponse": {
@@ -3858,7 +3569,6 @@
                 "ApproximateAssetCount": {
                     "target": "com.amazonaws.mediapackagevod#__integer",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "The approximate asset count of the PackagingGroup.",
                         "smithy.api#jsonName": "approximateAssetCount"
                     }
@@ -3874,6 +3584,13 @@
                     "target": "com.amazonaws.mediapackagevod#Authorization",
                     "traits": {
                         "smithy.api#jsonName": "authorization"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.mediapackagevod#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time the PackagingGroup was created.",
+                        "smithy.api#jsonName": "createdAt"
                     }
                 },
                 "DomainName": {
@@ -3902,6 +3619,9 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.mediapackagevod#__PeriodTriggersElement": {
@@ -3916,16 +3636,10 @@
             }
         },
         "com.amazonaws.mediapackagevod#__boolean": {
-            "type": "boolean",
-            "traits": {
-                "smithy.api#default": false
-            }
+            "type": "boolean"
         },
         "com.amazonaws.mediapackagevod#__integer": {
-            "type": "integer",
-            "traits": {
-                "smithy.api#default": 0
-            }
+            "type": "integer"
         },
         "com.amazonaws.mediapackagevod#__listOfAssetShallow": {
             "type": "list",

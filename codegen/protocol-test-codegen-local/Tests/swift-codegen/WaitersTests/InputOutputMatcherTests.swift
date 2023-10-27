@@ -21,7 +21,7 @@ class InputOutputMatcherTests: XCTestCase {
     func test_inputOutput_acceptorMatchesWhenInputAndOutputPropertiesMatch() async throws {
         let value = UUID().uuidString
         let input = GetWidgetInput(stringProperty: value)
-        let output = GetWidgetOutputResponse(stringProperty: value)
+        let output = GetWidgetOutput(stringProperty: value)
         let subject = try WaitersClient.inputOutputPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: input, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
@@ -30,7 +30,7 @@ class InputOutputMatcherTests: XCTestCase {
     func test_inputOutput_acceptorFailsToMatchWhenInputAndOutputPropertiesDontMatch() async throws {
         let value = UUID().uuidString
         let input = GetWidgetInput(stringProperty: value)
-        let output = GetWidgetOutputResponse(stringProperty: value + "xxx")
+        let output = GetWidgetOutput(stringProperty: value + "xxx")
         let subject = try WaitersClient.inputOutputPropertyMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: input, result: .success(output))
         XCTAssertNil(match)

@@ -14,6 +14,8 @@ import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCusto
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.model.isInputEventStream
+import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 
 abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
 
@@ -27,6 +29,16 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
             val signingName = AWSSigningMiddleware.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
+        }
+    }
+
+    override fun renderEventStreamAttributes(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+        if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
+            writer.write("try context.setupBidirectionalStreaming()")
         }
     }
 
@@ -52,7 +64,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         writer: SwiftWriter,
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
         val clientProperties = getClientProperties()
         return AWSHttpProtocolServiceClient(ctx, writer, clientProperties, serviceConfig)
     }

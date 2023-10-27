@@ -14,6 +14,7 @@ import software.amazon.smithy.model.shapes.DoubleShape
 import software.amazon.smithy.model.shapes.FloatShape
 import software.amazon.smithy.model.shapes.IntegerShape
 import software.amazon.smithy.model.shapes.LongShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShortShape
 import software.amazon.smithy.model.traits.HttpQueryTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -26,7 +27,7 @@ import software.amazon.smithy.swift.codegen.model.isBoxed
 class AWSXMLHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
     val responseBindings: List<HttpBindingDescriptor>,
-    val outputShapeName: String,
+    val outputShape: Shape,
     val writer: SwiftWriter
 ) : HttpResponseBindingRenderable {
     override fun render() {
@@ -38,10 +39,9 @@ class AWSXMLHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if case .stream(let reader) = httpResponse.body,")
+            writer.write("if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {")
             writer.indent()
-            writer.write("let responseDecoder = decoder {")
-            writer.write("let data = reader.toBytes().toData()")
+            val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
             if (serviceDisablesWrappingOfErrorProperties()) {
                 renderWithoutErrorResponseContainer(outputShapeName, bodyMembersWithoutQueryTrait)
             } else {
@@ -61,7 +61,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
                         else -> "nil"
                     }
                 }
-                writer.write("self.$memberName = $value")
+                writer.write("self.properties.$memberName = $value")
             }
             writer.dedent()
             writer.write("}")
@@ -78,7 +78,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
     fun renderWithoutErrorResponseContainer(outputShapeName: String, bodyMembersWithoutQueryTrait: Set<String>) {
         writer.write("let output: ${outputShapeName}Body = try responseDecoder.decode(responseBody: data)")
         bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("self.$it = output.$it")
+            writer.write("self.properties.$it = output.$it")
         }
     }
 
@@ -86,7 +86,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
         writer.addImport(ErrorResponseContainer)
         writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", ErrorResponseContainer)
         bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("self.$it = output.error.$it")
+            writer.write("self.properties.$it = output.error.$it")
         }
     }
 }

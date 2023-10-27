@@ -6,14 +6,15 @@
     "gradlew": "{source_dir}/gradlew"
   },
   "pre_build_steps": [
-    "cd {source_dir} && rm -rf release",
+    "echo 'Deleting all services and their test suites.  Only runtime SDK components will be tested.'",
+    "echo 'CI will be modified to build and test all services in https://github.com/awslabs/aws-sdk-swift/issues/808'",
+    "cd {source_dir} && rm -rf Sources/Services/* && rm -rf Tests/Services/*",
     "cd {source_dir} && ./scripts/setup_for_crt_builder.sh"
   ],
   "build_steps": [
     "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen-local build",
-    "mkdir -p {source_dir}/release",
     "cd {source_dir} && swift build --build-tests"
   ],
   "test_steps": [

@@ -2,7 +2,7 @@
 
 usage() {
     echo "Use case 1:"
-    echo " ./scripts/mergeModels release"
+    echo " ./scripts/mergeModels Source/Services"
     echo ""
     echo "Use case 2: merge all in single directory if it has swift files"
     echo " ./scripts/mergeModels codegen/sdk-codegen/build/smithyprojections/sdk-codegen/iam.2010-05-08/swift-codegen/IAM/models"
@@ -30,19 +30,20 @@ mergeFiles() {
     cat ${TEMP} | sed '/^$/N;/^\n$/D' > ${MODELS}
 }
 
-mergeFilesInReleaseDir() {
+mergeFilesInDir() {
     for sdk in `ls ${RELDIR}`; do
 	MODELDIR=${RELDIR}/${sdk}/models
 	if [ ! -d ${MODELDIR} ]; then
 	    echo "Bail, this directory does not seem right: ${MODELDIR}"
-	    exit 1
+	    continue
 	fi
 	pushd ${MODELDIR}    
 	if [ -f ${MODELS} ]; then
-	    echo "${sdk} has ${MODELS} already generated"
-	else
-	    mergeFiles
+        echo "${sdk} has ${MODELS} already generated"
+        echo "Removing ${MODELS}"
+        rm -f ${MODELS}
 	fi
+	mergeFiles
 	popd
     done
 }
@@ -53,5 +54,5 @@ if [ $? -eq 0 ]; then
     mergeFiles
     popd
 else
-    mergeFilesInReleaseDir
+    mergeFilesInDir
 fi

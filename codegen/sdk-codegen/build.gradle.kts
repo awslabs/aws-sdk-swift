@@ -99,7 +99,7 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "sdkId": "${service.sdkId}",
                       "author": "Amazon Web Services",
                       "gitRepo": "${service.gitRepo}",
-                      "swiftVersion": "5.5.0",
+                      "swiftVersion": "5.7.0",
                       "build": {
                           "rootProject": $buildStandaloneSdk
                       }
@@ -166,9 +166,14 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val AwsService.outputDir: String
     get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
 
-val AwsService.destinationDir: String
+val AwsService.sourcesDir: String
     get(){
-        return rootProject.file("release").absolutePath
+        return rootProject.file("Sources/Services").absolutePath
+    }
+
+val AwsService.testsDir: String
+    get(){
+        return rootProject.file("Tests/Services").absolutePath
     }
 
 val AwsService.modelExtrasDir: String
@@ -179,15 +184,21 @@ val AwsService.modelExtrasDir: String
 
 task("stageSdks") {
     group = "codegen"
-    description = "relocate generated SDK(s) from build directory to release dir"
+    description = "relocate generated SDK(s) from build directory to Sources and Tests directories"
     doLast {
         discoveredServices.forEach {
-            logger.info("copying ${it.outputDir} to ${it.destinationDir}")
+            logger.info("copying ${it.outputDir} source to ${it.sourcesDir}")
             copy {
                 from("${it.outputDir}")
-                into("${it.destinationDir}")
+                into("${it.sourcesDir}")
                 exclude("Package.swift")
                 exclude("*Tests")
+            }
+            logger.info("copying ${it.outputDir} tests to ${it.testsDir}")
+            copy {
+                from("${it.outputDir}")
+                into("${it.testsDir}")
+                include("*Tests/**")
             }
         }
     }

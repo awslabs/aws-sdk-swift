@@ -5,92 +5,154 @@ on:
   workflow_dispatch:
 
 env:
-  BUILDER_VERSION: v0.9.18
-  BUILDER_SOURCE: releases
-  # host owned by CRT team to host aws-crt-builder releases. Contact their on-call with any issues
-  BUILDER_HOST: https://d19elf31gohf1l.cloudfront.net
-  PACKAGE_NAME: aws-sdk-swift
-  LINUX_BASE_IMAGE: ubuntu-16-x64
-  RUN: ${{ github.run_id }}-${{ github.run_number }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: us-east-1
-  AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
-  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
-  SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
+  AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  ios-compat:
-    runs-on: macos-12
+  apple:
+    runs-on: ${{ matrix.runner }}
     env:
-      DEVELOPER_DIR: /Applications/Xcode_14.0.app
-    steps:
-      - name: Checkout Sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
-  macos-compat:
-    runs-on: macos-11
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        run: |
-          python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
-          chmod a+x builder.pyz
-          AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
-  linux-compat:
-    runs-on: ubuntu-latest
+      DEVELOPER_DIR: /Applications/${{ matrix.xcode }}.app/Contents/Developer
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - ubuntu-x64
-          - al2-x64
+        # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
+        runner:
+          - macos-12
+          - macos-13
+        xcode:
+          - Xcode_14.0.1
+          - Xcode_15.0
+        destination:
+          - 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
+          - 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+          - 'platform=OS X'
+        exclude:
+          # Don't run old macOS with new Xcode
+          - runner: macos-12
+            xcode: Xcode_15.0
+          # Don't run new macOS with old Xcode
+          - runner: macos-13
+            xcode: Xcode_14.0.1
+          # Don't run old iOS simulator with new Xcode
+          - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
+            xcode: Xcode_15.0
+          # Don't run new iOS simulator with old Xcode
+          - destination: 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+            xcode: Xcode_14.0.1
     steps:
-      - name: Checkout Sources
-        uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-      - name: Build and Test ${{ env.PACKAGE_NAME }}
-        # todo: remove the aws credentials from the below command eventually once the CRT builder no longer requires aws credentials
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v3
+      - name: Select smithy-swift branch
         run: |
-          aws ecr get-login-password | docker login 123124136734.dkr.ecr.us-east-1.amazonaws.com -u AWS --password-stdin
-          export DOCKER_IMAGE=123124136734.dkr.ecr.us-east-1.amazonaws.com/aws-crt-swift-5-${{ matrix.image }}:${{ env.BUILDER_VERSION }}
-          docker pull $DOCKER_IMAGE
-          docker run --mount type=bind,source=$(pwd),target=/root/${{ env.PACKAGE_NAME }} \
-          --env GITHUB_REF \
-          --env GITHUB_HEAD_REF \
-          --env AWS_CRT_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/aws-crt-swift" \
-          --env AWS_SDK_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}" \
-          --env SMITHY_SWIFT_CI_DIR="/root/${{ env.PACKAGE_NAME }}/target/build/deps/smithy-swift" \
-          --env AWS_ACCESS_KEY_ID --env AWS_SECRET_ACCESS_KEY --env AWS_DEFAULT_REGION --env CXXFLAGS \
-          $DOCKER_IMAGE build -p ${{ env.PACKAGE_NAME }} --build-dir=/root/${{ env.PACKAGE_NAME }} --spec=downstream
+          ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
+          ./scripts/ci_steps/select_dependency_branch.sh
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v3
+        with:
+          repository: smithy-lang/smithy-swift
+          ref: ${{ env.DEPENDENCY_REPO_SHA }}
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-
+      - name: Cache Swift
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/.cache/org.swift.swiftpm
+          key: 1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          restore-keys: |
+            1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-${{ matrix.xcode }}-
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 17
+      - name: Tools Versions
+        run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Prepare Protocol & Unit Tests
+        run: |
+          ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
+      - name: Build and Run Protocol & Unit Tests
+        run: |
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            -scheme aws-sdk-swift \
+            -destination '${{ matrix.destination }}' \
+            test 2>&1 \
+            | xcpretty
+
+  linux:
+    runs-on: ubuntu-latest
+    container: swift:${{ matrix.version }}-${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - focal
+          - amazonlinux2
+        version:
+          - 5.7
+          - 5.9
+    steps:
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v3
+      - name: Select smithy-swift branch
+        run: |
+          ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-main}}" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
+          ./scripts/ci_steps/select_dependency_branch.sh
+      - name: Checkout smithy-swift
+        uses: actions/checkout@v3
+        with:
+          repository: smithy-lang/smithy-swift
+          ref: ${{ env.DEPENDENCY_REPO_SHA }}
+          path: smithy-swift
+      - name: Move smithy-swift into place
+        run: mv smithy-swift ..
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            1-${{ runner.os }}-gradle-
+      - name: Cache Swift
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/.cache/org.swift.swiftpm
+          key: 1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          restore-keys: |
+            1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift-${{ matrix.version }}-spm-
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 17
+      - name: Install OpenSSL (all OS) and which (AL2 only)
+        run: ./scripts/ci_steps/install_native_linux_dependencies.sh
+      - name: Tools Versions
+        run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Prepare Protocol & Unit Tests
+        run: |
+          ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
+      - name: Build and Run Protocol & Unit Tests on Linux
+        run: swift test

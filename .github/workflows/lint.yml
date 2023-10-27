@@ -6,23 +6,21 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  PACKAGE_NAME: aws-sdk-swift
-
 jobs:
   ktlint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-      - name: Lint ${{ env.PACKAGE_NAME }}
-        run: |
-          ./gradlew ktlint
+      - name: Lint smithy-aws-swift-codegen
+        run: ./gradlew ktlint
+
   swiftlint:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:0.53.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Run swiftlint on AWSClientRuntime
         run: swiftlint --reporter github-actions-logging
-        

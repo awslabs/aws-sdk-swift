@@ -14,6 +14,13 @@ service RestXml {
     operations: [
         GreetingWithErrors,
     ]
+    errors: [ExampleServiceError]
+}
+
+@error("client")
+@httpError(403)
+structure ExampleServiceError {
+    Message: String,
 }
 
 @idempotent

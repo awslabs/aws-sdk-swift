@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+
+GIT_URL="${UPDATE_MODELS_GIT_URL:-git@github.com:aws/aws-models.git}"
 OUTPUT_DIR="../aws-models"
 
 if [ ! -d ${OUTPUT_DIR} ]; then
@@ -12,8 +15,9 @@ TEMPDIR=`mktemp -d`
 fetchGitHubRepo() {
     mkdir -p ${TEMPDIR}
     pushd ${TEMPDIR}
-    git clone git@github.com:aws/aws-models.git
-    #git clone https://github.com/aws/aws-models.git
+    git clone ${GIT_URL}
+    # git clone git@github.com:aws/aws-models.git
+    # git clone https://github.com/aws/aws-models.git
     popd
 }
 cleanup() {
@@ -28,6 +32,10 @@ fetchGitHubRepo
 #fi
 
 JSON_MODEL_FILES=`find ${TEMPDIR}/aws-models |grep -e "smithy\/model\.json$"`
+
+# Delete all current model files before copying latest models in.
+# This ensures that removed models will not be included in the next release.
+rm -rf $OUTPUT_DIR/*
 
 for model in ${JSON_MODEL_FILES}; do
     SDKID=`cat ${model} |grep \"sdkId\": | sed 's/.*: \(.*\)/\1/g' | tr -d "\"" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`

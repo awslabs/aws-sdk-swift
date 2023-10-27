@@ -25,16 +25,19 @@ class EndpointResolverMiddlewareTests {
         MiddlewareGenerator(writer, middleware).generate()
         val contents = writer.toString()
         val expected = """
-            public struct EndpointResolverMiddleware<OperationStackOutput: ClientRuntime.HttpResponseBinding, OperationStackError: ClientRuntime.HttpResponseBinding>: ClientRuntime.Middleware {
+            public struct EndpointResolverMiddleware<OperationStackOutput: ClientRuntime.HttpResponseBinding, OperationStackError: ClientRuntime.HttpResponseErrorBinding>: ClientRuntime.Middleware {
                 public let id: Swift.String = "EndpointResolverMiddleware"
             
                 let endpointResolver: EndpointResolver
             
                 let endpointParams: EndpointParams
             
-                public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams) {
+                let authSchemeResolver: AWSClientRuntime.AuthSchemeResolver
+            
+                public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams, authSchemeResolver: AWSClientRuntime.AuthSchemeResolver = AWSClientRuntime.DefaultAuthSchemeResolver()) {
                     self.endpointResolver = endpointResolver
                     self.endpointParams = endpointParams
+                    self.authSchemeResolver = authSchemeResolver
                 }
             
                 public func handle<H>(context: Context,
@@ -47,8 +50,26 @@ class EndpointResolverMiddlewareTests {
                 {
                     let endpoint = try endpointResolver.resolve(params: endpointParams)
             
-                    let authScheme = endpoint.authScheme(name: "sigv4")
-                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme?["signingName"] as? String, signingRegion: authScheme?["signingRegion"] as? String)
+                    var signingName: String? = nil
+                    var signingRegion: String? = nil
+                    var signingAlgorithm: String? = nil
+                    if let authSchemes = endpoint.authSchemes() {
+                        let schemes = try authSchemes.map { try AuthScheme(from: ${'$'}0) }
+                        let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
+                        signingAlgorithm = authScheme.name
+                        switch authScheme {
+                        case .sigV4(let param):
+                            signingName = param.signingName
+                            signingRegion = param.signingRegion
+                        case .sigV4A(let param):
+                            signingName = param.signingName
+                            signingRegion = param.signingRegionSet?.first
+                        case .none:
+                            break
+                        }
+                    }
+            
+                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
             
                     var host = ""
                     if let hostOverride = context.getHost() {
@@ -61,12 +82,14 @@ class EndpointResolverMiddlewareTests {
                         input.withProtocol(protocolType)
                     }
             
-                    var updatedContext = context
-                    if let signingRegion = awsEndpoint.signingRegion {
-                        updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
+                    if let signingRegion = signingRegion {
+                        context.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
                     }
-                    if let signingName = awsEndpoint.signingName {
-                        updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)
+                    if let signingName = signingName {
+                        context.attributes.set(key: HttpContext.signingName, value: signingName)
+                    }
+                    if let signingAlgorithm = signingAlgorithm {
+                        context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
                     }
             
                     if let headers = endpoint.headers {
@@ -79,7 +102,7 @@ class EndpointResolverMiddlewareTests {
                         .withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))
                         .withHeader(name: "Host", value: host)
             
-                    return try await next.handle(context: updatedContext, input: input)
+                    return try await next.handle(context: context, input: input)
                 }
             
                 public typealias MInput = ClientRuntime.SdkHttpRequestBuilder

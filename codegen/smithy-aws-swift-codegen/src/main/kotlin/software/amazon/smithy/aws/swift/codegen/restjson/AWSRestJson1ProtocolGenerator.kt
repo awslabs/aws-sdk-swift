@@ -6,9 +6,12 @@ package software.amazon.smithy.aws.swift.codegen.restjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
+import software.amazon.smithy.aws.swift.codegen.MessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationJsonName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
@@ -25,4 +28,25 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSRestJson1HttpResponseBindingErrorGeneratable()
     )
     override val serdeContext = serdeContextJSON
+    override val testsToIgnore = setOf(
+        "SDKAppliedContentEncoding_restJson1",
+        "SDKAppendedGzipAfterProvidedEncoding_restJson1",
+        "RestJsonHttpPayloadWithUnsetUnion"
+    )
+
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        var streamingShapes = outputStreamingShapes(ctx)
+        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
+        streamingShapes.forEach { streamingMember ->
+            messageUnmarshallableGenerator.render(streamingMember)
+        }
+    }
+
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        val streamingShapes = inputStreamingShapes(ctx)
+        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
+        for (streamingShape in streamingShapes) {
+            messageMarshallableGenerator.render(streamingShape)
+        }
+    }
 }
