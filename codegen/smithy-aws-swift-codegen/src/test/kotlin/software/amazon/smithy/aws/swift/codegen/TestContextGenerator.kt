@@ -139,3 +139,32 @@ fun String.toSmithyModel(sourceLocation: String? = null, serviceShapeId: String?
     }
     return model
 }
+
+fun Model.newTestContext(
+    serviceShapeId: String = "com.test#Example",
+    generator: ProtocolGenerator
+): TestContext {
+    return newTestContext(MockManifest(), serviceShapeId, generator)
+}
+
+fun Model.newTestContext(
+    manifest: MockManifest,
+    serviceShapeId: String,
+    generator: ProtocolGenerator
+): TestContext {
+    val settings = SwiftSettings.from(this, TestContextGenerator.buildDefaultSwiftSettingsObjectNode("com.test#Example"))
+    val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(this, settings)
+    val service = this.getShape(ShapeId.from(serviceShapeId)).get().asServiceShape().get()
+    val delegator = SwiftDelegator(settings, this, manifest, provider)
+
+    val ctx = ProtocolGenerator.GenerationContext(
+        settings,
+        this,
+        service,
+        provider,
+        listOf(),
+        generator.protocol,
+        delegator
+    )
+    return TestContext(ctx, manifest)
+}
