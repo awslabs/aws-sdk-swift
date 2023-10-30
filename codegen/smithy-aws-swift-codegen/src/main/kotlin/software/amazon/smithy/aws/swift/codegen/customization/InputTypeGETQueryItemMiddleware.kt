@@ -31,7 +31,6 @@ class InputTypeGETQueryItemMiddleware(
 
             val memberTargetShape = ctx.model.expectShape(member.target)
             if (memberTargetShape is IntegerShape || memberTargetShape is TimestampShape) {
-                // TODO: We should support all types in our presignable operations
                 continue
             }
             writer.openBlock("if let $memberName = input.operationInput.$memberName {", "}") {

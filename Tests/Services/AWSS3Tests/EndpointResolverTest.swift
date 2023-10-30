@@ -3428,7 +3428,7 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// FIPS + path-only (TODO: consider making this an error)
+    /// FIPS + path-only
     func testResolve123() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
