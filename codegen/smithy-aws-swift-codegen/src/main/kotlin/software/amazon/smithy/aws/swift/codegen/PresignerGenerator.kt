@@ -61,11 +61,8 @@ class PresignerGenerator : SwiftIntegration {
         if (presignOperations.isNotEmpty()) {
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
             protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
-                // Add special-case import statement for Linux
                 // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
-                writer.write("#if canImport(FoundationNetworking)")
-                writer.write("import FoundationNetworking")
-                writer.write("#endif")
+                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
             }
         }
     }
@@ -132,6 +129,7 @@ class PresignerGenerator : SwiftIntegration {
             openBlock("extension $clientName {", "}") {
                 val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
                 val returnType = "URLRequest"
+                renderDocForPresignAPI(this, op, inputType)
                 openBlock("public func presignRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
                     write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
                     openBlock("guard let presignedRequest else {", "}") {
@@ -140,6 +138,18 @@ class PresignerGenerator : SwiftIntegration {
                     write("return try await URLRequest(sdkRequest: presignedRequest)")
                 }
             }
+        }
+    }
+
+    private fun renderDocForPresignAPI(writer: SwiftWriter, op: OperationShape, inputType: String) {
+        writer.apply {
+            write("/// Presigns the request for ${op.toUpperCamelCase()} operation with the given input object $inputType.")
+            write("/// The presigned request will be valid for the given expiration, in seconds.")
+            write("///")
+            write("/// - Parameter input: The input object for ${op.toUpperCamelCase()} operation used to construct request.")
+            write("/// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.")
+            write("///")
+            write("/// - Returns: `URLRequest`: The presigned request for ${op.toUpperCamelCase()} operation.")
         }
     }
 

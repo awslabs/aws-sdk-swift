@@ -3,6 +3,9 @@
 @_spi(FileBasedConfig) import AWSClientRuntime
 import ClientRuntime
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public class STSClient {
@@ -464,6 +467,13 @@ extension STSClient: STSClientProtocol {
 }
 
 extension STSClient {
+    /// Presigns the request for GetCallerIdentity operation with the given input object GetCallerIdentityInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for GetCallerIdentity operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for GetCallerIdentity operation.
     public func presignRequestForGetCallerIdentity(input: GetCallerIdentityInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         let presignedRequest = try await input.presign(config: config, expiration: expiration)
         guard let presignedRequest else {
@@ -472,7 +482,3 @@ extension STSClient {
         return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
-
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif

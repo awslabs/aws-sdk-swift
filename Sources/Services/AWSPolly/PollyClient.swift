@@ -3,6 +3,9 @@
 @_spi(FileBasedConfig) import AWSClientRuntime
 import ClientRuntime
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public class PollyClient {
@@ -483,6 +486,13 @@ extension PollyClient: PollyClientProtocol {
 }
 
 extension PollyClient {
+    /// Presigns the URL for SynthesizeSpeech operation with the given input object SynthesizeSpeechInput.
+    /// The presigned URL will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for SynthesizeSpeech operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `Foundation.URL`: The presigned URL for SynthesizeSpeech operation.
     public func presignURLForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
         let presignedURL = try await input.presignURL(config: config, expiration: expiration)
         guard let presignedURL else {
@@ -493,6 +503,13 @@ extension PollyClient {
 }
 
 extension PollyClient {
+    /// Presigns the request for SynthesizeSpeech operation with the given input object SynthesizeSpeechInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for SynthesizeSpeech operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for SynthesizeSpeech operation.
     public func presignRequestForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         let presignedRequest = try await input.presign(config: config, expiration: expiration)
         guard let presignedRequest else {
@@ -501,7 +518,3 @@ extension PollyClient {
         return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
-
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif

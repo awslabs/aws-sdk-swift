@@ -3,6 +3,9 @@
 @_spi(FileBasedConfig) import AWSClientRuntime
 import ClientRuntime
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public class S3Client {
@@ -5025,6 +5028,13 @@ extension S3Client: S3ClientProtocol {
 }
 
 extension S3Client {
+    /// Presigns the URL for GetObject operation with the given input object GetObjectInput.
+    /// The presigned URL will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for GetObject operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `Foundation.URL`: The presigned URL for GetObject operation.
     public func presignURLForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
         let presignedURL = try await input.presignURL(config: config, expiration: expiration)
         guard let presignedURL else {
@@ -5035,6 +5045,13 @@ extension S3Client {
 }
 
 extension S3Client {
+    /// Presigns the URL for PutObject operation with the given input object PutObjectInput.
+    /// The presigned URL will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for PutObject operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `Foundation.URL`: The presigned URL for PutObject operation.
     public func presignURLForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
         let presignedURL = try await input.presignURL(config: config, expiration: expiration)
         guard let presignedURL else {
@@ -5045,6 +5062,13 @@ extension S3Client {
 }
 
 extension S3Client {
+    /// Presigns the request for GetObject operation with the given input object GetObjectInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for GetObject operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for GetObject operation.
     public func presignRequestForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         let presignedRequest = try await input.presign(config: config, expiration: expiration)
         guard let presignedRequest else {
@@ -5055,6 +5079,13 @@ extension S3Client {
 }
 
 extension S3Client {
+    /// Presigns the request for PutObject operation with the given input object PutObjectInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for PutObject operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for PutObject operation.
     public func presignRequestForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         let presignedRequest = try await input.presign(config: config, expiration: expiration)
         guard let presignedRequest else {
@@ -5065,6 +5096,13 @@ extension S3Client {
 }
 
 extension S3Client {
+    /// Presigns the request for UploadPart operation with the given input object UploadPartInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// - Parameter input: The input object for UploadPart operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for UploadPart operation.
     public func presignRequestForUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         let presignedRequest = try await input.presign(config: config, expiration: expiration)
         guard let presignedRequest else {
@@ -5073,7 +5111,3 @@ extension S3Client {
         return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
-
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif

@@ -160,6 +160,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             openBlock("extension $clientName {", "}") {
                 val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
                 val returnType = "Foundation.URL"
+                renderDocForPresignURLAPI(this, op, inputType)
                 openBlock("public func presignURLFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
                     write("let presignedURL = try await input.presignURL(config: config, expiration: expiration)")
                     openBlock("guard let presignedURL else {", "}") {
@@ -168,6 +169,18 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     write("return presignedURL")
                 }
             }
+        }
+    }
+
+    private fun renderDocForPresignURLAPI(writer: SwiftWriter, op: OperationShape, inputType: String) {
+        writer.apply {
+            write("/// Presigns the URL for ${op.toUpperCamelCase()} operation with the given input object $inputType.")
+            write("/// The presigned URL will be valid for the given expiration, in seconds.")
+            write("///")
+            write("/// - Parameter input: The input object for ${op.toUpperCamelCase()} operation used to construct request.")
+            write("/// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.")
+            write("///")
+            write("/// - Returns: `Foundation.URL`: The presigned URL for ${op.toUpperCamelCase()} operation.")
         }
     }
 
