@@ -161,7 +161,8 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
                 val returnType = "Foundation.URL"
                 openBlock("public func presignURLFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
-                    openBlock("guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {", "}") {
+                    write("let presignedURL = try await input.presignURL(config: config, expiration: expiration)")
+                    openBlock("guard let presignedURL else {", "}") {
                         write("throw ClientError.unknownError(\"Could not generate presigned URL for the operation ${op.toUpperCamelCase()}.\")")
                     }
                     write("return presignedURL")

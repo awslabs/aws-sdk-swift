@@ -484,7 +484,8 @@ extension PollyClient: PollyClientProtocol {
 
 extension PollyClient {
     public func presignURLForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
-        guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
+        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
+        guard let presignedURL else {
             throw ClientError.unknownError("Could not generate presigned URL for the operation SynthesizeSpeech.")
         }
         return presignedURL
@@ -493,10 +494,11 @@ extension PollyClient {
 
 extension PollyClient {
     public func presignRequestForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
-        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
             throw ClientError.unknownError("Could not presign the request for the operation SynthesizeSpeech.")
         }
-        return try await presignedRequest.toURLRequest()
+        return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
 

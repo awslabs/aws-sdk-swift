@@ -133,10 +133,11 @@ class PresignerGenerator : SwiftIntegration {
                 val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
                 val returnType = "URLRequest"
                 openBlock("public func presignRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
-                    openBlock("guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {", "}") {
+                    write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
+                    openBlock("guard let presignedRequest else {", "}") {
                         write("throw ClientError.unknownError(\"Could not presign the request for the operation ${op.toUpperCamelCase()}.\")")
                     }
-                    write("return try await presignedRequest.toURLRequest()")
+                    write("return try await URLRequest(sdkRequest: presignedRequest)")
                 }
             }
         }

@@ -5026,7 +5026,8 @@ extension S3Client: S3ClientProtocol {
 
 extension S3Client {
     public func presignURLForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
-        guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
+        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
+        guard let presignedURL else {
             throw ClientError.unknownError("Could not generate presigned URL for the operation GetObject.")
         }
         return presignedURL
@@ -5035,7 +5036,8 @@ extension S3Client {
 
 extension S3Client {
     public func presignURLForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
-        guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
+        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
+        guard let presignedURL else {
             throw ClientError.unknownError("Could not generate presigned URL for the operation PutObject.")
         }
         return presignedURL
@@ -5044,28 +5046,31 @@ extension S3Client {
 
 extension S3Client {
     public func presignRequestForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
-        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
             throw ClientError.unknownError("Could not presign the request for the operation GetObject.")
         }
-        return try await presignedRequest.toURLRequest()
+        return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
 
 extension S3Client {
     public func presignRequestForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
-        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
             throw ClientError.unknownError("Could not presign the request for the operation PutObject.")
         }
-        return try await presignedRequest.toURLRequest()
+        return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
 
 extension S3Client {
     public func presignRequestForUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
-        guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
             throw ClientError.unknownError("Could not presign the request for the operation UploadPart.")
         }
-        return try await presignedRequest.toURLRequest()
+        return try await URLRequest(sdkRequest: presignedRequest)
     }
 }
 
