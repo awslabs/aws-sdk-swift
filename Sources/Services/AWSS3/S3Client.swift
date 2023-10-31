@@ -5025,18 +5025,18 @@ extension S3Client: S3ClientProtocol {
 }
 
 extension S3Client {
-    public func getPresignedURLForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
+    public func presignURLForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
         guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
-            throw ClientError.unknownError("Returned URL from input.presignURL() was nil for the operation GetObject.")
+            throw ClientError.unknownError("Could not generate presigned URL for the operation GetObject.")
         }
         return presignedURL
     }
 }
 
 extension S3Client {
-    public func getPresignedURLForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
+    public func presignURLForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
         guard let presignedURL = try await input.presignURL(config: config, expiration: expiration) else {
-            throw ClientError.unknownError("Returned URL from input.presignURL() was nil for the operation PutObject.")
+            throw ClientError.unknownError("Could not generate presigned URL for the operation PutObject.")
         }
         return presignedURL
     }
@@ -5045,7 +5045,7 @@ extension S3Client {
 extension S3Client {
     public func presignRequestForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation GetObject.")
+            throw ClientError.unknownError("Could not presign the request for the operation GetObject.")
         }
         return try await presignedRequest.toURLRequest()
     }
@@ -5054,7 +5054,7 @@ extension S3Client {
 extension S3Client {
     public func presignRequestForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation PutObject.")
+            throw ClientError.unknownError("Could not presign the request for the operation PutObject.")
         }
         return try await presignedRequest.toURLRequest()
     }
@@ -5063,8 +5063,12 @@ extension S3Client {
 extension S3Client {
     public func presignRequestForUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
-            throw ClientError.unknownError("Returned request from input.presign() was nil for the operation UploadPart.")
+            throw ClientError.unknownError("Could not presign the request for the operation UploadPart.")
         }
         return try await presignedRequest.toURLRequest()
     }
 }
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif

@@ -55,8 +55,14 @@ class PresignerGenerator : SwiftIntegration {
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
             protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
+            }
+        }
+        // Import FoundationeNetworking statement with preprocessor commands
+        if (presignOperations.isNotEmpty()) {
+            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
+            protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
                 // Add special-case import statement for Linux
-                writer.write("// In Linux, Foundation.URLRequest is moved to FoundationNetworking.")
+                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
                 writer.write("#if canImport(FoundationNetworking)")
                 writer.write("import FoundationNetworking")
                 writer.write("#endif")
@@ -128,7 +134,7 @@ class PresignerGenerator : SwiftIntegration {
                 val returnType = "URLRequest"
                 openBlock("public func presignRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
                     openBlock("guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {", "}") {
-                        write("throw ClientError.unknownError(\"Returned request from input.presign() was nil for the operation ${op.toUpperCamelCase()}.\")")
+                        write("throw ClientError.unknownError(\"Could not presign the request for the operation ${op.toUpperCamelCase()}.\")")
                     }
                     write("return try await presignedRequest.toURLRequest()")
                 }
