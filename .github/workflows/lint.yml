@@ -6,25 +6,19 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  PACKAGE_NAME: aws-sdk-swift
-
 jobs:
   ktlint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-      - name: Lint ${{ env.PACKAGE_NAME }}
+      - name: Lint smithy-aws-swift-codegen
         run: ./gradlew ktlint
 
   swiftlint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/realm/swiftlint:0.52.3
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+      image: ghcr.io/realm/swiftlint:0.53.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
