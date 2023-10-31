@@ -492,10 +492,10 @@ extension PollyClient {
 }
 
 extension PollyClient {
-    public func presignRequestForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+    public func presignRequestForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
             throw ClientError.unknownError("Returned request from input.presign() was nil for the operation SynthesizeSpeech.")
         }
-        return presignedRequest
+        return try await presignedRequest.toURLRequest()
     }
 }

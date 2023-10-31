@@ -5043,28 +5043,28 @@ extension S3Client {
 }
 
 extension S3Client {
-    public func presignRequestForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+    public func presignRequestForGetObject(input: GetObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
             throw ClientError.unknownError("Returned request from input.presign() was nil for the operation GetObject.")
         }
-        return presignedRequest
+        return try await presignedRequest.toURLRequest()
     }
 }
 
 extension S3Client {
-    public func presignRequestForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+    public func presignRequestForPutObject(input: PutObjectInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
             throw ClientError.unknownError("Returned request from input.presign() was nil for the operation PutObject.")
         }
-        return presignedRequest
+        return try await presignedRequest.toURLRequest()
     }
 }
 
 extension S3Client {
-    public func presignRequestForUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest {
+    public func presignRequestForUploadPart(input: UploadPartInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
         guard let presignedRequest = try await input.presign(config: config, expiration: expiration) else {
             throw ClientError.unknownError("Returned request from input.presign() was nil for the operation UploadPart.")
         }
-        return presignedRequest
+        return try await presignedRequest.toURLRequest()
     }
 }
