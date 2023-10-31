@@ -184,8 +184,8 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.30.0",
-    crtVersion: "0.13.0"
+    clientRuntimeVersion: "0.30.1",
+    crtVersion: "0.17.0"
 )
 
 let serviceTargets: [String] = [
