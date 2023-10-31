@@ -55,6 +55,11 @@ class PresignerGenerator : SwiftIntegration {
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
             protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
+                // Add special-case import statement for Linux
+                writer.write("// In Linux, Foundation.URLRequest is moved to FoundationNetworking.")
+                writer.write("#if canImport(FoundationNetworking)")
+                writer.write("import FoundationNetworking")
+                writer.write("#endif")
             }
         }
     }
