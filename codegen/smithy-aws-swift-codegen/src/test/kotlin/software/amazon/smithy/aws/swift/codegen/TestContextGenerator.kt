@@ -8,6 +8,7 @@ package software.amazon.smithy.aws.swift.codegen
 import org.junit.jupiter.api.Assertions
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.build.PluginContext
+import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
