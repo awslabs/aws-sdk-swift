@@ -130,7 +130,7 @@ class PresignerGenerator : SwiftIntegration {
                 val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
                 val returnType = "URLRequest"
                 renderDocForPresignAPI(this, op, inputType)
-                openBlock("public func presignRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
+                openBlock("public func presignedRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
                     write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
                     openBlock("guard let presignedRequest else {", "}") {
                         write("throw ClientError.unknownError(\"Could not presign the request for the operation ${op.toUpperCamelCase()}.\")")
@@ -145,6 +145,9 @@ class PresignerGenerator : SwiftIntegration {
         writer.apply {
             write("/// Presigns the request for ${op.toUpperCamelCase()} operation with the given input object $inputType.")
             write("/// The presigned request will be valid for the given expiration, in seconds.")
+            write("///")
+            write("/// Below is the documentation for ${op.toUpperCamelCase()} operation:")
+            writeShapeDocs(op)
             write("///")
             write("/// - Parameter input: The input object for ${op.toUpperCamelCase()} operation used to construct request.")
             write("/// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.")
