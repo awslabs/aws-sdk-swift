@@ -3,6 +3,9 @@
 @_spi(FileBasedConfig) import AWSClientRuntime
 import ClientRuntime
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public class STSClient {
@@ -461,4 +464,24 @@ extension STSClient: STSClientProtocol {
         return result
     }
 
+}
+
+extension STSClient {
+    /// Presigns the request for GetCallerIdentity operation with the given input object GetCallerIdentityInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// Below is the documentation for GetCallerIdentity operation:
+    /// Returns details about the IAM user or role whose credentials are used to call the operation. No permissions are required to perform this operation. If an administrator attaches a policy to your identity that explicitly denies access to the sts:GetCallerIdentity action, you can still perform this operation. Permissions are not required because the same information is returned when access is denied. To view an example response, see [I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_access-denied-delete-mfa) in the IAM User Guide.
+    ///
+    /// - Parameter input: The input object for GetCallerIdentity operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for GetCallerIdentity operation.
+    public func presignedRequestForGetCallerIdentity(input: GetCallerIdentityInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
+            throw ClientError.unknownError("Could not presign the request for the operation GetCallerIdentity.")
+        }
+        return try await URLRequest(sdkRequest: presignedRequest)
+    }
 }
