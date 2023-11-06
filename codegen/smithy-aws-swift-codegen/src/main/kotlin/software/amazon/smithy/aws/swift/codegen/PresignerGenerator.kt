@@ -28,8 +28,6 @@ import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 data class PresignableOperation(
     val serviceId: String,
     val operationId: String,
-    // TODO ~ Implementation of embedded presigned URLs is TBD
-    // val presignedParameterId: String?
 )
 
 class PresignerGenerator : SwiftIntegration {
