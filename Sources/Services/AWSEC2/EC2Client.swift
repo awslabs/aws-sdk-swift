@@ -8985,6 +8985,45 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
+    /// Describes Capacity Block offerings available for purchase. With Capacity Blocks, you purchase a specific instance type for a period of time.
+    ///
+    /// - Parameter DescribeCapacityBlockOfferingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityBlockOfferingsOutput` : [no documentation found]
+    public func describeCapacityBlockOfferings(input: DescribeCapacityBlockOfferingsInput) async throws -> DescribeCapacityBlockOfferingsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityBlockOfferings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>(id: "describeCapacityBlockOfferings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>(xmlName: "DescribeCapacityBlockOfferingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCapacityBlockOfferingsOutput, DescribeCapacityBlockOfferingsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Describes one or more Capacity Reservation Fleets.
     ///
     /// - Parameter DescribeCapacityReservationFleetsInput : [no documentation found]
@@ -17563,6 +17602,45 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
+    /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
+    ///
+    /// - Parameter GetSecurityGroupsForVpcInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityGroupsForVpcOutput` : [no documentation found]
+    public func getSecurityGroupsForVpc(input: GetSecurityGroupsForVpcInput) async throws -> GetSecurityGroupsForVpcOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSecurityGroupsForVpc")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>(id: "getSecurityGroupsForVpc")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>(xmlName: "GetSecurityGroupsForVpcRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSecurityGroupsForVpcOutput, GetSecurityGroupsForVpcOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
     /// - Parameter GetSerialConsoleAccessStatusInput : [no documentation found]
@@ -21227,6 +21305,45 @@ extension EC2Client: EC2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionPublicIpv4PoolCidrOutput, ProvisionPublicIpv4PoolCidrOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionPublicIpv4PoolCidrOutput, ProvisionPublicIpv4PoolCidrOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionPublicIpv4PoolCidrOutput, ProvisionPublicIpv4PoolCidrOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Purchase the Capacity Block for use with your account. With Capacity Blocks you ensure GPU capacity is available for machine learning (ML) workloads. You must specify the ID of the Capacity Block offering you are purchasing.
+    ///
+    /// - Parameter PurchaseCapacityBlockInput : [no documentation found]
+    ///
+    /// - Returns: `PurchaseCapacityBlockOutput` : [no documentation found]
+    public func purchaseCapacityBlock(input: PurchaseCapacityBlockInput) async throws -> PurchaseCapacityBlockOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "purchaseCapacityBlock")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>(id: "purchaseCapacityBlock")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput>(xmlName: "PurchaseCapacityBlockRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseCapacityBlockOutput, PurchaseCapacityBlockOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

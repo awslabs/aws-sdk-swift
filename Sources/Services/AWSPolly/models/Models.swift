@@ -3396,6 +3396,7 @@ extension PollyClientTypes {
         case conchita
         case cristiano
         case daniel
+        case danielle
         case dora
         case elin
         case emma
@@ -3405,6 +3406,7 @@ extension PollyClientTypes {
         case gabrielle
         case geraint
         case giorgio
+        case gregory
         case gwyneth
         case hala
         case hannah
@@ -3493,6 +3495,7 @@ extension PollyClientTypes {
                 .conchita,
                 .cristiano,
                 .daniel,
+                .danielle,
                 .dora,
                 .elin,
                 .emma,
@@ -3502,6 +3505,7 @@ extension PollyClientTypes {
                 .gabrielle,
                 .geraint,
                 .giorgio,
+                .gregory,
                 .gwyneth,
                 .hala,
                 .hannah,
@@ -3595,6 +3599,7 @@ extension PollyClientTypes {
             case .conchita: return "Conchita"
             case .cristiano: return "Cristiano"
             case .daniel: return "Daniel"
+            case .danielle: return "Danielle"
             case .dora: return "Dora"
             case .elin: return "Elin"
             case .emma: return "Emma"
@@ -3604,6 +3609,7 @@ extension PollyClientTypes {
             case .gabrielle: return "Gabrielle"
             case .geraint: return "Geraint"
             case .giorgio: return "Giorgio"
+            case .gregory: return "Gregory"
             case .gwyneth: return "Gwyneth"
             case .hala: return "Hala"
             case .hannah: return "Hannah"

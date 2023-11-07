@@ -31,6 +31,21 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutput
+    /// This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
+    ///
+    /// - Parameter DeleteHomeRegionControlInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHomeRegionControlOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func deleteHomeRegionControl(input: DeleteHomeRegionControlInput) async throws -> DeleteHomeRegionControlOutput
     /// This API permits filtering on the ControlId and HomeRegion fields.
     ///
     /// - Parameter DescribeHomeRegionControlsInput : [no documentation found]

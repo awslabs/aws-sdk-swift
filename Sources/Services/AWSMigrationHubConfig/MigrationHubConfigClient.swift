@@ -117,6 +117,55 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
         return result
     }
 
+    /// This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
+    ///
+    /// - Parameter DeleteHomeRegionControlInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHomeRegionControlOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func deleteHomeRegionControl(input: DeleteHomeRegionControlInput) async throws -> DeleteHomeRegionControlOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteHomeRegionControl")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mgh")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>(id: "deleteHomeRegionControl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(xAmzTarget: "AWSMigrationHubMultiAccountService.DeleteHomeRegionControl"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(xmlName: "DeleteHomeRegionControlRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHomeRegionControlOutput, DeleteHomeRegionControlOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// This API permits filtering on the ControlId and HomeRegion fields.
     ///
     /// - Parameter DescribeHomeRegionControlsInput : [no documentation found]

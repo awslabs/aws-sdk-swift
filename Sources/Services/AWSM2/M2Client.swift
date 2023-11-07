@@ -596,8 +596,11 @@ extension M2Client: M2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `ExecutionTimeoutException` : Failed to connect to server, or didn’t receive response within expected time period.
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceUnavailableException` : Server cannot process the request at the moment.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutput
@@ -1048,8 +1051,11 @@ extension M2Client: M2ClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `ExecutionTimeoutException` : Failed to connect to server, or didn’t receive response within expected time period.
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceUnavailableException` : Server cannot process the request at the moment.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput

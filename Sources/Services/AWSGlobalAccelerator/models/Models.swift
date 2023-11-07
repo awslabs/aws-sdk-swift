@@ -1112,6 +1112,170 @@ extension AssociatedListenerFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension GlobalAcceleratorClientTypes.Attachment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+        case createdTime = "CreatedTime"
+        case lastModifiedTime = "LastModifiedTime"
+        case name = "Name"
+        case principals = "Principals"
+        case resources = "Resources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let principals = principals {
+            var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
+            for principal0 in principals {
+                try principalsContainer.encode(principal0)
+            }
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let principalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .principals)
+        var principalsDecoded0:[Swift.String]? = nil
+        if let principalsContainer = principalsContainer {
+            principalsDecoded0 = [Swift.String]()
+            for string0 in principalsContainer {
+                if let string0 = string0 {
+                    principalsDecoded0?.append(string0)
+                }
+            }
+        }
+        principals = principalsDecoded0
+        let resourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .resources)
+        var resourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in resourcesContainer {
+                if let structure0 = structure0 {
+                    resourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+    }
+}
+
+extension GlobalAcceleratorClientTypes {
+    /// A cross-account attachment in Global Accelerator. A cross-account attachment specifies the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment.
+    public struct Attachment: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the cross-account attachment.
+        public var attachmentArn: Swift.String?
+        /// The date and time that the cross-account attachment was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The date and time that the cross-account attachment was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the cross-account attachment.
+        public var name: Swift.String?
+        /// The principals included in the cross-account attachment.
+        public var principals: [Swift.String]?
+        /// The resources included in the cross-account attachment.
+        public var resources: [GlobalAcceleratorClientTypes.Resource]?
+
+        public init(
+            attachmentArn: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            principals: [Swift.String]? = nil,
+            resources: [GlobalAcceleratorClientTypes.Resource]? = nil
+        )
+        {
+            self.attachmentArn = attachmentArn
+            self.createdTime = createdTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.principals = principals
+            self.resources = resources
+        }
+    }
+
+}
+
+extension AttachmentNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AttachmentNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// No cross-account attachment was found.
+public struct AttachmentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AttachmentNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AttachmentNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension GlobalAcceleratorClientTypes.ByoipCidr: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cidr = "Cidr"
@@ -1675,6 +1839,194 @@ enum CreateAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case idempotencyToken = "IdempotencyToken"
+        case name = "Name"
+        case principals = "Principals"
+        case resources = "Resources"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let principals = principals {
+            var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
+            for principal0 in principals {
+                try principalsContainer.encode(principal0)
+            }
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateCrossAccountAttachmentInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
+    /// This member is required.
+    public var idempotencyToken: Swift.String?
+    /// The name of the cross-account attachment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The principals to list in the cross-account attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator.
+    public var principals: [Swift.String]?
+    /// The Amazon Resource Names (ARNs) for the resources to list in the cross-account attachment. A resource can be any supported Amazon Web Services resource type for Global Accelerator.
+    public var resources: [GlobalAcceleratorClientTypes.Resource]?
+    /// Create tags for cross-account attachment. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
+    public var tags: [GlobalAcceleratorClientTypes.Tag]?
+
+    public init(
+        idempotencyToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        principals: [Swift.String]? = nil,
+        resources: [GlobalAcceleratorClientTypes.Resource]? = nil,
+        tags: [GlobalAcceleratorClientTypes.Tag]? = nil
+    )
+    {
+        self.idempotencyToken = idempotencyToken
+        self.name = name
+        self.principals = principals
+        self.resources = resources
+        self.tags = tags
+    }
+}
+
+struct CreateCrossAccountAttachmentInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let principals: [Swift.String]?
+    let resources: [GlobalAcceleratorClientTypes.Resource]?
+    let idempotencyToken: Swift.String?
+    let tags: [GlobalAcceleratorClientTypes.Tag]?
+}
+
+extension CreateCrossAccountAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case idempotencyToken = "IdempotencyToken"
+        case name = "Name"
+        case principals = "Principals"
+        case resources = "Resources"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let principalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .principals)
+        var principalsDecoded0:[Swift.String]? = nil
+        if let principalsContainer = principalsContainer {
+            principalsDecoded0 = [Swift.String]()
+            for string0 in principalsContainer {
+                if let string0 = string0 {
+                    principalsDecoded0?.append(string0)
+                }
+            }
+        }
+        principals = principalsDecoded0
+        let resourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .resources)
+        var resourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in resourcesContainer {
+                if let structure0 = structure0 {
+                    resourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[GlobalAcceleratorClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [GlobalAcceleratorClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCrossAccountAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachment = output.crossAccountAttachment
+        } else {
+            self.crossAccountAttachment = nil
+        }
+    }
+}
+
+public struct CreateCrossAccountAttachmentOutput: Swift.Equatable {
+    /// Information about the cross-account attachment.
+    public var crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+
+    public init(
+        crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
+    )
+    {
+        self.crossAccountAttachment = crossAccountAttachment
+    }
+}
+
+struct CreateCrossAccountAttachmentOutputBody: Swift.Equatable {
+    let crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+}
+
+extension CreateCrossAccountAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachment = "CrossAccountAttachment"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Attachment.self, forKey: .crossAccountAttachment)
+        crossAccountAttachment = crossAccountAttachmentDecoded
+    }
+}
+
+enum CreateCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2582,6 +2934,51 @@ enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GlobalAcceleratorClientTypes.CrossAccountResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+        case endpointId = "EndpointId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let endpointId = self.endpointId {
+            try encodeContainer.encode(endpointId, forKey: .endpointId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
+        endpointId = endpointIdDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+    }
+}
+
+extension GlobalAcceleratorClientTypes {
+    /// An endpoint (Amazon Web Services resource) that is listed in a cross-account attachment and can be added to an accelerator by specified principals, that are also listed in the attachment.
+    public struct CrossAccountResource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        public var attachmentArn: Swift.String?
+        /// The endpoint ID for the endpoint that is listed in a cross-account attachment and can be added to an accelerator by specified principals.
+        public var endpointId: Swift.String?
+
+        public init(
+            attachmentArn: Swift.String? = nil,
+            endpointId: Swift.String? = nil
+        )
+        {
+            self.attachmentArn = attachmentArn
+            self.endpointId = endpointId
+        }
+    }
+
+}
+
 extension GlobalAcceleratorClientTypes.CustomRoutingAccelerator: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceleratorArn = "AcceleratorArn"
@@ -2967,11 +3364,15 @@ extension GlobalAcceleratorClientTypes {
 
 extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
         case endpointId = "EndpointId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
         if let endpointId = self.endpointId {
             try encodeContainer.encode(endpointId, forKey: .endpointId)
         }
@@ -2981,19 +3382,25 @@ extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration: Swift
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
         endpointId = endpointIdDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
     }
 }
 
 extension GlobalAcceleratorClientTypes {
     /// The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs.
     public struct CustomRoutingEndpointConfiguration: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        public var attachmentArn: Swift.String?
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public var endpointId: Swift.String?
 
         public init(
+            attachmentArn: Swift.String? = nil,
             endpointId: Swift.String? = nil
         )
         {
+            self.attachmentArn = attachmentArn
             self.endpointId = endpointId
         }
     }
@@ -3281,6 +3688,79 @@ enum DeleteAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AssociatedListenerFoundException": return try await AssociatedListenerFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+    }
+}
+
+extension DeleteCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteCrossAccountAttachmentInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the cross-account attachment to delete.
+    /// This member is required.
+    public var attachmentArn: Swift.String?
+
+    public init(
+        attachmentArn: Swift.String? = nil
+    )
+    {
+        self.attachmentArn = attachmentArn
+    }
+}
+
+struct DeleteCrossAccountAttachmentInputBody: Swift.Equatable {
+    let attachmentArn: Swift.String?
+}
+
+extension DeleteCrossAccountAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+    }
+}
+
+extension DeleteCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCrossAccountAttachmentOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentNotFoundException": return try await AttachmentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -4094,6 +4574,108 @@ enum DescribeAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+    }
+}
+
+extension DescribeCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeCrossAccountAttachmentInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the cross-account attachment to describe.
+    /// This member is required.
+    public var attachmentArn: Swift.String?
+
+    public init(
+        attachmentArn: Swift.String? = nil
+    )
+    {
+        self.attachmentArn = attachmentArn
+    }
+}
+
+struct DescribeCrossAccountAttachmentInputBody: Swift.Equatable {
+    let attachmentArn: Swift.String?
+}
+
+extension DescribeCrossAccountAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+    }
+}
+
+extension DescribeCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCrossAccountAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachment = output.crossAccountAttachment
+        } else {
+            self.crossAccountAttachment = nil
+        }
+    }
+}
+
+public struct DescribeCrossAccountAttachmentOutput: Swift.Equatable {
+    /// Information about the cross-account attachment.
+    public var crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+
+    public init(
+        crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
+    )
+    {
+        self.crossAccountAttachment = crossAccountAttachment
+    }
+}
+
+struct DescribeCrossAccountAttachmentOutputBody: Swift.Equatable {
+    let crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+}
+
+extension DescribeCrossAccountAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachment = "CrossAccountAttachment"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Attachment.self, forKey: .crossAccountAttachment)
+        crossAccountAttachment = crossAccountAttachmentDecoded
+    }
+}
+
+enum DescribeCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentNotFoundException": return try await AttachmentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeCustomRoutingAcceleratorAttributesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceleratorArn = "AcceleratorArn"
@@ -4874,6 +5456,7 @@ extension EndpointAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
         case clientIPPreservationEnabled = "ClientIPPreservationEnabled"
         case endpointId = "EndpointId"
         case weight = "Weight"
@@ -4881,6 +5464,9 @@ extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
         if let clientIPPreservationEnabled = self.clientIPPreservationEnabled {
             try encodeContainer.encode(clientIPPreservationEnabled, forKey: .clientIPPreservationEnabled)
         }
@@ -4900,13 +5486,17 @@ extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
         weight = weightDecoded
         let clientIPPreservationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .clientIPPreservationEnabled)
         clientIPPreservationEnabled = clientIPPreservationEnabledDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
     }
 }
 
 extension GlobalAcceleratorClientTypes {
     /// A complex type for endpoints. A resource must be valid and active when you add it as an endpoint.
     public struct EndpointConfiguration: Swift.Equatable {
-        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for new accelerators. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with Security Groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        public var attachmentArn: Swift.String?
+        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
         public var clientIPPreservationEnabled: Swift.Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. An Application Load Balancer can be either internal or internet-facing.
         public var endpointId: Swift.String?
@@ -4914,11 +5504,13 @@ extension GlobalAcceleratorClientTypes {
         public var weight: Swift.Int?
 
         public init(
+            attachmentArn: Swift.String? = nil,
             clientIPPreservationEnabled: Swift.Bool? = nil,
             endpointId: Swift.String? = nil,
             weight: Swift.Int? = nil
         )
         {
+            self.attachmentArn = attachmentArn
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
             self.weight = weight
@@ -4973,7 +5565,7 @@ extension GlobalAcceleratorClientTypes.EndpointDescription: Swift.Codable {
 extension GlobalAcceleratorClientTypes {
     /// A complex type for an endpoint. Each endpoint group can include one or more endpoints, such as load balancers.
     public struct EndpointDescription: Swift.Equatable {
-        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for new accelerators. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with Security Groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
+        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancers endpoints. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
         public var clientIPPreservationEnabled: Swift.Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or internet-facing.
         public var endpointId: Swift.String?
@@ -6148,6 +6740,385 @@ enum ListByoipCidrsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCrossAccountAttachmentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListCrossAccountAttachmentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCrossAccountAttachmentsInput: Swift.Equatable {
+    /// The number of cross-account attachment objects that you want to return with this call. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCrossAccountAttachmentsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountAttachmentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListCrossAccountAttachmentsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCrossAccountAttachmentsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachments = output.crossAccountAttachments
+            self.nextToken = output.nextToken
+        } else {
+            self.crossAccountAttachments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCrossAccountAttachmentsOutput: Swift.Equatable {
+    /// Information about the cross-account attachments.
+    public var crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.crossAccountAttachments = crossAccountAttachments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCrossAccountAttachmentsOutputBody: Swift.Equatable {
+    let crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountAttachmentsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachments = "CrossAccountAttachments"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentsContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Attachment?].self, forKey: .crossAccountAttachments)
+        var crossAccountAttachmentsDecoded0:[GlobalAcceleratorClientTypes.Attachment]? = nil
+        if let crossAccountAttachmentsContainer = crossAccountAttachmentsContainer {
+            crossAccountAttachmentsDecoded0 = [GlobalAcceleratorClientTypes.Attachment]()
+            for structure0 in crossAccountAttachmentsContainer {
+                if let structure0 = structure0 {
+                    crossAccountAttachmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        crossAccountAttachments = crossAccountAttachmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCrossAccountAttachmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCrossAccountResourceAccountsInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension ListCrossAccountResourceAccountsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCrossAccountResourceAccountsInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct ListCrossAccountResourceAccountsInputBody: Swift.Equatable {
+}
+
+extension ListCrossAccountResourceAccountsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCrossAccountResourceAccountsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCrossAccountResourceAccountsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourceOwnerAwsAccountIds = output.resourceOwnerAwsAccountIds
+        } else {
+            self.resourceOwnerAwsAccountIds = nil
+        }
+    }
+}
+
+public struct ListCrossAccountResourceAccountsOutput: Swift.Equatable {
+    /// The account IDs of principals (resource owners) in a cross-account attachment who can add endpoints (resources) listed in the same attachment.
+    public var resourceOwnerAwsAccountIds: [Swift.String]?
+
+    public init(
+        resourceOwnerAwsAccountIds: [Swift.String]? = nil
+    )
+    {
+        self.resourceOwnerAwsAccountIds = resourceOwnerAwsAccountIds
+    }
+}
+
+struct ListCrossAccountResourceAccountsOutputBody: Swift.Equatable {
+    let resourceOwnerAwsAccountIds: [Swift.String]?
+}
+
+extension ListCrossAccountResourceAccountsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceOwnerAwsAccountIds = "ResourceOwnerAwsAccountIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceOwnerAwsAccountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceOwnerAwsAccountIds)
+        var resourceOwnerAwsAccountIdsDecoded0:[Swift.String]? = nil
+        if let resourceOwnerAwsAccountIdsContainer = resourceOwnerAwsAccountIdsContainer {
+            resourceOwnerAwsAccountIdsDecoded0 = [Swift.String]()
+            for string0 in resourceOwnerAwsAccountIdsContainer {
+                if let string0 = string0 {
+                    resourceOwnerAwsAccountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceOwnerAwsAccountIds = resourceOwnerAwsAccountIdsDecoded0
+    }
+}
+
+enum ListCrossAccountResourceAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCrossAccountResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceleratorArn = "AcceleratorArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceOwnerAwsAccountId = "ResourceOwnerAwsAccountId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let acceleratorArn = self.acceleratorArn {
+            try encodeContainer.encode(acceleratorArn, forKey: .acceleratorArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceOwnerAwsAccountId = self.resourceOwnerAwsAccountId {
+            try encodeContainer.encode(resourceOwnerAwsAccountId, forKey: .resourceOwnerAwsAccountId)
+        }
+    }
+}
+
+extension ListCrossAccountResourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCrossAccountResourcesInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an accelerator in a cross-account attachment.
+    public var acceleratorArn: Swift.String?
+    /// The number of cross-account endpoints objects that you want to return with this call. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The account ID of a resource owner in a cross-account attachment.
+    /// This member is required.
+    public var resourceOwnerAwsAccountId: Swift.String?
+
+    public init(
+        acceleratorArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceOwnerAwsAccountId: Swift.String? = nil
+    )
+    {
+        self.acceleratorArn = acceleratorArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceOwnerAwsAccountId = resourceOwnerAwsAccountId
+    }
+}
+
+struct ListCrossAccountResourcesInputBody: Swift.Equatable {
+    let acceleratorArn: Swift.String?
+    let resourceOwnerAwsAccountId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountResourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceleratorArn = "AcceleratorArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceOwnerAwsAccountId = "ResourceOwnerAwsAccountId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceleratorArn)
+        acceleratorArn = acceleratorArnDecoded
+        let resourceOwnerAwsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceOwnerAwsAccountId)
+        resourceOwnerAwsAccountId = resourceOwnerAwsAccountIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListCrossAccountResourcesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCrossAccountResourcesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountResources = output.crossAccountResources
+            self.nextToken = output.nextToken
+        } else {
+            self.crossAccountResources = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCrossAccountResourcesOutput: Swift.Equatable {
+    /// The endpoints attached to an accelerator in a cross-account attachment.
+    public var crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.crossAccountResources = crossAccountResources
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCrossAccountResourcesOutputBody: Swift.Equatable {
+    let crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountResourcesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountResources = "CrossAccountResources"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountResourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.CrossAccountResource?].self, forKey: .crossAccountResources)
+        var crossAccountResourcesDecoded0:[GlobalAcceleratorClientTypes.CrossAccountResource]? = nil
+        if let crossAccountResourcesContainer = crossAccountResourcesContainer {
+            crossAccountResourcesDecoded0 = [GlobalAcceleratorClientTypes.CrossAccountResource]()
+            for structure0 in crossAccountResourcesContainer {
+                if let structure0 = structure0 {
+                    crossAccountResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        crossAccountResources = crossAccountResourcesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCrossAccountResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7958,6 +8929,52 @@ enum RemoveEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GlobalAcceleratorClientTypes.Resource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointId = "EndpointId"
+        case region = "Region"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endpointId = self.endpointId {
+            try encodeContainer.encode(endpointId, forKey: .endpointId)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
+        endpointId = endpointIdDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+    }
+}
+
+extension GlobalAcceleratorClientTypes {
+    /// An Amazon Web Services resource that is supported by Global Accelerator and can be added as an endpoint for an accelerator.
+    public struct Resource: Swift.Equatable {
+        /// The endpoint ID for the endpoint (Amazon Web Services resource).
+        /// This member is required.
+        public var endpointId: Swift.String?
+        /// The Amazon Web Services Region where a resource is located.
+        public var region: Swift.String?
+
+        public init(
+            endpointId: Swift.String? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.endpointId = endpointId
+            self.region = region
+        }
+    }
+
+}
+
 extension GlobalAcceleratorClientTypes.SocketAddress: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipAddress = "IpAddress"
@@ -8568,6 +9585,218 @@ enum UpdateAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addPrincipals = "AddPrincipals"
+        case addResources = "AddResources"
+        case attachmentArn = "AttachmentArn"
+        case name = "Name"
+        case removePrincipals = "RemovePrincipals"
+        case removeResources = "RemoveResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addPrincipals = addPrincipals {
+            var addPrincipalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addPrincipals)
+            for principal0 in addPrincipals {
+                try addPrincipalsContainer.encode(principal0)
+            }
+        }
+        if let addResources = addResources {
+            var addResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addResources)
+            for resource0 in addResources {
+                try addResourcesContainer.encode(resource0)
+            }
+        }
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let removePrincipals = removePrincipals {
+            var removePrincipalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removePrincipals)
+            for principal0 in removePrincipals {
+                try removePrincipalsContainer.encode(principal0)
+            }
+        }
+        if let removeResources = removeResources {
+            var removeResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeResources)
+            for resource0 in removeResources {
+                try removeResourcesContainer.encode(resource0)
+            }
+        }
+    }
+}
+
+extension UpdateCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateCrossAccountAttachmentInput: Swift.Equatable {
+    /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to add the resources from another account, listed in the attachment. To add more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
+    public var addPrincipals: [Swift.String]?
+    /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be added to an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with commas.
+    public var addResources: [GlobalAcceleratorClientTypes.Resource]?
+    /// The Amazon Resource Name (ARN) of the cross-account attachment to update.
+    /// This member is required.
+    public var attachmentArn: Swift.String?
+    /// The name of the cross-account attachment.
+    public var name: Swift.String?
+    /// The principals to remove from the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that is given permission to add the resources from another account, listed in the cross-account attachment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
+    public var removePrincipals: [Swift.String]?
+    /// The resources to remove from the cross-account attachment. A resource listed in a cross-account attachment can be added to an accelerator fy principals that are listed in the cross-account attachment. To remove more than one resource, separate the resource ARNs with commas.
+    public var removeResources: [GlobalAcceleratorClientTypes.Resource]?
+
+    public init(
+        addPrincipals: [Swift.String]? = nil,
+        addResources: [GlobalAcceleratorClientTypes.Resource]? = nil,
+        attachmentArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        removePrincipals: [Swift.String]? = nil,
+        removeResources: [GlobalAcceleratorClientTypes.Resource]? = nil
+    )
+    {
+        self.addPrincipals = addPrincipals
+        self.addResources = addResources
+        self.attachmentArn = attachmentArn
+        self.name = name
+        self.removePrincipals = removePrincipals
+        self.removeResources = removeResources
+    }
+}
+
+struct UpdateCrossAccountAttachmentInputBody: Swift.Equatable {
+    let attachmentArn: Swift.String?
+    let name: Swift.String?
+    let addPrincipals: [Swift.String]?
+    let removePrincipals: [Swift.String]?
+    let addResources: [GlobalAcceleratorClientTypes.Resource]?
+    let removeResources: [GlobalAcceleratorClientTypes.Resource]?
+}
+
+extension UpdateCrossAccountAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addPrincipals = "AddPrincipals"
+        case addResources = "AddResources"
+        case attachmentArn = "AttachmentArn"
+        case name = "Name"
+        case removePrincipals = "RemovePrincipals"
+        case removeResources = "RemoveResources"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let addPrincipalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .addPrincipals)
+        var addPrincipalsDecoded0:[Swift.String]? = nil
+        if let addPrincipalsContainer = addPrincipalsContainer {
+            addPrincipalsDecoded0 = [Swift.String]()
+            for string0 in addPrincipalsContainer {
+                if let string0 = string0 {
+                    addPrincipalsDecoded0?.append(string0)
+                }
+            }
+        }
+        addPrincipals = addPrincipalsDecoded0
+        let removePrincipalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .removePrincipals)
+        var removePrincipalsDecoded0:[Swift.String]? = nil
+        if let removePrincipalsContainer = removePrincipalsContainer {
+            removePrincipalsDecoded0 = [Swift.String]()
+            for string0 in removePrincipalsContainer {
+                if let string0 = string0 {
+                    removePrincipalsDecoded0?.append(string0)
+                }
+            }
+        }
+        removePrincipals = removePrincipalsDecoded0
+        let addResourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .addResources)
+        var addResourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let addResourcesContainer = addResourcesContainer {
+            addResourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in addResourcesContainer {
+                if let structure0 = structure0 {
+                    addResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        addResources = addResourcesDecoded0
+        let removeResourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .removeResources)
+        var removeResourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let removeResourcesContainer = removeResourcesContainer {
+            removeResourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in removeResourcesContainer {
+                if let structure0 = structure0 {
+                    removeResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        removeResources = removeResourcesDecoded0
+    }
+}
+
+extension UpdateCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCrossAccountAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachment = output.crossAccountAttachment
+        } else {
+            self.crossAccountAttachment = nil
+        }
+    }
+}
+
+public struct UpdateCrossAccountAttachmentOutput: Swift.Equatable {
+    /// Information about the updated cross-account attachment.
+    public var crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+
+    public init(
+        crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
+    )
+    {
+        self.crossAccountAttachment = crossAccountAttachment
+    }
+}
+
+struct UpdateCrossAccountAttachmentOutputBody: Swift.Equatable {
+    let crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+}
+
+extension UpdateCrossAccountAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachment = "CrossAccountAttachment"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Attachment.self, forKey: .crossAccountAttachment)
+        crossAccountAttachment = crossAccountAttachmentDecoded
+    }
+}
+
+enum UpdateCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentNotFoundException": return try await AttachmentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

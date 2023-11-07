@@ -1978,7 +1978,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var port: Swift.Int?
     /// This parameter is not currently supported.
     public var preSignedUrl: Swift.String?
-    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see [ Adjusting the Preferred Maintenance Window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html) in the Amazon Neptune User Guide. Constraints:
+    /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see [Neptune Maintenance Window](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window) in the Amazon Neptune User Guide. Constraints:
     ///
     /// * Must be in the format hh24:mi-hh24:mi.
     ///
@@ -1988,7 +1988,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// * Must be at least 30 minutes.
     public var preferredBackupWindow: Swift.String?
-    /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. To see the time blocks available, see [ Adjusting the Preferred Maintenance Window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html) in the Amazon Neptune User Guide. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+    /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. To see the time blocks available, see [Neptune Maintenance Window](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window) in the Amazon Neptune User Guide. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
     /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
     public var replicationSourceIdentifier: Swift.String?
@@ -2262,7 +2262,7 @@ extension CreateDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -2642,6 +2642,11 @@ enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
+}
+
+extension CreateDBInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDBInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), masterUserPassword: \(Swift.String(describing: masterUserPassword)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateDBInstanceInput: Swift.Encodable {
@@ -4570,7 +4575,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
 }
 
 extension NeptuneClientTypes {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public struct DBCluster: Swift.Equatable {
         /// AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
         public var allocatedStorage: Swift.Int?
@@ -5535,7 +5540,7 @@ extension NeptuneClientTypes.DBClusterRole: Swift.Codable {
 extension NeptuneClientTypes {
     /// Describes an Amazon Identity and Access Management (IAM) role that is associated with a DB cluster.
     public struct DBClusterRole: Swift.Equatable {
-        /// The name of the feature associated with the Amazon Identity and Access Management (IAM) role. For the list of supported feature names, see [DescribeDBEngineVersions](https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+        /// The name of the feature associated with the Amazon Identity and Access Management (IAM) role. For the list of supported feature names, see [DescribeDBEngineVersions].
         public var featureName: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public var roleArn: Swift.String?
@@ -8712,7 +8717,7 @@ extension DeleteDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -13846,7 +13851,7 @@ extension FailoverDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct FailoverDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -16088,7 +16093,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
     public var enableIAMDatabaseAuthentication: Swift.Bool?
-    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see [Engine Releases for Amazon Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html), or call [DescribeDBEngineVersions](https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see [Engine Releases for Amazon Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html), or call [DescribeDBEngineVersions].
     public var engineVersion: Swift.String?
     /// Not supported by Neptune.
     public var masterUserPassword: Swift.String?
@@ -16286,7 +16291,7 @@ extension ModifyDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ModifyDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -16662,6 +16667,11 @@ enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
+}
+
+extension ModifyDBInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyDBInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), masterUserPassword: \(Swift.String(describing: masterUserPassword)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageType: \(Swift.String(describing: storageType)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension ModifyDBInstanceInput: Swift.Encodable {
@@ -18751,7 +18761,7 @@ extension PromoteReadReplicaDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PromoteReadReplicaDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -19149,7 +19159,7 @@ public struct RemoveRoleFromDBClusterInput: Swift.Equatable {
     /// The name of the DB cluster to disassociate the IAM role from.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
-    /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see [DescribeDBEngineVersions](https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions).
+    /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see [DescribeDBEngineVersions].
     public var featureName: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
     /// This member is required.
@@ -20227,7 +20237,7 @@ extension RestoreDBClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding 
 }
 
 public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -20618,7 +20628,7 @@ extension RestoreDBClusterToPointInTimeOutput: ClientRuntime.HttpResponseBinding
 }
 
 public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -21195,7 +21205,7 @@ extension StartDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct StartDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(
@@ -21294,7 +21304,7 @@ extension StopDBClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct StopDBClusterOutput: Swift.Equatable {
-    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters] action.
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
     public init(

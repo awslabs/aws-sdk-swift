@@ -67,7 +67,7 @@ public struct ResiliencehubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension ResiliencehubClient: ResiliencehubClientProtocol {
-    /// Adds the resource mapping for the draft application version. You can also update an existing resource mapping to a new physical resource.
+    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources suported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html) in the Resilience Hub User Guide.
     ///
     /// - Parameter AddDraftAppVersionResourceMappingsInput : [no documentation found]
     ///
@@ -374,7 +374,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         return result
     }
 
-    /// Creates a resiliency policy for an application.
+    /// Creates a resiliency policy for an application. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
     /// - Parameter CreateResiliencyPolicyInput : [no documentation found]
     ///
@@ -2668,7 +2668,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         return result
     }
 
-    /// Updates a resiliency policy.
+    /// Updates a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
     /// - Parameter UpdateResiliencyPolicyInput : [no documentation found]
     ///

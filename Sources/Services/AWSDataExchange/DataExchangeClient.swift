@@ -1067,6 +1067,56 @@ extension DataExchangeClient: DataExchangeClientProtocol {
         return result
     }
 
+    /// The type of event associated with the data set.
+    ///
+    /// - Parameter SendDataSetNotificationInput : [no documentation found]
+    ///
+    /// - Returns: `SendDataSetNotificationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
+    public func sendDataSetNotification(input: SendDataSetNotificationInput) async throws -> SendDataSetNotificationOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendDataSetNotification")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "dataexchange")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SendDataSetNotificationInput, SendDataSetNotificationOutput, SendDataSetNotificationOutputError>(id: "sendDataSetNotification")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput, SendDataSetNotificationOutputError>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput, SendDataSetNotificationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendDataSetNotificationOutput, SendDataSetNotificationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput>(xmlName: "SendDataSetNotificationRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendDataSetNotificationOutput, SendDataSetNotificationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendDataSetNotificationOutput, SendDataSetNotificationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendDataSetNotificationOutput, SendDataSetNotificationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendDataSetNotificationOutput, SendDataSetNotificationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// This operation starts a job.
     ///
     /// - Parameter StartJobInput : [no documentation found]

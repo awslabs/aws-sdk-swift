@@ -6455,7 +6455,7 @@ extension UpdateLayoutInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLayoutInput: Swift.Equatable {
-    /// Information about which fields will be present in the layout, the order of the fields, and a read-only attribute of the field.
+    /// Information about which fields will be present in the layout, the order of the fields.
     public var content: ConnectCasesClientTypes.LayoutContent?
     /// The unique identifier of the Cases domain.
     /// This member is required.

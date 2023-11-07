@@ -5982,6 +5982,8 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case catalogKinesisSource = "CatalogKinesisSource"
         case catalogSource = "CatalogSource"
         case catalogTarget = "CatalogTarget"
+        case connectorDataSource = "ConnectorDataSource"
+        case connectorDataTarget = "ConnectorDataTarget"
         case customCode = "CustomCode"
         case directJDBCSource = "DirectJDBCSource"
         case directKafkaSource = "DirectKafkaSource"
@@ -6076,6 +6078,12 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let catalogTarget = self.catalogTarget {
             try encodeContainer.encode(catalogTarget, forKey: .catalogTarget)
+        }
+        if let connectorDataSource = self.connectorDataSource {
+            try encodeContainer.encode(connectorDataSource, forKey: .connectorDataSource)
+        }
+        if let connectorDataTarget = self.connectorDataTarget {
+            try encodeContainer.encode(connectorDataTarget, forKey: .connectorDataTarget)
         }
         if let customCode = self.customCode {
             try encodeContainer.encode(customCode, forKey: .customCode)
@@ -6393,6 +6401,10 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         snowflakeSource = snowflakeSourceDecoded
         let snowflakeTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SnowflakeTarget.self, forKey: .snowflakeTarget)
         snowflakeTarget = snowflakeTargetDecoded
+        let connectorDataSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ConnectorDataSource.self, forKey: .connectorDataSource)
+        connectorDataSource = connectorDataSourceDecoded
+        let connectorDataTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ConnectorDataTarget.self, forKey: .connectorDataTarget)
+        connectorDataTarget = connectorDataTargetDecoded
     }
 }
 
@@ -6421,6 +6433,10 @@ extension GlueClientTypes {
         public var catalogSource: GlueClientTypes.CatalogSource?
         /// Specifies a target that uses a Glue Data Catalog table.
         public var catalogTarget: GlueClientTypes.BasicCatalogTarget?
+        /// Specifies a source generated with standard connection options.
+        public var connectorDataSource: GlueClientTypes.ConnectorDataSource?
+        /// Specifies a target generated with standard connection options.
+        public var connectorDataTarget: GlueClientTypes.ConnectorDataTarget?
         /// Specifies a transform that uses custom code you provide to perform the data transformation. The output is a collection of DynamicFrames.
         public var customCode: GlueClientTypes.CustomCode?
         /// Specifies the direct JDBC source connection.
@@ -6550,6 +6566,8 @@ extension GlueClientTypes {
             catalogKinesisSource: GlueClientTypes.CatalogKinesisSource? = nil,
             catalogSource: GlueClientTypes.CatalogSource? = nil,
             catalogTarget: GlueClientTypes.BasicCatalogTarget? = nil,
+            connectorDataSource: GlueClientTypes.ConnectorDataSource? = nil,
+            connectorDataTarget: GlueClientTypes.ConnectorDataTarget? = nil,
             customCode: GlueClientTypes.CustomCode? = nil,
             directJDBCSource: GlueClientTypes.DirectJDBCSource? = nil,
             directKafkaSource: GlueClientTypes.DirectKafkaSource? = nil,
@@ -6621,6 +6639,8 @@ extension GlueClientTypes {
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
             self.catalogTarget = catalogTarget
+            self.connectorDataSource = connectorDataSource
+            self.connectorDataTarget = connectorDataTarget
             self.customCode = customCode
             self.directJDBCSource = directJDBCSource
             self.directKafkaSource = directKafkaSource
@@ -8505,6 +8525,194 @@ extension GlueClientTypes {
         )
         {
             self.connections = connections
+        }
+    }
+
+}
+
+extension GlueClientTypes.ConnectorDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionType = "ConnectionType"
+        case data = "Data"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionType = self.connectionType {
+            try encodeContainer.encode(connectionType, forKey: .connectionType)
+        }
+        if let data = data {
+            var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
+            for (dictKey0, connectorOptions0) in data {
+                try dataContainer.encode(connectorOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let connectionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionType)
+        connectionType = connectionTypeDecoded
+        let dataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .data)
+        var dataDecoded0: [Swift.String:Swift.String]? = nil
+        if let dataContainer = dataContainer {
+            dataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, genericstring0) in dataContainer {
+                if let genericstring0 = genericstring0 {
+                    dataDecoded0?[key0] = genericstring0
+                }
+            }
+        }
+        data = dataDecoded0
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a source generated with standard connection options.
+    public struct ConnectorDataSource: Swift.Equatable {
+        /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
+        ///
+        /// * bigquery
+        /// This member is required.
+        public var connectionType: Swift.String?
+        /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
+        /// This member is required.
+        public var data: [Swift.String:Swift.String]?
+        /// The name of this source node.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for this source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+
+        public init(
+            connectionType: Swift.String? = nil,
+            data: [Swift.String:Swift.String]? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil
+        )
+        {
+            self.connectionType = connectionType
+            self.data = data
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+    }
+
+}
+
+extension GlueClientTypes.ConnectorDataTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionType = "ConnectionType"
+        case data = "Data"
+        case inputs = "Inputs"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionType = self.connectionType {
+            try encodeContainer.encode(connectionType, forKey: .connectionType)
+        }
+        if let data = data {
+            var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
+            for (dictKey0, connectorOptions0) in data {
+                try dataContainer.encode(connectorOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let connectionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionType)
+        connectionType = connectionTypeDecoded
+        let dataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .data)
+        var dataDecoded0: [Swift.String:Swift.String]? = nil
+        if let dataContainer = dataContainer {
+            dataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, genericstring0) in dataContainer {
+                if let genericstring0 = genericstring0 {
+                    dataDecoded0?[key0] = genericstring0
+                }
+            }
+        }
+        data = dataDecoded0
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a target generated with standard connection options.
+    public struct ConnectorDataTarget: Swift.Equatable {
+        /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
+        ///
+        /// * bigquery
+        /// This member is required.
+        public var connectionType: Swift.String?
+        /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
+        /// This member is required.
+        public var data: [Swift.String:Swift.String]?
+        /// The nodes that are inputs to the data target.
+        public var inputs: [Swift.String]?
+        /// The name of this target node.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            connectionType: Swift.String? = nil,
+            data: [Swift.String:Swift.String]? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.connectionType = connectionType
+            self.data = data
+            self.inputs = inputs
+            self.name = name
         }
     }
 

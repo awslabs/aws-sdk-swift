@@ -20,6 +20,22 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func convertRecoveryPointToSnapshot(input: ConvertRecoveryPointToSnapshotInput) async throws -> ConvertRecoveryPointToSnapshotOutput
+    /// Creates a custom domain association for Amazon Redshift Serverless.
+    ///
+    /// - Parameter CreateCustomDomainAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomDomainAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput
     /// Creates an Amazon Redshift Serverless managed VPC endpoint.
     ///
     /// - Parameter CreateEndpointAccessInput : [no documentation found]
@@ -97,6 +113,22 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createWorkgroup(input: CreateWorkgroupInput) async throws -> CreateWorkgroupOutput
+    /// Deletes a custom domain association for Amazon Redshift Serverless.
+    ///
+    /// - Parameter DeleteCustomDomainAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomDomainAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput
     /// Deletes an Amazon Redshift Serverless managed VPC endpoint.
     ///
     /// - Parameter DeleteEndpointAccessInput : [no documentation found]
@@ -193,6 +225,22 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func getCredentials(input: GetCredentialsInput) async throws -> GetCredentialsOutput
+    /// Gets information about a specific custom domain association.
+    ///
+    /// - Parameter GetCustomDomainAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetCustomDomainAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    func getCustomDomainAssociation(input: GetCustomDomainAssociationInput) async throws -> GetCustomDomainAssociationOutput
     /// Returns information, such as the name, about a VPC endpoint.
     ///
     /// - Parameter GetEndpointAccessInput : [no documentation found]
@@ -299,6 +347,21 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func getWorkgroup(input: GetWorkgroupInput) async throws -> GetWorkgroupOutput
+    /// Lists custom domain associations for Amazon Redshift Serverless.
+    ///
+    /// - Parameter ListCustomDomainAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomDomainAssociationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `InvalidPaginationException` : The provided pagination token is invalid.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    func listCustomDomainAssociations(input: ListCustomDomainAssociationsInput) async throws -> ListCustomDomainAssociationsOutput
     /// Returns an array of EndpointAccess objects and relevant information.
     ///
     /// - Parameter ListEndpointAccessInput : [no documentation found]
@@ -491,6 +554,22 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Updates an Amazon Redshift Serverless certificate associated with a custom domain.
+    ///
+    /// - Parameter UpdateCustomDomainAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCustomDomainAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    func updateCustomDomainAssociation(input: UpdateCustomDomainAssociationInput) async throws -> UpdateCustomDomainAssociationOutput
     /// Updates an Amazon Redshift Serverless managed endpoint.
     ///
     /// - Parameter UpdateEndpointAccessInput : [no documentation found]

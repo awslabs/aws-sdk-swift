@@ -219,6 +219,7 @@ extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArn = "AgentArn"
         case name = "Name"
+        case platform = "Platform"
         case status = "Status"
     }
 
@@ -229,6 +230,9 @@ extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let platform = self.platform {
+            try encodeContainer.encode(platform, forKey: .platform)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -243,6 +247,8 @@ extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
         name = nameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.AgentStatus.self, forKey: .status)
         status = statusDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Platform.self, forKey: .platform)
+        platform = platformDecoded
     }
 }
 
@@ -253,17 +259,25 @@ extension DataSyncClientTypes {
         public var agentArn: Swift.String?
         /// The name of an agent.
         public var name: Swift.String?
-        /// The status of an agent. For more information, see [DataSync agent statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-agent-statuses.html).
+        /// The platform-related details about the agent, such as the version number.
+        public var platform: DataSyncClientTypes.Platform?
+        /// The status of an agent.
+        ///
+        /// * If the status is ONLINE, the agent is configured properly and ready to use.
+        ///
+        /// * If the status is OFFLINE, the agent has been out of contact with DataSync for five minutes or longer. This can happen for a few reasons. For more information, see [What do I do if my agent is offline?](https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-agents.html#troubleshoot-agent-offline)
         public var status: DataSyncClientTypes.AgentStatus?
 
         public init(
             agentArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            platform: DataSyncClientTypes.Platform? = nil,
             status: DataSyncClientTypes.AgentStatus? = nil
         )
         {
             self.agentArn = agentArn
             self.name = name
+            self.platform = platform
             self.status = status
         }
     }
@@ -1770,12 +1784,12 @@ extension CreateLocationFsxWindowsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLocationFsxWindowsInput: Swift.Equatable {
-    /// Specifies the name of the Windows domain that the FSx for Windows File Server belongs to.
+    /// Specifies the name of the Windows domain that the FSx for Windows File Server belongs to. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions) for FSx for Windows File Server locations.
     public var domain: Swift.String?
     /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
     /// This member is required.
     public var fsxFilesystemArn: Swift.String?
-    /// Specifies the password of the user who has the permissions to access files and folders in the file system.
+    /// Specifies the password of the user who has the permissions to access files and folders in the file system. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions) for FSx for Windows File Server locations.
     /// This member is required.
     public var password: Swift.String?
     /// Specifies the ARNs of the security groups that provide access to your file system's preferred subnet. If you choose a security group that doesn't allow connections from within itself, do one of the following:
@@ -1789,7 +1803,7 @@ public struct CreateLocationFsxWindowsInput: Swift.Equatable {
     public var subdirectory: Swift.String?
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
-    /// Specifies the user who has the permissions to access files, folders, and metadata in your file system. For information about choosing a user with sufficient permissions, see [Required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions).
+    /// Specifies the user who has the permissions to access files, folders, and metadata in your file system. For information about choosing a user with the right level of access for your transfer, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions) for FSx for Windows File Server locations.
     /// This member is required.
     public var user: Swift.String?
 
@@ -2871,7 +2885,7 @@ public struct CreateLocationSmbInput: Swift.Equatable {
     /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     /// This member is required.
     public var agentArns: [Swift.String]?
-    /// Specifies the Windows domain name that your SMB file server belongs to. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
+    /// Specifies the Windows domain name that your SMB file server belongs to. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
     public var domain: Swift.String?
     /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
@@ -3560,7 +3574,7 @@ extension DescribeAgentInput: ClientRuntime.URLPathProvider {
 
 /// DescribeAgent
 public struct DescribeAgentInput: Swift.Equatable {
-    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent to describe.
+    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that you want information about.
     /// This member is required.
     public var agentArn: Swift.String?
 
@@ -3598,6 +3612,7 @@ extension DescribeAgentOutput: ClientRuntime.HttpResponseBinding {
             self.endpointType = output.endpointType
             self.lastConnectionTime = output.lastConnectionTime
             self.name = output.name
+            self.platform = output.platform
             self.privateLinkConfig = output.privateLinkConfig
             self.status = output.status
         } else {
@@ -3606,6 +3621,7 @@ extension DescribeAgentOutput: ClientRuntime.HttpResponseBinding {
             self.endpointType = nil
             self.lastConnectionTime = nil
             self.name = nil
+            self.platform = nil
             self.privateLinkConfig = nil
             self.status = nil
         }
@@ -3616,17 +3632,23 @@ extension DescribeAgentOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeAgentOutput: Swift.Equatable {
     /// The ARN of the agent.
     public var agentArn: Swift.String?
-    /// The time that the agent was activated (that is, created in your account).
+    /// The time that the agent was [activated](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     public var creationTime: ClientRuntime.Date?
-    /// The type of endpoint that your agent is connected to. If the endpoint is a VPC endpoint, the agent is not accessible over the public internet.
+    /// The type of [service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html) that your agent is connected to.
     public var endpointType: DataSyncClientTypes.EndpointType?
-    /// The time that the agent last connected to DataSync.
+    /// The last time that the agent was communicating with the DataSync service.
     public var lastConnectionTime: ClientRuntime.Date?
     /// The name of the agent.
     public var name: Swift.String?
-    /// The subnet and the security group that DataSync used to access a VPC endpoint.
+    /// The platform-related details about the agent, such as the version number.
+    public var platform: DataSyncClientTypes.Platform?
+    /// The network configuration that the agent uses when connecting to a [VPC service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc).
     public var privateLinkConfig: DataSyncClientTypes.PrivateLinkConfig?
-    /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
+    /// The status of the agent.
+    ///
+    /// * If the status is ONLINE, the agent is configured properly and ready to use.
+    ///
+    /// * If the status is OFFLINE, the agent has been out of contact with DataSync for five minutes or longer. This can happen for a few reasons. For more information, see [What do I do if my agent is offline?](https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-agents.html#troubleshoot-agent-offline)
     public var status: DataSyncClientTypes.AgentStatus?
 
     public init(
@@ -3635,6 +3657,7 @@ public struct DescribeAgentOutput: Swift.Equatable {
         endpointType: DataSyncClientTypes.EndpointType? = nil,
         lastConnectionTime: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
+        platform: DataSyncClientTypes.Platform? = nil,
         privateLinkConfig: DataSyncClientTypes.PrivateLinkConfig? = nil,
         status: DataSyncClientTypes.AgentStatus? = nil
     )
@@ -3644,6 +3667,7 @@ public struct DescribeAgentOutput: Swift.Equatable {
         self.endpointType = endpointType
         self.lastConnectionTime = lastConnectionTime
         self.name = name
+        self.platform = platform
         self.privateLinkConfig = privateLinkConfig
         self.status = status
     }
@@ -3657,6 +3681,7 @@ struct DescribeAgentOutputBody: Swift.Equatable {
     let creationTime: ClientRuntime.Date?
     let endpointType: DataSyncClientTypes.EndpointType?
     let privateLinkConfig: DataSyncClientTypes.PrivateLinkConfig?
+    let platform: DataSyncClientTypes.Platform?
 }
 
 extension DescribeAgentOutputBody: Swift.Decodable {
@@ -3666,6 +3691,7 @@ extension DescribeAgentOutputBody: Swift.Decodable {
         case endpointType = "EndpointType"
         case lastConnectionTime = "LastConnectionTime"
         case name = "Name"
+        case platform = "Platform"
         case privateLinkConfig = "PrivateLinkConfig"
         case status = "Status"
     }
@@ -3686,6 +3712,8 @@ extension DescribeAgentOutputBody: Swift.Decodable {
         endpointType = endpointTypeDecoded
         let privateLinkConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.PrivateLinkConfig.self, forKey: .privateLinkConfig)
         privateLinkConfig = privateLinkConfigDecoded
+        let platformDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.Platform.self, forKey: .platform)
+        platform = platformDecoded
     }
 }
 
@@ -6397,13 +6425,13 @@ public struct DescribeTaskExecutionOutput: Swift.Equatable {
     public var filesSkipped: Swift.Int
     /// The actual number of files, objects, and directories that DataSync transferred over the network. This value is updated periodically during the task execution's TRANSFERRING phase when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what transferred or to monitor your task execution.
     public var filesTransferred: Swift.Int
-    /// The number of files, objects, and directories that DataSync verified during your transfer.
+    /// The number of files, objects, and directories that DataSync verified during your transfer. When you configure your task to [verify only the data that's transferred](https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html), DataSync doesn't verify directories in some situations or files that fail to transfer.
     public var filesVerified: Swift.Int
     /// A list of filter rules that include specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     public var options: DataSyncClientTypes.Options?
-    /// Indicates whether DataSync generated a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html) for your transfer.
+    /// Indicates whether DataSync generated a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html) for your transfer.
     public var reportResult: DataSyncClientTypes.ReportResult?
     /// The result of the task execution.
     public var result: DataSyncClientTypes.TaskExecutionResultDetail?
@@ -6705,7 +6733,7 @@ public struct DescribeTaskOutput: Swift.Equatable {
     public var status: DataSyncClientTypes.TaskStatus?
     /// The Amazon Resource Name (ARN) of the task that was described.
     public var taskArn: Swift.String?
-    /// The configuration of your task report. For more information, see [Creating a task report](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    /// The configuration of your task report. For more information, see [Creating a task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
@@ -10522,6 +10550,41 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes.Platform: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The platform-related details about the DataSync agent, such as the version number.
+    public struct Platform: Swift.Equatable {
+        /// The version of the DataSync agent. Beginning December 7, 2023, we will discontinue version 1 DataSync agents. Check the DataSync console to see if you have affected agents. If you do, [replace](https://docs.aws.amazon.com/datasync/latest/userguide/replacing-agent.html) those agents before then to avoid data transfer or storage discovery disruptions. If you need more help, contact [Amazon Web Services Support](https://aws.amazon.com/contact-us/).
+        public var version: Swift.String?
+
+        public init(
+            version: Swift.String? = nil
+        )
+        {
+            self.version = version
+        }
+    }
+
+}
+
 extension DataSyncClientTypes {
     public enum PosixPermissions: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
@@ -10680,7 +10743,7 @@ extension DataSyncClientTypes.PrivateLinkConfig: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Specifies how your DataSync agent connects to Amazon Web Services using a virtual private cloud (VPC) service endpoint. An agent that uses a VPC endpoint isn't accessible over the public internet.
+    /// Specifies how your DataSync agent connects to Amazon Web Services using a [virtual private cloud (VPC) service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc). An agent that uses a VPC endpoint isn't accessible over the public internet.
     public struct PrivateLinkConfig: Swift.Equatable {
         /// Specifies the VPC endpoint provided by [Amazon Web Services PrivateLink](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html) that your agent connects to.
         public var privateLinkEndpoint: Swift.String?
@@ -10947,7 +11010,7 @@ extension DataSyncClientTypes.ReportDestination: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Specifies where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    /// Specifies where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public struct ReportDestination: Swift.Equatable {
         /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
         public var s3: DataSyncClientTypes.ReportDestinationS3?
@@ -10994,9 +11057,9 @@ extension DataSyncClientTypes.ReportDestinationS3: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Specifies the Amazon S3 bucket where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    /// Specifies the Amazon S3 bucket where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public struct ReportDestinationS3: Swift.Equatable {
-        /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows DataSync to upload a task report to your S3 bucket. For more information, see [Allowing DataSync to upload a task report to an Amazon S3 bucket](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+        /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows DataSync to upload a task report to your S3 bucket. For more information, see [Allowing DataSync to upload a task report to an Amazon S3 bucket](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
         /// This member is required.
         public var bucketAccessRoleArn: Swift.String?
         /// Specifies the ARN of the S3 bucket where DataSync uploads your report.
@@ -11103,7 +11166,7 @@ extension DataSyncClientTypes.ReportOverride: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Specifies the level of detail for a particular aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    /// Specifies the level of detail for a particular aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public struct ReportOverride: Swift.Equatable {
         /// Specifies whether your task report includes errors only or successes and errors. For example, your report might mostly include only what didn't go well in your transfer (ERRORS_ONLY). At the same time, you want to verify that your [task filter](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html) is working correctly. In this situation, you can get a list of what files DataSync successfully skipped and if something transferred that you didn't to transfer (SUCCESSES_AND_ERRORS).
         public var reportLevel: DataSyncClientTypes.ReportLevel?
@@ -11156,7 +11219,7 @@ extension DataSyncClientTypes.ReportOverrides: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// The level of detail included in each aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    /// The level of detail included in each aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public struct ReportOverrides: Swift.Equatable {
         /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to delete in your destination location. This only applies if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source.
         public var deleted: DataSyncClientTypes.ReportOverride?
@@ -11215,7 +11278,7 @@ extension DataSyncClientTypes.ReportResult: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Indicates whether DataSync created a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html) for your transfer.
+    /// Indicates whether DataSync created a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html) for your transfer.
     public struct ReportResult: Swift.Equatable {
         /// Indicates the code associated with the error if DataSync can't create a complete report.
         public var errorCode: Swift.String?
@@ -12691,9 +12754,9 @@ extension DataSyncClientTypes.TaskReportConfig: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
     public struct TaskReportConfig: Swift.Equatable {
-        /// Specifies the Amazon S3 bucket where DataSync uploads your task report. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html#task-report-access).
+        /// Specifies the Amazon S3 bucket where DataSync uploads your task report. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html#task-report-access).
         public var destination: DataSyncClientTypes.ReportDestination?
         /// Specifies whether your task report includes the new version of each object transferred into an S3 bucket. This only applies if you [enable versioning on your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html). Keep in mind that setting this to INCLUDE can increase the duration of your task execution.
         public var objectVersionIds: DataSyncClientTypes.ObjectVersionIds?
@@ -13925,27 +13988,20 @@ extension UpdateLocationSmbInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLocationSmbInput: Swift.Equatable {
-    /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location.
+    /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     public var agentArns: [Swift.String]?
-    /// The name of the Windows domain that the SMB server belongs to.
+    /// Specifies the Windows domain name that your SMB file server belongs to. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
     public var domain: Swift.String?
-    /// The Amazon Resource Name (ARN) of the SMB location to update.
+    /// Specifies the ARN of the SMB location that you want to update.
     /// This member is required.
     public var locationArn: Swift.String?
     /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
-    /// The password of the user who can mount the share has the permissions to access files and folders in the SMB share.
+    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
     public var password: Swift.String?
-    /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network. Subdirectory must be specified with forward slashes. For example, /path/to/folder. To transfer all the data in the folder that you specified, DataSync must have permissions to mount the SMB share and to access all the data in that share. To ensure this, do either of the following:
-    ///
-    /// * Ensure that the user/password specified belongs to the user who can mount the share and who has the appropriate permissions for all of the files and directories that you want DataSync to access.
-    ///
-    /// * Use credentials of a member of the Backup Operators group to mount the share.
-    ///
-    ///
-    /// Doing either of these options enables the agent to access the data. For the agent to access directories, you must also enable all execute access.
+    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
     public var subdirectory: Swift.String?
-    /// The user who can mount the share has the permissions to access files and folders in the SMB share.
+    /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. For information about choosing a user with the right level of access for your transfer, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
     public var user: Swift.String?
 
     public init(

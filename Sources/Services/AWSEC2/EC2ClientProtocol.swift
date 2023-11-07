@@ -1445,6 +1445,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `DescribeByoipCidrsOutput` : [no documentation found]
     func describeByoipCidrs(input: DescribeByoipCidrsInput) async throws -> DescribeByoipCidrsOutput
+    /// Describes Capacity Block offerings available for purchase. With Capacity Blocks, you purchase a specific instance type for a period of time.
+    ///
+    /// - Parameter DescribeCapacityBlockOfferingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityBlockOfferingsOutput` : [no documentation found]
+    func describeCapacityBlockOfferings(input: DescribeCapacityBlockOfferingsInput) async throws -> DescribeCapacityBlockOfferingsOutput
     /// Describes one or more Capacity Reservation Fleets.
     ///
     /// - Parameter DescribeCapacityReservationFleetsInput : [no documentation found]
@@ -2793,6 +2799,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `GetReservedInstancesExchangeQuoteOutput` : Contains the output of GetReservedInstancesExchangeQuote.
     func getReservedInstancesExchangeQuote(input: GetReservedInstancesExchangeQuoteInput) async throws -> GetReservedInstancesExchangeQuoteOutput
+    /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
+    ///
+    /// - Parameter GetSecurityGroupsForVpcInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityGroupsForVpcOutput` : [no documentation found]
+    func getSecurityGroupsForVpc(input: GetSecurityGroupsForVpcInput) async throws -> GetSecurityGroupsForVpcOutput
     /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
     /// - Parameter GetSerialConsoleAccessStatusInput : [no documentation found]
@@ -3384,6 +3396,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `ProvisionPublicIpv4PoolCidrOutput` : [no documentation found]
     func provisionPublicIpv4PoolCidr(input: ProvisionPublicIpv4PoolCidrInput) async throws -> ProvisionPublicIpv4PoolCidrOutput
+    /// Purchase the Capacity Block for use with your account. With Capacity Blocks you ensure GPU capacity is available for machine learning (ML) workloads. You must specify the ID of the Capacity Block offering you are purchasing.
+    ///
+    /// - Parameter PurchaseCapacityBlockInput : [no documentation found]
+    ///
+    /// - Returns: `PurchaseCapacityBlockOutput` : [no documentation found]
+    func purchaseCapacityBlock(input: PurchaseCapacityBlockInput) async throws -> PurchaseCapacityBlockOutput
     /// Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account.
     ///
     /// - Parameter PurchaseHostReservationInput : [no documentation found]

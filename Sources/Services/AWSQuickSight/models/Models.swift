@@ -611,6 +611,7 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         case errors = "Errors"
         case lastUpdatedTime = "LastUpdatedTime"
         case name = "Name"
+        case options = "Options"
         case sheets = "Sheets"
         case status = "Status"
         case themeArn = "ThemeArn"
@@ -644,6 +645,9 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -708,6 +712,8 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
+        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -728,6 +734,8 @@ extension QuickSightClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The descriptive name of the analysis.
         public var name: Swift.String?
+        /// An array of analysis level configurations.
+        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// Status associated with the analysis.
@@ -743,6 +751,7 @@ extension QuickSightClientTypes {
             errors: [QuickSightClientTypes.AnalysisError]? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil
@@ -755,6 +764,7 @@ extension QuickSightClientTypes {
             self.errors = errors
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.options = options
             self.sheets = sheets
             self.status = status
             self.themeArn = themeArn
@@ -806,6 +816,7 @@ extension QuickSightClientTypes.AnalysisDefinition: Swift.Codable {
         case columnConfigurations = "ColumnConfigurations"
         case dataSetIdentifierDeclarations = "DataSetIdentifierDeclarations"
         case filterGroups = "FilterGroups"
+        case options = "Options"
         case parameterDeclarations = "ParameterDeclarations"
         case sheets = "Sheets"
     }
@@ -838,6 +849,9 @@ extension QuickSightClientTypes.AnalysisDefinition: Swift.Codable {
             for filtergroup0 in filterGroups {
                 try filterGroupsContainer.encode(filtergroup0)
             }
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let parameterDeclarations = parameterDeclarations {
             var parameterDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDeclarations)
@@ -923,6 +937,8 @@ extension QuickSightClientTypes.AnalysisDefinition: Swift.Codable {
         columnConfigurations = columnConfigurationsDecoded0
         let analysisDefaultsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AnalysisDefaults.self, forKey: .analysisDefaults)
         analysisDefaults = analysisDefaultsDecoded
+        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -940,6 +956,8 @@ extension QuickSightClientTypes {
         public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
         /// Filter definitions for an analysis. For more information, see [Filtering Data in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon QuickSight User Guide.
         public var filterGroups: [QuickSightClientTypes.FilterGroup]?
+        /// An array of option definitions for an analysis.
+        public var options: QuickSightClientTypes.AssetOptions?
         /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
@@ -951,6 +969,7 @@ extension QuickSightClientTypes {
             columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
             dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]? = nil,
             filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil
         )
@@ -960,6 +979,7 @@ extension QuickSightClientTypes {
             self.columnConfigurations = columnConfigurations
             self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
             self.filterGroups = filterGroups
+            self.options = options
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
         }
@@ -4089,6 +4109,51 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.AssetOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case timezone = "Timezone"
+        case weekStart = "WeekStart"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let timezone = self.timezone {
+            try encodeContainer.encode(timezone, forKey: .timezone)
+        }
+        if let weekStart = self.weekStart {
+            try encodeContainer.encode(weekStart.rawValue, forKey: .weekStart)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
+        timezone = timezoneDecoded
+        let weekStartDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DayOfTheWeek.self, forKey: .weekStart)
+        weekStart = weekStartDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An array of analysis level configurations.
+    public struct AssetOptions: Swift.Equatable {
+        /// Determines the timezone for the analysis.
+        public var timezone: Swift.String?
+        /// Determines the week start day for an analysis.
+        public var weekStart: QuickSightClientTypes.DayOfTheWeek?
+
+        public init(
+            timezone: Swift.String? = nil,
+            weekStart: QuickSightClientTypes.DayOfTheWeek? = nil
+        )
+        {
+            self.timezone = timezone
+            self.weekStart = weekStart
+        }
+    }
+
+}
+
 extension QuickSightClientTypes {
     public enum AssignmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -6924,6 +6989,7 @@ extension QuickSightClientTypes.CastColumnTypeOperation: Swift.Codable {
         case columnName = "ColumnName"
         case format = "Format"
         case newColumnType = "NewColumnType"
+        case subType = "SubType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6937,6 +7003,9 @@ extension QuickSightClientTypes.CastColumnTypeOperation: Swift.Codable {
         if let newColumnType = self.newColumnType {
             try encodeContainer.encode(newColumnType.rawValue, forKey: .newColumnType)
         }
+        if let subType = self.subType {
+            try encodeContainer.encode(subType.rawValue, forKey: .subType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6945,6 +7014,8 @@ extension QuickSightClientTypes.CastColumnTypeOperation: Swift.Codable {
         columnName = columnNameDecoded
         let newColumnTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataType.self, forKey: .newColumnType)
         newColumnType = newColumnTypeDecoded
+        let subTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataSubType.self, forKey: .subType)
+        subType = subTypeDecoded
         let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
         format = formatDecoded
     }
@@ -6961,16 +7032,20 @@ extension QuickSightClientTypes {
         /// New column data type.
         /// This member is required.
         public var newColumnType: QuickSightClientTypes.ColumnDataType?
+        /// The sub data type of the new column. Sub types are only available for decimal columns that are part of a SPICE dataset.
+        public var subType: QuickSightClientTypes.ColumnDataSubType?
 
         public init(
             columnName: Swift.String? = nil,
             format: Swift.String? = nil,
-            newColumnType: QuickSightClientTypes.ColumnDataType? = nil
+            newColumnType: QuickSightClientTypes.ColumnDataType? = nil,
+            subType: QuickSightClientTypes.ColumnDataSubType? = nil
         )
         {
             self.columnName = columnName
             self.format = format
             self.newColumnType = newColumnType
+            self.subType = subType
         }
     }
 
@@ -7941,6 +8016,38 @@ extension QuickSightClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ColumnDataRole(rawValue: rawValue) ?? ColumnDataRole.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum ColumnDataSubType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fixed
+        case float
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColumnDataSubType] {
+            return [
+                .fixed,
+                .float,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fixed: return "FIXED"
+            case .float: return "FLOAT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ColumnDataSubType(rawValue: rawValue) ?? ColumnDataSubType.sdkUnknown(rawValue)
         }
     }
 }
@@ -16971,6 +17078,7 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
         case dataSetArns = "DataSetArns"
         case description = "Description"
         case errors = "Errors"
+        case options = "Options"
         case sheets = "Sheets"
         case sourceEntityArn = "SourceEntityArn"
         case status = "Status"
@@ -17000,6 +17108,9 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
             for dashboarderror0 in errors {
                 try errorsContainer.encode(dashboarderror0)
             }
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -17070,6 +17181,8 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
+        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -17086,6 +17199,8 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// Errors associated with this dashboard version.
         public var errors: [QuickSightClientTypes.DashboardError]?
+        /// An array of analysis level configurations.
+        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// Source entity ARN.
@@ -17103,6 +17218,7 @@ extension QuickSightClientTypes {
             dataSetArns: [Swift.String]? = nil,
             description: Swift.String? = nil,
             errors: [QuickSightClientTypes.DashboardError]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
@@ -17115,6 +17231,7 @@ extension QuickSightClientTypes {
             self.dataSetArns = dataSetArns
             self.description = description
             self.errors = errors
+            self.options = options
             self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
@@ -17132,6 +17249,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition: Swift.Codable {
         case columnConfigurations = "ColumnConfigurations"
         case dataSetIdentifierDeclarations = "DataSetIdentifierDeclarations"
         case filterGroups = "FilterGroups"
+        case options = "Options"
         case parameterDeclarations = "ParameterDeclarations"
         case sheets = "Sheets"
     }
@@ -17164,6 +17282,9 @@ extension QuickSightClientTypes.DashboardVersionDefinition: Swift.Codable {
             for filtergroup0 in filterGroups {
                 try filterGroupsContainer.encode(filtergroup0)
             }
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let parameterDeclarations = parameterDeclarations {
             var parameterDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDeclarations)
@@ -17249,6 +17370,8 @@ extension QuickSightClientTypes.DashboardVersionDefinition: Swift.Codable {
         columnConfigurations = columnConfigurationsDecoded0
         let analysisDefaultsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AnalysisDefaults.self, forKey: .analysisDefaults)
         analysisDefaults = analysisDefaultsDecoded
+        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -17266,6 +17389,8 @@ extension QuickSightClientTypes {
         public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
         /// The filter definitions for a dashboard. For more information, see [Filtering Data in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon QuickSight User Guide.
         public var filterGroups: [QuickSightClientTypes.FilterGroup]?
+        /// An array of option definitions for a dashboard.
+        public var options: QuickSightClientTypes.AssetOptions?
         /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// An array of sheet definitions for a dashboard.
@@ -17277,6 +17402,7 @@ extension QuickSightClientTypes {
             columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
             dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]? = nil,
             filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil
         )
@@ -17286,6 +17412,7 @@ extension QuickSightClientTypes {
             self.columnConfigurations = columnConfigurations
             self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
             self.filterGroups = filterGroups
+            self.options = options
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
         }
@@ -21309,6 +21436,53 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes {
+    public enum DayOfTheWeek: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DayOfTheWeek] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DayOfTheWeek(rawValue: rawValue) ?? DayOfTheWeek.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes {
@@ -41061,6 +41235,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.InputColumn: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case subType = "SubType"
         case type = "Type"
     }
 
@@ -41068,6 +41243,9 @@ extension QuickSightClientTypes.InputColumn: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let subType = self.subType {
+            try encodeContainer.encode(subType.rawValue, forKey: .subType)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -41080,6 +41258,8 @@ extension QuickSightClientTypes.InputColumn: Swift.Codable {
         name = nameDecoded
         let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.InputColumnDataType.self, forKey: .type)
         type = typeDecoded
+        let subTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataSubType.self, forKey: .subType)
+        subType = subTypeDecoded
     }
 }
 
@@ -41089,16 +41269,20 @@ extension QuickSightClientTypes {
         /// The name of this column in the underlying data source.
         /// This member is required.
         public var name: Swift.String?
+        /// The sub data type of the column. Sub types are only available for decimal columns that are part of a SPICE dataset.
+        public var subType: QuickSightClientTypes.ColumnDataSubType?
         /// The data type of the column.
         /// This member is required.
         public var type: QuickSightClientTypes.InputColumnDataType?
 
         public init(
             name: Swift.String? = nil,
+            subType: QuickSightClientTypes.ColumnDataSubType? = nil,
             type: QuickSightClientTypes.InputColumnDataType? = nil
         )
         {
             self.name = name
+            self.subType = subType
             self.type = type
         }
     }
@@ -52072,6 +52256,7 @@ extension QuickSightClientTypes.OutputColumn: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case name = "Name"
+        case subType = "SubType"
         case type = "Type"
     }
 
@@ -52082,6 +52267,9 @@ extension QuickSightClientTypes.OutputColumn: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let subType = self.subType {
+            try encodeContainer.encode(subType.rawValue, forKey: .subType)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -52096,6 +52284,8 @@ extension QuickSightClientTypes.OutputColumn: Swift.Codable {
         description = descriptionDecoded
         let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataType.self, forKey: .type)
         type = typeDecoded
+        let subTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ColumnDataSubType.self, forKey: .subType)
+        subType = subTypeDecoded
     }
 }
 
@@ -52104,19 +52294,23 @@ extension QuickSightClientTypes {
     public struct OutputColumn: Swift.Equatable {
         /// A description for a column.
         public var description: Swift.String?
-        /// A display name for the dataset.
+        /// The display name of the column..
         public var name: Swift.String?
-        /// The type.
+        /// The sub data type of the column.
+        public var subType: QuickSightClientTypes.ColumnDataSubType?
+        /// The data type of the column.
         public var type: QuickSightClientTypes.ColumnDataType?
 
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            subType: QuickSightClientTypes.ColumnDataSubType? = nil,
             type: QuickSightClientTypes.ColumnDataType? = nil
         )
         {
             self.description = description
             self.name = name
+            self.subType = subType
             self.type = type
         }
     }
@@ -70144,6 +70338,7 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
         case dataSetConfigurations = "DataSetConfigurations"
         case description = "Description"
         case errors = "Errors"
+        case options = "Options"
         case sheets = "Sheets"
         case sourceEntityArn = "SourceEntityArn"
         case status = "Status"
@@ -70170,6 +70365,9 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
             for templateerror0 in errors {
                 try errorsContainer.encode(templateerror0)
             }
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -70238,6 +70436,8 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
+        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -70252,6 +70452,8 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// Errors associated with this template version.
         public var errors: [QuickSightClientTypes.TemplateError]?
+        /// An array of analysis level configurations.
+        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
@@ -70282,6 +70484,7 @@ extension QuickSightClientTypes {
             dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]? = nil,
             description: Swift.String? = nil,
             errors: [QuickSightClientTypes.TemplateError]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
@@ -70293,6 +70496,7 @@ extension QuickSightClientTypes {
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
             self.errors = errors
+            self.options = options
             self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
@@ -70310,6 +70514,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition: Swift.Codable {
         case columnConfigurations = "ColumnConfigurations"
         case dataSetConfigurations = "DataSetConfigurations"
         case filterGroups = "FilterGroups"
+        case options = "Options"
         case parameterDeclarations = "ParameterDeclarations"
         case sheets = "Sheets"
     }
@@ -70342,6 +70547,9 @@ extension QuickSightClientTypes.TemplateVersionDefinition: Swift.Codable {
             for filtergroup0 in filterGroups {
                 try filterGroupsContainer.encode(filtergroup0)
             }
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let parameterDeclarations = parameterDeclarations {
             var parameterDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDeclarations)
@@ -70427,6 +70635,8 @@ extension QuickSightClientTypes.TemplateVersionDefinition: Swift.Codable {
         columnConfigurations = columnConfigurationsDecoded0
         let analysisDefaultsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AnalysisDefaults.self, forKey: .analysisDefaults)
         analysisDefaults = analysisDefaultsDecoded
+        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -70444,6 +70654,8 @@ extension QuickSightClientTypes {
         public var dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]?
         /// Filter definitions for a template. For more information, see [Filtering Data](https://docs.aws.amazon.com/quicksight/latest/user/filtering-visual-data.html) in the Amazon QuickSight User Guide.
         public var filterGroups: [QuickSightClientTypes.FilterGroup]?
+        /// An array of option definitions for a template.
+        public var options: QuickSightClientTypes.AssetOptions?
         /// An array of parameter declarations for a template. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// An array of sheet definitions for a template.
@@ -70455,6 +70667,7 @@ extension QuickSightClientTypes {
             columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
             dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]? = nil,
             filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil
         )
@@ -70464,6 +70677,7 @@ extension QuickSightClientTypes {
             self.columnConfigurations = columnConfigurations
             self.dataSetConfigurations = dataSetConfigurations
             self.filterGroups = filterGroups
+            self.options = options
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
         }

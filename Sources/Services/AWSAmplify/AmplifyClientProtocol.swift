@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Amplify enables developers to develop and deploy cloud-powered mobile and web apps. The Amplify Console provides a continuous delivery and hosting service for web applications. For more information, see the [Amplify Console User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html). The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the [Amplify Framework.](https://docs.amplify.aws/)
+/// Amplify enables developers to develop and deploy cloud-powered mobile and web apps. Amplify Hosting provides a continuous delivery and hosting service for web applications. For more information, see the [Amplify Hosting User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html). The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the [Amplify Framework.](https://docs.amplify.aws/)
 public protocol AmplifyClientProtocol {
     /// Creates a new Amplify app.
     ///
@@ -50,7 +50,7 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutput
-    /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.
+    /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
     /// - Parameter CreateDeploymentInput : The request structure for the create a new deployment request.
     ///
@@ -200,7 +200,7 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func generateAccessLogs(input: GenerateAccessLogsInput) async throws -> GenerateAccessLogsOutput
-    /// Returns an existing Amplify app by appID.
+    /// Returns an existing Amplify app specified by an app ID.
     ///
     /// - Parameter GetAppInput : The request structure for the get app request.
     ///
@@ -408,7 +408,7 @@ public protocol AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput
-    /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.
+    /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
     /// - Parameter StartDeploymentInput : The request structure for the start a deployment request.
     ///

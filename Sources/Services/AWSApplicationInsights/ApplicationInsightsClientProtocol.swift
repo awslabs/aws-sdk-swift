@@ -403,6 +403,7 @@ public protocol ApplicationInsightsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ResourceInUseException` : The resource is already created or in use.
     /// - `ResourceNotFoundException` : The resource does not exist in the customer account.
     /// - `ValidationException` : The parameter is not valid.
     func updateComponentConfiguration(input: UpdateComponentConfigurationInput) async throws -> UpdateComponentConfigurationOutput

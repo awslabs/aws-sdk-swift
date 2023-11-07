@@ -84,6 +84,81 @@ extension NetworkFirewallClientTypes {
 
 }
 
+extension NetworkFirewallClientTypes.AnalysisResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisDetail = "AnalysisDetail"
+        case identifiedRuleIds = "IdentifiedRuleIds"
+        case identifiedType = "IdentifiedType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisDetail = self.analysisDetail {
+            try encodeContainer.encode(analysisDetail, forKey: .analysisDetail)
+        }
+        if let identifiedRuleIds = identifiedRuleIds {
+            var identifiedRuleIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identifiedRuleIds)
+            for collectionmember_string0 in identifiedRuleIds {
+                try identifiedRuleIdsContainer.encode(collectionmember_string0)
+            }
+        }
+        if let identifiedType = self.identifiedType {
+            try encodeContainer.encode(identifiedType.rawValue, forKey: .identifiedType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifiedRuleIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .identifiedRuleIds)
+        var identifiedRuleIdsDecoded0:[Swift.String]? = nil
+        if let identifiedRuleIdsContainer = identifiedRuleIdsContainer {
+            identifiedRuleIdsDecoded0 = [Swift.String]()
+            for string0 in identifiedRuleIdsContainer {
+                if let string0 = string0 {
+                    identifiedRuleIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        identifiedRuleIds = identifiedRuleIdsDecoded0
+        let identifiedTypeDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.IdentifiedType.self, forKey: .identifiedType)
+        identifiedType = identifiedTypeDecoded
+        let analysisDetailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysisDetail)
+        analysisDetail = analysisDetailDecoded
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// The analysis result for Network Firewall's stateless rule group analyzer. Every time you call [CreateRuleGroup], [UpdateRuleGroup], or [DescribeRuleGroup] on a stateless rule group, Network Firewall analyzes the stateless rule groups in your account and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in a list of analysis results.
+    public struct AnalysisResult: Swift.Equatable {
+        /// Provides analysis details for the identified rule.
+        public var analysisDetail: Swift.String?
+        /// The priority number of the stateless rules identified in the analysis.
+        public var identifiedRuleIds: [Swift.String]?
+        /// The types of rule configurations that Network Firewall analyzes your rule groups for. Network Firewall analyzes stateless rule groups for the following types of rule configurations:
+        ///
+        /// * STATELESS_RULE_FORWARDING_ASYMMETRICALLY Cause: One or more stateless rules with the action pass or forward are forwarding traffic asymmetrically. Specifically, the rule's set of source IP addresses or their associated port numbers, don't match the set of destination IP addresses or their associated port numbers. To mitigate: Make sure that there's an existing return path. For example, if the rule allows traffic from source 10.1.0.0/24 to destination 20.1.0.0/24, you should allow return traffic from source 20.1.0.0/24 to destination 10.1.0.0/24.
+        ///
+        /// * STATELESS_RULE_CONTAINS_TCP_FLAGS Cause: At least one stateless rule with the action pass orforward contains TCP flags that are inconsistent in the forward and return directions. To mitigate: Prevent asymmetric routing issues caused by TCP flags by following these actions:
+        ///
+        /// * Remove unnecessary TCP flag inspections from the rules.
+        ///
+        /// * If you need to inspect TCP flags, check that the rules correctly account for changes in TCP flags throughout the TCP connection cycle, for example SYN and ACK flags used in a 3-way TCP handshake.
+        public var identifiedType: NetworkFirewallClientTypes.IdentifiedType?
+
+        public init(
+            analysisDetail: Swift.String? = nil,
+            identifiedRuleIds: [Swift.String]? = nil,
+            identifiedType: NetworkFirewallClientTypes.IdentifiedType? = nil
+        )
+        {
+            self.analysisDetail = analysisDetail
+            self.identifiedRuleIds = identifiedRuleIds
+            self.identifiedType = identifiedType
+        }
+    }
+
+}
+
 extension AssociateFirewallPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case firewallArn = "FirewallArn"
@@ -657,6 +732,63 @@ extension NetworkFirewallClientTypes {
 
 }
 
+extension NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revokedStatusAction = "RevokedStatusAction"
+        case unknownStatusAction = "UnknownStatusAction"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let revokedStatusAction = self.revokedStatusAction {
+            try encodeContainer.encode(revokedStatusAction.rawValue, forKey: .revokedStatusAction)
+        }
+        if let unknownStatusAction = self.unknownStatusAction {
+            try encodeContainer.encode(unknownStatusAction.rawValue, forKey: .unknownStatusAction)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revokedStatusActionDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.RevocationCheckAction.self, forKey: .revokedStatusAction)
+        revokedStatusAction = revokedStatusActionDecoded
+        let unknownStatusActionDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.RevocationCheckAction.self, forKey: .unknownStatusAction)
+        unknownStatusAction = unknownStatusActionDecoded
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// Defines the actions to take on the SSL/TLS connection if the certificate presented by the server in the connection has a revoked or unknown status.
+    public struct CheckCertificateRevocationStatusActions: Swift.Equatable {
+        /// Configures how Network Firewall processes traffic when it determines that the certificate presented by the server in the SSL/TLS connection has a revoked status.
+        ///
+        /// * PASS - Allow the connection to continue, and pass subsequent packets to the stateful engine for inspection.
+        ///
+        /// * DROP - Network Firewall closes the connection and drops subsequent packets for that connection.
+        ///
+        /// * REJECT - Network Firewall sends a TCP reject packet back to your client. The service closes the connection and drops subsequent packets for that connection. REJECT is available only for TCP traffic.
+        public var revokedStatusAction: NetworkFirewallClientTypes.RevocationCheckAction?
+        /// Configures how Network Firewall processes traffic when it determines that the certificate presented by the server in the SSL/TLS connection has an unknown status, or a status that cannot be determined for any other reason, including when the service is unable to connect to the OCSP and CRL endpoints for the certificate.
+        ///
+        /// * PASS - Allow the connection to continue, and pass subsequent packets to the stateful engine for inspection.
+        ///
+        /// * DROP - Network Firewall closes the connection and drops subsequent packets for that connection.
+        ///
+        /// * REJECT - Network Firewall sends a TCP reject packet back to your client. The service closes the connection and drops subsequent packets for that connection. REJECT is available only for TCP traffic.
+        public var unknownStatusAction: NetworkFirewallClientTypes.RevocationCheckAction?
+
+        public init(
+            revokedStatusAction: NetworkFirewallClientTypes.RevocationCheckAction? = nil,
+            unknownStatusAction: NetworkFirewallClientTypes.RevocationCheckAction? = nil
+        )
+        {
+            self.revokedStatusAction = revokedStatusAction
+            self.unknownStatusAction = unknownStatusAction
+        }
+    }
+
+}
+
 extension NetworkFirewallClientTypes {
     public enum ConfigurationSyncState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case capacityConstrained
@@ -1131,6 +1263,7 @@ enum CreateFirewallPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateRuleGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeRuleGroup = "AnalyzeRuleGroup"
         case capacity = "Capacity"
         case description = "Description"
         case dryRun = "DryRun"
@@ -1145,6 +1278,9 @@ extension CreateRuleGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzeRuleGroup = self.analyzeRuleGroup {
+            try encodeContainer.encode(analyzeRuleGroup, forKey: .analyzeRuleGroup)
+        }
         if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
@@ -1188,6 +1324,8 @@ extension CreateRuleGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateRuleGroupInput: Swift.Equatable {
+    /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then creates the rule group for you. To run the stateless rule group analyzer without creating the rule group, set DryRun to TRUE.
+    public var analyzeRuleGroup: Swift.Bool?
     /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group. You can retrieve the capacity that would be required for a rule group before you create the rule group by calling [CreateRuleGroup] with DryRun set to TRUE. You can't change or exceed this capacity when you update the rule group, so leave room for your rule group to grow. Capacity for a stateless rule group For a stateless rule group, the capacity required is the sum of the capacity requirements of the individual rules that you expect to have in the rule group. To calculate the capacity requirement of a single rule, multiply the capacity requirement values of each of the rule's match settings:
     ///
     /// * A match setting with no criteria specified has a value of 1.
@@ -1222,6 +1360,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
     public init(
+        analyzeRuleGroup: Swift.Bool? = nil,
         capacity: Swift.Int? = nil,
         description: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
@@ -1234,6 +1373,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     )
     {
+        self.analyzeRuleGroup = analyzeRuleGroup
         self.capacity = capacity
         self.description = description
         self.dryRun = dryRun
@@ -1258,10 +1398,12 @@ struct CreateRuleGroupInputBody: Swift.Equatable {
     let dryRun: Swift.Bool?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     let sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+    let analyzeRuleGroup: Swift.Bool?
 }
 
 extension CreateRuleGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeRuleGroup = "AnalyzeRuleGroup"
         case capacity = "Capacity"
         case description = "Description"
         case dryRun = "DryRun"
@@ -1305,6 +1447,8 @@ extension CreateRuleGroupInputBody: Swift.Decodable {
         encryptionConfiguration = encryptionConfigurationDecoded
         let sourceMetadataDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.SourceMetadata.self, forKey: .sourceMetadata)
         sourceMetadata = sourceMetadataDecoded
+        let analyzeRuleGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .analyzeRuleGroup)
+        analyzeRuleGroup = analyzeRuleGroupDecoded
     }
 }
 
@@ -1420,7 +1564,7 @@ public struct CreateTLSInspectionConfigurationInput: Swift.Equatable {
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     /// This member is required.
     public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
     /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
@@ -2654,6 +2798,7 @@ enum DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension DescribeRuleGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeRuleGroup = "AnalyzeRuleGroup"
         case ruleGroupArn = "RuleGroupArn"
         case ruleGroupName = "RuleGroupName"
         case type = "Type"
@@ -2661,6 +2806,9 @@ extension DescribeRuleGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzeRuleGroup = self.analyzeRuleGroup {
+            try encodeContainer.encode(analyzeRuleGroup, forKey: .analyzeRuleGroup)
+        }
         if let ruleGroupArn = self.ruleGroupArn {
             try encodeContainer.encode(ruleGroupArn, forKey: .ruleGroupArn)
         }
@@ -2680,6 +2828,8 @@ extension DescribeRuleGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRuleGroupInput: Swift.Equatable {
+    /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis.
+    public var analyzeRuleGroup: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
     public var ruleGroupArn: Swift.String?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
@@ -2688,11 +2838,13 @@ public struct DescribeRuleGroupInput: Swift.Equatable {
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
     public init(
+        analyzeRuleGroup: Swift.Bool? = nil,
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     )
     {
+        self.analyzeRuleGroup = analyzeRuleGroup
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
         self.type = type
@@ -2703,10 +2855,12 @@ struct DescribeRuleGroupInputBody: Swift.Equatable {
     let ruleGroupName: Swift.String?
     let ruleGroupArn: Swift.String?
     let type: NetworkFirewallClientTypes.RuleGroupType?
+    let analyzeRuleGroup: Swift.Bool?
 }
 
 extension DescribeRuleGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeRuleGroup = "AnalyzeRuleGroup"
         case ruleGroupArn = "RuleGroupArn"
         case ruleGroupName = "RuleGroupName"
         case type = "Type"
@@ -2720,6 +2874,8 @@ extension DescribeRuleGroupInputBody: Swift.Decodable {
         ruleGroupArn = ruleGroupArnDecoded
         let typeDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.RuleGroupType.self, forKey: .type)
         type = typeDecoded
+        let analyzeRuleGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .analyzeRuleGroup)
+        analyzeRuleGroup = analyzeRuleGroupDecoded
     }
 }
 
@@ -3062,7 +3218,7 @@ extension DescribeTLSInspectionConfigurationOutput: ClientRuntime.HttpResponseBi
 }
 
 public struct DescribeTLSInspectionConfigurationOutput: Swift.Equatable {
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
     /// The high-level properties of a TLS inspection configuration. This, along with the [TLSInspectionConfiguration], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration].
     /// This member is required.
@@ -4451,6 +4607,38 @@ extension NetworkFirewallClientTypes {
 
 }
 
+extension NetworkFirewallClientTypes {
+    public enum IdentifiedType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case statelessRuleContainsTcpFlags
+        case statelessRuleForwardingAsymmetrically
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdentifiedType] {
+            return [
+                .statelessRuleContainsTcpFlags,
+                .statelessRuleForwardingAsymmetrically,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .statelessRuleContainsTcpFlags: return "STATELESS_RULE_CONTAINS_TCP_FLAGS"
+            case .statelessRuleForwardingAsymmetrically: return "STATELESS_RULE_FORWARDING_ASYMMETRICALLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IdentifiedType(rawValue: rawValue) ?? IdentifiedType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InsufficientCapacityException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4521,7 +4709,7 @@ extension InternalServerError {
     }
 }
 
-/// Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+/// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
 public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -6599,12 +6787,14 @@ extension NetworkFirewallClientTypes {
     public enum ResourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case deleting
+        case error
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceStatus] {
             return [
                 .active,
                 .deleting,
+                .error,
                 .sdkUnknown("")
             ]
         }
@@ -6616,6 +6806,7 @@ extension NetworkFirewallClientTypes {
             switch self {
             case .active: return "ACTIVE"
             case .deleting: return "DELETING"
+            case .error: return "ERROR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6623,6 +6814,41 @@ extension NetworkFirewallClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceStatus(rawValue: rawValue) ?? ResourceStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    public enum RevocationCheckAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case drop
+        case pass
+        case reject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RevocationCheckAction] {
+            return [
+                .drop,
+                .pass,
+                .reject,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .drop: return "DROP"
+            case .pass: return "PASS"
+            case .reject: return "REJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RevocationCheckAction(rawValue: rawValue) ?? RevocationCheckAction.sdkUnknown(rawValue)
         }
     }
 }
@@ -6742,7 +6968,7 @@ extension NetworkFirewallClientTypes {
         /// The stateful rules or stateless rules for the rule group.
         /// This member is required.
         public var rulesSource: NetworkFirewallClientTypes.RulesSource?
-        /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings.
+        /// Additional options governing how Network Firewall handles stateful rules. The policies where you use your stateful rule group must have stateful rule options settings that are compatible with these settings. Some limitations apply; for more information, see [Strict evaluation order](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-limitations-caveats.html) in the Network Firewall Developer Guide.
         public var statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions?
 
         public init(
@@ -6808,6 +7034,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes.RuleGroupResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisResults = "AnalysisResults"
         case capacity = "Capacity"
         case consumedCapacity = "ConsumedCapacity"
         case description = "Description"
@@ -6826,6 +7053,12 @@ extension NetworkFirewallClientTypes.RuleGroupResponse: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisResults = analysisResults {
+            var analysisResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisResults)
+            for analysisresult0 in analysisResults {
+                try analysisResultsContainer.encode(analysisresult0)
+            }
+        }
         if let capacity = self.capacity {
             try encodeContainer.encode(capacity, forKey: .capacity)
         }
@@ -6912,12 +7145,25 @@ extension NetworkFirewallClientTypes.RuleGroupResponse: Swift.Codable {
         snsTopic = snsTopicDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+        let analysisResultsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.AnalysisResult?].self, forKey: .analysisResults)
+        var analysisResultsDecoded0:[NetworkFirewallClientTypes.AnalysisResult]? = nil
+        if let analysisResultsContainer = analysisResultsContainer {
+            analysisResultsDecoded0 = [NetworkFirewallClientTypes.AnalysisResult]()
+            for structure0 in analysisResultsContainer {
+                if let structure0 = structure0 {
+                    analysisResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisResults = analysisResultsDecoded0
     }
 }
 
 extension NetworkFirewallClientTypes {
     /// The high-level properties of a rule group. This, along with the [RuleGroup], define the rule group. You can retrieve all objects for a rule group by calling [DescribeRuleGroup].
     public struct RuleGroupResponse: Swift.Equatable {
+        /// The list of analysis results for AnalyzeRuleGroup. If you set AnalyzeRuleGroup to TRUE in [CreateRuleGroup], [UpdateRuleGroup], or [DescribeRuleGroup], Network Firewall analyzes the rule group and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in the list of analysis results.
+        public var analysisResults: [NetworkFirewallClientTypes.AnalysisResult]?
         /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group. You can retrieve the capacity that would be required for a rule group before you create the rule group by calling [CreateRuleGroup] with DryRun set to TRUE.
         public var capacity: Swift.Int?
         /// The number of capacity units currently consumed by the rule group rules.
@@ -6951,6 +7197,7 @@ extension NetworkFirewallClientTypes {
         public var type: NetworkFirewallClientTypes.RuleGroupType?
 
         public init(
+            analysisResults: [NetworkFirewallClientTypes.AnalysisResult]? = nil,
             capacity: Swift.Int? = nil,
             consumedCapacity: Swift.Int? = nil,
             description: Swift.String? = nil,
@@ -6967,6 +7214,7 @@ extension NetworkFirewallClientTypes {
             type: NetworkFirewallClientTypes.RuleGroupType? = nil
         )
         {
+            self.analysisResults = analysisResults
             self.capacity = capacity
             self.consumedCapacity = consumedCapacity
             self.description = description
@@ -7231,7 +7479,7 @@ extension NetworkFirewallClientTypes {
     public struct RulesSource: Swift.Equatable {
         /// Stateful inspection criteria for a domain list rule group.
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
-        /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
+        /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting. You can't use the priority keyword if the RuleOrder option in [StatefulRuleOptions] is set to STRICT_ORDER.
         public var rulesString: Swift.String?
         /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
@@ -7360,9 +7608,9 @@ extension NetworkFirewallClientTypes.ServerCertificate: Swift.Codable {
 }
 
 extension NetworkFirewallClientTypes {
-    /// Any Certificate Manager Secure Sockets Layer/Transport Layer Security (SSL/TLS) server certificate that's associated with a [ServerCertificateConfiguration] used in a [TLSInspectionConfiguration]. You must request or import a SSL/TLS certificate into ACM for each domain Network Firewall needs to decrypt and inspect. Network Firewall uses the SSL/TLS certificates to decrypt specified inbound SSL/TLS traffic going to your firewall. For information about working with certificates in Certificate Manager, see [Request a public certificate ](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) or [Importing certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
+    /// Any Certificate Manager (ACM) Secure Sockets Layer/Transport Layer Security (SSL/TLS) server certificate that's associated with a [ServerCertificateConfiguration]. Used in a [TLSInspectionConfiguration] for inspection of inbound traffic to your firewall. You must request or import a SSL/TLS certificate into ACM for each domain Network Firewall needs to decrypt and inspect. Network Firewall uses the SSL/TLS certificates to decrypt specified inbound SSL/TLS traffic going to your firewall. For information about working with certificates in Certificate Manager, see [Request a public certificate ](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) or [Importing certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
     public struct ServerCertificate: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate.
+        /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate that's used for inbound SSL/TLS inspection.
         public var resourceArn: Swift.String?
 
         public init(
@@ -7377,12 +7625,20 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes.ServerCertificateConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateAuthorityArn = "CertificateAuthorityArn"
+        case checkCertificateRevocationStatus = "CheckCertificateRevocationStatus"
         case scopes = "Scopes"
         case serverCertificates = "ServerCertificates"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateAuthorityArn = self.certificateAuthorityArn {
+            try encodeContainer.encode(certificateAuthorityArn, forKey: .certificateAuthorityArn)
+        }
+        if let checkCertificateRevocationStatus = self.checkCertificateRevocationStatus {
+            try encodeContainer.encode(checkCertificateRevocationStatus, forKey: .checkCertificateRevocationStatus)
+        }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
             for servercertificatescope0 in scopes {
@@ -7421,22 +7677,41 @@ extension NetworkFirewallClientTypes.ServerCertificateConfiguration: Swift.Codab
             }
         }
         scopes = scopesDecoded0
+        let certificateAuthorityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateAuthorityArn)
+        certificateAuthorityArn = certificateAuthorityArnDecoded
+        let checkCertificateRevocationStatusDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions.self, forKey: .checkCertificateRevocationStatus)
+        checkCertificateRevocationStatus = checkCertificateRevocationStatusDecoded
     }
 }
 
 extension NetworkFirewallClientTypes {
-    /// Configures the associated Certificate Manager Secure Sockets Layer/Transport Layer Security (SSL/TLS) server certificates and scope settings Network Firewall uses to decrypt traffic in a [TLSInspectionConfiguration]. For information about working with SSL/TLS certificates for TLS inspection, see [ Requirements for using SSL/TLS server certficiates with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html) in the Network Firewall Developer Guide. If a server certificate that's associated with your [TLSInspectionConfiguration] is revoked, deleted, or expired it can result in client-side TLS errors.
+    /// Configures the Certificate Manager certificates and scope that Network Firewall uses to decrypt and re-encrypt traffic using a [TLSInspectionConfiguration]. You can configure ServerCertificates for inbound SSL/TLS inspection, a CertificateAuthorityArn for outbound SSL/TLS inspection, or both. For information about working with certificates for TLS inspection, see [ Using SSL/TLS server certficiates with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html) in the Network Firewall Developer Guide. If a server certificate that's associated with your [TLSInspectionConfiguration] is revoked, deleted, or expired it can result in client-side TLS errors.
     public struct ServerCertificateConfiguration: Swift.Equatable {
-        /// A list of a server certificate configuration's scopes.
+        /// The Amazon Resource Name (ARN) of the imported certificate authority (CA) certificate within Certificate Manager (ACM) to use for outbound SSL/TLS inspection. The following limitations apply:
+        ///
+        /// * You can use CA certificates that you imported into ACM, but you can't generate CA certificates with ACM.
+        ///
+        /// * You can't use certificates issued by Private Certificate Authority.
+        ///
+        ///
+        /// For more information about configuring certificates for outbound inspection, see [Using SSL/TLS certificates with certificates with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html) in the Network Firewall Developer Guide. For information about working with certificates in ACM, see [Importing certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
+        public var certificateAuthorityArn: Swift.String?
+        /// When enabled, Network Firewall checks if the server certificate presented by the server in the SSL/TLS connection has a revoked or unkown status. If the certificate has an unknown or revoked status, you must specify the actions that Network Firewall takes on outbound traffic. To check the certificate revocation status, you must also specify a CertificateAuthorityArn in [ServerCertificateConfiguration].
+        public var checkCertificateRevocationStatus: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions?
+        /// A list of scopes.
         public var scopes: [NetworkFirewallClientTypes.ServerCertificateScope]?
-        /// The list of a server certificate configuration's Certificate Manager SSL/TLS certificates.
+        /// The list of server certificates to use for inbound SSL/TLS inspection.
         public var serverCertificates: [NetworkFirewallClientTypes.ServerCertificate]?
 
         public init(
+            certificateAuthorityArn: Swift.String? = nil,
+            checkCertificateRevocationStatus: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions? = nil,
             scopes: [NetworkFirewallClientTypes.ServerCertificateScope]? = nil,
             serverCertificates: [NetworkFirewallClientTypes.ServerCertificate]? = nil
         )
         {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.checkCertificateRevocationStatus = checkCertificateRevocationStatus
             self.scopes = scopes
             self.serverCertificates = serverCertificates
         }
@@ -7690,7 +7965,7 @@ extension NetworkFirewallClientTypes.StatefulEngineOptions: Swift.Codable {
 extension NetworkFirewallClientTypes {
     /// Configuration settings for the handling of the stateful rule groups in a firewall policy.
     public struct StatefulEngineOptions: Swift.Equatable {
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the default and recommended option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
         public var ruleOrder: NetworkFirewallClientTypes.RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.
         ///
@@ -7765,7 +8040,7 @@ extension NetworkFirewallClientTypes {
         ///
         /// * DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration].
         ///
-        /// * ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration]. You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
+        /// * ALERT - Sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration]. You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
         /// This member is required.
         public var action: NetworkFirewallClientTypes.StatefulAction?
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
@@ -8495,7 +8770,7 @@ extension NetworkFirewallClientTypes.TLSInspectionConfiguration: Swift.Codable {
 }
 
 extension NetworkFirewallClientTypes {
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     public struct TLSInspectionConfiguration: Swift.Equatable {
         /// Lists the server certificate configurations that are associated with the TLS configuration.
         public var serverCertificateConfigurations: [NetworkFirewallClientTypes.ServerCertificateConfiguration]?
@@ -8557,6 +8832,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes.TLSInspectionConfigurationResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateAuthority = "CertificateAuthority"
         case certificates = "Certificates"
         case description = "Description"
         case encryptionConfiguration = "EncryptionConfiguration"
@@ -8571,6 +8847,9 @@ extension NetworkFirewallClientTypes.TLSInspectionConfigurationResponse: Swift.C
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateAuthority = self.certificateAuthority {
+            try encodeContainer.encode(certificateAuthority, forKey: .certificateAuthority)
+        }
         if let certificates = certificates {
             var certificatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificates)
             for tlscertificatedata0 in certificates {
@@ -8649,12 +8928,16 @@ extension NetworkFirewallClientTypes.TLSInspectionConfigurationResponse: Swift.C
             }
         }
         certificates = certificatesDecoded0
+        let certificateAuthorityDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TlsCertificateData.self, forKey: .certificateAuthority)
+        certificateAuthority = certificateAuthorityDecoded
     }
 }
 
 extension NetworkFirewallClientTypes {
     /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
     public struct TLSInspectionConfigurationResponse: Swift.Equatable {
+        /// Contains metadata about an Certificate Manager certificate.
+        public var certificateAuthority: NetworkFirewallClientTypes.TlsCertificateData?
         /// A list of the certificates associated with the TLS inspection configuration.
         public var certificates: [NetworkFirewallClientTypes.TlsCertificateData]?
         /// A description of the TLS inspection configuration.
@@ -8680,6 +8963,7 @@ extension NetworkFirewallClientTypes {
         public var tlsInspectionConfigurationStatus: NetworkFirewallClientTypes.ResourceStatus?
 
         public init(
+            certificateAuthority: NetworkFirewallClientTypes.TlsCertificateData? = nil,
             certificates: [NetworkFirewallClientTypes.TlsCertificateData]? = nil,
             description: Swift.String? = nil,
             encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
@@ -8692,6 +8976,7 @@ extension NetworkFirewallClientTypes {
             tlsInspectionConfigurationStatus: NetworkFirewallClientTypes.ResourceStatus? = nil
         )
         {
+            self.certificateAuthority = certificateAuthority
             self.certificates = certificates
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
@@ -10169,6 +10454,7 @@ enum UpdateLoggingConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
 
 extension UpdateRuleGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeRuleGroup = "AnalyzeRuleGroup"
         case description = "Description"
         case dryRun = "DryRun"
         case encryptionConfiguration = "EncryptionConfiguration"
@@ -10183,6 +10469,9 @@ extension UpdateRuleGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzeRuleGroup = self.analyzeRuleGroup {
+            try encodeContainer.encode(analyzeRuleGroup, forKey: .analyzeRuleGroup)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -10223,6 +10512,8 @@ extension UpdateRuleGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateRuleGroupInput: Swift.Equatable {
+    /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then updates the rule group for you. To run the stateless rule group analyzer without updating the rule group, set DryRun to TRUE.
+    public var analyzeRuleGroup: Swift.Bool?
     /// A description of the rule group.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
@@ -10246,6 +10537,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     public var updateToken: Swift.String?
 
     public init(
+        analyzeRuleGroup: Swift.Bool? = nil,
         description: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
@@ -10258,6 +10550,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
         updateToken: Swift.String? = nil
     )
     {
+        self.analyzeRuleGroup = analyzeRuleGroup
         self.description = description
         self.dryRun = dryRun
         self.encryptionConfiguration = encryptionConfiguration
@@ -10282,10 +10575,12 @@ struct UpdateRuleGroupInputBody: Swift.Equatable {
     let dryRun: Swift.Bool?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     let sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+    let analyzeRuleGroup: Swift.Bool?
 }
 
 extension UpdateRuleGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzeRuleGroup = "AnalyzeRuleGroup"
         case description = "Description"
         case dryRun = "DryRun"
         case encryptionConfiguration = "EncryptionConfiguration"
@@ -10320,6 +10615,8 @@ extension UpdateRuleGroupInputBody: Swift.Decodable {
         encryptionConfiguration = encryptionConfigurationDecoded
         let sourceMetadataDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.SourceMetadata.self, forKey: .sourceMetadata)
         sourceMetadata = sourceMetadataDecoded
+        let analyzeRuleGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .analyzeRuleGroup)
+        analyzeRuleGroup = analyzeRuleGroupDecoded
     }
 }
 
@@ -10604,7 +10901,7 @@ public struct UpdateTLSInspectionConfigurationInput: Swift.Equatable {
     public var description: Swift.String?
     /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect the traffic traveling through your firewalls. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     /// This member is required.
     public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
     /// The Amazon Resource Name (ARN) of the TLS inspection configuration.

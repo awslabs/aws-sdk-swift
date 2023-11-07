@@ -67,7 +67,7 @@ public struct EMRClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension EMRClient: EMRClientProtocol {
-    /// Adds an instance fleet to a running cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x.
+    /// Adds an instance fleet to a running cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x.
     ///
     /// - Parameter AddInstanceFleetInput : [no documentation found]
     ///
@@ -249,7 +249,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. When you use Amazon EMR releases 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state. In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
+    /// Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and higher, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. When you use Amazon EMR releases 5.28.0 and higher, you can cancel steps that are in a PENDING or RUNNING state. In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
     ///
     /// - Parameter CancelStepsInput : The input argument to the [CancelSteps] operation.
     ///
@@ -1210,7 +1210,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Lists all available details about the instance fleets in a cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// Lists all available details about the instance fleets in a cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     ///
     /// - Parameter ListInstanceFleetsInput : [no documentation found]
     ///
@@ -1716,7 +1716,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
+    /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions.
     ///
     /// - Parameter ModifyInstanceFleetInput : [no documentation found]
     ///
@@ -1847,7 +1847,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see [Using an auto-termination policy](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html). Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
+    /// Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and higher. For more information, see [Using an auto-termination policy](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html). Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
     ///
     /// - Parameter PutAutoTerminationPolicyInput : [no documentation found]
     ///
@@ -2139,7 +2139,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For long-running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
+    /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For long-running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR releases 4.8.0 and higher, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
     ///
     /// - Parameter RunJobFlowInput : Input to the [RunJobFlow] operation.
     ///

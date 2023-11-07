@@ -34,6 +34,37 @@ extension PaginatorSequence where Input == GetServerDetailsInput, Output == GetS
     }
 }
 extension MigrationHubStrategyClient {
+    /// Paginate over `[ListAnalyzableServersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAnalyzableServersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAnalyzableServersOutput`
+    public func listAnalyzableServersPaginated(input: ListAnalyzableServersInput) -> ClientRuntime.PaginatorSequence<ListAnalyzableServersInput, ListAnalyzableServersOutput> {
+        return ClientRuntime.PaginatorSequence<ListAnalyzableServersInput, ListAnalyzableServersOutput>(input: input, inputKey: \ListAnalyzableServersInput.nextToken, outputKey: \ListAnalyzableServersOutput.nextToken, paginationFunction: self.listAnalyzableServers(input:))
+    }
+}
+
+extension ListAnalyzableServersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAnalyzableServersInput {
+        return ListAnalyzableServersInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort
+        )}
+}
+
+extension PaginatorSequence where Input == ListAnalyzableServersInput, Output == ListAnalyzableServersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAnalyzableServersPaginated`
+    /// to access the nested member `[MigrationHubStrategyClientTypes.AnalyzableServerSummary]`
+    /// - Returns: `[MigrationHubStrategyClientTypes.AnalyzableServerSummary]`
+    public func analyzableServers() async throws -> [MigrationHubStrategyClientTypes.AnalyzableServerSummary] {
+        return try await self.asyncCompactMap { item in item.analyzableServers }
+    }
+}
+extension MigrationHubStrategyClient {
     /// Paginate over `[ListApplicationComponentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

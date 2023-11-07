@@ -123,6 +123,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deregisterApplication(input: DeregisterApplicationInput) async throws -> DeregisterApplicationOutput
     {
@@ -213,6 +214,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
     {
@@ -441,6 +443,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
     {
@@ -667,6 +670,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConflictException` : A conflict has occurred.
     /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func registerApplication(input: RegisterApplicationInput) async throws -> RegisterApplicationOutput
     {
@@ -714,6 +718,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startApplicationRefresh(input: StartApplicationRefreshInput) async throws -> StartApplicationRefreshOutput
     {
@@ -851,6 +856,7 @@ extension SsmSapClient: SsmSapClientProtocol {
     /// - `ConflictException` : A conflict has occurred.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `UnauthorizedException` : The request is not authorized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput
     {

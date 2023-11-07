@@ -8777,7 +8777,7 @@ public struct DeleteEndpointInput: Swift.Equatable {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// The unique identifier for the endpoint.
+    /// The case insensitive unique identifier for the endpoint. The identifier can't contain $, { or }.
     /// This member is required.
     public var endpointId: Swift.String?
 
@@ -15858,7 +15858,7 @@ public struct GetEndpointInput: Swift.Equatable {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// The unique identifier for the endpoint.
+    /// The case insensitive unique identifier for the endpoint. The identifier can't contain $, { or }.
     /// This member is required.
     public var endpointId: Swift.String?
 
@@ -31479,7 +31479,7 @@ public struct UpdateEndpointInput: Swift.Equatable {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// The unique identifier for the endpoint.
+    /// The case insensitive unique identifier for the endpoint. The identifier can't contain $, { or }.
     /// This member is required.
     public var endpointId: Swift.String?
     /// Specifies the channel type and other settings for an endpoint.

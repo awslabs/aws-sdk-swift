@@ -25,7 +25,7 @@ extension TransferClientProtocol {
                 return JMESUtils.compare(state, ==, "STOP_FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ServerOffline event on the describeServer operation.
@@ -65,7 +65,7 @@ extension TransferClientProtocol {
                 return JMESUtils.compare(state, ==, "START_FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeServerInput, DescribeServerOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ServerOnline event on the describeServer operation.

@@ -4656,9 +4656,16 @@ extension FinspaceClientTypes {
         /// The size of cache in Gigabytes.
         /// This member is required.
         public var size: Swift.Int?
-        /// The type of cache storage . The valid values are:
+        /// The type of cache storage. The valid values are:
         ///
         /// * CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
+        ///
+        /// * CACHE_250 – This type provides at least 250 MB/s disk access throughput.
+        ///
+        /// * CACHE_12 – This type provides at least 12 MB/s disk access throughput.
+        ///
+        ///
+        /// For cache type CACHE_1000 and CACHE_250 you can select cache size as 1200 GB or increments of 2400 GB. For cache type CACHE_12 you can select the cache size in increments of 6000 GB.
         /// This member is required.
         public var type: Swift.String?
 
@@ -4926,6 +4933,78 @@ extension FinspaceClientTypes {
         }
     }
 
+}
+
+extension FinspaceClientTypes.KxClusterCodeDeploymentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentStrategy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentStrategy = self.deploymentStrategy {
+            try encodeContainer.encode(deploymentStrategy.rawValue, forKey: .deploymentStrategy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentStrategyDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterCodeDeploymentStrategy.self, forKey: .deploymentStrategy)
+        deploymentStrategy = deploymentStrategyDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The configuration that allows you to choose how you want to update code on a cluster. Depending on the option you choose, you can reduce the time it takes to update the cluster.
+    public struct KxClusterCodeDeploymentConfiguration: Swift.Equatable {
+        /// The type of deployment that you want on a cluster.
+        ///
+        /// * ROLLING – This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration.
+        ///
+        /// * FORCE – This option updates the cluster by immediately stopping all the running processes before starting up new ones with the updated configuration.
+        /// This member is required.
+        public var deploymentStrategy: FinspaceClientTypes.KxClusterCodeDeploymentStrategy?
+
+        public init(
+            deploymentStrategy: FinspaceClientTypes.KxClusterCodeDeploymentStrategy? = nil
+        )
+        {
+            self.deploymentStrategy = deploymentStrategy
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxClusterCodeDeploymentStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case force
+        case rolling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxClusterCodeDeploymentStrategy] {
+            return [
+                .force,
+                .rolling,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .force: return "FORCE"
+            case .rolling: return "ROLLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxClusterCodeDeploymentStrategy(rawValue: rawValue) ?? KxClusterCodeDeploymentStrategy.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension FinspaceClientTypes {
@@ -5262,13 +5341,13 @@ extension FinspaceClientTypes.KxDeploymentConfiguration: Swift.Codable {
 }
 
 extension FinspaceClientTypes {
-    /// The configuration that allows you to choose how you want to update the databases on a cluster. Depending on the option you choose, you can reduce the time it takes to update the database changesets on to a cluster.
+    /// The configuration that allows you to choose how you want to update the databases on a cluster. Depending on the option you choose, you can reduce the time it takes to update the cluster.
     public struct KxDeploymentConfiguration: Swift.Equatable {
         /// The type of deployment that you want on a cluster.
         ///
-        /// * ROLLING – This options loads the updated database by stopping the exiting q process and starting a new q process with updated configuration.
+        /// * ROLLING – This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration.
         ///
-        /// * NO_RESTART – This option loads the updated database on the running q process without stopping it. This option is quicker as it reduces the turn around time to update a kdb database changeset configuration on a cluster.
+        /// * NO_RESTART – This option updates the cluster without stopping the running q process. It is only available for HDB type cluster. This option is quicker as it reduces the turn around time to update configuration on a cluster. With this deployment mode, you cannot update the initializationScript and commandLineArguments parameters.
         /// This member is required.
         public var deploymentStrategy: FinspaceClientTypes.KxDeploymentStrategy?
 
@@ -7698,6 +7777,157 @@ enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxClusterCodeConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case code
+        case commandLineArguments
+        case deploymentConfiguration
+        case initializationScript
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let commandLineArguments = commandLineArguments {
+            var commandLineArgumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commandLineArguments)
+            for kxcommandlineargument0 in commandLineArguments {
+                try commandLineArgumentsContainer.encode(kxcommandlineargument0)
+            }
+        }
+        if let deploymentConfiguration = self.deploymentConfiguration {
+            try encodeContainer.encode(deploymentConfiguration, forKey: .deploymentConfiguration)
+        }
+        if let initializationScript = self.initializationScript {
+            try encodeContainer.encode(initializationScript, forKey: .initializationScript)
+        }
+    }
+}
+
+extension UpdateKxClusterCodeConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/configuration/code"
+    }
+}
+
+public struct UpdateKxClusterCodeConfigurationInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// The name of the cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The structure of the customer code available within the running cluster.
+    /// This member is required.
+    public var code: FinspaceClientTypes.CodeConfiguration?
+    /// Specifies the key-value pairs to make them available inside the cluster.
+    public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    /// The configuration that allows you to choose how you want to update the code on a cluster.
+    public var deploymentConfiguration: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration?
+    /// A unique identifier of the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
+    public var initializationScript: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        code: FinspaceClientTypes.CodeConfiguration? = nil,
+        commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]? = nil,
+        deploymentConfiguration: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration? = nil,
+        environmentId: Swift.String? = nil,
+        initializationScript: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.clusterName = clusterName
+        self.code = code
+        self.commandLineArguments = commandLineArguments
+        self.deploymentConfiguration = deploymentConfiguration
+        self.environmentId = environmentId
+        self.initializationScript = initializationScript
+    }
+}
+
+struct UpdateKxClusterCodeConfigurationInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let code: FinspaceClientTypes.CodeConfiguration?
+    let initializationScript: Swift.String?
+    let commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
+    let deploymentConfiguration: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration?
+}
+
+extension UpdateKxClusterCodeConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case code
+        case commandLineArguments
+        case deploymentConfiguration
+        case initializationScript
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.CodeConfiguration.self, forKey: .code)
+        code = codeDecoded
+        let initializationScriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationScript)
+        initializationScript = initializationScriptDecoded
+        let commandLineArgumentsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxCommandLineArgument?].self, forKey: .commandLineArguments)
+        var commandLineArgumentsDecoded0:[FinspaceClientTypes.KxCommandLineArgument]? = nil
+        if let commandLineArgumentsContainer = commandLineArgumentsContainer {
+            commandLineArgumentsDecoded0 = [FinspaceClientTypes.KxCommandLineArgument]()
+            for structure0 in commandLineArgumentsContainer {
+                if let structure0 = structure0 {
+                    commandLineArgumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        commandLineArguments = commandLineArgumentsDecoded0
+        let deploymentConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterCodeDeploymentConfiguration.self, forKey: .deploymentConfiguration)
+        deploymentConfiguration = deploymentConfigurationDecoded
+    }
+}
+
+extension UpdateKxClusterCodeConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateKxClusterCodeConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateKxClusterCodeConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

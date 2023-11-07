@@ -1490,11 +1490,11 @@ extension OpenSearchClient: OpenSearchClientProtocol {
         return result
     }
 
-    /// Get the status of the maintenance action.
+    /// The status of the maintenance action.
     ///
     /// - Parameter GetDomainMaintenanceStatusInput : Container for the parameters to the GetDomainMaintenanceStatus operation.
     ///
-    /// - Returns: `GetDomainMaintenanceStatusOutput` : The result of a GetDomainMaintenanceStatus request. Contains information about the requested action.
+    /// - Returns: `GetDomainMaintenanceStatusOutput` : The result of a GetDomainMaintenanceStatus request that information about the requested action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1673,11 +1673,11 @@ extension OpenSearchClient: OpenSearchClientProtocol {
         return result
     }
 
-    /// Get the list of the maintenance action.
+    /// A list of maintenance actions for the domain.
     ///
     /// - Parameter ListDomainMaintenancesInput : Container for the parameters to the ListDomainMaintenances operation.
     ///
-    /// - Returns: `ListDomainMaintenancesOutput` : The result of a ListDomainMaintenances request. Contains information about the requested actions.
+    /// - Returns: `ListDomainMaintenancesOutput` : The result of a ListDomainMaintenances request that contains information about the requested actions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2354,11 +2354,11 @@ extension OpenSearchClient: OpenSearchClientProtocol {
         return result
     }
 
-    /// Starts the node maintenance (Node restart, Node reboot, Opensearch/Elasticsearch process restart, Dashboard/kibana restart) on the data node.
+    /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
     ///
     /// - Parameter StartDomainMaintenanceInput : Container for the parameters to the StartDomainMaintenance operation.
     ///
-    /// - Returns: `StartDomainMaintenanceOutput` : The result of a StartDomainMaintenance request. Contains information about the requested action.
+    /// - Returns: `StartDomainMaintenanceOutput` : The result of a StartDomainMaintenance request that information about the requested action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

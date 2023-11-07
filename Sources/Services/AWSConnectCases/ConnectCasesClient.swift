@@ -166,7 +166,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
 
     /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:
     ///
-    /// * customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID
+    /// * customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID
     ///
     /// * title
     ///
@@ -1069,7 +1069,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         return result
     }
 
-    /// API for adding case event publishing configuration
+    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Amazon Connect Administrator Guide
     ///
     /// - Parameter PutCaseEventConfigurationInput : [no documentation found]
     ///

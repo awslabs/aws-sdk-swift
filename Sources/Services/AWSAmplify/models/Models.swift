@@ -250,9 +250,9 @@ extension AmplifyClientTypes {
         /// Enables the auto-building of branches for the Amplify app.
         /// This member is required.
         public var enableBranchAutoBuild: Swift.Bool?
-        /// Automatically disconnect a branch in the Amplify Console when you delete a branch from your Git repository.
+        /// Automatically disconnect a branch in the Amplify console when you delete a branch from your Git repository.
         public var enableBranchAutoDeletion: Swift.Bool?
-        /// The environment variables for the Amplify app.
+        /// The environment variables for the Amplify app. For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html) in the Amplify Hosting User Guide.
         /// This member is required.
         public var environmentVariables: [Swift.String:Swift.String]?
         /// The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app.
@@ -521,6 +521,41 @@ extension AmplifyClientTypes {
 
 }
 
+extension AmplifyClientTypes.Backend: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stackArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let stackArn = self.stackArn {
+            try encodeContainer.encode(stackArn, forKey: .stackArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stackArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackArn)
+        stackArn = stackArnDecoded
+    }
+}
+
+extension AmplifyClientTypes {
+    /// Describes the backend properties associated with an Amplify Branch.
+    public struct Backend: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) for the CloudFormation stack.
+        public var stackArn: Swift.String?
+
+        public init(
+            stackArn: Swift.String? = nil
+        )
+        {
+            self.stackArn = stackArn
+        }
+    }
+
+}
+
 extension AmplifyClientTypes.BackendEnvironment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backendEnvironmentArn
@@ -669,6 +704,7 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activeJobId
         case associatedResources
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case branchArn
@@ -706,6 +742,9 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
             for associatedresource0 in associatedResources {
                 try associatedResourcesContainer.encode(associatedresource0)
             }
+        }
+        if let backend = self.backend {
+            try encodeContainer.encode(backend, forKey: .backend)
         }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
             try encodeContainer.encode(backendEnvironmentArn, forKey: .backendEnvironmentArn)
@@ -885,12 +924,14 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
         sourceBranch = sourceBranchDecoded
         let backendEnvironmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentArn)
         backendEnvironmentArn = backendEnvironmentArnDecoded
+        let backendDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Backend.self, forKey: .backend)
+        backend = backendDecoded
     }
 }
 
 extension AmplifyClientTypes.Branch: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyClientTypes {
@@ -901,6 +942,8 @@ extension AmplifyClientTypes {
         public var activeJobId: Swift.String?
         /// A list of custom resources that are linked to this branch.
         public var associatedResources: [Swift.String]?
+        /// Describes the backend properties associated with an Amplify Branch.
+        public var backend: AmplifyClientTypes.Backend?
         /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public var backendEnvironmentArn: Swift.String?
         /// The basic authorization credentials for a branch of an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
@@ -971,6 +1014,7 @@ extension AmplifyClientTypes {
         public init(
             activeJobId: Swift.String? = nil,
             associatedResources: [Swift.String]? = nil,
+            backend: AmplifyClientTypes.Backend? = nil,
             backendEnvironmentArn: Swift.String? = nil,
             basicAuthCredentials: Swift.String? = nil,
             branchArn: Swift.String? = nil,
@@ -1000,6 +1044,7 @@ extension AmplifyClientTypes {
         {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
+            self.backend = backend
             self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchArn = branchArn
@@ -1140,7 +1185,7 @@ extension CreateAppInput: ClientRuntime.URLPathProvider {
 
 /// The request structure used to create apps in Amplify.
 public struct CreateAppInput: Swift.Equatable {
-    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var accessToken: Swift.String?
     /// The automated branch creation configuration for an Amplify app.
     public var autoBranchCreationConfig: AmplifyClientTypes.AutoBranchCreationConfig?
@@ -1154,7 +1199,7 @@ public struct CreateAppInput: Swift.Equatable {
     public var customHeaders: Swift.String?
     /// The custom rewrite and redirect rules for an Amplify app.
     public var customRules: [AmplifyClientTypes.CustomRule]?
-    /// The description for an Amplify app.
+    /// The description of the Amplify app.
     public var description: Swift.String?
     /// Enables automated branch creation for an Amplify app.
     public var enableAutoBranchCreation: Swift.Bool?
@@ -1162,20 +1207,20 @@ public struct CreateAppInput: Swift.Equatable {
     public var enableBasicAuth: Swift.Bool?
     /// Enables the auto building of branches for an Amplify app.
     public var enableBranchAutoBuild: Swift.Bool?
-    /// Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository.
+    /// Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     public var enableBranchAutoDeletion: Swift.Bool?
-    /// The environment variables map for an Amplify app.
+    /// The environment variables map for an Amplify app. For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html) in the Amplify Hosting User Guide.
     public var environmentVariables: [Swift.String:Swift.String]?
     /// The AWS Identity and Access Management (IAM) service role for an Amplify app.
     public var iamServiceRoleArn: Swift.String?
-    /// The name for an Amplify app.
+    /// The name of the Amplify app.
     /// This member is required.
     public var name: Swift.String?
-    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var oauthToken: Swift.String?
     /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
     public var platform: AmplifyClientTypes.Platform?
-    /// The repository for an Amplify app.
+    /// The Git repository for the Amplify app.
     public var repository: Swift.String?
     /// The tag for an Amplify app.
     public var tags: [Swift.String:Swift.String]?
@@ -1544,11 +1589,12 @@ enum CreateBackendEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding
 
 extension CreateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateBranchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case branchName
@@ -1570,6 +1616,9 @@ extension CreateBranchInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backend = self.backend {
+            try encodeContainer.encode(backend, forKey: .backend)
+        }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
             try encodeContainer.encode(backendEnvironmentArn, forKey: .backendEnvironmentArn)
         }
@@ -1644,6 +1693,8 @@ public struct CreateBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+    public var backend: AmplifyClientTypes.Backend?
     /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
     public var backendEnvironmentArn: Swift.String?
     /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
@@ -1682,6 +1733,7 @@ public struct CreateBranchInput: Swift.Equatable {
 
     public init(
         appId: Swift.String? = nil,
+        backend: AmplifyClientTypes.Backend? = nil,
         backendEnvironmentArn: Swift.String? = nil,
         basicAuthCredentials: Swift.String? = nil,
         branchName: Swift.String? = nil,
@@ -1702,6 +1754,7 @@ public struct CreateBranchInput: Swift.Equatable {
     )
     {
         self.appId = appId
+        self.backend = backend
         self.backendEnvironmentArn = backendEnvironmentArn
         self.basicAuthCredentials = basicAuthCredentials
         self.branchName = branchName
@@ -1740,10 +1793,12 @@ struct CreateBranchInputBody: Swift.Equatable {
     let enablePullRequestPreview: Swift.Bool?
     let pullRequestEnvironmentName: Swift.String?
     let backendEnvironmentArn: Swift.String?
+    let backend: AmplifyClientTypes.Backend?
 }
 
 extension CreateBranchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case branchName
@@ -1817,6 +1872,8 @@ extension CreateBranchInputBody: Swift.Decodable {
         pullRequestEnvironmentName = pullRequestEnvironmentNameDecoded
         let backendEnvironmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentArn)
         backendEnvironmentArn = backendEnvironmentArnDecoded
+        let backendDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Backend.self, forKey: .backend)
+        backend = backendDecoded
     }
 }
 
@@ -1911,7 +1968,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files.
@@ -2625,7 +2682,7 @@ public struct DeleteBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch.
+    /// The name of the branch.
     /// This member is required.
     public var branchName: Swift.String?
 
@@ -2821,7 +2878,7 @@ public struct DeleteJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The unique ID for the job.
@@ -3681,7 +3738,7 @@ public struct GetBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch.
+    /// The name of the branch.
     /// This member is required.
     public var branchName: Swift.String?
 
@@ -3875,7 +3932,7 @@ public struct GetJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The branch name for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The unique ID for the job.
@@ -5131,7 +5188,7 @@ public struct ListJobsInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for a branch.
+    /// The name of the branch to use for the request.
     /// This member is required.
     public var branchName: Swift.String?
     /// The maximum number of records to list in a single response.
@@ -5795,7 +5852,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The job ID for this deployment, generated by the create deployment request.
@@ -5944,7 +6001,7 @@ public struct StartJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The branch name for the job.
+    /// The name of the branch to use for the job.
     /// This member is required.
     public var branchName: Swift.String?
     /// The commit ID from a third-party repository provider for the job.
@@ -5955,7 +6012,7 @@ public struct StartJobInput: Swift.Equatable {
     public var commitTime: ClientRuntime.Date?
     /// The unique ID for an existing job. This is required if the value of jobType is RETRY.
     public var jobId: Swift.String?
-    /// A descriptive reason for starting this job.
+    /// A descriptive reason for starting the job.
     public var jobReason: Swift.String?
     /// Describes the type for the job. The job type RELEASE starts a new job with the latest change from the specified branch. This value is available only for apps that are connected to a repository. The job type RETRY retries an existing job. If the job type value is RETRY, the jobId is also required.
     /// This member is required.
@@ -6247,7 +6304,7 @@ public struct StopJobInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The name for the branch, for the job.
+    /// The name of the branch to use for the stop job request.
     /// This member is required.
     public var branchName: Swift.String?
     /// The unique id for the job.
@@ -6769,7 +6826,7 @@ extension UpdateAppInput: ClientRuntime.URLPathProvider {
 
 /// The request structure for the update app request.
 public struct UpdateAppInput: Swift.Equatable {
-    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var accessToken: Swift.String?
     /// The unique ID for an Amplify app.
     /// This member is required.
@@ -6794,7 +6851,7 @@ public struct UpdateAppInput: Swift.Equatable {
     public var enableBasicAuth: Swift.Bool?
     /// Enables branch auto-building for an Amplify app.
     public var enableBranchAutoBuild: Swift.Bool?
-    /// Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository.
+    /// Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     public var enableBranchAutoDeletion: Swift.Bool?
     /// The environment variables for an Amplify app.
     public var environmentVariables: [Swift.String:Swift.String]?
@@ -6802,11 +6859,11 @@ public struct UpdateAppInput: Swift.Equatable {
     public var iamServiceRoleArn: Swift.String?
     /// The name for an Amplify app.
     public var name: Swift.String?
-    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
+    /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var oauthToken: Swift.String?
     /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
     public var platform: AmplifyClientTypes.Platform?
-    /// The name of the repository for an Amplify app
+    /// The name of the Git repository for an Amplify app.
     public var repository: Swift.String?
 
     public init(
@@ -7022,11 +7079,12 @@ enum UpdateAppOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateBranchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case buildSpec
@@ -7046,6 +7104,9 @@ extension UpdateBranchInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backend = self.backend {
+            try encodeContainer.encode(backend, forKey: .backend)
+        }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
             try encodeContainer.encode(backendEnvironmentArn, forKey: .backendEnvironmentArn)
         }
@@ -7114,11 +7175,13 @@ public struct UpdateBranchInput: Swift.Equatable {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+    public var backend: AmplifyClientTypes.Backend?
     /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
     public var backendEnvironmentArn: Swift.String?
     /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     public var basicAuthCredentials: Swift.String?
-    /// The name for the branch.
+    /// The name of the branch.
     /// This member is required.
     public var branchName: Swift.String?
     /// The build specification (build spec) for the branch.
@@ -7150,6 +7213,7 @@ public struct UpdateBranchInput: Swift.Equatable {
 
     public init(
         appId: Swift.String? = nil,
+        backend: AmplifyClientTypes.Backend? = nil,
         backendEnvironmentArn: Swift.String? = nil,
         basicAuthCredentials: Swift.String? = nil,
         branchName: Swift.String? = nil,
@@ -7169,6 +7233,7 @@ public struct UpdateBranchInput: Swift.Equatable {
     )
     {
         self.appId = appId
+        self.backend = backend
         self.backendEnvironmentArn = backendEnvironmentArn
         self.basicAuthCredentials = basicAuthCredentials
         self.branchName = branchName
@@ -7204,10 +7269,12 @@ struct UpdateBranchInputBody: Swift.Equatable {
     let enablePullRequestPreview: Swift.Bool?
     let pullRequestEnvironmentName: Swift.String?
     let backendEnvironmentArn: Swift.String?
+    let backend: AmplifyClientTypes.Backend?
 }
 
 extension UpdateBranchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backend
         case backendEnvironmentArn
         case basicAuthCredentials
         case buildSpec
@@ -7266,6 +7333,8 @@ extension UpdateBranchInputBody: Swift.Decodable {
         pullRequestEnvironmentName = pullRequestEnvironmentNameDecoded
         let backendEnvironmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backendEnvironmentArn)
         backendEnvironmentArn = backendEnvironmentArnDecoded
+        let backendDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Backend.self, forKey: .backend)
+        backend = backendDecoded
     }
 }
 

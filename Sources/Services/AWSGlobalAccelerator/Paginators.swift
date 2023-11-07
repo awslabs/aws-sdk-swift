@@ -63,6 +63,68 @@ extension PaginatorSequence where Input == ListByoipCidrsInput, Output == ListBy
     }
 }
 extension GlobalAcceleratorClient {
+    /// Paginate over `[ListCrossAccountAttachmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCrossAccountAttachmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountAttachmentsOutput`
+    public func listCrossAccountAttachmentsPaginated(input: ListCrossAccountAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(input: input, inputKey: \ListCrossAccountAttachmentsInput.nextToken, outputKey: \ListCrossAccountAttachmentsOutput.nextToken, paginationFunction: self.listCrossAccountAttachments(input:))
+    }
+}
+
+extension ListCrossAccountAttachmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCrossAccountAttachmentsInput {
+        return ListCrossAccountAttachmentsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListCrossAccountAttachmentsInput, Output == ListCrossAccountAttachmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCrossAccountAttachmentsPaginated`
+    /// to access the nested member `[GlobalAcceleratorClientTypes.Attachment]`
+    /// - Returns: `[GlobalAcceleratorClientTypes.Attachment]`
+    public func crossAccountAttachments() async throws -> [GlobalAcceleratorClientTypes.Attachment] {
+        return try await self.asyncCompactMap { item in item.crossAccountAttachments }
+    }
+}
+extension GlobalAcceleratorClient {
+    /// Paginate over `[ListCrossAccountResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCrossAccountResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountResourcesOutput`
+    public func listCrossAccountResourcesPaginated(input: ListCrossAccountResourcesInput) -> ClientRuntime.PaginatorSequence<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(input: input, inputKey: \ListCrossAccountResourcesInput.nextToken, outputKey: \ListCrossAccountResourcesOutput.nextToken, paginationFunction: self.listCrossAccountResources(input:))
+    }
+}
+
+extension ListCrossAccountResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCrossAccountResourcesInput {
+        return ListCrossAccountResourcesInput(
+            acceleratorArn: self.acceleratorArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceOwnerAwsAccountId: self.resourceOwnerAwsAccountId
+        )}
+}
+
+extension PaginatorSequence where Input == ListCrossAccountResourcesInput, Output == ListCrossAccountResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCrossAccountResourcesPaginated`
+    /// to access the nested member `[GlobalAcceleratorClientTypes.CrossAccountResource]`
+    /// - Returns: `[GlobalAcceleratorClientTypes.CrossAccountResource]`
+    public func crossAccountResources() async throws -> [GlobalAcceleratorClientTypes.CrossAccountResource] {
+        return try await self.asyncCompactMap { item in item.crossAccountResources }
+    }
+}
+extension GlobalAcceleratorClient {
     /// Paginate over `[ListCustomRoutingAcceleratorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

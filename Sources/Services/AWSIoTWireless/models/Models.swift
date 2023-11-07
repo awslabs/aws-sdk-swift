@@ -2584,7 +2584,7 @@ public struct CreateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     public var name: Swift.String?
     /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
-    /// Trace content for your wireless gateway and wireless device resources.
+    /// Trace content for your wireless devices, gateways, and multicast groups.
     public var traceContent: IoTWirelessClientTypes.TraceContent?
     /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array.
     public var wirelessDevices: [Swift.String]?
@@ -6908,9 +6908,9 @@ public struct GetNetworkAnalyzerConfigurationOutput: Swift.Equatable {
     public var multicastGroups: [Swift.String]?
     /// Name of the network analyzer configuration.
     public var name: Swift.String?
-    /// Trace content for your wireless gateway and wireless device resources.
+    /// Trace content for your wireless devices, gateways, and multicast groups.
     public var traceContent: IoTWirelessClientTypes.TraceContent?
-    /// List of wireless gateway resources that have been added to the network analyzer configuration.
+    /// List of wireless device resources that have been added to the network analyzer configuration.
     public var wirelessDevices: [Swift.String]?
     /// List of wireless gateway resources that have been added to the network analyzer configuration.
     public var wirelessGateways: [Swift.String]?
@@ -7371,7 +7371,7 @@ extension GetPositionEstimateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPositionEstimateOutput: Swift.Equatable {
-    /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see [GeoJSON](https://geojson.org/).
+    /// The position information of the resource, displayed as a JSON payload. The payload is of type blob and uses the [GeoJSON](https://geojson.org/) format, which a format that's used to encode geographic data structures. A sample payload contains the timestamp information, the WGS84 coordinates of the location, and the accuracy and confidence level. For more information and examples, see [Resolve device location (console)](https://docs.aws.amazon.com/iot/latest/developerguide/location-resolve-console.html).
     public var geoJsonPayload: ClientRuntime.Data?
 
     public init(
@@ -12727,7 +12727,7 @@ extension IoTWirelessClientTypes {
         public var factoryPresetFreqsList: [Swift.Int]?
         /// The MAC version (such as OTAA 1.1 or OTAA 1.0.3) to use with this device profile.
         public var macVersion: Swift.String?
-        /// The MaxDutyCycle value.
+        /// The MaxDutyCycle value. It ranges from 0 to 15.
         public var maxDutyCycle: Swift.Int?
         /// The MaxEIRP value.
         public var maxEirp: Swift.Int?
@@ -14473,7 +14473,7 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes {
-    /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your LoRaWAN end devices and the network server.
+    /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server.
     public enum MulticastFrameInfo: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -14718,6 +14718,7 @@ extension IoTWirelessClientTypes.OtaaV1_0_x: Swift.Codable {
         case appEui = "AppEui"
         case appKey = "AppKey"
         case genAppKey = "GenAppKey"
+        case joinEui = "JoinEui"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14731,6 +14732,9 @@ extension IoTWirelessClientTypes.OtaaV1_0_x: Swift.Codable {
         if let genAppKey = self.genAppKey {
             try encodeContainer.encode(genAppKey, forKey: .genAppKey)
         }
+        if let joinEui = self.joinEui {
+            try encodeContainer.encode(joinEui, forKey: .joinEui)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -14739,6 +14743,8 @@ extension IoTWirelessClientTypes.OtaaV1_0_x: Swift.Codable {
         appKey = appKeyDecoded
         let appEuiDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appEui)
         appEui = appEuiDecoded
+        let joinEuiDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .joinEui)
+        joinEui = joinEuiDecoded
         let genAppKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .genAppKey)
         genAppKey = genAppKeyDecoded
     }
@@ -14753,16 +14759,20 @@ extension IoTWirelessClientTypes {
         public var appKey: Swift.String?
         /// The GenAppKey value.
         public var genAppKey: Swift.String?
+        /// The JoinEUI value.
+        public var joinEui: Swift.String?
 
         public init(
             appEui: Swift.String? = nil,
             appKey: Swift.String? = nil,
-            genAppKey: Swift.String? = nil
+            genAppKey: Swift.String? = nil,
+            joinEui: Swift.String? = nil
         )
         {
             self.appEui = appEui
             self.appKey = appKey
             self.genAppKey = genAppKey
+            self.joinEui = joinEui
         }
     }
 
@@ -18643,11 +18653,11 @@ extension IoTWirelessClientTypes.TraceContent: Swift.Codable {
 }
 
 extension IoTWirelessClientTypes {
-    /// Trace content for your wireless gateway and wireless device resources.
+    /// Trace content for your wireless devices, gateways, and multicast groups.
     public struct TraceContent: Swift.Equatable {
         /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
         public var logLevel: IoTWirelessClientTypes.LogLevel?
-        /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your LoRaWAN end devices and the network server.
+        /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server.
         public var multicastFrameInfo: IoTWirelessClientTypes.MulticastFrameInfo?
         /// FrameInfo of your wireless device resources for the trace content. Use FrameInfo to debug the communication between your LoRaWAN end devices and the network server.
         public var wirelessDeviceFrameInfo: IoTWirelessClientTypes.WirelessDeviceFrameInfo?
@@ -19576,9 +19586,9 @@ public struct UpdateNetworkAnalyzerConfigurationInput: Swift.Equatable {
     public var description: Swift.String?
     /// Multicast group resources to add to the network analyzer configuration. Provide the MulticastGroupId of the resource to add in the input array.
     public var multicastGroupsToAdd: [Swift.String]?
-    /// Multicast group resources to remove from the network analyzer configuration. Provide the MulticastGroupId of the resource to remove in the input array.
+    /// Multicast group resources to remove from the network analyzer configuration. Provide the MulticastGroupId of the resources to remove in the input array.
     public var multicastGroupsToRemove: [Swift.String]?
-    /// Trace content for your wireless gateway and wireless device resources.
+    /// Trace content for your wireless devices, gateways, and multicast groups.
     public var traceContent: IoTWirelessClientTypes.TraceContent?
     /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array.
     public var wirelessDevicesToAdd: [Swift.String]?

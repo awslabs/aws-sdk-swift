@@ -1608,9 +1608,22 @@ extension EKSClientTypes {
         case accessDenied
         case clusterUnreachable
         case configurationConflict
+        case ec2SecurityGroupNotFound
+        case ec2ServiceNotSubscribed
+        case ec2SubnetNotFound
+        case iamRoleNotFound
+        case insufficientFreeAddresses
         case internalFailure
+        case kmsGrantRevoked
+        case kmsKeyDisabled
+        case kmsKeyMarkedForDeletion
+        case kmsKeyNotFound
+        case other
         case resourceLimitExceeded
         case resourceNotFound
+        case stsRegionalEndpointDisabled
+        case unsupportedVersion
+        case vpcNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterIssueCode] {
@@ -1618,9 +1631,22 @@ extension EKSClientTypes {
                 .accessDenied,
                 .clusterUnreachable,
                 .configurationConflict,
+                .ec2SecurityGroupNotFound,
+                .ec2ServiceNotSubscribed,
+                .ec2SubnetNotFound,
+                .iamRoleNotFound,
+                .insufficientFreeAddresses,
                 .internalFailure,
+                .kmsGrantRevoked,
+                .kmsKeyDisabled,
+                .kmsKeyMarkedForDeletion,
+                .kmsKeyNotFound,
+                .other,
                 .resourceLimitExceeded,
                 .resourceNotFound,
+                .stsRegionalEndpointDisabled,
+                .unsupportedVersion,
+                .vpcNotFound,
                 .sdkUnknown("")
             ]
         }
@@ -1633,9 +1659,22 @@ extension EKSClientTypes {
             case .accessDenied: return "AccessDenied"
             case .clusterUnreachable: return "ClusterUnreachable"
             case .configurationConflict: return "ConfigurationConflict"
+            case .ec2SecurityGroupNotFound: return "Ec2SecurityGroupNotFound"
+            case .ec2ServiceNotSubscribed: return "Ec2ServiceNotSubscribed"
+            case .ec2SubnetNotFound: return "Ec2SubnetNotFound"
+            case .iamRoleNotFound: return "IamRoleNotFound"
+            case .insufficientFreeAddresses: return "InsufficientFreeAddresses"
             case .internalFailure: return "InternalFailure"
+            case .kmsGrantRevoked: return "KmsGrantRevoked"
+            case .kmsKeyDisabled: return "KmsKeyDisabled"
+            case .kmsKeyMarkedForDeletion: return "KmsKeyMarkedForDeletion"
+            case .kmsKeyNotFound: return "KmsKeyNotFound"
+            case .other: return "Other"
             case .resourceLimitExceeded: return "ResourceLimitExceeded"
             case .resourceNotFound: return "ResourceNotFound"
+            case .stsRegionalEndpointDisabled: return "StsRegionalEndpointDisabled"
+            case .unsupportedVersion: return "UnsupportedVersion"
+            case .vpcNotFound: return "VpcNotFound"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9950,6 +9989,7 @@ extension EKSClientTypes {
     public enum UpdateParamType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case addonVersion
         case clusterLogging
+        case configurationValues
         case desiredSize
         case encryptionConfig
         case endpointPrivateAccess
@@ -9967,7 +10007,9 @@ extension EKSClientTypes {
         case publicAccessCidrs
         case releaseVersion
         case resolveConflicts
+        case securityGroups
         case serviceAccountRoleArn
+        case subnets
         case taintsToAdd
         case taintsToRemove
         case version
@@ -9977,6 +10019,7 @@ extension EKSClientTypes {
             return [
                 .addonVersion,
                 .clusterLogging,
+                .configurationValues,
                 .desiredSize,
                 .encryptionConfig,
                 .endpointPrivateAccess,
@@ -9994,7 +10037,9 @@ extension EKSClientTypes {
                 .publicAccessCidrs,
                 .releaseVersion,
                 .resolveConflicts,
+                .securityGroups,
                 .serviceAccountRoleArn,
+                .subnets,
                 .taintsToAdd,
                 .taintsToRemove,
                 .version,
@@ -10009,6 +10054,7 @@ extension EKSClientTypes {
             switch self {
             case .addonVersion: return "AddonVersion"
             case .clusterLogging: return "ClusterLogging"
+            case .configurationValues: return "ConfigurationValues"
             case .desiredSize: return "DesiredSize"
             case .encryptionConfig: return "EncryptionConfig"
             case .endpointPrivateAccess: return "EndpointPrivateAccess"
@@ -10026,7 +10072,9 @@ extension EKSClientTypes {
             case .publicAccessCidrs: return "PublicAccessCidrs"
             case .releaseVersion: return "ReleaseVersion"
             case .resolveConflicts: return "ResolveConflicts"
+            case .securityGroups: return "SecurityGroups"
             case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
+            case .subnets: return "Subnets"
             case .taintsToAdd: return "TaintsToAdd"
             case .taintsToRemove: return "TaintsToRemove"
             case .version: return "Version"
@@ -10158,6 +10206,7 @@ extension EKSClientTypes {
         case endpointAccessUpdate
         case loggingUpdate
         case versionUpdate
+        case vpcConfigUpdate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UpdateType] {
@@ -10170,6 +10219,7 @@ extension EKSClientTypes {
                 .endpointAccessUpdate,
                 .loggingUpdate,
                 .versionUpdate,
+                .vpcConfigUpdate,
                 .sdkUnknown("")
             ]
         }
@@ -10187,6 +10237,7 @@ extension EKSClientTypes {
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
             case .loggingUpdate: return "LoggingUpdate"
             case .versionUpdate: return "VersionUpdate"
+            case .vpcConfigUpdate: return "VpcConfigUpdate"
             case let .sdkUnknown(s): return s
             }
         }
