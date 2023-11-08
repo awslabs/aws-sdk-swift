@@ -52,7 +52,7 @@ class SigV4Configurator(
         useDoubleURIEncode = params.service.sdkId.lowercase(Locale.US) != "s3",
         useURLPathNormalization = params.service.sdkId.lowercase(Locale.US) != "s3",
         useUnsignedPayload = params.operation.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody,
-        useSignedBodyHeader = listOf("s3", "glacier").contains(params.service.sdkId.lowercase(Locale.US)) &&
+        useSignedBodyHeader = listOf("s3", "glacier", "s3 control").contains(params.service.sdkId.lowercase(Locale.US)) &&
             !params.operation.hasTrait<UnsignedPayloadTrait>() && !params.forceUnsignedBody,
         signingAlgorithm = params.signingAlgorithm
     )
