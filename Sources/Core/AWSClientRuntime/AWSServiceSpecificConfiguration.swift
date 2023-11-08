@@ -39,18 +39,7 @@ public protocol AWSServiceSpecificConfiguration {
     /// the service resolve its own endpoint.
     /// - Parameter authSchemeResolver: An auth scheme resolver for the service, or `nil` to let
     /// the service use default auth scheme resolver.
-    /// - Parameter authSchemes: List of auth schemes to use for the service, or `nil` to let
-    /// the service use auth schemes configured on the service model.
-    init(
-        endpointResolver: AWSServiceEndpointResolver?,
-        authSchemeResolver: AWSAuthSchemeResolver?,
-        authSchemes: [ClientRuntime.AuthScheme]?
-    ) throws
-
-    /// List of configured auth schemes for the service.
-    ///
-    /// If none is provided at compile time, value will default to auth schemes supported by the service as defined in its model.
-    var authSchemes: [ClientRuntime.AuthScheme] { get }
+    init(endpointResolver: AWSServiceEndpointResolver?, authSchemeResolver: AWSAuthSchemeResolver?) throws
 
     /// The auth scheme resolver to use for the service.
     ///

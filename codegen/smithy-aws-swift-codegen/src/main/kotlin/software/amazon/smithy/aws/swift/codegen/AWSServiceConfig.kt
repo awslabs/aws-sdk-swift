@@ -24,7 +24,6 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val ENDPOINT_RESOLVER = "endpointResolver"
 const val AUTH_SCHEME_RESOLVER = "authSchemeResolver"
-const val AUTH_SCHEMES = "authSchemes"
 const val ENDPOINT_PARAMS = "endpointParams"
 const val FRAMEWORK_METADATA = "frameworkMetadata"
 const val REGION_CONFIG_NAME = "region"
@@ -54,17 +53,11 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 writer.write("")
                 writer.openBlock(
                     "public init(endpointResolver: EndpointResolver? = nil, " +
-                        "authSchemeResolver: ${serviceName.clientName()}AuthSchemeResolver? = nil, " +
-                        "authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {",
+                        "authSchemeResolver: ${serviceName.clientName()}AuthSchemeResolver? = nil",
                     "}"
                 ) {
                     writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
                     writer.write("self.authSchemeResolver = authSchemeResolver ?? Default${ctx.service.sdkId.clientName()}AuthSchemeResolver()")
-                    writer.write("var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()")
-                    if (ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service).contains(SigV4Trait.ID)) {
-                        writer.write("modeledAuthSchemes.append(SigV4AuthScheme())")
-                    }
-                    writer.write("self.authSchemes = authSchemes ?? modeledAuthSchemes")
                 }
             }
         }
@@ -106,8 +99,6 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "\$N", "Endpoint resolver"))
         // service specific AuthSchemeResolver
         configs.add(ConfigField(AUTH_SCHEME_RESOLVER, buildSymbol { this.name = serviceName.clientName() + "AuthSchemeResolver" }, "\$N"))
-        // service specific AuthSchemes
-        configs.add(ConfigField(AUTH_SCHEMES, ServiceTypes.AuthSchemes, "\$N"))
 
         val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
         clientContextParams?.parameters?.forEach {
