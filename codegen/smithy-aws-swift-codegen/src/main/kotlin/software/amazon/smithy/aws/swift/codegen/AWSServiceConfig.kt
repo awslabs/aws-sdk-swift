@@ -44,6 +44,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
             writer.write("")
             writer.openBlock("public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {", "}") {
                 writer.write("public typealias AWSServiceEndpointResolver = EndpointResolver")
+                writer.write("public typealias AWSAuthSchemeResolver = ${serviceName}AuthSchemeResolver")
                 writer.write("")
                 writer.write("public var serviceName: String { \$S }", serviceName)
                 writer.write("public var clientName: String { \$S }", clientName)
@@ -53,7 +54,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 writer.write("")
                 writer.openBlock(
                     "public init(endpointResolver: EndpointResolver? = nil, " +
-                        "authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil, " +
+                        "authSchemeResolver: ${serviceName}AuthSchemeResolver? = nil, " +
                         "authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {",
                     "}"
                 ) {
@@ -104,7 +105,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         // service specific EndpointResolver
         configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "\$N", "Endpoint resolver"))
         // service specific AuthSchemeResolver
-        configs.add(ConfigField(AUTH_SCHEME_RESOLVER, ServiceTypes.AuthSchemeResolver, "\$N"))
+        configs.add(ConfigField(AUTH_SCHEME_RESOLVER, buildSymbol { this.name = serviceName + "AuthSchemeResolver" }, "\$N"))
         // service specific AuthSchemes
         configs.add(ConfigField(AUTH_SCHEMES, ServiceTypes.AuthSchemes, "\$N"))
 

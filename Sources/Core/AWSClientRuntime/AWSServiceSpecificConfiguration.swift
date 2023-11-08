@@ -18,6 +18,9 @@ public protocol AWSServiceSpecificConfiguration {
     /// The type for the service's endpoint resolver.
     associatedtype AWSServiceEndpointResolver
 
+    /// The type for the service's auth scheme resolver.
+    associatedtype AWSAuthSchemeResolver
+
     /// The name of the service, i.e. "STS".
     ///
     /// Derived from the service's `sdkId` property.
@@ -34,9 +37,13 @@ public protocol AWSServiceSpecificConfiguration {
     /// Creates a service-specific configuration for this service
     /// - Parameter endpointResolver: An endpoint resolver for the service, or `nil` to let
     /// the service resolve its own endpoint.
+    /// - Parameter authSchemeResolver: An auth scheme resolver for the service, or `nil` to let
+    /// the service use default auth scheme resolver.
+    /// - Parameter authSchemes: List of auth schemes to use for the service, or `nil` to let
+    /// the service use auth schemes configured on the service model.
     init(
         endpointResolver: AWSServiceEndpointResolver?,
-        authSchemeResolver: ClientRuntime.AuthSchemeResolver?,
+        authSchemeResolver: AWSAuthSchemeResolver?,
         authSchemes: [ClientRuntime.AuthScheme]?
     ) throws
 
@@ -48,5 +55,5 @@ public protocol AWSServiceSpecificConfiguration {
     /// The auth scheme resolver to use for the service.
     ///
     /// If none is provided at compile time, value will default to default auth scheme resolver for the service generated based on its model.
-    var authSchemeResolver: ClientRuntime.AuthSchemeResolver { get }
+    var authSchemeResolver: AWSAuthSchemeResolver { get }
 }
