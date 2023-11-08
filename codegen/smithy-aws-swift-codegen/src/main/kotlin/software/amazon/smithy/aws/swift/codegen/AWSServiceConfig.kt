@@ -44,7 +44,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
             writer.write("")
             writer.openBlock("public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {", "}") {
                 writer.write("public typealias AWSServiceEndpointResolver = EndpointResolver")
-                writer.write("public typealias AWSAuthSchemeResolver = ${serviceName}AuthSchemeResolver")
+                writer.write("public typealias AWSAuthSchemeResolver = ${serviceName.clientName()}AuthSchemeResolver")
                 writer.write("")
                 writer.write("public var serviceName: String { \$S }", serviceName)
                 writer.write("public var clientName: String { \$S }", clientName)
@@ -54,7 +54,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 writer.write("")
                 writer.openBlock(
                     "public init(endpointResolver: EndpointResolver? = nil, " +
-                        "authSchemeResolver: ${serviceName}AuthSchemeResolver? = nil, " +
+                        "authSchemeResolver: ${serviceName.clientName()}AuthSchemeResolver? = nil, " +
                         "authSchemes: [ClientRuntime.AuthScheme]? = nil) throws {",
                     "}"
                 ) {
